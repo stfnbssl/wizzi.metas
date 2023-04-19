@@ -1,0 +1,53 @@
+$group
+    $params &md
+    +
+    export
+        async-function merge${md.Name}Files
+            param owner
+                :string
+            param name
+                :string
+            param tobeMergedPackiFiles
+                :ref packiTypes.PackiFiles
+            param options
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ get${md.Name}Object
+                            @ owner
+                            @ name
+                            @ false
+                            ._ then
+                                =>
+                                    param itemObject
+                                        :ref PackiProductionObject
+                                    const newPackiFiles
+                                        _ mergePackiFiles
+                                            @ itemObject.packiFiles
+                                            @ tobeMergedPackiFiles
+                                            @ options
+                                    _ update${md.Name}
+                                        @ itemObject._id
+                                        @ itemObject.owner
+                                        @ itemObject.name
+                                        @ itemObject.description
+                                        $if md.mongoName == 'artifact'
+                                            @ itemObject.mainIttf
+                                            @ itemObject.wizziSchema
+                                        _ JSON.stringify
+                                            @ newPackiFiles
+                                        ._ then
+                                            =>
+                                                param result
+                                                _ resolve
+                                                    @ result
+                                        v08/ts/catch_reject( features.production.api.${md.name}.merge${md.Name}Files.update${md.Name} )
+                            v08/ts/catch_reject( features.production.api.${md.name}.merge${md.Name}Files.get${md.Name}Object )

@@ -1,0 +1,161 @@
+$group
+    
+    ${'$'}
+        var ctrl = {
+            name: 'Productions',
+            path: '/productions',
+            kind: 'site',
+            webSecured: true
+        }
+
+    v08/ts/controller${'('} &ctrl )
+        
+        ${'$'}append imports
+            import jsesc from 'jsesc'
+            import
+                @ artifactApi
+                @ packageApi
+                @ pluginApi
+                @ metaApi
+                @ tFolderApi
+                from '../../features/production'
+        
+        v08/ts/route_web_secured${'('} get, /artifacts, this.artifacts)
+        v08/ts/route_web_secured${'('} get, /packages, this.packages
+        v08/ts/route_web_secured${'('} get, /plugins, this.plugins)
+        v08/ts/route_web_secured${'('} get, /metas, this.metas)
+        v08/ts/route_web_secured${'('} get, /tfolders, this.tfolders)
+
+        ${'$'}append handlers
+            v08/ts/handler${'('} artifacts )
+                _ artifactApi.getArtifactProductionList
+                    ._ then
+                        =>
+                            param result
+                            _ response.render
+                                @ 'wizzi/productions/artifacts.html.ittf'
+                                {
+                                    @ title 'Artifact productions · Wizzi'
+                                    @ artifacts result.item
+                                    @ __INITIAL_DATA__
+                                        `lit 
+                                            + &nbsp; window.__INITIAL_DATA__ =&nbsp;
+                                            _ jsesc
+                                                { 
+                                                    { data
+                                                        @ type 'success'
+                                                        @ formName 'ListArtifactProduction'
+                                                        { formData 
+                                                            @ artifacts result.item
+                                                    { queryParams
+                                                { 
+                                                    @ quotes 'double'
+                                                    @ isScriptContext true
+                    v08/ts/catch_fail_html${'('} artifact productions )
+
+            v08/ts/handler${'('} packages )
+                _ packageApi.getPackageProductionList
+                    ._ then
+                        =>
+                            param result
+                            _ response.render
+                                @ 'wizzi/productions/packages.html.ittf'
+                                {
+                                    @ title 'Package productions · Wizzi'
+                                    @ packages result.item
+                                    @ __INITIAL_DATA__
+                                        `lit 
+                                            + &nbsp; window.__INITIAL_DATA__ =&nbsp;
+                                            _ jsesc
+                                                { 
+                                                    { data
+                                                        @ type 'success'
+                                                        @ formName 'ListPackageProduction'
+                                                        { formData 
+                                                            @ packages result.item
+                                                    { queryParams
+                                                { 
+                                                    @ quotes 'double'
+                                                    @ isScriptContext true
+
+                    v08/ts/catch_fail_html${'('} package productions )
+
+            v08/ts/handler${'('} plugins )
+                _ pluginApi.getPluginProductionList
+                    ._ then
+                        =>
+                            param result
+                            _ response.render
+                                @ 'wizzi/productions/plugins.html.ittf'
+                                {
+                                    @ title 'Plugin productions · Wizzi'
+                                    @ plugins result.item
+                                    @ __INITIAL_DATA__
+                                        `lit 
+                                            + &nbsp; window.__INITIAL_DATA__ =&nbsp;
+                                            _ jsesc
+                                                { 
+                                                    { data
+                                                        @ type 'success'
+                                                        @ formName 'ListPluginProduction'
+                                                        { formData 
+                                                            @ plugins result.item
+                                                    { queryParams
+                                                { 
+                                                    @ quotes 'double'
+                                                    @ isScriptContext true
+
+                    v08/ts/catch_fail_html${'('} plugin productions )
+
+            v08/ts/handler${'('} metas )
+                _ metaApi.getMetaProductionList
+                    ._ then
+                        =>
+                            param result
+                            _ response.render
+                                @ 'wizzi/productions/metas.html.ittf'
+                                {
+                                    @ title 'Meta productions · Wizzi'
+                                    @ metas result.item
+                                    @ __INITIAL_DATA__
+                                        `lit 
+                                            + &nbsp; window.__INITIAL_DATA__ =&nbsp;
+                                            _ jsesc
+                                                { 
+                                                    { data
+                                                        @ type 'success'
+                                                        @ formName 'ListMetaProduction'
+                                                        { formData 
+                                                            @ metas result.item
+                                                    { queryParams
+                                                { 
+                                                    @ quotes 'double'
+                                                    @ isScriptContext true
+
+                    v08/ts/catch_fail_html${'('} meta productions )
+
+            v08/ts/handler${'('} tfolders )
+                _ tFolderApi.getTFolderList
+                    ._ then
+                        =>
+                            param result
+                            _ response.render
+                                @ 'wizzi/productions/tfolders.html.ittf'
+                                {
+                                    @ title 'tFolder · Wizzi'
+                                    @ tfolders result.item
+                                    @ __INITIAL_DATA__
+                                        `lit 
+                                            + &nbsp; window.__INITIAL_DATA__ =&nbsp;
+                                            _ jsesc
+                                                { 
+                                                    { data
+                                                        @ type 'success'
+                                                        @ formName 'ListTFolder'
+                                                        { formData 
+                                                            @ tfolders result.item
+                                                    { queryParams
+                                                { 
+                                                    @ quotes 'double'
+                                                    @ isScriptContext true
+                    v08/ts/catch_fail_html${'('} tFolders )

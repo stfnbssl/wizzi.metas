@@ -1,0 +1,24 @@
+$group
+
+    $
+        var mwItems = [
+            "bodyParser","compression",
+            "cacheControl","cookie","cors","errors",
+            "helmet","index","logger", "promise",
+            "session","static","userInViews"
+        ];
+        if (cliCtx.useAuthentication) {
+            mwItems.push("webSecured");
+            mwItems.push("apiSecured");
+            mwItems.push("authorization");
+        }
+        if (cliCtx.useWizzi) {
+            mwItems.push("ittfStatic");
+            mwItems.push("wizziViewEngine");
+            mwItems.push("wizziCdn");
+        }
+
+    $foreach item in mwItems
+        $file __dot__wizzi/${pkgPath}src/middlewares/${item}.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/middlewares/${item}.ts

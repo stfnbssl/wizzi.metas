@@ -1,0 +1,58 @@
+$group
+
+	# Those of facebook react
+	# The 'p' tag works both as a html tag and a class property
+	# TODO the 'param' tag/element (children of object element) has been suspended for 
+	#      collision with input check param. 
+	#      Reintroduce as @param.
+	# TODO the 'filter' tag/element has been suspended for collision with array filter
+	#      Reintroduce as @filter.
+	# TODO the 'var' tag/element has been suspended for collision with variable 
+	#      Reintroduce as @var
+	# TODO the 'set' tag/element has been suspended for collision with set statement
+	#      Reintroduce as @set
+	# TODO the 'switch' tag/element has been suspended for collision with switch statement
+	#      Reintroduce as @switch
+	# TODO the 'base' tag/element has been suspended for collision with base statement
+	#      Reintroduce as @base
+	# TODO the 'form' attribute has been suspended for collision with tag/element
+	#      Reintroduce as @form
+	# TODO the 'label' attribute has been suspended for collision with tag/element
+	#      Reintroduce as @label
+	# TODO the 'span' attribute has been suspended for collision with tag/element
+	#      Reintroduce as @span
+	# TODO the 'summary' attribute has been suspended for collision with tag/element
+	#      Reintroduce as @summary
+	
+	var _tags = "a abbr address area article aside audio b @base bdi bdo big blockquote body br" +
+		\b " button canvas caption cite code col colgroup data datalist dd del details dfn" +
+		\b " dialog div dl dt em embed fieldset figcaption figure @filter footer form h1 h2 h3 h4 h5" +
+		\b " h6 head header hr html i iframe img input ins kbd keygen label legend li link" +
+		\b " main map mark menu menuitem meta meter nav noscript object ol optgroup option" +
+		\b " output picture pre progress q rp rt ruby s samp script section select" +
+		\b " small source span strong @style sub summary sup table tbody td textarea tfoot th" +
+		\b " thead time @title tr track u ul video wbr" +
+		\b " altGlyph altGlyphDef altGlyphItem animate animateColor animateMotion animateTransform" +
+		\b " circle clipPath color-profile cursor defs desc discard ellipse" +
+		\b " font font-face font-face-format font-face-name font-face-src font-face-uri" +
+		\b " foreignObject g glyph glyphRef hatch hatchpath hkern image line linearGradient" +
+		\b " marker mask metadata missing-glyph mpath p @param path pattern polygon polyline radialGradient" +
+		\b " rect @set solidcolor stop svg @switch symbol text textPath tref tspan" +
+		\b " unknown use @var view vkern";
+	var html_supported_tags = _tags.split(' ');
+
+	var _attrs = "accept acceptCharset accessKey action allowFullScreen allowTransparency alt" + 
+		\b " async autoComplete autoFocus autoPlay capture cellPadding cellSpacing charSet" +
+		\b " challenge checked classID className cols colSpan content contentEditable contextMenu" +
+		\b " controls coords crossOrigin data dateTime defer dir disabled download draggable" + 
+		\b " encType @form formAction formEncType formMethod formNoValidate formTarget frameBorder" +
+		\b " headers height hidden high href hrefLang htmlFor httpEquiv icon id inputMode" +
+		\b " keyParams keyType @label lang list loop low manifest marginHeight marginWidth max" +
+		\b " maxLength media mediaGroup method min minLength multiple muted name noValidate open" +
+		\b " optimum pattern placeholder poster preload radioGroup readOnly rel required role" +
+		\b " rows rowSpan sandbox scope scoped scrolling seamless selected shape size sizes" +
+		\b " @span spellCheck src srcDoc srcSet start step style @summary tabIndex target title" +
+		\b " type useMap value width wmode wrap" + 
+		\b " static"; 
+	var html_supported_attrs = _attrs.split(' ');
+

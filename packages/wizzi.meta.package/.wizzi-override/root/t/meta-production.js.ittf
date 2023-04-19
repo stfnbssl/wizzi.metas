@@ -1,0 +1,72 @@
+$group
+    #
+        # Retrieve a WizziMetaProduction by its production name
+    m getMetaProduction
+        param productionName
+        param callback
+        +
+        var metaProduction = this.metaProductions[productionName] || null
+        +
+        if metaProduction != null
+            r_cb( metaProduction )
+        +
+        const fsFile = vfile()
+        +
+        var productionFolderTemplatesPath
+            _ path.resolve
+                @ __dirname
+                @ 'ittf'
+                @ productionName
+                @ 'folderTemplates'
+        if fsFile.isDirectory(productionFolderTemplatesPath)
+            _ createPackifilesFromFs
+                @ productionFolderTemplatesPath
+                a_cb( folderTemplates )
+                    var productionIttfDocumentTemplatesPath
+                        _ path.resolve
+                            @ __dirname
+                            @ 'ittf'
+                            @ productionName
+                            @ 'ittfDocumentTemplates'
+                    if fsFile.isDirectory(productionIttfDocumentTemplatesPath)
+                        _ createPackifilesFromFs
+                            @ productionIttfDocumentTemplatesPath
+                            a_cb( ittfDocumentTemplates )
+                                var productionMetaCtxSchemasPath
+                                    _ path.resolve
+                                        @ __dirname
+                                        @ 'ittf'
+                                        @ productionName
+                                        @ 'metaCtxSchemas'
+                                if fsFile.isDirectory(productionMetaCtxSchemasPath)
+                                    _ createPackifilesFromFs
+                                        @ productionMetaCtxSchemasPath
+                                        a_cb( metaCtxSchema )
+                                            var productionWzCtxSchemasPath
+                                                _ path.resolve
+                                                    @ __dirname
+                                                    @ 'ittf'
+                                                    @ productionName
+                                                    @ 'wzCtxSchemas'
+                                            if fsFile.isDirectory(productionWzCtxSchemasPath)
+                                                _ createPackifilesFromFs
+                                                    @ productionWzCtxSchemasPath
+                                                    a_cb( wzCtxSchema )
+                                                        set metaProduction
+                                                            {
+                                                                @ productionName productionName
+                                                                @ metaNamespace "${wzCtx.metaNamespace}"
+                                                                @ folderTemplates folderTemplates
+                                                                @ ittfDocumentTemplates ittfDocumentTemplates
+                                                                @ metaCtxSchema metaCtxSchema
+                                                                @ wzCtxSchema metaCtxSchema
+                                                        set this.metaProductions[productionName] = metaProduction
+                                                        r_cb(metaProduction)
+                                            else
+                                                r_cb( "Folder " + productionWzCtxSchemasPath + " not found" )
+                                else
+                                    r_cb( "Folder " + productionMetaCtxSchemasPath + " not found" )
+                    else
+                        r_cb( "Folder " + productionIttfDocumentTemplatesPath + " not found" )
+        else
+            r_cb( "Folder " + productionFolderTemplatesPath + " not found" )

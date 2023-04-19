@@ -1,0 +1,62 @@
+$group
+
+    e xname : node
+        tag name
+    
+    e section : node
+    e h1 : node
+    e h2 : node
+    e p : node
+    e break : node
+        tag br
+
+    e text : node
+        tag +
+    e bold : node
+        tag b
+    e boldProp : node
+        tag bold
+    e italic : node
+        tag i
+    e italicProp : node
+        tag italic
+    e underline : node
+    e emphasisMark : node
+    e strike : node
+    e doubleStrike : node
+    e superScript : node
+    e subScript : node
+    e smallCaps : node
+    e allCaps : node
+    e smallCaps : node
+    e font : node
+    e color : node
+    e fill : node
+    e size : node
+    e width : node
+    e shading : node
+    e highlight : node
+    e xtype : node
+        tag type
+
+    e table : node
+    e tr : node
+    e td : node
+    
+    e center : node
+    e bullet_0 : node
+    
+    e tabStop : node
+    e position : node
+
+    e styles : node
+    e style : node
+    e basedOn : node
+    e next : node
+    e paragraphStyles : node
+        tag paragraph-styles
+    e run : node
+    e xdefault : node
+        tag default
+    e styleDef : node
+        tag style-def

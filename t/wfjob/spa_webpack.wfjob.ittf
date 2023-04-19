@@ -1,0 +1,10 @@
+﻿$group
+	$params spaittfuri
+
+	artifact spa webpack
+		src ${spaittfuri}
+		schema spa
+		generator spa/webpack
+		dest-path webpack.config.js
+		extension js
+

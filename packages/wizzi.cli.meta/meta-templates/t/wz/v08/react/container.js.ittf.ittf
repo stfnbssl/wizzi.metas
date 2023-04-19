@@ -1,0 +1,115 @@
+$group
+
+	import React from 'react'
+	import PropTypes from 'prop-types'
+	
+	${'$'}if wzCtx.Build.react.useRedux
+		import { connect } from 'react-redux'
+	
+	${'$'}if md.withRouter
+		import { withRouter } from 'react-router'
+
+	${'$'}if md.withStyles
+		import classNames from 'classnames'
+		import { withStyles } from '@material-ui/core/styles'
+
+	${'$'}if md.withContext
+		import { ${'$'}{md.withContext.name} } from '${'$'}{md.withContext.path}'
+
+    ${'$'}if wzCtx.Build.react.redux.useForm && md.isReduxForm
+        import 
+            @ reduxForm
+            ${'$'}if md.connect
+                @ formValueSelector
+            from 'redux-form'
+	
+	+
+	${'$'}hook imports
+	+
+    ${'$'}if md.validate
+        const validate
+            function
+                param values
+                const errors = {}
+                ${'$'}hook validate
+                return errors
+    
+    ${'$'}if md.asyncValidate
+        const asyncValidate
+            async-function
+                param values
+                const errors = {}
+                return
+                    new Promise
+                        => 
+                            param resolve
+                            ${'$'}hook asyncValidate
+                            _ setTimeout(resolve, 5000)
+
+    +
+	react ${'$'}{md.name}
+		${'$'}hook
+		+
+
+	${'$'}if md.withStyles
+		set ${'$'}{md.name}
+			_ withStyles
+				@ styles
+				( 
+					@ ${'$'}{md.name}
+
+	${'$'}if md.withContext
+		set ${'$'}{md.name}
+			_ ${'$'}{md.withContext.name}
+				@ ${'$'}{md.name}
+
+	${'$'}if md.isReduxForm
+        const reduxFormConfig
+            {
+                @ form '${'$'}{md.id}'
+                ${'$'}if md.validate
+                    @ validate
+                ${'$'}if md.asyncValidate
+                    @ asyncValidate
+                ${'$'}hook redux-form-config
+        
+        set ${'$'}{md.name}
+            _ reduxForm
+                @ reduxFormConfig
+                (
+                    @ ${'$'}{md.name}
+
+        ${'$'}if md.connect
+            const selector = formValueSelector('${'$'}{md.id}')
+            set ${'$'}{md.name} =
+                _ connect
+                    => 
+                        param state
+                        ${'$'}hook connect
+                        return 
+                            { 
+                    (
+                        @ ${'$'}{md.name}
+    
+    ${'$'}else
+        ${'$'}if wzCtx.Build.react.useRedux
+            redux-maps${'('}&md)
+            ${'$'}if md.withRouter
+                set ${'$'}{md.name}
+                    _ withRouter
+                        _ connect
+                            @ mapStateToProps
+                            @ mapDispatchToProps
+                            @ mergeProps
+                            (
+                                @ ${'$'}{md.name}
+            ${'$'}else
+                set ${'$'}{md.name}
+                    _ connect
+                        @ mapStateToProps
+                        @ mapDispatchToProps
+                        @ mergeProps
+                        (
+                            @ ${'$'}{md.name}
+    
+    export default ${'$'}{md.name}

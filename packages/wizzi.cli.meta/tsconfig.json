@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "paths": {
+            "*": [
+                "node_modules/*"
+            ]
+        },
+        "esModuleInterop": true,
+        "jsx": "react-jsx",
+        "sourceMap": true,
+        "rootDir": "./",
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "importHelpers": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "src/**/*.spec.*"
+    ]
+}

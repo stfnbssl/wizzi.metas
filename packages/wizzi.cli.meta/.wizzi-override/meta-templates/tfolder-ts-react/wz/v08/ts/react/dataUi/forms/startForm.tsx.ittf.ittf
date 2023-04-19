@@ -1,0 +1,204 @@
+$group
+
+    function startForm
+        param $
+        param form_def
+
+        _ startFormMethods
+            @ $
+            @ form_def
+        
+        foreach item in form_def.controls
+            _ startControl
+                @ $
+                @ item
+
+        _ $( "#" + form_def.id + "_submit").click
+            function
+                param event
+                var formData = {}
+                foreach item in form_def.controls
+                    if !!item.isKey == false || form_def.__state.status != 'add'
+                        set formData[item.id] = $( "#" + item.ctrlId ).val()
+                $$ loog 'formData', formData, 'form_def.__state', form_def.__state
+                _ event.preventDefault()
+                if form_def.__state.status == 'update'
+                    if form_def.onConfirmUpdate
+                        _ form_def.onConfirmUpdate
+                            @ formData
+                elif form_def.__state.status == 'delete'
+                    if form_def.onConfirmDelete
+                        _ form_def.onConfirmDelete
+                            @ formData
+                else
+                    if form_def.onAdd
+                        _ form_def.onAdd
+                            @ formData
+
+        _ $( "#" + form_def.id + "_reset").click
+            function
+                param event
+                foreach item in form_def.controls
+                    _ $( "#" + item.ctrlId ).val('')
+                set form_def.__state.status == 'add'
+                _ $( "#" + form_def.id + "_submit").val('Add')
+        
+    function startControl
+        param $
+        param item
+
+        if item.type == 'group'
+            foreach child in item.controls
+                _ startControl
+                    @ $
+                    @ child
+            return
+        elif item.type == 'select'
+            try 
+                var selectBox = $('select[name="' + item.id + '"]')
+                var selectDropdown = $('#' + item.id + '-dropdown')
+                _ selectBox.select2
+                    { 
+                        @ dropdownParent selectDropdown
+                $$ loog 'select', item.id, 'activated'
+            catch err
+                error 'startControl', err
+        elif item.type == 'date'
+            try 
+                _ $('input[name="' + item.id + '"]').daterangepicker
+                    { 
+                        @ "singleDatePicker" true
+                        @ "showDropdowns" true
+                        @ "autoUpdateInput" true
+                        @ "autoApply" true
+                        { locale
+                            @ format 'DD/MM/YYYY'
+                _ $('input[name="' + item.id + '"]').on
+                    @ 'apply.daterangepicker'
+                    function 
+                        param ev
+                        param picker
+                        _ $(this).val(picker.startDate.format('DD/MM/YYYY'))
+                $$ loog 'datepicker', item.id, 'activated'
+            catch err
+                error 'startControl', err
+        elif item.type == 'checkbox' || item.type == 'radio'
+            const skin = item.skin || 'square'
+            const colorScheme = item.color || 'blue'
+            const increaseArea = item.increase || '20'
+            try 
+                _ $('input[name="' + item.id + '"]').iCheck
+                    { 
+                        @ checkboxClass 'icheckbox_' + skin + '-' + colorScheme
+                        @ radioClass 'iradio_' + skin + '-' + colorScheme
+                        @ increaseArea increaseArea + '%'
+            catch err
+                error 'startControl', err
+        elif item.type == 'slider'
+            try 
+                _ noUiSlider.create
+                    @ $('#' + item.id)[0]
+                    { 
+                        [ start
+                            @ item.start
+                        @ step item.step
+                        [ connect
+                            @ true
+                            @ false
+                        [ tooltips
+                            @ true
+                        { range
+                            @ 'min' item.range.min
+                            @ 'max' item.range.max
+                        @ format
+                            _ wNumb
+                                { 
+                                    @ decimals 0
+                                    @ thousand ','
+                                    @ prefix '$ '
+            catch err
+                error 'startControl', err
+
+        elif item.type == 'code'
+            try 
+                var editor
+                    _ CodeMirror
+                        @ $('#' + item.id)[0]
+                        { 
+                            @ mode "text/html"
+                            @ theme "dracula"
+                            @ lineWrapping false
+                            @ lineNumbers true
+                            @ styleActiveLine true
+                            @ matchBrackets true
+                            @ viewportMargin Infinity
+                            { extraKeys
+                                @ "Ctrl-Space" "autocomplete"
+                            @ value "<!doctype html>\n<html>\n  " + $('#' + item.id)[0].innerHTML + "\n</html>"
+            catch err
+                error 'startControl', err
+
+    function resetForm
+        param $
+        param form_def
+
+        foreach item in form_def.controls
+            _ $( "#" + item.ctrlId ).val('')
+        _ $( "#" + form_def.id + "_submit").val('add')
+        set form_def.__state.status = 'add'
+
+    function startFormMethods
+        param $
+        param form_def
+
+        set form_def.__state
+            {
+                @ status 'add'
+
+        set form_def.__methods
+            {
+                @ setUpdateItem
+                    function
+                        param values
+                        set form_def.__state.status = 'update'
+                        foreach item in form_def.controls
+                            _ $( "#" + item.ctrlId ).val(values[item.id])
+                        _ $( "#" + form_def.id + "_submit").val('update')
+               
+                @ setDeleteItem
+                    function
+                        param values
+                        set form_def.__state.status = 'delete'
+                        foreach item in form_def.controls
+                            _ $( "#" + item.ctrlId ).val(values[item.id])
+                        _ $( "#" + form_def.id + "_submit").val('delete')
+
+                @ onDoneAddItem
+                    function
+                        param values
+                        $$ loog 'form.onDoneAddItem', values
+                        _ resetForm
+                            @ $
+                            @ form_def
+                
+                @ onDoneUpdateItem
+                    function
+                        param newvalues
+                        $$ loog 'form.onDoneUpdateItem', newvalues
+                        _ resetForm
+                            @ $
+                            @ form_def
+
+               
+                @ onDoneDeleteItem
+                    function
+                        param itemId
+                        $$ loog 'form.onDoneDeleteItem', itemId
+                        _ resetForm
+                            @ $
+                            @ form_def
+
+
+        if form_def.onStart
+            _ form_def.onStart
+                @ form_def.__methods

@@ -1,0 +1,8 @@
+$group
+    
+    $if metaCtx.usePostcss || metaCtx.useTailwind
+        
+        $file __dot__wizzi/${pkgPath}root/postcss.config.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include postcss/postcss.config.js

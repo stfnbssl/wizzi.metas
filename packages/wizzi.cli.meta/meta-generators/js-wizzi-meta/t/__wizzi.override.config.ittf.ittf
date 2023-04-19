@@ -1,0 +1,36 @@
+$group
+    $file wizzi.config.override.js.ittf
+        module
+            kind jsfile
+            ${'$'}
+                var development = true;
+            const path = require('path')
+            set module.exports
+                { 
+                    @ wfjobName "${'$'}{cliCtx.name}-override/job"
+                    @ wfjobPath path.join(__dirname, '.wizzi-override', 'generate.wfjob.ittf')
+                    @ destPath __dirname
+                    ${'$'}if development
+                        [ plugins
+                            $if cliCtx.useWizziV08
+                                $if cliCtx.wizziV08.useWizziConfig
+                                    $foreach item in cliCtx.wizziV08.plugins
+                                        @ "./wizzi.plugin.${item}/index.js" 
+                            $else
+                                @ './wizzi-core/index.js' 
+                                @ './wizzi-js/index.js' 
+                                @ './wizzi-web/index.js' 
+                        $if cliCtx.useWizziV08 && cliCtx.wizziV08.useWizziConfig
+                            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+                        $else
+                            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.v07/packages"
+                    ${'$'}else
+                        [ plugins
+                            @ 'wizzi-core'
+                            @ 'wizzi-js'
+                            @ 'wizzi-web'
+                    [ schemas
+                    { globalContext
+                        @ wzConfigIsDevelopment true
+                        @ wzConfigIsPackageDeploy false
+                        @ wzConfigIsDocumentation true 

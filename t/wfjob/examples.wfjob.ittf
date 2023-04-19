@@ -1,0 +1,15 @@
+﻿$group
+
+	line ittf-examples
+		cwd-folder ${ittf_examples_folder}
+		dest-folder ${dest_folder}/examples
+
+		any_js()
+			ignore ${ittf_examples_folder}/**/*__copy/**/*.js.ittf
+
+		any_json()
+			ignore ${ittf_examples_folder}/**/*__copy/**/*.json.ittf
+
+		artifact any_ittf_inside___copy
+			src ${ittf_examples_folder}/**/*__copy/**/*.ittf
+			extension ittf

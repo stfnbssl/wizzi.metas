@@ -1,0 +1,10 @@
+$group
+    ${'$'}params &db
+
+    import
+        @ Model
+        from 'sequelize'
+
+    export
+        const Dummy
+            :ref Model

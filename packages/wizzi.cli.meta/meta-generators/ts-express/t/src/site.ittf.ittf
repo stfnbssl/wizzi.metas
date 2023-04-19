@@ -1,0 +1,40 @@
+$group
+    $$ index
+    $file __dot__wizzi/${pkgPath}src/site/index.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/site/index.ts
+        
+    $$ home
+    $file __dot__wizzi/${pkgPath}src/site/controllers/home.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/site/controllers/home.ts
+    $if cliCtx.useWizziViewEngine
+        $file __dot__wizzi/${pkgPath}src/site/views/home/index.html.ittf.ittf
+            html
+                ${'$'}include wz/v08/html/views/home/index.html
+
+    $$ error
+    $file __dot__wizzi/${pkgPath}src/site/views/error.html.ittf.ittf
+        html
+            ${'$'}include wz/v08/html/views/error.html
+
+
+    $$ demo
+    $if cliCtx.useWizziViewEngine
+        $file __dot__wizzi/${pkgPath}src/site/controllers/demoHome.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/site/controllers/demoHome.ts
+        $file __dot__wizzi/${pkgPath}src/site/controllers/demoWizzi.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/site/controllers/demoWizzi.ts
+        $file __dot__wizzi/${pkgPath}src/site/views/demoHome/index.html.ittf.ittf
+            html
+                ${'$'}include wz/v08/html/views/demoHome/index.html
+        
+        $file __dot__wizzi/${pkgPath}src/site/views/demoWizzi/index.html.ittf.ittf
+            html
+                ${'$'}include wz/v08/html/views/demoWizzi/index.html
+        
+        $file __dot__wizzi/${pkgPath}src/site/views/demoWizzi/index.json.ittf.ittf
+            {
+                ${'$'}include wz/v08/html/views/demoWizzi/index.json

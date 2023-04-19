@@ -1,0 +1,82 @@
+$group
+    import 
+        @ PackiFiles
+        @ PackiFile
+        from '../../features/packi'
+    export 
+        :type PackiEditorProps
+            :{ 
+                :p files
+                    :ref PackiFiles
+                :p updateFiles
+                    :=> 
+                        :void 
+                        param updateFn
+                            :=> 
+                                :{ 
+                                    :index 
+                                        :union 
+                                            :ref PackiFile
+                                            :null 
+                                        param path
+                                            :string 
+                                param files
+                                    :ref PackiFiles
+                :p readOnly
+                    :boolean 
+                    :optional 
+                :p selectedFileName
+                    :string 
+                :p onSelectFile
+                    :=> 
+                        :void 
+                        param path
+                            :string 
+                :p lineNumbers
+                    :union 
+                        :literal 'on'
+                        :literal 'off'
+                        :literal 'relative'
+                        :literal 'interval'
+                    :optional 
+                :p wordWrap
+                    :union 
+                        :literal 'off'
+                        :literal 'on'
+                        :literal 'wordWrapColumn'
+                        :literal 'bounded'
+                    :optional 
+                :p scrollBeyondLastLine
+                    :boolean 
+                    :optional 
+                :p minimap
+                    :optional 
+                    :{ 
+                        :p enabled
+                            :boolean 
+                            :optional 
+                        :p maxColumn
+                            :number 
+                            :optional 
+                        :p renderCharacters
+                            :boolean 
+                            :optional 
+                        :p showSlider
+                            :union 
+                                :literal 'always'
+                                :literal 'mouseover'
+                            :optional 
+                        :p side
+                            :union 
+                                :literal 'right'
+                                :literal 'left'
+                            :optional 
+                :p autoFocus
+                    :boolean 
+                    :optional 
+                :p fontFamily
+                    :string 
+                    :optional 
+                :p fontLigatures
+                    :boolean
+                    :optional 

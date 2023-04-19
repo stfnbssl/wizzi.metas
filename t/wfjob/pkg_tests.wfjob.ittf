@@ -1,0 +1,36 @@
+﻿$group
+    $params &jobCtx
+
+	line ittf-tests
+		cwd-folder ${jobCtx.ittf_tests_folder}
+		dest-folder ${jobCtx.dest_folder}/tests
+
+		any_js()
+			ignore ${jobCtx.ittf_tests_folder}/**/*__copy/**/*.js.ittf
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+        any_md()
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+		artifact any_ittf_inside___copy
+			src ${jobCtx.ittf_tests_folder}/**/*__copy/**/*.ittf
+			extension ittf
+
+		artifact any_json_inside___copy
+			src ${jobCtx.ittf_tests_folder}/**/*__copy/**/*.json
+			extension json
+
+        $include any_tests_ittf
+		
+        any_tests( js )
+		any_tests( html )
+		any_tests( xml )
+		any_tests( css )
+		any_tests( scss )
+
+        $include any_expected   
+
+        $hook
+

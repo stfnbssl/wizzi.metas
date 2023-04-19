@@ -1,0 +1,9 @@
+﻿$group
+	$params result|@@null
+	
+	return
+		_ callback
+			@ null
+			$if result !== null
+				@ ${result}
+			$hook

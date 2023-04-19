@@ -1,0 +1,121 @@
+$group
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import classnames from 'classnames'
+    import 
+        as React
+        from 'react'
+    import 
+        @ c
+        from '../ThemeProvider'
+    +
+    export
+        :type ToggleButtonsProps
+            :< T
+                :string 
+            :{ 
+                :p options
+                    :[ 
+                        :{ 
+                            :p label
+                                :string 
+                            :p value
+                                :ref T
+                :p value
+                    :ref T
+                :p onValueChange
+                    :=> 
+                        :void 
+                        param value
+                            :ref T
+                :p disabled
+                    :optional 
+                    :boolean 
+                :p className
+                    :optional 
+                    :string 
+    +
+    export
+        function ToggleButtons
+            :< T
+                :string 
+            param props
+                :ref ToggleButtonsProps
+                    :param 
+                        :ref T
+            return 
+                span 
+                    @ className {classnames(css(styles.buttons, props.disabled && styles.disabled), props.className)}
+                    { 
+                        _ props.options.map
+                            => 
+                                param o
+                                button 
+                                    @ key {o.value}
+                                    @ className
+                                        _ css
+                                            @expr styles.button
+                                            iif o.value === props.value
+                                                then
+                                                    iif props.disabled
+                                                        then styles.activeDisabled
+                                                        else styles.active
+                                                else undefined
+                                    @ onClick
+                                        => 
+                                            _ props.onValueChange(o.value)
+                                    + {o.label}
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { disabled
+                    @ opacity 0.5
+                    @ pointerEvents 'none'
+                    @ cursor 'not-allowed'
+                { buttons
+                    @ display 'flex'
+                    @ alignItems 'center'
+                    @ whiteSpace 'nowrap'
+                { button
+                    @ appearance 'none'
+                    @ outline 0
+                    @ margin 0
+                    @ border
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                    @ borderLeftWidth 0
+                    @ backgroundColor c('content')
+                    @ color c('text')
+                    @ lineHeight 1
+                    @ padding 6
+                    { ':first-of-type'
+                        @ borderLeftWidth 1
+                        @ borderRadius '3px 0 0 3px'
+                        @ padding '6px 12px'
+                    { ':last-of-type'
+                        @ borderRadius '0 3px 3px 0'
+                        @ padding '6px 12px'
+                    { ':only-of-type'
+                        @ borderLeftWidth 1
+                        @ borderRadius '3px'
+                        @ padding '6px 12px'
+                    { ':hover'
+                        @ backgroundColor c('hover')
+                { active
+                    @ backgroundColor c('primary')
+                    @ borderColor c('primary')
+                    @ color c('primary-text')
+                    { ':hover'
+                        @ backgroundColor c('primary')
+                { activeDisabled
+                    @ backgroundColor c('disabled')
+                    @ color c('text')
+                    { ':hover'
+                        @ backgroundColor c('disabled')
+    
+    export-default ToggleButtons                        

@@ -1,0 +1,72 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "ThemeDemo",
+            props: [
+            ]
+        };
+        var colors = [
+            'primary',
+            'secondary',
+            'error',
+            'warning',
+            'success',
+            'primary-text',
+            'secondary-text',
+            'error-text',
+            'warning-text',
+            'success-text',
+            'text',
+            'soft',
+            'soft-text',
+            'background',
+            'content',
+            'hover',
+            'disabled',
+            'selected',
+            'selected-text',
+            'border'
+        ];
+        var shadows = [
+            'popover',
+            'small'
+        ];
+        
+    v08/ts/react/function${'('}&md)
+
+        ${'$'}append imports
+            import
+                @ c
+                @ s
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            styled StyledRoot .div
+                padding 20px 100px
+            ${'$'}foreach col in colors
+                styled StyledColor${'$'}{_.replace(col,'-','_')} .div
+                    width 200px
+                    height 30px
+                    vertical-align middle
+                    background-color
+                        => c('${'$'}{col}')
+
+            ${'$'}foreach sha in shadows
+                styled StyledShadow${'$'}{_.replace(sha,'-','_')} .div
+                    width 200px
+                    height 30px
+                    margin 10px
+                    vertical-align middle
+                    box-shadow
+                        => s('${'$'}{sha}')
+
+        return
+            < StyledRoot
+                ${'$'}foreach col in colors
+                    < StyledColor${'$'}{_.replace(col,'-','_')}
+                        + color ${'$'}{col}
+                ${'$'}foreach sha in shadows
+                    < StyledShadow${'$'}{_.replace(sha,'-','_')}
+                        + shadow ${'$'}{sha}

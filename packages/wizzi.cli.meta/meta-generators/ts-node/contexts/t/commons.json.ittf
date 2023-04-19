@@ -1,0 +1,10 @@
+$group
+    name "${cliCtx.pkgName}"
+    description "${cliCtx.pkgName}"
+    version "0.0.1"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { license
+        name "MIT"
+        copy "copy 2022"

@@ -1,0 +1,41 @@
+$group
+
+    import 
+        as path
+        from 'path'
+    import 
+        as wizzi
+        from 'wizzi'
+    import 
+        @ ConfigType
+        from '../../features/config'
+    ${'$'}if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useRunner
+        import wizzifile from './wizzifile'
+    export-default 
+        async-function start
+            param config
+                :ref ConfigType
+            :return
+                :ref Promise
+                    :param void
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        ${'$'}if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useRunner
+                            _ wizzifile.setAppConfig
+                                @ config
+                            $$ loog 'wizzifile', wizzifile
+                            _ wizzi.startRunnerServer
+                                { 
+                                    @ cwd __dirname
+                                    @ wizzifile
+                                function 
+                                    param err
+                                    if err
+                                        return reject(err)
+                                    _ resolve()
+                        ${'$'}else 
+                            # No generation request. Do nothing
+                            _ resolve()

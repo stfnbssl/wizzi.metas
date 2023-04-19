@@ -1,0 +1,16 @@
+$group
+
+    elif cmd == 'ts-client-vite-react'
+        _ createEx
+            {
+                @ metaGenerator 'ts-client'
+                @ context 'vite-react'
+                @ pkgName 'demo.ts.client.vite.react'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/demo.ts.client.vite.react'
+    elif cmd == 'ts-client-webpack-react'
+        _ createEx
+            {
+                @ metaGenerator 'ts-client'
+                @ context 'webpack-react'
+                @ pkgName 'demo.ts.client.webpack.react'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/demo.ts.client.webpack.react'

@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.usePostcss
+        $file __dot__wizzi/postcss/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include postcss/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/postcss/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include postcss/tfolder/${item}.js

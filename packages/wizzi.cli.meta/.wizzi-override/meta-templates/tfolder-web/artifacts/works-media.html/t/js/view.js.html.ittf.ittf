@@ -1,0 +1,119 @@
+$group
+    ${'$'}
+      var myName = 'View';
+      //
+
+    iife_window${'('} app, ${'$'}{myName})
+        function ${'$'}{myName}
+            param template
+            param styles
+            set this.template = template
+            set this.styles = styles
+            set this.ENTER_KEY = 13
+            set this.ESCAPE_KEY = 27
+            #
+            set this.$mediaRoute = qs('.route-media')
+            set this.$otherRoute = qs('.route-other')
+            #
+            set this.$mediaView = qs('.media-view')
+            set this.$mediaViewSearch = qs('.media-view-search-field')
+            set this.$mediaViewSelectCategoria = qs('.media-view-select-categoria')
+            set this.$mediaSelectCategoria = null
+            set this.$mediaList = qs('.media-list')
+            set this.$mediaDetails = qs('.media-details')
+            #
+            set this.$otherView = qs('.other-view')
+
+        set ${'$'}{myName}.prototype._setFilter =
+            function 
+                param currentPage
+                set qs('.filters .selected').className = ''
+                set qs('.filters [href="#/' + currentPage + '"]').className = 'selected'
+
+        set ${'$'}{myName}.prototype.render =
+            function 
+                param viewCmd
+                param parameter
+                $$ loog '${'$'}{myName}.prototype.render', viewCmd, parameter
+                var self = this
+                var viewCommands
+                    { 
+                        @ setMediaSearchTerm
+                            function 
+                                set self.$mediaViewSearch.value = parameter
+                        @ setMediaSelectCategoria
+                            function 
+                                set self.$mediaSelectCategoria.value = parameter
+                        @ setMediaSelects
+                            function 
+                                set self.$mediaViewSelectCategoria.innerHTML = self.template.showMediaSelectCategoria(parameter.categories)
+                        @ showMediaView
+                            function 
+                                $$ loog '${'$'}{myName}.render.showMediaView'
+                                set self.$mediaView.style.display = 'block'
+                                ${'$'}${'$'} set self.$otherView.style.display = 'none'
+                        @ showOtherView
+                            function 
+                                $$ loog '${'$'}{myName}.render.showOtherView'
+                                set self.$mediaView.style.display = 'none'
+                                ${'$'}${'$'} set self.$otherView.style.display = 'block'
+                        @ showMediaList
+                            function 
+                                set self.$mediaList.innerHTML = self.template.showMediaList(parameter)
+                        @ showMediaItem
+                            function 
+                                set self.$mediaDetails.innerHTML = self.template.showMediaDetails(parameter)
+                        @ setFilter
+                            function 
+                              $$ loog '${'$'}{myName}.render.setFilter', parameter
+                              set qs('.filters .selected').className = ''
+                              if qs('.filters [href="#/' + parameter + '"]')
+                                set qs('.filters [href="#/' + parameter + '"]').className = 'selected'
+                                $$ loog '${'$'}{myName}.render.setFilter 2', parameter
+                _ viewCommands[viewCmd]()
+
+        set ${'$'}{myName}.prototype.bind =
+            function 
+                param event
+                param handler
+                var self = this
+                if event === 'mediaViewSearchChange'
+
+                    $$ loog '${'$'}{myName}.bind', self.$mediaViewSearch
+                    _ $on
+                        @ self.$mediaViewSearch
+                        @ 'input'
+                        function 
+                            $$ loog '${'$'}{myName}.bind', 'mediaViewSearchChange', this.value
+                            _ handler
+                                { 
+                                    @ value this.value
+
+                elif event === 'mediaSelectCategoriaChange'
+                    set this.$mediaSelectCategoria = qs('.media-select-categoria')
+                    $$ loog '${'$'}{myName}.bind', self.$mediaSelectCategoria
+                    _ $on
+                        @ self.$mediaSelectCategoria
+                        @ 'change'
+                        =>
+                            param event
+                            _ handler
+                              {
+                                @ value event.target.value
+
+                elif event === 'onViewMediaItem'
+                    info 'binding onViewMediaItem self.$mediaList'
+                    _ $on
+                        @ self.$mediaList
+                        @ 'click'
+                        function 
+                            param event
+                            var target = event.target
+                            var result = null
+                            while target && result == null
+                              if target.tagName == 'LI'
+                                set result = target
+                                info 'on click self.$mediaList', result, result.dataset, result.dataset.id
+                              set target = target.parentNode
+                            _ handler(result && result.dataset.id)
+

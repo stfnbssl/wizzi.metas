@@ -1,0 +1,32 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "PreviewShell",
+            props: [
+                { name: "children", type: "node", optional: true }
+            ]
+        }
+
+    v08/ts/react/function${'('}&md)
+        < StyledRoot
+            + {children}
+
+        ${'$'}append imports
+            import 
+                @ c
+                from '../ThemeProvider'
+
+        ${'$'}append styles
+            styled StyledRoot .div
+                height 100%
+                display none
+                min-width 334
+                $$ @media (min-width: $ {constants.preview.minWidth}px)
+                media (min-width: 780px)
+                    display 'flex'
+                background-color
+                    => c('content')
+                border-left
+                    => "1px solid " + c('border')

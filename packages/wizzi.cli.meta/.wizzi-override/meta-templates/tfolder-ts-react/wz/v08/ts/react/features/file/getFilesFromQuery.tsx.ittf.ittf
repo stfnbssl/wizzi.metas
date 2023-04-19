@@ -1,0 +1,68 @@
+$group
+
+    import 
+        @ QueryInitParams
+        @ PackiFiles
+        from '../packi/index'
+    import 
+        @ isEntryPoint
+        from './fileUtilities'
+    +
+    export-default 
+        function getFilesFromQuery
+            param query
+                :ref QueryInitParams
+            param defaultFiles
+                :ref PackiFiles
+            :return
+                :any 
+            let files
+            try 
+                if query?.sourceUrl
+                    set files =
+                        { 
+                            { 'App.js'
+                                @ type 'CODE'
+                                @ url query.sourceUrl
+                else
+                    if query?.files
+                        set files = JSON.parse(query.files)
+                    else
+                        if query?.code
+                            set files =
+                                { 
+                                    { 'App.js'
+                                        @ type 'CODE'
+                                        @ contents query.code
+                        else
+                            set files = defaultFiles
+                if typeof files !== 'object'
+                    throw new Error('not an object')
+                if !Object.keys(files).find(isEntryPoint)
+                    throw new Error('no entry point found')
+                for 
+                    left
+                        const path
+                    in files
+                    const file = files[path]
+                    if typeof file !== 'object' || (file.type !== 'CODE' && file.type !== 'ASSET')
+                        throw 
+                            new Error
+                                `lit 
+                                    + '
+                                    @ path
+                                    + ' is not a valid file object
+                    if !file.contents && !file.url
+                        throw 
+                            new Error
+                                `lit 
+                                    + '
+                                    @ path
+                                    + ' should contain either contents or a url
+                return files
+            catch e
+                throw 
+                    new Error
+                        `lit 
+                            + Invalid files&nbsp;
+                            @ e.message

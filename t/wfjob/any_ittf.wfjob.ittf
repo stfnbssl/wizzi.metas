@@ -1,0 +1,9 @@
+﻿$group
+	$params ext|ittf
+
+	artifact any_ittf
+		src ./**/*.ittf.ittf
+		schema ittf
+		generator ittf/document
+		extension ${ext}
+		$hook

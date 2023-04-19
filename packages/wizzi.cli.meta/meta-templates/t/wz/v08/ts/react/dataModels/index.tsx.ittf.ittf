@@ -1,0 +1,27 @@
+$group
+
+    ${'$'}
+        var schema = md.schema;
+
+    import 
+        as ${'$'}{schema.Name}Actions
+        from './actions'
+
+    import ${'$'}{schema.Name}Reducer
+        from './reducer'
+
+    import
+        @  I${'$'}{schema.Name}
+        from './types'
+
+    import ${'$'}{schema.Name}ApiDataEntry
+        from './components/${'$'}{schema.Name}ApiDataEntry'
+
+    export
+        @ ${'$'}{schema.Name}Actions
+        @ ${'$'}{schema.Name}Reducer
+        @ ${'$'}{schema.Name}ApiDataEntry
+
+    :export-type
+        @  I${'$'}{schema.Name}
+

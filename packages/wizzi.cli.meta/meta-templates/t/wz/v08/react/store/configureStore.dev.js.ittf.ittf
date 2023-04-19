@@ -1,0 +1,144 @@
+$group
+	+
+	# configureStore is called by the app entry point ( index.js )
+	+
+    ${'$'}
+        var useMiddlewares = app.Build.react.redux.useThunk || app.Build.react.redux.Logger 
+            || app.Build.react.redux.useApiMiddleware
+    +
+	${'$'}if useMiddlewares
+		${'$'}if app.Build.react.redux.Compose
+			import { createStore, compose, applyMiddleware } from 'redux'
+		${'$'}else
+			import { createStore, applyMiddleware } from 'redux'
+		${'$'}if app.Build.react.redux.useThunk
+			import thunk from 'redux-thunk'
+            ${'$'}if app.Build.react.redux.thunk.useExtraArgument
+                # in the api middleware we can store global objects
+                # that give problems when stored in the redux state
+                # see https://stackoverflow.com/questions/37221872/storing-global-object-outside-of-redux-store-in-react-redux-app
+                # and https://github.com/reduxjs/redux-thunk
+                import extraArguments from '../middleware/extraArguments'
+		${'$'}if app.Build.react.redux.useLogger
+			import { createLogger } from 'redux-logger'
+		${'$'}if app.Build.react.redux.useApiMiddleware
+			import api from '../middleware/api'
+	${'$'}else
+		${'$'}if app.Build.react.redux.Compose
+			import { createStore, compose } from 'redux'
+		${'$'}else
+			import { createStore } from 'redux'
+    +
+	${'$'}if app.Build.react.redux.Firestore
+		import { firebase as fbConfig } from './config'
+		import firebase from 'firebase/app'
+		import 'firebase/auth'
+		import 'firebase/database'
+		# make sure you add this for firestore
+		import 'firebase/firestore'
+		import { reactReduxFirebase } from 'react-redux-firebase'
+		import { reduxFirestore } from 'redux-firestore'
+    +
+	${'$'}if app.Build.react.redux.useInitialLoad
+		import { initialLoad } from './actions'
+	+
+	import rootReducer from './reducers'
+	+
+	${'$'}if app.Build.react.redux.useDevTools
+		# Get the Redux DevTools extension and fallback to a no-op function
+		let devtools = x => x;
+
+		if process.env.NODE_ENV !== 'production' &&
+			\b process.browser &&
+			\b window.__REDUX_DEVTOOLS_EXTENSION__
+			set devtools = window.__REDUX_DEVTOOLS_EXTENSION__()
+	+
+	var create
+        =>
+            param preloadedState
+			+
+			# TODO Can these stay outside of create() and 
+			#      avoid to initialize firebase at each call when executed server side?
+			${'$'}if app.Build.react.redux.Firestore
+				# Initialize Firebase instance
+				_ firebase.initializeApp(fbConfig)
+				# Initialize Firestore with timeshot settings
+				_ firebase.firestore().settings({ timestampsInSnapshots: true })
+			+
+			${'$'}if useMiddlewares
+				const middlewares
+					_ applyMiddleware
+                        ${'$'}if app.Build.react.redux.useThunk
+						    ${'$'}if app.Build.react.redux.thunk.useExtraArgument
+							    _ thunk.withExtraArgument
+								    @ extraArguments
+						    ${'$'}else
+								@ thunk
+						${'$'}if app.Build.react.useApiMiddleware
+							@ api
+						${'$'}if app.Build.react.redux.useLogger
+							_ createLogger()
+						${'$'}if app.Build.react.redux.useDevTools
+							@ devtools
+            +
+			${'$'}if app.Build.react.redux.Compose
+				const createStoreComposed
+					_ compose
+						${'$'}if app.Build.react.redux.Middleware
+							@ middlewares
+						${'$'}if app.Build.react.redux.Firestore
+							_ reactReduxFirebase
+								@ firebase
+								{
+									@ userProfile 'users'
+									# Store in Firestore instead of Real Time DB
+									@ useFirestoreForProfile true
+									@ enableLogging false
+							_ reduxFirestore(firebase)
+						${'$'}if app.Build.react.redux.useDevTools
+							_ DevTools.instrument()
+			+
+			var store
+                _ createStore
+                    @ rootReducer
+                    @ preloadedState || {}
+					${'$'}if useMiddlewares
+						@ middlewares
+					${'$'}if app.Build.react.redux.useDevTools
+						_ DevTools.instrument()
+			+
+			${'$'}if app.hotReload
+				if module.hot
+					# Enable Webpack hot module replacement for reducers
+					_ module.hot.accept
+						@ './reducers'
+						=>
+							var nextRootReducer
+								_ require('./reducers')
+									. default
+							_ store.replaceReducer(nextRootReducer)
+            return store
+	+
+	export default
+		function configureStore
+			param initialState
+			# Make sure to create a new store for every server-side request so that data
+			# isn't shared between connections (which would be bad)
+			if !process.browser
+				${'$'}if app.Build.react.redux.useInitialLoad
+					let store = create(initialState)
+					_ store.dispatch
+						_ initialLoad()
+					return store
+				${'$'}else
+					return create(initialState)
+			# Reuse store on the client-side
+			if !global.__INIT_REDUX_STORE__
+				${'$'}if app.Build.react.redux.useInitialLoad
+					let store = create(initialState)
+					_ store.dispatch
+						_ initialLoad()
+					set global.__INIT_REDUX_STORE__ = store
+				${'$'}else
+					set global.__INIT_REDUX_STORE__ = create(initialState)
+			return global.__INIT_REDUX_STORE__

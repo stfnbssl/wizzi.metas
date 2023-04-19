@@ -1,0 +1,22 @@
+$group
+
+    $if cliCtx.useJsEditors
+
+        $
+            var items = [
+                'index',
+                'monaco/t/languages/ittf-language',
+                'monaco/t/themes/colors-dark',
+                'monaco/t/themes/colors-light',
+                'monaco/t/themes/ittf-dark-theme',
+                'monaco/t/themes/ittf-light-theme',
+                'monaco/t/themes/monaco-overrides',
+                'monaco/t/themes/monaco',
+                'monaco/t/monaco-editor',
+                'monaco/index',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/js/t/editors/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/js/editors/${item}.js

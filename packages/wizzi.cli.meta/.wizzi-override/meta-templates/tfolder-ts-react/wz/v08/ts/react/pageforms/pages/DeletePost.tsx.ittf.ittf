@@ -1,0 +1,90 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "DeletePost",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "post_owner", type: "string" },
+                { name: "post_name", type: "string" },
+                { name: "post_description", type: "string" },
+            ]
+        }
+        
+    v08/ts/react/component${'('}&md)
+
+        ${'$'}append imports
+            common_imports${'('}pages)
+
+        +
+        m componentDidMount
+            $$ loog 'DeletePost.componentDidMount.props', this.props
+            const
+                {
+                    @ _id
+                    @ owner
+                    @ name
+                    @ description
+                = this.props.data
+            
+            _ this.setState
+                {
+                    @ post_id _id
+                    @ post_owner owner
+                    @ post_name name
+                    @ post_description description
+        +
+        => handleSubmitDelete
+            param ev
+                :ref React.MouseEvent
+                    :param 
+                        :ref HTMLElement
+            _ ev.preventDefault()
+            _ this.formRef.dispatchEvent(new Event('submit'))
+        +
+        m render
+            $$ loog 'DeletePost.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Delete blog post'
+                    < HR
+                    form
+                        action /artifact/delete
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref
+                            =>
+                                param ref
+                                set this.formRef = ref                        
+                        < FormStatic
+                            @ label 'Post id'
+                            @ name 'post_id'
+                            @ id 'post_id'
+                            @ value {this.state.post_id}
+                        < FormStatic
+                            @ label 'Post owner'
+                            @ name 'post_owner'
+                            @ id 'post_owner'
+                            @ value {this.state.post_owner}
+                        < FormStatic
+                            @ label 'Post name'
+                            @ name 'post_name'
+                            @ id 'post_name'
+                            @ value {this.state.post_name}
+                        < HR
+                        < FormStatic
+                            @ label 'Description'
+                            @ name 'post_description'
+                            @ id 'post_description'
+                            @ value {this.state.post_description}
+                        < HR
+                        < FormButton
+                            @ label 'Delete blog post'
+                            @ id 'btn_delete_post'
+                            @ variant 'submit'
+                            @ type submit
+                            @ onClick {this.handleSubmitDelete}

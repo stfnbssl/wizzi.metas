@@ -1,0 +1,4 @@
+$group
+
+    $if cliCtx.useJsAppCrud
+        ${'$'}include appCrud/main

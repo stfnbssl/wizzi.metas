@@ -1,0 +1,11 @@
+﻿$group
+	
+    plugins
+		[
+            ${'$'}include v08/babelrc/plugins
+	presets
+		[
+			${'$'}include v08/babelrc/presets
+	env
+		{
+			${'$'}include v08/babelrc/env

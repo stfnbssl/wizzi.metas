@@ -1,0 +1,23 @@
+$group
+    
+    set module.exports =
+        { 
+            [ "stories"
+                @ "./**/*.stories.mdx"
+                @ "./**/*.stories.@(js|jsx|ts|tsx)"
+            [ "addons"
+                @ "@storybook/addon-links"
+                @ "@storybook/addon-essentials"
+            { typescript
+                @ check false
+                { checkOptions
+                @ reactDocgen 'react-docgen-typescript'
+                { reactDocgenTypescriptOptions
+                    @ shouldExtractLiteralValuesFromEnum true
+                    @ propFilter
+                        => 
+                            param prop
+                            ( 
+                                iif prop.parent
+                                    then !/node_modules/.test(prop.parent.fileName)
+                                    else true

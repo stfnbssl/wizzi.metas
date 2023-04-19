@@ -1,0 +1,71 @@
+node index{
+    $include commons
+
+    { App
+        name "Wizzi schema plugin"
+        kind "WizziPlugin"
+
+    [ Schemas
+        {
+            name "wzschema"
+            plugin_type "syntax_structure"
+            [ includes
+                {
+                    Name "Js"
+                    name "js"
+                    artifactName "js/module"
+                    [ options
+                    [ items
+                        {
+                            name "js"
+                            parent "node"
+                            tag "::script"
+                            root "module"
+        {
+            name "wfschema"
+            plugin_type "syntax_structure"
+            [ includes
+                {
+                    Name "Js"
+                    name "js"
+                    artifactName "js/module"
+                    [ options
+                    [ items
+                        {
+                            name "js"
+                            parent "node"
+                            tag "::script"
+                            root "module"
+            [ transformers
+                {
+                    name "json_docs"
+                    outmime "json"
+                {
+                    name "schemaboot"
+                    outmime "json"
+            [ artifacts
+                {
+                    name "model"
+                    outmime "js"
+                    isDefault true
+                    contentType "text/javascript"
+                {
+                    name "html_docs"
+                    outmime "html"
+                    contentType "text/html"
+                {
+                    name "factory"
+                    outmime "js"
+                    contentType "text/javascript"
+                {
+                    name "text"
+                    outmime "js"
+                    contentType "text/javascript"
+                {
+                    name "json_schemaboot"
+                    outmime "json"
+                    contentType "application/json"
+            [ fileExtensions
+                "wfschema"                    
+            
+

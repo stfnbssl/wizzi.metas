@@ -1,0 +1,29 @@
+$group
+
+    export 
+        :type GitRepositoryMeta
+            :{ 
+                :p owner
+                    :string 
+                :p name
+                    :string 
+                :p description
+                    :string 
+                :p branches
+                    :[ 
+                        :string 
+    export 
+        :type ClonedGitRepository
+            :{ 
+                :p owner
+                    :string 
+                :p name
+                    :string 
+                :p description
+                    :string 
+                :p branch
+                    :string 
+                :p commitHistory
+                    :any 
+                :p files
+                    :ref PackiFiles

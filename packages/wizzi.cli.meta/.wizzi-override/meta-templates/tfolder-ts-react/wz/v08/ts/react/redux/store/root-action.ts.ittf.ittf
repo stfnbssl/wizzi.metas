@@ -1,0 +1,16 @@
+$group
+
+    ${'$'}if wzCtx.Build.react.useRouter
+        import 
+            @ routerActions
+            from 'connected-react-router'
+    ${'$'}foreach item in wzCtx.Build.data.reduxItems
+        import 
+            as ${'$'}{item.Name}Actions
+            from '../features/${'$'}{item.name}/actions'
+    export-default 
+        { 
+            ${'$'}if wzCtx.Build.react.useRouter
+                @ router routerActions
+            ${'$'}foreach item in wzCtx.Build.data.reduxItems
+                @ ${'$'}{item.name} ${'$'}{item.Name}Actions

@@ -1,0 +1,14 @@
+$group
+
+    $if cliCtx.useJsDb
+
+        $
+            var items = [
+                't/localStorageDb',
+                'index',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/js/t/db/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/js/db/${item}.js

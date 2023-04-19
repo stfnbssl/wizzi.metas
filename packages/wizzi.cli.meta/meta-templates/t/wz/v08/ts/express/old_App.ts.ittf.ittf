@@ -1,0 +1,131 @@
+$group
+
+    import express from 'express'
+
+    import 
+        @ AppInitializerType
+        from './features/app'
+    
+    import 
+        @ ConfigType
+        from './features/config'
+
+    ${'$'}if wzCtx.Build.useNetlify
+        import serverless from 'serverless-http'
+        index/imports${'('}&md)
+    
+    ${'$'}else
+        
+        ${'$'}if wzCtx.Build.express.useSslCert
+            import fs from 'fs'
+            import https from 'https'
+        ${'$'}else
+            ${'$'}if wzCtx.Build.useSocketIO
+                import http from 'http'
+        ${'$'}if wzCtx.Build.useSocketIO
+            import socketio from 'socket.io'
+        ${'$'}if wzCtx.Build.express.useSslCert
+            +
+            const ssl_key = fs.readFileSync('server.key')
+            const ssl_cert = fs.readFileSync('server.cert')
+
+    +
+    class App
+        p app
+            :public 
+            :ref express.Application
+        p config
+            :public 
+            :ref ConfigType
+        p port
+            :public 
+            :number 
+        p server
+            :public 
+            :any 
+
+        ctor 
+            param initValues
+                :ref AppInitializerType
+            +
+            set this.config = initValues.config
+            set this.port = this.config.port
+            set this.app
+                _ express
+            ${'$'}if wzCtx.Build.express.useSslCert
+                set this.server
+                    _ https.createServer
+                        {
+                            @ key ssl_key
+                            @ cert ssl_cert
+                        @ this.app
+            ${'$'}elif wzCtx.Build.useSocketIO
+                set this.server = http.createServer(this.app)
+            +
+            _ initValues.middlewaresPre.forEach
+                => 
+                    param middleware
+                    _ middleware(this.app)
+
+            +
+            _ initValues.apis.forEach
+                => 
+                    param api
+                    warn 'installing api: ', api.name
+                    _ api.initialize(initValues)
+                    set initValues.globalApi[api.name] = api
+            +
+            _ initValues.controllers.forEach
+                => 
+                    param controller
+                    warn 'installing router on path: ', controller.path
+                    _ controller.initialize(initValues)
+                    _ this.app.use(controller.path, controller.router)
+
+            ${'$'}if wzCtx.Build.useSocketIO
+                +
+                # Connecting sockets to the server and adding them to the request
+                # so that we can access them later in the controller
+                const io = socketio(this.server)
+                _ 
+                    ( 
+                        + io
+                            :as 
+                                :any 
+                    ._ set
+                        @ 'transports'
+                        [ 
+                            @ 'websocket'
+                            @ 'polling'
+                _ this.app.set('io', io)
+                # Catch a start up request so that a sleepy server instance (p.e. Heroku) can
+                # be responsive as soon as possible
+                _ this.app.get
+                    @ '/wake-up'
+                    => 
+                        param req
+                        param res
+                        _ res.send('👍')
+
+            +
+            _ initValues.middlewaresPost.forEach
+                => 
+                    param middleware
+                    _ middleware(this.app)
+
+        m listen
+            :public 
+            param port
+                :number
+                :optional
+            var usedPort = port || this.port
+            _ ${'$'}{(wzCtx.Build.useSocketIO || wzCtx.Build.express.useSslCert) ? 'this.server' : 'this.app'}.listen
+                @ usedPort
+                => 
+                    _ console.log
+                        `lit 
+                            + App listening at ${'$'}{wzCtx.App.baseUrl}:
+                            @ usedPort
+                            + 
+    ${'$'}if !wzCtx.Build.useNetlify
+        export-default App

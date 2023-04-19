@@ -1,0 +1,48 @@
+$group
+    $
+        var wzItems = [
+            'core','ace','bind','contextMenu', 
+            'fetch','form','htmlBuilder','http','iframe',
+            'localstorage', 'lodash','node','packi','production',
+            'standalone','stringFunctions'
+        ];
+        var wzItems_stopped = ['docs','cssBuilder']
+        var wzItems_tfolder = ['eventTarget','events','global','callApi','polyfill','verify','wizziContextBuilder'];
+        var wzItems_widgets = ['editorControl','itemUtils','treeNode','treeView','treeFilesystem'];
+        var public_tfolder = ['event_emit', 'event_on'];
+
+    $file __dot__wizzi/${pkgPath}public/pure.html
+        <html>
+            <body>
+                <h1>Hello from a pure Html document</h1>
+                <p>I am served by 'express.static' from the "public" folder.</p>
+            </body>
+        </html>
+    
+    $file __dot__wizzi/${pkgPath}public/wz.js.ittf.ittf
+        module
+            kind react
+            $foreach item in wzItems
+                ${"${'$'}"}include ./wz/${item}
+            $foreach item in wzItems_widgets
+                ${"${'$'}"}include ./wz/widgets/${item}
+
+    $foreach item in public_tfolder
+        $file __dot__wizzi/${pkgPath}public/t/${item}.js.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/js/tfolder/${item}.js
+
+    $foreach item in wzItems_tfolder
+        $file __dot__wizzi/${pkgPath}public/t/wz/t/${item}.js.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/js/wz/tfolder/tfolder/${item}.js
+
+    $foreach item in wzItems
+        $file __dot__wizzi/${pkgPath}public/t/wz/${item}.js.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/js/wz/tfolder/${item}.js
+
+    $foreach item in wzItems_widgets
+        $file __dot__wizzi/${pkgPath}public/t/wz/widgets/${item}.js.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/js/wz/tfolder/widgets/${item}.js

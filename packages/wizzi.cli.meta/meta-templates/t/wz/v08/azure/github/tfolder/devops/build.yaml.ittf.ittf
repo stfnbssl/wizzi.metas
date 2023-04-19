@@ -1,0 +1,57 @@
+$group
+    : build
+        : name Build and Run tests
+        : runs-on ubuntu-latest
+        : timeout-minutes ${'$'}{wzCtx.Build.azure.timeoutMinutesShort}
+        : steps
+        - uses: actions/checkout@v2
+    
+        - name: Use Node.js ${"${'$'}"}{{ env.NODE_VERSION }}
+            : uses actions/setup-node@v1
+            : with
+                : node-version ${"${'$'}"}{{ env.NODE_VERSION }}
+    
+        - name: npm install and build
+            : continue-on-error false
+            : run |
+                cd Application
+                npm install
+                npm run build --if-present
+    
+        - name: Run unit tests
+            : continue-on-error false
+            : run |
+                cd Tests
+                npm install
+                gulp unittest
+    
+        - name: Creating artifact directories
+            : run |
+                mkdir buildartifacts
+                mkdir deploymenttemplates
+    
+        # Archieve build artifact
+        - name: Archive Application
+            : run |
+                zip -qq -r ./buildartifacts/Application.zip ./Application
+    
+        # uploading application to build artifact
+        - name: Upload Application to Build Artifact
+            : continue-on-error false
+            : uses actions/upload-artifact@v2
+            : with
+                : name buildartifacts
+                : path buildartifacts
+    
+        # Archive Arm templates
+        - name: Archive ArmTemplates
+            : run |
+                zip -qq -r ./deploymenttemplates/armtemplates.zip ./armTemplates
+    
+        # uploading Arm Templates to artifacts
+        - name: Upload Arm templates to Artifact
+            : continue-on-error false
+            : uses actions/upload-artifact@v2
+            : with
+                : name deploymenttemplates
+                : path deploymenttemplates

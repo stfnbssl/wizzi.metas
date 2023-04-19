@@ -1,0 +1,15 @@
+$group
+    
+    $file __dot__wizzi/${pkgPath}src/common/index.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/common/index.ts
+    
+    $file __dot__wizzi/${pkgPath}src/common/types.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/common/types.ts
+
+    $file __dot__wizzi/${pkgPath}src/common/middlewares/body.validation.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/common/middlewares/body.validation.ts
+
+

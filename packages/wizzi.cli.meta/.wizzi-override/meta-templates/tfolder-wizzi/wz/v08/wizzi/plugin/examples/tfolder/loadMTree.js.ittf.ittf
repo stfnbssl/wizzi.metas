@@ -1,0 +1,120 @@
+﻿$group
+	${'$'}params step, ittfDocumentName, commandLine|@@null
+
+	${'$'}
+		var saveMTree = false;
+		var raw = false;
+		var printMTreeBrick = false;
+		var printMTreeDump = false;
+		var printMTreeToIttf = false;
+		var printDashes = false;
+		if (commandLine !== null) {
+			var commands = commandLine.split(';')
+			for (var i=0; i<commands.length; i++) {
+				var tokens = commands[i].trim().split(':');
+				if (tokens.length == 2) {
+					if (tokens[0] == 'print') {
+						var actions = tokens[1].trim().split(' ');
+						for (var j=0; j<actions.length; j++) {
+							if (actions[j] === 'mtree') {
+								printMTreeBrick = true;
+							}
+							if (actions[j] === 'dump') {
+								printMTreeDump = true;
+							}
+							if (actions[j] === 'ittf') {
+								printMTreeToIttf = true;
+							}
+							if (actions[j] === 'dashes') {
+								printDashes = true;
+							}
+						}
+					}
+				} 
+				if (tokens.length == 1) {
+					if (tokens[0] === 'raw') {
+						raw = true;
+					}
+					if (tokens[0] === 'save') {
+						saveMTree = true;
+					}
+				}
+			}
+		}
+
+	# Create a filesystem factory without access control.
+	# For mTrees we require the dump of the mTree
+	# buildup jsWizzi script. Just to take a look. 
+	_ wizzi.fsFactory
+		{
+			@ globalContext globalContext
+			@ test
+				{
+					@ dumps
+						{
+							@ dumpsBaseFolder
+								_ path.join
+									@ __dirname
+									@ 'step_${'$'}{step}'
+									@ 'dumps'
+							@ mTreeBuildupJsWizziScript
+								{
+									@ dump true
+		a_cb_throw${'('} wf )
+			function load
+				param callback
+				${'$'}if raw === true
+					_ wf.loadMTreeRaw
+						_ path.join
+							@ __dirname
+							@ 'step_${'$'}{step}'
+							@ '${'$'}{ittfDocumentName}'
+						@ callback
+				${'$'}else
+					_ wf.loadMTree
+						_ path.join
+							@ __dirname
+							@ 'step_${'$'}{step}'
+							@ '${'$'}{ittfDocumentName}'
+						{
+						@ callback
+			# Now we can load the document
+			_ load
+				a_cb_throw${'('} mTreeModel )
+					${'$'}if saveMTree == true
+						# And save the mTree model object
+						# to the ./outputs folder
+						var dest
+							_ path.join
+								@ __dirname
+								@ 'step_${'$'}{step}'
+								@ 'outputs'
+								@ '${'$'}{ittfDocumentName}'
+						_ wf.fileService.write
+							@ dest
+							_ mTreeModel.toIttf()
+						info '   ', 'The ${'$'}{ittfDocumentName} mTree was saved to ' + dest
+					${'$'}if raw === true
+						_ heading2( '${'$'}{ittfDocumentName} - raw ittf document' )
+					${'$'}else
+						_ heading2( '${'$'}{ittfDocumentName} - loaded mTree' )
+					${'$'}if printMTreeBrick == true
+						_ printValue
+							@ mTreeModel
+							@ mTreeModel
+							${'$'}if printDashes === true
+								@ 'dashes'
+					${'$'}if printMTreeDump == true
+						_ printValue
+							@ 'mTreeModel.dump(true)'
+							@ mTreeModel.dump(true)
+							${'$'}if printDashes === true
+								@ 'dashes'
+					${'$'}if printMTreeToIttf == true
+						_ printValue
+							@ 'mTreeModel.toIttf()'
+							@ mTreeModel.toIttf()
+							${'$'}if printDashes === true
+								@ 'dashes'
+					${'$'}hook
+

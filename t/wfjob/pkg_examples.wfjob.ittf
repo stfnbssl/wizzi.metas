@@ -1,0 +1,48 @@
+﻿$group
+    $params &jobCtx
+
+	line ittf-examples
+		cwd-folder ${jobCtx.ittf_examples_folder}
+		dest-folder ${jobCtx.dest_folder}/examples
+
+		any_js()
+			ignore ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.js.ittf
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+		any_json()
+			ignore ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.json.ittf
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+        any_text()
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+        any_md()
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+        any_plain(json)
+
+		artifact any_plain_js_inside___copy
+			src ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.js
+			extension js
+		
+		artifact any_plain_html_inside___copy
+			src ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.html
+			extension html
+
+		artifact any_plain_css_inside___copy
+			src ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.css
+			extension css
+
+		artifact any_plain_text_inside___copy
+			src ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.text
+			extension text
+
+		artifact any_ittf_inside___copy
+			src ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.ittf
+			extension ittf
+
+        $hook

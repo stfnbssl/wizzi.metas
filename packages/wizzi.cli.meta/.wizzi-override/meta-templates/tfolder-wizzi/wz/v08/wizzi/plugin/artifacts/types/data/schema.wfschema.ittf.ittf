@@ -1,0 +1,10 @@
+$group
+
+    e table
+        r column/s
+        r index/es
+    e index
+        r column/s
+    e column
+        a type
+    

@@ -1,0 +1,12 @@
+$group
+    ${'$'}params name
+
+    set format.${'$'}{name}
+        function
+            param parent
+            param node
+            param options
+            $$ loog "parent.keys", Object.keys(parent)
+            $$ loog "node.keys", Object.keys(node)
+            $$ loog "options.keys", Object.keys(options)
+            ${'$'}hook

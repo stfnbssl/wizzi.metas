@@ -1,0 +1,89 @@
+$group
+    
+    [ resources
+        { 
+            type "Microsoft.Web/sites"
+            name "[parameters('webAppName')]"
+            apiVersion "2016-08-01"
+            location "[resourceGroup().location]"
+            { tags
+                [concat${"${'('}"}'hidden-related:', '/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))] "empty"
+            [ resources
+                { 
+                    type "siteextensions"
+                    name "Microsoft.ApplicationInsights.AzureWebSites"
+                    apiVersion "2015-08-01"
+                    [ dependsOn
+                        "[resourceId${"${'('}"}'Microsoft.Web/Sites', parameters('webAppName'))]" 
+                    { properties
+            { properties
+                { siteConfig
+                    [ appSettings
+                        { 
+                            name "APPINSIGHTS_INSTRUMENTATIONKEY"
+                            value "[reference(resourceId('microsoft.insights/components/', parameters('webAppName')), '2015-05-01').InstrumentationKey]"
+                        { 
+                            name "WEBSITE_NODE_DEFAULT_VERSION"
+                            value "${'$'}{wzCtx.Build.azure.nodejsVersion}"
+                        {
+                            name "PORT"
+                            value "3000"
+                        {
+                            name "SESSION_SECRET"
+                            value "axr45hngmuoil9********0ofgt*kjj6767648%$£3f5&/4bnsa-----qq4)$35670qq4q"
+                        {
+                            name "NO_CACHE"
+                            value "true" 
+                        {
+                            name "CORS_CLIENT_ORIGIN"
+                            value "${'$'}{wzCtx.Build.cors.clientOrigin}"
+                        {
+                            name "IS_WIZZI_DEV"
+                            value "true" 
+                        {
+                            name "WIZZI_BASE_PATH"
+                            value "" 
+                    phpVersion "7.1"
+                name "[parameters('webAppName')]"
+                serverFarmId "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
+                hostingEnvironment ""
+            [ dependsOn
+                "[concat${"${'('}"}'Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]" 
+                "[resourceId${"${'('}"}'microsoft.insights/components/', parameters('webAppName'))]" 
+        
+        { 
+            type "Microsoft.Web/serverfarms"
+            { sku
+                Tier "[first(skip(split(parameters('sku'), ' '), 1))]"
+                Name "[first(split(parameters('sku'), ' '))]"
+            name "[parameters('hostingPlanName')]"
+            apiVersion "2015-08-01"
+            location "[resourceGroup().location]"
+            { properties
+                name "[parameters('hostingPlanName')]"
+                workerSizeId "0"
+                reserved false
+                numberOfWorkers "1"
+                hostingEnvironment ""
+        
+        { 
+            type "Microsoft.Insights/components"
+            name "[parameters('webAppName')]"
+            apiVersion "2014-04-01"
+            location "[parameters('appInsightsLocation')]"
+            { tags
+                [concat${"${'('}"}'hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAppName'))] "Resource"
+            { properties
+                applicationId "[parameters('webAppName')]"
+                Request_Source "AzureTfsExtensionAzureProject"
+        
+        $if cliCtx.useMongoDb
+            { 
+                type "Microsoft.DocumentDb/databaseAccounts"
+                kind "MongoDB"
+                name "[parameters('databaseAccountId')]"
+                apiVersion "2015-04-08"
+                location "[parameters('databaseAccountLocation')]"
+                { properties
+                    databaseAccountOfferType "Standard"
+                    name "[parameters('databaseAccountId')]"

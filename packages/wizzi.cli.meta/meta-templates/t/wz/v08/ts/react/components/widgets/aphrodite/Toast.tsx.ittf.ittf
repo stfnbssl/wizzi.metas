@@ -1,0 +1,200 @@
+$group
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import ReactDOM from 'react-dom'
+    import 
+        @ ThemeProvider
+        @ c
+        @ s
+        from '../ThemeProvider'
+    +
+    export
+        :type ToastProps
+            :{ 
+                :p label
+                    :ref React.ReactNode
+                :p timeout
+                    :optional 
+                    :number 
+                :p persistent
+                    :optional 
+                    :boolean 
+                :p actions
+                    :[ 
+                        :{ 
+                            :p label
+                                :string 
+                            :p action
+                                :optional 
+                                :=> 
+                                    :void 
+                            :p primary
+                                :optional 
+                                :boolean 
+                :p onDismiss
+                    :optional 
+                    :=> 
+                        :void 
+    +
+    :type State
+        :{ 
+            :p dismissing
+                :boolean 
+    +
+    const TOAST_GROUP_ID = '__toast_group__container'
+    +
+    export
+        class Toast
+            super React.Component
+                :param 
+                    :ref ToastProps
+                :param 
+                    :ref State
+            p defaultProps
+                static
+                { 
+                    @ timeout 5000
+            p state
+                { 
+                    @ dismissing false
+            m componentDidMount
+                let group = document.getElementById(TOAST_GROUP_ID)
+                if !group
+                    set group = document.createElement('div')
+                    set group.id = TOAST_GROUP_ID
+                    _ Object.assign
+                        @expr group.style
+                        { 
+                            @ position 'fixed'
+                            @ bottom '3em'
+                            @ left '1em'
+                            @ zIndex '999'
+                    _ document.body.appendChild(group)
+                _ group.appendChild(this._container)
+                if this.props.persistent
+                    _ this._scheduleDismiss()
+            m componentWillUnmount
+                const group = document.getElementById(TOAST_GROUP_ID)
+                if group
+                    _ group.removeChild(this._container)
+                _ this._cancelDismiss()
+            p _container
+                _ document.createElement('div')
+            p _timer
+                :any 
+            => _scheduleDismiss
+                set this._timer = setTimeout(this._handleDismiss, this.props.timeout)
+            => _cancelDismiss
+                _ this.setState
+                    { 
+                        @ dismissing false
+                _ clearTimeout(this._timer)
+            => _handleDismiss
+                _ this.setState
+                    { 
+                        @ dismissing true
+                set this._timer =
+                    _ setTimeout
+                        => 
+                            _ this.props.onDismiss?.()
+                        @ 400
+            m render
+                const props
+                    iif this.props.persistent
+                        then
+                            { 
+                        else
+                            { 
+                                @ onMouseEnter this._cancelDismiss
+                                @ onMouseLeave this._scheduleDismiss
+                return 
+                    _ ReactDOM.createPortal
+                        < ThemeProvider 
+                            @ {...props}
+                            @ style {styles.toast}
+                            @ className
+                                _ css
+                                    iif this.state.dismissing
+                                        then styles.dismissing
+                                        else styles.appearing
+                            div 
+                                @ className {css(styles.label)}
+                                + {this.props.label}
+                            { 
+                                _ this.props.actions.map
+                                    => 
+                                        param action
+                                        button 
+                                            @ key {action.label}
+                                            @ className {css(styles.button)}
+                                            @ onClick {action.action ?? this._handleDismiss}
+                                            + {action.label}
+                        @ this._container
+    +
+    const fadeIn
+        { 
+            { from
+                @ opacity 0
+            { to
+                @ opacity 1
+    +
+    const fadeOut
+        { 
+            { from
+                @ opacity 1
+            { to
+                @ opacity 0
+    +
+    export-default Toast
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { toast
+                    @ display 'flex'
+                    @ margin '1em'
+                    @ padding '0 .75em'
+                    @ borderRadius 3
+                    @ border
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                    @ boxShadow s('popover')
+                    @ minWidth '27em'
+                    @ whiteSpace 'nowrap'
+                    @ backgroundColor c('content')
+                    @ color c('text')
+                { appearing
+                    @ animationName fadeIn
+                    @ animationDuration '250ms'
+                    @ opacity 1
+                { dismissing
+                    @ animationName fadeOut
+                    @ animationDuration '400ms'
+                    @ opacity 0
+                { label
+                    @ flex 1
+                    @ minWidth 0
+                    @ overflow 'hidden'
+                    @ textOverflow 'ellipsis'
+                    @ padding '.75em'
+                { button
+                    @ appearance 'none'
+                    @ background 'transparent'
+                    @ color c('primary')
+                    @ border '0'
+                    @ textTransform 'uppercase'
+                    @ fontSize '.9em'
+                    @ fontWeight 'bold'
+                    @ padding '1em'
+                    @ outline 0
+                    { ':hover'
+                        @ backgroundColor c('hover')
+                    { ':active'
+                        @ backgroundColor c('hover')

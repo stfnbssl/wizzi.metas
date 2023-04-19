@@ -1,0 +1,42 @@
+$group
+    $if cliCtx.useAzure
+        $file __dot__wizzi/t/v08/azure/github/devops/build.yaml.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include wz/v08/azure/github/tfolder/devops/build.yaml
+        $file __dot__wizzi/t/v08/azure/github/devops/deploy.yaml.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include wz/v08/azure/github/tfolder/devops/deploy.yaml
+        $file __dot__wizzi/t/v08/azure/github/devops/functional-tests.yaml.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include wz/v08/azure/github/tfolder/devops/functional-tests.yaml
+        $file __dot__wizzi/t/v08/azure/arm/parameters.json.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include wz/v08/azure/arm/tfolder/parameters.json
+        $file __dot__wizzi/t/v08/azure/arm/resources.json.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include wz/v08/azure/arm/tfolder/resources.json
+        $file __dot__wizzi/t/v08/azure/arm/outputs.json.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include wz/v08/azure/arm/tfolder/outputs.json
+        $file __dot__wizzi/t/v08/azure/tests/gulp/unitTest.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include wz/v08/azure/tests/tfolder/gulp/unitTest.js
+        $file __dot__wizzi/t/v08/azure/tests/gulp/functionalTest.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include wz/v08/azure/tests/tfolder/gulp/functionalTest.js

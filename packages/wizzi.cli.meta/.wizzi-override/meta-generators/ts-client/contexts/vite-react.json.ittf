@@ -1,0 +1,71 @@
+{
+    $include commons
+
+    $ 
+        var isStandalone = true;
+        var demoName = 'MuiSplitPane'; // means use single page, no router, yes hotReload
+        // var demoName = null; // null means useRouter
+
+    { App
+        name "Test Vite React"
+        kind "Client"
+        demoName "${demoName}"
+
+    $if isStandalone
+        isStandalone true
+
+    useEnvCmd true
+    { envCmd
+
+    useTypescript true
+    { typescript
+   
+    useWebpack false
+    { webpack
+        { output
+            $if isStandalone
+                path "path.resolve(__dirname, 'dist')"
+                filename "bundle.js"
+            $else
+                path "C:/My/wizzi/stfnbssl/wizzi-heroku/public/reactlab"
+                publicPath "/public/reactlab/"
+
+    useVite true
+    { vite
+
+    useReact true
+    { react
+        $if demoName == null
+            useRouter true
+            { router
+        useMui true
+        { mui
+            useSystem true
+            useBase true
+            useIcons true
+            useJoy true
+            useMaterial false
+        useSplitPane true
+        { splitPane
+        useMarkdownPreview true
+        { markdownPreview
+
+    useTailwind false
+    { tailwind
+
+    useLint false
+    { lint
+
+    usePrettier false
+    { prettier
+
+    useFeatures true
+    { features
+        usePreferences true
+        useStyles true
+
+    useMonacoEditor true
+    { monacoEditor
+
+    useAphrodite true
+    { aphrodite

@@ -1,0 +1,22 @@
+$group
+
+    ${'$'}
+        var md = {
+            name: "Link",
+            element: "a",
+            props: [
+            ]
+        }
+        
+    v08/ts/react/styledelement${'('}&md)
+
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        return
+            {
+                @ textDecoration 'none'
+                @ color '#ff0055'
+                @ marginLeft '3px' || props.marginLeft

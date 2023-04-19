@@ -1,0 +1,11 @@
+﻿$group
+	$params result
+
+	function
+		param err
+		param ${result}
+		if err
+            error 'Test error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
+			error 'err', err
+			throw new Error(err.message)
+		$hook

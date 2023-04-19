@@ -1,0 +1,89 @@
+$group
+
+    ${'$'}
+        var md = {
+            Name: 'CdnResource',
+            name: 'cdnResource',
+            mongoName: 'resource',
+            descr: 'cdn resource',
+            prefix: 'cr',
+            query: [
+                { name: 'owner', type: 'string' },
+                { name: 'name', type: 'string' },
+            ],
+            fields: [
+                { name: 'owner', type: 'string' },
+                { name: 'name', type: 'string' },
+                { name: 'contents', type: 'string' },
+            ],
+            created_at: true,
+            updated_at: true,
+            update_delete_by_id: true
+        }
+
+    import path from 'path'
+    import NodeCache from 'node-cache'
+    import
+        @ GetCdnResourceModel
+        from '../mongo/resource'
+    import
+        @ ICdnResourceModel
+        from '../types'
+    import
+        @ ValidateResult
+        @ CRUDResult
+        from '../../types'
+    +
+    const myname = 'features.cdn.api.resource'
+    +
+    const cdnResourceCache
+        new NodeCache
+            { 
+                @ stdTTL 120
+                @ checkperiod 60
+    +
+    export
+        async-function validateCdnResource
+            param owner
+                :string
+            param name
+                :string
+            const CdnResource = GetCdnResourceModel()
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        let query = { owner: owner, name: name }
+                        _ CdnResource.find
+                            @ query
+                            =>
+                                param err
+                                param result
+                                if err
+                                    error myname, 'validateCdnResource', 'CdnResource.find', 'error', err
+                                    return reject(err)
+                                if result.length == 1
+                                    return 
+                                        _ resolve
+                                            {
+                                                @ isValid false
+                                                @ message 'cdn resource already exists'
+                                _ resolve
+                                    {
+                                        @ isValid true
+    export 
+        function invalidateCache
+            param owner
+                :string
+            param name
+                :string
+                :optional
+            var cacheKey = owner + '|' + name
+            _ cdnResourceCache.del(cacheKey)
+
+    v08/mongo/crud/get_list_api${'('}&md)
+    v08/mongo/crud/get_api${'('}&md)
+    v08/mongo/crud/create_api${'('}&md)
+    v08/mongo/crud/update_api${'('}&md)
+    v08/mongo/crud/delete_api${'('}&md)

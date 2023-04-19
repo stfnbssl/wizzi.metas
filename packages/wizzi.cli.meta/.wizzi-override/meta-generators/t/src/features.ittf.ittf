@@ -1,0 +1,6 @@
+$group
+    
+    $if cliCtx.useFeatures
+        $file __dot__wizzi/${pkgPath}src/features/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/types.ts

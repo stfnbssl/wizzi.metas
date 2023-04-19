@@ -1,0 +1,45 @@
+{
+    $
+        var pluginBasename = "xml";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Xml document plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        {
+            name "useXml2Parser"
+            value "true"
+
+    [ Schemas
+        {
+            name "xml"
+            plugin_type "data"
+            multiLineCommentBegin false
+            multiLineCommentEnd false
+            hasWizzifier true
+            hasBuiltinWizziModel true
+            { wizzifier
+                [ parserImportCode
+                    "var xml2js = require('xml2js')"
+                    "var xml_parser = new xml2js.Parser()"
+                [ parserInvokeCode
+                    "_ xml_parser.load"
+                    "\t@ tobeWizzified"
+                useFormatAstMethods false
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "xml"
+                    contentType "text/xml"
+                    isDefault true
+            [ fileExtensions
+                "xml"
+            

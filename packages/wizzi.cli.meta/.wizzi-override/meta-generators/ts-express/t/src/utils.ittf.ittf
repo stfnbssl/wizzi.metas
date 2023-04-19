@@ -1,0 +1,51 @@
+$group
+
+    $
+        var items = [
+            'index',
+            'sendResponse',
+            'error',
+            'rest',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/utils/${item}.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/utils/${item}.ts
+    
+    $
+        var items = [
+            'functionWrappers',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/utils/${item}.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/utils/${item}.ts
+
+    $if cliCtx.utils && cliCtx.utils.useScripts
+        $
+            var items = [
+                'scriptManager',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/utils/scripts/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/utils/scripts/${item}.ts
+
+        $
+            var items = [
+                'spawn',
+                'nodejs',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/utils/scripts/t/${item}.ts.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/ts/utils/scripts/tfolder/${item}.ts
+
+    $if cliCtx.useFeatures && cliCtx.features.useWizziFs
+        $file __dot__wizzi/${pkgPath}src/utils/wizziFs.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/utils/wizziFs.ts

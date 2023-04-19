@@ -1,0 +1,95 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function inferAndLoadContextJson
+                param wf
+                    :ref wizzi.WizziFactory
+                param files
+                    :ref packiTypes.PackiFiles
+                param filePath
+                    :string
+                param exportName
+                    :string
+                :return
+                    :ref Promise
+                        :param any
+                return
+                    new Promise
+                        =>
+                            param resolve
+                            param reject
+                            if !verify.isObject(files)
+                                return
+                                    _ reject
+                                        {
+                                            @ action 'wizzi.productions.inferAndLoadContextJson'
+                                            @ message 'files parameter must be an object of type PackiFiles'
+                                            @ files
+                            const pf = wizziMaps.parseFilePath(filePath)
+                            if pf.isIttfDocument && pf.schema !== 'json'
+                                var twinJsonBaseName = pf.seedname + '.json.ittf'
+                                const twinDocumentUri
+                                    _ Object.keys(files).find
+                                        =>
+                                            param k
+                                            _ k.endsWith('/' + twinJsonBaseName)
+                                if twinDocumentUri
+                                    _ loadModelInternal
+                                        @ wf
+                                        _ ensurePackiFilePrefix(twinDocumentUri)
+                                        {
+                                        ._ then
+                                            =>
+                                                param model
+                                                _ resolve
+                                                    {
+                                                        @ [exportName] model
+                                        ._ catch
+                                            =>
+                                                param err
+                                                _ reject(err)
+                                else
+                                    _ resolve
+                                        {
+                            else
+                                _ resolve
+                                    {
+    +
+    export
+        async-function inferAndLoadContextFs
+            param filePath
+                :string
+            param exportName
+                :string
+            :return
+                :ref Promise
+                    :param any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        const pf = wizziMaps.parseFilePath(filePath)
+                        if pf.isIttfDocument && pf.schema !== 'json'
+                            var twinJsonPath = path.join(path.dirname(filePath), pf.seedname + '.json.ittf')
+                            if fs.existsSync(twinJsonPath)
+                                _ loadModelFs
+                                    @ twinJsonPath
+                                    {
+                                    ._ then
+                                        =>
+                                            param model
+                                            _ resolve
+                                                {
+                                                    @ [exportName] model
+                                    ._ catch
+                                        =>
+                                            param err
+                                            _ reject(err)
+                            else
+                                _ resolve
+                                    {
+                        else
+                            _ resolve
+                                {

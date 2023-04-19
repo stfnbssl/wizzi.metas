@@ -1,0 +1,10 @@
+﻿$group
+	$params result|notUsed
+
+	$$ Prefer f_cb_no_throw
+
+    function
+		param err
+		param ${result}
+		$hook
+

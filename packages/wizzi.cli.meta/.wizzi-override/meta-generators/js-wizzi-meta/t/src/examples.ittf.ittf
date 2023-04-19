@@ -1,0 +1,16 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}examples/first.json.ittf.ittf
+        {
+            useXxx true
+            { xxx
+
+    $file __dot__wizzi/${pkgPath}examples/step_1.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wz/v08/wizzi/meta/examples/step_1.js
+
+    $file __dot__wizzi/${pkgPath}examples/step_2.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wz/v08/wizzi/meta/examples/step_2.js

@@ -1,0 +1,17 @@
+$group
+    $if metaCtx.useWizziplugin
+
+        $include __wizzi
+        $include __wizzi.config
+        $include __wizzi.override.config
+        $include __generate
+        $include root
+        $include models
+        $include src/examples
+        $include src/lib
+        $include src/tests
+        $include tfolder/v08/index
+        $*
+        $include tfolder/js/commons
+        $include tfolder/wfjobs
+        *$

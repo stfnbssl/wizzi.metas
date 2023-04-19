@@ -1,0 +1,157 @@
+$group
+    
+    ${'$'}
+        var Comp = 'Text';
+        var ssfuncs = [
+            'display',
+            'typography',
+            'layout',
+            'space',
+            'position',
+            'color'
+        ];
+    import React
+        from 'react'
+    import styled
+        @ css
+        from 'styled-components'
+    import 
+        @ system
+        ${'$'}foreach f in ssfuncs
+            @ ${'$'}{f}
+            @ ${'$'}{_.capitalize(f)}Props
+        from 'styled-system'
+    import
+        @ themeGet
+        from '@styled-system/theme-get'
+    +
+    export
+        :type ${'$'}{Comp}Props
+            :union 
+                ${'$'}foreach f in ssfuncs
+                    :ref ${'$'}{_.capitalize(f)}Props
+                :{ 
+                    :p as
+                        :optional 
+                        :union 
+                            :keyof 
+                                :ref JSX.IntrinsicElements
+                            :ref React.ComponentType
+                                :param any
+                    # eslint-disable-next-line @typescript-eslint/no-explicit-any
+    +
+    export 
+        const caps
+            => 
+                (
+                    => 
+                        param props
+                            :any
+                        iif props.caps
+                            then
+                                styled-css 
+                                    text-transform uppercase
+                                    letter-spacing ${'$'}{'${'$'}'}{themeGet('letterSpacings.caps')(props)}
+                            else null
+    +
+    export 
+        const regular
+            => 
+                (
+                    => 
+                        param props
+                            :any
+                        iif props.regular
+                            then
+                                styled-css 
+                                    font-weight ${'$'}{'${'$'}'}{props.theme.regular}
+                            else null
+    +
+    export 
+        const bold
+            => 
+                (
+                    => 
+                        param props
+                            :any
+                        iif props.bold
+                            then
+                                styled-css 
+                                    font-weight ${'$'}{'${'$'}'}{props.theme.regular}
+                            else null
+    export 
+        const textShadow
+            => 
+                (
+                    => 
+                        param props
+                            :any
+                        const textShadowSize = props.textShadowSize || 'md'
+                        return 
+                            iif props.enableTextShadow
+                                then
+                                    styled-css 
+                                        font-weight ${'$'}{'${'$'}'}{props.theme.regular}
+                                else null
+    +
+    ${'$'}foreach f in ssfuncs
+        $$ loog '${'$'}{f}', ${'$'}{f}
+    +
+    const textProps
+        styled-css
+            ${'$'}{'${'$'}'} caps
+            ${'$'}{'${'$'}'} regular
+            ${'$'}{'${'$'}'} bold
+            ${'$'}{'${'$'}'} textShadow
+            ${'$'}foreach f in ssfuncs
+                ${'$'}{'${'$'}'} ${'$'}{f}
+    +
+    export
+        styled Text .div
+            ${'$'}{'${'$'}'} textProps                
+    +
+    export 
+        styled Span .span
+            ${'$'}{'${'$'}'} textProps                
+    +
+    export 
+        styled Paragraph .p
+            ${'$'}{'${'$'}'} textProps                
+    +
+    export 
+        styled Strike .s
+            ${'$'}{'${'$'}'} textProps                
+    +
+    set ${'$'}{Comp}.displayName = '${'$'}{Comp}'
+    +
+    set Span.displayName = '${'$'}{Comp}.span'
+    set =
+        @expr 
+            ( 
+                @id ${'$'}{Comp}
+                    :as 
+                        :any 
+            . span
+        @id Span
+    +
+    set Paragraph.displayName = '${'$'}{Comp}.p'
+    set =
+        @expr 
+            ( 
+                @id ${'$'}{Comp}
+                    :as 
+                        :any 
+            . p
+        @id Paragraph
+    +
+    set Strike.displayName = '${'$'}{Comp}.s'
+    set =
+        @expr 
+            ( 
+                @id ${'$'}{Comp}
+                    :as 
+                        :any 
+            . s
+        @id Strike
+    +
+    export-default ${'$'}{Comp}

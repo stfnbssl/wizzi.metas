@@ -1,0 +1,87 @@
+$group
+    $* TODO
+    import hoistNonReactStatics from 'hoist-non-react-statics'
+    import 
+        as React
+        from 'react'
+    import 
+        @ $Subtract
+        from '../../types'
+    import 
+        @ ThemeName
+        @ PreferencesContext
+        from './types'
+    :type InjectedProps
+        :{ 
+            :p theme
+                :ref ThemeName
+        # react-redux doesn't work with forwardRef: https://github.com/reduxjs/react-redux/issues/914
+        # so this HOC always needs wrap a connect call, and a connect call cannot wrap this
+    export-default 
+        function withThemeName
+            :< P
+                :ref InjectedProps
+            param Comp
+                :ref React.ComponentType
+                    :param 
+                        :ref P
+            :return
+                :ref React.ComponentType
+                    :param 
+                        :ref $Subtract
+                            :param 
+                                :ref P
+                            :param 
+                                :ref InjectedProps
+            class ThemedComponent
+                super React.Component
+                    :param 
+                        :ref $Subtract
+                            :param 
+                                :ref P
+                            :param 
+                                :ref InjectedProps
+                p displayName
+                    static
+                    `lit 
+                        + withTheme(
+                        @ Comp.displayName ?? Comp.name
+                        + )
+                m render
+                    const 
+                        { 
+                            @ __forwardedRef
+                            ... rest
+                        = this.props
+                        # @ts-ignore
+                    return 
+                        < PreferencesContext.Consumer 
+                            { 
+                                => 
+                                    param props
+                                    # props.preferences comes from PreferencesContext
+                                    # a [Context].Consumer injects the properties of the context
+                                    # in the wrapped Comp
+                                    return 
+                                        < Comp 
+                                            @ ref {__forwardedRef}
+                                            @ theme {props.preferences.theme}
+                                            @ {...rest}
+                                        # @ts-ignore
+            const Result
+                _ React.forwardRef
+                    => 
+                        param props
+                        param ref
+                        < ThemedComponent 
+                            @ {...props}
+                            @ __forwardedRef {ref}
+                            # @ts-ignore
+            _ hoistNonReactStatics(Result, Comp)
+            return 
+                + Result
+                    :as 
+                        :any 
+        # react-redux doesn't work with forwardRef: https://github.com/reduxjs/react-redux/issues/914
+        # so this HOC always needs wrap a connect call, and a connect call cannot wrap this
+    *$

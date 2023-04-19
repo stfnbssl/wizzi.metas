@@ -1,0 +1,153 @@
+$group
+    +
+    export
+        async-function prepareGenerationFromWizziJson
+            param req_files
+                :ref packiTypes.PackiFiles
+            :return
+                :ref Promise
+                    :param
+                        :any
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        let retPackiFiles
+                            :ref packiTypes.PackiFiles
+                            = req_files
+                        +
+                        const wizziJson = req_files['wizzi.json.ittf']
+                        if wizziJson
+                            _ wizziProds.generateArtifact
+                                @ 'wizzi.json.ittf'
+                                {
+                                    { 'wizzi.json.ittf'
+                                        @ type wizziJson.type
+                                        @ contents wizziJson.contents
+                                {
+                                ._ then
+                                    =>
+                                        param result
+                                            :any
+                                        const wizziJsonObj = JSON.parse(result.artifactContent)
+                                        _ getFragmentsFromWizziJson
+                                            @ wizziJsonObj
+                                            ._ then
+                                                =>
+                                                    param resultPackiFiles
+                                                        :ref packiTypes.PackiFiles
+                                                    set retPackiFiles
+                                                        _ mergePackiFiles
+                                                            @ retPackiFiles
+                                                            @ resultPackiFiles
+                                                    _ getContextFromWizziJson
+                                                        @ wizziJsonObj
+                                                        ._ then
+                                                            =>
+                                                                param resultContext
+                                                                return
+                                                                    _ resolve
+                                                                        {
+                                                                            @ packiFiles retPackiFiles
+                                                                            @ context resultContext
+                                            v08/ts/catch_reject( getArtifactGeneration.getFragmentsFromWizziJson )
+                                v08/ts/catch_reject( getArtifactGeneration.generateArtifact )
+                        else
+                            _ resolve
+                                {
+                                    @ packiFiles req_files
+                                    { context
+    +
+    export
+        async-function getFragmentsFromWizziJson
+            param wizziJsonObj
+                :any
+            :return
+                :ref Promise
+                    :param
+                        :ref packiTypes.PackiFiles
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        let retPackiFiles
+                            :ref packiTypes.PackiFiles
+                            {
+                        if !!(wizziJsonObj && wizziJsonObj.fragments && wizziJsonObj.fragments.length > 0) == false
+                            return
+                                _ resolve
+                                    @ retPackiFiles
+                        var j = 0
+                        iife next
+                            var tfolder = wizziJsonObj.fragments[j++]
+                            if !tfolder
+                                return resolve(retPackiFiles)
+                            const parts = tfolder.path.split('/')
+                            _ tFolderApi.getTFolder
+                                @ parts[0]
+                                @ parts.slice(1).join('/')
+                                ._ then
+                                    =>
+                                        param result
+                                            :ref CRUDResult
+                                        const tf
+                                            :ref ITFolderModel
+                                            = result.item
+                                        const tf_packiFiles_object
+                                            :ref packiTypes.PackiFiles
+                                            _ JSON.parse(tf.packiFiles)
+                                        set retPackiFiles
+                                            _ mergePackiFiles
+                                                @ retPackiFiles
+                                                @ tf_packiFiles_object
+                                        _ next()
+                                v08/ts/catch_reject( getFragmentsFromWizziJson.getTFolder )
+    +
+    export
+        async-function getContextFromWizziJson
+            param wizziJsonObj
+                :any
+            :return
+                :ref Promise
+                    :param
+                        :any
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        let retContext
+                            :any
+                            {
+                        if !!(wizziJsonObj && wizziJsonObj.fragments && wizziJsonObj.fragments.length > 0) == false
+                            return
+                                _ resolve
+                                    @ retContext
+                        var j = 0
+                        iife next
+                            var contextDef = wizziJsonObj.contexts[j++]
+                            if !contextDef
+                                return resolve(retContext)
+                            const parts = contextDef.path.split('/')
+                            _ getArtifactContextItem
+                                @ parts[0]
+                                @ contextDef.name + ';' + parts.slice(1).join('/')
+                                ._ then
+                                    =>
+                                        param contextObject
+                                            :any
+                                        set retContext
+                                            _ Object.assign
+                                                {
+                                                @ retContext
+                                                @ contextObject
+                                        _ next()
+                                v08/ts/catch_reject( getContextFromWizziJson.getArtifactContextItem )

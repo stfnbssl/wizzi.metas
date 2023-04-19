@@ -1,0 +1,58 @@
+$group
+    
+    const Directory
+        => 
+            { 
+                @ files
+                @ onSelect
+            const [isExpanded, toggleExpanded] = React.useState(false)
+            if files.type === 'folder'
+                return 
+                    div 
+                        @ className "folder"
+                        div 
+                            @ className "folder-title"
+                            @ style
+                                {
+                                    @ padding "4px"
+                                    @ fontSize "14px"
+                                    @ cursor "pointer"
+                            @ onClick
+                                => 
+                                    param ev
+                                    _ toggleExpanded(!isExpanded)
+                                    _ ev.preventDefault
+                                    _ ev.stopPropagation 
+                            + {files.explorerName || files.name}
+                            div
+                                @ style
+                                    {
+                                        @ padding "4px 16px"
+                                { 
+                                    && 
+                                        + isExpanded
+                                        _ files.items.map
+                                            => 
+                                                param item
+                                                < Directory 
+                                                    @ key {item.name}
+                                                    @ files {item}
+                                                    @ onSelect {onSelect}
+
+            return 
+                < React.Fragment
+                    div 
+                        @ className "file-name"
+                        @ style
+                            {
+                                @ padding "4px"
+                                @ fontSize "14px"
+                                @ cursor "pointer"
+                        @ onClick
+                            => 
+                                param ev
+                                if onSelect
+                                    _ onSelect(files)
+                                _ ev.preventDefault
+                                _ ev.stopPropagation 
+                        + {files.explorerName || files.name}

@@ -1,0 +1,38 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        # TODO cache results!
+        +
+        export
+            async-function loadSiteJsonModel
+                param relPath
+                    :string
+                param context
+                    :any
+                    :optional
+                set context
+                    _ Object.assign
+                        {
+                        {
+                            @ isWizziStudio true
+                        @ context || {}
+                return
+                    new Promise
+                        =>
+                            param resolve
+                            param reject
+                            _ loadModelFs
+                                _ path.join
+                                    @ config.ittfPath
+                                    @ 'models'
+                                    @ relPath
+                                @ context
+                                ._ then
+                                    =>
+                                        param model
+                                        _ resolve
+                                            @ model
+                                ._ catch
+                                    =>
+                                        param err
+                                        _ reject(err)

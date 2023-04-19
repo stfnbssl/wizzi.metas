@@ -1,0 +1,50 @@
+$group
+
+	import React from 'react'
+	import PropTypes from 'prop-types'
+	
+	${'$'}if wzCtx.Build.react.useMaterialUI
+		import classNames from 'classnames'
+        ${'$'}if md.withStyles
+		    import { withStyles } from '@material-ui/core/styles'
+
+    ${'$'}if wzCtx.Build.react.useRedux && wzCtx.Build.react.redux.useForm && md.isReduxForm
+        import 
+            @ Field
+            @ FieldArray
+            from 'redux-form'
+
+    ${'$'}if wzCtx.Build.react.useFormik && md.isFormikForm
+        import 
+            @ Formik
+            @ Form
+            @ Field
+            @ FastField
+            @ FieldArray
+            @ setFieldValue
+            @ setFieldTouched
+            @ ErrorMessage
+            from 'formik'
+
+    ${'$'}hook imports
+
+    react ${'$'}{md.name}
+
+		${'$'}hook
+        
+        ${'$'}if md.withStyles
+            style
+                ${'$'}hook styles
+
+    ${'$'}if md.withStyles
+        set ${'$'}{md.name}
+            _ withStyles
+                @ styles
+                ( 
+                    @ ${'$'}{md.name}
+
+    export default ${'$'}{md.name}
+
+
+
+

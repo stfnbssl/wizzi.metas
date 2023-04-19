@@ -1,0 +1,70 @@
+$group
+    $params &schema
+    kind jsfile
+
+    ${"${'$'}"}
+        var md = {
+            name: '${schema.name}',
+        };
+
+	+
+		${'$'} 
+			var schema = 'graphql'
+
+    +
+	import async
+	import path
+	import util
+	+
+	var ${schema.name}wizzifier = require('../lib/wizzifiers/${schema.name}/wizzifier')
+	var file = require('wizzi-utils').file
+    var stringify = require('json-stringify-safe');
+	+
+    let arg = process.argv[2]
+    const moduleName = arg && arg.length > 0 ? arg : 'first'        
+    _ async.map
+		[
+			@ moduleName
+		@ getCodeAST
+		a_cb_no_throw${'$'}{'('} result )
+			info ''
+            info 'Terminated. result: ', result
+
+	function getCodeAST
+		param name
+		param callback
+		+
+		var source
+			_ path.join
+				@ __dirname
+				@ 'data'
+				@ name + '.${schema.name}'
+		+
+		_ ${schema.name}wizzifier.getCodeAST
+			_ file.read
+				@ source
+			{
+				@ syntaxOutFile
+					_ path.join
+						@ __dirname
+						@ 'data'
+						@ 'output'
+						@ name + '.${schema.name}.syntax'
+			a_cb_no_throw${'$'}{'('} syntax )
+				if err
+					error 'error gettting code AST: ' + source
+					error 'err', err
+					return callback(null, 'error ' + source)
+				_ file.write
+					_ path.join
+						@ __dirname
+						@ 'data'
+						@ 'output'
+						@ name + '.${schema.name}.syntax.json'
+                    _ stringify
+                        @ syntax
+                        @ null
+                        @ 4
+				return callback(null, 'success ' + source)
+
+

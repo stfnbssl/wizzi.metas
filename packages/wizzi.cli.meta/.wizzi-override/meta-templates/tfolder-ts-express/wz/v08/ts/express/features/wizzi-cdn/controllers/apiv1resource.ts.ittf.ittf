@@ -1,0 +1,163 @@
+$group
+    
+    ${'$'}
+        var ctrl = {
+            name: 'ApiV1CdnResource',
+            path: '/api/v1/cdn',
+            apiSecured: wzCtx.App.isLocal == false,
+        }
+    
+    v08/ts/controller${'('} &ctrl )
+            
+        ${'$'}append imports
+            import
+                @ getCdnResourceList
+                @ validateCdnResource
+                @ getCdnResource
+                @ getCdnResourceById
+                @ updateCdnResource
+                @ createCdnResource
+                @ deleteCdnResource
+                @ invalidateCache
+                from '../api/resource'
+            +
+            const myname = 'features/cdn/controllers/apiv1resource'
+
+        v08/ts/route_api_secured${'('} get, /:owner, this.getCdnResourceList )
+        v08/ts/route_api_secured${'('} get, /checkname/:owner/:name, this.getCheckResourceName )
+        v08/ts/route_api_secured${'('} get, /:owner/:name, this.getCdnResource )
+        v08/ts/route_api_secured${'('} put, /:owner/:name, this.putCdnResource )
+        v08/ts/route_api_secured${'('} put, /:id, this.putCdnResourceById )
+        v08/ts/route_api_secured${'('} post, /:owner/:name, this.postCdnResource )
+        v08/ts/route_api_secured${'('} delete, /:owner/:name, this.deleteCdnResource )
+        
+        ${'$'}append handlers
+            
+            v08/ts/handler${'('}  getCdnResourceList )
+
+                ${'$'}${'$'} loog 'getCdnResourceList.request.params', request.params
+                _ getCdnResourceList
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            ${'$'}${'$'} loog 'getCdnResourceList.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('}  getCdnResourceList )
+
+            v08/ts/handler${'('}  getCheckResourceName )
+                ${'$'}${'$'} loog 'getCheckResourceName', request.params
+                _ validateCdnResource
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'getCheckResourceName.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('}  getCheckResourceName )
+
+            v08/ts/handler${'('}  getCdnResource )
+                ${'$'}${'$'} loog 'getCdnResource.request.params', request.params
+                _ getCdnResource
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            ${'$'}${'$'} loog 'getCdnResource.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('}  getCdnResource )
+
+            v08/ts/handler${'('}  postCdnResource )
+
+                ${'$'}${'$'} loog 'postCdnResource.request.params', request.params
+                ${'$'}${'$'} loog 'postCdnResource.request.body', request.body
+                _ createCdnResource
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.contents
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            # loog 'postCdnResource.create.result', result
+                            _ invalidateCache
+                                @ request.params.owner
+                                @ request.params.name
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('}  postCdnResource )
+
+            v08/ts/handler${'('}  putCdnResource )
+
+                ${'$'}${'$'} loog 'putCdnResource.request.params', request.params
+                ${'$'}${'$'} loog 'putCdnResource.request.body', Object.keys(request.body)
+                _ updateCdnResource
+                    @ null
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.contents
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            ${'$'}${'$'} loog 'putCdnResource.update.result', result
+                            _ invalidateCache
+                                @ request.params.id
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('}  putCdnResource )
+
+            v08/ts/handler${'('}  putCdnResourceById )
+
+                ${'$'}${'$'} loog 'putCdnResourceById.request.params', request.params
+                ${'$'}${'$'} loog 'putCdnResourceById.request.body', Object.keys(request.body)
+                _ updateCdnResource
+                    @ request.params.id
+                    @ null
+                    @ null
+                    @ request.body.contents
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            ${'$'}${'$'} loog 'putCdnResourceById.update.result', result
+                            _ invalidateCache
+                                @ request.params.id
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('}  putCdnResourceById )
+
+            v08/ts/handler${'('}  deleteCdnResource )
+
+                ${'$'}${'$'} loog 'deleteCdnResource.request.params', request.params
+                ${'$'}${'$'} loog 'deleteCdnResource.request.body', Object.keys(request.body)
+                _ deleteCdnResource
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            ${'$'}${'$'} loog 'deleteCdnResource.update.result', result
+                            _ invalidateCache
+                                @ request.params.id
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} deleteCdnResource )

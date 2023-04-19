@@ -1,0 +1,117 @@
+$group
+    kind es6
+    basewizzifier${'('})
+
+        ${'$'}append imports
+
+            $foreach line in parserImportCode
+                ${line}
+            var cleanAST = require('./cleanAST')
+            +
+            function parseInternal
+                param tobeWizzified
+                param options
+                param callback
+                var syntax
+                
+                $function rc
+                    $$ TODO indent (js && ts new wizzi schema element)
+                    _ cleanAST(syntax)
+                    return
+                        _ callback
+                            @ null
+                            @ syntax
+
+                try
+                    $if invokeCodeHasCallback
+                        $foreach line in parserInvokeCode
+                            ${line}
+                                $if line_index == line_count - 1
+                                    $_ rc
+                    $else
+                        set syntax
+                            $foreach line in parserInvokeCode
+                                ${line}
+                        $_ rc
+                catch ex
+                    return
+                        _ callback
+                            @ ex
+                
+        $if useFormatAstMethods
+            +
+            var format
+                function 
+                    param parent
+                    param ast
+                    param options
+                    if !ast
+                        throw new Error('missing ast. parent is: ' + util.inspect(parent, { depth: 2 }))
+                    if parent === null
+                        if options.starter
+                            set options.starter = false
+                        elif options.returnText
+                            # ok
+                        else
+                            _ showstack(options)
+                            throw new Error('parent is null.' + util.inspect(ast, 4))
+                    if options.verbose
+                        info 'ast.kind', ast.kind
+                    var kind = ast.kind === 'arguments' ? 'xarguments' : ast.kind
+                    var formatter = format[kind]
+                    if formatter
+                        _ options.stack.push(ast)
+                        var result = formatter(parent, ast, options)
+                        _ options.stack.pop()
+                        return result
+                    else
+                        throw new Error('no formatter for kind: ' + ast.kind)
+        
+        +
+        function wizzify
+            param tobeWizzified
+            param options
+            param callback
+            set options = options || {};
+            set options.input = tobeWizzified
+            set options.stack = []
+            set options.formatTextNodes = []
+            set options.verbose = true
+            _ parseInternal
+                @ tobeWizzified
+                @ options
+                a_cb${'('} syntax )
+                    $$ loog stringify(syntax, null, 2)
+                    $if useFormatAstMethods
+                        var root
+                            {
+                                @ tag '${'$'}{schemaName}'
+                                [ children
+                        _ format(root, syntax, options)
+                        return
+                            _ callback
+                                @ null
+                                @ root
+                    $else
+                        r_cb${'('} syntax )
+
+        $if useFormatAstMethods
+            ${'$'}include helper_functions
+
+        +
+        function isKnownType
+            param type
+            return ['Int', 'Float', 'Boolean', 'String'].indexOf(type) > -1
+
+        +
+        function getTypeName
+            param type
+            return isKnownType(type) ? type.toLowerCase() : type
+
+        $if useFormatAstMethods
+            f${'('} Name, name )
+                # name${'('} value )
+                #
+                    # loog 'Name.tag', ret.tag
+                    # loog 'Name.name', ret.name
+                    # loog 'Name.textified', ret.textified

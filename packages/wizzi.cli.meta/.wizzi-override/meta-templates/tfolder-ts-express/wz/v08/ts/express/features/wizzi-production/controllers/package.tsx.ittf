@@ -1,0 +1,243 @@
+module
+    $
+        var ctrl = {
+            name: 'PackageProduction',
+            path: '/package',
+            webSecured: true,
+        }
+    
+    v08/ts/controller( &ctrl )
+            
+        $append imports
+            import ReactDOMServer 
+                from 'react-dom/server'
+            import PageFormDocument 
+                from '../../../pages/PageFormDocument' 
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ getTemplatePackiFiles
+                from '../api/meta'
+            import
+                @ createPackageProduction
+                @ updatePackageProduction
+                @ deletePackageProduction
+                @ getPackageProductionObject
+                @ getPackageProductionObjectById
+                @ getWizziMetaFolder
+                from '../api/package'
+            import
+                @ mergePackiFiles
+                from '../utils'
+            import
+                @ packiTypes
+                from '../../packi'
+            +
+            const myname = 'features/production/controllers/package'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument 
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+
+            $include defaults/package_packifiles
+
+        v08/ts/route_web_secured(get, /new, this.getNewPackageForm)
+        v08/ts/route_web_secured(post, /new, this.postPackage)
+        v08/ts/route_web_secured(get, /update/:id, this.getUpdatePackageForm)
+        v08/ts/route_web_secured(post, /update, this.putPackage)
+        v08/ts/route_web_secured(get, /delete/:id, this.getDeletePackageForm)
+        v08/ts/route_web_secured(post, /delete, this.deletePackage)
+        v08/ts/route_web_secured(get, /props/:owner/:name, this.getPackageProperties)
+        v08/ts/route_web_secured(get, /meta/:owner/:name, this.getWizziMetaFolderByName)
+        
+        $append handlers
+            
+            v08/ts/handler(  getNewPackageForm )
+                $$ loog myname, 'getNewPackageForm', JSON.stringify(request.query, null, 2)
+                
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreatePackageProduction'
+                        { formData 
+                            @ owner (request.session as any).user.username
+                    {
+
+            v08/ts/handler(  postPackage )
+                # loog myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2)
+                # loog myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                _ getTemplatePackiFiles
+                    @ request.body.meta_id
+                    @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
+                    @ request.query.context as string
+                    @ request.body.context ? JSON.parse(request.body.context) : {}
+                    ._ then
+                        =>
+                            param packiFiles
+                                :ref packiTypes.PackiFiles
+                            _ createPackageProduction
+                                @ (request.session as any).user.username
+                                @ request.body.pp_name
+                                @ request.body.pp_description
+                                _ JSON.stringify
+                                    _ mergePackiFiles
+                                        @ packiFiles
+                                        _ getPackiFiles
+                                ._ then
+                                    =>
+                                        param result
+                                            :ref CRUDResult
+                                        $$ loog myname + '.postNewPackage.createPackageProduction.result', JSON.stringify(result, null, 2)
+                                        if result.ok
+                                            _ response.redirect('/productions/packages')
+                                        else
+                                            _ response.render
+                                                @ 'error.html.ittf'
+                                                {
+                                                    @ message 'creating a new package production'
+                                                    @ error result
+                                v08/ts/catch_error_page(  creating a new package production )
+                    v08/ts/catch_error_page(  getting template packi files while creating a new package production )
+
+            v08/ts/handler(  getUpdatePackageForm )
+                update_get_form( package )
+                $*
+                $$ $$ loog myname + '.getUpdatePackageForm', request.path 
+                const parts = request.path.split('/')
+                $$ $$ loog myname + '.getUpdatePackageForm', parts[2], parts.slice(3).join('/')
+                const owner = parts[2]
+                const name = parts.slice(3).join('/')
+                _ getPackageProductionObject
+                    @ owner
+                    @ name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ renderPageForm
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    @ formName 'UpdatePackageProduction'
+                                    { formData 
+                                        @ owner owner
+                                        @ name name
+                                        @ description result.description
+                                        @ _id result._id
+                                {
+                *$
+
+            v08/ts/handler(  putPackage )
+                update_put( package )
+
+            v08/ts/handler(  getDeletePackageForm )
+                delete_get_form( package )
+                $*
+                $$ loog myname + '.getDeletePackageForm', request.path 
+                const parts = request.path.split('/')
+                $$ loog myname + '.getDeletePackageForm', parts[2], parts.slice(3).join('/')
+                const owner = parts[2]
+                const name = parts.slice(3).join('/')
+                _ getPackageProductionObject
+                    @ owner
+                    @ name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ renderPageForm
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    @ formName 'DeletePackageProduction'
+                                    { formData 
+                                        @ owner owner
+                                        @ name name
+                                        @ description result.description
+                                        @ _id result._id
+                                {
+                *$
+
+            v08/ts/handler(  deletePackage )
+                delete_delete( package )
+
+            v08/ts/handler(  getPackageProperties )
+                $$ loog myname, 'getPackageProperties', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'PropertyEditor'
+                        { formData 
+                            @ owner request.query.owner
+                            @ name request.query.name
+                            { schema
+                                [ properties
+                                    { 
+                                        @ name 'name'
+                                        @ type 'string'
+                                    { 
+                                        @ name 'age'
+                                        @ type 'number'
+                                    { 
+                                        @ name 'jobs'
+                                        @ type 'array'
+                                        [ properties
+                                            { 
+                                                @ name 'title'
+                                                @ type 'string'
+                                            { 
+                                                @ name 'year'
+                                                @ type 'number'
+                                    { 
+                                        @ name 'react'
+                                        @ type 'object'
+                                        [ properties
+                                            { 
+                                                @ name 'useReact'
+                                                @ type 'boolean'
+                                                @ isCondition true
+                                            { 
+                                                @ name 'useRouter'
+                                                @ type 'boolean'
+                                            { 
+                                                @ name 'useRedux'
+                                                @ type 'boolean'
+                    {
+            
+            v08/ts/handler(  getWizziMetaFolderByName  )    
+                _ getWizziMetaFolder
+                    @ request.params.owner
+                    @ request.params.name
+                    {
+                    ._ then
+                        =>
+                            param packiFiles
+                                :ref packiTypes.PackiFiles
+                            _ sendSuccess
+                                @ response
+                                @ packiFiles
+                    v08/ts/catch_error_page(  getting wizzi meta folder )

@@ -1,0 +1,10 @@
+$group
+    ${'$'}params method, extend|@@null
+    ._ catch
+        =>
+            param err
+            ${'$'}if extend != null
+              if typeof err === 'object' && err !== null
+                  ${'$'}hook
+            _ alert('${'$'}{method}.error\n' + err)
+            throw new Error(err)

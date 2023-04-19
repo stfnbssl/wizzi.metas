@@ -1,0 +1,20 @@
+$group
+    $params &md
+    +
+    export
+        :type I${md.Name}
+            :{
+                $hook fields
+    +
+    $hook
+    +
+    :type I${md.Name}_doc
+        :{
+            :p _doc
+                :ref I${md.Name}
+    +
+    export
+        :interface I${md.Name}Model
+            :extends I${md.Name}
+            :extends I${md.Name}_doc
+            :extends Document

@@ -1,0 +1,281 @@
+$group
+    +
+    m saveAsync
+        async
+        param options
+            :ref PackiSaveOptions
+            :optional
+        const prevState = this.state
+        await
+            _ this.fileUploader.waitForCompletion()
+            # Wait for any pending asset uploads the complete before saving
+        const
+            {
+                @ name
+                @ description
+                ${'$'}if wzCtx.Build.useExpo
+                    @ sdkVersion
+                @ files
+                ${'$'}if wzCtx.Build.useExpo
+                    @ dependencies
+                @ user
+            = this.state
+        const payload
+            :any
+            = files
+        const url
+            `lit
+                @ this.apiURL
+                + /api/v1/packi/save/
+                @ encodeURIComponent('guest/test')
+        $$ loog 'PackiSession.saveAsync', url
+        const response
+            await
+                _ fetch
+                    @ url
+                    {
+                        @ method 'POST'
+                        @ body JSON.stringify(payload)
+                        { headers
+                            @ 'Content-Type' 'application/json'
+                            ${'$'}if wzCtx.Build.useExpo
+                                ...
+                                    (
+                                        iif options?.ignoreUser
+                                            then
+                                                {
+                                            else createUserHeader(user)
+        const data
+            await
+                _ response.json()
+        $$ loog 'PackiSession.saveAsync.response.data', url
+
+    +
+    m saveAsync_Old
+        async
+        param options
+            :ref PackiSaveOptions
+            :optional 
+        const prevState = this.state
+        await 
+            _ this.fileUploader.waitForCompletion()
+            # Wait for any pending asset uploads the complete before saving
+        const 
+            { 
+                @ name
+                @ description
+                ${'$'}if wzCtx.Build.useExpo
+                    @ sdkVersion
+                @ files
+                ${'$'}if wzCtx.Build.useExpo
+                    @ dependencies
+                @ user
+            = this.state
+        try 
+            const payload
+                :any 
+                =
+                    { 
+                        { manifest
+                            ${'$'}if wzCtx.Build.useExpo
+                                @ sdkVersion
+                            @ name
+                            @ description
+                            ${'$'}if wzCtx.Build.useExpo
+                                @ dependencies
+                                    _ mapValues
+                                        @ dependencies
+                                        => 
+                                            param dep
+                                            +
+                                                @expr dep.version
+                        @ code
+                            _ mapValues
+                                @ files
+                                => 
+                                    param file
+                                        :any 
+                                    set file =
+                                        { 
+                                            @ ...file
+                                    delete file.error
+                                    return file
+                        ${'$'}if wzCtx.Build.useExpo
+                            @ dependencies
+                                _ mapValues
+                                    @ dependencies
+                                    => 
+                                        param dep
+                                        set dep =
+                                            { 
+                                                @ ...dep
+                                        delete dep.error
+                                        return dep
+                        @ isDraft options?.isDraft ?? false
+            ${'$'}if wzCtx.Build.useExpo
+                _ this.logger?.info?.('Saving...', payload)
+                const previewPromise = this.getPreviewAsync()
+            const url
+                `lit 
+                    + 
+                    @ this.apiURL
+                    + /--/api/v2/snack/save
+            const response
+                await 
+                    _ fetch
+                        @ url
+                        { 
+                            @ method 'POST'
+                            @ body JSON.stringify(payload)
+                            { headers
+                                @ 'Content-Type' 'application/json'
+                                ... 
+                                    ( 
+                                        iif options?.ignoreUser
+                                            then
+                                                { 
+                                            else createUserHeader(user)
+            const data
+                await 
+                    _ response.json()
+            if !data?.id
+                throw new Error()
+            ${'$'}if wzCtx.Build.useExpo
+                _ this.logger?.info?.('Saved', data)
+            const id
+                :string 
+                = data.id
+            const saveURL
+                _ createURL
+                    @ this.host
+                    ${'$'}if wzCtx.Build.useExpo
+                        @ sdkVersion
+                    @ undefined
+                    @ id
+            const hashId
+                :union 
+                    :string 
+                    :undefined 
+                = data.hashId
+            _ this.setState
+                => 
+                    param state
+                    (
+                        { 
+                            @ id
+                            @ saveURL
+                            @ unsaved State.isUnsaved(state, prevState)
+                            ${'$'}if wzCtx.Build.useExpo
+                                @ savedSDKVersion
+                                    iif options?.isDraft && state.savedSDKVersion
+                                        then state.savedSDKVersion
+                                        else sdkVersion
+            ${'$'}if wzCtx.Build.useExpo
+                _ previewPromise.then
+                    => 
+                        param connectedClients
+                        const conns
+                            _ Object.values(connectedClients).filter
+                                => 
+                                    param c
+                                    +
+                                        @expr c.previewURL
+                                ._ sort
+                                    => 
+                                        param a
+                                        param b
+                                        set (a.previewTimestamp ?? 0) - (b.previewTimestamp ?? 0)
+                        if conns.length
+                            _ this.uploadPreview
+                                @ id
+                                @expr conns[0].previewURL
+                                    :as 
+                                        :string 
+                                set conns[0].status !== 'error'
+            return 
+                { 
+                    @ id
+                    @ url saveURL
+                    @ hashId
+        catch e
+            ${'$'}if wzCtx.Build.useExpo
+                _ this.logger?.error?.(e)
+            throw e
+        # 
+        # Save
+        # 
+        #
+            # *
+            # * Uploads the current code to Expo's servers and return a url that points to that version of the code.
+            # 
+    +
+    m getDownloadURLAsync
+        async
+        param saveOptions
+            :ref PackiSaveOptions
+            :optional 
+        await 
+            _ this.fileUploader.waitForCompletion()
+        let state = this.getState()
+        if !state.id || state.unsaved
+            await 
+                _ this.saveAsync(saveOptions)
+            set state = this.getState()
+        return 
+            `lit 
+                + 
+                @ this.apiURL
+                + /--/api/v2/snack/download/
+                @ state.id
+                + 
+        #
+            # *
+            # * Gets the URL at which the Packi can be downloaded as a zip file. Will automatically
+            # * save the Packi if it contains unsaved changes.
+            # 
+    +
+    m uploadPreview
+        async
+        :private 
+        param id
+            :string 
+        param previewURL
+            :string 
+        param status
+            :boolean 
+        const url
+            `lit 
+                + 
+                @ this.apiURL
+                + /--/api/v2/snack/updateMetadata
+        const payload
+            { 
+                @ id
+                @ previewLocation previewURL
+                @ status
+                    iif status
+                        then 'SUCCESS'
+                        else 'FAILURE'
+        ${'$'}if wzCtx.Build.useExpo
+            _ this.logger?.info?.('Uploading preview...', payload)
+        try 
+            const response
+                await 
+                    _ fetch
+                        @ url
+                        { 
+                            @ method 'POST'
+                            @ body JSON.stringify(payload)
+                            { headers
+                                @ 'Content-Type' 'application/json'
+            const data
+                await 
+                    _ response.json()
+            if data.id
+                ${'$'}if wzCtx.Build.useExpo
+                    _ this.logger?.info?.('Uploaded preview', data)
+            else
+                throw new Error()
+        catch e
+            ${'$'}if wzCtx.Build.useExpo
+                _ this.logger?.error?.('Failed to upload preview', e)

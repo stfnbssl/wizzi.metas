@@ -1,0 +1,33 @@
+$group
+    import 
+        @ getReloadURL
+        from '../../utils/reloadURL'
+    +
+    :type LoginHrefOptions
+        :{ 
+            :p saveToAccount
+                :optional 
+                :boolean 
+    +
+    export 
+        function getLoginHref
+            param options
+                :ref LoginHrefOptions
+                :optional 
+            const reloadURL
+                _ getReloadURL
+                    { 
+                        @ hideQueryParams 'true'
+                        ... 
+                            ( 
+                                iif options?.saveToAccount
+                                    then
+                                        { 
+                                            @ saveToAccount 'true'
+                                    else
+                                        { 
+            return 
+                `lit 
+                    @ process.env.SERVER_URL
+                    + /login?redirect_uri=
+                    _ encodeURIComponent(reloadURL)

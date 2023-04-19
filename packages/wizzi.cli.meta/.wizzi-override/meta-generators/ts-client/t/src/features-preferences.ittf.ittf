@@ -1,0 +1,26 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.usePreferences
+        $file __dot__wizzi/${pkgPath}src/features/preferences/index.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/features/preferences/index.tsx
+
+        $file __dot__wizzi/${pkgPath}src/features/preferences/types.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/features/preferences/types.tsx
+        
+        $file __dot__wizzi/${pkgPath}src/features/preferences/PreferencesProvider.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/features/preferences/PreferencesProvider.tsx
+
+        $file __dot__wizzi/${pkgPath}src/features/preferences/usePreferences.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/features/preferences/usePreferences.tsx
+
+        $file __dot__wizzi/${pkgPath}src/features/preferences/withPreferences.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/features/preferences/withPreferences.tsx
+        
+        $file __dot__wizzi/${pkgPath}src/features/preferences/withThemeName.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/features/preferences/withThemeName.tsx

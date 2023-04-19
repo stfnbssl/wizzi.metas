@@ -1,0 +1,103 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormFile",
+            props: [
+                { name: 'id', type: 'string'},
+                { name: 'name', type: 'string'},
+                { name: 'label', type: 'string' },
+                { name: 'required', type: 'boolean'},
+                { name: 'value', type: 'any'},
+                { name: 'onChange', type: 'any', optional: true},
+            ]
+        }
+        
+    v08/ts/react/function${'('}&md)
+        
+        ${'$'}append imports
+            import
+                @ c
+                @ s
+                from '../ThemeProvider'
+
+            function giveCustomAttributes
+                param input
+                _ input.setAttribute('webkitdirectory', '')
+                _ input.setAttribute('moz-directory', '')
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledFormGroup .dl<RootStyleProps>
+            styled StyledInputLabel .dt<RootStyleProps>
+                font-weight 600
+            styled StyledLabelSpan .span<RootStyleProps>
+                color
+                    => c('secondary-text')
+                font-size 12px
+                margin 4px 4px 2px
+                min-height 17px                
+            styled StyledInputBox .dd<RootStyleProps>
+                margin 2px 0
+            styled StyledInput .input<RootStyleProps>
+                background-color
+                    => c('background')
+                background-position right 8px center
+                background-repeat no-repeat
+                border
+                    => '1px solid ' + c('border')
+                border-radius 6px
+                box-shadow 
+                    => s('small')
+                color
+                    => c('primary-text')
+                font-size 14px
+                line-height 20px
+                outline none
+                padding 5px 12px
+                vertical-align middle
+
+        return
+            < StyledFormGroup
+                < StyledInputLabel
+                    @ htmlFor {name}
+                    + {label}
+                    < StyledLabelSpan
+                        + { required ? '(*)' : '(optional)' }
+                < StyledInputBox
+                    < StyledInput
+                        @ type file
+                        @ ref {giveCustomAttributes}
+                        @ multiple
+                        @ name {name}
+                        @ id {name}
+                        @ onChange
+                            =>
+                                param ev
+                                    :any
+                                _ onChange([...ev.target.files])
+                    {
+                        &&
+                            + value && value.length > 0
+                            div
+                                div
+                                    style
+                                        {
+                                            @ fontWeight 600
+                                    + Files to upload
+                                {
+                                    _ value.map
+                                        =>
+                                            param file
+                                            param ndx
+                                            dl
+                                                @ key {ndx}
+                                                style
+                                                    {
+                                                        @ margin 0
+                                                dd
+                                                    style
+                                                        {
+                                                            @ margin 0
+                                                    + {file.relPath}

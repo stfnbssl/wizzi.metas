@@ -1,0 +1,20 @@
+$group
+    useWizzi true
+    { wizzi
+        isDev true
+        [ plugins
+            "./wizzi-core/index.js"
+            "./wizzi-js/index.js"
+            "./wizzi-web/index.js"
+            "./wizzi-meta/index.js"
+        pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi/packages"
+        { globalContext
+            wzConfigIsDevelopment true
+            wzConfigIsPackageDeploy false
+        useRunner false
+    useIttfStatic true
+    { ittfStatic
+    useWizziViewEngine true
+    { wizziViewEngine
+    useWizziJsonFactory true
+    { wizziJsonFactory

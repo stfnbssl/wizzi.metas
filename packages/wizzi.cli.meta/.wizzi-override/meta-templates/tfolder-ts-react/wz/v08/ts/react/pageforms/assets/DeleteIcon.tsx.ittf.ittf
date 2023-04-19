@@ -1,0 +1,27 @@
+$group
+
+    ${'$'}
+        var md = {
+            name: 'DeleteIcon'
+        }
+    
+    dark-light-icon${'('}&md)
+        polyline
+            stroke {stroke}
+            fill {fill}
+            @ strokeWidth 2
+            points {r(4) + ' ' + r(2) + ' ' + 
+                \b r(98) + ' ' + r(96) + ' ' + 
+                \b r(96) + ' ' + r(98) + ' ' + 
+                \b r(2) + ' ' + r(4) + ' ' + 
+                \b r(4) + ' ' + r(2)}
+
+        polyline
+            stroke {stroke}
+            fill {fill}
+            @ strokeWidth 2
+            points {r(96)  + ' ' +  r(2) + ' ' + 
+                \b r(98)  + ' ' +  r(4)  + ' ' + 
+                \b r(4)  + ' ' +  r(98) + ' ' + 
+                \b r(2)  + ' ' +  r(96) + ' ' + 
+                \b r(96)  + ' ' +  r(2)}

@@ -1,0 +1,49 @@
+template ts-express
+
+    $
+        // var pkgPath = cliCtx.useAzure ? 'Application/' : '';
+        var pkgPath = '';
+
+    $include azure
+    $include predeploy
+    $include ittf
+    $include ittf-css
+    $include ittf-tfolder
+    $include models
+    $include root
+    $include src/common
+    $include src/examples-promise
+    $include src/features
+    $include src/features-account
+    $include src/features-auth
+    $include src/features-blog
+    $include src/features-github
+    $include src/features-packi
+    $include src/features-packi-edit
+    $include src/features-project
+    $include src/features-user
+    $include src/features-wizzi
+    $include src/features-wizzi-fs
+    $include src/features-wizzi-gist
+    $include src/features-wizzi-meta
+    $include src/features-wizzi-package
+    $include src/middlewares
+    $include src/services
+    $include src/pages
+    $include src/site
+    $include src/site-auth
+    $include src/site-account
+    $include src/site-wizzi
+    $include src/site-wizzi-docs
+    $include src/site-wizzi-productions
+    $include src/tfolder
+    $include src/index
+    $include tests/utils
+    $include public
+    $include tests
+    $include tfolder/v08/index
+    $include tfolder/wfjobs
+    $include tfolder/commons
+    $include __generate
+    $include __wizzi.config
+    $include __wizzi.override.config

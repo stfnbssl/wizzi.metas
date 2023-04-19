@@ -1,0 +1,21 @@
+$group
+    $if cliCtx.useFeatureBlog
+        $file __dot__wizzi/${pkgPath}src/features/blog/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/blog/index.ts
+        $file __dot__wizzi/${pkgPath}src/features/blog/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/blog/types.ts
+        $file __dot__wizzi/${pkgPath}src/features/blog/controllers/apiv1post.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/blog/controllers/apiv1post.ts
+        $file __dot__wizzi/${pkgPath}src/features/blog/models/post.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/blog/models/post.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/blog/api/post.ts.ittf.ittf
+            module
+                $if cliCtx.featureBlog.store == "mongoDb"
+                    ${'$'}include wz/v08/ts/express/features/blog/api/post.ts
+                $if cliCtx.featureBlog.store == "sequelize"
+                    ${'$'}include wz/v08/ts/express/features/blog/api/post_sequelize.ts

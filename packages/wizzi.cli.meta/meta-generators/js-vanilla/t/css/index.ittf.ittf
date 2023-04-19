@@ -1,0 +1,13 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}src/css/index.css.ittf.ittf
+        css
+            ${'$'}include wz/v08/css/index.css
+
+    $if cliCtx.useCheatsheet
+
+        $file __dot__wizzi/${pkgPath}src/css/cheatsheet.css.ittf.ittf
+            css
+                ${'$'}include wz/v08/css/cheatsheet.css
+
+

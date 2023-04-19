@@ -1,0 +1,247 @@
+$group
+    import isEqual from 'lodash/isEqual'
+    ${'$'}if wzCtx.Build.useExpo
+        import 
+            @ isModulePreloaded
+            from './sdk'
+    import 
+        @ PackiState
+        from './types'
+    export 
+        :type StateObject
+            :< T
+            :{ 
+                :index 
+                    :ref T
+                    param key
+                        :string 
+    export 
+        function addObjects
+            :< T
+            param state
+                :ref StateObject
+                    :param 
+                        :ref T
+            param content
+                :{ 
+                    :index 
+                        :ref T
+                        param key
+                            :string 
+            param filter
+                :=> 
+                    :boolean 
+                    param a
+                        :ref T
+                    param b
+                        :ref T
+                :optional 
+            :return
+                :ref StateObject
+                    :param 
+                        :ref T
+            let newState
+                :union 
+                    :ref StateObject
+                        :param 
+                            :ref T
+                    :null 
+                = null
+            for 
+                left
+                    const key
+                in content
+                if 
+                    test
+                        iif filter
+                            then filter(content[key], state[key])
+                            else !isEqual(content[key], state[key])
+                    set newState =
+                        ?? 
+                            + newState
+                            { 
+                                @ ...state
+                    set newState[key] = content[key]
+            return newState ?? state
+    export 
+        function addObject
+            :< T
+            param state
+                :ref StateObject
+                    :param 
+                        :ref T
+            param key
+                :string 
+            param content
+                :ref T
+            param filter
+                :=> 
+                    :boolean 
+                    param a
+                        :ref T
+                    param b
+                        :ref T
+                :optional 
+            :return
+                :ref StateObject
+                    :param 
+                        :ref T
+            return 
+                _ addObjects
+                    @ state
+                    { 
+                        @ [key] content
+                    @ filter
+    export 
+        function removeObjects
+            :< T
+            param state
+                :ref StateObject
+                    :param 
+                        :ref T
+            param keys
+                :[ 
+                    :string 
+            :return
+                :ref StateObject
+                    :param 
+                        :ref T
+            if !keys.length
+                return state
+            let newState
+                :union 
+                    :ref StateObject
+                        :param 
+                            :ref T
+                    :null 
+                = null
+            _ keys.forEach
+                => 
+                    param key
+                    if state[key]
+                        set newState =
+                            ?? 
+                                + newState
+                                { 
+                                    @ ...state
+                        delete newState[key]
+            return newState ?? state
+    export 
+        function removeObject
+            :< T
+            param state
+                :ref StateObject
+                    :param 
+                        :ref T
+            param key
+                :string 
+            :return
+                :ref StateObject
+                    :param 
+                        :ref T
+            return 
+                _ removeObjects
+                    @ state
+                    [ 
+                        @ key
+    export 
+        function updateObjects
+            :< T
+            param state
+                :ref StateObject
+                    :param 
+                        :ref T
+            param content
+                :{ 
+                    :index 
+                        :union 
+                            :ref T
+                            :null 
+                        param key
+                            :string 
+            param compareFn
+                :=> 
+                    :boolean 
+                    param a
+                        :ref T
+                    param b
+                        :ref T
+                = isEqual
+            :return
+                :ref StateObject
+                    :param 
+                        :ref T
+            let newState
+                :union 
+                    :ref StateObject
+                        :param 
+                            :ref T
+                    :null 
+                = null
+            for 
+                left
+                    const key
+                in content
+                const val = content[key]
+                if val === null
+                    if state[key]
+                        set newState =
+                            ?? 
+                                + newState
+                                { 
+                                    @ ...state
+                        delete newState[key]
+                else
+                    if !compareFn(val, state[key])
+                        set newState =
+                            ?? 
+                                + newState
+                                { 
+                                    @ ...state
+                        set newState[key] = val
+            return newState ?? state
+    export 
+        function isBusy
+            param state
+                :ref PackiState
+            :return
+                :boolean 
+            return 
+                (
+                    || 
+                        ${'$'}if wzCtx.Build.useExpo
+                            op! 
+                                op! 
+                                    _ Object.keys(state.dependencies).find
+                                        => 
+                                            param name
+                                            @expr !state.dependencies[name].handle && !isModulePreloaded(name, state.sdkVersion)
+                        ${'$'}else
+                            + true
+                        op! 
+                            op! 
+                                _ Object.values(state.files).find
+                                    => 
+                                        param file
+                                        @expr file.type === 'ASSET' && typeof file.contents !== 'string'
+    export 
+        function isCodeChanged
+            param state
+                :ref PackiState
+            param prevState
+                :ref PackiState
+            ${'$'}if wzCtx.Build.useExpo
+                return (state.dependencies !== prevState.dependencies || state.files !== prevState.files || state.sdkVersion !== prevState.sdkVersion)
+            ${'$'}else
+                return (state.files !== prevState.files)
+    export 
+        function isUnsaved
+            param state
+                :ref PackiState
+            param prevState
+                :ref PackiState
+            ${'$'}if wzCtx.Build.useExpo
+                return (state.dependencies !== prevState.dependencies || state.files !== prevState.files || state.sdkVersion !== prevState.sdkVersion || state.name !== prevState.name || state.description !== prevState.description)
+            ${'$'}else
+                return (state.files !== prevState.files || state.name !== prevState.name || state.description !== prevState.description)
+            

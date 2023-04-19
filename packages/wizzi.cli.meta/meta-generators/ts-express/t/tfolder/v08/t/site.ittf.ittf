@@ -1,0 +1,16 @@
+$group
+    $file __dot__wizzi/t/v08/express/site/t/authHandler.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params name
+        
+            ${'$'}include wz/v08/ts/tfolder/authHandler.ts
+    $file __dot__wizzi/t/v08/express/site/t/controller.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &ctrl
+        
+            ${'$'}include wz/v08/ts/tfolder/controller.ts
+    $file __dot__wizzi/t/v08/express/site/t/handler.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params name
+        
+            ${'$'}include wz/v08/ts/tfolder/handler.ts

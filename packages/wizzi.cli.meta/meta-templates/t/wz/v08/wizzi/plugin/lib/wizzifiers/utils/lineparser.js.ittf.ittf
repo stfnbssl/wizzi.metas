@@ -1,0 +1,122 @@
+$group
+    kind jsfile
+    
+	var errors = require('../errors')
+    var verify = require('wizzi-utils').verify;
+    
+	var md
+        set module.exports =
+            { 
+    
+	${'$'}include lineparser/parse
+	${'$'}include lineparser/parseInterpolation
+    
+	#
+		# ignore quotes
+		# name = first not (blank or tab) char sequence
+		# value = all remaining chars after name + (blank or tab)
+		# example
+		#     "trip to the london bridge"
+		#     name() = "trip"
+		#     value() = "to the london bridge"
+	set md.parseNameValueRaw
+        function 
+            param text
+            param node
+            
+			var 
+                decl name = ''
+                decl value = ''
+            
+			if verify.isNotEmpty(text)
+                var
+                    decl ch
+                    decl state = 0
+                    decl l = text.length
+                for var i = 0; i < l; i++
+                    set ch = text[i]
+                    if ch == ' ' || ch == '\t'
+                        if state == 0
+                            + ;
+                        elif state == 1
+                            set state = 2
+                        elif state == 2
+                            set value += ch
+                    else 
+                        if state == 0
+                            set name = ch
+                            set state = 1
+                        elif state == 1
+                            set name += ch
+                        elif state == 2
+                            set value += ch
+            return 
+                { 
+                    @ name
+                        function 
+                            return name
+                    @ value
+                        function 
+                            return value
+                    @ hasValue
+                        function 
+                            return value.length > 0
+    
+	#
+		# ignore quotes
+		# category = first not (blank or tab) char sequence
+		# name = second not (blank or tab) char sequence after category + (blank or tab)
+		# value = all remaining chars after category + (blank or tab) + name + (blank or tab)
+		# example
+		#     "leisure trip to the london bridge"
+		#     category() = "leisure"
+		#     name() = "trip"
+		#     value() = "to the london bridge"
+	set md.parseCategoryNameValue
+        function 
+            param text
+            param node
+            
+			var nv1 = md.parseNameValueRaw(text, node)
+            
+			_ console.log
+                @ 'parseCategoryNameValue 1v'
+                _ nv1.value()
+            
+			var nv2
+                _ md.parseNameValueRaw
+                    _ nv1.value()
+                    @ node
+            
+			_ console.log
+                @ 'parseCategoryNameValue 2n'
+                _ nv2.name()
+            
+			return 
+                { 
+                    @ category
+                        function 
+                            return nv1.name()
+                    @ name
+                        function 
+                            return nv2.name()
+                    @ value
+                        function 
+                            return nv2.value()
+                    @ hasValue
+                        function 
+                            return value.length > 0
+
+	function escapename
+        param value
+        if verify.isNotEmpty(value)
+            return 
+                _ verify.replaceAll
+                    _ verify.replaceAll(value, "\\", "\\\\")
+                    @ '"'
+                    @ '\\"'
+        else
+            return value  
+
+
+

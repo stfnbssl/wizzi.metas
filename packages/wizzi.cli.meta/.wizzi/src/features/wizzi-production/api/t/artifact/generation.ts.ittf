@@ -1,0 +1,104 @@
+$group
+    +
+    export
+        async-function getArtifactGeneration
+            param owner
+                :string
+            param name
+                :string
+            param context
+                :any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ getArtifactProduction_withCache
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param ap
+                                        :any
+                                    _ wizziProds.generateArtifact
+                                        @ ap.mainIttf
+                                        @ ap.packiFiles
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                const response
+                                                    {
+                                                        @ content result.artifactContent
+                                                        @ contentLength result.artifactContent.length
+                                                        @ contentType wizziMaps.contentTypeFor(ap.mainIttf)
+                                                return resolve(response)
+                                        v08/ts/catch_reject( getArtifactGeneration.generateArtifact )
+                                            set err.parameter
+                                                {
+                                                    @ artifactOwner owner
+                                                    @ artifactName name
+                                                    @ mainIttf ap.mainIttf
+                            v08/ts/catch_reject( getArtifactGeneration.getArtifactProduction )
+                                set err.parameter
+                                    {
+                                        @ artifactOwner owner
+                                        @ artifactName name
+    +
+    export
+        async-function getArtifactGeneration_withPrepare
+            param owner
+                :string
+            param productionName
+                :string
+            param filePath
+                :string
+            param queryContext
+                :string
+            param rootContext
+                :any
+            # loog 'getArtifactGeneration_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ productionApi.prepareProduction
+                            @ 'artifact'
+                            @ owner
+                            @ productionName
+                            @ queryContext
+                            @ rootContext
+                            ._ then
+                                =>
+                                    param productionObj
+                                        :any
+                                    # loog 'getArtifactGeneration_withPrepare.productionObj', 'mainIttf', productionObj.mainIttf, 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
+                                    _ wizziProds.generateArtifact
+                                        @ filePath || productionObj.mainIttf
+                                        @ productionObj.packiFiles
+                                        @ productionObj.context
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
+                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 200) + '...'
+                                                const response
+                                                    {
+                                                        @ content result.artifactContent
+                                                        @ contentLength result.artifactContent.length
+                                                        @ contentType wizziMaps.contentTypeFor(productionObj.mainIttf)
+                                                return resolve(response)
+                                        v08/ts/catch_reject( getArtifactGeneration_withPrepare.generateArtifact )
+                                            set err.parameter
+                                                {
+                                                    @ artifactOwner owner
+                                                    @ artifactName productionName
+                                                    @ mainIttf filePath || productionObj.mainIttf
+                            v08/ts/catch_reject( getArtifactGeneration_withPrepare.prepareProduction )
+                                set err.parameter
+                                    {
+                                        @ artifactOwner owner
+                                        @ artifactName productionName

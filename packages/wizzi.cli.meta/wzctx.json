@@ -1,0 +1,109 @@
+{
+    "name": "wizzi.cli.meta",
+    "version": "0.0.1",
+    "description": "wizzi.cli.meta",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "App": {
+        "name": "Wizzi CLI meta",
+        "kind": "NodeCLI"
+    },
+    "Build": {
+        "isCLI": true,
+        "features": [
+            {
+                "name": "packi",
+                "hasControllers": false,
+                "useMongoDb": false
+            },
+            {
+                "name": "production",
+                "fileName": "wizzi-production",
+                "hasControllers": false,
+                "useMongoDb": true
+            }
+        ],
+        "useFeaturePacki": true,
+        "featurePacki": {},
+        "useWizziProduction": true,
+        "wizziProduction": {
+            "useCachedProductions": false
+        },
+        "useConfig": true,
+        "config": {
+            "useEnvalid": true,
+            "envalid": {}
+        },
+        "useTypescript": true,
+        "typescript": {
+            "useBabelLoader": true,
+            "useTsxFiles": false
+        },
+        "usePrettier": true,
+        "prettier": {},
+        "usePrismjs": false,
+        "prismjs": {
+            "modes": []
+        },
+        "useLint": true,
+        "lint": {},
+        "useJest": false,
+        "jest": {},
+        "useWizzi": true,
+        "wizzi": {
+            "isDev": true,
+            "plugins": [
+                "./wizzi-core/index.js",
+                "./wizzi-js/index.js",
+                "./wizzi-web/index.js",
+                "./wizzi-meta/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true
+            },
+            "useRunner": false
+        },
+        "useIttfStatic": true,
+        "ittfStatic": {},
+        "useWizziViewEngine": true,
+        "wizziViewEngine": {},
+        "useWizziJsonFactory": true,
+        "wizziJsonFactory": {},
+        "utils": {
+            "useAxios": true,
+            "useEscapeRegexp": false,
+            "useEscapeHtml": false,
+            "useMinimist": true,
+            "useNullThrows": false,
+            "useLodash": false,
+            "useStringifySafe": false,
+            "useParseUrl": false,
+            "useEs6Error": false,
+            "useJsCookie": false,
+            "useQueryString": false,
+            "useSanitizeHtml": false,
+            "useDateFns": false,
+            "useFetchPonyfill": false,
+            "useNanoId": false,
+            "useNodeCache": true,
+            "useGitUrlParse": false,
+            "useJsonToAst": false,
+            "useRimRaf": true
+        },
+        "useMongoDb": true,
+        "mongoDb": {
+            "host": "mongodb+srv",
+            "user": "yanez",
+            "password": "x5csosPN5YAsrl4Z",
+            "dbPath": "@cluster0.idlk7.mongodb.net",
+            "dbName": "wizzi",
+            "options": {
+                "useNewUrlParser": true,
+                "useUnifiedTopology": true
+            }
+        }
+    }
+}

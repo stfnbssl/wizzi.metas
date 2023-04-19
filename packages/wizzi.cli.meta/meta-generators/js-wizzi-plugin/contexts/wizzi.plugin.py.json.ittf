@@ -1,0 +1,32 @@
+{
+    $
+        var pluginBasename = "py";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Python language plugin"
+        kind "WizziPlugin"
+
+    [ Schemas
+        {
+            name "py"
+            rootElement "xmodule"
+            rootTag "module"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "module"
+                    outmime "py"
+                    contentType "text/python"
+                    isDefault true
+            [ fileExtensions
+                "py"                   
+

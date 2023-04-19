@@ -1,0 +1,108 @@
+$group
+    ${'$'}
+      var myName = 'Template';
+      //
+
+    iife_window${'('} app, ${'$'}{myName})
+
+        function select_option
+            param __html
+            param ctx
+            $$ loog 'select_option', ctx.value, ctx.label
+            _ __html.push('<option')
+            _ __html.push(' value="' + ctx.value + '"')
+            if ctx.selected
+                _ __html.push(' selected="selected"')
+            _ __html.push('>')
+            _ __html.push(ctx.label)
+            _ __html.push('</option>')   
+
+        html_f tmplSelect
+          div
+            class {{ ctx.class }}
+            select {{ ctx.options }}
+                name {{ ctx.id }}
+                id {{ ctx.id }}
+                class {{ ctx.id }}
+
+        html_f tmplMediaList
+          li 
+            @ data-id {{ctx.id}}
+            @ class guida-item
+            div
+              @ class guida-item-name
+              a {{ ctx.name }} / {{ ctx.categoria }} 
+                ${'$'}${'$'} @ href #
+
+        html_f tmplMediaDetails
+          div
+            h2 {{ ctx.categoria }}
+            div
+              + {{ ctx.title }}
+            div
+              + di {{ ctx.author }}
+            div
+              a url: www.youtube.com/watch?v={{ ctx.videoId }}
+                href https://www.youtube.com/watch?v={{ ctx.videoId }}
+                target _blank
+            div
+              + {{ ctx.name }}
+            div
+              + {{ ctx.time }}
+        
+
+        function ${'$'}{myName}
+
+        set ${'$'}{myName}.prototype.showMediaSelectCategoria
+            function 
+                param data
+                log "${'$'}{myName}.prototype.showMediaSelectCategoria", data
+                var options = []
+                var aOptions = []
+                _ select_option
+                    @ aOptions
+                    {
+                      @ label "Annulla"
+                      @ value '0'
+                _ options.push
+                    _ aOptions.join('')
+                for const k of Object.keys(data)
+                    var aOptions = []
+                    _ select_option
+                        @ aOptions
+                        {
+                          @ label data[k]
+                          @ value k
+                    _ options.push
+                        _ aOptions.join('')
+                var view = []
+                _ view.push
+                  _ tmplSelect
+                    {
+                      @ id 'media-select-categoria'
+                      @ class 'media-select'
+                      @ options options.join('\n')
+                log "${'$'}{myName}.prototype.showMediaSelectCategoria", view.join('\n')
+                return view.join('\n')
+        
+        set ${'$'}{myName}.prototype.showMediaList =
+            function 
+                param data
+                var view = []
+                _ data.map
+                  =>
+                    param item
+                    _ view.push
+                      _ tmplMediaList
+                        @ item
+                return view.join('\n')
+
+        set ${'$'}{myName}.prototype.showMediaDetails =
+            function 
+                param data
+                var view = []
+                _ view.push
+                  _ tmplMediaDetails
+                    @ data
+                return view.join('\n')
+

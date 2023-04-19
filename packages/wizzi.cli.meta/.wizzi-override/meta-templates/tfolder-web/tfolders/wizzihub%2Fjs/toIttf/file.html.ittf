@@ -1,0 +1,6 @@
+<div class="form-container">
+   <form>
+      <i class="far fa-calendar-alt"></i>
+      <input type="text" placeholder="Pick a date" class="date-input">
+   </form>
+</div>

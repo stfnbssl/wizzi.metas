@@ -1,0 +1,41 @@
+{
+    $include commons
+
+    { App
+        name "TS Node Demo"
+        kind "NodeCLI"
+
+    useEnvCmd false
+    { envCmd
+
+    useTypescript true
+    { typescript
+   
+    useMongoDb false
+    { mongoDb
+
+    useFeatures true
+    { features
+        useConfig true
+        { config
+
+        useGithub false
+        { github
+
+        usePacki false
+        { packi
+
+        useWizzi false
+        { wizzi
+
+        useWizziProduction false
+        { wizziProduction
+
+        useWizziCdn false
+        { wizziCdn
+
+    useLint false
+    { lint
+
+    usePrettier false
+    { prettier

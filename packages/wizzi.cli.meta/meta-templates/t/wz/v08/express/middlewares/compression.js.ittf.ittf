@@ -1,0 +1,25 @@
+$group
+    
+    import compression from 'compression'
+
+    # see other options here http://expressjs.com/en/resources/middleware/compression.html
+    const options
+        {
+            @ filter shouldCompress
+
+    export 
+        const CompressionMiddleware
+            => 
+                param app
+                _ app.use
+                    _ compression
+                        @ options
+
+    function shouldCompress
+        param req
+        param res
+        if req.headers['x-no-compression']
+            # don't compress responses with this request header
+            return false
+        # fallback to standard filter function
+        return compression.filter(req, res)

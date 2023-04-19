@@ -1,0 +1,186 @@
+$group
+    import isEqual from 'lodash/isEqual'
+    import nullthrows from 'nullthrows'
+    import 
+        as React
+        from 'react'
+    import 
+        @ connect
+        from 'react-redux'
+    import 
+        @ compose
+        from 'redux'
+    import 
+        @ $Subtract
+        from '../../types'
+    import 
+        @ Viewer
+        from '../account/index'
+    ${'$'}if wzCtx.Build.useAnalytics
+        import Analytics from '../utils/Analytics'
+    import 
+        @ AuthProps
+        from './types'
+    import AuthManager from './authManager'
+    +
+    const Auth = new AuthManager()
+    +
+    const enhanceWithAuthMethods
+        => 
+            param Comp
+                :ref React.ComponentType
+                    :param 
+                        :ref AuthProps
+            return 
+                class WithAuthWrapper
+                    super React.Component
+                        :param AuthProps
+                    m componentDidMount
+                        _ this.updateViewer()
+                    m updateViewer
+                        async
+                        :private 
+                        const 
+                            { 
+                                @ accessToken
+                                @ sessionSecret
+                            = Auth
+                        if accessToken || sessionSecret
+                            const viewer
+                                await 
+                                    _ Auth.getProfile()
+                            const prevViewer = this.props.viewer
+                            _ this.props.dispatch
+                                { 
+                                    @ type 'UPDATE_VIEWER'
+                                    @ viewer
+                            ${'$'}if wzCtx.Build.useAnalytics
+                                if viewer && !isEqual(prevViewer, viewer)
+                                    _ Analytics.getInstance().identify
+                                        { 
+                                            @ username viewer.username
+                                        @expr viewer.id
+                        else
+                            _ this.props.dispatch
+                                { 
+                                    @ type 'UPDATE_VIEWER'
+                                    @ viewer null
+                    => _handleGetSessionSecret
+                        return Auth.sessionSecret
+                        # TODO(tc): replace this once we talk to graphql elsewhere
+                    p _handleSetMetadata
+                        async=> 
+                            param newMetadata
+                                :{ 
+                                    :p appetizeCode
+                                        :string 
+                            const 
+                                { 
+                                    @ accessToken
+                                    @ sessionSecret
+                                = Auth
+                            if !accessToken && !sessionSecret
+                                return 
+                            const endpoint
+                                `lit 
+                                    + 
+                                    _ nullthrows(process.env.API_SERVER_URL)
+                                    + /--/graphql
+                            try 
+                                const response
+                                    await 
+                                        _ fetch
+                                            `lit 
+                                                + 
+                                                @ endpoint
+                                                + 
+                                            { 
+                                                @ method 'POST'
+                                                { headers
+                                                    @ Accept 'application/json'
+                                                    @ 'Content-Type' 'application/json'
+                                                    ... 
+                                                        ( 
+                                                            iif accessToken
+                                                                then
+                                                                    { 
+                                                                        @ Authorization
+                                                                            `lit 
+                                                                                + Bearer&nbsp;
+                                                                                @ accessToken
+                                                                                + 
+                                                                else
+                                                                    { 
+                                                    ... 
+                                                        ( 
+                                                            iif sessionSecret
+                                                                then
+                                                                    { 
+                                                                        @ 'Expo-Session' sessionSecret
+                                                                else
+                                                                    { 
+                                                @ body
+                                                    _ JSON.stringify
+                                                        { 
+                                                            @ query
+                                                                `lit 
+                                                                    + mutation ($newMetadata: UserDataInput!) {&lf;
+                                                                    + &nbsp;                     me {&lf;
+                                                                    + &nbsp;                       updateProfile(userData: $newMetadata) {&lf;
+                                                                    + &nbsp;                         id&lf;
+                                                                    + &nbsp;                       }&lf;
+                                                                    + &nbsp;                     }&lf;
+                                                                    + &nbsp;                   }
+                                                            { variables
+                                                                @ newMetadata
+                                const json
+                                    await 
+                                        _ response.json()
+                                if !json.errors
+                                    _ this.updateViewer()
+                            catch e
+                        # TODO(tc): replace this once we talk to graphql elsewhere
+                    m render
+                        return 
+                            < Comp 
+                                @ getSessionSecret {this._handleGetSessionSecret}
+                                    # @ts-ignore
+                                @ setMetadata {this._handleSetMetadata}
+                                    # @ts-ignore
+                                @ {...this.props}
+                                    # @ts-ignore
+    export-default 
+        function withAuth
+            :< P
+                :ref AuthProps
+            param Comp
+                :ref React.ComponentType
+                    :param 
+                        :ref P
+            :return
+                :ref React.ComponentType
+                    :param 
+                        :ref $Subtract
+                            :param 
+                                :ref P
+                            :param 
+                                :ref AuthProps
+            return 
+                @expr
+                    _ compose
+                        _ connect
+                            => 
+                                param state
+                                    :{ 
+                                        :p viewer
+                                            :union 
+                                                :ref Viewer
+                                                :null 
+                                return 
+                                    { 
+                                        @ viewer state.viewer
+                        @ enhanceWithAuthMethods
+                        (
+                            @ Comp
+                    :as 
+                        :any 

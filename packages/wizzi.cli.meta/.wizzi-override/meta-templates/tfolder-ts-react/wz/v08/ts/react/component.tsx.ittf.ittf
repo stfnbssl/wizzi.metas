@@ -1,0 +1,130 @@
+$group
+    
+    $ 
+        var mixMisc = 'misc(';
+
+    ${'$'}
+        var defaultProps = [];
+
+    ${mixMisc} setMyProps, &md )
+    ${mixMisc} setMyStateProps, &md )
+
+    ${'$'}if md.hotReload
+        import
+            @ hot
+            from 'react-hot-loader'
+    import React
+        @ ${'$'}{md.isPure ? 'Pure' : ''}Component
+        from 'react'
+    import ReactDOM from 'react-dom'
+    ${'$'}if md.connected
+        import 
+            @ bindActionCreators
+            @ Dispatch
+            from 'redux'
+        import 
+            @ connect
+            from 'react-redux'
+    ${'$'}if md.styled
+        # see https://mxstbr.blog/2016/11/styled-components-magic-explained/
+        import styled
+            @ keyframes
+            @ css
+            from 'styled-components'
+    ${'$'}if md.aphrodite
+        import 
+            @ StyleSheet
+            @ css
+            from 'aphrodite'
+        import classnames from 'classnames'
+    ${'$'}hook imports
+
+    ${'$'}if md.connected
+        export
+            :type ${'$'}{md.name}Props
+                :intersect 
+                    :ref ReturnType
+                        :param 
+                            :typeof mapStateToProps
+                    :ref ReturnType
+                        :param 
+                            :typeof mapDispatchToProps
+                    :{ 
+                        ${'$'}foreach prop in myProps
+                            ${'$'} if (prop.xdefault) { defaultProps.push(prop); }
+                            ${'$'}include setPropType
+
+    ${'$'}else
+        ${'$'}if myProps.length > 0
+            +
+            export
+                :interface ${'$'}{md.name}Props
+                    $$ :{ 
+                    ${'$'}foreach prop in myProps
+                        ${'$'} if (prop.xdefault) { defaultProps.push(prop); }
+                        ${'$'}include setPropType
+    
+    ${'$'}if myStateProps.length > 0
+        +
+        :type ${'$'}{md.name}State
+            :{ 
+                ${'$'}foreach prop in myStateProps
+                    ${'$'}include setPropType
+    
+    +
+    ${'$'}if md.aphrodite
+        const styles
+            _ StyleSheet.create
+                {
+                    ${'$'}hook styles_aphrodite
+    ${'$'}hook styles
+    +    
+    export
+        class ${'$'}{md.name}
+            super ${'$'}{md.isPure ? 'Pure' : ''}Component
+                ${'$'}if md.connected || myProps.length > 0
+                    :param 
+                        :ref ${'$'}{md.name}Props
+                ${'$'}else
+                    :param {}
+                ${'$'}if myStateProps.length > 0
+                    :param 
+                        :ref ${'$'}{md.name}State
+                ${'$'}else
+                    :param {}
+            ctor
+                param props
+                    ${'$'}if md.connected || myProps.length > 0                
+                        :ref ${'$'}{md.name}Props
+                    ${'$'}else
+                        :{
+                _ super(props)
+                ${'$'}hook ctor
+            p state
+                :ref ${'$'}{md.name}State
+                {
+                    ${'$'}foreach prop in myStateProps
+                        ${'$'}if prop.type == 'string'
+                            @ ${'$'}{prop.name} ""
+                        ${'$'}elif prop.type == 'boolean'
+                            @ ${'$'}{prop.name} false
+                        ${'$'}elif prop.type == '['
+                            [ ${'$'}{prop.name}
+                        ${'$'}else
+                            @ ${'$'}{prop.name} null
+            ${'$'}hook
+
+    ${'$'}if md.connected
+        export
+            const ${'$'}{md.name}Connected
+                _ connect
+                    @ mapStateToProps
+                    @ mapDispatchToProps
+                    (
+                        @ ${'$'}{md.name}
+        export-default ${'$'}{md.name}Connected
+    ${'$'}else
+        ${'$'}if md.hotReload
+            export-default hot(module)(${'$'}{md.name})
+        ${'$'}else
+            export-default ${'$'}{md.name}

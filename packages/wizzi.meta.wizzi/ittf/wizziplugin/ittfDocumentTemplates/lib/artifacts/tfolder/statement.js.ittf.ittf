@@ -1,0 +1,20 @@
+$group
+    ${'$'}params name, arg1|@@null
+
+    set mainWriter.statementsContainer.${'$'}{name}
+        function
+            param model
+            param ctx
+            ${'$'}if arg1 != null
+                param ${'$'}{arg1}
+            param callback
+            if typeof callback === 'undefined'
+                throw
+                    new Error
+                        @ 'Missing callback parameter in container.stm: ' + myname + '.${'$'}{name}'
+            if typeof callback !== 'function'
+                throw
+                    new Error
+                        @ 'The callback parameter must be a function. In ' + myname + '.${'$'}{name}. Got: ' + callback		
+            var name = model.wzName.trim()
+            ${'$'}hook

@@ -1,0 +1,26 @@
+$group
+
+	${'$'}*
+	require
+		${'$'}
+			var name = 'xxx';
+			var levels = ['a', 'b', ...];
+	*${'$'}
+
+	import async
+
+	var samples
+		[
+			${'$'}foreach level in levels
+				@ require('./level_${'$'}{level}')
+
+	_ async.series
+		@ samples
+        a_cb_throw${'('})
+			var msg = '${'$'}{name} - samples - done.'
+			$$ loog msg
+			if step_callback
+				return
+					_ step_callback
+						@ null
+						@ msg

@@ -1,0 +1,20 @@
+{
+
+    $
+        var metaBasename = "wizzi";
+
+    $include commons
+
+    { App
+        name "Wizzi meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "wzjobs"
+        {
+            name "wizzicommons"
+        {
+            name "wizziplugin"
+        {
+            name "wizzimeta"

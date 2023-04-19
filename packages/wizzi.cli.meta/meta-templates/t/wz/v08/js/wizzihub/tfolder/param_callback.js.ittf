@@ -1,0 +1,11 @@
+$group
+  $params kind|@@null, message|@@null
+  param callback
+  $if kind == 'required'
+    if !callback
+      throw new Error('The callback parameter is required. ${message}.')
+  $else
+    set callback =
+        || 
+            + callback
+            function 

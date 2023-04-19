@@ -1,0 +1,44 @@
+{
+    $
+        var pluginBasename = "graphql";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Graphql language plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        {
+            name "useGraphqlParser"
+            value "true"
+
+    [ usePackages
+        "Build.useCssParser"
+    
+    [ Schemas
+        {
+            name "graphql"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            hasWizzifier true
+            { wizzifier
+                [ parserImportCode
+                    "var graphql_parser = require('graphql/language/parser')"
+                [ parserInvokeCode
+                    " _ graphql_parser.parse(tobeWizzified)"
+                useFormatAstMethods true
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "graphql"
+                    contentType "text/graphql"
+                    isDefault true
+            [ fileExtensions
+                "graphql"          

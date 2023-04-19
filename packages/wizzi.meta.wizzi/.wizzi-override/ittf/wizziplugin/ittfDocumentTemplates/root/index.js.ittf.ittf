@@ -1,0 +1,131 @@
+$group
+	+
+	var util = require('util')
+	var path = require('path')
+	var stringify = require('json-stringify-safe')
+    var errors = require('./errors')
+	+
+	var md = module.exports = {}
+	set md.name = '${'$'}{wzCtx.name}.index'
+	+
+	#
+		# FactoryPlugin class
+	class FactoryPlugin
+		ctor
+			param wizziPackage
+			param provides
+			set this.file = wizziPackage.file
+			set this.provides = provides
+			set this.modelFactories = {}
+			set this.modelTransformers = {}
+			set this.artifactGenerators = {}
+            set this.wizzifiers = {}
+			set this.schemaDefinitions = {}
+		+
+        m initialize
+			param options
+			param callback
+			# TODO
+			return
+				_ callback(null)
+		+
+        m getName
+			return '${'$'}{wzCtx.name}'
+		
+		+
+        m getFilename
+			return __filename
+		
+		+
+        m getProvides
+			return this.provides
+
+		+
+        ${'$'}include model-factory
+		+
+        ${'$'}include model-transformation
+		+
+        ${'$'}include artifact-generation
+		+
+        ${'$'}include wizzification
+		+
+        ${'$'}include schema-definition
+	+
+	function error
+        param errorName
+        param method
+        param message
+        param innerError
+		return
+            new errors.WizziPluginError
+                @ message
+                @ null
+                {
+                    @ errorName errorName
+                    @ method md.name + '.' + method
+                    @ sourcePath __filename
+                    @ inner innerError           
+	+
+	set module.exports
+		{
+            @ provides
+                {
+                    @ schemas
+                        [
+                            ${'$'}foreach schema in wzCtx.Schemas
+                                @ '${'$'}{schema.name}'
+                    @ schemasExt
+                        [
+                            ${'$'}foreach schema in wzCtx.Schemas
+                                {
+                                    @ name '${'$'}{schema.name}'
+                                    ${'$'}if schema.rootElement
+                                        @ rootElement '${'$'}{schema.rootElement}'
+                                    ${'$'}if schema.rootTag
+                                        @ rootTag '${'$'}{schema.rootTag}'
+                                    [ fileExtensions
+                                        ${'$'}foreach ext in schema.fileExtensions
+                                            @ "${'$'}{ext}"
+                                    [ artifactsGenerators
+                                        ${'$'}foreach art in schema.artifactGenerators
+                                            {
+                                                @ name "${'$'}{art.name}"
+                                                @ outmime "${'$'}{art.outmime}"
+                                                @ contentType "${'$'}{art.contentType}"
+                                                @ isDefault ${'$'}{art.isDefault ? 'true' : 'false'}
+                                    @ defaultArtifact '${'$'}{schema.defaultArtifact}'
+                                    [ dependency
+                                        ${'$'}foreach include in schema.includes
+                                            @ "${'$'}{include.name}"
+
+                    @ modelTransformers
+                        [
+                            ${'$'}foreach schema in wzCtx.Schemas
+                                ${'$'}foreach trans in schema.modelTransformers
+                                    @ '${'$'}{schema.name}/${'$'}{trans.name}'
+                    @ artifactGenerators
+                        [
+                            ${'$'}foreach schema in wzCtx.Schemas
+                                ${'$'}foreach artifact in schema.artifactGenerators
+                                    @ '${'$'}{schema.name}/${'$'}{artifact.name}'
+                    @ wizzifiers
+                        [
+                            ${'$'}foreach schema in wzCtx.Schemas
+                                ${'$'}if schema.hasWizzifier
+                                    @ '${'$'}{schema.name}'
+			@ createFactoryPlugin
+				function
+					param wizziPackage
+					param options
+					param callback
+					var plugin
+						new FactoryPlugin
+							@ wizziPackage
+							@ this.provides
+					_ plugin.initialize
+						@ options
+						a_cb${'('} notUsed )
+							return
+								_ callback
+									@ null
+									@ plugin

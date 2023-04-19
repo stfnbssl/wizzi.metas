@@ -1,0 +1,63 @@
+$group
+    $params &schema
+
+    $if schema.plugin_type == 'syntax_structure'
+        ---
+        preserve-tags true
+        mtree-is-preprocessed true
+        unknown-element-replacer text
+    $else
+        $$ preserve-tags true
+        $$ mtree-is-preprocessed true
+        $$ unknown-element-replacer item
+
+    $if schema.plugin_type == 'syntax_structure'
+    $else
+        ---
+        export-to json
+        ${'$'}${'$'} export-to xml
+        ${'$'}${'$'} export-to prettify
+
+    $if schema.plugin_type == 'syntax_structure'
+
+        ---
+        e node
+            r node/s
+
+        ---
+        e ${schema.name} : node
+            is-root
+
+    $else
+        ---
+        e ${schema.name}
+            is-root
+
+            r item/s
+            r ittfPanel/s
+        --- 
+        e item
+            a value
+        ---
+        e ittfPanel
+            tag ittf-panel
+            has-mtree-data
+
+    ---
+    $foreach include in schema.includes
+        $foreach item in include.items
+            e ${item.name}Include : ${item.parent}
+                tag ${item.tag}
+                include ${include.name} ${item.root}
+
+    ---
+    $if schema.name == 'svg'
+        ${'$'}include wz/v08/wizzi/plugin/lib/wizzi/schemas/svg.wfschema
+    $*
+    ---
+    $if schema.plugin_type == 'prettify'
+        ${'$'}include wz/v08/wizzi/plugin/artifacts/types/prettify/schema.wfschema
+    ---
+    $if schema.plugin_type == 'syntax_structure'
+        ${'$'}include wz/v08/wizzi/plugin/artifacts/types/syntax_structure/schema.wfschema
+    *$

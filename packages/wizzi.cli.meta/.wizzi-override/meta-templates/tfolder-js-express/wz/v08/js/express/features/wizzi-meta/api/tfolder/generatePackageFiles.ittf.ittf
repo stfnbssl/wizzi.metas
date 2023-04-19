@@ -1,0 +1,102 @@
+$group
+
+    set md.generatePackageFiles
+        async-function
+            param metaProductionTempFolder
+            param options
+            param metaCtx
+            r_promise${'('})
+                if verify.isEmpty(options.outputPackagePath)
+                    r_reject${'('})
+                        @ mdDisplayName + '.generatePackageFiles. Missing outputPackagePath: ' + options.outputPackagePath
+                log mdDisplayName +  ".generatePackageFiles.generating to folder", path.join(options.outputPackagePath, options.outputPackageName)
+                _ wizziProds.generateFolderArtifactsFs
+                    @ metaProductionTempFolder
+                    ${'$'}*
+                    {
+                        { modelContext
+                            {
+                                @ metaCtx metaCtx
+                        @ artifactContext {}
+                    {
+                        @ destFolder
+                            _ path.join
+                                @ options.outputPackagePath
+                                @ options.outputPackageName
+                        @ copyInclude ['*']
+                        @ copyExclude []
+                    *${'$'}
+                    _ path.join
+                        @ options.outputPackagePath
+                        @ options.outputPackageName
+                    {
+                        @ metaCtx metaCtx
+                    a_then${'('} genFolderResult )
+                        ${'$'}*
+                        _ file.deleteFolder
+                            @ metaProductionTempFolder
+                            =>
+                                param err
+                                if err
+                                    error mdDisplayName + '.generatePackageFiles.deleteFolder error', err
+                                    r_reject${'('}
+                                        {
+                                            message mdDisplayName + '.generatePackageFiles.deleteFolder error'
+                                            @  err
+                                r_resolve${'('})
+                                    @ genFolderResult
+                        *${'$'}
+                        r_resolve${'('})
+                            @ genFolderResult
+                    catch_reject${'('} wizziMeta.generatePackageFiles.wizziProds.generateFolderArtifactsFs )
+
+    set md.generatePackageFilesFs
+        async-function
+            param metaProductionTempFolder
+            param options
+            param metaCtx
+            r_promise${'('})
+                if verify.isEmpty(options.outputPackagePath)
+                    r_reject${'('})
+                        @ mdDisplayName + '.generatePackageFiles. Missing outputPackagePath: ' + options.outputPackagePath
+                log mdDisplayName +  ".generatePackageFiles.generating to folder", path.join(options.outputPackagePath, options.outputPackageName)
+                _ wizziProds.generateFolderArtifactsFs
+                    @ metaProductionTempFolder
+                    ${'$'}*
+                    {
+                        { modelContext
+                            {
+                                @ metaCtx metaCtx
+                        @ artifactContext {}
+                    {
+                        @ destFolder
+                            _ path.join
+                                @ options.outputPackagePath
+                                @ options.outputPackageName
+                        @ copyInclude ['*']
+                        @ copyExclude []
+                    *${'$'}
+                    _ path.join
+                        @ options.outputPackagePath
+                        @ options.outputPackageName
+                    {
+                        @ metaCtx metaCtx
+                    a_then${'('} genFolderResult )
+                        ${'$'}*
+                        _ file.deleteFolder
+                            @ metaProductionTempFolder
+                            =>
+                                param err
+                                if err
+                                    error mdDisplayName + '.generatePackageFiles.deleteFolder error', err
+                                    r_reject${'('}
+                                        {
+                                            message mdDisplayName + '.generatePackageFiles.deleteFolder error'
+                                            @  err
+                                r_resolve${'('})
+                                    @ genFolderResult
+                        *${'$'}
+                        r_resolve${'('})
+                            @ genFolderResult
+                    catch_reject${'('} wizziMeta.generatePackageFiles.wizziProds.generateFolderArtifactsFs )
+

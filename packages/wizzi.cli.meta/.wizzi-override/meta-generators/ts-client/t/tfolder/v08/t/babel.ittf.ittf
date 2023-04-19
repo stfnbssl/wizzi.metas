@@ -1,0 +1,17 @@
+$group
+    
+    $file __dot__wizzi/t/v08/babel/configjs/env.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/babel/configjs/env.js
+
+    $file __dot__wizzi/t/v08/babel/configjs/plugins.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/babel/configjs/plugins.js
+
+    $file __dot__wizzi/t/v08/babel/configjs/presets.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/babel/configjs/presets.js
+
+    $file __dot__wizzi/t/v08/babel/configjs/overrides.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/babel/configjs/overrides.js

@@ -1,0 +1,34 @@
+$group
+	kind jsfile
+
+	import util
+	+
+	var md = module.exports = {}
+	+
+	error${'('} File, message, ex )
+		set this.message = message
+		set this.inner = ex
+
+	error${'('} Node, message, node )
+        var msg
+            [ 
+                @ message
+        if node
+            if node.wzSourceLineInfo
+                var info = node.wzSourceLineInfo
+                var filePath = 'TODO'
+                if node.wzSourceFilepath
+                    set filePath = node.wzSourceFilepath(info.sourceKey)
+                _ msg.push((' at row: ' + info.row))
+                _ msg.push((', col: ' + info.col))
+                _ msg.push((', source: ' + info.sourceKey))
+                _ msg.push((', in file: ' + filePath))
+            elif node.row
+                _ msg.push((' at row: ' + node.row))
+                _ msg.push((', col: ' + node.col))
+        set this.message = msg.join('')
+		# loog 'NodeError', this.message
+        # set this.node = node
+
+    
+

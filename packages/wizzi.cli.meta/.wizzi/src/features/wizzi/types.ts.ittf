@@ -1,0 +1,118 @@
+module
+    import
+        as wizzi
+        from 'wizzi'
+    import
+        @ JsonFs
+        from 'wizzi-repo'
+    $if wzCtx.Build.useWizziJsonFactory
+        import
+            @ packiTypes
+            from '../packi'
+    +
+    export
+        :type FilesystemWizziFactory
+            :{
+                :p wf
+                    :ref wizzi.WizziFactory
+    export
+        :type JsonWizziFactory
+            :{
+                :p wf
+                    :ref wizzi.WizziFactory
+                :p jsonFs
+                    :ref JsonFs
+    export
+        :type GeneratedArtifact
+            :{
+                :p artifactContent
+                    :string
+                :p sourcePath
+                    :string
+                :p artifactGenerator
+                    :string
+    export
+        :type TransformedModel
+            :{
+                :p transformResult
+                    :any
+                :p sourcePath
+                    :string
+                :p modelTransformer
+                    :string
+    +
+    export
+        :type IttfDocumentSource
+            :union
+                :literal 'fs'
+                :literal 'packi'
+                :literal 'db'
+                :literal 'text'
+    +
+    export
+        :type ContextSource
+            :union
+                :literal 'json-fsIttf'
+                :literal 'json-packiIttf'
+                :literal 'json-dbIttf'
+                :literal 'json-fsFile'
+                :literal 'json-value'
+                :literal 'model-fsIttf'
+                :literal 'model-packiIttf'
+                :literal 'model-dbIttf'
+    +
+    export
+        :type MetaIttfDocument
+            :{
+                :p source
+                    :ref IttfDocumentSource
+                :p path
+                    :string
+                    :optional
+                :p mainIttf
+                    :string
+                    :optional
+                :p rootFolder
+                    :string
+                    :optional
+                $if wzCtx.Build.useWizziJsonFactory
+                    :p packiFiles
+                        :ref packiTypes.PackiFiles
+                        :optional
+                :p wizziSchema
+                    :string
+                    :optional
+                :p text
+                    :string
+                    :optional
+    +
+    export
+        :type MetaContext
+            :{
+                :p name
+                    :string
+                    :optional
+                :p source
+                    :ref ContextSource
+                :p path
+                    :string
+                    :optional
+                :p mainIttf
+                    :string
+                    :optional
+                $if wzCtx.Build.useWizziJsonFactory
+                    :p packiFiles
+                        :ref packiTypes.PackiFiles
+                        :optional
+                :p value
+                    :object
+                    :optional
+    +
+    export
+        :type ArtifactRequest
+            :{
+                :p ittfDocument
+                    :ref MetaIttfDocument
+                :p contextItems
+                    :[
+                        :ref MetaContext

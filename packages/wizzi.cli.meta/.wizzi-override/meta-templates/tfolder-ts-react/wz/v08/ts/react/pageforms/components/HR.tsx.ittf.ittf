@@ -1,0 +1,31 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "HR",
+            props: [
+            ]
+        }
+        
+    v08/ts/react/function${'('}&md)
+
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledRoot .hr<RootStyleProps>
+                background transparent
+                border 0
+                border-bottom
+                    => '1px solid ' + c('border')
+                height 0
+                margin 15px 0
+                overflow hidden
+
+        return
+            < StyledRoot
+

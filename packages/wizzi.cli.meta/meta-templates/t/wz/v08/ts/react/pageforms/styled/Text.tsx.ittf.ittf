@@ -1,0 +1,30 @@
+$group
+    
+    $
+        var call = '(&md)'
+    
+    ${'$'}
+        var md = {
+            name: "Text",
+            element: "span",
+            props: [
+            ]
+        }
+        
+    v08/ts/react/styledelement${'('}&md)
+
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        const ret
+            {
+                @ marginLeft '3px' || props.marginLeft
+        if props.fontSize
+            set ret.fontSize = props.fontSize
+        if props.color
+            set ret.color = props.color
+        if props.padding
+            set ret.margin = props.padding
+        return ret

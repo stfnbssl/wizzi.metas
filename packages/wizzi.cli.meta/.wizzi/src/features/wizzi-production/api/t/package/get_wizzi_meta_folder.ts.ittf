@@ -1,0 +1,86 @@
+$group
+    +
+    export
+        async-function getWizziMetaFolder
+            param owner
+                :string
+            param name
+                :string
+            param progressiveContext
+                :any
+            :return
+                :ref Promise
+                    :param
+                        :ref packiTypes.PackiFiles
+            # loog myname, 'getWizziMetaFolder', 'owner', owner, 'name', name, 'progressiveContext', Object.keys(progressiveContext)
+            return
+                _ getPackageProductionObject
+                    @ owner
+                    @ name
+                    @ true
+                    ._ then
+                        =>
+                            param packageProductionObject
+                                :any
+                            # loog myname, 'getWizziMetaFolder.packageProductionObject', Object.keys(packageProductionObject)
+                            return
+                                _ getWizziMetaFolderByPackageProductionObject
+                                    @ packageProductionObject
+                                    @ progressiveContext
+    +
+    export
+        async-function getWizziMetaFolderById
+            param packageId
+                :string
+            param progressiveContext
+                :any
+            :return
+                :ref Promise
+                    :param
+                        :ref packiTypes.PackiFiles
+            # loog myname, 'getWizziMetaFolderById', 'packageId', packageId, 'progressiveContext', Object.keys(progressiveContext)
+            return
+                _ getPackageProductionObjectById
+                    @ packageId
+                    @ true
+                    ._ then
+                        =>
+                            param packageProductionObject
+                                :any
+                            # loog myname, 'getWizziMetaFolderById.packageProductionObject', Object.keys(packageProductionObject)
+                            return
+                                _ getWizziMetaFolderByPackageProductionObject
+                                    @ packageProductionObject
+                                    @ progressiveContext
+    async-function getWizziMetaFolderByPackageProductionObject
+        param packageProductionObject
+            :any
+        param progressiveContext
+            :any
+        :return
+            :ref Promise
+                :param
+                    :ref packiTypes.PackiFiles
+        r_promise()
+            _ productionApi.getCliCtxFromPackiConfig
+                @ packageProductionObject.owner
+                @ packageProductionObject.packiConfigObj
+                @ packageProductionObject.packiFiles
+                @ progressiveContext
+                ._ then
+                    =>
+                        param cliCtx
+                            :any
+                        _ metaApi.generateMetaProduction
+                            @ packageProductionObject.owner
+                            @ packageProductionObject.packiConfigObj.meta.name
+                            @ cliCtx
+                            ._ then
+                                =>
+                                    param wizziPackiFiles
+                                        :ref packiTypes.PackiFiles
+                                    # loog myname, 'getWizziMetaFolderByPackageProductionObject.generateMetaProduction', Object.keys(wizziPackiFiles)
+                                    return
+                                        _ resolve
+                                            @ wizziPackiFiles
+                v08/ts/catch_reject( api.production.getWizziMetaFolderByPackageProductionObject.getCliCtxFromPackiConfig )

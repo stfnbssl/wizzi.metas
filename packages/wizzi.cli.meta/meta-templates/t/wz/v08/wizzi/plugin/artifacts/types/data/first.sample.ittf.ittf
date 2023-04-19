@@ -1,0 +1,10 @@
+$group
+
+    table School
+        column name
+        
+    table Teacher
+        column name
+
+    table Student
+        column name

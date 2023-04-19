@@ -1,0 +1,69 @@
+{
+    $
+        var pluginBasename = "vue";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Vue framework plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        $*
+        {
+            name "useGraphqlParser"
+            value "true"
+        *$
+    
+    [ Schemas
+        {
+            name "vue"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            hasWizzifier true
+            { wizzifier
+                [ parserImportCode
+                    "var vue_parser = require('vue/language/parser')"
+                [ parserInvokeCode
+                    " _ vue_parser.parse(tobeWizzified)"
+            [ includes
+                {
+                    Name "Js"
+                    name "js"
+                    artifactName "js/module"
+                    [ options
+                    [ items
+                        {
+                            name "js"
+                            parent "node"
+                            tag "::script"
+                            root "module"
+                {
+                    Name "Html"
+                    name "html"
+                    artifactName "html/document"
+                    [ options
+                    [ items
+                        {
+                            name "html"
+                            parent "node"
+                            tag "::html"
+                            root "html"
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "vue"
+                    isDefault true
+                    contentType "text/plain"
+            [ fileExtensions
+                "vue"                    
+
+
+
+
+            

@@ -1,0 +1,11 @@
+$group
+
+
+    $file __dot__wizzi/t/wizziplugin/lib/wizzi/models/mtree-preprocessor.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wizziplugin/tfolder/lib/wizzi/models/mtree-preprocessor.js
+
+
+    $file __dot__wizzi/t/wizziplugin/wizzi/plugin/artifacts/types/syntax_structure/artifact-gen-main.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wizziplugin/artifacts/types/syntax_structure/artifact-gen-main.js

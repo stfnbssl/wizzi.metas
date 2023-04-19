@@ -1,0 +1,41 @@
+$group
+
+    const users
+        [ 
+            { 
+                @ id '1'
+                @ fullName 'User The First'
+            { 
+                @ id '2'
+                @ fullName 'User The Second'
+    const getAll
+        => 
+            _ Promise.resolve(users)
+
+    const getById
+        => 
+            param id
+                :string
+            _ Promise.resolve
+                _ users.find
+                    => 
+                        param u
+                        set u.id == id
+
+    const getUserProfilePicUrl
+        => 
+            param id
+                :string
+            _ Promise.resolve
+                `lit 
+                    + /img/
+                    @ id
+                    + 
+
+    export
+        const userService
+            {
+                @ getAll
+                @ getById
+                @ getUserProfilePicUrl
+

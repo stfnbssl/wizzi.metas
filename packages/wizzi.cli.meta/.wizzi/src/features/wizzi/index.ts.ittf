@@ -1,0 +1,36 @@
+module
+    $if wzCtx.Build.useExpress
+        import
+            @ ControllerType
+            from '../app/types'
+    import
+        as wizziTypes
+        from './types'
+    import
+        as WizziFactory
+        from './factory'
+    import
+        as wizziProds
+        from './productions'
+    import
+        as wizziMaps
+        from './maps'
+    $if wzCtx.Build.useExpress
+        import
+            @ ProductionController
+            from './controllers/production'
+    +
+    $if wzCtx.Build.useExpress
+        const wizziControllers
+            :[
+                :ref ControllerType
+            =
+                [
+                    @ new ProductionController()
+    export
+        @ wizziTypes
+        @ wizziProds
+        @ WizziFactory
+        @ wizziMaps
+        $if wzCtx.Build.useExpress
+            @ wizziControllers

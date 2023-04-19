@@ -1,0 +1,121 @@
+$group
+    import 
+        @ css
+        @ StyleSheet
+        from 'aphrodite'
+    import classnames from 'classnames'
+    import findKey from 'lodash/findKey'
+    import 
+        as React
+        from 'react'
+    import 
+        @ c
+        from '../ThemeProvider'
+    import 
+        @ KeyMap
+        from './KeybindingsManager'
+    +
+    export
+        :type ShortcutLabelProps
+            :{ 
+                :p combo
+                    :[ 
+                        :number 
+                :p className
+                    :optional 
+                    :string 
+                :p boxed
+                    :optional 
+                    :boolean 
+    +
+    :type KeyName
+        :keyof 
+            :typeof KeyMap
+    +
+    const isMac = 'navigator' in global && /Mac/i.test(navigator.platform)
+    +
+    const KeyLabels
+        :ref Partial
+            :param 
+                :mapped 
+                    :< key
+                        :ref KeyName
+                    :string 
+        =
+            { 
+                @ Cmd '⌘'
+                @ Delete '⌫'
+                @ Enter '↩'
+                @ Shift '⇧'
+                @ Ctrl
+                    iif isMac
+                        then '⌃'
+                        else 'Ctrl'
+                @ Alt
+                    iif isMac
+                        then '⌥'
+                        else 'Alt'
+                @ Backslash '\\'
+                @ Tilde '`'
+    +
+    export
+        function ShortcutLabel
+            { 
+                @ combo
+                @ className
+                @ boxed
+                    = false
+                :ref ShortcutLabelProps
+            :return
+                :any 
+            return 
+                kbd 
+                    @ className {classnames(css(styles.shortcutLabel), boxed && css(styles.boxedShortcut), className)}
+                    { 
+                        _ combo.map
+                            => 
+                                param code
+                                const name
+                                    _ findKey
+                                        @ KeyMap
+                                        => 
+                                            param c
+                                            set c === code
+                                    # @ts-ignore
+                                if name && KeyLabels[name as KeyName]
+                                    return KeyLabels[name as KeyName]
+                                else
+                                    return name
+                            ._ join
+                                iif isMac
+                                    then ''
+                                    else '+'
+    +
+    export-default ShortcutLabel                    
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { shortcutLabel
+                    @ color 'inherit'
+                    @ fontFamily 'var(--font-monospace)'
+                    @ fontSize '90%'
+                    @ opacity 0.5
+                    @ boxShadow
+                        `lit 
+                            + none
+                    @ display 'inline-block'
+                    @ lineHeight 'initial'
+                { boxedShortcut
+                    @ padding '0.2rem 0.4rem'
+                    @ border
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c
+                                `lit 
+                                    + border
+                    @ borderBottomWidth 2
+                    @ borderRadius 3
+                    @ opacity 0.66
+    
+    

@@ -1,0 +1,523 @@
+$group
+    $params &md
+    
+    ${'$'}if wzCtx.Build.useIttfStatic
+        import util from 'util'
+        import path from 'path'
+        import fs from 'fs'
+        import stringify from 'json-stringify-safe'
+        import parseUrl from 'parseurl'
+        import
+            @ Application
+            @ RequestHandler
+            @ Request
+            @ Response
+            @ NextFunction
+            from 'express'
+        import
+            @ MiddlewareType
+            from '../features/app/types'
+        import
+            @ config
+            from '../features/config'
+        import
+            @ wizziProds
+            @ wizziMaps
+            from '../features/wizzi'
+        import
+            @ WizziModel
+            from 'wizzi'
+        export
+            const IttfStaticMiddleware
+                :ref MiddlewareType
+                =
+                    =>
+                        param app
+                            :ref Application
+                        info 'IttfStaticMiddleware. Folder served from ', path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, 'ittf')
+                        _ app.use('/ittf', ittfMiddleware(path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, 'ittf'), '/ittf'))
+        +
+        function ittfMiddleware
+            param basePath
+                :string
+            param routePath
+                :string
+            :return
+                :ref RequestHandler
+            return
+                async=>
+                    param request
+                        :ref Request
+                    param response
+                        :ref Response
+                    param next
+                        :ref NextFunction
+                    if request.method !== 'GET' && request.method !== 'HEAD'
+                        return next()
+                    const parsedUrl = parseUrl(request)
+                    if !parsedUrl || !parsedUrl.pathname
+                        return next()
+                    const urlPathName = decodeURIComponent(parsedUrl.pathname)
+                    const pathname = urlPathName
+                        # ??? urlPathName.substr(routePath.length);
+                    const filePath = path.join(basePath, pathname)
+                        # ??? urlPathName.substr(routePath.length);
+                    const extname = path.extname(filePath)
+                    var queryMeta = (request.query.meta as string)
+                    var queryTransform = (request.query.transform as string)
+                    $$ loog 'middleware.ittfStatic', 'urlPathName', urlPathName, 'pathname', pathname, 'filePath', filePath, 'path.extname(filePath)', path.extname(filePath), 'queryMeta', queryMeta
+                    if fs.existsSync(filePath) === false
+                        $$ loog 'filePath do not exists', filePath
+                        return next()
+                    if fs.statSync(filePath).isDirectory()
+                        $$ loog 'filePath is directory', filePath
+                        return sendFolderScan(filePath, basePath, queryMeta, request, response)
+                    if queryTransform && queryTransform.indexOf('/') > 0
+                        return sendTransform(filePath, queryTransform, response)
+                    let ittfSchema = wizziMaps.schemaFromFilePath(filePath)
+                    let contentType = wizziMaps.contentTypeFor(filePath)
+                    $$ loog 'contentType', contentType, 'ittfSchema', ittfSchema, 'queryMeta', queryMeta
+                    if !contentType
+                        return next()
+                    $$ _ loadJsonIttfModel
+                    _ wizziProds.loadSiteJsonModel
+                        @ 'sitectx.json.ittf'
+                        ._ then
+                            async=>
+                                param siteCtx
+                                if queryMeta && queryMeta === 'html'
+                                    try
+                                        const documentState
+                                            await
+                                                _ wizziProds.scanIttfDocumentFs(filePath, path.dirname(basePath))
+                                        const generated
+                                            await
+                                                _ wizziProds.generateArtifactFs
+                                                    @ config.metaHtmlIttfPath
+                                                    {
+                                                        @ wizzischema 'html'
+                                                        @ path filePath
+                                                        @ request
+                                                        @ ds documentState
+                                                        { locals
+                                                            @ user (request as any).session.user
+                                                        @ siteCtx
+                                                        @ isWizziStudio true
+                                            $$ loog 'generated.meta.document', generated.artifactContent
+                                        _ response.writeHead
+                                            @ 200
+                                            {
+                                                @ 'Content-Type' 'text/html'
+                                                @ 'Content-Length' generated.artifactContent.length
+                                            $$ loog 'generated.meta.document', generated.artifactContent
+                                        _ response.end(generated.artifactContent)
+                                    catch ex
+                                        _ sendError
+                                            @ response
+                                            @ ex
+                                            {
+                                                @ format 'json'
+                                elif queryMeta && queryMeta === 'json' && ittfSchema == 'ittf'
+                                    _ wizziProds.generateArtifactFs
+                                        @ filePath
+                                        {
+                                            { locals
+                                                @ user (request as any).session.user
+                                            @ siteCtx
+                                            @ isWizziStudio true
+                                        {
+                                            @ generator 'ittf/tojson'
+                                        ._ then
+                                            =>
+                                                param generated
+                                                $$ loog 'generated.meta.ittf.json', filePath
+                                                _ response.writeHead
+                                                    @ 200
+                                                    {
+                                                        @ 'Content-Type' 'application/json'
+                                                        @ 'Content-Length' generated.artifactContent.length
+                                                _ response.end(generated.artifactContent)
+                                        ._ catch
+                                            =>
+                                                param err
+                                                return
+                                                    _ sendError
+                                                        @ response
+                                                        @ err
+                                                        {
+                                                            @ format 'json'
+                                else
+                                    return
+                                        _ contextLoader
+                                            @ filePath
+                                            @ request
+                                            function
+                                                param err
+                                                    :any
+                                                param modelContext
+                                                    :ref WizziModel
+                                                if err
+                                                    return
+                                                        _ sendError
+                                                            @ response
+                                                            @ err
+                                                            {
+                                                                @ format 'json'
+                                                set modelContext
+                                                    _ Object.assign
+                                                        {
+                                                        @ modelContext
+                                                        {
+                                                            { locals
+                                                                @ user (request as any).session.user 
+                                                            @ siteCtx
+                                                            @ isWizziStudio true
+                                                _ wizziProds.generateArtifactFs(filePath, modelContext).then
+                                                    =>
+                                                        param generated
+                                                        $$ loog 'generated.artifactContent', generated.artifactContent
+                                                        _ response.writeHead
+                                                            @ 200
+                                                            {
+                                                                @ 'Content-Type' contentType
+                                                                @ 'Content-Length' generated.artifactContent.length
+                                                        _ response.end(generated.artifactContent)
+                                                    ._ catch
+                                                        =>
+                                                            param err
+                                                            return
+                                                                _ sendError
+                                                                    @ response
+                                                                    @ err
+                                                                    {
+                                                                        @ format 'json'
+            #
+                #
+                # request.query._context contains a semicolon separated list of context models export names.
+                # For each <export-name> must exists a request.query._<export-name> parameter
+                # with a type;path value pair.
+                # The type is the model knwon type or a wizzi schema, the path is the
+                # relative path of the ittf document of the model, relative to the
+                # filepath of the requested resource.
+                #
+                # Example (two context models, export names: cs and info)
+                # request.query._context = 'cs;info'
+                # request.query._cs = 'cheatsheet;html'
+                # request.query._info = 'json;../cslayout.json.ittf'
+                #
+                # If the path value is missing it defaults to ./index.<type>.ittf
+                #
+                #
+        :type contextRequest
+            :{
+                :p name
+                    :optional
+                    :string
+                :p type
+                    :optional
+                    :string
+                :p exportName
+                    :string
+                :p fullPath
+                    :any
+                :p relPath
+                    :any
+            #
+                #
+                # request.query._context contains a semicolon separated list of context models export names.
+                # For each <export-name> must exists a request.query._<export-name> parameter
+                # with a type;path value pair.
+                # The type is the model knwon type or a wizzi schema, the path is the
+                # relative path of the ittf document of the model, relative to the
+                # filepath of the requested resource.
+                #
+                # Example (two context models, export names: cs and info)
+                # request.query._context = 'cs;info'
+                # request.query._cs = 'cheatsheet;html'
+                # request.query._info = 'json;../cslayout.json.ittf'
+                #
+                # If the path value is missing it defaults to ./index.<type>.ittf
+                #
+                #
+        async-function contextLoader
+            param resourceFilePath
+                :string
+            param request
+                :ref Request
+            param callback
+                :any
+            const contextRequest
+                :string
+                = (request.query._context as string)
+            if contextRequest && contextRequest.length > 0
+                const ss = contextRequest.split(';')
+                const ctxRequests
+                    :[
+                        :ref contextRequest
+                    = []
+                _ ss.forEach
+                    =>
+                        param element
+                        const ctxRequest
+                            :ref contextRequest
+                            =
+                                {
+                                    @ exportName element
+                                    @ fullPath undefined
+                                    @ relPath undefined
+                        const type_path = (request.query['_' + element] as string)
+                        $$ loog 'contextLoader exportName, type_path', element, type_path
+                        if !type_path
+                            return
+                                (
+                                    _ callback
+                                        {
+                                            @ requestedResource resourceFilePath
+                                            @ message 'Missing query param for requested context model: ' + element
+                        const tp = type_path.split(';')
+                        set ctxRequest.type = tp[0]
+                        if tp.length < 2
+                            set ctxRequest.relPath = './index.' + tp[0] + '.ittf'
+                        else
+                            set ctxRequest.relPath = tp[1]
+                        $$ loog 'contextLoader exportName, type_path, relPath', element, type_path, ctxRequest.relPath
+                        if ctxRequest.type === 'cheatsheet'
+                            set ctxRequest.name = ctxRequest.relPath
+                            _ ctxRequests.push(ctxRequest)
+                        else
+                            set ctxRequest.fullPath = path.join(path.dirname(resourceFilePath), ctxRequest.relPath)
+                            _ ctxRequests.push(ctxRequest)
+                        $$ loog 'contextLoader ctxRequest', ctxRequest
+                $$ loog 'contextLoader.ctxRequests', ctxRequests
+                const resultContext
+                    :{
+                        :index
+                            :ref WizziModel
+                            param k
+                                :string
+                    =
+                        {
+                const repeatCount = ctxRequests.length
+                const repeat
+                    =>
+                        param index
+                            :number
+                        if index == repeatCount
+                            return callback(null, resultContext)
+                        const ctxRequest = ctxRequests[index]
+                        if ctxRequest.type === 'cheatsheet'
+                            return callback('Context loader for cheatsheet type not implemented.')
+                        else
+                            _ wizziProds.loadModelFs
+                                @expr ctxRequest.fullPath
+                                {
+                                    @ isWizziStudio true
+                                ._ then
+                                    =>
+                                        param model
+                                        set resultContext[ctxRequest.exportName] = model
+                                        _ repeat(index + 1)
+                                ._ catch
+                                    =>
+                                        param err
+                                        _ callback(err)
+                _ repeat(0)
+            else
+                try
+                    const twinJsonContext
+                        await
+                            _ wizziProds.inferAndLoadContextFs(resourceFilePath, 'wzCtx')
+                    return (callback(null, twinJsonContext))
+                catch ex
+                    return callback(ex)
+        +
+        async-function sendFolderScan
+            param folderPath
+                :string
+            param root
+                :string
+            param meta
+                :string
+            param request
+                :ref Request
+            param response
+                :ref Response
+            try
+                const folderState
+                    await
+                        _ wizziProds.scanIttfFolder(folderPath, path.dirname(root))
+                const siteCtx
+                    await
+                        $$ _ loadJsonIttfModel
+                        _ wizziProds.loadSiteJsonModel
+                            @ 'sitectx.json.ittf'
+                $$ loog 'sendFolderScan', 'folderState.keys', Object.keys(folderState)
+                if meta === 'json'
+                    return sendJSONStringified(response, folderState)
+                else
+                    const generated
+                        await
+                            _ wizziProds.generateArtifactFs
+                                @ config.metaFolderIttfPath
+                                {
+                                    @ wizzischema 'html'
+                                    @ path folderPath
+                                    @ fs folderState
+                                    { locals
+                                        @ user (request as any).session.user
+                                    @ siteCtx
+                                    @ isWizziStudio true
+                        $$ loog 'generated.meta.document', generated.artifactContent
+                    _ response.writeHead
+                        @ 200
+                        {
+                            @ 'Content-Type' 'text/html'
+                            @ 'Content-Length' generated.artifactContent.length
+                        $$ loogg 'generated.meta.document', generated.artifactContent
+                    _ response.end(generated.artifactContent)
+            catch ex
+                error 'sendFolderScan.exception', ex
+                _ sendError
+                    @ response
+                    @ ex
+                    {
+                        @ format 'json'
+        +
+        function sendTransform
+            param filePath
+                :string
+            param transformer
+                :string
+            param response
+                :ref Response
+            _ wizziProds.transformModelFs
+                @ filePath
+                {
+                    @ isWizziStudio true
+                {
+                    @ transformer transformer
+                ._ then
+                    =>
+                        param model
+                        _ response.send
+                            _ stringify
+                                @ model
+                                @ null
+                                @ 2
+                ._ catch
+                    =>
+                        param err
+                        _ sendError
+                            @ response
+                            @ err
+                            {
+                                @ format 'json'
+        +
+        function sendJSONStringified
+            param response
+                :ref Response
+            param wizziModelInstance
+                :any
+            _ response.send('<pre>' + stringify(cleanCircular(wizziModelInstance, []), null, 2) + '</pre>')
+        +
+        function cleanCircular
+            param obj
+                :any
+            param stock
+                :[
+                    :any
+            if !obj
+                return
+            if stock.indexOf(obj) >= 0
+                return
+            else
+                _ stock.push(obj)
+            if typeof obj === 'object'
+                if obj.length
+                    _
+                        (
+                            + obj
+                                :as
+                                    :tuple
+                        ._ forEach
+                            =>
+                                param element
+                                _ cleanCircular(element, stock)
+                    return
+                if obj.parent
+                    delete obj.parent
+                if obj.wzParent
+                    delete obj.wzParent
+                if obj.nodes
+                    delete obj.nodes
+                if obj.evalContext
+                    delete obj.evalContext
+                if obj.loadContext && obj.sourceKey
+                    delete obj.loadContext
+                for
+                    left
+                        var k
+                    in obj
+                    var item = obj[k]
+                    if !item
+                        delete obj[k]
+                    else
+                        if typeof item === 'object' && item.length && item.length == 0
+                            delete obj[k]
+                        else
+                            _ cleanCircular(item, stock)
+            return obj
+        +
+        function sendError
+            param response
+                :ref Response
+            param err
+                :any
+            param options
+                :any
+            set options =
+                ||
+                    + options
+                    {
+            const code = options.code || 999
+            let errEmit
+                :any
+                = err
+            delete errEmit.__is_error
+            if options.format === 'string'
+                if typeof err !== 'string'
+                    set err =
+                        _ util.inspect
+                            @ err
+                            {
+                                @ depth null
+                set errEmit = err.replace(RegExp('\n', 'g'), '<br>')
+            else
+                if err.stack && err.stack.split
+                    const stackArray
+                        :[
+                            :string
+                        = []
+                    _
+                        (
+                            @expr err.stack
+                                :as
+                                    :string
+                        ._ split
+                            @ '\n'
+                        ._ forEach
+                            =>
+                                param element
+                                _ stackArray.push('    ' + element)
+                    set errEmit.stack = stackArray
+            _ response.setHeader('Content-Type', 'application/json')
+            _ response.send
+                _ stringify
+                    {
+                        @ code
+                        @ error errEmit
+                    @ null
+                    @ 4
+
+    ${'$'}else
+        # <--wizzi!file!exclude-->                

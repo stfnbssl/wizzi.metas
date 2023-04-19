@@ -1,0 +1,18 @@
+$group
+
+    $if cliCtx.useJsAppCrud
+
+        $
+            var items = [
+                'app',
+                'controller',
+                'model',
+                'store',
+                'template',
+                'view',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/js/t/appCrud/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/js/appCrud/${item}.js

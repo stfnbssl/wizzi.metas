@@ -1,0 +1,84 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function getCodeAST
+                param files
+                    :ref packiTypes.PackiFiles
+                :return
+                    :ref Promise
+                        :param
+                            :ref packiTypes.PackiFiles
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            var result
+                                :ref packiTypes.PackiFiles
+                                =
+                                    {
+                            for const k of Object.keys(files)
+                                var extension = path.extname(k)
+                                try
+                                    const astResult
+                                        await
+                                            _ handleGetCodeAST
+                                                @ extension
+                                                @ files[k].contents
+                                    set result[k + '.ast']
+                                        {
+                                            @ type 'CODE'
+                                            @ contents
+                                                _ stringify
+                                                    @ astResult
+                                                    @ null
+                                                    @ 2
+                                catch ex
+                                    set result[k + '.ast']
+                                        {
+                                            @ type 'CODE'
+                                            @ contents
+                                                _ stringify
+                                                    @ ex
+                                                    @ null
+                                                    @ 2
+                            return
+                                _ resolve
+                                    @ result
+        +
+        function handleGetCodeAST
+            param extension
+                :string
+            param codeSnippet
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :any
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        var schema = wizziMaps.schemaFromExtension(extension)
+                        if schema
+                            _ wizziTools.getCodeAST
+                                @ schema
+                                @ codeSnippet
+                                function
+                                    param err
+                                        :any
+                                    param astResult
+                                        :any
+                                    if err
+                                        _ reject
+                                            @ err
+                                    _ resolve
+                                        @ astResult
+                        else
+                            const ittfResult
+                                {
+                                    @ message "The file has an invalid schema."
+                            _ resolve
+                                @ ittfResult

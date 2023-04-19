@@ -1,0 +1,8 @@
+﻿$group
+
+	artifact any_vue
+		src ./**/*.vue.ittf
+		schema vue
+		generator vue/document
+		extension vue
+		$hook

@@ -1,0 +1,27 @@
+$group
+    
+    $if metaCtx.useBabel || metaCtx.useWebpack
+
+
+        $file __dot__wizzi/${pkgPath}root/babel.config.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include babel/babel.config-base.js
+
+
+        $
+            var items = [
+                "env",
+                "plugins",
+                "presets",
+                "overrides",
+            ];
+
+        $foreach item in items
+
+            $file __dot__wizzi/t/babel/${metaVer}/configjs/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                
+                    ${'$'}include babel/tfolder/configjs/${item}.js
+
+

@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useTailwind
+        $file __dot__wizzi/tailwind/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tailwind/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/tailwind/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include tailwind/tfolder/${item}.js

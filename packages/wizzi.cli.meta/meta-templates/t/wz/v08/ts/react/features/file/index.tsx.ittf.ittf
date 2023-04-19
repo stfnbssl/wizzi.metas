@@ -1,0 +1,70 @@
+$group
+
+    import
+        @ TextFileEntry
+        @ AssetFileEntry
+        @ FolderEntry
+        @ FileSystemEntry
+        @ FileSystemEntryDiff
+        from './types'
+
+    import
+        @ isInsideFolder
+        @ getParentPath
+        @ changeParentPath
+        @ getUniquePath
+        @ isEntryPoint
+        @ isPackageJson
+        @ isESLintConfig
+        @ isImage
+        @ isScript
+        @ isJson
+        @ isJS
+        @ isTS
+        @ isTest
+        from './fileUtilities'
+    import getFileLanguage
+        from './getFileLanguage'
+    import getFilesFromQuery
+        from './getFilesFromQuery'
+    import
+        @ getRelativePath
+        @ getBasePath
+        @ getAbsolutePath
+        from './path'
+    import
+        @ dragEventIncludes
+        from './dragUtilities'
+    import
+        as fileConversions
+        from './convertFileStructure'
+    +
+    :export-type
+        @ TextFileEntry
+        @ AssetFileEntry
+        @ FolderEntry
+        @ FileSystemEntry
+        @ FileSystemEntryDiff
+    +
+    export 
+        @ isInsideFolder
+        @ getParentPath
+        @ changeParentPath
+        @ getUniquePath
+        @ isEntryPoint
+        @ isPackageJson
+        @ isESLintConfig
+        @ isImage
+        @ isScript
+        @ isJson
+        @ isJS
+        @ isTS
+        @ isTest
+        @ getFileLanguage
+        @ getFilesFromQuery
+        @ getRelativePath
+        @ getBasePath
+        @ getAbsolutePath
+        @ dragEventIncludes
+        @ fileConversions
+

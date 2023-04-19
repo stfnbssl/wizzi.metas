@@ -1,0 +1,20 @@
+$group
+
+    import 
+        @ all
+        @ fork
+        from 'redux-saga/effects'
+    ${'$'}foreach item in wzCtx.Build.data.reduxItems     
+        import ${'$'}{item.Name}Sagas
+            from '../features/${'$'}{item.name}/saga'
+    +
+    export 
+        const createRootSaga
+            => 
+                return 
+                    function* rootSaga
+                        yield 
+                            _ all
+                                [ 
+                                    ${'$'}foreach item in wzCtx.Build.data.reduxItems
+                                        @ fork(${'$'}{item.Name}Sagas)

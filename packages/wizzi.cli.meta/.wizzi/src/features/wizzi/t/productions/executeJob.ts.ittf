@@ -1,0 +1,90 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function executeJob
+                param wfjobFilePath
+                    :string
+                param packiFiles
+                    :ref packiTypes.PackiFiles
+                param context
+                    :any
+                :return
+                    :ref Promise
+                        :param
+                            :ref JsonFs
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            if !verify.isObject(packiFiles)
+                                return
+                                    _ reject
+                                        {
+                                            @ action 'wizzi.productions.executeJob'
+                                            @ message 'packiFiles parameter must be an object of type PackiFiles'
+                                            @ packiFiles
+                            set wfjobFilePath = ensurePackiFilePrefix(wfjobFilePath)
+                            const jsonwf
+                                await
+                                    _ createJsonFsAndFactory(packiFiles)
+                            _ jsonwf.wf.executeJob
+                                {
+                                    @ name ''
+                                    @ path wfjobFilePath
+                                    { productionOptions
+                                    @ globalContext context || {}
+                                =>
+                                    param err
+                                    param result
+                                    if err
+                                        return reject(err)
+                                    _ resolve(jsonwf.jsonFs)
+        +
+        export
+            async-function executeJobs
+                param packiFiles
+                    :ref packiTypes.PackiFiles
+                param context
+                    :any
+                :return
+                    :ref Promise
+                        :param
+                            :ref JsonFs
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            const wfjobFilePaths
+                                _ Object.keys(packiFiles).filter
+                                    =>
+                                        param k
+                                        _ k.endsWith('.wfjob.ittf')
+                            # TODO catch error
+                            const jsonwf
+                                await
+                                    _ createJsonFsAndFactory(packiFiles)
+                            const execJob
+                                =>
+                                    param index
+                                        :number
+                                    :return
+                                        :void
+                                    if index == wfjobFilePaths.length
+                                        return resolve(jsonwf.jsonFs)
+                                    const wfjobFilePath = ensurePackiFilePrefix(wfjobFilePaths[index])
+                                    _ jsonwf.wf.executeJob
+                                        {
+                                            @ name ''
+                                            @ path wfjobFilePath
+                                            { productionOptions
+                                            @ globalContext context || {}
+                                        =>
+                                            param err
+                                            param result
+                                            if err
+                                                return reject(err)
+                                            _ execJob(index + 1)
+                            _ execJob(0)

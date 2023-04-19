@@ -1,0 +1,58 @@
+$group
+    section 
+        div
+          style display:flex;
+          div
+            h1 Media works
+          div
+            style display:flex;
+            class filters
+            div
+              style margin:18px 130px; font-size: 1.4em;
+              a Media
+                href #/media
+                class selected
+            div
+              style margin:18px 30px; font-size: 1.4em;
+              a Other
+                href #/other
+                class 
+    section 
+        div
+          class media-view
+          div
+            class media-container
+            div
+              class media-explorer
+              section 
+                class media-view-filter flex justify-content-space-between
+                div
+                  class media-view-search
+                  input 
+                    type search
+                    class media-view-search-field m-s p-s
+                    placeholder Find a guida …
+                    autocomplete off
+                    @ aria-label Find a guida …
+                div
+                  class media-view-select-categoria
+                  style padding-top:20px;
+                div
+                  class media-view-select-titolo
+                  style padding-top:20px;
+              section 
+                class main
+                ul 
+                    class media-list
+            div
+              class media-item-box
+              div
+                class media-details
+              ${'$'}include youtube
+        div
+          class other-view
+        footer 
+            class info
+            p Powered by Wizzi. Wizzi is created by
+                a Stefano Bassoli
+                    href https://github.com/stfnbssl

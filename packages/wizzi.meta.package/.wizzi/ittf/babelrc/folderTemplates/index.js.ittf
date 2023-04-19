@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useBabelrc
+        $file __dot__wizzi/babelrc/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include babelrc/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/babelrc/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include babelrc/tfolder/${item}.js

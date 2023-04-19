@@ -1,0 +1,20 @@
+$group
+    $if cliCtx.useAuthentication
+        $file __dot__wizzi/${pkgPath}src/features/account/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/account/index.ts
+        $file __dot__wizzi/${pkgPath}src/features/account/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/account/types.ts
+        $file __dot__wizzi/${pkgPath}src/features/account/api/user.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/account/api/user.ts
+        $file __dot__wizzi/${pkgPath}src/features/account/controllers/apiv1user.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/account/controllers/apiv1user.tsx
+        $file __dot__wizzi/${pkgPath}src/features/account/controllers/user.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/account/controllers/user.tsx
+        $file __dot__wizzi/${pkgPath}src/features/account/mongo/user.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/account/mongo/user.ts

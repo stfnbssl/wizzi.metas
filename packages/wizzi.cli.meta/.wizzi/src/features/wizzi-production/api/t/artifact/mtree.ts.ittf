@@ -1,0 +1,97 @@
+$group
+    +
+    export
+        async-function getArtifactMTree
+            param owner
+                :string
+            param productionName
+                :string
+            param rootContext
+                :any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ getArtifactProduction_withCache
+                            @ owner
+                            @ productionName
+                            ._ then
+                                =>
+                                    param ap
+                                        :any
+                                    _ wizziProds.mTree
+                                        @ ap.mainIttf
+                                        @ ap.packiFiles
+                                        @ rootContext
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                const response
+                                                    {
+                                                        @ content result.mTreeIttf
+                                                        @ contentLength result.mTreeIttf.length
+                                                        @ contentType wizziMaps.contentTypeFor('x.ittf.ittf')
+                                                return resolve(response)
+                                        v08/ts/catch_reject( getArtifactMTree.mTree )
+                                            set err.parameter
+                                                {
+                                                    @ artifactOwner owner
+                                                    @ artifactName productionName
+                            v08/ts/catch_reject( getArtifactMTree.getArtifactProduction )
+                                set err.parameter
+                                    {
+                                        @ artifactOwner owner
+                                        @ artifactName productionName
+    +
+    export
+        async-function getArtifactMTree_withPrepare
+            param owner
+                :string
+            param productionName
+                :string
+            param queryContext
+                :string
+            param rootContext
+                :any
+            # loog 'getArtifactMTree_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ productionApi.prepareProduction
+                            @ 'artifact'
+                            @ owner
+                            @ productionName
+                            @ queryContext
+                            @ rootContext
+                            ._ then
+                                =>
+                                    param productionObj
+                                        :any
+                                    _ wizziProds.mTree
+                                        @ productionObj.mainIttf
+                                        @ productionObj.packiFiles
+                                        @ productionObj.context
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                const response
+                                                    {
+                                                        @ content result.mTreeIttf
+                                                        @ contentLength result.mTreeIttf.length
+                                                        @ contentType wizziMaps.contentTypeFor('x.ittf.ittf')
+                                                return resolve(response)
+                                        v08/ts/catch_reject( getArtifactMTree.mTree )
+                                            set err.parameter
+                                                {
+                                                    @ artifactOwner owner
+                                                    @ artifactName productionName
+                            v08/ts/catch_reject( getArtifactMTree.getArtifactProduction )
+                                set err.parameter
+                                    {
+                                        @ artifactOwner owner
+                                        @ artifactName productionName

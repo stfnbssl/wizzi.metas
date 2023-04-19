@@ -1,0 +1,20 @@
+$group
+    $params elname
+
+    $ var openPar = "(";
+    async-md${openPar} ${elname} )
+
+        sampleNode.js( txt )
+        _ ctx.w('const ' + docxNode + ' = {};')
+        _ ctx.w(docxNode + '.text = "' + model.wzName + '";')
+        $hook
+       
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb${openPar})
+                _ ctx.w('const ' + docxNode + 'Obj = new docx.TextRun(' + docxNode + ');')
+                _ ctx.w(docxParent + '.children.push(' + docxNode + 'Obj);')
+                _ ctx.values.docxStack.pop()
+                r_cb${openPar})

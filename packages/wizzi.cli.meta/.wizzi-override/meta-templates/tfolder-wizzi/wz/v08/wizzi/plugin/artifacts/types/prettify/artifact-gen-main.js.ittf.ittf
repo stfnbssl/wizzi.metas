@@ -1,0 +1,31 @@
+$group
+    async-md${openPar} sample )
+        _ ctx.w('sample ' + model.wzName)
+        _ md.genItems
+            @ model.items
+            @ ctx
+            {
+                @ indent false
+            a_cb${openPar})
+                _ md.genItems
+                    @ model.ittfPanels
+                    @ ctx
+                    {
+                        @ indent false
+                    @ callback
+
+    async-md${openPar} item )
+        _ ctx.w('. item ' + model.wzName)
+        if model.value
+            _ ctx.w('  - value ' + model.value)
+        r_cb${openPar})
+
+    async-md${openPar} ittfPanel )
+        _ ctx.w("<div>Schema " + model.wzMTreeData.schema + '</div>')
+        _ ctx.w("<h3>Title " + model.wzMTreeData.title + '</div>')
+        _ prettifyIttf
+            @ model.wzMTreeData
+            a_cb${openPar} result )
+                r_cb${openPar} )
+
+    ${'$'}include prettifyIttf

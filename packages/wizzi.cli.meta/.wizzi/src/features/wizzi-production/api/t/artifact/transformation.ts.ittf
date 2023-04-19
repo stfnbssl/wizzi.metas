@@ -1,0 +1,100 @@
+$group
+    +
+    export
+        async-function getArtifactTransformation
+            param owner
+                :string
+            param name
+                :string
+            param context
+                :any
+            param transformerName
+                :string
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ getArtifactProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param ap
+                                        :any
+                                    _ wizziProds.transformModel
+                                        @ ap.mainIttf
+                                        @ ap.packiFiles
+                                        @ context
+                                        {
+                                            @ transformer transformerName
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                return resolve(result)
+                                        v08/ts/catch_reject( getArtifactTransformation.transformModel )
+                                            set err.parameter
+                                                {
+                                                    @ artifactOwner owner
+                                                    @ artifactName name
+                                                    @ mainIttf ap.mainIttf
+                                                    @ transformerName transformerName
+                            v08/ts/catch_reject( getArtifactTransformation.getArtifactProduction )
+                                set err.parameter
+                                    {
+                                        @ artifactOwner owner
+                                        @ artifactName name
+    +
+    export
+        async-function getArtifactTransformation_withPrepare
+            param owner
+                :string
+            param productionName
+                :string
+            param queryContext
+                :string
+            param rootContext
+                :any
+            param transformerName
+                :string
+            # loog 'getArtifactMTree_withPrepare', 'owner', owner, 'productionName', productionName, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext), 'transformerName', transformerName
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ productionApi.prepareProduction
+                            @ 'artifact'
+                            @ owner
+                            @ productionName
+                            @ queryContext
+                            @ rootContext
+                            ._ then
+                                =>
+                                    param productionObj
+                                        :any
+                                    # loog 'getArtifactTransformation_withPrepare.productionObj', 'mainIttf', productionObj.mainIttf, 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
+                                    _ wizziProds.transformModel
+                                        @ productionObj.mainIttf
+                                        @ productionObj.packiFiles
+                                        @ productionObj.context
+                                        {
+                                            @ transformer transformerName
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                return resolve(result)
+                                        v08/ts/catch_reject( getArtifactTransformation_withPrepare.transformModel )
+                                            set err.parameter
+                                                {
+                                                    @ artifactOwner owner
+                                                    @ artifactName productionName
+                                                    @ mainIttf productionObj.mainIttf
+                                                    @ transformerName transformerName
+                            v08/ts/catch_reject( getArtifactTransformation_withPrepare.getArtifactProduction )
+                                set err.parameter
+                                    {
+                                        @ artifactOwner owner
+                                        @ artifactName productionName

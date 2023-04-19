@@ -1,0 +1,185 @@
+$group
+    +
+    async-function getProductionSetFromProductionObject
+        param owner
+            :string
+        param productionName
+            :string
+        param packiConfig
+            :any
+        param progressivePackiFiles
+            :ref packiTypes.PackiFiles
+        param progressiveContext
+            :any
+        #
+            # __key__production_flow
+            # Called by production.api.production.prepareProduction
+            # increments progressivePackiFiles and progressiveContext
+        +
+        # loog 'executing getProductionSetFromProductionObject', 'owner', owner, 'productionName', productionName, 'packiConfig', packiConfig, 'progressivePackiFiles', Object.keys(progressivePackiFiles), 'progressiveContext', Object.keys(progressiveContext)
+        +
+        set progressiveContext
+            _ Object.assign
+                {
+                @ progressiveContext
+                {
+                    @ ctxByProductionObject "Hello by ProductionObject"
+        return
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    +
+                    if packiConfig
+                        _ wizziProds.generateArtifact
+                            @ packiConfigPath
+                            {
+                                { [packiConfigPath]
+                                    @ type packiConfig.type
+                                    @ contents packiConfig.contents
+                            @ progressiveContext
+                            ._ then
+                                =>
+                                    param generationResult
+                                        :any
+                                    const packiConfigObj = JSON.parse(generationResult.artifactContent)
+                                    # loog myname, 'getProductionSetFromProductionObject', 'packiConfigObj', JSON.stringify(packiConfigObj)
+                                    _ getTFoldersPackiFilesFromProductionData
+                                        @ owner
+                                        @ packiConfigObj
+                                        ._ then
+                                            =>
+                                                param tFoldersPackiFiles
+                                                    :ref packiTypes.PackiFiles
+                                                # loog myname, 'getProductionSetFromProductionObject', 'tFoldersPackiFiles', Object.keys(tFoldersPackiFiles)
+                                                set progressivePackiFiles
+                                                    _ mergePackiFiles
+                                                        @ progressivePackiFiles
+                                                        @ tFoldersPackiFiles
+                                                _ addContextPropertiesFromProductionData
+                                                    @ owner
+                                                    @ packiConfigObj
+                                                    @ progressiveContext
+                                                    ._ then
+                                                        =>
+                                                            param resultProductionContext
+                                                            # loog myname, 'getProductionSetFromProductionObject', 'resultProductionContext', Object.keys(resultProductionContext)
+                                                            return
+                                                                _ resolve
+                                                                    {
+                                                                        @ packiFiles progressivePackiFiles
+                                                                        @ context resultProductionContext
+                                                    v08/ts/catch_reject( getArtifactGeneration.addContextPropertiesFromProductionData )
+                                        v08/ts/catch_reject( getArtifactGeneration.getTFoldersPackiFilesFromProductionData )
+                            v08/ts/catch_reject( getArtifactGeneration.generateArtifact )
+                    else
+                        # loog owner, productionName, packiConfig, 'has no production data'
+                        _ resolve
+                            {
+                                @ packiFiles progressivePackiFiles
+                                @ context progressiveContext
+    +
+    export
+        async-function getTFoldersPackiFilesFromProductionData
+            param owner
+                :string
+            param packiConfigObj
+                :any
+            :return
+                :ref Promise
+                    :param
+                        :ref packiTypes.PackiFiles
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        var tFoldersPackiFiles
+                            :ref packiTypes.PackiFiles
+                            {
+                        const hasTFolders = packiConfigObj && packiConfigObj.tfolders && packiConfigObj.tfolders.length > 0;
+                        # loog myname, 'getTFoldersPackiFilesFromProductionData', 'hastFolders', hasTFolders
+                        if !hasTFolders
+                            return
+                                _ resolve
+                                    @ tFoldersPackiFiles
+                        +
+                        var j = 0
+                        iife next
+                            var tfolder = packiConfigObj.tfolders[j++]
+                            if !tfolder
+                                # loog 'getTFoldersPackiFilesFromProductionData.done.keys', Object.keys(tFoldersPackiFiles)
+                                return resolve(tFoldersPackiFiles)
+                            if !tfolder.name
+                                return
+                                    _ next
+                            # loog myname, 'getTFoldersPackiFilesFromProductionData', 'getting tFolder', tfolder.name
+                            _ tFolderApi.getTFolder
+                                @ owner
+                                @ tfolder.name
+                                ._ then
+                                    =>
+                                        param result
+                                            :ref CRUDResult
+                                        const tf
+                                            :ref productionTypes.ITFolderModel
+                                            = result.item
+                                        const tf_packiFiles_object
+                                            :ref packiTypes.PackiFiles
+                                            _ JSON.parse(tf.packiFiles)
+                                        set tFoldersPackiFiles
+                                            _ mergePackiFiles
+                                                @ tFoldersPackiFiles
+                                                @ tf_packiFiles_object
+                                        _ next()
+                                v08/ts/catch_reject( getTFoldersPackiFilesFromProductionData.getTFolder )
+    +
+    async-function addContextPropertiesFromProductionData
+        param owner
+            :string
+        param packiConfigObj
+            :any
+        param progressiveContext
+            :any
+        :return
+            :ref Promise
+                :param
+                    :any
+        # loog 'addContextPropertiesFromProductionData', 'owner', owner, 'packiConfigObj', packiConfigObj, 'progressiveContext', Object.keys(progressiveContext)
+        +
+        return
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    +
+                    if !!(packiConfigObj && packiConfigObj.contexts && packiConfigObj.contexts.length > 0) == false
+                        return
+                            _ resolve
+                                @ progressiveContext
+                    var j = 0
+                    iife next
+                        var contextConfig = packiConfigObj.contexts[j++]
+                        if !contextConfig
+                            # loog 'addContextPropertiesFromProductionData.done.keys', Object.keys(progressiveContext)
+                            return resolve(progressiveContext)
+                        if !contextConfig.propertyName || !contextConfig.artifactName
+                            return
+                                _ next
+                        _ getArtifactContextItem
+                            @ owner
+                            @ contextConfig.propertyName + ';' + contextConfig.artifactName + (contextConfig.transformationName ? ';' + contextConfig.transformationName : '')
+                            @ progressiveContext
+                            ._ then
+                                =>
+                                    param resultContextItem
+                                        :any
+                                    set progressiveContext
+                                        _ Object.assign
+                                            {
+                                            @ progressiveContext
+                                            @ resultContextItem
+                                    _ next()
+                            v08/ts/catch_reject( addContextPropertiesFromProductionData.getArtifactContextItem )

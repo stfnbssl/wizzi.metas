@@ -1,0 +1,27 @@
+{
+
+    $
+        var metaBasename = "js";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Js meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "jscommons"
+        {
+            name "jsexpress"
+        {
+            name "jsutils"

@@ -1,0 +1,14 @@
+$group
+
+    function loadMTreeBuildupScript
+        param ittfDocumentUri
+        param context
+        param callback
+
+        _ createWizziFactory
+            {
+            a_cb${'('} wf )
+                _ wf.loadMTreeBuildupScript
+                    @ ittfDocumentUri
+                    @ context
+                    @ callback

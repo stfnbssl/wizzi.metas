@@ -1,0 +1,26 @@
+$group
+    $params &md
+    export
+        :type I${md.Name}
+            :{
+                $foreach field in md.fields
+                    $if field.type != 'oid'
+                        :p ${field.name}
+                            $if field.type == 'date'
+                                :ref Date
+                            $elif ['number','integer','float','decimal'].indexOf(field.type) > -1
+                                :number
+                            $elif field.type == 'arrayRef'
+                                :[
+                                    :ref I${field.refSchema}
+                            $elif field.type == 'objectRef'
+                                :ref I${field.refSchema}
+                            $else
+                                :string
+                $if md.setUpdatedAt
+                    :p updated_at
+                        :ref Date
+    export
+        :interface I${md.Name}Model
+            :extends I${md.Name}
+            :extends Document

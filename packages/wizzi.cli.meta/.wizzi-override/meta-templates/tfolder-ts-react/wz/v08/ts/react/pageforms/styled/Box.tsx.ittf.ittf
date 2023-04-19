@@ -1,0 +1,31 @@
+$group
+
+    ${'$'}
+        var md = {
+            name: "Box",
+            element: "div",
+            props: [
+            ]
+        }
+        
+    v08/ts/react/styledelement${'('}&md)
+
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+
+        const ret
+            {
+        if props.fontSize
+            set ret.fontSize = props.fontSize
+        if props.color
+            set ret.color = props.color
+        if props.margin
+            set ret.margin = props.margin
+        if props.padding
+            set ret.padding = props.padding
+        if props.border
+            set ret.border = props.border
+        return ret
+

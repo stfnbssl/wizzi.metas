@@ -1,0 +1,42 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormAvatar",
+            props: [
+                { name: 'title', type: 'string' },
+                { name: 'subtitle', type: 'string', optional: true },
+                { name: 'avatar_url', type: 'string' },
+            ]
+        }
+        
+    v08/ts/react/function${'('}&md)
+        
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            const StyledImg
+                _ styled.img
+                    => 
+                        param props
+                            :any
+                        return
+                            {
+                                @ borderRadius '50%!important'
+                                @ boxShadow '0 0 0 1px ' + c('avatar-border')
+                                @ display 'inline-block'
+                                @ flexShrink 0
+                                @ lineHeight 1
+                                @ overflow 'hidden'
+                                @ verticalAlign 'middle'
+                                @ width props.width || "260px"
+                                @ height props.width || "260px"
+                                @ aspectRatio props.aspectRatio || "auto 260 / 260"
+
+        return
+            < StyledImg
+                @ src {avatar_url}

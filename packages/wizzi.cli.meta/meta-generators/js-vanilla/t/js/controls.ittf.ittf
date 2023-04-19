@@ -1,0 +1,16 @@
+$group
+
+    $if cliCtx.useJsControls
+
+        $
+            var items = [
+                'date-picker/codepen-date-picker',
+                'select/nice-select',
+                'slider/zb-range-slider',
+                'index',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/js/t/controls/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/js/controls/${item}.js

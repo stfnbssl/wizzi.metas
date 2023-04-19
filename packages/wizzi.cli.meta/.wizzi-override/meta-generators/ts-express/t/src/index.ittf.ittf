@@ -1,0 +1,42 @@
+$group
+    
+    $file __dot__wizzi/${pkgPath}src/App.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/App.ts
+        
+    $file __dot__wizzi/${pkgPath}src/httpException.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/httpException.ts
+    
+    $file __dot__wizzi/${pkgPath}src/index.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/index.ts
+
+
+    $file __dot__wizzi/${pkgPath}src/t/index/imports.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/express/t/index/imports.ts
+
+    $file __dot__wizzi/${pkgPath}src/t/index/start.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/express/t/index/start.ts
+
+    $file __dot__wizzi/${pkgPath}src/t/app/appImports.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/express/t/app/appImports.ts
+    
+    $file __dot__wizzi/${pkgPath}src/t/app/startImports.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/express/t/app/startImports.ts
+    
+    $file __dot__wizzi/${pkgPath}src/t/app/startServices.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/express/t/app/startServices.ts
+    
+    $file __dot__wizzi/${pkgPath}src/t/app/getInitValues.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/express/t/app/getInitValues.ts
+    
+    $file __dot__wizzi/${pkgPath}src/t/app/initializeApp.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/express/t/app/initializeApp.ts

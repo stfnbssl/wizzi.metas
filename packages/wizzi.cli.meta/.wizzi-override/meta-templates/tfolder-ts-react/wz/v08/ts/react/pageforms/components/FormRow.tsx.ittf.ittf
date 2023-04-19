@@ -1,0 +1,133 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormRow",
+            props: [
+                { name: "type", type: "string" },
+                { name: 'value', type: 'any', optional: true},
+                { name: 'onChange', type: 'input-event', optional: true },
+                { name: 'onDelete', type: 'any', optional: true },
+                { name: 'onAdd', type: 'any', optional: true },
+            ],
+            stateProps: [
+                { name: "name", type: "string" },
+            ]
+        }
+
+    v08/ts/react/component${'('}&md)
+        ${'$'}append imports
+            import
+                @ c
+                @ s
+                from '../ThemeProvider'
+            import
+                @ AddIcon
+                from '../../../assets/AddIcon'
+            import
+                @ DeleteIcon
+                from '../../../assets/DeleteIcon'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledInput .input<RootStyleProps>
+                background-color
+                    => c('background')
+                background-position right 8px center
+                background-repeat no-repeat
+                border
+                    => '1px solid ' + c('border')
+                border-radius 6px
+                box-shadow 
+                    => s('small')
+                color
+                    => c('primary-text')
+                font-size 14px
+                line-height 20px
+                outline none
+                padding 5px 12px
+                vertical-align middle
+            styled StyledButton .button<RootStyleProps>
+                margin-left 5px
+                margin-top 6px
+                line-height 20px
+                padding 3px
+
+        m componentDidMount
+            if this.props.type == 'delete'
+                $$ loog 'FormRow.componentDidMount.props.value.name', this.props.value.name
+                _ this.setState
+                    {
+                        @ name this.props.value.name
+        
+        m componentDidUpdate
+            param prevProps
+                :ref ${'$'}{md.name}Props
+            if this.props.type == 'delete' && prevProps.value !== this.props.value
+                $$ loog 'FormRow.componentDidUpdate.props.value.name', this.props.value.name
+                _ this.setState
+                    {
+                        @ name this.props.value.name
+        
+        => handleInputChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            $$ loog 'handleInputChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ [ev.target.name] (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)
+
+        => handleContextAdd
+            param ev
+            _ this.props.onAdd
+                {
+                    @ name this.state.name
+            _ this.setState
+                { 
+                    @ name ''
+            _ ev.stopPropagation
+        
+        => handleContextDelete
+            param ev
+            _ this.props.onDelete
+                {
+                    @ name this.state.name
+            _ this.setState
+                { 
+                    @ name ''
+            _ ev.stopPropagation
+
+        m render 
+            $$ loog 'FormRow.state', this.state, 'props', this.props
+            return
+                div 
+                    < StyledInput
+                        type text
+                        @ name 'name'
+                        @ id 'name'
+                        @ value {this.state.name}
+                        @ disabled {this.props.type == 'delete'}
+                        @ onChange {this.handleInputChange}
+                    {
+                        &&
+                            + this.props.type == 'add'
+                            < StyledButton
+                                @ type 'button'
+                                @ onClick {this.handleContextAdd}
+                                < AddIcon
+                                    @ theme {'light'}
+                                    @ width {16}
+                                    @ height {16}
+                    {
+                        &&
+                            + this.props.type == 'delete'
+                            < StyledButton
+                                @ type 'button'
+                                @ onClick {this.handleContextDelete}
+                                < DeleteIcon
+                                    @ theme {'light'}
+                                    @ width {16}
+                                    @ height {16}

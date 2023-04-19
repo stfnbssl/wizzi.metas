@@ -1,0 +1,123 @@
+$group
+
+    $
+        var lp = '(';
+
+    ${'$'}
+        var schema = md.schema;
+        var schemaUC = md.schema.name.toUpperCase();
+
+    import
+        @ deprecated 
+        from "typesafe-actions"
+    const 
+        {
+            @ createStandardAction
+        = deprecated
+    import 
+        @ I${'$'}{schema.Name}
+        from './types'
+    import 
+        @ ResponsePayload
+        from '../../store'
+    +
+    const GET_${'$'}{schemaUC}_LIST_REQUEST = '@@${'$'}{schema.name}/GET_${'$'}{schemaUC}_LIST_REQUEST'
+    const GET_${'$'}{schemaUC}_LIST_SUCCESS = '@@${'$'}{schema.name}/GET_${'$'}{schemaUC}_LIST_SUCCESS'
+    const GET_${'$'}{schemaUC}_LIST_ERROR = '@@${'$'}{schema.name}/GET_${'$'}{schemaUC}_LIST_ERROR'
+    const GET_${'$'}{schemaUC}_BYID_REQUEST = '@@${'$'}{schema.name}/GET_${'$'}{schemaUC}_BYID_REQUEST'
+    const GET_${'$'}{schemaUC}_BYID_SUCCESS = '@@${'$'}{schema.name}/GET_${'$'}{schemaUC}_BYID_SUCCESS'
+    const GET_${'$'}{schemaUC}_BYID_ERROR = '@@${'$'}{schema.name}/GET_${'$'}{schemaUC}_BYID_ERROR'
+    const CREATE_${'$'}{schemaUC}_REQUEST = '@@${'$'}{schema.name}/CREATE_${'$'}{schemaUC}_REQUEST'
+    const CREATE_${'$'}{schemaUC}_SUCCESS = '@@${'$'}{schema.name}/CREATE_${'$'}{schemaUC}_SUCCESS'
+    const CREATE_${'$'}{schemaUC}_ERROR = '@@${'$'}{schema.name}/CREATE_${'$'}{schemaUC}_ERROR'
+    const UPDATE_${'$'}{schemaUC}_REQUEST = '@@${'$'}{schema.name}/UPDATE_${'$'}{schemaUC}_REQUEST'
+    const UPDATE_${'$'}{schemaUC}_SUCCESS = '@@${'$'}{schema.name}/UPDATE_${'$'}{schemaUC}_SUCCESS'
+    const UPDATE_${'$'}{schemaUC}_ERROR = '@@${'$'}{schema.name}/UPDATE_${'$'}{schemaUC}_ERROR'
+    const DELETE_${'$'}{schemaUC}_REQUEST = '@@${'$'}{schema.name}/DELETE_${'$'}{schemaUC}_REQUEST'
+    const DELETE_${'$'}{schemaUC}_SUCCESS = '@@${'$'}{schema.name}/DELETE_${'$'}{schemaUC}_SUCCESS'
+    const DELETE_${'$'}{schemaUC}_ERROR = '@@${'$'}{schema.name}/DELETE_${'$'}{schemaUC}_ERROR'
+    +
+    :interface ${'$'}{schema.Name}ListResponsePayload
+        :extends ResponsePayload
+        :p ${'$'}{schema.collectionName}
+            :[
+                :ref I${'$'}{schema.Name}
+    +
+    :interface ${'$'}{schema.Name}UpdatePayload
+        :p id
+            :string
+        :p ${'$'}{schema.name}
+            :ref I${'$'}{schema.Name}
+    +
+    :interface ${'$'}{schema.Name}ResponsePayload
+        :extends ResponsePayload
+        :p ${'$'}{schema.name}
+            :ref I${'$'}{schema.Name}    
+    +
+    export 
+        const get${'$'}{schema.Name}ListRequest
+            _ createStandardAction(GET_${'$'}{schemaUC}_LIST_REQUEST)
+                :param void
+    export 
+        const get${'$'}{schema.Name}ListSuccess
+            _ createStandardAction(GET_${'$'}{schemaUC}_LIST_SUCCESS)
+                :param 
+                    :ref ${'$'}{schema.Name}ListResponsePayload
+    export 
+        const get${'$'}{schema.Name}ListError
+            _ createStandardAction(GET_${'$'}{schemaUC}_LIST_ERROR)
+                :param string
+    export 
+        const get${'$'}{schema.Name}ByIdRequest
+            _ createStandardAction(GET_${'$'}{schemaUC}_BYID_REQUEST)
+                :param string
+    export 
+        const get${'$'}{schema.Name}ByIdSuccess
+            _ createStandardAction(GET_${'$'}{schemaUC}_BYID_SUCCESS)
+                :param 
+                    :ref ${'$'}{schema.Name}ResponsePayload
+    export 
+        const get${'$'}{schema.Name}ByIdError
+            _ createStandardAction(GET_${'$'}{schemaUC}_BYID_ERROR)
+                :param string
+    export 
+        const create${'$'}{schema.Name}Request
+            _ createStandardAction(CREATE_${'$'}{schemaUC}_REQUEST)
+                :param 
+                    :ref I${'$'}{schema.Name}
+    export 
+        const create${'$'}{schema.Name}Success
+            _ createStandardAction(CREATE_${'$'}{schemaUC}_SUCCESS)
+                :param 
+                    :ref ${'$'}{schema.Name}ResponsePayload
+    export 
+        const create${'$'}{schema.Name}Error
+            _ createStandardAction(CREATE_${'$'}{schemaUC}_ERROR)
+                :param string
+    export 
+        const update${'$'}{schema.Name}Request
+            _ createStandardAction(UPDATE_${'$'}{schemaUC}_REQUEST)
+                :param 
+                    :ref ${'$'}{schema.Name}UpdatePayload
+    export 
+        const update${'$'}{schema.Name}Success
+            _ createStandardAction(UPDATE_${'$'}{schemaUC}_SUCCESS)
+                :param 
+                    :ref ${'$'}{schema.Name}ResponsePayload
+    export 
+        const update${'$'}{schema.Name}Error
+            _ createStandardAction(UPDATE_${'$'}{schemaUC}_ERROR)
+                :param string
+    export 
+        const delete${'$'}{schema.Name}Request
+            _ createStandardAction(DELETE_${'$'}{schemaUC}_REQUEST)
+                :param string
+    export 
+        const delete${'$'}{schema.Name}Success
+            _ createStandardAction(DELETE_${'$'}{schemaUC}_SUCCESS)
+                :param 
+                    :ref ${'$'}{schema.Name}ResponsePayload
+    export 
+        const delete${'$'}{schema.Name}Error
+            _ createStandardAction(DELETE_${'$'}{schemaUC}_ERROR)
+                :param string

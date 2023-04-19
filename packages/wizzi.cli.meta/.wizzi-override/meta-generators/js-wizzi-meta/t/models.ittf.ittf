@@ -1,0 +1,56 @@
+$group
+
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            $if cliCtx.usePackageVersion 
+                ${'${"$"}'}include versions
+            name "${cliCtx.name}"
+            npnName "${cliCtx.npnName}"
+            pluginBasename "${cliCtx.pluginBasename}"
+            $if cliCtx.usePackageVersion 
+                version '${'${"$"}'}{versions['${cliCtx.npnName}@next']}'
+            $else
+                version "0.0.1"
+            description "${cliCtx.description}"
+            { author
+                name "${cliCtx.author.name}"
+                email "${cliCtx.author.email}"
+            { github
+                userid "${cliCtx.github.userid}"
+            { license
+                name "${cliCtx.license.name}"
+                copy "${cliCtx.license.copy}"
+            metaNamespace "${cliCtx.metaNamespace}"
+            { Build
+                useConfig true
+                { config
+                isWizziMeta true
+                { wizziMeta
+                    [ plugins
+                        $if cliCtx.useWizziV08
+                            $foreach item in cliCtx.wizziV08.plugins
+                                "./wizzi.plugin.${item}/index.js" 
+                        $else
+                            "./wizzi-core/index.js" 
+                            "./wizzi-js/index.js" 
+                            "./wizzi-web/index.js" 
+                            "./wizzi-meta/index.js" 
+                    $if cliCtx.useWizziV08
+                        pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+                    $else
+                        pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.v07/packages"
+                    { globalContext
+                        wzConfigIsDevelopment true
+                        wzConfigIsPackageDeploy false
+                useWizziJsonFactory true
+                { utils
+                    useStringifySafe true
+                $if cliCtx.BuildVars
+                    $foreach bv in cliCtx.BuildVars
+                        ${bv.name} ${bv.value}
+            [ Productions
+                $foreach p in cliCtx.Productions
+                    {
+                        name "${p.name}"
+                        title "${p.name} wizzi meta production"
+

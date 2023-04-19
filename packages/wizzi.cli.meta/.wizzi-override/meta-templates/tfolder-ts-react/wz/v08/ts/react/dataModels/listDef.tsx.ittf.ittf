@@ -1,0 +1,39 @@
+﻿${'$'}group
+
+    ${'$'}
+        var schema = md.schema;
+        var testItems = [101,102];
+        for (var i=0; i<8 ; i++) { 
+            testItems.push${'('}i); 
+        }
+
+    const ${'$'}{schema.name}ListDef
+        :ref ListDef
+        {
+            @ id "${'$'}{schema.name}List"
+            @ title "${'$'}{schema.Titles}"
+            @ hasSearch true
+            [ columns
+                ${'$'}foreach field in schema.fields
+                    ${'$'}if field.isListItem || field.type == 'oid'
+                        {
+                            @ id "${'$'}{field.name}"
+                            @ label "${'$'}{field.label ? field.label : field.name}"
+                            @ type "${'$'}{field.type}"
+                            ${'$'}if field.listControlType
+                                @ controlType "${'$'}{field.listControlType}"
+                            ${'$'}elif field.type == 'string'
+                                @ controlType "text"
+                            ${'$'}else
+                                @ controlType "${'$'}{field.type}"
+                            ${'$'}if field.type == 'oid'
+                                @ isKey true
+
+    const ${'$'}{schema.name}ListData
+        {
+            [ items
+                ${'$'}foreach item in testItems
+                    {
+                        ${'$'}foreach field in schema.fields
+                            ${'$'}if field.isListItem
+                                @ ${'$'}{field.name} "${'$'}{field.test} ${'$'}{item}"

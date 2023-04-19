@@ -1,0 +1,19 @@
+﻿$group
+
+	function npmExec
+		param options
+		param callback
+
+		_ npm.load
+			f_cb()
+				_ npm.commands.install
+					[
+						@ 'ffi'
+					f_cb(data)
+						log data
+		
+		_ npm.on
+			@ 'log'
+			function
+				param message
+				log message

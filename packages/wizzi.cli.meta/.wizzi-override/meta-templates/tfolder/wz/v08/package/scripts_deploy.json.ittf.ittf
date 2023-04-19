@@ -1,0 +1,2 @@
+$group
+    start "set NODE_ENV=production&&node --no-deprecation server.js"

@@ -1,0 +1,11 @@
+$group
+    
+    $if cliCtx.useMongoDb
+        $file __dot__wizzi/${pkgPath}src/services/mongodb.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/services/mongodb.ts
+
+    $if cliCtx.useSequelize
+        $file __dot__wizzi/${pkgPath}src/services/sequelize.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/services/sequelize.ts

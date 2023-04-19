@@ -1,0 +1,30 @@
+$group
+    ${'$'}params size|x
+    
+    . flex-column justify-content-start p-xl
+
+        . m-${'$'}{size}
+            img
+                ${'$'}if size == 'x'
+                    width 300px
+                    height 300px
+                ${'$'}elif size == 'm'
+                    width 200px
+                    height 200px
+                ${'$'}elif size == 's'
+                    width 100px
+                    height 100px
+                style border-radius: 50%;
+                src ${'$'}{locals.user.avatar_url}
+        . font-xl
+            + ${'$'}{locals.user.name}
+        . font-x font-w-s
+            + ${'$'}{locals.user.username}
+        . font-x font-w-s m-t-xxl
+            + ${'$'}{locals.user.email}
+
+        $*
+        pre
+            code
+                + ${JSON.stringify(locals, null,2)}
+        *$

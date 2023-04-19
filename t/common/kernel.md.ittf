@@ -1,0 +1,25 @@
+﻿md
+	$params name, title 
+
+	h1 ${name}
+	br
+	p ${title}
+	br
+
+	workinprogress()
+
+	$hook
+
+	wf()
+
+	h2 Built With
+	ul
+		li 
+			a Nodejs
+				href https://nodejs.org
+		li 
+			a Wizzi
+				href https://github.com/stfnbssl/wizzi
+	br
+	
+	license()

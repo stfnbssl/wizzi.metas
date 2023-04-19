@@ -1,0 +1,23 @@
+$group
+
+	iife
+		
+		if !window.wz
+			set window.wz = {}
+	
+		set wz.debounce
+            function
+                param fn
+                param delay
+                var timer = null
+                return 
+                    function 
+                        var 
+                            decl context = this
+                            decl args = arguments
+                        _ clearTimeout(timer)
+                        set timer =
+                            _ setTimeout
+                                function 
+                                    _ fn.apply(context, args)
+                                @ delay

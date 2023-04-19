@@ -1,0 +1,8 @@
+$group
+    $params elname
+
+    $ var openPar = "(";
+    async-md${openPar} ${elname} )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        $hook
+        r_cb${openPar})

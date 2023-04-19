@@ -1,0 +1,146 @@
+$group
+    $params &md
+    import
+        @ Schema
+        @ Model
+        @ model
+        from "mongoose"
+    import
+        @ ModelBuilderType
+        from "../../app/types"
+    import
+        @ I${md.Name}Model
+        from "../types"
+    +
+    # see https://mongoosejs.com/docs/schematypes.html
+    +
+    const ${md.Name}Schema
+        new Schema
+            :param I${md.Name}Model
+            {
+                $foreach field in md.fields
+                    $if field.type == 'arrayRef'
+                        [ ${field.name}
+                            {
+                                @ type Schema.Types.ObjectId
+                                @ ref '${field.refSchema}'
+                    $elif field.type == 'objectRef'
+                        { ${field.name}
+                            @ type Schema.Types.ObjectId
+                            @ ref '${field.refSchema}'
+                    $elif field.type != 'oid'
+                        { ${field.name}
+                            $if field.type == 'string'
+                                @ type String
+                            $elif field.type == 'number' || field.type == 'integer' || field.type == 'float'
+                                @ type Number
+                            $elif field.type == 'date'
+                                @ type Date
+                            $elif field.type == 'buffer'
+                                @ type Buffer
+                            $elif field.type == 'boolean'
+                                @ type Boolean
+                            $elif field.type == 'mixed'
+                                @ type Mixed
+                            $elif field.type == 'id'
+                                @ type ObjectId
+                            $elif field.type == 'array'
+                                @ type Array
+                            $elif field.type == 'decimal'
+                                @ type Decimal128
+                            $elif field.type == 'map'
+                                @ type Map
+                            $elif field.type == 'schema'
+                                @ type Schema
+                            $elif field.type == 'jsonstring'
+                                @ type: String
+                                @ get
+                                    function
+                                        param data
+                                        try
+                                            return JSON.parse(data)
+                                        catch
+                                            return data
+                                @ set
+                                    function
+                                        param data
+                                        return JSON.stringify(data)
+                            $if field.required
+                                @ required true
+                            $if field.unique || field.sparse
+                                { index
+                                    $if field.unique
+                                        @ unique true
+                                    $if field.sparse
+                                        @ sparse true
+                $if md.setUpdatedAt
+                    { updated_at
+                        @ type Date
+            {
+                @ collection '${md.collectionName}'
+    $if md.setUpdatedAt
+        _ ${md.Name}Schema.pre
+            @ 'save'
+            function
+                param next
+                set this.updated_at = new Date()
+                _ next()
+    $if md.indexes
+        # see https://docs.mongodb.com/manual/core/index-compound/
+        $foreach index in md.indexes
+            $if index.fields.length > 1
+                _ ${md.Name}Schema.index
+                    {
+                        $foreach field in index.fields
+                            @ ${field.name} 1
+                    {
+                        $if index.unique
+                            @ unique true
+                        $if index.sparse
+                            @ sparse true
+    +
+    export
+        :type ${md.Name}ModelType
+            :ref Model
+                :param
+                    :ref I${md.Name}Model
+    +
+    let ${md.name}Model
+        :ref ${md.Name}ModelType
+    +
+    export
+        function Get${md.Name}Model
+            :return
+                :ref ${md.Name}ModelType
+            if !${md.Name}Model
+                set ${md.Name}Model
+                    _ model
+                        :param
+                            :ref I${md.Name}Model
+                        @ "${md.Name}"
+            return ${md.name}Model
+    +
+    export
+        const ${md.Name}ModelBuilder
+            :ref ModelBuilderType
+            =
+                {
+                    @ buildModel
+                        =>
+                            param options
+                                :any
+                                :optional
+                            set ${md.name}Model =
+                                _ model
+                                    :param
+                                        :ref I${md.Name}Model
+                                    @ '${md.Name}'
+                                    @ ${md.Name}Schema
+                    @ applyExtraSetup
+                        =>
+                            param options
+                                :any
+                                :optional
+            # mongoose models creation is centralized at the app level
+            # after connection has been established, the mongodb service calls buildModel(),
+            # then the controllers when initializing call Get${md.Name}Model()

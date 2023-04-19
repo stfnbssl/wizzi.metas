@@ -1,0 +1,35 @@
+﻿$group
+
+	line ittf-root
+		cwd-folder ${ittf_root_folder}
+		dest-folder ${dest_folder}
+
+		any_js()
+			ignore ${ittf_root_folder}/**/*__copy.*/**/*.js.ittf
+			model-ref meta
+				export-name wfpackage
+
+		any_json()
+			model-ref meta
+				export-name wfpackage
+
+		any_md()
+			model-ref meta
+				export-name wfpackage
+
+		any_text()
+			model-ref meta
+				export-name wfpackage
+
+		artifact .gitignore
+			src .gitignore.text.ittf
+			schema text
+			generator text/document
+			dest-path .gitignore
+			extension gitignore
+
+		any_plain(ps1)
+
+		any_plain_d_ts()
+
+        $hook

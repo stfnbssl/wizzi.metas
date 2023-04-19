@@ -1,0 +1,314 @@
+$group
+    export 
+        const theme
+            { 
+                { background
+                    @ default 'var(--expo-theme-background-default)'
+                    @ screen 'var(--expo-theme-background-screen)'
+                    @ secondary 'var(--expo-theme-background-secondary)'
+                    @ tertiary 'var(--expo-theme-background-tertiary)'
+                    @ quaternary 'var(--expo-theme-background-quaternary)'
+                    @ error 'var(--expo-theme-background-error)'
+                    @ warning 'var(--expo-theme-background-warning)'
+                    @ success 'var(--expo-theme-background-success)'
+                    @ info 'var(--expo-theme-background-info)'
+                    @ overlay 'var(--expo-theme-background-overlay)'
+                { border
+                    @ default 'var(--expo-theme-border-default)'
+                    @ error 'var(--expo-theme-border-error)'
+                    @ warning 'var(--expo-theme-border-warning)'
+                    @ success 'var(--expo-theme-border-success)'
+                    @ info 'var(--expo-theme-border-info)'
+                { button
+                    { primary
+                        @ background 'var(--expo-theme-button-primary-background)'
+                        @ foreground 'var(--expo-theme-button-primary-foreground)'
+                    { secondary
+                        @ background 'var(--expo-theme-button-secondary-background)'
+                        @ foreground 'var(--expo-theme-button-secondary-foreground)'
+                    { tertiary
+                        @ background 'var(--expo-theme-button-tertiary-background)'
+                        @ foreground 'var(--expo-theme-button-tertiary-foreground)'
+                    { transparent
+                        @ background 'var(--expo-theme-button-transparent-background)'
+                        @ foreground 'var(--expo-theme-button-transparent-foreground)'
+                    { ghost
+                        @ background 'var(--expo-theme-button-ghost-background)'
+                        @ foreground 'var(--expo-theme-button-ghost-foreground)'
+                        @ border 'var(--expo-theme-button-ghost-border)'
+                { link
+                    @ default 'var(--expo-theme-link-default)'
+                { status
+                    @ default 'var(--expo-theme-status-default)'
+                    @ error 'var(--expo-theme-status-error)'
+                    @ warning 'var(--expo-theme-status-warning)'
+                    @ success 'var(--expo-theme-status-success)'
+                    @ info 'var(--expo-theme-status-info)'
+                { text
+                    @ default 'var(--expo-theme-text-default)'
+                    @ secondary 'var(--expo-theme-text-secondary)'
+                    @ error 'var(--expo-theme-text-error)'
+                    @ warning 'var(--expo-theme-text-warning)'
+                    @ success 'var(--expo-theme-text-success)'
+                    @ info 'var(--expo-theme-text-info)'
+                { icon
+                    @ default 'var(--expo-theme-icon-default)'
+                    @ secondary 'var(--expo-theme-icon-secondary)'
+                { code
+                    @ keyword 'var(--expo-theme-code-keyword)'
+                    @ builtin 'var(--expo-theme-code-builtin)'
+                    @ property 'var(--expo-theme-code-property)'
+                    @ comment 'var(--expo-theme-code-comment)'
+                    @ punctuation 'var(--expo-theme-code-punctuation)'
+                    @ operator 'var(--expo-theme-code-operator)'
+                    @ regex 'var(--expo-theme-code-regex)'
+                    @ string 'var(--expo-theme-code-string)'
+                    @ before 'var(--expo-theme-code-before)'
+                { highlight
+                    @ accent 'var(--expo-theme-highlight-accent)'
+                    @ emphasis 'var(--expo-theme-highlight-emphasis)'
+                { project
+                    @ blue 'var(--expo-theme-project-blue)'
+                    @ green 'var(--expo-theme-project-green)'
+                    @ yellow 'var(--expo-theme-project-yellow)'
+                    @ orange 'var(--expo-theme-project-orange)'
+                    @ red 'var(--expo-theme-project-red)'
+                    @ pink 'var(--expo-theme-project-pink)'
+                    @ purple 'var(--expo-theme-project-purple)'
+                { palette
+                    { gray
+                        @ 100 'var(--expo-theme-palette-gray-100)'
+                        @ 200 'var(--expo-theme-palette-gray-200)'
+                        @ 300 'var(--expo-theme-palette-gray-300)'
+                        @ 400 'var(--expo-theme-palette-gray-400)'
+                        @ 500 'var(--expo-theme-palette-gray-500)'
+                        @ 600 'var(--expo-theme-palette-gray-600)'
+                        @ 700 'var(--expo-theme-palette-gray-700)'
+                        @ 800 'var(--expo-theme-palette-gray-800)'
+                        @ 900 'var(--expo-theme-palette-gray-900)'
+                        @ 1000 'var(--expo-theme-palette-gray-1000)'
+                        @ '000' 'var(--expo-theme-palette-gray-000)'
+                    { primary
+                        @ 100 'var(--expo-theme-palette-primary-100)'
+                        @ 200 'var(--expo-theme-palette-primary-200)'
+                        @ 300 'var(--expo-theme-palette-primary-300)'
+                        @ 400 'var(--expo-theme-palette-primary-400)'
+                        @ 500 'var(--expo-theme-palette-primary-500)'
+                        @ 600 'var(--expo-theme-palette-primary-600)'
+                        @ 700 'var(--expo-theme-palette-primary-700)'
+                        @ 800 'var(--expo-theme-palette-primary-800)'
+                        @ 900 'var(--expo-theme-palette-primary-900)'
+                        @ '000' 'var(--expo-theme-palette-primary-000)'
+                    { blue
+                        @ 100 'var(--expo-theme-palette-blue-100)'
+                        @ 200 'var(--expo-theme-palette-blue-200)'
+                        @ 300 'var(--expo-theme-palette-blue-300)'
+                        @ 400 'var(--expo-theme-palette-blue-400)'
+                        @ 500 'var(--expo-theme-palette-blue-500)'
+                        @ 600 'var(--expo-theme-palette-blue-600)'
+                        @ 700 'var(--expo-theme-palette-blue-700)'
+                        @ 800 'var(--expo-theme-palette-blue-800)'
+                        @ 900 'var(--expo-theme-palette-blue-900)'
+                        @ '000' 'var(--expo-theme-palette-blue-000)'
+                    { green
+                        @ 100 'var(--expo-theme-palette-green-100)'
+                        @ 200 'var(--expo-theme-palette-green-200)'
+                        @ 300 'var(--expo-theme-palette-green-300)'
+                        @ 400 'var(--expo-theme-palette-green-400)'
+                        @ 500 'var(--expo-theme-palette-green-500)'
+                        @ 600 'var(--expo-theme-palette-green-600)'
+                        @ 700 'var(--expo-theme-palette-green-700)'
+                        @ 800 'var(--expo-theme-palette-green-800)'
+                        @ 900 'var(--expo-theme-palette-green-900)'
+                        @ '000' 'var(--expo-theme-palette-green-000)'
+                    { yellow
+                        @ 100 'var(--expo-theme-palette-yellow-100)'
+                        @ 200 'var(--expo-theme-palette-yellow-200)'
+                        @ 300 'var(--expo-theme-palette-yellow-300)'
+                        @ 400 'var(--expo-theme-palette-yellow-400)'
+                        @ 500 'var(--expo-theme-palette-yellow-500)'
+                        @ 600 'var(--expo-theme-palette-yellow-600)'
+                        @ 700 'var(--expo-theme-palette-yellow-700)'
+                        @ 800 'var(--expo-theme-palette-yellow-800)'
+                        @ 900 'var(--expo-theme-palette-yellow-900)'
+                        @ '000' 'var(--expo-theme-palette-yellow-000)'
+                    { orange
+                        @ 100 'var(--expo-theme-palette-orange-100)'
+                        @ 200 'var(--expo-theme-palette-orange-200)'
+                        @ 300 'var(--expo-theme-palette-orange-300)'
+                        @ 400 'var(--expo-theme-palette-orange-400)'
+                        @ 500 'var(--expo-theme-palette-orange-500)'
+                        @ 600 'var(--expo-theme-palette-orange-600)'
+                        @ 700 'var(--expo-theme-palette-orange-700)'
+                        @ 800 'var(--expo-theme-palette-orange-800)'
+                        @ 900 'var(--expo-theme-palette-orange-900)'
+                        @ '000' 'var(--expo-theme-palette-orange-000)'
+                    { red
+                        @ 100 'var(--expo-theme-palette-red-100)'
+                        @ 200 'var(--expo-theme-palette-red-200)'
+                        @ 300 'var(--expo-theme-palette-red-300)'
+                        @ 400 'var(--expo-theme-palette-red-400)'
+                        @ 500 'var(--expo-theme-palette-red-500)'
+                        @ 600 'var(--expo-theme-palette-red-600)'
+                        @ 700 'var(--expo-theme-palette-red-700)'
+                        @ 800 'var(--expo-theme-palette-red-800)'
+                        @ 900 'var(--expo-theme-palette-red-900)'
+                        @ '000' 'var(--expo-theme-palette-red-000)'
+                    { pink
+                        @ 100 'var(--expo-theme-palette-pink-100)'
+                        @ 200 'var(--expo-theme-palette-pink-200)'
+                        @ 300 'var(--expo-theme-palette-pink-300)'
+                        @ 400 'var(--expo-theme-palette-pink-400)'
+                        @ 500 'var(--expo-theme-palette-pink-500)'
+                        @ 600 'var(--expo-theme-palette-pink-600)'
+                        @ 700 'var(--expo-theme-palette-pink-700)'
+                        @ 800 'var(--expo-theme-palette-pink-800)'
+                        @ 900 'var(--expo-theme-palette-pink-900)'
+                        @ '000' 'var(--expo-theme-palette-pink-000)'
+                    { purple
+                        @ 100 'var(--expo-theme-palette-purple-100)'
+                        @ 200 'var(--expo-theme-palette-purple-200)'
+                        @ 300 'var(--expo-theme-palette-purple-300)'
+                        @ 400 'var(--expo-theme-palette-purple-400)'
+                        @ 500 'var(--expo-theme-palette-purple-500)'
+                        @ 600 'var(--expo-theme-palette-purple-600)'
+                        @ 700 'var(--expo-theme-palette-purple-700)'
+                        @ 800 'var(--expo-theme-palette-purple-800)'
+                        @ 900 'var(--expo-theme-palette-purple-900)'
+                        @ '000' 'var(--expo-theme-palette-purple-000)'
+                    @ white 'var(--expo-theme-palette-white)'
+                    @ black 'var(--expo-theme-palette-black)'
+    export 
+        const lightTheme
+            { 
+                { background
+                    @ default 'var(--color-light-white)'
+                    @ secondary 'var(--color-light-gray-100)'
+                    @ tertiary 'var(--color-light-gray-200)'
+                    @ quaternary 'var(--color-light-gray-300)'
+                    @ error 'var(--color-light-red-100)'
+                    @ warning 'var(--color-light-yellow-100)'
+                    @ success 'var(--color-light-green-100)'
+                    @ info 'var(--color-light-blue-100)'
+                    @ overlay 'var(--color-light-white)'
+                { border
+                    @ default 'var(--color-light-gray-300)'
+                    @ error 'var(--color-light-red-300)'
+                    @ success 'var(--color-light-green-300)'
+                    @ warning 'var(--color-light-yellow-300)'
+                    @ info 'var(--color-light-blue-300)'
+                { button
+                    { primary
+                        @ background 'var(--color-light-primary-500)'
+                        @ foreground 'var(--color-light-white)'
+                    { secondary
+                        @ background 'var(--color-light-gray-200)'
+                        @ foreground 'var(--color-light-black)'
+                    { tertiary
+                        @ background 'var(--color-light-black)'
+                        @ foreground 'var(--color-light-white)'
+                    { transparent
+                        @ background 'transparent'
+                        @ foreground 'var(--color-light-black)'
+                    { ghost
+                        @ background 'transparent'
+                        @ foreground 'var(--color-light-gray-800)'
+                        @ border 'var(--color-light-gray-400)'
+                { icon
+                    @ default 'var(--color-light-gray-700)'
+                    @ secondary 'var(--color-light-gray-500)'
+                { link
+                    @ default 'var(--color-light-primary-500)'
+                { status
+                    @ default 'var(--color-light-gray-500)'
+                    @ error 'var(--color-light-red-500)'
+                    @ warning 'var(--color-light-yellow-500)'
+                    @ success 'var(--color-light-green-500)'
+                    @ info 'var(--color-light-blue-500)'
+                { text
+                    @ default 'var(--color-light-black)'
+                    @ secondary 'var(--color-light-gray-700)'
+                    @ error 'var(--color-light-red-600)'
+                    @ warning 'var(--color-light-yellow-900)'
+                    @ success 'var(--color-light-green-600)'
+                    @ info 'var(--color-light-green-700)'
+                { code
+                    @ keyword 'var(--color-light-blue-500)'
+                    @ builtin 'var(--color-light-green-600)'
+                    @ property 'var(--color-light-red-500)'
+                    @ comment 'var(--color-light-gray-600)'
+                    @ punctuation 'var(--color-light-gray-700)'
+                    @ operator 'var(--color-light-yellow-800)'
+                    @ regex 'var(--color-light-orange-600)'
+                    @ string 'var(--color-light-yellow-700)'
+                    @ before 'var(--color-light-gray-400)'
+                { highlight
+                    @ accent 'var(--color-light-primary-300)'
+                    @ emphasis 'var(--color-light-yellow-300)'
+    export 
+        const darkTheme
+            { 
+                { background
+                    @ default 'var(--color-dark-gray-000)'
+                    @ secondary 'var(--color-dark-gray-200)'
+                    @ tertiary 'var(--color-dark-gray-300)'
+                    @ quaternary 'var(--color-dark-gray-400)'
+                    @ error 'var(--color-dark-red-000)'
+                    @ warning 'var(--color-dark-yellow-000)'
+                    @ success 'var(--color-dark-green-000)'
+                    @ info 'var(--color-dark-blue-000)'
+                    @ overlay 'var(--color-dark-gray-100)'
+                { border
+                    @ default 'var(--color-dark-gray-400)'
+                    @ error 'var(--color-dark-red-200)'
+                    @ success 'var(--color-dark-green-200)'
+                    @ warning 'var(--color-dark-yellow-200)'
+                    @ info 'var(--color-dark-blue-200)'
+                { button
+                    { primary
+                        @ background 'var(--color-dark-primary-500)'
+                        @ foreground 'var(--color-dark-white)'
+                    { secondary
+                        @ background 'var(--color-dark-gray-300)'
+                        @ foreground 'var(--color-dark-white)'
+                    { tertiary
+                        @ background 'var(--color-dark-gray-900)'
+                        @ foreground 'var(--color-dark-black)'
+                    { transparent
+                        @ background 'transparent'
+                        @ foreground 'var(--color-dark-gray-800)'
+                    { ghost
+                        @ background 'transparent'
+                        @ foreground 'var(--color-dark-gray-800)'
+                        @ border 'var(--color-dark-gray-400)'
+                { icon
+                    @ default 'var(--color-dark-gray-800)'
+                    @ secondary 'var(--color-dark-gray-600)'
+                { link
+                    @ default 'var(--color-dark-primary-700)'
+                { status
+                    @ default 'var(--color-dark-gray-400)'
+                    @ error 'var(--color-dark-red-500)'
+                    @ warning 'var(--color-dark-yellow-500)'
+                    @ success 'var(--color-dark-green-500)'
+                    @ info 'var(--color-dark-blue-500)'
+                { text
+                    @ default 'var(--color-dark-gray-800)'
+                    @ secondary 'var(--color-dark-gray-600)'
+                    @ error 'var(--color-dark-red-600)'
+                    @ warning 'var(--color-dark-yellow-900)'
+                    @ success 'var(--color-dark-green-600)'
+                    @ info 'var(--color-dark-blue-600)'
+                { code
+                    @ keyword 'var(--color-dark-blue-600)'
+                    @ builtin 'var(--color-dark-green-600)'
+                    @ property 'var(--color-dark-red-600)'
+                    @ comment 'var(--color-dark-gray-600)'
+                    @ punctuation 'var(--color-dark-gray-700)'
+                    @ operator 'var(--color-dark-yellow-800)'
+                    @ regex 'var(--color-dark-orange-600)'
+                    @ string 'var(--color-dark-yellow-700)'
+                    @ before 'var(--color-dark-gray-400)'
+                { highlight
+                    @ accent 'var(--color-dark-primary-700)'
+                    @ emphasis 'var(--color-dark-yellow-300)'

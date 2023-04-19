@@ -1,0 +1,25 @@
+template ts-node
+
+    $
+        // var pkgPath = cliCtx.useAzure ? 'Application/' : '';
+        var pkgPath = '';
+
+    $include models
+    $include root
+    $include src/common
+    $include src/features
+    $include src/features-app
+    $include src/features-config
+    $include src/features-github
+    $include src/features-packi
+    $include src/features-wizzi
+    $include src/features-wizzi-cdn
+    $include src/features-wizzi-production
+    $include src/index
+    $include src/services
+    $include tfolder/v08/index
+    $include tfolder/wfjobs
+    $include tfolder/commons
+    $include __generate
+    $include __wizzi.config
+    $include __wizzi.override.config

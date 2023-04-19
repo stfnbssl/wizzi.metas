@@ -1,0 +1,152 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "Button",
+            props: [
+                { name: "variant", type: "union", optional: true, types: [
+                    { name: 'primary', literal: true },
+                    { name: 'secondary', literal: true }
+                ]},
+                { name: "large", type: "boolean", optional: true },
+                { name: "icon", type: "string", optional: true },
+                { name: "disabled", type: "boolean", optional: true },
+                { name: "loading", type: "boolean", optional: true },
+                { name: "type", type: "union", optional: true, types: [
+                    { name: 'submit', literal: true },
+                    { name: 'button', literal: true }
+                ]},
+                { name: "className", type: "string", optional: true },
+                { name: "onClick", type: "mouse-event", optional: true },
+                { name: "children", type: "node" }
+            ]
+        }
+
+    v08/ts/react/function${'('}&md)
+        < StyledRoot
+            @ type "button"
+            @ className {className}
+            @ disabled {disabled}
+            @ onClick {onClick}
+            @ primary {variant === 'primary'}
+            @ secondary {variant === 'secondary'}
+            @ normal {!!large == false}
+            @ icon {icon}
+            @ large {large}
+            @ isLoading {loading}
+            + {children}
+
+        ${'$'}append imports
+            import 
+                @ c
+                @ s
+                @ ThemeName
+                from '../ThemeProvider'
+
+        ${'$'}append styles
+            :interface RootStyleProps
+                :extends ButtonProps
+                :p primary
+                    :boolean
+                :p secondary
+                    :boolean
+                :p normal
+                    :boolean
+                :p isLoading
+                    :boolean
+                    :optional
+                :p large
+                    :boolean
+                    :optional
+
+            keyframes buttonKeyframes
+                from
+                    transform rotate(0deg)
+                to
+                    transform rotate(360deg)
+
+            styled StyledRoot .div<RootStyleProps>
+                appearance none
+                color
+                    => props.primary ? c('primary-text')
+                        \b : props.secondary ? c('secondary-text')
+                        \b : c('text')
+                background-color
+                    => props.primary ? c('primary')
+                        \b : props.secondary ? c('secondary')
+                        \b : c('content')
+                outline 0
+                border
+                    => props.primary ? "1px solid transparent"
+                        \b : props.secondary ? "1px solid transparent"
+                        \b : "1px solid " + c('border')
+                border-radius 3px
+                white-space nowrap
+                text-align center
+                text-decoration none
+                font-size
+                    => props.large ? "16px"
+                        \b : 'inherit'
+                width
+                    => props.large ? "100%"
+                        \b : 'inherit'
+                padding
+                    => props.icon ? ".5em 1em .5em 36px"
+                        \b : props.large ? "1em 1.5em"
+                        \b : props.normal ? ".5em 1em"
+                        \b : "0"
+                margin
+                    => props.icon ? ".5em"
+                        \b : props.large ? ".5em 0"
+                        \b : props.normal ? ".5em"
+                        \b : "0"
+                $* TODO
+                cursor
+                    => props.disabled ? "not-allowed" : "inherit"
+                *$
+                pointer-events
+                    => props.disabled ? "none" : "inherit"
+                opacity
+                    => props.disabled ? "0.3" : "inherit"
+                background-size
+                    => props.icon ? "16px"
+                        \b : "auto"
+                background-repeat
+                    => props.icon ? "no-repeat"
+                        \b : "repeat"
+                background-position
+                    => props.icon ? "12px center"
+                        \b : "0% 0%"
+                transition-duration 170ms
+                transition-property box-shadow
+                transition-timing-function linear
+                & :hover
+                    box-shadow
+                        => s('small')
+                background-image
+                    => props.icon ? "url(" + props.icon + ")" : "none"
+                if props.isLoading
+                    & :before
+                        display inline-block
+                        content ""
+                        border-width 2px
+                        border-style solid
+                        border-top-color
+                            => "rgba(255, 255, 255, 0.2)"
+                        border-right-color
+                            => "rgba(255, 255, 255, 0.2)"
+                        border-bottom-color
+                            => "rgba(255, 255, 255, 0.2)"
+                        border-left-color
+                            => c('primary-text')
+                        height 16px
+                        width 16px
+                        border-radius 50%
+                        margin-right .75em
+                        vertical-align -3px
+                        animation-name
+                            => buttonKeyframes
+                        animation-duration 1s
+                        animation-iteration-count infinite
+                        animation-timing-function linear

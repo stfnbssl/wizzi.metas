@@ -1,0 +1,19 @@
+$group
+
+    import AuthenticationManager
+        from './authManager'
+    import withAuth
+        from './withAuth'
+    import 
+        @ getLoginHref
+        from './login'
+    import 
+        @ AuthProps
+        from './types'
+    +
+    export
+        @ AuthenticationManager
+        @ withAuth
+        @ getLoginHref
+    :export-type
+        @ AuthProps

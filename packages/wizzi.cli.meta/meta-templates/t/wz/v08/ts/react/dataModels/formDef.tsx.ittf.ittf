@@ -1,0 +1,26 @@
+$group
+
+    ${'$'}
+        var schema = md.schema;
+
+    const ${'$'}{schema.name}FormDef
+        :ref FormDef
+        {
+            @ id "${'$'}{schema.name}Form"
+            @ title "${'$'}{schema.Title}"
+            [ controls
+                ${'$'}foreach field in schema.fields
+                    {
+                        @ id "${'$'}{field.name}"
+                        @ label "${'$'}{field.label ? field.label : field.name}"
+                        @ type "${'$'}{field.type}"
+                        ${'$'}if field.formControlType
+                            @ controlType "${'$'}{field.formControlType}"
+                        ${'$'}elif field.type == 'string'
+                            @ controlType "text"
+                        ${'$'}else
+                            @ controlType "${'$'}{field.type}"
+                        ${'$'}if field.type == "oid"
+                            @ isKey true
+                        ${'$'}if field.required
+                            @ required true

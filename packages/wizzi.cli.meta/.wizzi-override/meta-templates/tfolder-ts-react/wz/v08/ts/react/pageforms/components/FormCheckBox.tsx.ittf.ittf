@@ -1,0 +1,55 @@
+$group
+    
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormCheckBox",
+            props: [
+                { name: 'id', type: 'string'},
+                { name: 'name', type: 'string'},
+                { name: 'label', type: 'string' },
+                { name: 'sublabel', type: 'string', optional:true },
+                { name: 'value', type: 'boolean' },
+                { name: 'onChange', type: 'input-event', optional: true },
+            ]
+        }
+
+    v08/ts/react/function${'('}&md)
+
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                margin 15px 0
+                padding-left 20px
+                vertical-align middle
+            styled StyledInputLabel .dt<RootStyleProps>
+                font-weight 600
+            styled StyledLabelSpan .span<RootStyleProps>
+                color var(--color-text-secondary)
+                display block
+                font-size 12px
+                font-weight 400
+                margin 0
+            styled StyledInput .input<RootStyleProps>
+                float left
+                margin 5px 0 0 -20px
+                vertical-align middle
+
+        return
+            < StyledRoot
+                < StyledInputLabel
+                    < StyledInput 
+                        @ type checkbox
+                        @ value 1
+                        @ name {name}
+                        @ id {id}
+                        @ checked {value}                    
+                        @ onChange {onChange}
+                    + {label}
+                < StyledLabelSpan
+                    + {sublabel}

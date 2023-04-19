@@ -1,0 +1,7 @@
+$group
+    $params &schema
+
+    ${schema.name} first
+        
+        $if schema.name == 'svg'
+            ${'$'}include wz/v08/wizzi/plugin/examples/ittf/svg

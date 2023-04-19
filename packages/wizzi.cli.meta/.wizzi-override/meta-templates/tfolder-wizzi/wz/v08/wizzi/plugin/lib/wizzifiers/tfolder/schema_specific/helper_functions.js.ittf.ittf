@@ -1,0 +1,220 @@
+$group
+
+	function processLeadingComments
+		param node
+		param ittfNode
+		if verify.isArray(node.leadingComments) && node.leadingComments.length > 0
+			foreach item in node.leadingComments
+				if item.kind === 'CommentLine'
+					_ ittfNode.children.push
+						{
+							@ tag '#'
+							@ name item.value
+							[ children
+	
+	function processParams
+		param ittfNode
+		var pos = getChildPosByTag(ittfNode, 'params')
+		var temp = []
+		foreach item in ittfNode.children
+			if pos == i
+				foreach p in item.children
+					# loog 'processParams. p.tag', p.tag
+					if p.tag !== '{'
+						if isTextualNode(p)
+							set p.tag = 'param'
+						#
+							else
+								throw new Error('processParams.error. Param must be a textual or an ObjectPattern. Node:' + JSON.stringify(ittfNode))
+					_ temp.push(p)
+			else
+				_ temp.push(item)
+		set ittfNode.children = temp
+
+	function getNodeText
+		param ittfNode
+		return ittfNode.textified || ittfNode.name
+
+	function isTextualNode
+		param ittfNode
+		if verify.isArray(ittfNode)
+			foreach item in ittfNode
+				if !isTextualNode(item)
+					return false
+			return true
+		else
+			# loog 'isTextualNode', ittfNode.tag, ittfNode.name, !!(ittfNode.isText || ittfNode.textified)
+			return ittfNode && (ittfNode.isText || ittfNode.textified)
+
+
+	function isTextualChildByTag
+		param ittfNode
+		param tag
+		var item = getChildByTag(ittfNode, tag)
+		return item && (item.isText || item.textified)
+
+	function replaceChildTag
+		param ittfNode
+		param oldTag
+		param newTag
+		var item = getChildByTag(ittfNode, oldTag)
+		set item.tag = newTag
+
+	function removeChildByTag
+		param ittfNode
+		param tag
+		var temp = []
+		foreach item in ittfNode.children
+			if item.tag !== tag
+				_ temp.push(item)
+		set ittfNode.children = temp
+
+	function removeChildByPos
+		param ittfNode
+		param pos
+		var temp = []
+		foreach item in ittfNode.children
+			if i != pos
+				_ temp.push(item)
+		set ittfNode.children = temp
+
+	function getChildByTag
+		param ittfNode
+		param tag
+		foreach item in ittfNode.children
+			if item.tag === tag
+				return item
+		return null
+
+	function getChildPosByTag
+		param ittfNode
+		param tag
+		foreach item in ittfNode.children
+			if item.tag === tag
+				return i
+		return -1
+
+	function replaceChildrenOfChildWhenText
+		param ittfNode
+		param childPos
+		param textTag
+		if childPos < 0
+			return
+		set ittfNode.children
+			_ replaceItemInColl
+				@ ittfNode.children
+				@ childPos
+				_ textifyChildren
+					@ ittfNode.children[childPos]
+					@ textTag
+
+	function replaceItemInColl
+		param coll
+		param pos
+		param replacers
+		var ret = []
+		foreach item in coll
+			if pos == i
+				foreach repl in replacers
+					_ ret.push(repl)
+			else
+				_ ret.push(item)
+		return ret
+
+	function textifyChildren
+		param ittfNode
+		param tag
+		var ret = []
+		foreach item in ittfNode.children
+			if item.isText || item.textified
+				# loog '@@@@@@@ item.tag.isText', item.tag, item.isText
+				_ ret.push
+					{
+						@ tag tag
+						@ name item.isText ? item.name : item.textified
+						@ textified item.isText ? item.name : item.textified
+						[ children
+			else
+				_ ret.push(item)
+		# loog '@@@@@@@@@@@@@@@ textifyChildren', ret
+		return ret
+
+	function setTextList
+		param ittfNode
+		param sep
+		var sb = []
+		foreach item in ittfNode.children
+			# loog 'setTextList', item.tag, item.name, item.isText, item.textified
+			if item.isText
+				_ sb.push(item.name)
+			elif item.textified
+				_ sb.push(item.textified)
+			else
+				return false
+		set ittfNode.textified = sb.join(sep)
+		set ittfNode.children = []
+		return true
+
+	function getTextList
+		param ittfNode
+		param sep
+		var sb = []
+		foreach item in ittfNode.children
+			if item.isText
+				_ sb.push(item.name)
+			elif item.textified
+				_ sb.push(item.textified)
+			else
+				# loog 'getTextList failed ***************', item
+				return null
+		return sb.join(sep)
+
+	function setNameFromChildByTag
+		param ittfNode
+		param tag
+		param forceText
+		foreach item in ittfNode.children
+			if item.tag === tag
+				if forceText
+					# loog '...................setNameFromChildByTag', item
+				if item.isText
+					set ittfNode.name = item.name
+					_ ittfNode.children.splice(i, 1)
+					return
+				if forceText && item.textified
+					set ittfNode.name = item.textified
+					_ ittfNode.children.splice(i, 1)
+					return
+
+	function objectDeclareKey
+		param key
+		return key.indexOf(' ') > 0 ? '["' + key + '"]' : key
+
+	function replaceWithSingleChild
+		param ittfNode
+		param childTag
+		param limit
+		if isChildrenCount(ittfNode, 1)
+			var childTag = ittfNode.children[0].tag
+			var testTag = limit ? childTag.substr(0, limit) : childTag
+			if testTag === childTag
+				set ittfNode.tag = ittfNode.children[0].tag
+				set ittfNode.name = ittfNode.children[0].name
+				set ittfNode.textified = ittfNode.children[0].textified
+				set ittfNode.children = ittfNode.children[0].children
+				return true
+		return false
+
+	function isChildrenCount
+		param ittfNode
+		param count
+		return ittfNode.children && ittfNode.children.length == count
+
+	function isChildrenCountGreaterEqualThen
+		param ittfNode
+		param count
+		return ittfNode.children && ittfNode.children.length >= count
+
+	function arrayIsEmpty
+        param arr
+        return !(arr && arr.length > 0)

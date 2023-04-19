@@ -1,0 +1,16 @@
+﻿$group
+	$params result|notUsed
+
+	function
+		param err
+		param ${result}
+		if err
+			error 'err', err
+            if err.toString()
+                error 'err.toString()', err.toString()
+            if err.inner
+                error 'err.inner', err.inner
+                if err.inner.toString
+                    error 'err.inner.toString()', err.inner.toString()
+			throw new Error(err.message)
+		$hook

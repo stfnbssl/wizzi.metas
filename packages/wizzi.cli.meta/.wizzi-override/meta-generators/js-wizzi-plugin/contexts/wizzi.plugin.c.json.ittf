@@ -1,0 +1,32 @@
+{
+    $
+        var pluginBasename = "c";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "C language plugin"
+        kind "WizziPlugin"
+
+    [ Schemas
+        {
+            name "${pluginBasename}"
+            rootElement "xmodule"
+            rootTag "module"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "module"
+                    outmime "${pluginBasename}"
+                    contentType "text/c"
+                    isDefault true
+            [ fileExtensions
+                "c"
+

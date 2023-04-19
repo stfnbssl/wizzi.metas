@@ -1,0 +1,37 @@
+$group
+    
+    :type Language
+        :union 
+            :literal 'javascript'
+            :literal 'typescript'
+            :literal 'json'
+            :literal 'css'
+            :literal 'html'
+            :literal 'markdown'
+    +
+    export-default 
+        function 
+            param path
+                :string 
+            :return
+                :union 
+                    :ref Language
+                    :undefined 
+            if path.includes('.')
+                switch path.split('.').pop()
+                    case 'js'
+                        return 'javascript'
+                    case 'ts'
+                    case 'tsx'
+                        return 'typescript'
+                    case 'json'
+                        return 'json'
+                    case 'css'
+                        return 'css'
+                    case 'html'
+                        return 'html'
+                    case 'md'
+                        return 'markdown'
+                    default 
+                        return undefined
+            return undefined

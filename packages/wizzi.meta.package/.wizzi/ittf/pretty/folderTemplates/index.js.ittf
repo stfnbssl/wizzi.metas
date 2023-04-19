@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.usePretty
+        $file __dot__wizzi/pretty/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include pretty/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/pretty/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include pretty/tfolder/${item}.js

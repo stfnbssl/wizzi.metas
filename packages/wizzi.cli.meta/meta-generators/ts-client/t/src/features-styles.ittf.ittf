@@ -1,0 +1,12 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.useStyles
+        $file __dot__wizzi/${pkgPath}src/features/styles/index.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/features/styles/index.tsx
+        
+        $file __dot__wizzi/${pkgPath}src/features/styles/themes.css.ittf.ittf
+            css
+                ${'$'}include wz/v08/ts/react/features/styles/themes.css
+
+

@@ -1,0 +1,57 @@
+$group
+    import 
+        ${'$'}if wzCtx.Build.useExpo
+            @ SDKVersion
+        @ PackiState
+        from './types'
+    export 
+        const apiURL
+            :string 
+            = 'https://exp.host'
+    export 
+        const snackagerURL
+            :string 
+            = 'https://snackager.expo.io'
+    export 
+        const host
+            :string 
+            = 'expo.io'
+    export 
+        const webPlayerURL
+            :string 
+            = 'https://snack-web-player.s3.us-west-1.amazonaws.com/v2/%%SDK_VERSION%%'
+    ${'$'}if wzCtx.Build.useExpo
+        export 
+            const sdkVersion
+                :ref SDKVersion
+                = '40.0.0'
+    export 
+        const PackiIdentityState
+            :ref PackiState
+            =
+                { 
+                    ${'$'}if wzCtx.Build.useExpo
+                        @ sdkVersion
+                    @ name ''
+                    @ description ''
+                    ${'$'}if wzCtx.Build.useExpo
+                        { dependencies
+                        { missingDependencies
+                    { files
+                    ${'$'}if wzCtx.Build.useExpo
+                        { connectedClients
+                        { transports
+                    @ disabled false
+                    @ unsaved false
+                    @ online false
+                    @ url ''
+                    @ channel ''
+    const defaultConfig
+        { 
+            @ apiURL
+            @ snackagerURL
+            @ host
+            ${'$'}if wzCtx.Build.useExpo
+                @ sdkVersion
+            @ webPlayerURL
+    export-default defaultConfig

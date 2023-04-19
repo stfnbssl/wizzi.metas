@@ -1,0 +1,32 @@
+﻿$group
+
+	const mapDispatchToProps
+		=>
+			param dispatch
+			return
+				{
+					@ dispatch dispatch
+					${'$'}hook dispatch-to-props
+
+    +
+	const mapStateToProps
+		=>
+			param state
+			return
+				{
+					${'$'}hook state-to-props
+
+	+
+	const mergeProps
+		=>
+			param stateProps
+			param dispatchProps
+			param ownProps
+			return
+				_ Object.assign
+					{
+					@ ownProps
+					@ stateProps
+					@ dispatchProps
+					{
+						${'$'}hook merge-props

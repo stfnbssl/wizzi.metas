@@ -1,0 +1,50 @@
+$group
+    $file __dot__wizzi/${pkgPath}ittf/t/a.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/a.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/j.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/j.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/s.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/s.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/js_wz.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/js_wz.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/css_wz.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/css_wz.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/layouts/site.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/layouts/site.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/layouts/site-styles.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/layouts/site-styles.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/layouts/site-scripts.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/layouts/site-scripts.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/images/logo.html.ittf.ittf
+        svg
+            ${'$'}include wz/v08/html/tfolder/images/wizzi-logo.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/images/t/i.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/images/tfolder/wizzi-logo-i.html
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/images/t/z.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/tfolder/images/tfolder/wizzi-logo-z.html
+
+    $if cliCtx.useWizziDocs
+        $file __dot__wizzi/${pkgPath}ittf/t/models/docs/wzctx.ittf.ittf
+            ${"${'$'}"}group
+                $include models/docs/wzctx
+

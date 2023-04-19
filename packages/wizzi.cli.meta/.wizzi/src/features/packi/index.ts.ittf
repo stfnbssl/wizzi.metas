@@ -1,0 +1,22 @@
+module
+    $if wzCtx.Build.useExpress
+        import
+            @ ControllerType
+            from '../app/types'
+    import
+        as packiTypes
+        from './types'
+    $if wzCtx.Build.usePacki
+        import
+            @ ProductionsController
+            from './controllers/productions'
+        const packiControllers
+            :[
+                :ref ControllerType
+            =
+                [
+                    @ new ProductionsController()
+    export
+        @ packiTypes
+        $if wzCtx.Build.usePacki
+            @ packiControllers

@@ -1,0 +1,48 @@
+$group
+
+    $if cliCtx.useWebpack
+        
+        $file __dot__wizzi/t/v08/webpack/devServer.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                ${'$'}include wz/v08/webpack/devServer.js
+
+        $file __dot__wizzi/t/v08/webpack/entry.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                ${'$'}include wz/v08/webpack/entry.js            
+
+        $file __dot__wizzi/t/v08/webpack/externals.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                ${'$'}include wz/v08/webpack/externals.js
+
+        $file __dot__wizzi/t/v08/webpack/imports.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                ${'$'}include wz/v08/webpack/imports.js                
+
+        $file __dot__wizzi/t/v08/webpack/module.rules.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                ${'$'}include wz/v08/webpack/module.rules.js                                
+
+        $file __dot__wizzi/t/v08/webpack/optimization.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                ${'$'}include wz/v08/webpack/optimization.js                
+
+        $file __dot__wizzi/t/v08/webpack/output.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                ${'$'}include wz/v08/webpack/output.js                
+
+        $file __dot__wizzi/t/v08/webpack/plugins.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                ${'$'}include wz/v08/webpack/plugins.js                
+
+        $file __dot__wizzi/t/v08/webpack/resolve.js.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                ${'$'}include wz/v08/webpack/resolve.js                

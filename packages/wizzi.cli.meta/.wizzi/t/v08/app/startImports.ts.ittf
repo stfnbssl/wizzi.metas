@@ -1,0 +1,40 @@
+$group
+    $params &md
+    import
+        @ ConfigType
+        @ config
+        from './features/config/index'
+    import
+        @ ModelBuilderType
+        from './features/app'
+    $if wzCtx.Build.useFilesystem
+        import filesystemStart from './services/filesystem'
+    $if wzCtx.Build.useMongoDb
+        import
+            @ mongodbStart
+            @ close
+                as mongodbClose
+            from './services/mongodb'
+    $if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useRunner
+        import wizziStart from './services/wizzi'
+    $if wzCtx.Build.useAccount
+        import
+            @ accountModelBuilders
+            from './features/account/index'
+    $if wzCtx.Build.useBlog
+        import
+            @ blogModelBuilders
+            from './features/blog/index'
+    $if wzCtx.Build.useWizziIttf
+        import
+            @ ittfApi
+            from './features/ittf/index'
+    $if wzCtx.Build.features && wzCtx.Build.features.length > 0
+        $foreach feature in wzCtx.Build.features
+            $if feature.hasControllers || feature.useMongoDb
+                $
+                    var fileName = feature.fileName ? feature.fileName : feature.name
+                import
+                    $if feature.useMongoDb
+                        @ ${feature.name}ModelBuilders
+                    from './features/${fileName}/index'

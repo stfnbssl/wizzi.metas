@@ -1,0 +1,41 @@
+$group
+    $file __dot__wizzi/root/readme.md.ittf.ittf
+        md
+            ${'$'}include wizziplugin/root/readme.md
+
+    $file __dot__wizzi/root/__dot__gitignore.text.ittf.ittf
+        text
+            ${'$'}include wizziplugin/root/gitignore.text
+
+    $file __dot__wizzi/root/license.text.ittf.ittf
+        text
+            ${'$'}include wizziplugin/root/license.text
+
+    $file __dot__wizzi/root/errors.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wizziplugin/root/errors.js
+
+    $file __dot__wizzi/root/index.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wizziplugin/root/index.js
+    $file __dot__wizzi/root/t/model-factory.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wizziplugin/root/t/model-factory.js
+    
+    $file __dot__wizzi/root/t/model-transformation.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wizziplugin/root/t/model-transformation.js
+    
+    $file __dot__wizzi/root/t/artifact-generation.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wizziplugin/root/t/artifact-generation.js
+    
+    $file __dot__wizzi/root/t/wizzification.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wizziplugin/root/t/wizzification.js            
+
+    $file __dot__wizzi/root/t/schema-definition.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wizziplugin/root/t/schema-definition.js

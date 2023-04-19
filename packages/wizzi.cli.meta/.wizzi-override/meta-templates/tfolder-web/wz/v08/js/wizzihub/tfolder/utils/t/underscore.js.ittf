@@ -1,0 +1,106 @@
+$group
+    $
+      var myName = 'Underscore';
+      //
+    
+    iife_window( utils, ${myName})
+        
+        const ${myName}
+          {
+            @ isArray
+                function
+                    param val
+                    return Array.isArray ? Array.isArray(val) : toString.call(val) === '[object Array]'
+            @ isObject
+                function
+                    param val
+                    return val != null && typeof val === 'object' && Array.isArray(val) === false;
+            @ makeString
+                function
+                    param object
+                    if object == null 
+                      return ''
+                    return '' + object;    
+                # https://github.com/esamattis/underscore.string/blob/master/helper/makeString.js        
+            
+            @ capitalize
+                function
+                    param str
+                    param lowercaseRest
+                    set str = ${myName}.makeString(str)
+                    var remainingChars = !lowercaseRest ? str.slice(1) : str.slice(1).toLowerCase()
+                    return str.charAt(0).toUpperCase() + remainingChars  
+                # https://github.com/esamattis/underscore.string/blob/master/helper/capitalize.js        
+            @ debounce
+                function
+                    param func
+                    param wait
+                    param immediate
+                    var 
+                        decl timeout
+                        decl previous
+                        decl args
+                        decl result
+                        decl context
+                    var later
+                        function 
+                            var passed = ${myName}.now() - previous
+                            if wait > passed
+                                set timeout = setTimeout(later, wait - passed)
+                            else
+                                set timeout = null
+                                if !immediate
+                                    set result = func.apply(context, args)
+                                if !timeout
+                                    set context = null
+                    var debounced
+                        _ ${myName}.restArguments
+                            function 
+                                param _args
+                                set context = this
+                                set args = _args
+                                set previous = ${myName}.now()
+                                if !timeout
+                                    set timeout = setTimeout(later, wait)
+                                    if immediate
+                                        set result = func.apply(context, args)
+                                return result
+                    set debounced.cancel =
+                        function 
+                            _ clearTimeout(timeout)
+                            set context = null
+                    return debounced
+                # https://underscorejs.org/docs/modules/debounce.html
+            @ now 
+                || 
+                    + Date.now
+                    function 
+                        return new Date().getTime()
+            @ restArguments
+                function
+                    param func
+                    param startIndex
+                    set startIndex 
+                        iif startIndex == null
+                            then func.length - 1
+                            else +startIndex
+                    return 
+                        function 
+                            var 
+                                decl length = Math.max(arguments.length - startIndex, 0)
+                                decl rest = Array(length)
+                                decl index = 0
+                            for ; index < length; index++
+                                set rest[index] = arguments[index + startIndex]
+                            switch startIndex
+                                case 0
+                                    return func.call(this, rest)
+                                case 1
+                                    return func.call(this, arguments[0], rest)
+                                case 2
+                                    return func.call(this, arguments[0], arguments[1], rest)
+                            var args = Array(startIndex + 1)
+                            for ; index < startIndex; index++
+                                set args[index] = arguments[index]
+                            set args[startIndex] = rest
+                            return func.apply(this, args)

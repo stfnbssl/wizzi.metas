@@ -1,0 +1,72 @@
+﻿$group
+
+	set wz.isString
+        function 
+            param test
+            return test !== null && typeof(test) === 'string'
+    
+	set wz.isEmpty
+        function 
+            param test
+            return wz.isString(test) == false || test.length == 0
+
+	set wz.isObject
+		function 
+			param test
+			if test === null || typeof(test) === 'undefined'
+				return false
+			return {}.toString.call(test) === '[object Object]'
+    
+	set wz.isArray
+		function 
+			param test
+			if test === null || typeof(test) === 'undefined'
+				return false
+			if Array.isArray
+				return Array.isArray(test);
+			return {}.toString.call(test) === '[object Array]'
+
+	set wz.clone
+		function
+			param obj
+			if wz.isArray(obj)
+				var ret
+					[ 
+				foreach item in obj
+					var value
+						_ clone
+							@ item
+					if value !== null
+						_ ret.push(value)
+				return ret
+			elif wz.isObject(obj)
+				var ret
+					{ 
+				for var prop in obj
+					if obj.hasOwnProperty(prop)
+						set ret[prop] = clone(obj[prop])
+				return ret
+			else 
+				return obj
+
+	set wz.replace
+		function
+			param text
+			param find
+			param replace
+            if wz.isEmpty(text)
+                return text
+            return
+				_ text.replace
+					new RegExp
+						_ wz.escapeRegExp(find)
+						@ 'g'
+					@ replace
+    
+	set wz.escapeRegExp
+		function
+			param text
+            if wz.isEmpty(text)
+                return text
+			return text.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1")
+

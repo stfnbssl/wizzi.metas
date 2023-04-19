@@ -1,0 +1,8 @@
+$group
+
+    $foreach schema in cliCtx.Schemas
+
+        $file __dot__wizzi/${pkgPath}tests/${schema.name}.js.ittf.ittf
+            module
+                kind es6
+                # TODO

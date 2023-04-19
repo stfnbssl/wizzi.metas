@@ -1,0 +1,118 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "CreatePost",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "post_name", type: "string" },
+                { name: "post_name_available", type: "boolean" },
+                { name: "post_name_checked", type: "string" },
+                { name: "post_description", type: "string" },
+            ]
+        }
+
+    v08/ts/react/component${'('}&md)
+        ${'$'}append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports${'('}pages)
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        p formRef 
+            = React.createRef()
+        +
+        check_name_create${'('}post)
+        
+        m componentDidMount
+
+            set this._checkAvaliblePostName
+                _ debounce
+                    @ this._checkAvaliblePostName
+                    @ 100
+        
+        ${'$'}include handle_input_change
+
+        +
+        => handlePostNameChange
+            param ev
+                :ref React.ChangeEvent
+                    :param 
+                        :ref HTMLInputElement
+            $$ loog 'handlePostNameChange', ev.target.type, ev.target.checked, ev.target.value
+            _ this.setState
+                { 
+                    @ post_name ev.target.value
+            _ this._checkAvaliblePostName
+        +
+        => handleSubmitCreate
+            param ev
+                :ref React.MouseEvent
+                    :param 
+                        :ref HTMLElement
+            
+            $$ loog 'handleSubmitCreate', this.state.post_name_available
+            if !this.state.post_name_available
+                _ ev.preventDefault();
+                # _ this.formRef.dispatchEvent(new Event('submit'))
+                $$ loog 'handleSubmitCreate not dispatched'
+
+        +
+        m render
+            $$ loog 'CreatePost.render', 'state', this.state
+            return
+                < FormContainer
+                    < FormTitle
+                        @ title 'Create a new blog post'
+                        @ subtitle 'An blog post contains the ittf documents 
+                            \b for a single software artifact.'
+                    < HR
+                    form
+                        action /artifact/new
+                        @ acceptCharset UTF-8
+                        method POST
+                        @ ref
+                            =>
+                                param ref
+                                set this.formRef = ref                        
+                        < FormGroup
+                            @ label 'Post name'
+                            @ name 'post_name'
+                            @ id 'post_name'
+                            @ required {true}
+                            @ value {this.state.post_name}
+                            @ onChange {this.handlePostNameChange}
+                        {
+                            &&
+                                + this.state.post_name.length > 0 && this.state.post_name_available
+                                < Para
+                                    + {'Post name ' + this.state.post_name_checked + ' is available'}
+                        {
+                            &&
+                                + this.state.post_name.length > 0 && !this.state.post_name_available
+                                < Para
+                                    @ color '#ff0000'
+                                    + {'Post name ' + this.state.post_name_checked + ' is not available'}
+                        < HR
+                        < FormGroup
+                            @ label 'Description'
+                            @ name 'post_description'
+                            @ id 'post_description'
+                            @ required {true}
+                            @ value {this.state.post_description}
+                            @ onChange {this.handleInputChange}
+                        
+                        < HR
+                        < FormButton
+                            @ label 'Create blog post'
+                            @ id 'btn_create_post'
+                            @ variant 'submit'
+                            @ type submit
+                            @ onClick {this.handleSubmitCreate}

@@ -1,0 +1,21 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.useWizziGist
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziGist/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-gist/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziGist/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-gist/types.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziGist/controllers/apiv1wizzigist.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-gist/controllers/apiv1wizzigist.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziGist/api/wizziGist.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-gist/api/wizziGist.ts
+
+

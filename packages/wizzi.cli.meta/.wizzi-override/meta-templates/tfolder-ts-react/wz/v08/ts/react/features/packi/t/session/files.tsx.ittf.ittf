@@ -1,0 +1,177 @@
+$group
+
+    +
+    m updateFiles
+        param files
+            :{ 
+                :index 
+                    :union 
+                        :ref PackiFile
+                        :null 
+                    param path
+                        :string 
+        return 
+            _ this.setState
+                => 
+                    param state
+                    const newFiles = State.updateObjects(state.files, files)
+                    return 
+                        iif newFiles !== state.files
+                            then
+                                { 
+                                    @ files newFiles
+                            else null
+        # 
+        # Files (code & assets)
+        # 
+        #
+            # 
+            # Updates code or asset files.
+            # 
+            # Use this method to add/remove/update files and upload assets.
+            # To remove a file specify `null` as the value of the file.
+            # 
+            # @example
+            # ```ts
+            # const Packi = new Packi({
+            #   files: {
+            #     'App.js': { type: 'CODE', contents: 'console.log("hello world!");' },
+            #     'data.json': { type: 'CODE', contents: '{}' },
+            #   }
+            # });
+            # 
+            # // Add or update files
+            # Packi.updateFiles({
+            #   'App.js': {
+            #     type: 'CODE',
+            #     contents: 'console.log("Hello Packi!");'
+            #   }
+            # });
+            # 
+            # // Upload an asset
+            # Packi.updateFiles({
+            #   'assets/logo.png': {
+            #     type: 'ASSET',
+            #     contents: file // File, Blob or FormData
+            #   }
+            # });
+            # 
+            # // Add a pre-uploaded asset
+            # Packi.updateFiles({
+            #   'assets/expo.jpg': {
+            #     type: 'ASSET',
+            #     contents: 'https://mysite/expo.jpg'
+            #   }
+            # });
+            # 
+            # // Remove files
+            # Packi.updateFiles({
+            #   'data.json': null,
+            #   'assets/expo.jpg': null
+            # });
+            # ```
+            # 
+    +
+    p uploadAssetAsync
+        async=> 
+            param contents
+                :union 
+                    :ref File
+                    :ref Blob
+                    :ref FormData
+            :return
+                :ref Promise
+                    :param string
+            let url
+                :string 
+                = ''
+            const fileUploader
+                new FileUploader
+                    { 
+                        @ apiURL this.apiURL
+                        ${'$'}if wzCtx.Build.useExpo
+                            @ logger this.logger
+                        @ callback
+                            => 
+                                param _request
+                                param resultURL
+                                param error
+                                if error
+                                    throw error
+                                else
+                                    if resultURL
+                                        set url = resultURL
+            _ fileUploader.add
+                @ 'asset'
+                { 
+                    @ type 'ASSET'
+                    @ contents
+            await 
+                _ fileUploader.waitForCompletion()
+            return url
+        #
+            # *
+            # * Helper function that uploads an asset and returns its url.
+            # 
+    m updateFileUploader
+        :private 
+        param state
+            :ref PackiState
+        param prevState
+            :ref PackiState
+        const files = state.files
+        const prevFiles = prevState.files
+            # Stop uploading any removed or changed assets
+        if !prevState.disabled && ((!state.disabled && files !== prevFiles) || state.disabled)
+            for 
+                left
+                    const path
+                in prevFiles
+                if !files[path] || files[path].contents !== prevFiles[path].contents || state.disabled
+                    _ this.fileUploader.remove(path, prevFiles[path])
+        if !state.disabled && (files !== prevFiles || prevState.disabled)
+            for 
+                left
+                    const path
+                in files
+                const file = files[path]
+                if file.type === 'ASSET' && typeof file.contents === 'object' && !file.error && (prevFiles[path]?.contents !== file.contents || prevState.disabled)
+                    _ this.fileUploader.add(path, file)
+    +
+    p onFileUploaded
+        :private 
+        :ref FileUploaderCallback
+        => 
+            param request
+            param resultURL
+            param error
+            _ this.setState
+                => 
+                    { 
+                        @ files
+                    (
+                        { 
+                            @ files
+                                _ State.addObject
+                                    @ files
+                                    @expr request.path
+                                    { 
+                                        @ ...request.file
+                                        ... 
+                                            ( 
+                                                iif resultURL
+                                                    then
+                                                        { 
+                                                            @ contents resultURL
+                                                    else
+                                                        { 
+                                        ... 
+                                            ( 
+                                                iif error
+                                                    then
+                                                        { 
+                                                            @ error
+                                                    else
+                                                        { 
+                # When a file has been uploaded, store its url in the state. This state should be persisted
+                # by the client so that the next time it doesn't need to be uploaded again.

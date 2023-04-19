@@ -1,0 +1,10 @@
+﻿$group
+	$params spaittfuri
+
+	artifact spa gulp
+		src ${spaittfuri}
+		schema spa
+		generator spa/gulp
+		dest-path gulpfile.js
+		extension js
+

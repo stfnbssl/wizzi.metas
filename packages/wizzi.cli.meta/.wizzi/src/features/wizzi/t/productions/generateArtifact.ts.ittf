@@ -1,0 +1,154 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function generateArtifact
+                param filePath
+                    :string
+                param files
+                    :ref packiTypes.PackiFiles
+                param context
+                    :any
+                    :optional
+                param options
+                    :any
+                    :optional
+                :return
+                    :ref Promise
+                        :param
+                            :ref GeneratedArtifact
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            if !verify.isObject(files)
+                                return
+                                    _ reject
+                                        {
+                                            @ action 'wizzi.productions.generateArtifact'
+                                            @ message 'files parameter must be an object of type PackiFiles'
+                                            @ files
+                            const generator = options && options.generator ? options.generator : wizziMaps.generatorFor(filePath)
+                            if generator
+                                let jsonwf
+                                    :any
+                                    =
+                                        {
+                                let generationContext
+                                    :any
+                                    =
+                                        {
+                                const ittfDocumentUri
+                                    _ ensurePackiFilePrefix(filePath)
+                                        :as
+                                            :string
+                                const siteDocumentUri
+                                    _ Object.keys(files).find
+                                        =>
+                                            param k
+                                            _ k.endsWith('site.json.ittf')
+                                try
+                                    set jsonwf =
+                                        await
+                                            _ createJsonFsAndFactory(files)
+                                    set generationContext =
+                                        _ Object.assign
+                                            @ context || {}
+                                            {
+                                                @ site
+                                                    iif siteDocumentUri
+                                                        then
+                                                            await
+                                                                _ loadModelInternal
+                                                                    @ jsonwf.wf
+                                                                    _ ensurePackiFilePrefix(siteDocumentUri)
+                                                                    {
+                                                        else null
+                                                ...
+                                                    await
+                                                        _ inferAndLoadContextJson(jsonwf.wf, files, ittfDocumentUri, 'twin')
+                                    _ jsonwf.wf.loadModelAndGenerateArtifact
+                                        @ ittfDocumentUri
+                                        {
+                                            @ modelRequestContext generationContext || {}
+                                            @ artifactRequestContext generationContext || {}
+                                        @ generator
+                                        =>
+                                            param err
+                                                :any
+                                            param result
+                                                :string
+                                            if err
+                                                return reject(err)
+                                            _ resolve
+                                                {
+                                                    @ artifactContent result
+                                                    @ sourcePath filePath
+                                                    @ artifactGenerator generator
+                                catch ex
+                                    return reject(ex)
+                            else
+                                _ reject('No artifact generator available for document ' + filePath)
+    +
+    export
+        async-function generateArtifactFs
+            param filePath
+                :string
+            param context
+                :any
+                :optional
+            param options
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref GeneratedArtifact
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        const generator = options && options.generator ? options.generator : wizziMaps.generatorFor(filePath)
+                        if generator
+                            # TODO catch error
+                            const wf
+                                await
+                                    _ createFilesystemFactory()
+                            try
+                                _ wf.loadModelAndGenerateArtifact
+                                    @ filePath
+                                    {
+                                        @ modelRequestContext context || {}
+                                        @ artifactRequestContext context || {}
+                                    @ generator
+                                    =>
+                                        param err
+                                        param result
+                                        if err
+                                            return reject(err)
+                                        _ resolve
+                                            {
+                                                @ artifactContent result
+                                                @ sourcePath filePath
+                                                @ artifactGenerator generator
+                            catch ex
+                                return reject(ex)
+                        else
+                            _ reject('No artifact generator available for document ' + filePath)
+    +
+    export
+        async-function generateArtifactDb
+            param owner
+                :string
+            param name
+                :string
+            param context
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref GeneratedArtifact
+            throw new Error(myname + '.generateArtifactDb not yet implemented')

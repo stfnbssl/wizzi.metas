@@ -1,0 +1,237 @@
+$group
+    ${'$'}
+      var myName = 'View';
+      //
+
+    iife_window${'('} app, ${'$'}{myName})
+        function ${'$'}{myName}
+            param template
+            param styles
+            set this.template = template
+            set this.styles = styles
+            set this.ENTER_KEY = 13
+            set this.ESCAPE_KEY = 27
+            #
+            set this.${'$'}${cliCtx.jsAppCrud.name}Route = qs('.route-${cliCtx.jsAppCrud.name}')
+            set this.$otherRoute = qs('.route-other')
+            #
+            set this.${'$'}${cliCtx.jsAppCrud.name}View = qs('.${cliCtx.jsAppCrud.name}-view')
+            set this.${'$'}${cliCtx.jsAppCrud.name}ViewSearch = qs('.${cliCtx.jsAppCrud.name}-view-search-field')
+            set this.${'$'}${cliCtx.jsAppCrud.name}ViewSelectCategoria = qs('.${cliCtx.jsAppCrud.name}-view-select-categoria')
+            set this.${'$'}${cliCtx.jsAppCrud.name}AddButton = qs('.${cliCtx.jsAppCrud.name}-add-button')
+            set this.${'$'}${cliCtx.jsAppCrud.name}SelectCategoria = null
+            set this.${'$'}${cliCtx.jsAppCrud.name}List = qs('.${cliCtx.jsAppCrud.name}-list')
+            set this.${'$'}${cliCtx.jsAppCrud.name}Item = qs('.${cliCtx.jsAppCrud.name}-item')
+            #
+            set this.$otherView = qs('.other-view')
+
+        set ${'$'}{myName}.prototype._setFilter =
+            function 
+                param currentPage
+                set qs('.filters .selected').className = ''
+                set qs('.filters [href="#/' + currentPage + '"]').className = 'selected'
+
+        set ${'$'}{myName}.prototype.render =
+            function 
+                param viewCmd
+                param parameter
+                $$ loog '${'$'}{myName}.prototype.render', viewCmd, parameter
+                var self = this
+                var viewCommands
+                    { 
+                        @ set${cliCtx.jsAppCrud.Name}SearchTerm
+                            function 
+                                set self.${'$'}${cliCtx.jsAppCrud.name}ViewSearch.value = parameter
+                        @ set${cliCtx.jsAppCrud.Name}SelectCategoria
+                            function 
+                                set self.${'$'}${cliCtx.jsAppCrud.name}SelectCategoria.value = parameter
+                        @ set${cliCtx.jsAppCrud.Name}Selects
+                            function 
+                                set self.${'$'}${cliCtx.jsAppCrud.name}ViewSelectCategoria.innerHTML = self.template.show${cliCtx.jsAppCrud.Name}SelectCategoria(parameter.categories)
+                        @ show${cliCtx.jsAppCrud.Name}View
+                            function 
+                                $$ loog '${'$'}{myName}.render.show${cliCtx.jsAppCrud.Name}View'
+                                set self.${'$'}${cliCtx.jsAppCrud.name}View.style.display = 'block'
+                                ${'$'}${'$'} set self.$otherView.style.display = 'none'
+                        @ showOtherView
+                            function 
+                                $$ loog '${'$'}{myName}.render.showOtherView'
+                                set self.${'$'}${cliCtx.jsAppCrud.name}View.style.display = 'none'
+                                ${'$'}${'$'} set self.$otherView.style.display = 'block'
+                        @ show${cliCtx.jsAppCrud.Name}List
+                            function 
+                                set self.${'$'}${cliCtx.jsAppCrud.name}List.innerHTML = self.template.show${cliCtx.jsAppCrud.Name}List(parameter)
+                        @ show${cliCtx.jsAppCrud.Name}Item
+                            function 
+                                set self.${'$'}${cliCtx.jsAppCrud.name}Item.innerHTML = self.template.show${cliCtx.jsAppCrud.Name}Item(parameter)
+                        @ setFilter
+                            function 
+                              $$ loog '${'$'}{myName}.render.setFilter', parameter
+                              set qs('.filters .selected').className = ''
+                              if qs('.filters [href="#/' + parameter + '"]')
+                                set qs('.filters [href="#/' + parameter + '"]').className = 'selected'
+                                $$ loog '${'$'}{myName}.render.setFilter 2', parameter
+                        @ create${cliCtx.jsAppCrud.Name}Item
+                            function
+                                _ self._create${cliCtx.jsAppCrud.Name}Item
+                                    @ parameter
+                        @ edit${cliCtx.jsAppCrud.Name}Item
+                            function
+                                _ self._edit${cliCtx.jsAppCrud.Name}Item
+                                    @ parameter
+                        @ update${cliCtx.jsAppCrud.Name}Item
+                            function
+                                _ self._update${cliCtx.jsAppCrud.Name}Item
+                                    @ parameter
+                        @ delete${cliCtx.jsAppCrud.Name}Item
+                            function
+                                _ self._delete${cliCtx.jsAppCrud.Name}Item
+                                    @ parameter
+                _ viewCommands[viewCmd]()
+
+        set ${'$'}{myName}.prototype.bind =
+            function 
+                param event
+                param handler
+                var self = this
+                if event === '${cliCtx.jsAppCrud.name}ViewSearchChange'
+
+                    $$ loog '${'$'}{myName}.bind', self.${'$'}${cliCtx.jsAppCrud.name}ViewSearch
+                    _ $on
+                        @ self.${'$'}${cliCtx.jsAppCrud.name}ViewSearch
+                        @ 'input'
+                        function 
+                            $$ loog '${'$'}{myName}.bind', '${cliCtx.jsAppCrud.name}ViewSearchChange', this.value
+                            _ handler
+                                { 
+                                    @ value this.value
+
+                elif event === '${cliCtx.jsAppCrud.name}SelectCategoriaChange'
+                    set this.${'$'}${cliCtx.jsAppCrud.name}SelectCategoria = qs('.${cliCtx.jsAppCrud.name}-select-categoria')
+                    $$ loog '${'$'}{myName}.bind', self.${'$'}${cliCtx.jsAppCrud.name}SelectCategoria
+                    _ $on
+                        @ self.${'$'}${cliCtx.jsAppCrud.name}SelectCategoria
+                        @ 'change'
+                        =>
+                            param event
+                            _ handler
+                                {
+                                    @ value event.target.value
+
+                elif event === '${cliCtx.jsAppCrud.name}AddItemClick'
+                    $$ loog '${'$'}{myName}.bind', self.${'$'}${cliCtx.jsAppCrud.name}AddItemClick
+                    _ $on
+                        @ self.${'$'}${cliCtx.jsAppCrud.name}AddButton
+                        @ 'click'
+                        =>
+                            param event
+                            _ handler
+                                {
+                                    @ value event.target.value
+
+                elif event === 'onView${cliCtx.jsAppCrud.Name}Item'
+                    info 'binding onView${cliCtx.jsAppCrud.Name}Item self.${'$'}${cliCtx.jsAppCrud.name}List'
+                    _ $on
+                        @ self.${'$'}${cliCtx.jsAppCrud.name}List
+                        @ 'click'
+                        function 
+                            param event
+                            var target = event.target
+                            var result = null
+                            var command = "update"
+                            while target && result == null
+                                if target.tagName == 'BUTTON'
+                                    set command = target.dataset.id
+                                if target.tagName == 'TR'
+                                    set result = target
+                                    info 'on click self.${'$'}${cliCtx.jsAppCrud.name}List', result, result.dataset, result.dataset.id
+                                set target = target.parentNode
+                            _ handler(command, result && result.dataset.id)
+                
+                elif event === 'create${cliCtx.jsAppCrud.Name}Item'
+                    set this.create${cliCtx.jsAppCrud.Name}Handler = handler
+
+                elif event === 'edit${cliCtx.jsAppCrud.Name}Item'
+                    set this.edit${cliCtx.jsAppCrud.Name}Handler = handler
+
+                elif event === 'update${cliCtx.jsAppCrud.Name}Item'
+                    set this.update${cliCtx.jsAppCrud.Name}Handler = handler
+
+                elif event === 'delete${cliCtx.jsAppCrud.Name}Item'
+                    set this.delete${cliCtx.jsAppCrud.Name}Handler = handler
+
+        set ${'$'}{myName}.prototype._create${cliCtx.jsAppCrud.Name}Item
+            function 
+                param parameters
+                $$ loog '${'$'}{myName}.prototype._create${cliCtx.jsAppCrud.Name}Item', parameters
+                const formData
+                    _ this.template.create${cliCtx.jsAppCrud.Name}ItemForm
+                const originalValues
+                    {
+                _ mvc.Form.setup
+                    @ qs
+                    @ this.${'$'}${cliCtx.jsAppCrud.name}Item
+                    @ formData
+                    @ originalValues
+                    {
+                        @ onSubmit
+                            =>
+                                param formValues
+                                $$ loog 'onSubmit formValues', formValues
+                                _ this.create${cliCtx.jsAppCrud.Name}Handler
+                                    @ originalValues
+                                    @ formValues
+                        @ onCancel
+                            =>
+                                _ mvc.Form.dispose
+                                    @ formData
+
+        set ${'$'}{myName}.prototype._update${cliCtx.jsAppCrud.Name}Item
+            function 
+                param parameters
+                $$ loog '${'$'}{myName}.prototype._update${cliCtx.jsAppCrud.Name}Item', parameters
+                const formData
+                    _ this.template.update${cliCtx.jsAppCrud.Name}ItemForm
+                const originalValues = parameters.originalValues
+                _ mvc.Form.setup
+                    @ qs
+                    @ this.${'$'}${cliCtx.jsAppCrud.name}Item
+                    @ formData
+                    @ originalValues
+                    {
+                        @ onSubmit
+                            =>
+                                param formValues
+                                $$ loog 'onSubmit formValues', formValues
+                                _ this.update${cliCtx.jsAppCrud.Name}Handler
+                                    @ originalValues
+                                    @ formValues
+                        @ onCancel
+                            =>
+                                _ mvc.Form.dispose
+                                    @ formData
+
+        set ${'$'}{myName}.prototype._delete${cliCtx.jsAppCrud.Name}Item
+            function 
+                param parameters
+                $$ loog '${'$'}{myName}.prototype._delete${cliCtx.jsAppCrud.Name}Item', parameters, "originalValues", parameters.originalValues
+                const formData
+                    _ this.template.delete${cliCtx.jsAppCrud.Name}ItemForm
+                const originalValues = parameters.originalValues
+                _ mvc.Form.setup
+                    @ qs
+                    @ this.${'$'}${cliCtx.jsAppCrud.name}Item
+                    @ formData
+                    @ originalValues
+                    {
+                        @ onSubmit
+                            =>
+                                param formValues
+                                $$ loog '${'$'}{myName}.prototype._delete${cliCtx.jsAppCrud.Name}.onSubmit.formValues', formValues
+                                _ this.delete${cliCtx.jsAppCrud.Name}Handler
+                                    @ originalValues
+                                    @ formValues
+                        @ onCancel
+                            =>
+                                _ mvc.Form.dispose
+                                    @ formData

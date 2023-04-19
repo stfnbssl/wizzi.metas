@@ -1,0 +1,96 @@
+﻿$group
+
+	import path
+	var cp = require('child_process')
+
+	var NOTEPAD_EXE = "C:\\Program Files\\Notepad++\\notepad++.exe"
+	var VSCODE_EXE = "C:\\Program Files\\Microsoft VS Code\\Code.exe"
+
+	var md
+        set module.exports =
+            { 
+
+	set md.openWindowConsole
+		function
+			param options
+			_ cp.execSync
+				@ 'START "" /D ' + options.cwd + ' cmd.exe '
+				[
+				@ options
+
+	set md.openWindowPowershell
+		function
+			param options
+			# loog 'wizzi-script.console.openWindowPowershell.options', options
+			_ cp.execSync
+				@ 'START "" /D ' + options.cwd + ' PowerShell_ISE.exe ' + options.document
+				[
+				@ options
+
+	set md.openWindowPowershell_prev2
+		function
+			param options
+			# loog 'wizzi-script.console.openWindowPowershell.options', options
+			_ cp.execSync
+				@ 'START'
+				[
+					@ '"my title"'
+					@ '/D ' + options.cwd
+					@ '/K'
+					@ 'PowerShell_ISE.exe'
+				@ options
+
+	set md.openWindowPowershell_prev
+		function
+			param options
+			# loog 'wizzi-script.console.openWindowPowershell.options', options
+			_ cp.execSync
+				@ 'PowerShell_ISE.exe'
+				[
+					@ '-WD ' + options.cwd
+				@ options
+
+	set md.openNodeInWindowConsole
+		function
+			param options
+			_ cp.execSync
+				@ "start cmd.exe /K node my-new-script.js parm1 parm2"
+
+	set md.openDocument
+		function
+			param documentFullPath
+			param options
+			# loog 'wizzi-scripts.console.openDocument', documentFullPath
+			_ cp.execSync
+				@ path.basename(documentFullPath)
+				{
+					@ cwd path.dirname(documentFullPath)
+			_ process.exit(0)
+
+	set md.openNotePad
+		function
+			param documentFullPath
+			param options
+			var cwd = path.dirname(documentFullPath)
+			var prm1 = path.basename(documentFullPath)
+			_ cp.execSync
+				@ 'START "" /D ' + cwd + ' "' + NOTEPAD_EXE + '"  ' + prm1
+				[
+				@ options
+			_ process.exit(0)
+
+	set md.openVsCode
+		function
+			param documentFullPath
+			param options
+			var cwd = path.dirname(documentFullPath)
+			var prm1 = path.basename(documentFullPath)
+			_ cp.execSync
+				@ 'START "" /D ' + cwd + ' "' + VSCODE_EXE + '"  ' + prm1
+				[
+				@ options
+			_ process.exit(0)
+
+
+
+

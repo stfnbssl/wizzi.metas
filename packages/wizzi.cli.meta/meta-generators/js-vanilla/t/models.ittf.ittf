@@ -1,0 +1,24 @@
+$group
+
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            ${"${'$'}"}include v08/env/vars
+            ---
+            ${'$'}include cli/v08/wzctx-info.json
+            ---
+            { App
+                name "${cliCtx.App.name}"
+                kind "${cliCtx.App.kind}"
+            ---
+            { Build
+                $if cliCtx.useFeatures
+                    [ features
+                $if cliCtx.useData
+                    ---
+                    ${"${'$'}"}include data.json
+
+    $if cliCtx.useData
+        $file __dot__wizzi/models/t/data.json.ittf.ittf
+            ${"${'$'}"}group
+                useData true
+                { data

@@ -1,0 +1,13 @@
+$group
+
+    $if cliCtx.useJsAppCrud
+
+        $
+            var items = [
+                'main',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/t/html/appCrud/${item}.html.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/html/appCrud/${item}.html

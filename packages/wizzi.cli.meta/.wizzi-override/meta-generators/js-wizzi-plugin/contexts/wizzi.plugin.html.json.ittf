@@ -1,0 +1,91 @@
+{
+    
+    $
+        var pluginBasename = "html";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Html document"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        $*
+        {
+            name "useGraphqlParser"
+            value "true"
+        *$
+    
+    [ Schemas
+        {
+            name "${pluginBasename}"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            hasWizzifier true
+            multiLineCommentBegin "<!--"
+            multiLineCommentEnd "-->"
+            hasWizzifier true
+            { wizzifier
+                [ parserImportCode
+                    "var ${pluginBasename}_parser = require('./parser')"
+                [ parserInvokeCode
+                    " _ ${pluginBasename}_parser.parse(tobeWizzified)"
+                useFormatAstMethods false
+            [ includes
+                {
+                    Name "Js"
+                    name "js"
+                    artifactName "js/module"
+                    [ options
+                    [ items
+                        {
+                            name "js"
+                            parent "node"
+                            tag "::script"
+                            root "module"
+                {
+                    Name "Css"
+                    name "css"
+                    artifactName "css/document"
+                    [ options
+                    [ items
+                        {
+                            name "css"
+                            parent "node"
+                            tag "::style"
+                            root "css"
+                {
+                    Name "Svg"
+                    name "svg"
+                    artifactName "svg/document"
+                    [ options
+                    [ items
+                        {
+                            name "svg"
+                            parent "node"
+                            tag "::svg"
+                            root "svg"
+                {
+                    Name "Vtt"
+                    name "vtt"
+                    artifactName "vtt/document"
+                    [ options
+                    [ items
+                        {
+                            name "vtt"
+                            parent "node"
+                            tag "::vtt"
+                            root "vtt"
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "${pluginBasename}"
+                    contentType "text/html"
+                    isDefault true
+            [ fileExtensions
+                "html"

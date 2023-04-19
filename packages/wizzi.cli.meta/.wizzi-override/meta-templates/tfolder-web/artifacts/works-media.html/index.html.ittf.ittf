@@ -1,0 +1,36 @@
+html 
+    
+    ${'$'}
+        var md = {
+            hasBorderedControls: true,
+        }
+        //
+
+    head 
+        meta 
+            charset utf-8
+        @title Media works
+    css /~/stfnbssl/wizziway.css?savecount=17&filepath=index.css.ittf
+    css /~/stfnbssl/lab%2Fvanillajs%2Fcss?savecount=17&filepath=index.css.ittf
+    style
+        ${'$'}include css/base.css            
+        ${'$'}include css/index.css            
+        ${'$'}include css/media.css            
+    body
+        ${'$'}include html/main
+        script
+            set window.__filename = 'browser'
+
+        js /~/stfnbssl/wizziway.js?savecount=3&filepath=index.js.ittf
+        script
+            module
+                kind es6
+                ${'$'}${'$'} ${'$'}include js/defaults.js
+                ${'$'}${'$'} ${'$'}include js/styles.js
+                ${'$'}include js/youtube.js
+                ${'$'}include js/template.js
+                ${'$'}include js/view.js
+                ${'$'}include js/store.js
+                ${'$'}include js/model.js
+                ${'$'}include js/controller.js
+                ${'$'}include js/app.js

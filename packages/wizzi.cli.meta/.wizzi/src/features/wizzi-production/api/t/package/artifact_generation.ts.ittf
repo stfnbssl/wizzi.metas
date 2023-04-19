@@ -1,0 +1,49 @@
+$group
+    +
+    export
+        async-function getArtifactGeneration_withPrepare
+            param owner
+                :string
+            param productionName
+                :string
+            param filePath
+                :string
+            param queryContext
+                :string
+            param rootContext
+                :any
+            # loog myname, 'getArtifactGeneration_withPrepare', 'owner', owner, 'productionName', productionName, 'filePath', filePath, 'queryContext', queryContext, 'rootContext', Object.keys(rootContext)
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ productionApi.prepareProduction
+                            @ 'package'
+                            @ owner
+                            @ productionName
+                            @ queryContext
+                            @ rootContext
+                            ._ then
+                                =>
+                                    param productionObj
+                                        :any
+                                    # loog myname, 'getArtifactGeneration_withPrepare.productionObj', 'packiFiles', Object.keys(productionObj.packiFiles), 'context', Object.keys(productionObj.context),
+                                    _ wizziProds.generateArtifact
+                                        @ filePath
+                                        @ productionObj.packiFiles
+                                        @ productionObj.context
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
+                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 120) + '...'
+                                                const response
+                                                    {
+                                                        @ content result.artifactContent
+                                                        @ contentLength result.artifactContent.length
+                                                        @ contentType wizziMaps.contentTypeFor(filePath)
+                                                return resolve(response)
+                                        v08/ts/catch_reject( ' + myname + 'getArtifactGeneration_withPrepare.generateArtifact )
+                            v08/ts/catch_reject( ' + myname + 'getArtifactGeneration_withPrepare.prepareProduction )

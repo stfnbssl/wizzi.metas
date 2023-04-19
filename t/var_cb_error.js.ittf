@@ -1,0 +1,9 @@
+﻿$group
+	$params errorName
+
+	var error
+		new errors.${errorName}Error
+			$hook
+	return
+		_ callback
+			@ error

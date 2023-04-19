@@ -1,0 +1,63 @@
+$group
+
+    function executeWizziJob
+        param ittfDocumentUri
+        param context
+        param callback
+
+        _ createWizziFactory
+            {
+            a_cb${'('} wf )
+                _ wf.executeJob
+                    {
+                        @ name path.basename(ittfDocumentUri)
+                        @ path ittfDocumentUri
+                        @ productionOptions
+                            _ wizzi.productionOptions
+                                {
+                                    @ indentSpaces 4
+                                    @ basedir __dirname
+                                    @ verbose 2
+                        @ modelContext context || {}
+                        @ jobContext {}
+                    @ callback
+
+
+	$$ TODO - VIA ???
+    function executeWizziJob_2
+		param wfjobDocumentUri
+		param options
+		set options = options || {}
+		set options.plugins = options.plugins || []
+		set options.globalContext = options.globalContext || {}
+		var jobPlugins
+			[
+				@ 'wizzi-core'
+				@ 'wizzi-meta'
+				@ 'wizzi-js'
+				@ 'wizzi-web'
+		foreach item in options.plugins
+			_ jobPlugins.push(item)
+
+		if wizzi == null
+			set wizzi = require('wizzi')
+		_ wizzi.executeWizziJob
+			{ 
+				@ storeKind 'filesystem'
+				{ config
+					@ wfBaseFolder 'c:/my/wizzi/v5'
+					@ plugins jobPlugins
+				{ job
+					@ name 'example ' + wfjobDocumentUri
+					@ ittfDocumentUri wfjobDocumentUri
+					@ productionOptions
+						_ wizzi.productionOptions
+							{ 
+								@ indentSpaces 4
+								@ basedir __dirname
+								@ verbose 2
+					@ globalContext options.globalContext
+			function 
+				param err
+				if err
+                    _ wizzi.printWizziJobError('${'$'}{md.name}', err)

@@ -1,0 +1,14 @@
+$group
+    
+    function postData
+        param url
+            :string
+        param data
+            :{
+
+        return
+            _ executeFetch
+                @ url
+                @ data
+                {
+                    @ method 'POST'

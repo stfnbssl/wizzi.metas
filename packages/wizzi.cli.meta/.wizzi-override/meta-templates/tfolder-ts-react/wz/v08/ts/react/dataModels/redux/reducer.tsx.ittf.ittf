@@ -1,0 +1,98 @@
+$group
+
+    $
+        var lp = '(';
+
+    ${'$'}
+        var schema = md.schema;
+    
+    import 
+        @ combineReducers
+        from 'redux'
+    import 
+        @ ActionType
+        @ getType
+        from 'typesafe-actions'
+    import 
+        @ I${'$'}{schema.Name}
+        from './types'
+    import 
+        as ${'$'}{schema.name}Actions
+        from './actions'
+    +
+    export 
+        :type ${'$'}{schema.Name}State
+            :ref Readonly
+                :param 
+                    :{
+                        :p items
+                            :[
+                                :ref I${'$'}{schema.Name}
+                        :p item
+                            :union
+                                :ref I${'$'}{schema.Name}
+                                :null
+    const initialState
+        :ref ${'$'}{schema.Name}State
+        =
+            { 
+                @ items []
+                @ item null
+    +
+    export 
+        :type ${'$'}{schema.Name}Action
+            :ref ActionType
+                :param 
+                    :typeof ${'$'}{schema.name}Actions
+    +
+    export-default 
+        _ combineReducers
+            :param 
+                :ref ${'$'}{schema.Name}State
+            :param 
+                :ref ${'$'}{schema.Name}Action
+            { 
+                @ items
+                    => 
+                        param state = initialState.items
+                        param action
+                        $$ loog '${'$'}{schema.Name}.items.action', action
+                        switch action.type
+                            case getType(${'$'}{schema.name}Actions.get${'$'}{schema.Name}ListSuccess)
+                                return action.payload.${'$'}{schema.collectionName}
+                            case getType(${'$'}{schema.name}Actions.create${'$'}{schema.Name}Success)
+                                return 
+                                    [ 
+                                        @ ...state
+                                        @ action.payload.${'$'}{schema.name}
+                            case getType(${'$'}{schema.name}Actions.update${'$'}{schema.Name}Success)
+                                return 
+                                    _ state.map
+                                        => 
+                                            param item
+                                            ( 
+                                                iif item._id === action.payload.${'$'}{schema.name}._id
+                                                    then
+                                                        { 
+                                                            @ ...item
+                                                            @ ...action.payload.${'$'}{schema.name}
+                                                    else item
+                            case getType(${'$'}{schema.name}Actions.delete${'$'}{schema.Name}Success)
+                                return 
+                                    _ state.filter
+                                        => 
+                                            param item
+                                            ( 
+                                                @expr item._id !== action.payload.${'$'}{schema.name}._id
+                            default 
+                                return state
+                @ item
+                    => 
+                        param state = initialState.item
+                        param action
+                        $$ loog '${'$'}{schema.Name}.item.action', action
+                        switch action.type
+                            case getType(${'$'}{schema.name}Actions.get${'$'}{schema.Name}ByIdSuccess)
+                                return action.payload.${'$'}{schema.name}
+                            default 
+                                return state

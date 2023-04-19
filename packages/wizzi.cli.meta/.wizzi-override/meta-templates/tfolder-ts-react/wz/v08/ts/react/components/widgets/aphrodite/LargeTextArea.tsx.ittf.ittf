@@ -1,0 +1,70 @@
+$group
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import Textarea from 'react-textarea-autosize'
+    import 
+        @ c
+        from '../ThemeProvider'
+    +
+    export
+        :type LargeTextAreaProps
+            :{ 
+                :p autoFocus
+                    :optional 
+                    :boolean 
+                :p value
+                    :union 
+                        :string 
+                        :undefined 
+                :p name
+                    :optional 
+                    :string 
+                :p minRows
+                    :optional 
+                    :number 
+                :p placeholder
+                    :optional 
+                    :string 
+                :p onChange
+                    :=> 
+                        :void 
+                        param e
+                            :ref React.ChangeEvent
+                                :param 
+                                    :ref HTMLTextAreaElement
+    +
+    export
+        function LargeTextArea
+            { 
+                ... rest
+                :ref LargeTextAreaProps
+            return 
+                < Textarea 
+                    @ className {css(styles.input)}
+                    @ {...rest}
+    +
+    export-default LargeTextArea
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { input
+                    @ outline 0
+                    @ fontSize 16
+                    @ borderRadius 3
+                    @ padding '12px 14px 12px 14px'
+                    @ lineHeight '22px'
+                    @ border
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                    @ backgroundColor c('content')
+                    @ width '100%'
+                    { ':focus'
+                        @ borderColor c('selected')

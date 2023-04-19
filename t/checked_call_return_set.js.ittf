@@ -1,0 +1,7 @@
+﻿$group
+	$params varName
+
+	set ${varName}
+		$hook
+	if ${varName} && ${varName}.__is_error
+		return ${varName}

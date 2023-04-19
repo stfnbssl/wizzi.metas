@@ -1,0 +1,142 @@
+$group
+
+	if !window.wz
+		set window.wz = {}
+
+	class wz_ContextMenu
+
+		ctor
+			param options
+			set options = options || {}
+			set this.menusContainerId = options.menusContainerId || 'wz-menus-container'
+			set this.onClose
+				=>
+
+		m create
+			param meta
+			$$ loog 'wz.ContextMenu.create'
+			set this.meta = meta
+
+			var menusContainer = wz.element('#' + this.menusContainerId)
+			if !menusContainer
+				set menusContainer = document.createElement('div')
+				_ menusContainer.setAttribute('id', this.menusContainerId)
+				_ document.body.appendChild(menusContainer)
+
+			set this.menuDiv
+				_ document.createElement("div")
+			_ this.menuDiv.setAttribute('id', meta.menu.id)
+			_ this.menuDiv.setAttribute('class', 'wz-context-menu')
+
+			var itemsDiv
+				_ this._createMenuItemsDiv
+					@ meta.menu
+			
+			_ menusContainer.appendChild
+				@ this.menuDiv
+			_ this.menuDiv.appendChild
+				@ itemsDiv
+
+			set this.menuDiv.onclick
+				=>
+					param event
+					var command = event.target.dataset['command']
+					$$ loog 'clickListener.target', event.target, command
+					if meta.onClick
+						_ meta.onClick
+							{
+								@ command command
+								@ payload this.payload
+								@ event event
+
+			_ wz.click
+				@ document
+				=>
+					$$ loog 'document.onclick', meta.menu.id
+					_ this.handleClose
+			
+			_ wz.global.on
+				@ 'wz.contextMenu.clear'
+				function
+					param target
+					$$ loog 'wz.contextMenu.clear.target', target, meta.menu.id
+					if target !== meta.menu.id
+						_ this.handleClose
+				@ this
+
+		m replace
+			param menuMeta
+			$$ loog 'wz.ContextMenu.replace'
+			# _createMenuItemsDiv removes the previous div
+			var itemsDiv
+				_ this._createMenuItemsDiv
+					@ menuMeta
+			_ this.menuDiv.appendChild
+				@ itemsDiv
+		
+		m _createMenuItemsDiv
+			param menuMeta
+
+			var hb = new wzHtmlBuilder()
+			var hUl
+				_ hb.add
+					@ 'ul'
+					{
+			foreach item in menuMeta.items
+				var hLi
+					_ hUl.add
+						@ 'li'
+						{
+				_ hLi.add
+					@ 'a'
+					{
+						@ href '#'
+						@ ['data-command'] item.command || item.label
+						@ _text item.label
+
+			if this.menuItemsDiv
+				_ this.menuItemsDiv.parentNode.removeChild(this.menuItemsDiv)
+			
+			set this.menuItemsDiv
+				_ document.createElement("div")
+			
+			_ wz.html
+				@ this.menuItemsDiv
+				_ hb.toHtml('\n')
+
+			return this.menuItemsDiv
+
+		m handleRightClick
+			param evt
+			param payload
+
+			_ wz.global.emit
+				@ 'wz.contextMenu.clear'
+				@ this.meta.menu.id
+			
+			set this.payload = payload
+			
+			set evt = (evt) ? evt : ((event) ? event : null)
+			var posnX = (evt.pageX) ? evt.pageX : ((evt.offsetX) ? evt.offsetX + 10 : null)
+			var posnY = (evt.pageY) ? evt.pageY : ((evt.offsetY) ? evt.offsetY + 10 : null)
+			
+			var menu
+				_ wz.element
+					@ '#' + this.meta.menu.id
+
+			set menu.style.left = posnX + 'px'
+			set menu.style.top = posnY + 'px'
+			set menu.style.display = 'block'
+			
+			if typeof evt.preventDefault != "undefined"
+				_ evt.preventDefault()
+			else
+				set evt.returnValue = false
+
+		m handleClose
+			_ wz.hide
+				@ '#' + this.meta.menu.id
+			$$ loog 'handleClose', this.onClose
+			_ this.onClose
+
+	set wz.ContextMenu = wz_ContextMenu			

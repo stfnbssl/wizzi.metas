@@ -1,0 +1,21 @@
+${'$'}group
+
+    $*
+        react-redux properties for "package.json" ittf documents.
+        The "ctx" context object (if present) is set by wizzi-cli/cmds/create.
+    *$
+
+    ${'$'}if wzCtx.Build.useReact
+        ${'$'}if wzCtx.Build.react.useRedux
+            redux "^4.0.5"
+            ${'$'}if wzCtx.Build.react.redux.useAuth
+                redux-auth-wrapper "^2.1.0"
+            ${'$'}if wzCtx.Build.react.redux.useFirestore
+                redux-firestore "^0.8.0"
+            ${'$'}if wzCtx.Build.react.redux.useForm
+                redux-form "^8.2.0"
+        ${'$'}if wzCtx.Build.react.useRedux
+            ${'$'}if wzCtx.Build.react.redux.useThunk
+                redux-thunk "^2.3.0"
+            ${'$'}if wzCtx.Build.react.redux.useSaga
+                redux-saga "^1.1.3"

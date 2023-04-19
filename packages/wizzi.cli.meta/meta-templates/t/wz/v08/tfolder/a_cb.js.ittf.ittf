@@ -1,0 +1,13 @@
+${'$'}group
+    ${'$'}params result|notUsed
+
+    ${'$'}${'$'} arrow function callback
+
+    =>
+        param err
+        param ${'$'}{result}
+        if err
+            return
+                _ callback
+                    @ err
+        ${'$'}hook

@@ -1,0 +1,190 @@
+$group
+
+    set functors.contents
+        function
+            param node
+            param parentObj
+            param resultObj
+            foreach child in node.items
+                if !fillContents(child, parentObj, resultObj)
+                    # functors.contents is called when contents only are expected
+                    $$ TODO error
+
+    function fillContents
+        param node
+        param currentObj
+        param resultObj
+        if !currentObj.contents
+            $$ loog 'fillContents.currentObj.contents is null, kind, id', currentObj.kind, currentObj.id
+            return
+        if node.wzElement == "text"
+            _ currentObj.contents.push
+                {
+                    @ line node.wzName
+        elif node.wzElement == 'img'
+            _ currentObj.contents.push
+                {
+                    @ img node.wzName
+        elif node.wzElement == 'quote'
+            _ currentObj.contents.push
+                {
+                    @ quote
+                        _ fillQuote
+                            @ node
+                            @ currentObj
+                            @ resultObj
+        elif node.wzElement == 'comment'
+            _ currentObj.contents.push
+                {
+                    @ comment
+                        _ functors.comment
+                            @ node
+                            @ resultObj
+        elif node.wzElement == 'bax'
+            _ currentObj.contents.push
+                {
+                    @ bax
+                        _ functors.comment
+                            @ node
+                            @ resultObj
+        elif node.wzElement == 'example'
+            _ currentObj.contents.push
+                {
+                    @ example
+                        _ functors.comment
+                            @ node
+                            @ resultObj
+        elif node.wzElement == 'concept' && currentObj.kind == 'concept'
+            var savens = resultObj.ns
+            set resultObj.ns = currentObj.id
+            _ functors.concept        
+                @ node
+                @ resultObj
+            set resultObj.ns = savens
+            _ currentObj.contents.push
+                {
+                    @ concept currentObj.id + '.' + node.wzName
+        elif node.wzElement == 'relatedconcept'
+            var rconceptObj
+                {
+                    @ kind 'rconcept'
+                    @ id functors.getQualified(resultObj.ns, node.wzName)
+                    [ contents
+            foreach child in node.items
+                if !fillContents(child, rconceptObj, resultObj)
+                else
+                    $$ TODO error
+            _ currentObj.contents.push
+                @ rconceptObj
+            _ resultObj.relations.push
+                {
+                    @ kind 'rconcept'
+                    @ from currentObj.id
+                    @ to functors.getQualified(resultObj.ns, node.wzName)
+        elif node.wzElement == 'relatedarticle'
+            var rarticleObj
+                {
+                    @ kind 'rarticle'
+                    @ id node.wzName
+                    [ contents
+            foreach child in node.items
+                if !fillContents(child, rarticleObj, resultObj)
+                else
+                    $$ TODO error
+            _ currentObj.contents.push
+                @ rarticleObj
+            _ resultObj.relations.push
+                {
+                    @ kind 'rarticle'
+                    @ from currentObj.id
+                    @ to node.wzName
+        else
+            return true
+
+    function fillQuote
+        param node
+        param currentObj
+        param resultObj
+        var quoteObj
+            {
+                @ author (resultObj.ns_author || 'global')
+                [ lines
+        foreach child in node.items
+            if functors.contentFields(child, quoteObj)
+            elif child.wzElement == 'text'
+                _ quoteObj.lines.push
+                    @ child.wzName
+            elif child.wzElement == 'img'
+                _ quoteObj.lines.push
+                    {
+                        @ img child.wzName
+            elif child.wzElement == 'author'
+                set quoteObj.author = child.wzName
+                foreach item in child.items
+                    if item.wzElement == 'text'
+                        _ quoteObj.lines.push
+                            @ item.wzName
+            elif child.wzElement == 'book'
+                set quoteObj.book = functors.getQualified(resultObj.ns, child.wzName)
+                foreach item in child.items
+                    if functors.contentFields(item, quoteObj)
+            elif child.wzElement == 'article'
+                set quoteObj.article = functors.getQualified(resultObj.ns, child.wzName)
+                foreach item in child.items
+                    if functors.contentFields(item, quoteObj)
+            elif child.wzElement == 'comment'
+                _ quoteObj.lines.push
+                    {
+                        @ comment
+                            _ functors.comment
+                                @ child
+                                @ resultObj
+            elif child.wzElement == 'quote'
+                _ quoteObj.lines.push
+                    {
+                        @ quote
+                            _ fillQuote
+                                @ child
+                                @ currentObj
+                                @ resultObj
+            elif child.wzElement == 'bax'
+                _ quoteObj.lines.push
+                    {
+                        @ bax
+                            _ functors.comment
+                                @ child
+                                @ resultObj
+            else
+                set quoteObj.unknown = child.wzElement + '/' + child.wzName
+        return quoteObj
+
+    set functors.period
+        function
+            param field
+            param parentObj
+            param resultObj
+            var periodObj
+                {
+                    @ title field.wzName
+                    [ contents
+            _ functors.contents
+                @ field
+                @ periodObj
+                @ resultObj
+
+    set functors.contentFields
+        function
+            param field
+            param parentObj
+            if field.wzElement == 'page'
+                set parentObj.page = field.wzName
+                return true
+            elif field.wzElement == 'eloc'
+                set parentObj.eloc = field.wzName
+                return true
+            elif field.wzElement == 'epage'
+                set parentObj.epage = field.wzName
+                return true
+            else
+                return false
+

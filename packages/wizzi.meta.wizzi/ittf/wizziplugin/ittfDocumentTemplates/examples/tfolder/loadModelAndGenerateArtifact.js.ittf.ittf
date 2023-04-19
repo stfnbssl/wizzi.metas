@@ -1,0 +1,75 @@
+$group
+	${'$'}params step, ittfDocumentName, schema, artifact, commandLine|@@null
+
+	${'$'}
+		var save = false;
+		var printArtifact = false;
+		var printDashes = false;
+		if (commandLine !== null) {
+			var commands = commandLine.split(';')
+			for (var i=0; i<commands.length; i++) {
+				var tokens = commands[i].trim().split(':');
+				if (tokens.length == 2) {
+					if (tokens[0] == 'print') {
+						var actions = tokens[1].trim().split(' ');
+						for (var j=0; j<actions.length; j++) {
+							if (actions[j] === 'artifact') {
+								printArtifact = true;
+							}
+							if (actions[j] === 'dashes') {
+								printDashes = true;
+							}
+						}
+					}
+				} 
+				if (tokens.length == 1) {
+					if (tokens[0] === 'save') {
+						save = true;
+					}
+				}
+			}
+		}
+
+	# Create a filesystem factory without access control
+	_ wizzi.fsFactory
+		{
+			@ plugins
+				{
+					@ items
+						[
+							@ 'wizzi-core'
+							@ 'wizzi-js'
+							@ 'wizzi-web'
+			@ globalContext globalContext
+
+		a_cb_throw${'('} wf )
+			_ wf.loadModelAndGenerateArtifact
+				_ path.join
+					@ __dirname
+					@ 'step_${'$'}{step}'
+					@ '${'$'}{ittfDocumentName}'
+				{
+					@ modelRequestContext {}
+					@ artifactRequestContext {}
+				@ '${'$'}{schema}/${'$'}{artifact}'
+				a_cb_throw${'('} artifactText )
+					${'$'}if save == true
+						# Save the artifact
+						# to the ./outputs folder
+						var dest
+							_ path.join
+								@ __dirname
+								@ 'step_${'$'}{step}'
+								@ 'outputs'
+								_ verify.stripExtension('${'$'}{ittfDocumentName}')
+						_ wizzi.file.write
+							@ dest
+							@ artifactText
+						$$ loog verify.stripExtension('${'$'}{ittfDocumentName}') + ' saved to ' + dest
+					${'$'}if printArtifact == true
+						_ printValue
+							@ 'artifactText'
+							@ artifactText
+							${'$'}if printDashes === true
+								@ 'dashes'
+					${'$'}hook

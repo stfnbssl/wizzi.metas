@@ -1,0 +1,127 @@
+﻿module
+	kind es6
+
+	const path = require('path')
+	const wizzi = require('wizzi')
+	const wizziUtils = require('wizzi-utils')
+    const verify = wizziUtils.verify
+	const vfile = wizziUtils.vfile
+    const templator = require('./templator')
+    var file = vfile()
+
+    var meta_generators
+        [
+            @ 'ts-node'
+            @ 'ts-express'
+            @ 'ts-client'
+            @ 'js-vanilla'
+            @ 'js-wizzi-plugin'
+            @ 'js-wizzi-meta'
+	
+    set module.exports
+		=>
+			param options
+            set options = options || {}
+            if meta_generators.indexOf(options.metaGenerator) < 0
+                throw new Error('createEx. Unknown metaGenerator: ' + options.metaGenerator)
+
+            $$ loog 'createEx.options', options
+            var dataWizziPlugins = []
+            try
+                set dataWizziPlugins
+                    _ JSON.parse
+                        _ file.read
+                            _ path.join
+                                @ __dirname
+                                @ 'data/wizzi.plugins.data.json'
+                        . wizziPackages
+            catch ex
+                $$ loog 'reading ./data/wizzi.plugins.data.json', ex
+
+            $$ loog 'dataWizziPlugins.length', dataWizziPlugins.length
+
+            var metaGeneratorFolderPath
+                _ path.join
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+                    @ 'meta-generators'
+                    @ options.metaGenerator
+
+            var metaGeneratorContextPath
+                _ path.join
+                    @ metaGeneratorFolderPath
+                    @ 'contexts'
+                    @ options.context + '.json.ittf'
+            info 'metaGeneratorContextPath', metaGeneratorContextPath
+
+            var metaGeneratorIndex
+                _ path.join
+                    @ metaGeneratorFolderPath
+                    @ 'index.ittf.ittf'
+            info 'metaGeneratorIndex', metaGeneratorIndex
+
+            var metaGenerationContextPath
+                _ path.join
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+                    @ 'meta-templates'
+                    @ '__temp'
+                    @ options.metaGenerator
+                    @ options.context
+            log 'metaGenerationContextPath', metaGenerationContextPath
+
+            _ wizzi.model
+                _ path.join
+                    @ metaGeneratorContextPath
+                {
+                    { cliCtx
+                        @ pkgName options.pkgName
+                        @ description options.pkgName
+                =>
+                    param err
+                    param cliCtx
+                    if err
+                        error 'createEx.load context.error:', err
+                        return
+                    
+                    $$ loog 'createEx.cliCtx', cliCtx
+                    set cliCtx.wizziPlugins = dataWizziPlugins
+
+                    $*
+                    _ file.deleteFolder
+                        @ metaGenerationContextPath
+                        =>
+                            param err
+                            if err
+                                error 'createEx.delete temp template folder.error:', err
+                                return
+                    *$
+                    
+                    _ templator
+                        @ metaGeneratorIndex
+                        @ metaGenerationContextPath
+                        @ cliCtx
+                    +
+                    log 'createEx.before genFolder.cliCtx', cliCtx
+                    +
+                    return
+                        _ wizzi.genFolder
+                            @ metaGenerationContextPath
+                            {
+                                @ cliCtx cliCtx
+                            {
+                                @ destFolder
+                                    iif options.destPath
+                                        then
+                                            + options.destPath
+                                        else
+                                            _ path.join
+                                                @ 'C:/My/wizzi/stfnbssl/wizzi.meta.demos/packages'
+                                                @ options.pkgName
+                                @ copyInclude ['*']
+                                @ copyExclude []
+                            a_cb_test(genFolderResult)
+                                log 'genFolderResult', genFolderResult
+                                return

@@ -1,0 +1,13 @@
+$group
+
+	import React from 'react'
+	import PropTypes from 'prop-types'
+	import classNames from 'classnames'
+
+	${'$'}hook imports
+
+	react-f ${'$'}{md.name}
+		${'$'}hook
+
+	+
+	export default ${'$'}{md.name}

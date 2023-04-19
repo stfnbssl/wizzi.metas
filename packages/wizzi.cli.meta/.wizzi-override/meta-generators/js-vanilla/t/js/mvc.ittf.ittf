@@ -1,0 +1,19 @@
+$group
+
+    $if cliCtx.useJsMvc
+
+        $
+            var items = [
+                'index',
+                't/helpers',
+                't/localObjectStore',
+                't/localCollectionStore',
+                't/forms/index',
+                't/forms/t/form',
+                't/forms/t/control',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/js/t/mvc/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/js/mvc/${item}.js

@@ -1,0 +1,42 @@
+$group
+
+    const path = require('path')
+    const fs = require('fs')
+    const stringify = require('json-stringify-safe')
+    $if cliCtx.useWizziV08
+        const wizzi = require('@wizzi/factory')
+    $else
+        const wizzi = require('wizzi')
+    $if cliCtx.useWizziV08
+        const wizziUtils = require('@wizzi/utils')
+    $else
+        const wizziUtils = require('wizzi-utils')
+    const factory = require('./factory)'
+    +
+    const
+        {
+            @ fSystem
+            @ verify
+        = wizziUtils.verify
+    
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        +
+        const configEnv = require('../config/env')
+        const
+            {
+                @ packiFilePrefix
+                @ packiFilePrefixExtract
+                = configEnv
+    +
+    const
+        {
+            ${'$'}if wzCtx.Build.useWizziJsonFactory
+                @ createJsonFsAndFactory
+                @ ensurePackiFilePrefix
+            @ createFilesystemFactory
+            @ createFilesystemFactoryWithParameters
+        = factory
+    +
+    const mdDisplayName = 'features.wizzi-meta.api.wizziProds'
+    +
+    ${'$'}include generateFolderArtifacts

@@ -1,0 +1,43 @@
+$group
+    section 
+        . center
+            h2 YouTube
+                code iframe
+                + embed
+            ${'$'}*
+            div 
+                id YouTube-player
+            *${'$'}
+            iframe 
+                id YouTube-player
+                frameborder 0
+                allowfullscreen 1
+                @ allow accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture
+                title YouTube video player
+                width 400
+                height 300
+                src https://www.youtube.com/embed/frYIj2FGmMA?autohide=0&amp;cc_load_policy=0&amp;controls=2&amp;disablekb=1&amp;iv_load_policy=3&amp;modestbranding=1&amp;rel=0&amp;showinfo=0&amp;start=3&amp;origin=http%3A%2F%2Flocalhost%3A5000&amp;enablejsapi=1&amp;widgetid=1
+                sandbox allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation
+
+        . framed
+            div 
+                id YouTube-player-infos
+            div 
+                id YouTube-player-errors
+            div 
+                id YouTube-player-fixed-infos
+    section 
+        h2 References
+        ul 
+            li 
+                ul 
+                    li 
+                        a 
+                            href https://developers.google.com/youtube/iframe_api_reference
+                            em YouTube Player
+                                abbr API
+                                + Reference for code iframe Embeds
+                    li 
+                        a 
+                            href https://developers.google.com/youtube/player_parameters
+                            em YouTube Embedded Players and Player Parameters

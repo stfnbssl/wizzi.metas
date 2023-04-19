@@ -1,0 +1,44 @@
+{
+
+    $
+        var port = 5006;
+        var useSslCert = false;
+        var useSsl = false;
+        var http = useSsl ? 'https' : 'http';
+        var domain = "localhost"
+
+    $include commons
+
+    useSsl ${useSsl ? "true" : "false"}
+    useSslCert ${useSslCert ? "true" : "false"}
+    domain "${domain}"
+    port "${port}"
+    siteUrl "${http}://${domain}"
+    $if domain == "localhost"
+        baseUrl "${http}://${domain}:${port}"
+        corsOrigin "${http}://${domain}:${port}"
+    $else
+        baseUrl "${http}://${domain}"
+        corsOrigin "${http}://${domain}"
+    siteUrlLocal "${http}://localhost"
+    baseUrlLocal "${http}://localhost:${port}"
+
+    useConfig true
+    { express
+    useExpress true
+    { express
+    useWizzi true
+    { wizzi
+    useAuthentication true
+    { authentication
+        usePermissionFlag true
+        useJwt true
+    useMongoDb true
+    { mongoDb
+    useFeatures true
+    { features
+    useWizziViewEngine true
+    { wizziViewEngine
+    useFeatureUser true
+    { featureUser
+        store "mongoDb"

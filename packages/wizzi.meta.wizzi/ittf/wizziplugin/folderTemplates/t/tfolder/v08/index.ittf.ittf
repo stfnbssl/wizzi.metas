@@ -1,0 +1,3 @@
+$group
+    $include examples
+    $$ $include lib

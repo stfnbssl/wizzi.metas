@@ -1,0 +1,29 @@
+{
+    name "${wzCtx.name}"
+    version "${wzCtx.version}"
+    $if wzCtx.author
+        { author
+            name "${wzCtx.author.name}"
+            email "${wzCtx.author.email}"
+    private false
+    $if wzCtx.license
+        [ licenses
+            {
+                type "${wzCtx.license.type}"
+                url "${wzCtx.license.url}"
+    main "${wzCtx.main}"
+    $if wzCtx.Build.useVite
+        type "module"
+    $else
+        $if wzCtx.type
+            type "${wzCtx.type}"
+    { scripts
+        $include v08/package/scripts
+    { dependencies
+        $include v08/package/dependencies
+    { devDependencies
+        $include v08/package/devDependencies
+    $include v08/package/tools
+    $include v08/package/browser
+    $$ see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/
+    $include v08/package/resolutions

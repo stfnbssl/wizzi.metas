@@ -1,0 +1,34 @@
+$group
+
+    elif cmd == 'ts-node-demo-wizzi-v08'
+        _ createEx
+            {
+                @ metaGenerator 'ts-node'
+                @ context 'demo.wizzi.v08'
+                @ pkgName 'demo.ts.node.wizzi.v08'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.demo/packages/demo.ts.node.wizzi.v08'
+                            
+    elif cmd == 'ts-node-wizzi-cli-hub'
+        _ createEx
+            {
+                @ metaGenerator 'ts-node'
+                @ context 'wizzi.cli.hub'
+                @ pkgName 'wizzi.cli.hub'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.cli/packages/wizzi.cli.hub'
+    elif cmd == 'ts-node-wizzi-cli-meta'
+        _ createEx
+            {
+                @ metaGenerator 'ts-node'
+                @ context 'wizzi.cli.meta'
+                @ pkgName 'wizzi.cli.meta'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.cli.meta'
+    elif cmd == 'ts-node-demo'
+        _ createEx
+            {
+                @ metaGenerator 'ts-node'
+                @ context 'demo'
+                @ pkgName 'demo.ts.node'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/demo.ts.node'
+
+
+

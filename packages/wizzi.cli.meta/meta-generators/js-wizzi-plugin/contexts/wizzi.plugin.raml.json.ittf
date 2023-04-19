@@ -1,0 +1,33 @@
+{
+    $
+        var pluginBasename = "raml";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "RAML plugin"
+        kind "WizziPlugin"
+
+    [ Schemas
+        {
+            name "raml"
+            plugin_type "data"
+            hasNamespaces true
+            hasTextContents true
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "raml"
+                    contentType "text/plain"
+                    isDefault true
+            [ fileExtensions
+                "raml"
+
+    { Utils
+        useInflection true            
+        useParseUrl true   

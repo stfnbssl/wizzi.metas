@@ -1,0 +1,14 @@
+{
+    { meta
+        ${'$'}${'$'} name "..name.."
+        [ contexts
+            {
+                ${'$'}${'$'} propertyName "..name.."
+                ${'$'}${'$'} artifactName "..name.."
+    [ tfolders
+        {
+            ${'$'}${'$'} name "..name.."
+    [ contexts
+        {
+            ${'$'}${'$'} propertyName "..name.."
+            ${'$'}${'$'} artifactName "..name.."

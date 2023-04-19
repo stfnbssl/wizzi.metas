@@ -1,0 +1,40 @@
+$group
+    $params &schema
+
+	+
+	var myname = '${schema.name}.document.included_writers'
+	+
+	var verify = require('wizzi-utils').verify
+	+
+	var md = module.exports = {}
+
+    $foreach include in schema.includes
+        set md.writeInclude${include.Name}
+            function
+                param ctx
+                param element
+                param callback
+                # loog myname, 'enter writeInclude${include.Name}'
+                _ element.get_${include.name}
+                    a_cb${"${'('}"} ${include.name}Model )
+                        $$ loog myname, '${include.name}Model', ${include.name}Model
+                        _ ctx.wizziFactory.generateArtifact
+                            @ ${include.name}Model
+                            @ 'generated from ${schema.name} model'
+                            @ '${include.artifactName}'
+                            {
+                                $foreach option in include.options
+                                    $if option.type == "string"
+                                        @ ${option.name} "${option.value}"
+                                    $else
+                                        @ ${option.name} ${option.value}
+                            a_cb${"${'('}"} artifactText )
+                                $$ loog myname, '${include.name} module artifactText', artifactText
+                                _ ctx.indent
+                                _ ctx.writeAligned(artifactText)
+                                _ ctx.deindent
+                                return
+                                    _ callback
+
+    
+    

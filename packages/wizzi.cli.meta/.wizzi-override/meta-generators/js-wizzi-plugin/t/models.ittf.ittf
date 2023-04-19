@@ -1,0 +1,87 @@
+$group
+
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            $if cliCtx.usePackageVersion 
+                ${'${"$"}'}include versions
+            name "${cliCtx.name}"
+            npnName "${cliCtx.npnName}"
+            pluginBasename "${cliCtx.pluginBasename}"
+            $if cliCtx.usePackageVersion 
+                version '${'${"$"}'}{versions['${cliCtx.npnName}@next']}'
+            $else
+                version "0.0.1"
+            description "${cliCtx.description}"
+            { author
+                name "${cliCtx.author.name}"
+                email "${cliCtx.author.email}"
+            { github
+                userid "${cliCtx.github.userid}"
+            { license
+                name "${cliCtx.license.name}"
+                copy "${cliCtx.license.copy}"
+            { Build
+                isWizziPlugin true
+                $if cliCtx.useWizziV08
+                    useWizziV08 true
+                    { wizziV08
+                { utils
+                    useStringifySafe true
+                    useObjectInspect true
+                    $if cliCtx.Utils
+                        $if cliCtx.Utils.useInflection
+                            useInflection true
+                        $if cliCtx.Utils.useParseUrl
+                            useParseUrl true
+                $if cliCtx.BuildVars
+                    $foreach bv in cliCtx.BuildVars
+                        ${bv.name} ${bv.value}
+            [ Schemas
+                $foreach schema in cliCtx.Schemas
+                    {
+                        name "${schema.name}"
+                        title "${schema.name} wizzi schema"
+                        $if schema.rootElement
+                            rootElement "${schema.rootElement}"
+                        $if schema.rootTag
+                            rootTag "${schema.rootTag}"
+                        $if schema.hasBuiltinWizziModel
+                            builtin true
+                        $else
+                            builtin false
+                        $if schema.hasWizzifier
+                            hasWizzifier true
+                        [ modelTransformers
+                            $foreach trans in schema.transformers
+                                {
+                                    name "${trans.name}"
+
+                        [ artifactGenerators
+                            $foreach art in schema.artifacts
+                                {
+                                    name "${art.name}"
+                                    outmime "${art.outmime}"
+                                    contentType "${art.contentType}"
+                                    isDefault ${art.isDefault ? "true" : "false"}
+                        $foreach art in schema.artifacts
+                            $if art.isDefault
+                                defaultArtifact "${art.name}"
+                        [ wizzifiers
+                            $if schema.hasWizzifier
+                                {
+                                    name "${schema.name}"
+                        [ fileExtensions
+                            $foreach ext in schema.fileExtensions
+                                "${ext}"
+                        [ includes
+                            $if schema.includes
+                                $foreach include in schema.includes
+                                    {
+                                        Name "${include.Name}"
+                                        name "${include.name}"
+                                        [ options
+                                            $foreach option in include.options
+                                                {
+                                                    name "${option.name}"
+                                                    type "${option.type}"
+                                                    value "${option.value}"

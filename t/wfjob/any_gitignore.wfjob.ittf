@@ -1,0 +1,8 @@
+﻿$group
+
+	artifact .gitignore
+		src .gitignore.text.ittf
+		schema text
+		generator text/document
+			dest-path .gitignore
+		$hook

@@ -1,0 +1,20 @@
+$group
+    
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "css"
+            "graphql"
+            "html"
+            "ittf"
+            "js"
+            "ts"
+            "json"
+            "md"
+            "text"
+            "text"
+            "svg"
+            "wzjob"
+            "wzschema"
+            "xml"
+            "yaml"

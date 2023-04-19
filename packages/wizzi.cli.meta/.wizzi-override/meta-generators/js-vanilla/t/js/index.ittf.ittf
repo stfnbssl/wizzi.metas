@@ -1,0 +1,13 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}src/js/index.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wz/v08/js/index.js
+
+    $if cliCtx.useJsAppCrud
+
+        $file __dot__wizzi/${pkgPath}src/js/appCrud${cliCtx.jsAppCrud.Name}.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include wz/v08/js/appCrud.js

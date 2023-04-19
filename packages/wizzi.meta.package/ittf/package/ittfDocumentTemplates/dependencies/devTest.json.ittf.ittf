@@ -1,0 +1,8 @@
+${'$'}group
+
+    $*
+        TODO
+        The "ctx" context object (if present) is set by wizzi-cli/cmds/create.
+    *$
+
+	${'$'}if wzCtx.Build.useJest

@@ -1,0 +1,55 @@
+$group
+
+	class wz_EventTarget
+		ctor
+			set this.handlers = {}
+
+		m __is_Event
+			param name
+			return Array.isArray(this.events) == false || this.events.indexOf(name) > -1
+
+		m emit
+			param name
+			var args = [].slice.call(arguments, 1)
+			$$ loog 'wz_EventTarget.emit.args', arguments, args
+			if this.__is_Event(name)
+				if this.handlers[name] instanceof Array
+					foreach handle in this.handlers[name]
+						$$ loog 'handle.context', handle.context
+						_ handle.callback.apply(handle.context, args)
+			else
+				throw new Error(name + ' event cannot be found on TreeView.')
+
+		m on
+			param name
+			param callback
+			param scope
+			$$ loog 'EventTarget.on.name,scope', name, scope
+			if this.__is_Event(name)
+				if !this.handlers[name]
+					set this.handlers[name] = []
+				_ this.handlers[name].push
+					{ 
+						@ callback callback
+						@ context scope
+			else
+				throw new Error(name + ' is not supported by TreeView.')
+		
+		m off
+			param name
+			param callback
+			var 
+				decl index
+				decl found = false
+			if this.handlers[name] instanceof Array
+				_ this.handlers[name].forEach
+					function 
+						param handle
+						param i
+						set index = i
+						if handle.callback === callback && !found
+							set found = true
+				if found
+					_ this.handlers[name].splice(index, 1)
+
+	set wz.EventTarget = wz_EventTarget

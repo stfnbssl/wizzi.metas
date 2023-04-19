@@ -1,0 +1,6 @@
+$group
+    ${'$'}params name, last|@@null
+    if model.${'$'}{name} && (model.${'$'}{name}.length > 0 || model.${'$'}{name} == true)
+        _ ctx.write(' ${'$'}{name}=' + model.${'$'}{name})
+    ${'$'}if last != null
+        _ ctx.w('>')

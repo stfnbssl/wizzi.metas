@@ -1,0 +1,21 @@
+module
+    $
+        var md = {
+            Name: 'ArtifactProduction'
+        }
+    v08/mongo/crud/model(&md)
+        $append fields
+            @ owner String
+            @ name String
+            @ description String
+            @ wizziSchema String
+            @ mainIttf String
+            @ packiFiles String
+            @ created_at Date
+            @ updated_at Date
+        _ ArtifactProductionSchema.index
+            {
+                @ owner 1
+                @ name 1
+            {
+                @ unique true

@@ -1,0 +1,60 @@
+$group
+
+    # taken from https://github.com/wwan5803/react-modal-resizable-draggable/blob/master/src/Modal.js
+    # see also https://github.com/react-grid-layout/react-draggable
+
+    $*
+    import './index.css'
+    TODO
+    import 
+        @ FaBars
+        from 'react-icons/fa'
+    *$
+    
+    react Modal
+        render
+            const 
+                { 
+                    @ isDragging
+                    @ width
+                    @ height
+                    @ top
+                    @ left
+                    @ isOpen
+                    @ isMinimised
+                    @ onRequestRecover
+                    @ className
+                    @ onFocus
+                = this.props
+            if isOpen
+                return 
+                    < React.Fragment 
+                        div 
+                            @ onClick {onFocus}
+                            @ ref
+                                => 
+                                    param node
+                                    set this.node = node
+                            @ draggable {isDragging}
+                            @ className
+                                iif !className
+                                    then "flexible-modal"
+                                    else "flexible-modal " + className
+                            @ style
+                                { 
+                                    @ width
+                                    @ height
+                                    @ top
+                                    @ left
+                            + {this.props.children}
+                        { 
+                            && 
+                                + isMinimised
+                                button 
+                                    @ className "flexible-modal-rebound-btn"
+                                    @ onClick {onRequestRecover}
+                                    + ===
+                                    $$ TODO < FaBars 
+            else
+                return null
+    

@@ -1,0 +1,22 @@
+$group
+
+    ${'$'}
+        var md = {
+            name: "FlexRow",
+            element: "div",
+            props: [
+            ]
+        }
+        
+    v08/ts/react/styledelement${'('}&md)
+
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        return
+            {
+                @ display 'flex'
+                @ flexDirection 'row'
+                @ justifyContent props.justifyContent || 'center'

@@ -1,0 +1,13 @@
+$group
+    ${'$'}params name, arg1|@@null
+    function ${'$'}{name}
+        param model
+        param ctx
+        ${'$'}if arg1 != null
+            param ${'$'}{arg1}
+        param callback
+        if typeof callback === 'undefined'
+            throw
+                new Error
+                    @ 'Missing callback parameter in fn: ' + myname + '.${'$'}{name}'
+        ${'$'}hook

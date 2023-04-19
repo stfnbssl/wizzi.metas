@@ -1,0 +1,78 @@
+$group
+
+    +
+    export
+        async-function getTemplatePackiFiles
+            param metaId
+                :string
+            param cliCtx
+                :any
+            param queryString
+                :string
+            param rootContext
+                :any
+            :return
+                :ref Promise
+                    :param 
+                        :ref packiTypes.PackiFiles
+            # loog myname, 'getTemplatePackiFiles', 
+                \b 'metaId', metaId, 
+                \b 'cliCtx', Object.keys(cliCtx),
+                \b 'queryString', queryString, 
+                \b 'rootContext', Object.keys(rootContext)
+            function getPackiFiles
+                param mainIttf
+                    :string
+                :return
+                    :ref packiTypes.PackiFiles
+                const ret
+                    :ref packiTypes.PackiFiles
+                    = {}
+                set ret[mainIttf]
+                    {
+                        @ type 'CODE'
+                        @ contents ''
+                return ret
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        if !metaId || metaId.length < 1
+                            return
+                                _ resolve
+                                    _ getPackiFiles
+                                        @ 'index.js.ittf'
+                        _ productionApi.prepareProductionById
+                            @ 'meta'
+                            @ metaId
+                            @ queryString
+                            @ rootContext
+                            ._ then
+                                => 
+                                    param metaProductionSet
+                                        :any
+                                    # loog 'getTemplatePackiFiles.metaProductionSet',
+                                        \b 'packiFiles', Object.keys(metaProductionSet.packiFiles),
+                                        \b 'context', Object.keys(metaProductionSet.context),
+                                    const context
+                                        _ Object.assign
+                                            {
+                                            @ metaProductionSet.context
+                                            {
+                                                @ cliCtx cliCtx
+                                    _ wizziProds.generateFolderArtifacts
+                                        @ 'template'
+                                        @ 'output'
+                                        @ metaProductionSet.packiFiles
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param packiFiles
+                                                    :ref packiTypes.PackiFiles
+                                                # loog 'getTemplatePackiFiles.generatedFolderArtifacts',
+                                                    \b 'packiFiles', Object.keys(packiFiles),
+                                                _ resolve
+                                                    @ packiFiles
+                                        v08/ts/catch_reject${'('} getTemplatePackiFiles.generateFolderArtifacts )
+                            v08/ts/catch_reject${'('} getTemplatePackiFiles.prepareProduction )

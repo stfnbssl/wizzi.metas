@@ -1,0 +1,17 @@
+$group
+
+    function loadModelAndGenerateArtifactFromText
+        param ittfContent
+        param context
+        param artifactName
+        param callback
+        _ createWizziFactory
+            {
+            a_cb${'('} wf )
+                _ wf.loadModelAndGenerateArtifactFromText
+                    @ ittfContent
+                    {
+                        @ modelRequestContext context
+                        @ artifactRequestContext {}
+                    @ artifactName
+                    @ callback

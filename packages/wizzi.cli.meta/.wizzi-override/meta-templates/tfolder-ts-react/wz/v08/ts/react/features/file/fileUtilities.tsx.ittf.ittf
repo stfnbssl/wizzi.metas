@@ -1,0 +1,175 @@
+$group
+    
+    import escapeRegExp from 'escape-string-regexp'
+    +
+    export 
+        function isInsideFolder
+            param path
+                :string 
+            param folderPath
+                :string 
+            return 
+                _ path.startsWith
+                    `lit 
+                        + 
+                        @ folderPath
+                        + /
+    +
+    export 
+        function getParentPath
+            param path
+                :string 
+            :return
+                :union 
+                    :string 
+                    :undefined 
+            return 
+                iif path.includes('/')
+                    then path.replace(/\/[^/]+$/, '')
+                    else undefined
+    +
+    export 
+        function changeParentPath
+            param path
+                :string 
+            param oldParentPath
+                :string 
+            param newParentPath
+                :string 
+            return path.replace(RegExp('^' + escapeRegExp(oldParentPath + '/')), newParentPath + '/')
+    +
+    export 
+        function getUniquePath
+            param allPaths
+                :[ 
+                    :string 
+            param suggestedPath
+                :string 
+            param initialSuffix
+                :string 
+                :optional 
+            const parts
+                iif suggestedPath.includes('.')
+                    then suggestedPath.split('.')
+                    else undefined
+            const ext
+                iif parts
+                    then parts.pop()
+                    else ''
+            const initialPath
+                iif parts
+                    then parts.join('.')
+                    else suggestedPath
+            let path = suggestedPath
+            let counter
+                iif initialSuffix
+                    then 0
+                    else 1
+            while 
+                test
+                    _ allPaths.some
+                        => 
+                            param p
+                            set p.toLowerCase() === path.toLowerCase()
+                const suffix
+                    _ 
+                        `lit 
+                            + 
+                            @ initialSuffix ?? ''
+                            + &nbsp;
+                            @ counter || ''
+                            + 
+                        ._ trim
+                if ext
+                    set path =
+                        `lit 
+                            + 
+                            @ initialPath
+                            + &nbsp;
+                            @ suffix
+                            + .
+                            @ ext
+                            + 
+                else
+                    set path =
+                        `lit 
+                            + 
+                            @ initialPath
+                            + &nbsp;
+                            @ suffix
+                            + 
+                set counter++
+            return path
+    +
+    export 
+        function isEntryPoint
+            param name
+                :string 
+            :return
+                :boolean 
+            return /^App\.(js|tsx?)$/.test(name)
+    +
+    export 
+        function isPackageJson
+            param name
+                :string 
+            :return
+                :boolean 
+            return name === 'package.json'
+    +
+    export 
+        function isESLintConfig
+            param name
+                :string 
+            :return
+                :boolean 
+            return /^\.eslintrc(\.json)?$/.test(name)
+    +
+    export 
+        function isImage
+            param name
+                :string 
+            :return
+                :boolean 
+            return /\.(bmp|jpg|jpeg|png|gif|svg|webp)$/.test(name)
+    +
+    export 
+        function isScript
+            param name
+                :string 
+            :return
+                :boolean 
+            return /\.(js|tsx?)$/.test(name)
+    +
+    export 
+        function isJson
+            param name
+                :string 
+            :return
+                :boolean 
+            return name.endsWith('.json')
+    +
+    export 
+        function isJS
+            param name
+                :string 
+            :return
+                :boolean 
+            return name.endsWith('.js')
+    +
+    export 
+        function isTS
+            param name
+                :string 
+            :return
+                :boolean 
+            return isScript(name) && !isJS(name)
+    +
+    export 
+        function isTest
+            param name
+                :string 
+            :return
+                :boolean 
+            set name = name.toLocaleLowerCase()
+            return (name.includes('__tests__') || name.includes('__integration-tests__') || name.includes('__mocks__') || name.includes('.test') || name.includes('.spec'))

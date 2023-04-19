@@ -1,0 +1,294 @@
+$group
+    ---
+    ${'$'}if wzCtx.Build.useAzure && wzCtx.Build.azure.useSecrets
+        @azure/identity "^2.0.4"
+        @azure/keyvault-secrets "^4.4.0"
+    ---
+    $include ./dependencies/@babel.json
+    ${'$'}if wzCtx.Build.useReact && wzCtx.Build.react.useMui
+        @emotion/react "latest"
+        @emotion/styled "latest"
+    ${'$'}if wzCtx.Build.useExpoStyles
+        @expo/styleguide "^2.1.4"
+    ${'$'}if wzCtx.Build.useReact && wzCtx.Build.useStyledSystem
+        @styled-system/theme-get "^5.1.2"
+    ---    
+    $include ./dependencies/@material-ui.json
+    ---
+    ${'$'}if wzCtx.Build.useReact &&  wzCtx.Build.react.useMarkdownPreview
+        @uiw/react-markdown-preview "latest"
+    ---
+    ${'$'}if wzCtx.Build.isWizziPlugin && wzCtx.Build.useWizziV08
+        @wizzi/mtree "latest"
+        @wizzi/utils "latest"
+        ${'$'}foreach schema in wzCtx.Schemas
+            ${'$'}foreach include in schema.includes
+                @wizzi/plugin.${'$'}{include.name} "latest"
+
+    ${'$'}if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useV08
+        @wizzi/factory "latest"
+        @wizzi/utils "latest"
+        ${'$'}foreach item in wzCtx.Build.wizzi.v08.plugins
+            @wizzi/plugin.${'$'}{item} "latest"
+    ---
+    ${'$'}if wzCtx.Build.useAuthentication
+        argon2 "^0.30.3"
+    ${'$'}if wzCtx.Build.useAphrodite
+        aphrodite "^2.4.0"
+    ${'$'}if wzCtx.Build.isWizziPlugin
+        async "^3.2.4"
+    ${'$'}if wzCtx.Build.useTailwindcss
+        autoprefixer "^10.0.2"
+    ${'$'}if wzCtx.Build.utils.useAxios
+        axios "^0.21.1"
+    ${'$'}if wzCtx.Build.useExpress
+        ${'$'}if wzCtx.Build.useNetlify
+            aws-serverless-express "^3.2.0"
+    ${'$'}if wzCtx.Build.useBabelParser    
+        babel-plugin-parameter-decorator "latest"
+    ${'$'}if wzCtx.Build.useExpress
+        body-parser "^1.18.3"
+    ${'$'}if wzCtx.Build.useBootstrap
+        bootstrap "^4.1.3"
+    ---    
+    ${'$'}if wzCtx.Build.useReact && !!wzCtx.Build.useReactCreateApp == false
+        classnames "^2.2.6"
+    ${'$'}if wzCtx.Build.useExpress && wzCtx.Build.useFlash
+        connect-flash "^0.1.1"
+    ${'$'}if wzCtx.Build.useMongoDb
+        connect-mongo "^4.4.1"
+    ${'$'}if wzCtx.Build.usePostgres
+        connect-pg-simple "^7.0.0"
+    ${'$'}if wzCtx.Build.useReact && wzCtx.Build.react.useRouter && wzCtx.Build.react.useRedux
+        connected-react-router "^6.9.1"
+    ${'$'}if wzCtx.Build.useExpress
+        ${'$'}if wzCtx.Build.useCompression
+            compression "^1.7.2"
+        ${'$'}if wzCtx.Build.useCookie
+            cookie "^0.4.1"
+    ${'$'}if wzCtx.Build.useVExpo
+        core-js "^3.6.5"
+    ${'$'}if wzCtx.Build.useExpress && wzCtx.Build.useCors
+            cors "^2.8.4"
+    ${'$'}if wzCtx.Build.useCrypto
+        crypto "^1.0.1"
+    ${'$'}if wzCtx.Build.useCssParser
+        css "^3.0.0"
+    ---
+    ${'$'}if wzCtx.Build.utils.useDateFns || wzCtx.Build.useReact && wzCtx.Build.react.useDate
+        date-fns "^2.0.0"
+    ${'$'}elif wzCtx.Build.useReact
+        ${'$'}if wzCtx.Build.react.useMaterialUI
+            ${'$'}if wzCtx.Build.react.materialUI.usePickers
+                $$ date-fns "^1.30.1"
+                date-fns "2.0.0"
+    ${'$'}elif wzCtx.Build.useExpress
+        debug "~2.6.9"
+    ${'$'}if wzCtx.Build.utils.useDiffMatchPatch
+        diff-match-patch "^1.0.5"
+    ${'$'}if wzCtx.Build.useDomPurify
+        dompurify "^3.0.1"
+    ${'$'}if wzCtx.Build.useDomHelpers
+        dom-helpers "^3.4.0"
+    ---
+    ${'$'}if wzCtx.Build.useConfig && wzCtx.Build.config.useEnvalid
+        dotenv "16.0.1"
+    ${'$'}if wzCtx.Build.useReact
+        ${'$'}if wzCtx.Build.react.useDraftJs
+            draft-js "^0.10.5"
+    ${'$'}if wzCtx.Build.useConfig && wzCtx.Build.config.useEnvalid
+        envalid "^7.0.0"
+    ${'$'}if wzCtx.Build.utils.useEs6Error
+        es6-error "^4.1.1"
+    ${'$'}if wzCtx.Build.utils.useEscapeHtml
+        escape-html "^1.0.3"
+    ${'$'}if wzCtx.Build.utils.useEscapeRegexp
+        escape-string-regexp "^4.0.0"
+    ${'$'}if wzCtx.Build.useExpress
+        express "^4.16.3"
+        ${'$'}if wzCtx.Build.useJwt
+            express-jwt "^6.0.0"
+        $$ ${'$'}if wzCtx.Build.useAuthentication || wzCtx.Build.useAuthorization
+        $$     express-openid-connect "^2.2.1"
+        ${'$'}if wzCtx.Build.useSession
+            express-session "^1.17.1"
+        ${'$'}if wzCtx.Build.express.useExpressValidator
+            express-validator "^6.15.0"
+    ---
+    ${'$'}if wzCtx.Build.utils.useFetchPonyfill
+        fetch-ponyfill "^7.1.0"
+    ${'$'}if wzCtx.Build.useReact
+        ${'$'}if wzCtx.Build.react.useFormik
+            formik "^1.5.7"
+    ---
+    $include ./dependencies/gatsby.json
+    ${'$'}if wzCtx.Build.utils.useGitUrlParse
+        git-url-parse "^11.4.4"
+    ${'$'}if wzCtx.Build.useGraphqlParser
+        graphql "^15.5.0"
+        graphql-request "^3.4.0"
+    ---
+    ${'$'}if wzCtx.Build.useHelmet
+        helmet "^5.1.1"
+    ${'$'}if wzCtx.Build.useReact
+        ${'$'}if wzCtx.Build.useHoistNonReactStatic
+            hoist-non-react-statics "^3.3.2"
+    ${'$'}if wzCtx.Build.useExpress
+        ${'$'}if wzCtx.Build.express.useErrors
+            http-errors "^2.0.0"
+    ---
+    ${'$'}if wzCtx.Build.isWizziPlugin
+        i "^0.3.7"
+        iconv-lite "^0.6.3"
+    ${'$'}if wzCtx.Build.utils.useInflection
+        inflection "^2.0.1"
+    ${'$'}if wzCtx.Build.useFetch
+        isomorphic-fetch "^2.2.1"
+    ${'$'}if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
+        isomorphic-git "^1.21.0"
+    ${'$'}if wzCtx.Build.useIsomorphicUnfetch
+        isomorphic-unfetch "^3.0.0"
+    ---
+    ${'$'}if wzCtx.Build.utils.useJsCookie
+        js-cookie "^2.2.1"
+    ${'$'}if wzCtx.Build.useYamlParser
+        js-yaml "^4.1.0"
+    ${'$'}if wzCtx.Build.useDomPurify
+        jsdom "^21.1.1"
+    ${'$'}if wzCtx.Build.isClientServer || wzCtx.Build.isServer || wzCtx.Build.usePages
+        jsesc "^2.5.2"
+    ${'$'}if wzCtx.Build.utils.useStringifySafe
+        json-stringify-safe "^5.0.1"
+    ${'$'}if wzCtx.Build.utils.useJsonToAst
+        json-to-ast "^2.1.0"
+    ${'$'}if wzCtx.Build.useJwt
+        jsonwebtoken "^8.5.1"
+    ${'$'}if wzCtx.Build.useAuthorization
+        jwks-rsa "^1.4.0"
+    ---
+    ${'$'}if wzCtx.Build.utils.useLodash || wzCtx.Build.useMonacoEditor
+        lodash "^4.17.21"
+    ---
+    ${'$'}if wzCtx.Build.useMarked
+        ${'$'}if wzCtx.Build.useVExpo
+            marked "^2.0.0"
+        ${'$'}else
+            marked "^2.0.3"
+    ${'$'}if wzCtx.Build.useMarkdownParser
+        marked "^4.3.0"
+    ${'$'}if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
+        memfs "^3.4.7"
+    ${'$'}if wzCtx.Build.utils.useMinimist
+        minimist "latest"
+    ${'$'}if wzCtx.Build.useMonacoEditor
+        ${'$'}if wzCtx.Build.useVExpo
+            monaco-editor "^0.18.1"
+        ${'$'}else
+            monaco-editor "^0.34.0"
+    ${'$'}if wzCtx.Build.useMoment
+        moment "^2.24.0"
+	${'$'}if wzCtx.Build.useMongoDb
+		$$ mongoose "^5.4.2"
+        mongoose "^6.5.2"
+    ${'$'}if wzCtx.Build.useExpress && wzCtx.Build.useLogger
+        ${'$'}if wzCtx.Build.logger.useMorgan
+            morgan "^1.10.0"
+    ---
+    ${'$'}if wzCtx.Build.utils.useNanoId
+        nanoid "^3.3.4"
+    ${'$'}if wzCtx.Build.utils.useNodeCache
+        node-cache "^5.1.2"
+    ${'$'}if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
+        node-fetch "^2"
+    ${'$'}if wzCtx.Build.utils.useNullThrows
+        nullthrows "^1.1.1"
+    ---
+    ${'$'}if wzCtx.Build.utils.useObjectInspect
+        object-inspect '^1.12.3'
+    ---
+    ${'$'}if (wzCtx.Build.styles && wzCtx.Build.styles.usePalx) || wzCtx.Build.useStorybook
+        palx '^1.0.3'
+    ${'$'}if wzCtx.Build.utils.useParseUrl
+        parseurl "^1.3.3"
+    ${'$'}if wzCtx.Build.usePostgres || (wzCtx.Build.useSequelize && wzCtx.Build.sequelize.usePostgres)
+        pg "^8.8.0"
+            $$ pg short for postgres is a Postgres client for Node.js
+        pg-hstore "^2.3.4"
+            $$ pg-hstore is a node package for serializing and deserializing JSON data to hstore format.
+    ${'$'}if wzCtx.Build.usePostCss
+        postcss "^8.4.21"
+        postcss-color-function "^4.1.0"
+    ${'$'}if wzCtx.Build.usePrismjs
+        prismjs "^1.21.0"
+    ---
+    ${'$'}if wzCtx.Build.utils.useQueryString
+        query-string "^7.0.0"
+    ---
+    $include ./dependencies/react.json
+    ---    
+    $include ./dependencies/redux.json
+    ${'$'}if wzCtx.Build.useReact_stopped_25_06_2022
+        recompose "^0.30.0"
+    ${'$'}if wzCtx.Build.useSequelize
+        reflect-metadata "^0.1.13"
+    ${'$'}if wzCtx.Build.useRegeneratorRuntime
+        regenerator-runtime "^0.13.7"
+    ${'$'}if wzCtx.Build.utils.useRimRaf
+        rimraf "^3.0.2"
+    ---    
+    ${'$'}if wzCtx.Build.utils.useSanitizeHtml
+        sanitize-html "^2.3.3"
+    ${'$'}if wzCtx.Build.useExpress
+        ${'$'}if wzCtx.Build.useNetlify
+            serverless-http "^1.6.0"
+    ${'$'}if wzCtx.Build.utils.useScssParser
+        scss-parser "^1.0.4"
+    ${'$'}if wzCtx.Build.useSequelize
+        sequelize "^6.21.4"
+        sequelize-cli "^6.4.1"
+        sequelize-typescript "^2.1.3"
+            $$ sequelize-cli is a package that enables us interact with the database through sequelize from the CLI.
+
+    ${'$'}if wzCtx.Build.useSocketIO
+        socket.io-client "^2.2.0"
+    ${'$'}if wzCtx.Build.useExpress
+        strong-error-handler "^4.0.0"
+    ${'$'}if wzCtx.Build.useReact && wzCtx.Build.useStyledComponents
+        styled-components "^5.2.1"
+    ${'$'}if wzCtx.Build.useReact && wzCtx.Build.useStyledSystem
+        styled-system "^5.1.5"
+    ---
+    ${'$'}if wzCtx.Build.useTypescript
+        tslib "^2.4.0"
+    ${'$'}if wzCtx.Build.useReact
+        ${'$'}if wzCtx.Build.react.useRedux
+            ${'$'}if wzCtx.Build.react.redux.useSaga
+                typesafe-actions "^5.1.0"
+    ---    
+    ${'$'}if wzCtx.Build.useUnderscore
+        underscore "^1.9.1"
+    ---    
+    ${'$'}if wzCtx.Build.useValidateJs
+        validate.js "^0.12.0"
+    ${'$'}if wzCtx.Build.useVue
+        vue "^2.5.17"
+        vue-server-renderer "^2.5.17"
+    ---
+    ${'$'}if wzCtx.Build.utils.useWebVitals
+        web-vitals "^1.0.1"
+    ${'$'}if wzCtx.Build.isWizziPlugin && !wzCtx.Build.useWizziV08
+        wizzi-mtree "^0.7.18"
+        wizzi-utils "^0.7.22"
+    ${'$'}if wzCtx.Build.useWizzi && !wzCtx.Build.wizzi.useV08
+        wizzi "^0.7.35"
+        wizzi-tools "^0.7.7"
+        wizzi-utils "^0.7.22"
+        wizzi-core "^0.7.8"
+        wizzi-web "^0.7.16"
+        wizzi-js "^0.7.13"
+    ---    
+    ${'$'}if wzCtx.Build.useXml2Parser
+        xml2js "^0.4.23"
+    ---
+    ${'$'}if wzCtx.Build.useYup
+        yup "^0.27.0"

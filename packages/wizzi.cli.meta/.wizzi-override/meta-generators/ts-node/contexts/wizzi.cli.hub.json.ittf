@@ -1,0 +1,41 @@
+{
+    $include commons
+
+    { App
+        name "Wizzi CLI hub"
+        kind "NodeCLI"
+
+    useEnvCmd true
+    { envCmd
+
+    useTypescript true
+    { typescript
+   
+    useMongoDb true
+    { mongoDb
+
+    useFeatures true
+    { features
+        useGithub true
+        { github
+
+        usePacki true
+        { packi
+
+        useConfig true
+        { config
+
+        useWizzi true
+        { wizzi
+
+        useWizziProduction true
+        { wizziProduction
+
+        useWizziCdn true
+        { wizziCdn
+
+    useLint false
+    { lint
+
+    usePrettier false
+    { prettier

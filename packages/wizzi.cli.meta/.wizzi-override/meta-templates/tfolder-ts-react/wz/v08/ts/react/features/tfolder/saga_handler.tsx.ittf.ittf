@@ -1,0 +1,28 @@
+${'$'}group
+    ${'$'}params feature, name, name_err|@@null
+
+    ${'$'}
+        var Name = _.capitalize(name)
+        var nameErr = name_err == null ? name + 'Error' : name_err
+
+    function* handle${'$'}{Name}
+        param action
+            :ref ReturnType
+                :param 
+                    :typeof ${'$'}{feature}Actions.${'$'}{name}
+        :return
+            :any
+        try 
+            $$ loog 'sagas.handle${'$'}{Name}.action', action
+            ${'$'}hook
+        catch err
+            if err instanceof Error
+                yield 
+                    _ put
+                        _ ${'$'}{feature}Actions.${'$'}{nameErr}
+                            :! 
+                                @expr err.stack
+            else
+                yield 
+                    _ put
+                        @ ${'$'}{feature}Actions.${'$'}{nameErr}('An unknown error occured.')

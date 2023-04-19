@@ -1,0 +1,25 @@
+$group
+
+    +
+    export 
+        :interface IStorageBackend
+            :m getItem
+                :union 
+                    :string 
+                    :null 
+                    :undefined 
+                param key
+                    :string 
+            :m removeItem
+                :void 
+                param key
+                    :string 
+            :m setItem
+                :void 
+                param key
+                    :string 
+                param value
+                    :string 
+                param options
+                    :object 
+                    :optional 

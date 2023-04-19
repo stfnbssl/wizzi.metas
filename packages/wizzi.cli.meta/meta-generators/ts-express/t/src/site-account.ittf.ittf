@@ -1,0 +1,13 @@
+$group
+    
+    $if cliCtx.useAccount
+        
+        $file __dot__wizzi/${pkgPath}src/site/controllers/account.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/site/controllers/account.ts
+        $file __dot__wizzi/${pkgPath}src/site/views/account/profile.html.ittf.ittf
+            html
+                ${'$'}include wz/v08/html/views/account/profile.html
+        $file __dot__wizzi/${pkgPath}src/site/views/account/error-github-email-private.html.ittf.ittf
+            html
+                ${'$'}include wz/v08/html/views/account/error-github-email-private.html

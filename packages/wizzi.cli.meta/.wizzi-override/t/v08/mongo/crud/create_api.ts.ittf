@@ -1,0 +1,86 @@
+$group
+    $params &md
+    +
+    export
+        async-function create${md.Name}
+            $foreach item in md.fields
+                param ${item.name}
+                    $if item.type == 'date'
+                        :ref Date
+                    $elif item.type == 'buffer'
+                        :ref Buffer
+                    $elif item.type == 'object'
+                        :{
+                    $elif item.type == 'array'
+                        :[
+                    $else
+                        :${item.type}
+                    :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref CRUDResult
+            +
+            #
+                _ console.log
+                    @ myname
+                    @ 'create${md.Name}'
+                    $foreach item in md.fields
+                        @ ${item.name}
+            +
+            const ${md.Name} = Get${md.Name}Model()
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        let query
+                            {
+                                $foreach item in md.query
+                                    @ ${item.name} ${item.name}
+                        +
+                        _ ${md.Name}.find
+                            @ query
+                            =>
+                                param err
+                                    :any
+                                param result
+                                    :any
+                                if err
+                                    error myname, 'get${md.Name}', '${md.Name}.find', 'error', err
+                                    return reject(err)
+                                # loog myname, 'get${md.Name}', '${md.Name}.find', 'result', result
+                                if result.length > 0
+                                    return
+                                        _ resolve
+                                            {
+                                                @ oper 'create'
+                                                @ ok false
+                                                @ message '${md.descr} already exists'
+                                const new${md.Name}
+                                    new ${md.Name}
+                                        {
+                                            $foreach item in md.fields
+                                                @ ${item.name} ${item.name}
+                                            $if md.created_at
+                                                @ created_at new Date()
+                                            $if md.updated_at
+                                                @ updated_at new Date()
+                                _ new${md.Name}.save
+                                    function
+                                        param err
+                                            :any
+                                        param doc
+                                            :any
+                                        if err
+                                            error myname, 'create${md.Name}', 'new${md.Name}.save', 'error', err
+                                            return reject(err)
+                                        return
+                                            _ resolve
+                                                {
+                                                    @ oper 'create${md.Name}'
+                                                    @ ok true
+                                                    @ item doc._doc
+                                                    @ message '${md.descr} created'

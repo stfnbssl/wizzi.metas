@@ -1,0 +1,140 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function transformModel
+                param filePath
+                    :string
+                param files
+                    :ref packiTypes.PackiFiles
+                param context
+                    :any
+                    :optional
+                param options
+                    :any
+                    :optional
+                :return
+                    :ref Promise
+                        :param
+                            :ref TransformedModel
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            if !verify.isObject(files)
+                                return
+                                    _ reject
+                                        {
+                                            @ action 'wizzi.productions.transformModel'
+                                            @ message 'files parameter must be an object of type PackiFiles'
+                                            @ files
+                            const transformer = options && options.transformer ? options.transformer : wizziMaps.transformerFor(filePath)
+                            if transformer
+                                let jsonwf
+                                    :any
+                                    =
+                                        {
+                                let transformationContext
+                                    :any
+                                    =
+                                        {
+                                const ittfDocumentUri
+                                    _ ensurePackiFilePrefix(filePath)
+                                        :as
+                                            :string
+                                const siteDocumentUri
+                                    _ Object.keys(files).find
+                                        =>
+                                            param k
+                                            _ k.endsWith('site.json.ittf')
+                                try
+                                    set jsonwf =
+                                        await
+                                            _ createJsonFsAndFactory(files)
+                                    set transformationContext =
+                                        {
+                                            @ site
+                                                iif siteDocumentUri
+                                                    then
+                                                        await
+                                                            _ loadModelInternal
+                                                                @ jsonwf.wf
+                                                                _ ensurePackiFilePrefix(siteDocumentUri)
+                                                                {
+                                                    else null
+                                            ...
+                                                await
+                                                    _ inferAndLoadContextJson(jsonwf.wf, files, ittfDocumentUri, 'twin')
+                                    _ jsonwf.wf.loadAndTransformModel
+                                        @ ittfDocumentUri
+                                        {
+                                            @ modelRequestContext transformationContext
+                                        @ transformer
+                                        =>
+                                            param err
+                                                :any
+                                            param result
+                                                :any
+                                            if err
+                                                return reject(err)
+                                            _ resolve
+                                                {
+                                                    @ transformResult result
+                                                    @ sourcePath filePath
+                                                    @ modelTransformer transformer
+                                catch ex
+                                    return reject(ex)
+                            else
+                                _ reject('No model transformer available for document ' + filePath)
+    +
+    export
+        async-function transformModelFs
+            param filePath
+                :string
+            param context
+                :any
+                :optional
+            param options
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref TransformedModel
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        const transformer = options && options.transformer ? options.transformer : wizziMaps.transformerFor(filePath)
+                        if transformer
+                            # TODO catch error
+                            const wf
+                                await
+                                    _ createFilesystemFactory()
+                            const transformationContext
+                                {
+                                    @ modelRequestContext
+                                        ||
+                                            + context
+                                            {
+                            _ wf.loadAndTransformModel
+                                @ filePath
+                                {
+                                    @ modelRequestContext transformationContext
+                                @ transformer
+                                =>
+                                    param err
+                                        :any
+                                    param result
+                                        :any
+                                    if err
+                                        return reject(err)
+                                    _ resolve
+                                        {
+                                            @ transformResult result
+                                            @ sourcePath filePath
+                                            @ modelTransformer transformer
+                        else
+                            _ reject('No model transformer available for document ' + filePath)

@@ -1,0 +1,133 @@
+$group
+    :import-type 
+        @ SnackFiles
+        @ SnackDependencies
+        from '../types'
+    export 
+        const DEFAULT_METADATA_NAME = 'Snack - React Native in the browser'
+    export 
+        const DEFAULT_METADATA_DESCRIPTION_EMPTY
+            `lit 
+                + Write code in Expo's online editor and instantly use it on your phone.
+    export 
+        const DEFAULT_METADATA_DESCRIPTION_SAVED
+            `lit 
+                + Try this project on your phone! Use Expo's online editor to make changes and save your own copy.
+    export 
+        const DEFAULT_DESCRIPTION = 'No description'
+    export 
+        const DEFAULT_CODE
+            :ref SnackFiles
+            =
+                { 
+                    { 'App.js'
+                        @ contents
+                            `lit 
+                                + import * as React from 'react';&lf;
+                                + import { Text, View, StyleSheet } from 'react-native';&lf;
+                                + import Constants from 'expo-constants';&lf;
+                                + &lf;
+                                + // You can import from local files&lf;
+                                + import AssetExample from './components/AssetExample';&lf;
+                                + &lf;
+                                + // or any pure javascript modules available in npm&lf;
+                                + import { Card } from 'react-native-paper';&lf;
+                                + &lf;
+                                + export default function App() {&lf;
+                                + &nbsp; return (&lf;
+                                + &nbsp;   <View style={styles.container}>&lf;
+                                + &nbsp;     <Text style={styles.paragraph}>&lf;
+                                + &nbsp;       Change code in the editor and watch it change on your phone! Save to get a shareable url.&lf;
+                                + &nbsp;     </Text>&lf;
+                                + &nbsp;     <Card>&lf;
+                                + &nbsp;       <AssetExample />&lf;
+                                + &nbsp;     </Card>&lf;
+                                + &nbsp;   </View>&lf;
+                                + &nbsp; );&lf;
+                                + }&lf;
+                                + &lf;
+                                + const styles = StyleSheet.create({&lf;
+                                + &nbsp; container: {&lf;
+                                + &nbsp;   flex: 1,&lf;
+                                + &nbsp;   justifyContent: 'center',&lf;
+                                + &nbsp;   paddingTop: Constants.statusBarHeight,&lf;
+                                + &nbsp;   backgroundColor: '#ecf0f1',&lf;
+                                + &nbsp;   padding: 8,&lf;
+                                + &nbsp; },&lf;
+                                + &nbsp; paragraph: {&lf;
+                                + &nbsp;   margin: 24,&lf;
+                                + &nbsp;   fontSize: 18,&lf;
+                                + &nbsp;   fontWeight: 'bold',&lf;
+                                + &nbsp;   textAlign: 'center',&lf;
+                                + &nbsp; },&lf;
+                                + });&lf;
+                                + 
+                        @ type 'CODE'
+                    { 'assets/snack-icon.png'
+                        @ contents 'https://snack-code-uploads.s3.us-west-1.amazonaws.com/~asset/2f7d32b1787708aba49b3586082d327b'
+                        @ type 'ASSET'
+                    { 'components/AssetExample.js'
+                        @ contents
+                            `lit 
+                                + import * as React from 'react';&lf;
+                                + import { Text, View, StyleSheet, Image } from 'react-native';&lf;
+                                + &lf;
+                                + export default function AssetExample() {&lf;
+                                + &nbsp; return (&lf;
+                                + &nbsp;   <View style={styles.container}>&lf;
+                                + &nbsp;     <Text style={styles.paragraph}>&lf;
+                                + &nbsp;       Local files and assets can be imported by dragging and dropping them into the editor&lf;
+                                + &nbsp;     </Text>&lf;
+                                + &nbsp;     <Image style={styles.logo} source={require('../assets/snack-icon.png')} />&lf;
+                                + &nbsp;   </View>&lf;
+                                + &nbsp; );&lf;
+                                + }&lf;
+                                + &lf;
+                                + const styles = StyleSheet.create({&lf;
+                                + &nbsp; container: {&lf;
+                                + &nbsp;   alignItems: 'center',&lf;
+                                + &nbsp;   justifyContent: 'center',&lf;
+                                + &nbsp;   padding: 24,&lf;
+                                + &nbsp; },&lf;
+                                + &nbsp; paragraph: {&lf;
+                                + &nbsp;   margin: 24,&lf;
+                                + &nbsp;   marginTop: 0,&lf;
+                                + &nbsp;   fontSize: 14,&lf;
+                                + &nbsp;   fontWeight: 'bold',&lf;
+                                + &nbsp;   textAlign: 'center',&lf;
+                                + &nbsp; },&lf;
+                                + &nbsp; logo: {&lf;
+                                + &nbsp;   height: 128,&lf;
+                                + &nbsp;   width: 128,&lf;
+                                + &nbsp; }&lf;
+                                + });&lf;
+                                + 
+                        @ type 'CODE'
+                    { 'README.md'
+                        @ contents
+                            `lit 
+                                + # Sample Snack app&lf;
+                                + &lf;
+                                + Open the \`App.js\` file to start writing some code. You can preview the changes directly on your phone or tablet by scanning the **QR code** or use the iOS or Android emulators. When you're done, click **Save** and share the link!&lf;
+                                + &lf;
+                                + When you're ready to see everything that Expo provides (or if you want to use your own editor) you can **Download** your project and use it with [expo-cli](https://docs.expo.io/get-started/installation).&lf;
+                                + &lf;
+                                + All projects created in Snack are publicly available, so you can easily share the link to this project via link, or embed it on a web page with the \`<>\` button.&lf;
+                                + &lf;
+                                + If you're having problems, you can tweet to us [@expo](https://twitter.com/expo) or ask in our [forums](https://forums.expo.io/c/snack).&lf;
+                                + &lf;
+                                + Snack is Open Source. You can find the code on the [GitHub repo](https://github.com/expo/snack).&lf;
+                                + 
+                        @ type 'CODE'
+    export 
+        const DEFAULT_DEPENDENCIES
+            :ref SnackDependencies
+            =
+                { 
+                    { 'react-native-paper'
+                        @ version '3.6.0'
+                        @ handle 'snackager-1/react-native-paper@3.6.0'
+                            # The handle ensures that the dependency doesn't need to be resolved
+                            # on startup
+                    { 'expo-constants'
+                        @ version '*'

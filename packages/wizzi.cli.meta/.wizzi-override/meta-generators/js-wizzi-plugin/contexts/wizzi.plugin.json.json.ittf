@@ -1,0 +1,54 @@
+{
+    $
+        var pluginBasename = "json";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Json document plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+
+    [ Schemas
+        {
+            name "json"
+            plugin_type "data"
+            rootTag "{"
+            multiLineCommentBegin false
+            multiLineCommentEnd false
+            hasWizzifier true
+            hasBuiltinWizziModel true
+            { wizzifier
+                [ parserImportCode
+                    "var json_parser = require('./parser')"
+                [ parserInvokeCode
+                    " _ json_parser.parseString"
+                    "\t@ tobeWizzified"
+                useFormatAstMethods false
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "json"
+                    contentType "application/json"
+                    isDefault true
+                {
+                    name "export"
+                    contentType "application/json"
+                    outmime "json"
+                {
+                    name "toml"
+                    contentType "text/ml"
+                    outmime "ml"
+                {
+                    name "toyaml"
+                    contentType "text/yaml"
+                    outmime "yaml"
+            [ fileExtensions
+                "json"
+

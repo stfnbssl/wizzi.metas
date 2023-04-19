@@ -1,0 +1,10 @@
+$group
+
+	e comment
+		tag #
+		r comment/s
+
+	e commentable
+		is-abstract
+		r comment/s
+	

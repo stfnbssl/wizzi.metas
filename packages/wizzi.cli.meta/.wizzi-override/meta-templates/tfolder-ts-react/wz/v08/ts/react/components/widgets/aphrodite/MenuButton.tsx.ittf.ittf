@@ -1,0 +1,112 @@
+$group
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ c
+        @ s
+        from '../ThemeProvider'
+    import FooterButton from './FooterButton'
+    +
+    export
+        :type MenuButtonProps
+            :{ 
+                :p icon
+                    :optional 
+                    :string 
+                :p label
+                    :optional 
+                    :ref React.ReactNode
+                :p content
+                    :ref React.ReactNode
+    +
+    export
+        function MenuButton
+            { 
+                @ icon
+                @ label
+                @ content
+                :ref MenuButtonProps
+            const [active, setActive]
+                _ React.useState
+                    :param boolean
+                    @ false
+            const root
+                _ React.useRef
+                    :param 
+                        :ref HTMLDivElement
+                    @ null
+            _ React.useEffect
+                => 
+                    const onClick
+                        => 
+                            param e
+                                :ref MouseEvent
+                            if 
+                                test
+                                    || 
+                                        + e.target === root.current
+                                        _ root.current?.contains?.
+                                            @expr e.target
+                                                :as 
+                                                    :ref Node
+                                return 
+                            _ setActive(false)
+                    _ document.addEventListener('click', onClick)
+                    return 
+                        => 
+                            _ document.removeEventListener('click', onClick)
+                [ 
+            return 
+                div 
+                    @ ref {root}
+                    @ className {css(styles.panelContainer)}
+                    < FooterButton 
+                        @ icon {icon}
+                        @ active {active}
+                        @ onClick
+                            => 
+                                _ setActive
+                                    => 
+                                        param value
+                                        + !value
+                        + {label}
+                    { 
+                        iif active
+                            then
+                                div 
+                                    @ className {css(styles.pane)}
+                                    + {content}
+                            else null
+    +
+    export-default MenuButton                                            
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { panelContainer
+                    @ position 'relative'
+                    @ display 'flex'
+                    @ alignItems 'center'
+                { pane
+                    @ display 'flex'
+                    @ alignItems 'stretch'
+                    @ justifyContent 'flex-end'
+                    @ flexDirection 'column'
+                    @ position 'absolute'
+                    @ right 0
+                    @ bottom 32
+                    @ minWidth 160
+                    @ padding '8px 0'
+                    @ borderWidth 1
+                    @ borderRadius 3
+                    @ borderStyle 'solid'
+                    @ backgroundColor c('content')
+                    @ borderColor c('border')
+                    @ boxShadow s('popover')
+                    @ color c('text')
+                    @ zIndex -1

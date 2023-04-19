@@ -1,0 +1,7 @@
+﻿$group
+	$params ext
+
+	artifact any_tests_${ext}
+		src ./**/*.tests.${ext}
+		extension ${ext}
+		$hook

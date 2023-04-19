@@ -1,0 +1,30 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "SidebarShell",
+            props: [
+                { name: "children", type: "node", optional: true }
+            ]
+        }
+
+    v08/ts/react/function${'('}md)
+        < StyledRoot
+            + {children}
+
+        ${'$'}append imports
+            import 
+                @ c
+                from '../ThemeProvider'
+
+        ${'$'}append styles
+            styled StyledRoot .div
+                display flex
+                flex-direction column
+                height 100%
+                min-width 240px
+                border-right
+                    => "1px solid " + c('border')
+                background-color
+                    => c('content')

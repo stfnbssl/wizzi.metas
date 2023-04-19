@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            'catch_reject',
+            'catch_throw',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/t/v08/ts/${item}.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/tfolder/${item}.ts

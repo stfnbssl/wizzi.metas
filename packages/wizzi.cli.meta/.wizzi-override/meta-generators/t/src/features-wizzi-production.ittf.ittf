@@ -1,0 +1,127 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.useWizziProduction
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-production/index.ts
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-production/types.ts
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/utils.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-production/utils.ts
+
+        $
+            var items = [
+                "artifact",
+                "package",
+                "plugin",
+                "tfolder",
+                "meta",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/mongo/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/features/wizzi-production/mongo/${item}.ts
+
+        $
+            var items = [
+                "artifact",
+                "package",
+                "plugin",
+                "tfolder",
+                "meta",
+                "production"
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/features/wizzi-production/api/${item}.ts
+        
+        $
+            var items = [
+                "cached_get_save",
+                "generation",
+                "get_context",
+                "mtree",
+                "mtreeBuildupScript",
+                "packi",
+                "prepare",
+                "transformation"
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/artifact/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include wz/v08/ts/express/features/wizzi-production/api/t/artifact/${item}.ts
+
+        $
+            var items = [
+                "cached_get_save",
+                "get_metaGeneration",
+                "get_templatePackiFiles",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/meta/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include wz/v08/ts/express/features/wizzi-production/api/t/meta/${item}.ts
+
+        $
+            var items = [
+                "cached_get_save",
+                "artifact_generation",
+                "get_wizzi_meta_folder",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/package/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include wz/v08/ts/express/features/wizzi-production/api/t/package/${item}.ts
+
+        $
+            var items = [
+                "cached_get_save",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/plugin/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include wz/v08/ts/express/features/wizzi-production/api/t/plugin/${item}.ts
+
+        $
+            var items = [
+                "cached_get_save",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/tfolder/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include wz/v08/ts/express/features/wizzi-production/api/t/tfolder/${item}.ts
+
+        $
+            var items = [
+                "cliCtx_from_packi_config",
+                "ctx_from_production_object",
+                "ctx_from_query_string",
+                "ctx_get"
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/production/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include wz/v08/ts/express/features/wizzi-production/api/t/production/${item}.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/get_object_api.ts.ittf.ittf
+            ${'${"$"}'}group
+                ${'$'}include wz/v08/ts/express/features/wizzi-production/api/t/get_object_api.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/merge_files_api.ts.ittf.ittf
+            ${'${"$"}'}group
+                ${'$'}include wz/v08/ts/express/features/wizzi-production/api/t/merge_files_api.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/imports_and_validate_api.ts.ittf.ittf
+            ${'${"$"}'}group
+                ${'$'}include wz/v08/ts/express/features/wizzi-production/api/t/imports_and_validate_api.ts

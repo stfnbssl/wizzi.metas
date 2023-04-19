@@ -1,0 +1,76 @@
+$group
+
+    ${'$'}
+        var md = {
+            name: "Button",
+            styled: true,
+            props: [
+                {
+                    name: "active",
+                    type: "boolean",
+                    optional: true
+                },
+                {
+                    name: "icon",
+                    type: "string"
+                },
+                {
+                    name: "theme",
+                    type: "string"
+                },
+                {
+                    name: "children",
+                    type: "node"
+                },
+                {
+                    name: "onClick",
+                    type: "mouse-event"
+                }
+            ]
+        }
+
+    
+    v08/ts/react/function${'('}&md)
+        
+        ${'$'}append styles
+            :interface ButtonStyleProps
+                :p active
+                    :boolean 
+                    :optional
+                :p dark
+                    :boolean 
+                    :optional
+
+            styled StyledButton .button<ButtonStyleProps>
+                position relative
+                border 0
+                outline 0
+                margin 0
+                height 30
+                padding 0 16px
+                appearance none
+                background-size 16
+                background-repeat no-repeat
+                background-position center right 8px
+                background-color
+                    => props.active ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
+                & :active
+                    opacity
+                        => props.dark ? 0.3 : 0.5
+                media min-width: 720px
+                    padding 5px 32px 5px 8px
+
+        < StyledButton
+            @ onClick {onClick}
+            @ dark { theme == 'dark' }
+            @ style
+                iif icon
+                    then
+                        { 
+                            @ backgroundImage
+                                `lit
+                                    + url(
+                                    @ icon
+                                    + )
+                    else undefined
+            + {children}            

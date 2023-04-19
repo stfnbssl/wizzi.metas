@@ -1,0 +1,133 @@
+$group
+
+    ${'$'}
+        var schema = md.schema;
+    
+    import
+        @ getData
+        @ postData
+        @ putData
+        @ deleteData
+        from '../api/fetch'
+
+    import
+        @ I${'$'}{schema.Name}
+        from './types'
+
+    const apiUrl = '${'$'}{wzCtx.App.baseUrl}/api/v1'
+    
+    +
+    export
+        async-function get${'$'}{schema.Name}List
+            :return
+                :ref Promise
+                    :param 
+                        :[
+                            :ref I${'$'}{schema.Name}
+            const res
+                await 
+                    _ getData
+                        @ apiUrl + "/${'$'}{schema.collectionName}"
+            if res.ok
+                return
+                    _ res.json
+                        ._ then
+                            =>
+                                param data
+                                return data.${'$'}{schema.collectionName}
+            else
+                throw new Error(res.statusText)
+    +
+    export
+        async-function create${'$'}{schema.Name}
+            :return
+                :ref Promise
+                    :param 
+                        :ref I${'$'}{schema.Name}
+            param ${'$'}{schema.name}
+                :ref I${'$'}{schema.Name}
+            const res
+                await 
+                    _ postData
+                        @ apiUrl + "/${'$'}{schema.collectionName}"
+                        {
+                            @ data ${'$'}{schema.name}
+            if res.ok
+                return
+                    _ res.json
+                        ._ then
+                            =>
+                                param data
+                                return data.${'$'}{schema.name}
+            else
+                throw new Error(res.statusText)
+    +
+    export
+        async-function get${'$'}{schema.Name}ById
+            :return
+                :ref Promise
+                    :param 
+                        :ref I${'$'}{schema.Name}
+            param id
+                :string
+            const res
+                await 
+                    _ getData
+                        @ apiUrl + "/${'$'}{schema.collectionName}" + "/" + id
+            if res.ok
+                return
+                    _ res.json
+                        ._ then
+                            =>
+                                param data
+                                return data.${'$'}{schema.name}
+            else
+                throw new Error(res.statusText)
+    +
+    export
+        async-function update${'$'}{schema.Name}
+            :return
+                :ref Promise
+                    :param 
+                        :ref I${'$'}{schema.Name}
+            param id
+                :string
+            param ${'$'}{schema.name}
+                :ref I${'$'}{schema.Name}
+            const res
+                await 
+                    _ putData
+                        @ apiUrl + "/${'$'}{schema.collectionName}" + "/" + id
+                        {
+                            @ data ${'$'}{schema.name}
+            if res.ok
+                return
+                    _ res.json
+                        ._ then
+                            =>
+                                param data
+                                return data.${'$'}{schema.name}
+            else
+                throw new Error(res.statusText)
+    +
+    export
+        async-function delete${'$'}{schema.Name}
+            :return
+                :ref Promise
+                    :param 
+                        :ref I${'$'}{schema.Name}
+            param id
+                :string
+            const res
+                await 
+                    _ deleteData
+                        @ apiUrl + "/${'$'}{schema.collectionName}" + "/" + id
+            if res.ok
+                return
+                    _ res.json
+                        ._ then
+                            =>
+                                param data
+                                return data.${'$'}{schema.name}
+            else
+                throw new Error(res.statusText)

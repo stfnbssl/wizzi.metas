@@ -1,0 +1,23 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "AnimatedLogo",
+            props: []
+        }
+
+    v08/ts/react/function${'('}md)
+        < StyledRoot
+            h1 Animated (sob) logo
+
+        ${'$'}append imports
+            import 
+                @ c
+                from '../ThemeProvider'
+
+        ${'$'}append styles
+            :interface RootStyleProps
+
+            styled StyledRoot .div<RootStyleProps>
+                display flex

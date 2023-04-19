@@ -1,0 +1,197 @@
+$group
+    import path from 'path'
+    import fs from 'fs'
+    import wizzi from 'wizzi'
+    import wizziUtils from 'wizzi-utils'
+    var
+        {
+            @ ittfScanner
+            @ IttfMTreeState
+            @ FolderBrowseResult
+        = wizziUtils
+    import 
+        @ config
+        from '../config/index.js'
+    import 
+        @ createFilesystemFactory
+        from './factory.js'
+
+    ${'$'}hook imports
+    
+    export 
+        async-function loadModelFs
+            param filePath
+            param context
+            return 
+                new Promise
+                    async=> 
+                        param resolve
+                        param reject
+                        const schemaName = schemaFromFilePath(filePath)
+                        if !schemaName
+                            return reject('File is not a known ittf document: ' + filePath)
+                        const wf
+                            await 
+                                _ createFilesystemFactory
+                        _ wf.loadModel
+                            @ schemaName
+                            @ filePath
+                            { 
+                                @ mTreeBuildupContext context
+                            => 
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                $$ loog 'features.wizzi.productions.loadModelFs.result', result
+                                _ resolve(result)
+    
+    export 
+        async-function generateArtifactFs
+            param filePath
+            param context
+            return 
+                new Promise
+                    async=> 
+                        param resolve
+                        param reject
+                        const generator = generatorFor(filePath)
+                        if generator
+                            $$ loog 'features.wizzi.productions.generateArtifactFs.using artifact generator', generator
+                            const wf
+                                await 
+                                    _ createFilesystemFactory
+                            _ wf.loadModelAndGenerateArtifact
+                                @ filePath
+                                { 
+                                    @ modelRequestContext context || {}
+                                @ generator
+                                => 
+                                    param err
+                                    param result
+                                    if err
+                                        return reject(err)
+                                    $$ loog 'features.wizzi.productions.generateArtifactFs.result', result
+                                    _ resolve
+                                        { 
+                                            @ artifactContent result
+                                            @ sourcePath filePath
+                                            @ artifactGenerator generator
+                        else
+                            _ reject('No artifact generator available for document ' + filePath)
+    
+    export 
+        async-function scanIttfDocumentFs
+            param filePath
+            param rootFolder
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ ittfScanner.scanIttfDocument
+                            @ filePath
+                            { 
+                                @ rootFolder
+                            => 
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                _ resolve(result)
+    
+    export 
+        async-function scanIttfFolderFs
+            param filePath
+            param rootFolder
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ ittfScanner.browseFolder
+                            @ filePath
+                            { 
+                                @ rootFolder
+                            => 
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                _ resolve(result)
+    
+    export 
+        async-function inferAndLoadContextFs
+            param filePath
+            param exportName
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        const pf = parseFilePath(filePath)
+                        if pf.isIttfDocument && pf.schema !== 'json'
+                            var twinJsonPath = path.join(path.dirname(filePath), pf.seedname + '.json.ittf')
+                            if fs.existsSync(twinJsonPath)
+                                _ loadModelFs(twinJsonPath, {}).then
+                                    => 
+                                        param model
+                                        _ resolve
+                                            { 
+                                                @ [exportName] model
+                                    ._ catch
+                                        => 
+                                            param err
+                                            _ reject(err)
+                            else
+                                _ resolve({})
+                        else
+                            _ resolve({})
+    
+    const schemaModuleMap
+        { 
+            @ css 'css/document'
+            @ graphql 'graphql/document'
+            @ html 'html/document'
+            @ ittf 'ittf/tojson'
+            @ js 'js/module'
+            @ json 'json/document'
+            @ md 'md/tohtml'
+            @ scss 'scss/document'
+            @ svg 'svg/document'
+            @ text 'text/document'
+            @ ts 'ts/module'
+            @ vml 'vml/document'
+            @ vue 'vue/document'
+            @ xml 'xml/document'
+    
+    function generatorFor
+        param filePath
+        const pf = parseFilePath(filePath)
+        if pf.isIttfDocument
+            return schemaModuleMap[pf.schema]
+        return undefined
+    
+    function schemaFromFilePath
+        param filePath
+        const pf = parseFilePath(filePath)
+        if pf.isIttfDocument
+            return pf.schema
+        return undefined
+    
+    export 
+        function parseFilePath
+            param filePath
+            const nameParts = path.basename(filePath).split('.')
+            if nameParts[nameParts.length - 1] === 'ittf'
+                return 
+                    { 
+                        @ isIttfDocument true
+                        @ schema nameParts[nameParts.length - 2]
+                        @ seedname nameParts.slice(0, -2).join('.')
+            else
+                return 
+                    { 
+                        @ isIttfDocument false
+                        @ schema nameParts[nameParts.length - 1]
+                        @ seedname nameParts.slice(0, -1).join('.')

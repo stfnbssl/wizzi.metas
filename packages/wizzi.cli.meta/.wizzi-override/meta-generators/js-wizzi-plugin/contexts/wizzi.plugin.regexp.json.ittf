@@ -1,0 +1,30 @@
+{
+    $
+        var pluginBasename = "regexp";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Regular expressions plugin"
+        kind "WizziPlugin"
+
+    [ Schemas
+        {
+            name "regexp"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "regexp"
+                    contentType "text/regexp"
+                    isDefault true
+            [ fileExtensions
+                "regexp"                   
+

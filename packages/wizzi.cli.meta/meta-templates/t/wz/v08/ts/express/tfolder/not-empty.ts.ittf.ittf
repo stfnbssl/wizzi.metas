@@ -1,0 +1,7 @@
+$group
+    ${'$'}params queryBody, name
+
+    var ${'$'}{name}
+        _ __check.notEmpty
+            @ '${'$'}{queryBody}'
+            @ '${'$'}{name}'

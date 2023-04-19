@@ -1,0 +1,12 @@
+$group
+    export 
+        const validatePackiName
+            => 
+                param name
+                    :string 
+                iif name
+                    then
+                        iif /^[a-z_\-\.\d\s]+$/i.test(name)
+                            then null
+                            else new Error('Name can only contain letters, numbers, space, hyphen (-), dot (.) and underscore (_).')
+                    else new Error('Name cannot be empty.')

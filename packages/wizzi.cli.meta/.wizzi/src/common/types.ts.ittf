@@ -1,0 +1,38 @@
+module
+    export
+        :type ValidateResult
+            :{
+                :p isValid
+                    :boolean
+                :p message
+                    :string
+                    :optional
+    +
+    export
+        :type CRUDResult
+            :{
+                :p oper
+                    :string
+                :p ok
+                    :boolean
+                :p item
+                    :any
+                    :optional
+                :p message
+                    :string
+                    :optional
+    +
+    $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
+        export
+            :type GitRepositoryMeta
+                :{
+                    :p owner
+                        :string
+                    :p name
+                        :string
+                    :p description
+                        :string
+                    :p branches
+                        :[
+                            :string
+        +

@@ -1,0 +1,88 @@
+{
+    $
+        var isLocal = true; 
+        var isProduction = false;
+        var cloudDomain = "www.wizzihub.com";
+        var port = 5000;
+        var useSslCert = false;
+        var useSsl = isLocal ? false : true;
+        var http = useSsl ? 'https' : 'http';
+        var domain = isLocal ? "localhost" : cloudDomain;
+
+    $include commons
+
+    { App
+        name "Demo.Sequelize"
+        kind "Server"
+
+    isLocal ${isLocal ? "true" : "false"}
+    isProduction ${isProduction ? "true" : "false"}
+    { production
+
+    useSsl ${useSsl ? "true" : "false"}
+    useSslCert ${useSslCert ? "true" : "false"}
+    domain "${domain}"
+    port "${port}"
+    siteUrl "${http}://${domain}"
+    $if domain == "localhost"
+        baseUrl "${http}://${domain}:${port}"
+        corsOrigin "${http}://${domain}:${port}"
+    $else
+        baseUrl "${http}://${domain}"
+        corsOrigin "${http}://${domain}"
+    siteUrlLocal "${http}://localhost"
+    baseUrlLocal "${http}://localhost:${port}"
+    apiVersion "v1"
+
+    useConfig true
+    { config
+
+    useExpress true
+    { express
+
+    useAuthentication true
+    { authentication
+
+    useMongoDb false
+    { mongoDb
+
+    useSequelize true
+    { sequelize
+        usePostgres true
+        { postgres
+
+    useBlog true
+    { blog
+
+    useFeatures true
+    { features
+    
+    usePages false
+    { pages    
+
+    useWizzi true
+    { wizzi
+
+    useWizziDocs false
+    { wizziDocs
+
+    useWizziProductions false
+    { wizziProductions
+
+    useIttfStatic true
+    { ittfStatic
+
+    useWizziViewEngine true
+    { wizziViewEngine
+
+    useWizziJsonFactory false
+    { wizziJsonFactory
+
+    usePacki false
+    { packi
+
+    usePackiBrowse false
+    { packiBrowse
+
+    useData true
+    { data    

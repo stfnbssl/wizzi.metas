@@ -1,0 +1,97 @@
+$group
+    +
+    async-function getDefaultContext_withCache
+        param owner
+            :string
+        param productionName
+            :string
+        param progressiveContext
+            :any
+            :optional
+        set progressiveContext = progressiveContext || {}
+        return
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    _ getArtifactContextItem
+                        @ owner
+                        @ 'wzCtx;wzctx'
+                        @ progressiveContext
+                        ._ then
+                            =>
+                                param resultItemContext
+                                    :any
+                                # loog 'getDefaultContext_withCache', 'got context item wzCtx;wzctx', 'keys', Object.keys(resultItemContext)
+                                _ resolve
+                                    _ Object.assign
+                                        {
+                                        @ progressiveContext
+                                        @ resultItemContext
+                        v08/ts/catch_reject( getDefaultContext_withCache.getArtifactContextItem )
+    +
+    async-function getArtifactContextItem
+        param owner
+            :string
+        param queryContextString
+            :string
+        param progressiveContext
+            :any
+            :optional
+        set progressiveContext = progressiveContext || {}
+        #
+            # param queryContextString contextPropertyName;artifactName[;transformName]
+            # sample queryContextString: "wzCtx;wzctx.json"
+            # context property 'wzCtx' will contain json document 'wzctx.json'
+        return
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    if queryContextString && queryContextString.length > 0
+                        const parts = queryContextString.split(';')
+                        const contextPropertyName = parts[0]
+                        const artifactName = parts[1]
+                        const transformationName
+                            iif parts.length > 2
+                                then parts[2]
+                                else null
+                        # loog 'getArtifactContextItem: contextPropertyName', contextPropertyName, 'artifactName', artifactName, 'transformationName', transformationName
+                        if transformationName
+                            _ getArtifactTransformation
+                                @ owner
+                                @ artifactName
+                                @ progressiveContext
+                                @ transformationName
+                                ._ then
+                                    =>
+                                        param result
+                                            :any
+                                        # loog 'getArtifactContextItem: typeof result.transformResult', typeof result.transformResult
+                                        _ resolve
+                                            _ Object.assign
+                                                {
+                                                @ progressiveContext
+                                                {
+                                                    @ [contextPropertyName] result.transformResult
+                                v08/ts/catch_reject( getArtifactContextItem.getArtifactTransformation )
+                        else
+                            _ getArtifactGeneration
+                                @ owner
+                                @ artifactName
+                                @ progressiveContext
+                                ._ then
+                                    =>
+                                        param result
+                                            :any
+                                        # loog 'getArtifactContextItem.getArtifactGeneration.result.content.length', result.content.length
+                                        const contextObject = JSON.parse(result.content)
+                                        _ resolve
+                                            _ Object.assign
+                                                {
+                                                @ progressiveContext
+                                                {
+                                                    @ [contextPropertyName] contextObject
+                                v08/ts/catch_reject( getArtifactContextItem.getArtifactGeneration )
+                    else
+                        _ resolve(progressiveContext)

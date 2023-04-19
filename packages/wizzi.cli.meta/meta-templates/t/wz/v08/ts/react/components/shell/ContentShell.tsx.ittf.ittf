@@ -1,0 +1,34 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "ContentShell",
+            props: [
+                {
+                    name: "children",
+                    type: "node"
+                }
+            ]
+        }
+
+    v08/ts/react/function${'('}&md)
+        < StyledRoot
+            + {children}
+
+        ${'$'}append imports
+            import 
+                @ c
+                from '../ThemeProvider'
+
+        ${'$'}append styles
+            styled StyledRoot .div
+                display flex
+                flex-direction column
+                height 100%
+                width 100%
+                overflow hidden
+                background-color 
+                    => c('background')
+                color
+                    => c('text')

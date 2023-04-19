@@ -1,0 +1,8 @@
+﻿$group
+
+	artifact any_ts
+		src ./**/*.ts.ittf
+		schema ts
+		generator ts/module
+		extension tsx
+		$hook

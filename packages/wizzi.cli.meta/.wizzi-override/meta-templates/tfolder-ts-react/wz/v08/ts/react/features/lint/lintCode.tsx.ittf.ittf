@@ -1,0 +1,76 @@
+$group
+    import eslintrc from '../../configs/eslint.json'
+    import 
+        @ Annotation
+        from '../annotations/index'
+        # @ts-ignore: no types defined for eslint
+    import 
+        @ Linter
+        from '../vendor/eslint'
+        # @ts-ignore: no types defined for eslint
+    import 
+        @ isTS
+        from '../file/fileUtilities'
+    +
+    export-default 
+        function lintCode
+            param fileName
+                :string 
+            param code
+                :string 
+            param config
+                :object 
+                = eslintrc
+            :return
+                :[ 
+                    :ref Annotation
+            const linter = new Linter()
+            const errors
+                :[ 
+                    :{ 
+                        :p ruleId
+                            :string 
+                        :p line
+                            :number 
+                        :p column
+                            :number 
+                        :p message
+                            :string 
+                        :p severity
+                            :number 
+                = linter.verify(code, config)
+            return 
+                @expr
+                    _ errors.map
+                        => 
+                            param err
+                            const isParsingError = err.message.toLowerCase().startsWith('parsing error')
+                            if isParsingError && isTS(fileName) && err.message.match(/ (as|extends|typeof|private|public) /)
+                                return null
+                            return 
+                                { 
+                                    { location
+                                        @ fileName
+                                        @ startLineNumber err.line
+                                        @ endLineNumber err.line
+                                        @ startColumn err.column
+                                        @ endColumn err.column
+                                    @ message
+                                        `lit 
+                                            + 
+                                            @ err.message
+                                            + &nbsp;(
+                                            @ err.ruleId
+                                            + )
+                                    @ severity
+                                        iif isParsingError
+                                            then 4
+                                            else Math.max(err.severity, 2)
+                                    @ source 'ESLint'
+                        ._ filter
+                            => 
+                                param err
+                                + err
+                    :as 
+                        :[ 
+                            :ref Annotation

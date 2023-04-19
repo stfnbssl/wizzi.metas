@@ -1,0 +1,60 @@
+$group
+    import 
+        @ PackiFiles
+        from '../packi'
+    export 
+        const DEFAULT_PACKI_NAME = 'MyPacki'
+    export 
+        const DEFAULT_METADATA_NAME = 'Packi'
+    export 
+        const DEFAULT_METADATA_DESCRIPTION_SAVED
+            `lit 
+                + ... saved packi description ...
+    export 
+        const DEFAULT_METADATA_DESCRIPTION_EMPTY
+            `lit 
+                + ... empty packi description ...
+    export 
+        const DEFAULT_DESCRIPTION = 'No description'
+    export 
+        const EDITOR_LOAD_FALLBACK_TIMEOUT = 3000
+    ${'$'}if wzCtx.Build.useExpo
+        export 
+            const INITIAL_DEPENDENCIES
+                { 
+                    { 'wizzi-t-common'
+                        @ version '0.0.1'
+                        @ isUserSpecified true
+    export 
+        const DEFAULT_CODE
+            :ref PackiFiles
+            =
+                { 
+                    { '.wizzi/index.html.ittf'
+                        @ contents
+                            `lit 
+                                + html&lf;
+                                + &nbsp; body&lf;
+                                + &nbsp;   h1 Hello world&lf;
+                                + &nbsp;&nbsp;
+                        @ type 'CODE'
+                    { '.wizzi/main.js.ittf'
+                        @ contents
+                            `lit 
+                                + module&lf;
+                                + &nbsp; kind es6&lf;
+                                + &nbsp; $$ loog 'Hello world'&lf;
+                                + &nbsp;&nbsp;
+                        @ type 'CODE'
+                    { '.wizzi/main.wfjob.ittf'
+                        @ contents
+                            `lit 
+                                + wfjob&lf;
+                                + &nbsp;&nbsp;
+                        @ type 'CODE'
+                    { 'README.md'
+                        @ contents
+                            `lit 
+                                + # Sample Packi&lf;
+                                + &nbsp;&nbsp;
+                        @ type 'CODE'

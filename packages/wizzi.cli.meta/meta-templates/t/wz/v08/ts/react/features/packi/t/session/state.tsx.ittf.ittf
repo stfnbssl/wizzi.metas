@@ -1,0 +1,230 @@
+$group
+
+    +
+    m getState
+        :return
+            :ref PackiState
+        return this.state
+        # 
+        # State
+        # 
+        #
+            # 
+            #  Returns the current state of the Packi. This includes files, dependencies
+            #  and other meta-data about the Packi.
+            # 
+    +
+    m getStateAsync
+        async
+        ${'$'}if wzCtx.Build.useExpo
+            await 
+                _ this.wantedDependencyVersions.waitForCompletion()
+            await 
+                _ this.dependencyResolver.waitForCompletion()
+        await 
+            _ this.fileUploader.waitForCompletion()
+        return this.getState()
+        #
+            # 
+            # Waits for any pending operations such as running dependencies resolutions
+            # before returning the state.
+            # 
+    +
+    m addStateListener
+        param listener
+            :ref PackiStateListener
+        :return
+            :ref PackiListenerSubscription
+        _ this.stateListeners.add(listener)
+        return 
+            => 
+                _ this.stateListeners.delete(listener)
+        #
+            # 
+            # Adds a callback for listening for any state changes.
+            # 
+            # @example
+            # ```
+            # const unsubscribe = Packi.addStateListener((state, prevState) => {
+            #   if (state.name !== prevState.name) {
+            #     console.log('name changed: ', state.name);
+            #   }
+            # });
+            # 
+            # Packi.setName('unforgiven orange'); // // Make a change to the state
+            # 
+            # unsubscribe(); // Remove listener
+            # ```
+            # 
+    m setState
+        :private 
+        param stateFn
+            :=> 
+                :any 
+                param state
+                    :ref PackiState
+        const update = stateFn(this.state)
+        if update
+            const oldState = this.state
+            const newState
+                :ref PackiState
+                =
+                    { 
+                        @ ...oldState
+                        @ ...update
+            set this.state = this.updateDerivedState(newState, oldState)
+            _ this.onStateChanged(newState, oldState)
+            _ this.stateListeners.forEach
+                => 
+                    param listener
+                    _ listener(newState, oldState)
+    +
+    m updateDerivedState
+        :private 
+        param state
+            :ref PackiState
+        param prevState
+            :ref PackiState
+        :return
+            :ref PackiState
+        set state.unsaved = state.unsaved || State.isUnsaved(state, prevState)
+            # Set unsaved to true whenever files or dependencies change
+            # Update other derived states
+        _ this.updateDerivedOnlineState(state, prevState)
+            # Update other derived states
+        ${'$'}if wzCtx.Build.useExpo
+            _ this.updateDerivedDependenciesState(state, prevState)
+            _ this.updateDerivedWebPreviewState(state, prevState)
+        return state
+    +
+    m onStateChanged
+        :private 
+        param state
+            :ref PackiState
+        param prevState
+            :ref PackiState
+        ${'$'}if wzCtx.Build.useExpo
+            _ this.updateWantedDependencyVersions(state, prevState)
+            _ this.updateDependencyResolver(state, prevState)
+        _ this.updateFileUploader(state, prevState)
+        ${'$'}if wzCtx.Build.useExpo
+            _ this.updateTransports(state, prevState)
+            _ this.DevSession.setState(state, prevState)
+
+    +
+    m setFocus
+        ${'$'}if wzCtx.Build.useExpo
+            _ this.DevSession.setFocus(this.state)
+        #
+            # 
+            # Sets the focus to this Packi.
+            # 
+            # Causes this Packi to be moved to the top of the "Recently in Development" list
+            # in the Expo client.
+            # 
+
+    +
+    m setDisabled
+        param disabled
+            :boolean 
+        return 
+            _ this.setState
+                => 
+                    param state
+                    ( 
+                        iif disabled !== state.disabled
+                            then
+                                { 
+                                    @ disabled
+                            else null
+        # 
+        # Online
+        # 
+        #
+            # 
+            # Enables or disables the Packi.
+            # 
+            # When disabled, no uploads or dependency resolve operations
+            # are performed.
+            # 
+    m setOnline
+        param enabled
+            :boolean 
+        return 
+            _ this.setState
+                => 
+                    param state
+                    ${'$'}if wzCtx.Build.useExpo
+                        if enabled && !state.transports['pubnub']
+                            return 
+                                { 
+                                    @ transports
+                                        _ State.addObject
+                                            @expr state.transports
+                                            @ 'pubnub'
+                                            _ this.createTransport
+                                                { 
+                                                    @ name 'pubnub'
+                                                    @ apiURL this.apiURL
+                                                    @ channel state.channel
+                                                    @ verbose !!this.logger
+                        else
+                            if !enabled && state.transports['pubnub']
+                                let connectedClients = state.connectedClients
+                                for 
+                                    left
+                                        const key
+                                    in state.connectedClients
+                                    if state.connectedClients[key].transport === 'pubnub'
+                                        set connectedClients = State.removeObject(connectedClients, key)
+                                return 
+                                    { 
+                                        @ transports State.removeObject(state.transports, 'pubnub')
+                                        @ connectedClients
+                            else
+                                return null
+                    ${'$'}else
+                        return null
+        #
+            # 
+            # Makes the Packi available online.
+            # 
+            # When online, a pubnub channel is created to which clients can
+            # connect.
+            # 
+    +
+    m updateDerivedOnlineState
+        :private 
+        param state
+            :ref PackiState
+        param prevState
+            :ref PackiState
+        const 
+            { 
+                ${'$'}if wzCtx.Build.useExpo
+                    @ transports
+                    @ sdkVersion
+                @ channel
+                @ id
+                @ name
+                @ disabled
+                ${'$'}if wzCtx.Build.useExpo
+                    @ savedSDKVersion
+            = state
+        ${'$'}if wzCtx.Build.useExpo
+            if transports !== prevState.transports || sdkVersion !== prevState.sdkVersion || channel !== prevState.channel || id !== prevState.id || name !== prevState.name || savedSDKVersion !== prevState.savedSDKVersion
+                set state.online = !!transports['pubnub'] && !disabled
+                set state.url =
+                    _ createURL
+                        @ this.host
+                        @ sdkVersion
+                        @ channel
+                        iif savedSDKVersion && savedSDKVersion !== sdkVersion
+                            then undefined
+                            else id
+                set state.onlineName =
+                    `lit 
+                        + 
+                        @ name || 'Unnamed Packi'
+                        + 
+

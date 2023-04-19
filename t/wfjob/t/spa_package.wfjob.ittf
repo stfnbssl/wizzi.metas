@@ -1,0 +1,10 @@
+﻿$group
+	$params spaittfuri
+
+	artifact spa package
+		src ${spaittfuri}
+		schema spa
+		generator spa/package
+		dest-path package.json
+		extension json
+

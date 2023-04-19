@@ -1,0 +1,6 @@
+$group
+    $include examples
+    $include lib
+    $include wizzi-globals
+    $include wizzi-opers
+    $include tfolder/package

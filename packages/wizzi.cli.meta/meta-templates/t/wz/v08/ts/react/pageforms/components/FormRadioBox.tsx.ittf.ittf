@@ -1,0 +1,60 @@
+$group
+    
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormRadioBox",
+            props: [
+                { name: 'id', type: 'string'},
+                { name: 'name', type: 'string'},
+                { name: 'label', type: 'string' },
+                { name: 'sublabel', type: 'string', optional:true },
+                { name: 'sublabelid', type: 'string', optional:true },
+                { name: 'checked', type: 'boolean'},
+                { name: 'value', type: 'any'},
+                { name: 'onChange', type: 'input-event', optional: true },
+            ]
+        }
+
+    v08/ts/react/function${'('}&md)
+
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                margin 15px 0
+                padding-left 20px
+                vertical-align middle
+            styled StyledInputLabel .dt<RootStyleProps>
+                font-weight 600
+            styled StyledInput .input<RootStyleProps>
+                float left
+                margin 5px 0 0 -20px
+                vertical-align middle
+            styled StyledLabelSpan .span<RootStyleProps>
+                color
+                    => c('secondary-text')
+                display block
+                font-size 12px
+                font-weight 400
+                margin 0     
+                min-height 17px
+
+        < StyledRoot
+            < StyledInputLabel
+                < StyledInput
+                    @ aria-describedby {sublabelid} 
+                    @ type 'radio'
+                    @ value {value}
+                    @ checked {checked}
+                    @ name {name}
+                    @ id {id}
+                    @ onChange {onChange}
+                + {label}
+            < StyledLabelSpan
+                id {sublabelid}
+                + {sublabel}

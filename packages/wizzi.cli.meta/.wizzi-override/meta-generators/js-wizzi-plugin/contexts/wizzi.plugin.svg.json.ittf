@@ -1,0 +1,57 @@
+{
+    $
+        var pluginBasename = "svg";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "SVG plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        {
+            name "useXml2Parser"
+            value "true"
+
+    [ Schemas
+        {
+            name "svg"
+            plugin_type "syntax_structure"
+            multiLineCommentBegin "<!--"
+            multiLineCommentEnd "-->"
+            hasWizzifier true
+            { wizzifier
+                [ parserImportCode
+                    "var xml2js = require('xml2js')"
+                    "var svg_parser = new xml2js.Parser()"
+                [ parserInvokeCode
+                    "_ svg_parser.parseString"
+                    "\t@ tobeWizzified"
+                useFormatAstMethods false
+            [ includes
+                {
+                    Name "Js"
+                    name "js"
+                    artifactName "js/module"
+                    [ options
+                    [ items
+                        {
+                            name "js"
+                            parent "element"
+                            tag "::script"
+                            root "module"
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "svg"
+                    isDefault true
+                    contentType "image/svg+xml"
+            [ fileExtensions
+                "svg"                   
+
+
+

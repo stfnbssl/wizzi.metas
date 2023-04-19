@@ -1,0 +1,13 @@
+$group
+
+    import lintCode
+        from './lintCode'
+    import lintFile
+        from './lintFile'
+    import lintJson
+        from './lintJson'
+    +
+    export 
+        @ lintCode
+        @ lintFile
+        @ lintJson

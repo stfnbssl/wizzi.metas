@@ -1,0 +1,472 @@
+$group
+
+    import
+        @ ThemeName
+        from '../preferences/index'
+    ${'$'}if wzCtx.Build.usePackiAspects
+        +
+        export 
+            :type Packi
+                :{ 
+                    :p id
+                        :string 
+                    :p files
+                        :ref PackiFiles
+                    :p dependencies
+                        :optional 
+                        :{ 
+                            :index 
+                                :string 
+                                param key
+                                    :string 
+        export 
+            :type PackiTemplate
+                :{ 
+                    :p id
+                        :string 
+                    :p files
+                        :ref PackiFiles
+                    :p dependencies
+                        :optional 
+                        :{ 
+                            :index 
+                                :string 
+                                param key
+                                    :string 
+    +
+    export 
+        :type PackiCodeFile
+            :{ 
+                :p type
+                    :literal 'CODE'
+                :p contents
+                    :string 
+                :p generated
+                    :optional 
+                    :boolean
+                :p bothRealAndGenerated
+                    :optional 
+                    :boolean
+                :p error
+                    :optional 
+                    :ref Error
+        #
+            # 
+            # A non asset file that is included with the project.
+            # This can be either a code file (.js/.tsx) or a support
+            # file such as a markdown or json file.
+            # 
+    +
+    export 
+        :type PackiAssetFile
+            :{ 
+                :p type
+                    :literal 'ASSET'
+                :p contents
+                    :union 
+                        :string 
+                        :ref File
+                        :ref Blob
+                        :ref FormData
+                    # string = url
+                :p generated
+                    :optional 
+                    :boolean
+                :p bothRealAndGenerated
+                    :optional 
+                    :boolean
+                :p error
+                    :optional 
+                    :ref Error
+                    # string = url
+        #
+            # 
+            # An asset file that refers to externaly available
+            # content such as an image or font.
+            # 
+            # When resolved, the `contents` field is an URL to the
+            # uploaded asset. A File, Blob or FormData object may
+            # also be provided after which it is automatically uploaded
+            # and converted into an URL.
+            # 
+    +
+    export 
+        :type PackiFile
+            :union 
+                :ref PackiCodeFile
+                :ref PackiAssetFile
+        #
+            # 
+            # The content of a Packi code or asset file.
+            # 
+    
+    +    
+    export 
+        :type PackiFiles
+            :{ 
+                :index 
+                    :ref PackiFile
+                    param path
+                        :string 
+        #
+            # 
+            # Dictionary of file-names and their content that make up
+            # the files of the Packi.
+            # 
+    +    
+    export 
+        :interface PackiError
+            :extends Error
+            :p fileName
+                :optional 
+                :string 
+            :p lineNumber
+                :optional 
+                :number 
+            :p columnNumber
+                :optional 
+                :number 
+        #
+            # 
+            # An error that can optionally hold a file-name and line/column location.
+            # 
+    +    
+    export 
+        :type PackiUser
+            :{ 
+                :p sessionSecret
+                    :optional 
+                    :string 
+                :p accessToken
+                    :optional 
+                    :string 
+        #
+            # 
+            # User that is used for communicating with the Expo servers.
+            # 
+    +
+    export 
+        :type PackiState
+            :{ 
+                :p files
+                    :ref PackiFiles
+                    #
+                        # 
+                        # Files that make up the content (code & assets) of the Packi. There should
+                        # always be a file called "App.js" or "App.tsx" as the main entry point.
+                        # 
+                :p name
+                    :string 
+                    #
+                        # 
+                        # Optional name. The name is used when saving or downloading the Packi; and is used
+                        # for the onlineName property.
+                        # 
+                :p description
+                    :string 
+                    #
+                        # 
+                        # Additional description of the Packi. The description is used when saving the Packi
+                        # and may also be used for searching purposes.
+                        # 
+                :p url
+                    :string 
+                    #
+                        # 
+                        # Unique experience url which can be used to open the Expo client and connect
+                        # to the Packi (e.g. "exp://expo.io/@snack/sdk.38.0.0-78173941").
+                        # 
+                :p user
+                    :optional 
+                    :ref PackiUser
+                :p unsaved
+                    :boolean 
+                    #
+                        # 
+                        # Unsaved status of the Packi. Becomes `true` when the Packi code is changed and
+                        # `false` whenever the Packi is saved.
+                        # 
+                :p id
+                    :optional 
+                    :string 
+                    #
+                        # 
+                        # Id of the saved Packi.
+                        # 
+                :p saveURL
+                    :optional 
+                    :string 
+                    #
+                        # 
+                        #  URL of the saved Packi.
+                        #  The URL is empty when no save "id" is available.
+                        # 
+                :p webPreviewURL
+                    :optional 
+                    :string 
+                    #
+                        # 
+                        # URL to use to when loading the web-preview in an iframe.
+                        # 
+                        # Web-preview is supported from SDK 40 and higher.
+                        # To enable it, set the `webPreviewRef` to the contentWindow
+                        # of the iframe.
+                        # 
+                :p disabled
+                    :boolean 
+                    #
+                        # 
+                        # Disabled state. When the Packi is disabled it will not resolve any dependencies
+                        # or upload any asset files. It also disables the ability to go online.
+                        # 
+                :p online
+                    :boolean 
+                    #
+                        # 
+                        # When online is true, Expo clients can connect to the Packi and receive live updates
+                        # when code or dependencies are changed. It also makes the Packi visible in the
+                        # "Recently in Development" section of the Expo client.
+                        # 
+    +
+    export 
+        :type SaveStatus
+            :union 
+                :literal 'unsaved'
+                :literal 'edited'
+                :literal 'saving-draft'
+                :literal 'saved-draft'
+                :literal 'publishing'
+                :literal 'published'
+                :literal 'changed'
+    +
+    export 
+        :type SaveHistory
+            :[ 
+                :{ 
+                    :p hashId
+                        :string 
+                    :p savedAt
+                        :string 
+                    :p isDraft
+                        :optional 
+                        :boolean 
+    +
+    export 
+        :type SaveOptions
+            :{ 
+                :p isDraft
+                    :optional 
+                    :boolean 
+                :p ignoreUser
+                    :optional 
+                    :boolean 
+                :p excludeFromHistory
+                    :optional 
+                    :boolean 
+    +
+    export 
+        :type PackiListenerSubscription
+            :=> 
+                :any 
+    +
+    export 
+        :type SavedPacki
+            :{ 
+                :p id
+                    :string 
+                :p created
+                    :string 
+                :p code
+                    :optional 
+                    :union 
+                        :string 
+                        :ref PackiFiles
+                :p manifest
+                    :ref PackiManifest
+                :p history
+                    :optional 
+                    :ref SaveHistory
+                :p isDraft
+                    :optional 
+                    :boolean 
+    +
+    export 
+        :type PackiManifest
+            :{ 
+                :p name
+                    :string 
+                :p description
+                    :string 
+    +
+    export 
+        :type PackiDefaults
+            :{ 
+                :p name
+                    :string 
+    +
+    export 
+        :type PackiWindowRef
+            :{ 
+                :p current
+                    :union 
+                        :ref Window
+                        :null 
+    +
+    export 
+        :type PackiOptions
+            :{ 
+                :p name
+                    :optional 
+                    :string 
+                :p description
+                    :optional 
+                    :string 
+                :p files
+                    :optional 
+                    :ref PackiFiles
+                :p apiURL
+                    :optional 
+                    :string 
+                :p host
+                    :optional 
+                    :string 
+                :p snackagerURL
+                    :optional 
+                    :string 
+                :p verbose
+                    :optional 
+                    :boolean 
+                :p disabled
+                    :optional 
+                    :boolean 
+                :p online
+                    :optional 
+                    :boolean 
+                :p channel
+                    :optional 
+                    :string 
+                :p codeChangesDelay
+                    :optional 
+                    :number 
+                :p user
+                    :optional 
+                    :ref PackiUser
+                :p id
+                    :optional 
+                    :string 
+                :p webPlayerURL
+                    :optional 
+                    :string 
+                :p webPreviewRef
+                    :optional 
+                    :ref PackiWindowRef
+    +
+    export 
+        :type PackiSaveOptions
+            :{ 
+                :p isDraft
+                    :optional 
+                    :boolean 
+                :p ignoreUser
+                    :optional 
+                    :boolean
+
+    +
+    export 
+        :type PackiStateListener
+            :=> 
+                :any 
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+    +
+    export 
+        :type QueryInitParams
+            :{ 
+                :p code
+                    :optional 
+                    :string 
+                :p sourceUrl
+                    :optional 
+                    :string 
+                :p name
+                    :optional 
+                    :string 
+                :p description
+                    :optional 
+                    :string 
+                :p files
+                    :optional 
+                    :string 
+                :p iframeId
+                    :optional 
+                    :string 
+                :p waitForData
+                    :optional 
+                    :literal 'boolean'
+                :p saveToAccount
+                    :optional 
+                    :union 
+                        :literal 'true'
+                        :literal 'false'
+    +
+    export 
+        :type QueryStateParams
+            :{ 
+                :p preview
+                    :optional 
+                    :union 
+                        :literal 'true'
+                        :literal 'false'
+                :p theme
+                    :optional 
+                    :ref ThemeName
+                :p verbose
+                    :optional 
+                    :union 
+                        :literal 'true'
+                        :literal 'false'
+                :p hideQueryParams
+                    :optional 
+                    :union 
+                        :literal 'true'
+                        :literal 'false'
+    +
+    export 
+        :type QueryParams
+            :intersect 
+                :ref QueryInitParams
+                :ref QueryStateParams
+    +
+    export 
+        :type RouterData
+            :union 
+                :{ 
+                    :p type
+                        :literal "success"
+                    :p packi
+                        :optional 
+                        :ref SavedPacki
+                    :p defaults
+                        :ref PackiDefaults
+                :{ 
+                    :p type
+                        :literal "error"
+                    :p error
+                        :{ 
+                            :p message
+                                :string 
+                    :p defaults
+                        :ref PackiDefaults
+
+    +
+    export 
+        :type PackiFilesOrKind
+            = PackiFiles | string
+    +
+    export 
+        :type CreatePackiOptions
+            :{
+                :p data
+                    :ref PackiFilesOrKind

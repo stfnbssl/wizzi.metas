@@ -1,0 +1,17 @@
+$group
+
+    { scripts
+    	${'$'}include v08/package/scripts
+
+    { dependencies
+		${'$'}include v08/package/dependencies
+
+	{ devDependencies
+		${'$'}include v08/package/devDependencies
+
+    ${'$'}include v08/package/tools
+
+    ${'$'}include v08/package/browser
+
+    ${'$'}${'$'} see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/
+    ${'$'}include v08/package/resolutions

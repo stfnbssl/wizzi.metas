@@ -1,0 +1,84 @@
+﻿$group
+
+	m powershellExec
+		param options
+		param callback
+		
+		var ps
+			new powershell
+				{ 
+					@ executionPolicy 'Bypass'
+					@ verbose true
+					@ version 3
+		
+		# loog 'wizzi-script.manager.powershellExec.options', JSON.stringify(options, null, 2)
+		
+		if options.params
+			_ ps.addCommand
+				@ options.scriptPath
+				@ options.params
+		else
+			_ ps.addCommand
+				@ options.scriptPath
+
+		_ ps.invoke().then
+			=> 
+				param output
+				log output
+				# loog 'wizzi-script.manager.powershellExec.output', output
+				if callback
+					return
+						_ callback
+							@ null
+							{
+								@ error false
+								@ stdout output
+			._ catch
+				=> 
+					param err
+					# loog 'wizzi-script.manager.powershellExec.err', err
+					_ ps.dispose
+					if callback
+						_ callback
+							@ null
+							{
+								@ error true
+								@ stderr err
+
+
+	m powershellExecToEventStream
+		param options
+		param res
+		param callback
+
+		_ this.powershellExec
+			{
+				@ scriptPath options.scriptPath
+				@ params options.params
+			f_cb(result)
+				_ res.writeHead
+					@ 200
+					{ 
+						@ "Content-Type" "text/event-stream"
+						@ "Cache-control" "no-cache"
+
+				if result.error
+					_ res.write('stderr: ' + result.stderr)
+					_ res.end('data: ***___CLOSE___***\n\n')
+				else
+					var str
+					var lines = result.stdout.split("\n")
+					for var i=0; i<lines.length; i++
+						if i == lines.length - 1
+							set str = lines[i]
+						else
+							# Note: The double-newline is *required*
+							_ res.write('data: ' + lines[i] + "\n\n")
+					_ res.end('data: ***___CLOSE___***\n\n')
+				
+				if callback
+					return
+						_ callback
+							@ null
+							@ result
+

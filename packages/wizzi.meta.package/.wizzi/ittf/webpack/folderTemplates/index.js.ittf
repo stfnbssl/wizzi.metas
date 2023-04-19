@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useWebpack
+        $file __dot__wizzi/webpack/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include webpack/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/webpack/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include webpack/tfolder/${item}.js

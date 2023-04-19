@@ -1,0 +1,59 @@
+$group
+
+    +
+    export 
+        :enum AnnotationSeverity
+            @ LOADING -1
+            @ IGNORE 0
+            @ INFO 1
+            @ WARNING 2
+            @ ERROR 3
+            @ FATAL 4
+    +
+    export 
+        :type AnnotationAction
+            :{ 
+                :p title
+                    :string 
+                :p icon
+                    :optional 
+                    :ref React.ComponentType
+                        :param any
+                :p run
+                    :=> 
+                        :void 
+    +
+    export 
+        :type AnnotationLocation
+            :{ 
+                :p fileName
+                    :string 
+                :p startLineNumber
+                    :number 
+                :p endLineNumber
+                    :number 
+                :p startColumn
+                    :number 
+                :p endColumn
+                    :number 
+    +
+    export 
+        :type Annotation
+            :{ 
+                :p message
+                    :string 
+                :p severity
+                    :ref AnnotationSeverity
+                :p source
+                    :union 
+                        :literal 'Device'
+                        :literal 'Web'
+                        :literal 'JSON'
+                        :literal 'ESLint'
+                        :literal 'Dependencies'
+                :p location
+                    :optional 
+                    :ref AnnotationLocation
+                :p action
+                    :optional 
+                    :ref AnnotationAction

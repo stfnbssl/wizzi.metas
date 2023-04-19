@@ -1,0 +1,122 @@
+$group
+
+	${'$'}
+		var rootContainer = wzCtx.Build.react.rootContainer ? wzCtx.Build.react.rootContainer : 'AppContainer';
+
+	${'$'}if wzCtx.Styles.useMainCss
+        import '${'$'}{wzCtx.Styles.mainCss.path}'
+
+    ${'$'}if wzCtx.Build.useBabel && wzCtx.Build.babel.useBabelRegister
+		_ require('@babel/register')
+	
+	${'$'}if wzCtx.Build.react.mainStylesBefore
+		_ require('${'$'}{wzCtx.Build.react.mainStylesBefore}')
+
+	${'$'}if wzCtx.Build.useCodemirror
+		_ require('codemirror/lib/codemirror.css')
+		_ require('codemirror/mode/css/css')
+		${'$'}if wzCtx.Build.codemirror.modes
+			${'$'}foreach m in wzCtx.Build.codemirror.modes
+				_ require('codemirror/mode/${'$'}{m}/${'$'}{m}');
+			${'$'}foreach t in wzCtx.Build.codemirror.themes
+				_ require('codemirror/theme/${'$'}{t}.css')
+		# _ require('codemirror/addon/scroll/simplescrollbars')
+	
+	${'$'}if wzCtx.Build.react.mainStyles
+		_ require('${'$'}{wzCtx.Build.react.mainStyles}')
+	${'$'}if wzCtx.Build.react.mainStylesAfter
+		_ require('${'$'}{wzCtx.Build.react.mainStylesAfter}')
+
+	import React from 'react'
+	
+	${'$'}if wzCtx.Build.hotReload
+		import { AppContainer as HotAppContainer } from 'react-hot-loader'
+	
+	${'$'}if wzCtx.Build.react.useRedux
+		import { Provider } from 'react-redux'
+		import configureStore from './store/configureStore'
+	
+	${'$'}if wzCtx.Build.useGraphql && wzCtx.Build.graphql.useApolloClient
+		import ApolloClient from 'apollo-boost'
+		import { ApolloProvider } from 'react-apollo'
+
+	${'$'}if wzCtx.Build.react.useReactPerf
+		import ReactPerf from 'react-addons-perf'
+	
+	import { render } from 'react-dom'
+
+	${'$'}if wzCtx.Build.react.useMaterialUI
+		import MuiThemeContainer from './containers/MuiThemeContainer'
+	${'$'}else
+		import ${'$'}{rootContainer} from './containers/${'$'}{rootContainer}'
+
+	${'$'}if wzCtx.Build.react.useCreateReactApp
+		import registerServiceWorker from './registerServiceWorker'
+
+	${'$'}hook imports
+
+	${'$'}if wzCtx.Build.react.useReactPerf
+		set window.Perf = ReactPerf
+
+	${'$'}if wzCtx.Build.react.useRedux
+		# preloadedState param not used
+		# export const store = configureStore(preloadedState)
+		export const store = configureStore()
+
+
+	const rootEl = document.querySelector('#${'$'}{wzCtx.Build.react.rootElementId}')
+
+	${'$'}if wzCtx.Build.useGraphql && wzCtx.Build.graphql.useApolloClient
+
+		const client
+			new ApolloClient
+				{
+					@ uri '${'$'}{wzCtx.Build.graphql.serverUri}'
+		_ render
+			< ApolloProvider
+				@ client {client}
+				${'$'}if wzCtx.Build.react.useMaterialUI
+					< MuiThemeContainer
+				${'$'}else
+					< ${'$'}{rootContainer}
+			@ rootEl
+
+	${'$'}else
+
+		_ render
+			${'$'}if wzCtx.Build.react.useRedux
+				< Provider
+					@ store {store}
+					${'$'}if wzCtx.Build.react.useMaterialUI
+						< MuiThemeContainer
+					${'$'}else
+						< ${'$'}{rootContainer}
+			${'$'}else
+				${'$'}if wzCtx.Build.react.useMaterialUI
+					< MuiThemeContainer
+				${'$'}else
+					< ${'$'}{rootContainer}
+			@ rootEl
+
+	${'$'}if wzCtx.Build.react.useCreateReactApp
+		_ registerServiceWorker
+
+	${'$'}if wzCtx.Build.react.useHotReload
+		if process.env.NODE_ENV !== 'production' && module.hot
+			_ module.hot.accept
+				@ './containers/${'$'}{rootContainer}'
+				=>
+					const NextApp = require('./containers/${'$'}{rootContainer}').default
+					_ render
+						< HotAppContainer
+							@ errorReporter
+								=>
+									param { error }
+									throw error
+							${'$'}if wzCtx.Build.react.useRedux
+								< Provider
+									@ store {store}
+									< NextApp
+							${'$'}else
+								< NextApp
+						@ rootEl

@@ -1,0 +1,12 @@
+$group
+
+    $if cliCtx.useFeatures
+        $file __dot__wizzi/${pkgPath}src/features/app/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/app/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/app/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/app/types.ts
+
+                

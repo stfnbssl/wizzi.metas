@@ -1,0 +1,58 @@
+$group
+
+    elif cmd == 'wizzi-meta-js'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.js'
+                @ pkgName 'wizzi.meta.js'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.js'
+
+    elif cmd == 'wizzi-meta-js-express'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.js.express'
+                @ pkgName 'wizzi.meta.js.express'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.js.express'
+
+    elif cmd == 'wizzi-meta-ts'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.ts'
+                @ pkgName 'wizzi.meta.ts'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts'
+
+    elif cmd == 'wizzi-meta-ts-express'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.ts.express'
+                @ pkgName 'wizzi.meta.ts.express'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.express'
+
+    elif cmd == 'wizzi-meta-ts-client'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.ts.client'
+                @ pkgName 'wizzi.meta.ts.client'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.client'
+
+    elif cmd == 'wizzi-meta-package'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.package'
+                @ pkgName 'wizzi.meta.package'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.package'
+
+    elif cmd == 'wizzi-meta-wizzi'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.wizzi'
+                @ pkgName 'wizzi.meta.wizzi'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.wizzi'
+

@@ -1,0 +1,170 @@
+$group
+    
+    import fetchPonyfill from 'fetch-ponyfill'
+    import 
+        @ customAlphabet
+        from 'nanoid'
+    import 
+        ${'$'}if wzCtx.Build.useExpo
+            @ SDKVersion
+        @ PackiError
+        @ PackiUser
+        from './types'
+    const 
+        { 
+            @ fetch
+        = fetchPonyfill()
+    export 
+        @ fetch
+    const VALID_CHANNEL_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!_'
+        # + and - are used as delimiters in the uri, ensure they do not appear in the channel itself
+    const generateChannel = customAlphabet(VALID_CHANNEL_CHARS, 10)
+    export 
+        function createChannel
+            param channel
+                :string 
+                :optional 
+            :return
+                :string 
+            set channel = channel ?? generateChannel()
+            if channel.length < 6
+                throw new Error()
+            for 
+                left
+                    const char
+                of channel
+                if VALID_CHANNEL_CHARS.indexOf(char) < 0
+                    throw new Error()
+            return channel
+    export 
+        function createURL
+            param host
+                :string 
+            ${'$'}if wzCtx.Build.useExpo
+                param sdkVersion
+                    :ref SDKVersion
+            param channel
+                :string 
+                :optional 
+            param id
+                :string 
+                :optional 
+            if host.includes('snack.expo.io')
+                set host = host.replace('snack.expo.io', 'exp.host')
+            else
+                if host.includes('next-snack.expo.io')
+                    set host = host.replace('next-snack.expo.io', 'exp.host')
+            if channel
+                return 
+                    iif id
+                        then
+                            iif id.startsWith('@')
+                                then
+                                    `lit 
+                                        + exp://
+                                        @ host
+                                        + /
+                                        @ id
+                                        + +
+                                        @ channel
+                                        + 
+                                else
+                                    `lit 
+                                        + exp://
+                                        @ host
+                                        + /@snack/
+                                        @ id
+                                        + +
+                                        @ channel
+                                        + 
+                        else
+                            `lit 
+                                + exp://
+                                @ host
+                                + /@snack/sdk.
+                                ${'$'}if wzCtx.Build.useExpo
+                                    @ sdkVersion
+                                ${'$'}else
+                                    + 0.1
+                                + -
+                                @ channel
+                                + 
+            else
+                if id
+                    return 
+                        `lit 
+                            + exp://
+                            @ host
+                            + /
+                            iif id.match(/.*\/.*/)
+                                then id
+                                else
+                                    `lit 
+                                        + @snack/
+                                        @ id
+                                        + 
+                            + 
+                else
+                    return ''
+    export 
+        function createError
+            param config
+                :{ 
+                    :p message
+                        :string 
+                    :p name
+                        :optional 
+                        :string 
+                    :p fileName
+                        :optional 
+                        :string 
+                    :p lineNumber
+                        :optional 
+                        :number 
+                    :p columnNumber
+                        :optional 
+                        :number 
+                    :p stack
+                        :optional 
+                        :string 
+            :return
+                :ref PackiError
+            const error
+                :ref PackiError
+                = new Error()
+            if config.name
+                set error.name = config.name
+            if config.fileName
+                set error.fileName = config.fileName
+            if config.lineNumber
+                set error.lineNumber = config.lineNumber
+            if config.columnNumber
+                set error.columnNumber = config.columnNumber
+            if config.stack
+                set error.stack = config.stack
+            return error
+    export 
+        function createUserHeader
+            param user
+                :ref PackiUser
+                :optional 
+            :return
+                :{ 
+                    :index 
+                        :string 
+                        param key
+                            :string 
+            if user?.sessionSecret
+                return 
+                    { 
+                        @ 'Expo-Session' user.sessionSecret
+            if user?.accessToken
+                return 
+                    { 
+                        @ Authorization
+                            `lit 
+                                + Bearer&nbsp;
+                                @ user.accessToken
+                                + 
+            return 
+                { 

@@ -1,0 +1,23 @@
+$group
+
+    $
+        var items = [
+            "executegenerateModelDoms",
+            "executeWizziJob",
+            "fileInfoByPath",
+            "getIttfFilesBySchema",
+            "loadModelAndGenerateArtifact",
+            "loadModelAndGenerateArtifactFromText",
+            "loadModelAndTransform",
+            "loadMTree",
+            "loadMTreeBuildupScript",
+            "loadWizziModel",
+            "loadWizziModelAndSaveToJson"
+        ];
+
+    $foreach item in items
+        
+        $file __dot__wizzi/t/v08/wizzi/opers/${item}.js.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/wizzi/opers/${item}.js
+

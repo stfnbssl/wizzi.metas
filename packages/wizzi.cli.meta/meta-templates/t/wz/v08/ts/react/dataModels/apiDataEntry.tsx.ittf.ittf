@@ -1,0 +1,103 @@
+$group
+
+    ${'$'}
+        var schema = md.schema;
+        md.name = schema.Name + "ApiDataEntry";
+        md.connected = true;
+        // md.styled = true;
+        md.props = [];
+
+    v08\react\component${'('} &md )
+        ${'$'}append imports
+            $*
+            import 
+                @ theme
+                from '../../../components/SCTheme'
+            import
+                @ ThemeProvider 
+                from 'styled-components'
+            *$
+            import DataEntry
+                from '../../../components/data/DataEntry'
+            import
+                @ FormDef
+                @ ListDef
+                from '../../../components/data'
+            import 
+                @ RootState
+                @ RootAction
+                from '../../../store/types'
+            import
+                as ${'$'}{schema.name}Actions
+                from '../actions'
+            import
+                @ I${'$'}{schema.Name}
+                from '../types'
+
+            const mapStateToProps
+                => 
+                    param state
+                        :ref RootState
+                    (
+                        { 
+                            @ items state.${'$'}{schema.name}.items
+                            @ item state.${'$'}{schema.name}.item
+            
+            const mapDispatchToProps
+                => 
+                    param dispatch
+                        :ref Dispatch
+                            :param 
+                                :ref RootAction
+                    (
+                        {
+                            @ onGetList
+                                =>
+                                     _ dispatch
+                                        _ ${'$'}{schema.name}Actions.get${'$'}{schema.Name}ListRequest
+                            @ onCreate
+                                =>
+                                    param ${'$'}{schema.name}
+                                        :ref I${'$'}{schema.Name}
+                                    _ dispatch
+                                        _ ${'$'}{schema.name}Actions.create${'$'}{schema.Name}Request
+                                            @ ${'$'}{schema.name}
+                            @ onUpdate
+                                =>
+                                    param id
+                                        :string
+                                    param ${'$'}{schema.name}
+                                        :ref I${'$'}{schema.Name}
+                                    _ dispatch
+                                        _ ${'$'}{schema.name}Actions.update${'$'}{schema.Name}Request
+                                            {
+                                                @ id
+                                                @ ${'$'}{schema.name}
+                            @ onDelete
+                                =>
+                                    param id
+                                        :string
+                                    _ dispatch
+                                        _ ${'$'}{schema.name}Actions.delete${'$'}{schema.Name}Request
+                                            @ id
+
+        m componentDidMount
+            _ this.props.onGetList()
+        
+        m render
+            return
+                div
+                    $*
+                    < ThemeProvider
+                        @ theme {theme}
+                    *$
+                    < DataEntry
+                        @ formDef { ${'$'}{schema.name}FormDef }
+                        @ listDef { ${'$'}{schema.name}ListDef }
+                        @ items { this.props.items }
+                        $$ @ items { ${'$'}{schema.name}ListData.items }
+                        @ onCreate {this.props.onCreate}
+                        @ onUpdate {this.props.onUpdate}
+                        @ onDelete {this.props.onDelete}
+
+    ${'$'}hook defs     

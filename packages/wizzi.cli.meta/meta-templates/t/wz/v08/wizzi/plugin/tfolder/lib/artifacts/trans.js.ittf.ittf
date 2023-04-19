@@ -1,0 +1,44 @@
+$group
+	${'$'}params &md
+
+    $
+        var openPar = '(';
+        var call = '(&md)';
+
+	${'$'}
+        if (!md.rootElement) {
+            md.rootElement = md.schema;
+        }
+
+	var util = require('util')
+    var async = require('async')
+	var verify = require('wizzi-utils').verify
+	var lineparser = verify.lineParser
+	${'$'}hook imports
+    +
+	var md
+        set module.exports =
+            { 
+    var myname = '${'$'}{md.plugin}.${'$'}{md.schema}.${'$'}{md.Name}.trans.main'
+    +
+	md-trans-main${call}
+		${'$'}if md.checkSchema
+            if model.wzElement !== '${'$'}{md.rootElement}'
+				$$ loog 'wizzi-core', 'transformer', 'model', model
+				_ callback
+					_ error
+						@ 'InvalidArgument'
+						@ 'gen'
+						@ 'Invalid model schema. Expected "${'$'}{md.schema}". Received: ' + model.wzElement
+                        @ model
+		    +
+        try
+			${'$'}hook main
+		catch ex
+			return
+				_ callback(ex)
+	
+    ${'$'}hook
+
+    +
+    f_error${openPar} ${'$'}{md.plugin}/lib/artifacts/${'$'}{md.schema}/${'$'}{md.name}/trans/main )

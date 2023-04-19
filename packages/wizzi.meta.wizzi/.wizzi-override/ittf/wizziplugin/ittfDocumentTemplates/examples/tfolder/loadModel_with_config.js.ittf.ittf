@@ -1,0 +1,81 @@
+﻿$group
+	${'$'}params step, ittfDocumentName, commandLine|@@null
+
+	${'$'}
+		var saveJson = false;
+		var printJson = false;
+		var printModel = false;
+		var printDashes = false;
+		if (commandLine !== null) {
+			var commands = commandLine.split(';')
+			for (var i=0; i<commands.length; i++) {
+				var tokens = commands[i].trim().split(':');
+				if (tokens.length == 2) {
+					if (tokens[0] == 'print') {
+						var actions = tokens[1].trim().split(' ');
+						for (var j=0; j<actions.length; j++) {
+							if (actions[j] === 'json') {
+								printJson = true;
+							}
+							if (actions[j] === 'model') {
+								printModel = true;
+							}
+							if (actions[j] === 'dashes') {
+								printDashes = true;
+							}
+						}
+					}
+				} 
+				if (tokens.length == 1) {
+					if (tokens[0] === 'save') {
+						saveJson = true;
+					}
+				}
+			}
+		}
+
+
+	if typeof wizziFactoryConfig.globalContext === 'undefined'
+		set wizziFactoryConfig.globalContext = globalContext
+	
+	# Create a filesystem factory without access control
+	_ wizzi.fsFactory
+		@ wizziFactoryConfig
+		a_cb_throw${'('} wf )
+			# Now we can load the model
+			_ wf.loadModel
+				_ path.join
+					@ __dirname
+					@ 'step_${'$'}{step}'
+					@ '${'$'}{ittfDocumentName}'
+				{
+				a_cb_throw${'('} wizziModel )
+					${'$'}if saveJson == true
+						# And save the model in json format
+						# to the ./outputs folder
+						var dest
+							_ path.join
+								@ __dirname
+								@ 'step_${'$'}{step}'
+								@ 'outputs'
+								@ '${'$'}{ittfDocumentName}.json'
+						_ wf.fileService.write
+							@ dest
+                            _ JSON.stringify
+							    _ wizziModel.toJson()
+                                @ null
+                                @ 4
+						info '   ', 'The json representation of ${'$'}{ittfDocumentName}.json was saved to ' + dest
+					${'$'}if printJson == true
+						_ printValue
+							@ 'wizziModel.toJson()'
+							@ wizziModel.toJson()
+							${'$'}if printDashes === true
+								@ 'dashes'
+					${'$'}if printModel == true
+						_ printValue
+							@ 'wizziModel'
+							@ wizziModel
+							${'$'}if printDashes === true
+								@ 'dashes'
+					${'$'}hook

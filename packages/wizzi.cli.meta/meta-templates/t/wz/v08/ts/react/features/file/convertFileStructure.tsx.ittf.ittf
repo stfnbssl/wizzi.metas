@@ -1,0 +1,253 @@
+$group
+    import 
+        @ isEntryPoint
+        from './fileUtilities'
+    import 
+        @ FileSystemEntry
+        @ FileSystemEntryDiff
+        from './types'
+    import 
+        @ PackiFiles
+        from '../packi'
+    const getFolders
+        => 
+            param path
+                :string 
+            :return
+                :[ 
+                    :string 
+            const pathSegments = path.split('/')
+                # TODO: change this to slice and join
+            if pathSegments.length === 0
+                return []
+            const result = []
+            for let pathIdx = 0; pathIdx < pathSegments.length - 1; pathIdx++
+                _ result.push(pathSegments.slice(0, pathIdx + 1).join('/'))
+            return result
+    export 
+        const packiToEntryArray
+            => 
+                param files
+                    :ref PackiFiles
+                :return
+                    :[ 
+                        :ref FileSystemEntry
+                const fileSystem
+                    :[ 
+                        :ref FileSystemEntry
+                    = []
+                const foldersInFileSystem = new Set()
+                for 
+                    left
+                        const filename
+                    of Object.keys(files).sort()
+                    for 
+                        left
+                            const folder
+                        of getFolders(filename)
+                        if !foldersInFileSystem.has(folder)
+                            _ fileSystem.push
+                                { 
+                                    { item
+                                        @ path folder
+                                        @ type 'folder'
+                                    { state
+                            _ foldersInFileSystem.add(folder)
+                    const isEntry = isEntryPoint(filename)
+                    _ fileSystem.push
+                        iif files[filename].type === 'ASSET'
+                            then
+                                { 
+                                    { item
+                                        @ path filename
+                                        @ type 'file'
+                                        @ uri files[filename].contents as string
+                                        @ asset true
+                                    { state
+                            else
+                                { 
+                                    { item
+                                        @ path filename
+                                        @ type 'file'
+                                        @ content files[filename].contents as string
+                                        @ generated files[filename].generated
+                                    { state
+                                        @ isOpen isEntry
+                                        @ isSelected isEntry
+                                        @ isFocused isEntry
+                return fileSystem
+    export 
+        const packiFilterIttf
+            => 
+                param files
+                    :ref PackiFiles
+                :return
+                    :ref PackiFiles
+                const ittfFiles
+                    :ref PackiFiles
+                    =
+                        { 
+                _ Object.keys(files).forEach
+                    => 
+                        param k
+                        if k.endsWith('.ittf')
+                            set ittfFiles[k] = files[k]
+                return ittfFiles
+    export 
+        const mixPreviousAndGeneratedPackiFilesToEntryArray
+            => 
+                param previous
+                    :ref PackiFiles
+                param generated
+                    :ref PackiFiles
+                :return
+                    :[ 
+                        :ref FileSystemEntry
+                return packiToEntryArray(mixPreviousAndGeneratedPackiFiles(previous, generated))
+    export 
+        const mixPreviousAndGeneratedPackiFiles
+            => 
+                param previous
+                    :ref PackiFiles
+                param generated
+                    :ref PackiFiles
+                :return
+                    :ref PackiFiles
+                const packiFiles
+                    _ Object.assign
+                        { 
+                        @ previous
+                _ Object.keys(generated).forEach
+                    => 
+                        param k
+                        if previous[k]
+                            set generated[k].bothRealAndGenerated = true
+                        set packiFiles[k] = generated[k]
+                return packiFiles
+    export 
+        const entryArrayToPacki
+            => 
+                param entryArray
+                    :[ 
+                        :ref FileSystemEntry
+                :return
+                    :ref PackiFiles
+                const sourceResult
+                    :ref PackiFiles
+                    =
+                        { 
+                for 
+                    left
+                        const 
+                            { 
+                                @ item
+                    of entryArray
+                    if item.type === 'file'
+                        if item.asset
+                            set sourceResult[item.path] =
+                                { 
+                                    @ contents item.uri
+                                    @ type 'ASSET'
+                                        # TODO: support for different types
+                        else
+                            set sourceResult[item.path] =
+                                { 
+                                    @ contents
+                                        @expr 
+                                            ( 
+                                                + item
+                                                    :as 
+                                                        :any 
+                                            . content
+                                    @ type 'CODE'
+                                        # TODO: support for different types
+                return sourceResult
+    $*
+    export 
+        const entryArrayToObject
+            => 
+                param entryArray
+                    :[ 
+                        :ref FileSystemEntry
+                :return
+                    :{ 
+                        :index 
+                            :[] 
+                                :ref FileSystemEntry
+                                :literal 'item'
+                            param key
+                                :string 
+                const entriesObject
+                    :{ 
+                        :index 
+                            :[] 
+                                :ref FileSystemEntry
+                                :literal 'item'
+                            param key
+                                :string 
+                    =
+                        _ entryArray.reduce
+                            => 
+                                param acc
+                                    :{ 
+                                        :index 
+                                            :[] 
+                                                :ref FileSystemEntry
+                                                :literal 'item'
+                                            param key
+                                                :string 
+                                { 
+                                    @ item
+                                set acc[item.path] = item
+                                return acc
+                            { 
+                return entriesObject
+    *$
+    export 
+        const entryArrayDiff
+            => 
+                param a
+                    :[ 
+                        :ref FileSystemEntry
+                param b
+                    :[ 
+                        :ref FileSystemEntry
+                :return
+                    :{ 
+                        :index 
+                            :ref FileSystemEntryDiff
+                            param k
+                                :string 
+                const diff
+                    :{ 
+                        :index 
+                            :ref FileSystemEntryDiff
+                            param k
+                                :string 
+                    =
+                        { 
+                _ a.forEach
+                    => 
+                        param entry
+                        set diff[entry.item.path] =
+                            { 
+                                @ kind '-'
+                                @ a entry.item
+                            # console.log('-', entry.item.path)
+                _ b.forEach
+                    => 
+                        param entry
+                        if diff[entry.item.path]
+                            if diff[entry.item.path].a === entry.item
+                                delete diff[entry.item.path]
+                            else
+                                set diff[entry.item.path].kind === '<>'
+                                    # console.log('<>', entry.item.path)
+                                set diff[entry.item.path].b === entry.item
+                        else
+                            set diff[entry.item.path] =
+                                { 
+                                    @ kind '+'
+                                    @ b entry.item
+                                # console.log('+', entry.item.path)
+                return diff

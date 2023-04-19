@@ -1,0 +1,56 @@
+$group
+
+    import path from 'path'
+    import
+        @ verify
+        @ fSystem 
+        @ crypto
+        from 'wizzi-utils'
+	+
+    var fsfile = fSystem.vfile()
+
+    +
+    async-function getIttfFileContentByHash
+        param hash
+            :string
+        r_promise${'('})
+            const filePath = crypto.decrypt(hash)
+            if fsfile.isFile(filePath)
+                return
+                    _ resolve
+                        {
+                            @ content
+                                _ fsfile.read
+                                    @ filePath
+            else
+                return
+                    _ reject
+                        {
+                            @ message 'Ittf document ' + filePath + ' not found'
+
+    +
+    async-function putIttfFileContentByHash
+        param hash
+            :string
+        param content
+            :string
+        r_promise${'('})
+			var filePath = crypto.decrypt(hash)
+			# loog 'putIttfFileContentByHash', hash, filePath
+			try
+				_ fsfile.write
+					@ filePath
+					@ content
+                return
+                    _ resolve
+                        {
+                            @ message 'Ittf document written succesfully'
+			catch ex
+				return
+                    _ reject
+                        {
+                            @ message 'Error writing ittf document ' + filePath + '. Message: ' + ex.message
+    +
+    export
+        @ getIttfFileContentByHash
+        @ putIttfFileContentByHash

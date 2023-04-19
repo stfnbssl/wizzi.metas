@@ -1,0 +1,15 @@
+$group
+    $if cliCtx.useJsUtils
+        ${'$'}include utils/index
+    $if cliCtx.useJsApi
+        ${'$'}include api/index
+    $if cliCtx.useJsControls
+        ${'$'}include controls/index
+    $if cliCtx.useJsEditors
+        ${'$'}include editors/index
+    $if cliCtx.useJsMvc
+        ${'$'}include mvc/index
+    $if cliCtx.useJsDb
+        ${'$'}include db/index
+    $if cliCtx.useJsStyles
+        ${'$'}include styles/index

@@ -1,0 +1,312 @@
+$group
+    :import-type 
+        @ AmplitudeClient
+        from 'amplitude-js'
+    :type AnalyticsCommonData
+        :{ 
+            :p snackId
+                :optional 
+                :string 
+            :p isEmbedded
+                :optional 
+                :boolean 
+            :p previewPane
+                :optional 
+                :union 
+                    :literal 'hidden'
+                    :literal 'mydevice'
+                    :literal 'ios'
+                    :literal 'android'
+                    :literal 'web'
+    :type AnalyticsIdentifyTraits
+        :{ 
+            :p username
+                :optional 
+                :string 
+            :p build_date
+                :optional 
+                :string 
+    :type AnalyticsQueueItem
+        :{ 
+            :p type
+                :union 
+                    :literal 'identify'
+                    :literal 'logEvent'
+            :p parameters
+                :[ 
+                    :any 
+        # Segment
+    :declare 
+        const analytics
+            :union 
+                :{ 
+                    :m identify
+                        :void 
+                        param traits
+                            :ref AnalyticsIdentifyTraits
+                    :m identify
+                        :void 
+                        param userId
+                            :string 
+                        param traits
+                            :ref AnalyticsIdentifyTraits
+                    :m track
+                        :void 
+                        param name
+                            :string 
+                        param options
+                            :{ 
+                                :index 
+                                    :number 
+                                    param key
+                                        :string 
+                :undefined 
+        # Segment
+    :interface Amplitude
+        :m getInstance
+            :ref AmplitudeClient
+            param instanceName
+                :string 
+                :optional 
+    :declare 
+        const amplitude
+            :union 
+                :ref Amplitude
+                :undefined 
+    let instance
+        :union 
+            :ref Analytics
+            :undefined 
+    export-default 
+        class Analytics
+            p timers
+                :private 
+                :{ 
+                    :p sessionStart
+                        :number 
+                    :index 
+                        :number 
+                        param key
+                            :string 
+            p commonData
+                :private 
+                :object 
+            p isVerbose
+                :public 
+                :boolean 
+                = false
+            p queue
+                :private 
+                :[ 
+                    :ref AnalyticsQueueItem
+                [ 
+            p queueBackoffTimeout
+                :private 
+                :number 
+                = 200
+            ctor 
+                set this.timers =
+                    { 
+                        @ sessionStart Date.now()
+                set this.commonData =
+                    { 
+            m getInstance
+                static
+                if instance
+                    return instance
+                else
+                    set instance = new Analytics()
+                    return instance
+            get verbose
+                :return
+                    :boolean 
+                return this.isVerbose
+            set verbose
+                param isVerbose
+                    :boolean 
+                if this.isVerbose !== isVerbose
+                    set this.isVerbose = isVerbose
+                    if this.isVerbose
+                        if typeof analytics !== 'undefined'
+                            _ this.log
+                                `lit 
+                                    + Recording to Segment
+                        else
+                            if typeof amplitude !== 'undefined'
+                                _ this.log
+                                    `lit 
+                                        + Recording to Amplitude
+                            else
+                                _ this.log
+                                    `lit 
+                                        + Recording Disabled
+            => startTimer
+                param name
+                    :string 
+                set this.timers[name] = Date.now()
+            => clearTimer
+                param name
+                    :string 
+                delete this.timers[name]
+            => setCommonData
+                param data
+                    :ref AnalyticsCommonData
+                set this.commonData = data
+            => updateCommonData
+                param data
+                    :ref AnalyticsCommonData
+                set this.commonData =
+                    { 
+                        @ ...this.commonData
+                        @ ...data
+            m log
+                :private 
+                param optionalParams
+                    :[ 
+                        :any 
+                if !this.verbose
+                    return 
+                const isDisabled = typeof analytics === 'undefined' && typeof amplitude === 'undefined'
+                _ console.info.apply
+                    @ console
+                    [ 
+                        `lit 
+                            + %c ANALYTICS&nbsp;
+                        `lit 
+                            + background: #10089f
+                            iif isDisabled
+                                then '22'
+                                else ''
+                            + ; color: #fff
+                        @ ...optionalParams
+            m logEvent
+                param name
+                    :string 
+                param data
+                    :object 
+                    :optional 
+                param timerKeys
+                    :[ 
+                        :string 
+                _ this.log(name, data ?? '')
+                const eventTenures
+                    :{ 
+                        :index 
+                            :number 
+                            param key
+                                :string 
+                    =
+                        { 
+                for 
+                    left
+                        const key
+                    of timerKeys
+                    if this.timers.hasOwnProperty(key)
+                        set =
+                            @expr eventTenures
+                                .[
+                                    `lit 
+                                        + 
+                                        @ key
+                                        + Tenure
+                            _ this.eventTenure(key)
+                set eventTenures.sessionTenure = this.eventTenure('sessionStart')
+                const info
+                    { 
+                        @ ...eventTenures
+                        @ ...this.commonData
+                        @ ...data
+                _ this.addQueueItem
+                    { 
+                        @ type 'logEvent'
+                        [ parameters
+                            @ name
+                            @ info
+            => identify
+                param traits
+                    :ref AnalyticsIdentifyTraits
+                param userId
+                    :string 
+                    :optional 
+                _ this.log
+                    @ 'Identify, anonymous:'
+                    iif userId
+                        then 'NO'
+                        else 'YES'
+                    @ ', traits:'
+                    @ traits
+                if !traits
+                    return 
+                _ this.addQueueItem
+                    { 
+                        @ type 'identify'
+                        [ parameters
+                            @ traits
+                            @ userId
+            get isReady
+                if typeof analytics !== 'undefined'
+                    return true
+                else
+                    if typeof amplitude !== 'undefined'
+                        return !!amplitude.getInstance().getSessionId?.()
+                    else
+                        return true
+            m addQueueItem
+                :private 
+                param item
+                    :ref AnalyticsQueueItem
+                if this.queue.length < 200
+                    _ this.queue.push(item)
+                _ this.processQueue()
+            m processQueue
+                :private 
+                if this.isReady
+                    while this.queue.length
+                else
+                    const timeout = this.queueBackoffTimeout
+                    set this.queueBackoffTimeout *= 2
+                    _ setTimeout
+                        => 
+                            _ this.processQueue()
+                        @ timeout
+            m processQueueItem
+                :private 
+                param item
+                    :ref AnalyticsQueueItem
+                const 
+                    { 
+                        @ type
+                        @ parameters
+                    = item
+                switch type
+                    case 'identify'
+                        const [traits, userId] = parameters
+                        if typeof analytics !== 'undefined'
+                            if userId
+                                _ analytics.identify(userId, traits)
+                            else
+                                _ analytics.identify(traits)
+                        else
+                            if typeof amplitude !== 'undefined'
+                                const identify = new amplitude.Identify()
+                                    # @ts-expect-error TODO Identify needs to be defined on amplitude
+                                for 
+                                    left
+                                        const [key, value]
+                                    of Object.entries(traits)
+                                    if value !== undefined
+                                        _ identify.set(key, value)
+                                _ amplitude.getInstance().identify(identify)
+                        break 
+                    case 'logEvent'
+                        const [name, info] = parameters
+                        if typeof analytics !== 'undefined'
+                            _ analytics.track(name, info)
+                        else
+                            if typeof amplitude !== 'undefined'
+                                _ amplitude.getInstance().logEvent(name, info)
+                        break 
+            => eventTenure
+                param timerKey
+                    :string 
+                return (Date.now() - this.timers[timerKey]) / 1000

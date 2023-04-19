@@ -1,0 +1,16 @@
+$group
+
+    import
+        @ PackiCodeFile
+        @ PackiAssetFile
+        @ PackiFile
+        @ PackiFiles
+        @ PackiError
+        from './types'
+    +
+    :export-type 
+        @ PackiCodeFile
+        @ PackiAssetFile
+        @ PackiFile
+        @ PackiFiles
+        @ PackiError

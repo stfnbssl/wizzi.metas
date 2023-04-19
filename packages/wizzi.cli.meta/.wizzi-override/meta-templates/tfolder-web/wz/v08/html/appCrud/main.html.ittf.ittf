@@ -1,0 +1,67 @@
+$group
+    section 
+        div
+          style display:flex;
+          div
+            h1 ${cliCtx.jsAppCrud.Name}
+          div
+            style display:flex;
+            class filters
+            div
+              style margin:18px 130px; font-size: 1.4em;
+              a ${cliCtx.jsAppCrud.Name}
+                href #/${cliCtx.jsAppCrud.name}
+                class selected
+            div
+              style margin:18px 30px; font-size: 1.4em;
+              a Other
+                href #/other
+                class 
+    section 
+        div
+          class ${cliCtx.jsAppCrud.name}-view
+          div
+            class ${cliCtx.jsAppCrud.name}-container
+            div
+                class ${cliCtx.jsAppCrud.name}-explorer
+                section 
+                    class ${cliCtx.jsAppCrud.name}-view-filter flex-row justify-content-space-between bg-filter
+                    div
+                        class ${cliCtx.jsAppCrud.name}-view-search
+                        input 
+                            type search
+                            class ${cliCtx.jsAppCrud.name}-view-search-field m-s p-s
+                            placeholder Find …
+                            autocomplete off
+                            @ aria-label Find …
+                    div
+                        class ${cliCtx.jsAppCrud.name}-view-select-categoria
+                        style padding-top:20px;
+                    div
+                        class ${cliCtx.jsAppCrud.name}-view-select-titolo
+                        style padding-top:20px;
+                    div
+                        class ${cliCtx.jsAppCrud.name}-view-buttons
+                        style padding-top:20px;
+                        button
+                            + Add
+                            class ${cliCtx.jsAppCrud.name}-add-button 
+                section 
+                    class main bg-list
+                    table
+                        class ${cliCtx.jsAppCrud.name}-list
+                    ${'$'}*
+                    ul 
+                        class ${cliCtx.jsAppCrud.name}-list
+                    *${'$'}
+            div
+                class ${cliCtx.jsAppCrud.name}-item-box
+                div
+                    class ${cliCtx.jsAppCrud.name}-item
+        div
+            class other-view
+        footer 
+            class info
+            p Powered by Wizzi. Wizzi is created by
+                a Stefano Bassoli
+                    href https://github.com/stfnbssl

@@ -1,0 +1,82 @@
+$group
+
+    +
+    export
+        async-function generateMetaProduction
+            param owner
+                :string
+            param name
+                :string
+            param cliCtx
+                :any
+            :return
+                :ref Promise
+                    :param 
+                        :ref packiTypes.PackiFiles
+            # loog myname, 'generateMetaProduction', 
+                \b 'owner', owner, 
+                \b 'name', name
+            return
+                _ getMetaProduction
+                    @ owner
+                    @ name
+                    ._ then
+                        => 
+                            param metaProduction
+                                :ref CRUDResult
+                            # loog myname, 'generateMetaProduction.gotMetaProductionItem', 
+                                \b 'CRUDResult.item.id,keys', metaProduction.item.id, Object.keys(metaProduction.item)
+                            return
+                                _ generateMetaProductionById
+                                    @ metaProduction.item.id
+                                    @ cliCtx
+    +
+    export
+        async-function generateMetaProductionById
+            param metaId
+                :string
+            param cliCtx
+                :any
+            :return
+                :ref Promise
+                    :param 
+                        :ref packiTypes.PackiFiles
+            # loog myname, 'generateMetaProductionById', 
+                \b 'metaId', metaId, 
+                \b 'cliCtx', Object.keys(cliCtx)
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ productionApi.prepareProductionById
+                            @ 'meta'
+                            @ metaId
+                            @ ""
+                            {
+                            ._ then
+                                => 
+                                    param metaProductionSet
+                                        :any
+                                    # loog 'generateMetaProductionById.metaProductionSet',
+                                        \b 'packiFiles', Object.keys(metaProductionSet.packiFiles),
+                                        \b 'context', Object.keys(metaProductionSet.context),
+                                    const metaContext
+                                        _ Object.assign
+                                            {
+                                            @ metaProductionSet.context
+                                            {
+                                                @ cliCtx cliCtx
+                                    _ wizziProds.metaGenerate
+                                        @ metaProductionSet.packiFiles
+                                        @ metaContext
+                                        ._ then
+                                            =>
+                                                param packiFiles
+                                                    :ref packiTypes.PackiFiles
+                                                # loog 'generateMetaProductionById.metaGenerate.result',
+                                                    \b 'packiFiles', Object.keys(packiFiles),
+                                                _ resolve
+                                                    @ packiFiles
+                                        v08/ts/catch_reject${'('} generateMetaProductionById.metaGenerate )
+                            v08/ts/catch_reject${'('} generateMetaProductionById.prepareProductionById )

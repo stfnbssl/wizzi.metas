@@ -1,0 +1,43 @@
+{
+    $
+        var pluginBasename = "text";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Text document plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+
+    [ Schemas
+        {
+            name "text"
+            plugin_type "data"
+            multiLineCommentBegin false
+            multiLineCommentEnd false
+            hasWizzifier true
+            hasBuiltinWizziModel true
+            { wizzifier
+                [ parserImportCode
+                    "var text_parser = require('./parser')"
+                [ parserInvokeCode
+                    "_ text_parser.parseString"
+                    "\t@ tobeWizzified"
+                useFormatAstMethods false
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "txt"
+                    contentType "text/plain"
+                    isDefault true
+            [ fileExtensions
+                "text"
+                "txt"
+
+

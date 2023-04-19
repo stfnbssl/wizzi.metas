@@ -1,0 +1,29 @@
+$group
+    #
+        # retrieve a ModelTransformer by its name
+        # searching the loader in this package
+        # No search up in "node_modules" folders.
+    m getModelTransformer
+        param transformerName
+        +
+        var transformer = this.modelTransformers[transformerName] || null
+        if transformer == null
+            if typeof window !== 'undefined'
+                set transformer = window_transformers[transformerName]
+            else
+                var modulePath
+                    _ path.resolve
+                        @ __dirname
+                        @ './lib/artifacts/' + transformerName + '/trans/main.js'
+                if this.file.exists(modulePath)
+                    try
+                        set transformer = require('./lib/artifacts/' + transformerName + '/trans/main')
+                    catch ex
+                        return
+                            _ error
+                                @ 'WizziPluginError'
+                                @ 'getModelTransformer'
+                                @ 'Error loading wizzi model transformer: ' + modulePath + ', in plugin: ' + this.getFilename()
+                                @ ex
+            set this.modelTransformers[transformerName] = transformer
+        return transformer

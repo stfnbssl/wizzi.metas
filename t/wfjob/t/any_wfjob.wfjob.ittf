@@ -1,0 +1,7 @@
+﻿$group
+
+	artifact any_wfjob
+		src ./**/*.wfjob.ittf
+		schema wfjob
+		is-wf-job true
+		$hook

@@ -1,0 +1,27 @@
+$group
+
+    import wizzi from 'wizzi'
+    export
+        :type WizziPackageOptions
+            :{
+                :p name
+                    :string
+                :p description
+                    :string
+                    :optional
+                :p kind
+                    :union
+                        :literal "app"
+                        :literal "plugin"
+                :p pluginKind
+                    :union
+                        :literal "data"
+                        :literal "sgml"
+                        :literal "language"
+                    :optional
+                :p folderPath
+                    :string
+                    :optional
+                :p productionOptions
+                    :ref wizzi.ProductionOptions
+                    :optional                    

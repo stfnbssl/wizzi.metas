@@ -1,0 +1,82 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function wizzify
+                param files
+                    :ref packiTypes.PackiFiles
+                :return
+                    :ref Promise
+                        :param
+                            :ref packiTypes.PackiFiles
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            var result
+                                :ref packiTypes.PackiFiles
+                                =
+                                    {
+                            for const k of Object.keys(files)
+                                var extension = path.extname(k)
+                                try
+                                    const ittfResult
+                                        await
+                                            _ handleWizzify
+                                                @ extension
+                                                @ files[k].contents
+                                    set result[k + '.ittf']
+                                        {
+                                            @ type 'CODE'
+                                            @ contents ittfResult
+                                catch ex
+                                    set result[k + '.ittf']
+                                        {
+                                            @ type 'CODE'
+                                            @ contents
+                                                _ stringify
+                                                    @ ex
+                                                    @ null
+                                                    @ 2
+                            return
+                                _ resolve
+                                    @ result
+        +
+        function handleWizzify
+            param extension
+                :string
+            param codeSnippet
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :string
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        var schema = wizziMaps.schemaFromExtension(extension)
+                        if schema
+                            _ wizziTools.wizzify
+                                @ schema
+                                @ codeSnippet
+                                {
+                                function
+                                    param err
+                                        :any
+                                    param ittfResult
+                                        :string
+                                    if err
+                                        _ reject
+                                            @ err
+                                    _ resolve
+                                        @ ittfResult
+                        else
+                            const ittfResult = [extension.substring(1)]
+                            _ ittfResult.push('\t$' + '*')
+                            _ ittfResult.push(codeSnippet)
+                            _ ittfResult.push('\t*' + '$')
+                            _ resolve
+                                @ ittfResult.join('\n')

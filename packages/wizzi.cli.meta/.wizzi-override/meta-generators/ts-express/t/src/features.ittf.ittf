@@ -1,0 +1,26 @@
+$group
+    
+    $file __dot__wizzi/${pkgPath}src/features/types.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/features/types.ts
+    
+    $file __dot__wizzi/${pkgPath}src/features/app/index.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/features/app/index.ts
+    
+    $file __dot__wizzi/${pkgPath}src/features/app/types.ts.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/express/features/app/types.ts
+
+    $if cliCtx.useConfig
+        $file __dot__wizzi/${pkgPath}src/features/config/env.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/config/env.ts
+    
+        $file __dot__wizzi/${pkgPath}src/features/config/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/config/index.ts
+    
+        $file __dot__wizzi/${pkgPath}src/features/config/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/config/types.ts

@@ -1,0 +1,24 @@
+$group
+    
+    $if metaCtx.useBabelrc
+
+        $file __dot__wizzi/${pkgPath}root/babelrc.json.ittf.ittf
+            module
+                kind es6
+                ${'$'}include babelrc/babelrc-base.json
+
+        $
+            var items = [
+                "env",
+                "plugins",
+                "presets",
+            ];
+
+        $foreach item in items
+
+            $file __dot__wizzi/t/babelrc/${metaVer}/${item}.json.ittf.ittf
+                ${"${'$'}"}group
+                
+                    ${'$'}include babelrc/tfolder/${item}.json
+
+

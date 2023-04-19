@@ -1,0 +1,109 @@
+$group
+
+    ${'$'}include models/docs/wzctx
+
+    ${'$'}
+        var opt = {
+		    section: 'Docs',
+            title: 'Cheat sheets',
+            useHighlight: true,
+            stickyNav: 'stickyNavbar',
+            stickyNavOffset: 50,
+            stickyNavLogo: 'logo',
+        }
+        var _schemas = ['ittf', 'js', 'jsx', 'ts', 'html', 'css', 'scss', 'svg', 'graphql', 'json', 'xml', 'text'];
+    
+    layouts/site${'('} &opt )
+
+        ${'$'}if false
+            pre
+                code
+                    + ${'$'}{JSON.stringify(cs, null, 2)}
+
+		${'$'}append head-styles-2
+            s${'('} /ittf/site/docs/styles/docs.css.ittf )
+            s${'('} /ittf/css/cheatsheet.css.ittf )
+        div
+            id main-container
+            . bg-color-main-content
+                id stickyNavbar
+                div
+                    id header
+                    $$ $include logo
+                    nav 
+                        id top-nav
+                        ul
+                            ${'$'}foreach item in wzCtx.Section.items
+                                li
+                                    ${'$'}if item.title === 'Cheatsheets'
+                                        . current
+                                            + ${'$'}{item.title}
+                                    ${'$'}else
+                                        a ${'$'}{item.title}
+                                            href ${'$'}{item.url}
+
+		. container-70
+            . grid
+                style grid-template-columns: 1fr 8fr 1fr;
+                . mc-sidebar-left
+                    style height: 80vh;
+                    ul
+                        ${'$'}foreach e in cs.elements
+                            li
+                                a ${'$'}{e.name}
+                                    href #${'$'}{e.name}
+                                ul
+                                    ${'$'}foreach item in e.items
+                                        li
+                                            a ${'$'}{item.title}
+                                                href #${'$'}{item.title}
+                . mc-content
+                    style height: 80vh;
+                    ${'$'}foreach e in cs.elements
+                        ${'$'}foreach item in e.items
+                            h3 ${'$'}{item.title}
+                                class code-title
+                                
+                                id ${'$'}{item.title}
+                            div
+                                ${'$'}if item.expected && item.expected.length > 0
+                                    div
+                                        style display: flex;
+                                        pre
+                                            style width: 100%;
+                                            code
+                                                class ${'$'}{opt.language}
+                                                + ${'$'}{item.expected}
+                                div
+                                    style display: flex;
+                                    pre
+                                        style width: 50%; margin-right: 5px; padding: 15px;
+                                        class code-prettyprint prettyprint source
+                                        + ${'$'}{item.ittfPretty}
+                                    pre
+                                        style width: 50%; margin-left: 5px;
+                                        class code-prettyprint prettyprint source
+                                        code 
+                                            class ${'$'}{opt.language}
+                                            + ${'$'}{item.generated}
+
+                nav
+                    div 
+                        id right-nav
+                        . aside-right
+                            style position: fixed;
+                            div
+                                style padding-top: 40px;
+                            ul
+                                ${'$'}foreach item in _schemas
+                                    li
+                                        ${'$'}if item == cs.schema
+                                            class current
+                                            . current
+                                                + ${'$'}{item}
+                                        ${'$'}else
+                                            a ${'$'}{item}
+                                                $$ style color: #0ff; 
+                                                href /docs/cheatsheet/${'$'}{item}
+
+

@@ -1,0 +1,123 @@
+$group
+    
+    import
+        as defaults
+        from './defaults'
+    import
+        @ PackiFile
+        from '../packi'
+    +
+    export 
+        :type ConfigType
+            :{ 
+                :p SERVER_URL
+                    :string 
+                :p API_URL
+                    :string 
+                :p AUTH_URL
+                    :string 
+                :p AUTH_PROVIDERS_URL
+                    :string 
+                :p VERSION
+                    :string 
+                :p DEFAULT_PACKI_NAME
+                    :string 
+                :p DEFAULT_METADATA_NAME
+                    :string 
+                :p DEFAULT_METADATA_DESCRIPTION_SAVED
+                    :string 
+                :p DEFAULT_METADATA_DESCRIPTION_EMPTY
+                    :string 
+                :p DEFAULT_DESCRIPTION
+                    :string 
+                :p EDITOR_LOAD_FALLBACK_TIMEOUT
+                    :number 
+                ${'$'}if wzCtx.Build.useExpo
+                    :p INITIAL_DEPENDENCIES
+                        :{ 
+                            :index 
+                                :ref PackiDependency
+                                param path
+                                    :string 
+                :p DEFAULT_CODE
+                    :{ 
+                        :index 
+                            :ref PackiFile
+                            param path
+                                :string 
+                ${'$'}if wzCtx.Build.usePackiLocal
+                    :p BROWSERFS_PACKI_STORE
+                        :string 
+                    :p BROWSERFS_PACKIES_FOLDER
+                        :string 
+                    :p BROWSERFS_PACKIES_ROOT
+                        :string 
+                    :p BROWSERFS_PACKI_CONFIG_FILE
+                        :string 
+                :p PREFERENCES_KEY
+                    :string 
+    +
+    const ENV
+        iif process.env.NODE_ENV
+            then process.env.NODE_ENV
+            else 'development'
+    +
+    const PLATFORM
+        iif process.env.PLATFORM
+            then process.env.PLATFORM
+            else 'local'
+    +
+    const VERSION
+        iif process.env.VERSION
+            then process.env.VERSION
+            else '0.0.1'
+    +
+    let _config
+        :ref ConfigType
+    +
+    function getConfig
+        if _config == null
+            set _config =
+                { 
+                    @ SERVER_URL '${'$'}{wzCtx.App.baseUrl}'
+                    @ API_URL '${'$'}{wzCtx.App.baseUrl}/api/v1'
+                    @ AUTH_URL '${'$'}{wzCtx.App.baseUrl}/api/v1/auth'
+                    @ AUTH_PROVIDERS_URL '${'$'}{wzCtx.App.baseUrl}/auth'
+                    @ VERSION
+                    @ DEFAULT_PACKI_NAME defaults.DEFAULT_PACKI_NAME
+                    @ DEFAULT_METADATA_NAME defaults.DEFAULT_PACKI_NAME
+                    @ DEFAULT_METADATA_DESCRIPTION_SAVED defaults.DEFAULT_PACKI_NAME
+                    @ DEFAULT_METADATA_DESCRIPTION_EMPTY defaults.DEFAULT_METADATA_DESCRIPTION_EMPTY
+                    @ DEFAULT_DESCRIPTION defaults.DEFAULT_DESCRIPTION
+                    @ EDITOR_LOAD_FALLBACK_TIMEOUT defaults.EDITOR_LOAD_FALLBACK_TIMEOUT
+                    ${'$'}if wzCtx.Build.useExpo
+                        @ INITIAL_DEPENDENCIES defaults.INITIAL_DEPENDENCIES
+                    @ DEFAULT_CODE defaults.DEFAULT_CODE
+                    ${'$'}if wzCtx.Build.usePackiLocal
+                        @ BROWSERFS_PACKI_STORE 'packyStore'
+                        @ BROWSERFS_PACKIES_ROOT '/ixdb'
+                        @ BROWSERFS_PACKIES_FOLDER '/ixdb/packies'
+                        @ BROWSERFS_PACKI_CONFIG_FILE 'packi.config.json'
+                    @ PREFERENCES_KEY 'packi.preferences.config'
+            $$ loog 'features.config', _config
+        return _config
+    +
+    export 
+        const config
+            :ref ConfigType
+            = getConfig()
+    +
+    export 
+        const DEFAULT_PACKI_NAME = config.DEFAULT_PACKI_NAME
+    export 
+        const DEFAULT_METADATA_NAME = config.DEFAULT_METADATA_NAME
+    export 
+        const DEFAULT_METADATA_DESCRIPTION_SAVED = config.DEFAULT_METADATA_DESCRIPTION_SAVED
+    export 
+        const DEFAULT_METADATA_DESCRIPTION_EMPTY = config.DEFAULT_METADATA_DESCRIPTION_EMPTY
+    export 
+        const DEFAULT_DESCRIPTION = config.DEFAULT_DESCRIPTION
+    export 
+        const DEFAULT_CODE = config.DEFAULT_CODE
+    +
+    export-default config

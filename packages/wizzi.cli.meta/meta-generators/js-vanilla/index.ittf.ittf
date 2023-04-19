@@ -1,0 +1,27 @@
+template ts-client
+
+    $
+        // var pkgPath = cliCtx.useAzure ? 'Application/' : '';
+        var pkgPath = '';
+
+    $include ./root
+    $include ./models
+    $include ./js/index
+    $include ./js/api
+    $include ./js/controls
+    $include ./js/db
+    $include ./js/editors
+    $include ./js/mvc
+    $include ./js/styles
+    $include ./js/utils
+    $include ./js/tfolder
+    $include ./js/appCrud
+    $include ./css/index
+    $include ./css/appCrud
+    $include ./css/tfolder
+    $include ./html/index
+    $include ./html/appCrud
+    $include ./tfolder/wfjobs
+    $include ./__generate
+    $include ./__wizzi.config
+    $include ./__wizzi.override.config

@@ -1,0 +1,36 @@
+{
+    $
+        var pluginBasename = "first";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "First ultra simple plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        $*
+        {
+            name "useGraphqlParser"
+            value "true"
+        *$
+
+    [ Schemas
+        {
+            name "${pluginBasename}"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            [ includes
+            [ artifacts
+                {
+                    name "document"
+                    outmime "html"
+                    contentType "text/html"
+                    isDefault true
+            [ fileExtensions
+                "first"
+

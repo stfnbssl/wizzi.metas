@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useUtils
+        $file __dot__wizzi/utils/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include utils/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/utils/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include utils/tfolder/${item}.js

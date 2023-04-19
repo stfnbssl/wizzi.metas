@@ -1,0 +1,202 @@
+$group
+
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import classnames from 'classnames'
+    import 
+        as React
+        from 'react'
+    import 
+        @ c
+        @ s
+        from '../ThemeProvider'
+    import ShortcutLabel from './ShortcutLabel'
+    +
+    export 
+        :type Action
+            :{ 
+                :p label
+                    :string 
+                :p handler
+                    :=> 
+                        :void 
+                :p disabled
+                    :optional 
+                    :boolean 
+                :p combo
+                    :optional 
+                    :[ 
+                        :number 
+    +
+    export 
+        :type ContextMenuProps
+            :{ 
+                :p innerRef
+                    :optional 
+                    :ref React.Ref
+                        :param 
+                            :ref HTMLUListElement
+                :p visible
+                    :boolean 
+                :p actions
+                    :[ 
+                        :paren 
+                            :union 
+                                :ref Action
+                                :undefined 
+                :p position
+                    :optional 
+                    :union 
+                        :{ 
+                            :p pageX
+                                :number 
+                            :p pageY
+                                :number 
+                        :null 
+                :p onHide
+                    :=> 
+                        :void 
+                :p className
+                    :optional 
+                    :string 
+    const BOTTOM_OFFSET = 35
+    const MENU_ITEM_HEIGHT = 28
+    +
+    export
+        class ContextMenu
+            super React.PureComponent
+                :param 
+                    :ref ContextMenuProps
+            m render
+                const 
+                    { 
+                        @ visible
+                        @ position
+                        @ actions
+                        @ onHide
+                        @ className
+                        @ innerRef
+                            # @ts-ignore
+                    = this.props
+                if !visible
+                    return null
+                const shownActions
+                    @expr
+                        _ actions.filter
+                            => 
+                                param action
+                                + action
+                        :as 
+                            :[ 
+                                :ref Action
+                return 
+                    ul 
+                        @ ref {innerRef}
+                        @ className {classnames(css(styles.menu), className)}
+                        @ style
+                            iif position
+                                then
+                                    { 
+                                        @ position 'fixed'
+                                        @ top Math.min(position.pageY, window.innerHeight - BOTTOM_OFFSET - shownActions.length * MENU_ITEM_HEIGHT)
+                                        @ left position.pageX
+                                        @ marginTop -8
+                                else
+                                    { 
+                        { 
+                            _ shownActions.map
+                                => 
+                                    { 
+                                        @ label
+                                        @ handler
+                                        @ disabled
+                                        @ combo
+                                        :ref Action
+                                    li 
+                                        @ key {label}
+                                        button 
+                                            @ disabled {disabled}
+                                            @ className {css(styles.item, disabled && styles.disabled)}
+                                            @ onClick
+                                                => 
+                                                    _ handler()
+                                                    _ onHide()
+                                            div 
+                                                + {label}
+                                            { 
+                                                iif combo
+                                                    then
+                                                        < ShortcutLabel 
+                                                            @ combo {combo}
+                                                            @ className {css(styles.hint)}
+                                                    else null
+    export-default 
+        _ React.forwardRef
+            => 
+                param props
+                    :ref ContextMenuProps
+                param ref
+                    :ref React.Ref
+                        :param 
+                            :ref HTMLUListElement
+                < ContextMenu 
+                    @ {...props}
+                    @ innerRef {ref}
+    const fadeIn
+        { 
+            { from
+                @ opacity 0
+            { to
+                @ opacity 1
+    const styles
+        _ StyleSheet.create
+            { 
+                { menu
+                    @ zIndex 10
+                    @ listStyle 'none'
+                    @ padding 0
+                    @ borderRadius 4
+                    @ borderStyle 'solid'
+                    @ boxShadow s('popover')
+                    @ minWidth 240
+                    @ animationName fadeIn
+                    @ animationDuration '0.083s'
+                    @ animationTimingfunction 'linear'
+                    @ backgroundColor c('content')
+                    @ border
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                    @ color c('text')
+                { item
+                    @ display 'flex'
+                    @ justifyContent 'space-between'
+                    @ appearance 'none'
+                    @ background 'none'
+                    @ border 0
+                    @ outline 0
+                    @ width '100%'
+                    @ padding '16px 12px'
+                    @ textAlign 'left'
+                    @ userSelect 'none'
+                    @ borderRadius 2
+                    @ minHeight 56
+                    @ fontSize 16
+                    @ color c('text')
+                    @ borderBottom
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                    @ marginBottom '-1px'
+                    { ':hover'
+                        @ background c('hover')
+                { disabled
+                    @ pointerEvents 'none'
+                    @ opacity 0.5
+                { hint
+                    @ marginLeft 24
+                    @ lineHeight '24px'

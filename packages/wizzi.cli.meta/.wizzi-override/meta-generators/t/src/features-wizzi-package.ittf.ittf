@@ -1,0 +1,27 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.useWizziPackage
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziPackage/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-package/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziPackage/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-package/types.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziPackage/controllers/apiv1wizzipackage.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-package/controllers/apiv1wizzipackage.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziPackage/api/wizziPackage.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-package/api/wizziPackage.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziPackage/api/packageFs.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-package/api/packageFs.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziPackage/api/packageGenerator.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-package/api/packageGenerator.ts

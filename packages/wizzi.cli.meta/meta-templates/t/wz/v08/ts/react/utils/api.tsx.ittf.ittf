@@ -1,0 +1,35 @@
+$group
+    export 
+        async-function callApi
+            param method
+                :string 
+            param url
+                :string 
+            param path
+                :string 
+            param data
+                :any 
+                :optional 
+            $$ loog 'callApi', method, url, path, data
+            _ console.log
+                @ 'url'
+                `lit 
+                    @ url
+                    + /
+                    @ path
+            const res
+                await 
+                    _ fetch
+                        `lit 
+                            @ url
+                            + /
+                            @ path
+                        { 
+                            @ method
+                            { headers
+                                @ Accept 'application/json'
+                                @ 'Content-Type' 'application/json'
+                            @ body JSON.stringify(data)
+            return 
+                await 
+                    _ res.json()

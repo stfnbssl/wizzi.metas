@@ -1,0 +1,39 @@
+$group
+
+    import path from 'path'
+    import fs from 'fs'
+    import stringify from 'json-stringify-safe'
+    
+    $if cliCtx.useWizziV08
+        import wizzi from '@wizzi/factory'
+        import
+            @ fSystem
+            @ verify
+            from '@wizzi/utils'
+    $else
+        import wizzi from 'wizzi'
+        ${'$'}if wzCtx.Build.useWizziJsonFactory
+            import wizziTools from 'wizzi-tools'
+        import
+            @ fSystem
+            @ ittfScanner
+            @ ittfGraph
+            @ verify
+            from 'wizzi-utils'
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        import
+            @ packiFilePrefix
+            @ packiFilePrefixExtract
+            from '../config/env'
+
+    import
+        ${'$'}if wzCtx.Build.useWizziJsonFactory
+            @ createJsonFsAndFactory
+            @ ensurePackiFilePrefix
+        @ createFilesystemFactory
+        @ createFilesystemFactoryWithParameters
+        from './factory'
+    +
+    const mdDisplayName = 'features.wizzi-meta.api.wizziProds'
+    +
+    ${'$'}include generateFolderArtifacts

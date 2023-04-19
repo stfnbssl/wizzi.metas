@@ -1,0 +1,51 @@
+$group
+
+	${'$'}*
+	require
+		${'$'}
+			var name = 'xxx';
+			var level = 'y';
+			var steps = ['a', 'b', ...];
+	*${'$'}
+
+	import async
+
+	var samples
+		[
+			${'$'}foreach step in steps
+				@ require('./step_${'$'}{step}_go')
+
+	function execute
+		param callback
+
+        _ async.map
+            @ samples
+            function
+                param sample
+                param callback
+                _ sample
+                    a_cb${'('} result )
+                        return
+                            _ callback
+                                @ null
+                                @ result
+            function
+                param err
+                param results
+				var msg = '${'$'}{name} - Level ${'$'}{level}'
+				$$ loog msg
+                if err
+                    error msg + ' error.', err
+                    throw err
+                $$ loog msg + ' done.'
+                if callback
+                    return
+                        _ callback
+                            @ null
+                            @ msg
+
+
+	set module.exports = execute
+
+	if typeof require != 'undefined' && require.main==module
+		_ execute

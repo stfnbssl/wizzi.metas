@@ -1,0 +1,57 @@
+$group
+    
+    const URL_PREFIX = 'http://file.io/'
+    +
+    export 
+        function getRelativePath
+            param path
+                :string 
+            param source
+                :string 
+            param separator
+                :string 
+                = '/'
+            const targetArr = path.split(separator)
+            const sourceArr = source.split(separator).slice(0, -1)
+            const filename = targetArr.pop()
+            const targetPath = targetArr.join(separator)
+            let relativePath = ''
+            while targetPath.indexOf(sourceArr.join(separator)) === -1
+                _ sourceArr.pop()
+                set relativePath += '..' + separator
+            const relPathArr = targetArr.slice(sourceArr.length)
+            if relPathArr.length
+                set relativePath += relPathArr.join(separator) + separator
+            if !relativePath.startsWith('.')
+                set relativePath = './' + relativePath
+            return relativePath + filename
+    +
+    export 
+        function getBasePath
+            param path
+                :string 
+            :return
+                :string 
+            const paths = path.split('/')
+            return 
+                op+ 
+                    + paths.slice(0, paths.length - 1).join('/')
+                    ( 
+                        iif paths.length > 1
+                            then '/'
+                            else ''
+    +
+    export 
+        function getAbsolutePath
+            param path
+                :string 
+            param currentFile
+                :string 
+            const url
+                new URL
+                    @ path
+                    `lit 
+                        @ URL_PREFIX
+                        + 
+                        _ getBasePath(currentFile)
+            return url.href.replace(URL_PREFIX, '')

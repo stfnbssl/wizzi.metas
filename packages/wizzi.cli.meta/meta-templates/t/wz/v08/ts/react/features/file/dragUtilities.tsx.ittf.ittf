@@ -1,0 +1,16 @@
+$group
+
+    export
+        function dragEventIncludes
+            {
+                @ dataTransfer
+                :ref DragEvent
+            param item
+                :string
+            :return
+                :boolean
+            if !dataTransfer
+                return false
+            if dataTransfer.types instanceof DOMStringList
+                return dataTransfer.types.contains(item)
+            return dataTransfer.types.indexOf(item) > -1

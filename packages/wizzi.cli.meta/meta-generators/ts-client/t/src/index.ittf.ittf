@@ -1,0 +1,43 @@
+$group
+    
+    $file __dot__wizzi/${pkgPath}src/index.tsx.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/react/basic/index.tsx
+
+    $file __dot__wizzi/${pkgPath}src/index.css.ittf.ittf
+        css
+            ${'$'}include wz/v08/ts/react/basic/index.css
+
+    $file __dot__wizzi/${pkgPath}src/components/App.tsx.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/react/basic/App.tsx
+
+    $file __dot__wizzi/${pkgPath}src/components/logo.svg.ittf.ittf
+        svg
+            ${'$'}include wz/v08/ts/react/basic/logo.svg
+
+    $file __dot__wizzi/${pkgPath}src/components/App.css.ittf.ittf
+        css
+            ${'$'}include wz/v08/ts/react/basic/App.css
+
+    $if cliCtx.useAphrodite
+        $file __dot__wizzi/${pkgPath}src/components/ThemeProvider.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/components/ThemeProvider.tsx
+    
+    $if cliCtx.useWebpack
+        $file __dot__wizzi/${pkgPath}src/index.html.ittf.ittf
+            html 
+                lang en
+                ${'$'}include wz/v08/webpack/html/index.html       
+
+    $if cliCtx.useVite
+        $file __dot__wizzi/${pkgPath}src/vite-env.d.ts.text.ittf.ittf
+            text
+                ${'$'}include wz/v08/vite/vite-env.d.ts.text
+
+    $if cliCtx.useFeatures 
+        $if cliCtx.features.usePreferences
+            $file __dot__wizzi/${pkgPath}src/types.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/types.tsx

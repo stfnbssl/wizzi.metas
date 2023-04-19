@@ -1,0 +1,32 @@
+{
+    
+    { compilerOptions
+        target "es6"
+        module "commonjs"
+        moduleResolution "node"
+        { paths
+            *
+                [
+                    "node_modules/*"
+        esModuleInterop true
+        jsx "react-jsx"
+        sourceMap true
+        rootDir "./"
+        $if wzCtx.Build.useAzure
+            outDir "../Application"
+        $elif wzCtx.Build.useHeroku
+            outDir "../../../wizzi.apps.deploy/wizzi-heroku"
+        $else
+            outDir "./dist"
+        baseUrl "."
+        importHelpers true
+        $if wzCtx.Build.typescript.useStrict
+            strict true
+        $if wzCtx.Build.useSequelize
+            experimentalDecorators true
+            emitDecoratorMetadata true
+    [ include
+        "src/**/*"
+        $hook include
+    [ exclude
+        "src/**/*.spec.*"

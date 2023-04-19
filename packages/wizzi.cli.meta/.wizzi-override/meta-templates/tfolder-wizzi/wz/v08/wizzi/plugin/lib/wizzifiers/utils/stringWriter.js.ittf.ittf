@@ -1,0 +1,18 @@
+﻿$group
+    kind jsfile
+    
+	class StringWriter
+        ctor 
+            param text
+            set this.buffer = []
+            if text
+                _ this.buffer.push(text)
+    
+		m write
+            param text
+            _ this.buffer.push(text)
+    
+		m toString
+            return this.buffer.join('')
+    
+	set module.exports = StringWriter

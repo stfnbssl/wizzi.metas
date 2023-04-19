@@ -1,0 +1,82 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function scanIttfDocument
+                param mainIttf
+                    :string
+                param packiFiles
+                    :ref packiTypes.PackiFiles
+                param rootFolder
+                    :string
+                :return
+                    :ref Promise
+                        :param
+                            :ref ittfGraph.IttfDocumentGraph
+                throw new Error(myname + '.scanIttfDocument not yet implemented')
+    +
+    export
+        async-function scanIttfDocumentFs
+            param filePath
+                :string
+            param rootFolder
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :ref ittfGraph.IttfDocumentGraph
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ ittfScanner.scanIttfDocument
+                            @ filePath
+                            {
+                                @ rootFolder
+                            =>
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                _ resolve(result)
+    +
+    export
+        async-function scanIttfFolder
+            param filePath
+                :string
+            param rootFolder
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :ref ittfScanner.FolderBrowseResult
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ ittfScanner.browseFolder
+                            @ filePath
+                            {
+                                @ rootFolder
+                            =>
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                _ resolve(result)
+    +
+    export
+        async-function scanIttfDocumentDb
+            param owner
+                :string
+            param name
+                :string
+            param rootFolder
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :ref ittfGraph.IttfDocumentGraph
+            throw new Error(myname + '.scanIttfDocumentDb not yet implemented')

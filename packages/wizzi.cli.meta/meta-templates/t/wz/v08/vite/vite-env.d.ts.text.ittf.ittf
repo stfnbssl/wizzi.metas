@@ -1,0 +1,2 @@
+$group
+    /// <reference types="vite/client" />

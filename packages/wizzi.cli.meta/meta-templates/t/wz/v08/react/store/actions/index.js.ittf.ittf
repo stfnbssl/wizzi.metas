@@ -1,0 +1,12 @@
+$group
+	${'$'}if app.Build.react.redux.useApiMiddleware
+		${'$'}if app.Build.react.redux.useNormalizr
+			import { HTTP_REQUEST, Schemas } from '../../config/api.config'
+		${'$'}else
+			import { HTTP_REQUEST } from '../../config/api.config'
+	${'$'}if app.Build.react.redux.useApiMiddleware
+		import { FIRESTORE_REQUEST } from '../../config/firestore.config'
+	+
+	const timers = {}
+	+
+	${'$'}hook

@@ -1,0 +1,100 @@
+$group
+
+    ${'$'}if wzCtx.Build.react.redux.useEpic
+        import 
+            @ RootAction
+            @ RootState
+            from './types'
+        import 
+            @ Services
+            from '../services/types'
+    ${'$'}if wzCtx.Build.react.redux.useSaga
+        import createSagaMiddleware from 'redux-saga'
+    import 
+        @ createStore
+        @ applyMiddleware
+        from 'redux'
+    ${'$'}if wzCtx.Build.react.redux.useEpic
+        import 
+            @ createEpicMiddleware
+            from 'redux-observable'
+    ${'$'}if wzCtx.Build.react.useRouter
+        import 
+            @ createBrowserHistory
+            from 'history'
+        import 
+            @ routerMiddleware
+                as createRouterMiddleware
+            from 'connected-react-router'
+    import 
+        @ composeEnhancers
+        from './utils'
+    import rootReducer from './root-reducer'
+    ${'$'}if wzCtx.Build.react.redux.useSaga
+        import 
+            @ createRootSaga
+            from './root-saga'
+    ${'$'}if wzCtx.Build.react.redux.useEpic
+        import rootEpic from './root-epic'
+        import services from '../services'
+            # browser history
+    import
+        @ ResponsePayload
+        from './types'
+    ${'$'}if wzCtx.Build.react.useRouter
+        +
+        export 
+            const history = createBrowserHistory()
+            # browser history
+    :export-type
+        @ ResponsePayload
+    ${'$'}if wzCtx.Build.react.redux.useEpic
+        +
+        export 
+            const epicMiddleware
+                _ createEpicMiddleware
+                    :param 
+                        :ref RootAction
+                    :param 
+                        :ref RootAction
+                    :param 
+                        :ref RootState
+                    :param 
+                        :ref Services
+                    { 
+                        @ dependencies services
+    ${'$'}if wzCtx.Build.react.redux.useSaga
+        const sagaMiddleware = createSagaMiddleware()    
+    ${'$'}if wzCtx.Build.react.useRouter
+        +
+        const routerMiddleware = createRouterMiddleware(history)
+    +
+    const middlewares
+        [ 
+            ${'$'}if wzCtx.Build.react.redux.useEpic
+                @ epicMiddleware
+            ${'$'}if wzCtx.Build.react.redux.useSaga
+                @ sagaMiddleware
+            ${'$'}if wzCtx.Build.react.useRouter
+                @ routerMiddleware
+        # configure middlewares
+    +
+    const enhancer = composeEnhancers(applyMiddleware(...middlewares))
+        # compose enhancers
+    +
+    const initialState
+        { 
+        # rehydrate state on app start
+    +
+    
+    const store = createStore(rootReducer(history), initialState, enhancer)
+        # create store
+    ${'$'}if wzCtx.Build.react.redux.useEpic
+        +
+        _ epicMiddleware.run(rootEpic)
+            # export store singleton instance
+    ${'$'}if wzCtx.Build.react.redux.useSaga
+        let sagaTask = sagaMiddleware.run(createRootSaga())
+    +
+    export-default store
+        # export store singleton instance

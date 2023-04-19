@@ -1,0 +1,67 @@
+$group
+
+	${'$'}
+        var opt = {
+            sidebar_1: true,
+            sb_1_min_w: 60,
+            debug_css: false
+        };
+
+		var l_mc_top = 48;
+		var l_mc_sub_top = 125;
+		var l_mc_top_mobile = 7; // rem
+		var l_mc_sub_top_mobile = 7;  // rem
+
+		var c_0 = "#fff";
+		var c_bg_0 = "#000";
+
+		var c_tn_bg_0 = "#333";
+		var c_tn_bg_sub = "#666";
+		var c_tn_bg_logo_hover = "#066";
+		var c_tn_bg_li_mobile = "#999";
+		var c_tn_bg_bar = "#fff";
+		var c_tn_1 = "#fff";
+		var c_tn_2 = "#f44";
+		var c_tn_bg_f_0 = "#000";
+
+		var c_mc_bg_frame_bar = c_tn_bg_sub;
+		var c_mc_frame_bar = c_tn_bg_bar;
+
+	< h1, h2, h3, h4, h5, h6
+		margin 0
+
+	< h3
+		font-size 18px
+
+	. wrapper
+		font-family arial, verdana
+		font-size 15px
+		padding 2rem
+
+	. head-bar-item
+		display flex
+		flex-direction column
+		border 1px solid #222
+		margin-bottom 2rem
+	
+	. head-bar-title
+		padding 0.2rem 2rem
+		background-color #015ba0
+		color #fefefe
+
+	. head-bar-value
+		padding 0.5rem 2rem
+		text-align center
+		font-size 1.5rem
+
+    . code-title
+        margin 30px 0
+        padding-top 10px
+        border-top 1px solid hsl(0, 0%, 87%)
+        color #fefefe
+
+	${'$'}include prettyprint
+
+	${'$'}include tn
+	${'$'}include mc
+	

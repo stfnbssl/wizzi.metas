@@ -1,0 +1,16 @@
+$group
+    
+    rect
+        x 10
+        y 10
+        width 100
+        height 100
+
+        ::script
+            module
+                kind es6
+                function sum
+                    param a
+                    param b
+                    return a + b
+                _ sum(2, 2)

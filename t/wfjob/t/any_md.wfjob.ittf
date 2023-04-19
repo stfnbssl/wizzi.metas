@@ -1,0 +1,8 @@
+﻿$group
+
+	artifact any_md
+		src ./**/*.md.ittf
+		schema md
+		generator md/document
+		extension md
+		$hook

@@ -1,0 +1,37 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "EditorShell",
+            props: [
+            ]
+        }
+
+    v08/ts/react/function${'('}md)
+        < StyledRoot
+            < StyledLogo
+                < AnimatedLogo 
+
+        ${'$'}append imports
+            import 
+                @ c
+                from '../ThemeProvider'
+            import 
+                @ AnimatedLogo 
+                from '../widgets/AnimatedLogo'
+
+        ${'$'}append styles
+            :interface RootStyleProps
+            :interface LogoStyleProps
+
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+                height 100%
+                width 100%
+                align-items center
+                justify-content center
+
+            styled StyledLogo .div<LogoStyleProps>
+                transform scale(0.4)
+                opacity 0.2

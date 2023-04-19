@@ -1,0 +1,72 @@
+{
+    $
+        var pluginBasename = "ts";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { Package
+        name "wizzi.plugin.ts"
+        description "Typescript language plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        {
+            name "useBabelParser"
+            value "true"
+        {
+            name "useBabelParserTypescript"
+            value "true"
+
+    [ Schemas
+        {
+            name "ts"
+            rootElement "xmodule"
+            rootTag "module"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            writeGenInfo true
+            multiLineCommentBegin "/*"
+            multiLineCommentEnd "*/"
+            hasWizzifier true
+            { wizzifier
+                [ parserImportCode
+                    "var ts_parser = require('@babel/parser')"
+                [ parserImportCode
+                    "var js_parser = require('@babel/parser')"
+                [ parserInvokeCode
+                    "var plugins"
+                    "if options.ts_or_flow === 'typescript'"
+                    "\tset plugins"
+                    "\t\t["
+                    "\t\t\t@ 'typescript'"
+                    "\t\t._ concat"
+                    "\t\t\t@ commonPlugins"
+                    "else"
+                    "\tset plugins"
+                    "\t\t["
+                    "\t\t@ 'flow'"
+                    "\t\t._ concat"
+                    "\t\t\t@ commonPlugins"
+                    "return"
+                    "\t_ parser.parse"
+                    "\t\t@ tobeWizzified"
+                    "\t\t{"
+                    "\t\t@ sourceType 'module'"
+                    "\t\t@ plugins plugins"
+                useFormatAstMethods true
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "module"
+                    outmime "ts"
+                    contentType "text/typescript"
+                    isDefault true
+            [ fileExtensions
+                "ts"
+                "tsx"                    
+

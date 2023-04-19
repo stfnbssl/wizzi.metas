@@ -1,0 +1,64 @@
+$group
+    $file __dot__wizzi/${pkgPath}root/package.json.ittf.ittf
+        {
+            ${'$'}include cli/v08/package-info.json
+            ${'$'}include cli/v08/package-base.json
+
+    $file __dot__wizzi/${pkgPath}root/readme.md.ittf.ittf
+        md
+            ${'$'}include wz/v08/wizzi/plugin/root/readme.md
+
+    $file __dot__wizzi/${pkgPath}root/__dot__gitignore.text.ittf.ittf
+        text
+            ${'$'}include wz/v08/wizzi/plugin/root/gitignore.text
+
+    $file __dot__wizzi/${pkgPath}root/license.text.ittf.ittf
+        text
+            ${'$'}include wz/v08/wizzi/plugin/root/license.text
+
+    $file __dot__wizzi/${pkgPath}root/errors.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wz/v08/wizzi/plugin/root/errors.js
+
+    $file __dot__wizzi/${pkgPath}root/index.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wz/v08/wizzi/plugin/root/index.js
+
+    $if cliCtx.useLint
+        $file __dot__wizzi/${pkgPath}root/__dot__eslintignore.text.ittf.ittf
+            text
+                ${'$'}include wz/v08/eslint/eslintignore.text
+        $file __dot__wizzi/${pkgPath}root/__dot__eslintrc.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include cli/v08/eslintrc-base.js
+    
+    $if cliCtx.usePrettier
+        $file __dot__wizzi/${pkgPath}root/__dot__prettierignore.text.ittf.ittf
+            text
+                ${'$'}include wz/v08/prettier/prettierignore.text
+        $file __dot__wizzi/${pkgPath}root/__dot__prettierrc.json.ittf.ittf
+            {
+                ${'$'}include wz/v08/prettier/rc.json
+
+    $file __dot__wizzi/${pkgPath}root/t/model-factory.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/plugin/root/t/model-factory.js
+    
+    $file __dot__wizzi/${pkgPath}root/t/model-transformation.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/plugin/root/t/model-transformation.js
+    
+    $file __dot__wizzi/${pkgPath}root/t/artifact-generation.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/plugin/root/t/artifact-generation.js
+    
+    $file __dot__wizzi/${pkgPath}root/t/wizzification.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/plugin/root/t/wizzification.js            
+
+    $file __dot__wizzi/${pkgPath}root/t/schema-definition.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/plugin/root/t/schema-definition.js

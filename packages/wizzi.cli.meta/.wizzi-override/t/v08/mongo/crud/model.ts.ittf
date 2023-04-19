@@ -1,0 +1,70 @@
+$group
+    $params &md
+    import
+        @ Schema
+        @ Model
+        @ model
+        from "mongoose"
+    import
+        @ ModelBuilderType
+        from "../../app/types"
+    import
+        @ I${md.Name}Model
+        from "../types"
+    +
+    const ${md.Name}Schema
+        :ref Schema
+            :param
+                :ref I${md.Name}Model
+        =
+            new Schema
+                {
+                    $hook fields
+    +
+    $hook
+    +
+    export
+        :type ${md.Name}ModelType
+            :ref Model
+                :param
+                    :ref I${md.Name}Model
+        # mongoose models creation is centralized
+        # the mongodb service calls buildModel() when starting, after connection has been established
+        # controllers call Get${md.Name}Model() when initialized, after buildModel() has benn called
+    +
+    let ${md.Name}Model
+        :ref ${md.Name}ModelType
+    +
+    export
+        function Get${md.Name}Model
+            :return
+                :ref ${md.Name}ModelType
+            if !${md.Name}Model
+                set ${md.Name}Model
+                    _ model
+                        :param
+                            :ref I${md.Name}Model
+                        @ "${md.Name}"
+            return ${md.Name}Model
+    +
+    export
+        const ${md.Name}ModelBuilder
+            :ref ModelBuilderType
+            =
+                {
+                    @ buildModel
+                        =>
+                            param options
+                                :any
+                                :optional
+                            set ${md.Name}Model =
+                                _ model
+                                    :param
+                                        :ref I${md.Name}Model
+                                    @ "${md.Name}"
+                                    @ ${md.Name}Schema
+                    @ applyExtraSetup
+                        =>
+                            param options
+                                :any
+                                :optional

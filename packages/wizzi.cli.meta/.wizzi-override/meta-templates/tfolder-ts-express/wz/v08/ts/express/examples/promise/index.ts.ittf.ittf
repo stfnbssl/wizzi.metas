@@ -1,0 +1,21 @@
+$group
+    
+    import
+        @ ControllerType
+        from '../../features/app/types'
+    import
+        @ UsersController
+        from './routes/users'
+    import
+        @ ImgController
+        from './routes/img'
+    +
+    const examplePromiseControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new UsersController()
+                @ new ImgController()
+    export
+        @ examplePromiseControllers

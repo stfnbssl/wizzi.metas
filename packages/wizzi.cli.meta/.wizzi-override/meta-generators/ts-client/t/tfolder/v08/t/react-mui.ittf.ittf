@@ -1,0 +1,13 @@
+$group
+
+    $if cliCtx.useReact
+        
+        $if cliCtx.react.useMui                
+
+            $file __dot__wizzi/t/v08/react/mui/widget.tsx.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/ts/react/tfolder/mui/widget.tsx           
+
+            $file __dot__wizzi/t/v08/react/mui/mode-toggle.tsx.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/ts/react/tfolder/mui/mode-toggle.tsx           

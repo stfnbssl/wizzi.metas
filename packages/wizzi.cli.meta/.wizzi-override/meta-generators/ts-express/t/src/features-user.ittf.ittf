@@ -1,0 +1,43 @@
+$group
+    
+    $if cliCtx.useFeatureUser
+        
+        $file __dot__wizzi/${pkgPath}src/features/user/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/user/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/user/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/user/types.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/user/controllers/apiv1user.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/user/controllers/apiv1user.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/user/controllers/user.controller.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/user/controllers/user.controller.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/user/models/user.mongodb.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/user/models/user.mongodb.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/user/middlewares/user.middleware.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/user/middlewares/user.middleware.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/user/api/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/user/api/index.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/user/api/user.service.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/user/api/user.service.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/user/api/user.dao.ts.ittf.ittf    
+            module
+                $if cliCtx.featureUser.store == "mongoDb"
+                    ${'$'}include wz/v08/ts/express/features/user/api/user.dao.mongodb.ts
+                $if cliCtx.featureUser.store == "sequelize"
+                    ${'$'}include wz/v08/ts/express/features/user/api/user.dao.sequelize.ts
+

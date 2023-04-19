@@ -1,0 +1,37 @@
+$group
+
+    import 
+        as React
+        from "react"
+    export 
+        const ${'$'}{md.name}
+            => 
+                { 
+                    @ height
+                        = 24
+                    @ width
+                        = 24
+                    @ theme
+                        = "light"
+                    @ ...props
+                    :intersect 
+                        :ref React.SVGProps
+                            :param 
+                                :ref SVGSVGElement
+                        :{ 
+                            :p theme
+                                :optional 
+                                :string 
+                const fill = theme == 'light' ? '#ffffff' : '#000000'
+                const stroke = theme == 'light' ? '#000000' : '#ffffff'
+                function r
+                    param v
+                    return v * (height + width) / 200 
+                return
+                    svg 
+                        @ xmlns "http://www.w3.org/2000/svg"
+                        @ width {width + 'px'}
+                        @ height {height + 'px'}
+                        @ viewBox {'0 0 ' + width + ' ' + height}
+                        @ {...props}
+                        ${'$'}hook

@@ -1,0 +1,18 @@
+$group
+    
+    $if cliCtx.useAzure
+
+        $file __dot__wizzi/__dot__github/workflows/devops-starter-workflow.yaml.ittf.ittf
+            yaml
+                ${"${'$'}"}
+                    var md = {};
+                
+                ${'$'}include wz/v08/azure/github/devops-starter-workflow.yaml
+
+
+        $file __dot__wizzi/armTemplates/windows-webapp-template.json.ittf.ittf
+            {
+                ${"${'$'}"}
+                    var md = {};
+                
+                ${'$'}include wz/v08/azure/arm/windows.webapp.template.json

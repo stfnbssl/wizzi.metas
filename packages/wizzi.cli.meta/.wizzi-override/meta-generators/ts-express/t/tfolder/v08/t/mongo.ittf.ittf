@@ -1,0 +1,32 @@
+$group
+    $if true $$ (allow later mongo to be included) cliCtx.useMongoDb
+        $file __dot__wizzi/t/v08/mongo/crud/get_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/crud/get_api.ts
+        $file __dot__wizzi/t/v08/mongo/crud/get_list_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/crud/get_list_api.ts
+        $file __dot__wizzi/t/v08/mongo/crud/create_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/crud/create_api.ts
+        $file __dot__wizzi/t/v08/mongo/crud/update_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/crud/update_api.ts
+        $file __dot__wizzi/t/v08/mongo/crud/delete_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/crud/delete_api.ts
+        $file __dot__wizzi/t/v08/mongo/crud/model.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/crud/model.ts
+        $file __dot__wizzi/t/v08/mongo/crud/modeltype.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/crud/modeltype.ts
+        $file __dot__wizzi/t/v08/mongo/model.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/model.ts
+        $file __dot__wizzi/t/v08/mongo/modelcontroller.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/modelcontroller.ts
+        $file __dot__wizzi/t/v08/mongo/type.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/mongo/type.ts      

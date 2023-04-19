@@ -1,0 +1,41 @@
+$group
+
+    const ModeToggle
+        =>
+            const
+                {
+                    @ mode
+                    @ setMode
+                = useColorScheme()
+            const [mounted, setMounted] = React.useState(false)
+                # necessary for server-side rendering
+                # because mode is undefined on the server
+            _ React.useEffect
+                =>
+                    _ setMounted(true)
+                [
+                # necessary for server-side rendering
+                # because mode is undefined on the server
+            if !mounted
+                return
+                    < IconButton 
+                        @ size "sm"
+                        @ variant "outlined"
+                        @ color "primary"
+            return
+                < IconButton 
+                    @ size "sm"
+                    @ variant "outlined"
+                    @ color "primary"
+                    @ onClick
+                        => 
+                            if mode === 'light'
+                                _ setMode('dark')
+                            else
+                                _ setMode('light')
+                    { 
+                        iif mode === 'light'
+                            then
+                                < DarkModeRoundedIcon 
+                            else
+                                < LightModeRoundedIcon 

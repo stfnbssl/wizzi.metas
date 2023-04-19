@@ -1,0 +1,17 @@
+$group
+    $params elname
+
+    $ var openPar = "(";
+    async-md${openPar} ${elname} )
+
+        sampleNode.js( ${elname} )
+        _ ctx.w('const ' + docxNode + ' = [];')
+        $hook
+        _ md.genItems
+            @ model.nodes
+            @ ctx
+            @ noindent
+            a_cb${openPar})
+                $hook close
+                _ ctx.values.docxStack.pop()
+                r_cb${openPar})

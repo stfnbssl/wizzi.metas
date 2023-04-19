@@ -1,0 +1,71 @@
+$group
+    +
+    m setCodeChangesDelay
+        param delay
+            :number 
+        if this.codeChangesDelay !== delay
+            set this.codeChangesDelay = delay
+            _ this._sendCodeChangesDebounced(this.state)
+        #
+            # 
+            # Sets the delay that is used before sending code updates to the connected clients.
+            # Use this method to set the "debounce" timeout to use for sending code changes
+            # over pubnub.
+            # 
+            # ```
+            #   -1 = Disable automatic sending of code changes (use `sendCodeChanges` to trigger the send)
+            #    0 = Code changes are sent immediately to the connected clients
+            # 1..n = Code changes are debounced and sent after the wait time
+            # ```
+            # 
+            # @param delay Timeout in milliseconds (or -1 to disable automatic code updates)
+            # 
+    +
+    m sendCodeChanges
+        _ this._sendCodeChangesDebounced(this.state, true)
+        #
+            # 
+            # Sends any pending code changes to the connected clients.
+            # No changes are send if all clients are already up to date.
+            # 
+    +
+    m _sendCodeChangesDebounced
+        :private 
+        param state
+            :ref PackiState
+        param immediate
+            :boolean 
+            :optional 
+        if this.codeChangesTimer
+            _ clearTimeout(this.codeChangesTimer)
+            set this.codeChangesTimer = undefined
+        if !immediate && this.codeChangesDelay > 0
+            set this.codeChangesTimer =
+                _ setTimeout
+                    => 
+                        _ this._sendCodeChangesDebounced(state, true)
+                    @ this.codeChangesDelay
+            return 
+        else
+            if !immediate && this.codeChangesDelay < 0
+                return 
+        ${'$'}if wzCtx.Build.useExpo
+            const 
+                { 
+                    @ transports
+                    @ files
+                        @ dependencies
+                        @ sdkVersion
+                = state
+            for 
+                left
+                    const key
+                in transports
+                _ transports[key].postMessage
+                    { 
+                        @ type 'update_code'
+                        { data
+                            @ files
+                            @ dependencies
+                            @ sdkVersion
+                # Send the changes

@@ -1,0 +1,29 @@
+$group
+    $if metaCtx.useWizzicommons
+        $
+            var items = [
+                "executegenerateModelDoms",
+                "executeWizziJob",
+                "fileInfoByPath",
+                "getIttfFilesBySchema",
+                "loadModelAndGenerateArtifact",
+                "loadModelAndGenerateArtifactFromText",
+                "loadModelAndTransform",
+                "loadMTree",
+                "loadMTreeBuildupScript",
+                "loadWizziModel",
+                "loadWizziModelAndSaveToJson"
+            ];
+
+        $foreach item in items
+            
+            $file __dot__wizzi/t/wizzicommons/opers/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wizzicommons/tfolder/opers/${item}.js
+
+
+        $file __dot__wizzi/t/wizzicommons/globals/defaultMimeTypes.js.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wizzicommons/tfolder/globals/defaultMimeTypes.js                    
+
+

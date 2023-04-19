@@ -1,0 +1,116 @@
+$group
+
+    import querystring from 'query-string'
+    :import-type 
+        @ RouterData
+        @ QueryParams
+        @ QueryStateParams
+        from '../features/packi/index'
+    export 
+        :type ReloadURLOptions
+            :{ 
+                :p noEmbedded
+                    :optional 
+                    :boolean 
+                :p useAllQueryParamsWhenPossible
+                    :optional 
+                    :boolean 
+    :declare 
+        const __INITIAL_DATA__
+            :{ 
+                :p data
+                    :ref RouterData
+                :p queryParams
+                    :ref QueryParams
+                :p splitTestSettings
+                    :any 
+    :type QueryStateParamKeys
+        :keyof 
+            :ref QueryStateParams
+    function pickQueryStateParams
+        param queryParams
+            :ref QueryParams
+        const res
+            :ref QueryStateParams
+            =
+                { 
+        for 
+            left
+                const key
+            in queryParams
+            const name
+                + key
+                    :as 
+                        :ref QueryStateParamKeys
+                #
+                    # eslint @typescript-eslint/switch-exhaustiveness-check: 1
+            switch name
+                case 'preview'
+                ${'$'}if wzCtx.Build.useExpo
+                    case 'platform'
+                case 'theme'
+                ${'$'}if wzCtx.Build.useExpo
+                    case 'supportedPlatforms'
+                    case 'appetizePayerCode'
+                case 'verbose'
+                case 'hideQueryParams'
+                    set res[name] =
+                        @expr queryParams[name]
+                            :as 
+                                :any 
+                    break 
+                #
+                    # eslint @typescript-eslint/switch-exhaustiveness-check: 1
+        return res
+    export 
+        function getReloadURL
+            param queryParams
+                :ref QueryParams
+                :optional 
+            param options
+                :ref ReloadURLOptions
+                :optional 
+            const 
+                { 
+                    @ origin
+                = window.location
+            let 
+                { 
+                    @ pathname
+                = window.location
+            const allQueryParams
+                :any 
+                =
+                    iif options?.useAllQueryParamsWhenPossible && (!pathname || pathname === '/' || pathname === '/embedded' || pathname === '/embedded/')
+                        then
+                            { 
+                                @ ...__INITIAL_DATA__.queryParams
+                        else pickQueryStateParams(__INITIAL_DATA__.queryParams)
+            if queryParams
+                for 
+                    left
+                        const [key, value]
+                    of Object.entries(queryParams)
+                    if value === undefined
+                        delete allQueryParams[key]
+                    else
+                        set allQueryParams[key] = value
+            if options?.noEmbedded
+                set pathname = pathname.replace('/embedded', '')
+            return 
+                `lit 
+                    + 
+                    @ origin
+                    + 
+                    @ pathname
+                    + ?
+                    _ querystring.stringify(allQueryParams)
+                    + 
+    export 
+        function reload
+            const url
+                _ getReloadURL
+                    @ undefined
+                    { 
+                        @ useAllQueryParamsWhenPossible true
+            _ window.location.replace(url)

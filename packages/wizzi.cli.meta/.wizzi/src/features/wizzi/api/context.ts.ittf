@@ -1,0 +1,166 @@
+module
+    $
+        var md = {
+            myname: 'features.wizzi.api.context'
+        }
+    import path from 'path'
+    import
+        @ file
+        from 'wizzi'
+    import
+        @ config
+        from '../../config'
+    import
+        as wizziProds
+        from '../productions'
+    $if wzCtx.Build.usePacki
+        import
+            @ packiTypes
+            from '../../packi'
+    import
+        @ ArtifactRequest
+        @ MetaContext
+        from '../types'
+    const myname = '${md.myname}';
+    export
+        async-function resolveContexts
+            param contextItems
+                :[
+                    :ref MetaContext
+            const promises: Promise<any>[] = []
+            _ contextItems.map
+                =>
+                    param contextItem
+                    _ promises.push
+                        new Promise
+                            =>
+                                param resolve
+                                param reject
+                                _ resolveContext
+                                    @ contextItem
+                                    ._ then
+                                        =>
+                                            param context
+                                                :any
+                                            _ resolve
+                                                {
+                                                    @ name contextItem.name
+                                                    @ value context
+                                    v08/ts/catch_reject( ${md.myname}.resolveContexts.resolveContext )
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ Promise.all
+                            @ promises
+                            ._ then
+                                =>
+                                    param items
+                                    var context: any = {}
+                                    _ items.map
+                                        =>
+                                            param value
+                                                :any
+                                            if value.name && value.name.length > 0
+                                                set context[value.name] = value.value
+                                            else
+                                                set context
+                                                    _ Object.assign
+                                                        {
+                                                        @ context
+                                                        @ value.value
+                                    _ resolve
+                                        @ context
+                            v08/ts/catch_reject( ${md.myname}.resolveContexts.Promise.all )
+    function resolveContext
+        param contextItem
+            :ref MetaContext
+        if contextItem.source == 'json-fsIttf'
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        # TODO check contextItem.path.endsWith('.json.ittf')
+                        _ wizziProds.generateArtifactFs
+                            _ path.join
+                                @ config.ittfPath
+                                @ contextItem.path as string
+                            ._ then
+                                =>
+                                    param value
+                                        :any
+                                    _ resolve(value)
+                            v08/ts/catch_reject( ${md.myname}.resolveContext.wizziProds.generateArtifactFs )
+        $if wzCtx.Build.usePacki
+            elif contextItem.source == 'json-packiIttf'
+                return
+                    new Promise
+                        =>
+                            param resolve
+                            param reject
+                            _ wizziProds.generateArtifact
+                                @ contextItem.mainIttf as string
+                                @ contextItem.packiFiles as packiTypes.PackiFiles
+                                ._ then
+                                    =>
+                                        param value
+                                            :any
+                                        _ resolve(value)
+                                v08/ts/catch_reject( ${md.myname}.resolveContext.wizziProds.generateArtifact )
+        elif contextItem.source == 'json-dbIttf'
+            throw new Error('ContextItem source not yet implemented: ' + contextItem.source)
+        elif contextItem.source == 'json-fsFile'
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        const json
+                            _ file.readJSON
+                                @ contextItem.path as string
+                        _ resolve(json)
+        elif contextItem.source == 'json-value'
+            return
+                new Promise
+                    =>
+                        param resolve
+                        _ resolve(contextItem.value)
+        elif contextItem.source == 'model-fsIttf'
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ wizziProds.loadModelFs
+                            _ path.join
+                                @ config.ittfPath
+                                @ contextItem.path as string
+                            {
+                            ._ then
+                                =>
+                                    param value
+                                        :any
+                                    _ resolve(value)
+                            v08/ts/catch_reject( ${md.myname}.resolveContext.wizziProds.loadModelFs )
+        $if wzCtx.Build.usePacki
+            elif contextItem.source == 'model-packiIttf'
+                return
+                    new Promise
+                        =>
+                            param resolve
+                            param reject
+                            _ wizziProds.loadModel
+                                @ contextItem.mainIttf as string
+                                @ contextItem.packiFiles as packiTypes.PackiFiles
+                                ._ then
+                                    =>
+                                        param value
+                                            :any
+                                        _ resolve(value)
+                                v08/ts/catch_reject( ${md.myname}.resolveContext.wizziProds.loadModel )
+        elif contextItem.source == 'model-dbIttf'
+            throw new Error('ContextItem source not yet implemented: ' + contextItem.source)
+        else
+            throw new Error('Invalid contextItem source: ' + contextItem.source)

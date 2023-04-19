@@ -1,0 +1,28 @@
+$group
+
+    ${'$'}
+        var md = {
+            name: 'AddIcon'
+        }
+    
+    dark-light-icon${'('}&md)
+        polyline
+            stroke {stroke}
+            fill {fill}
+            @ strokeWidth 2
+            points {r(48) + ' ' + r(2) + ' ' + 
+                \b r(52) + ' ' + r(2) + ' ' + 
+                \b r(52) + ' ' + r(96) + ' ' + 
+                \b r(48) + ' ' + r(96) + ' ' + 
+                \b r(48) + ' ' + r(2)}
+
+        polyline
+            stroke {stroke}
+            fill {fill}
+            @ strokeWidth 2
+            points {r(2)  + ' ' +  r(48) + ' ' + 
+                \b r(2)  + ' ' +  r(52)  + ' ' + 
+                \b r(96)  + ' ' +  r(52) + ' ' + 
+                \b r(96)  + ' ' +  r(48) + ' ' + 
+                \b r(2)  + ' ' +  r(48)}
+

@@ -1,0 +1,29 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}ittf/css/main.css.ittf.ittf
+        css
+            ${'$'}include wz/v08/css/main.css
+    $file __dot__wizzi/${pkgPath}ittf/css/cheatsheet.css.ittf.ittf
+        css
+            ${'$'}include wz/v08/css/cheatsheet.css
+    $file __dot__wizzi/${pkgPath}ittf/css/t/colors.css.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/css/tfolder/colors.css
+    $file __dot__wizzi/${pkgPath}ittf/css/t/form.css.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/css/tfolder/form.css
+    $file __dot__wizzi/${pkgPath}ittf/css/t/icons.css.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/css/tfolder/icons.css
+    $file __dot__wizzi/${pkgPath}ittf/css/t/layout.css.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/css/tfolder/layout.css
+    $file __dot__wizzi/${pkgPath}ittf/css/t/mc.css.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/css/tfolder/mc.css
+    $file __dot__wizzi/${pkgPath}ittf/css/t/prettyprint.css.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/css/tfolder/prettyprint.css
+    $file __dot__wizzi/${pkgPath}ittf/css/t/tn.css.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/css/tfolder/tn.css

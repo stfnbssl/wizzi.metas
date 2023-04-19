@@ -1,0 +1,19 @@
+module
+    $
+        var md = {
+            Name: 'PackageProduction'
+        }
+    v08/mongo/crud/model(&md)
+        $append fields
+            @ owner String
+            @ name String
+            @ description String
+            @ packiFiles String
+            @ created_at Date
+            @ updated_at Date
+        _ PackageProductionSchema.index
+            {
+                @ owner 1
+                @ name 1
+            {
+                @ unique true

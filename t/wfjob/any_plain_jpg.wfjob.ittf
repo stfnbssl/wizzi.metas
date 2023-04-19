@@ -1,0 +1,5 @@
+﻿$group
+
+	artifact any_plain_jpg
+		src ./**/*.jpg
+		extension jpg

@@ -1,0 +1,58 @@
+$group
+    $params &md
+    +
+    export
+        async-function get${md.Name}List
+            param options
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref CRUDResult
+            set options = options || {}
+            +
+            #
+                _ console.log
+                    @ myname
+                    @ 'get${md.Name}List'
+                    @ 'options'
+                    @ options
+            +
+            const ${md.Name} = Get${md.Name}Model()
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        const query = ${md.Name}.find(options.query);
+                        if options.limit
+                            _ query.limit(options.limit);
+                        if options.sort
+                            _ query.sort(options.sort);
+                        _ query.find
+                            =>
+                                param err
+                                    :any
+                                param result
+                                    :any
+                                if err
+                                    error myname, 'get${md.Name}List', '${md.Name}.find', 'error', err
+                                    return reject(err)
+                                const resultItem = []
+                                foreach item in result
+                                    const item_obj
+                                        {
+                                            @ _id item._id
+                                            @ id item.id
+                                            $foreach item in md.fields
+                                                @ ${item.name} item.${item.name}
+                                    _ resultItem.push
+                                        @ item_obj
+                                _ resolve
+                                    {
+                                        @ oper 'get${md.Name}List'
+                                        @ ok true
+                                        @ item resultItem

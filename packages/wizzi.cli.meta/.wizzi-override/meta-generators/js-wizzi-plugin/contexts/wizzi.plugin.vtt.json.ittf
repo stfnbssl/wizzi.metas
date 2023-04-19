@@ -1,0 +1,37 @@
+{
+    $
+        var pluginBasename = "vtt";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Video Text Tracks specification"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        $*
+        {
+            name "useGraphqlParser"
+            value "true"
+        *$
+
+    [ Schemas
+        {
+            name "${pluginBasename}"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "vtt"
+                    contentType "text/vtt"
+                    isDefault true
+            [ fileExtensions
+                "vtt"                    
+

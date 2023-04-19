@@ -1,0 +1,31 @@
+module
+    import 
+        @ StateType
+        @ ActionType
+        from 'typesafe-actions'
+    :declare 
+        :module 'ReduxAppTypes'
+            export 
+                :type Store
+                    :ref StateType
+                        :param 
+                            :typeof import('./index').default
+            export 
+                :type RootAction
+                    :ref ActionType
+                        :param 
+                            :typeof import('./root-action').default
+            export 
+                :type RootState
+                    :ref StateType
+                        :param 
+                            :ref ReturnType
+                                :param 
+                                    :typeof import('./root-reducer').default
+    :declare 
+        :module 'typesafe-actions'
+            :interface Types
+                :p RootAction
+                    :ref ActionType
+                        :param 
+                            :typeof import('./root-action').default

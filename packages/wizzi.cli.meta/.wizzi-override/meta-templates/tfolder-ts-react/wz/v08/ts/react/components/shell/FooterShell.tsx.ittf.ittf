@@ -1,0 +1,53 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FooterShell",
+            props: [
+                { name: "type", type: "union", types:[
+                        { name: 'loading', literal:true },
+                        { name: 'error', literal:true },
+                        { name: 'null' }
+                ], optional: true},
+                { name: "children", type: "node", optional: true }
+            ]
+        }
+
+    v08/ts/react/function${'('}&md)
+        < StyledRoot
+            @ type {type}
+            + {children}
+
+        ${'$'}append imports
+            import 
+                @ c
+                from '../ThemeProvider'
+
+        ${'$'}append styles
+            :interface StyledRootProps
+                :p type
+                    :union
+                        :literal 'loading'
+                        :literal 'error'
+                        :null
+                    :optional
+            
+            styled StyledRoot .div<StyledRootProps>
+                display flex
+                position relative
+                flex-direction row
+                align-items center
+                padding 0 .25em
+                border-top
+                    => "1px solid " + c('border')
+                background-color
+                    => props.type === 'error' ? c('error') 
+                        \b : props.type === 'loading' ? c('primary')
+                        \b : c('content')
+                color
+                    => props.type === 'error' ? c('error-text') 
+                        \b : props.type === 'loading' ? c('primary-text')
+                        \b : c('soft')
+                height 30px
+                z-index 10

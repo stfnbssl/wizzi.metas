@@ -1,0 +1,214 @@
+$group
+    $params &md
+    $
+        var ctrl = {
+            name: md.controllerName,
+            path: md.controllerPath,
+            modelName: md.Name
+        }
+    v08/ts/controller( &ctrl )
+        _ this.router.get('/', this.get${md.Names})
+        _ this.router.post('/', this.addNew${md.Name})
+        _ this.router.get('/:id', this.get${md.Name}ById)
+        $if md.fkey
+            _ this.router.get('/${md.fkey}/:${md.fkey}', this.get${md.Name}By_${md.fkey})
+        $foreach field in md.fields
+            $if field.unique
+                _ this.router.get('/${field.name}/:${field.name}', this.get${md.Name}By_${field.name})
+            $elif field.type == 'arrayRef'
+                _ this.router.post('/${field.path}/:id/:${field.path}', this.add_${field.path})
+                _ this.router.delete('/${field.path}/:id/:${field.path}', this.remove_${field.path})
+        $if md.indexes
+            $foreach index in md.indexes
+                $if index.fields.length > 1
+                    _ this.router.get
+                        `lit
+                            $foreach field in index.fields
+                                + /:${field.name}
+                        @ this.get${md.Name}By_${index.name}
+        _ this.router.put('/:id', this.update${md.Name})
+        _ this.router.delete('/:id', this.delete${md.Name})
+        $append imports
+            import
+                @ ${md.Name}ModelType
+                @ Get${md.Name}Model
+                from '../mongo/${md.name}'
+        $append handlers
+            v08/ts/handler( addNew${md.Name} )
+                let new${md.Name} = new this.${md.Name}Model(request.body)
+                _ new${md.Name}.save
+                    =>
+                        param err
+                        param ${md.name}
+                        if err
+                            _ sendFailure
+                                @ response
+                                @ err
+                                @ 501
+                        _ sendSuccess
+                            @ response
+                            {
+                                @ data ${md.name}
+            v08/ts/handler( get${md.Names} )
+                _ this.${md.Name}Model.find
+                    {
+                    =>
+                        param err
+                        param ${md.name}
+                        if err
+                            _ sendFailure
+                                @ response
+                                @ err
+                                @ 501
+                        _ sendSuccess
+                            @ response
+                            {
+                                @ data ${md.name}
+            v08/ts/handler( get${md.Name}ById )
+                _ this.${md.Name}Model.findById
+                    @ request.params.id
+                    =>
+                        param err
+                            :any
+                        param ${md.name}
+                            :ref I${md.Name}
+                        if err
+                            _ sendFailure
+                                @ response
+                                @ err
+                                @ 501
+                        _ sendSuccess
+                            @ response
+                            {
+                                @ data ${md.name}
+            $if md.fkey
+                v08/ts/handler( get${md.Name}By_${md.fkey} )
+                    _ this.${md.Name}Model.find
+                        {
+                            @ _id request.params.id
+                            @ ${md.fkey} request.params.${md.fkey}
+                        =>
+                            param err
+                            param ${md.name}
+                            if err
+                                _ sendFailure
+                                    @ response
+                                    @ err
+                                    @ 501
+                            _ sendSuccess
+                                @ response
+                                {
+                                    @ data ${md.name}
+            $foreach field in md.fields
+                $if field.unique
+                    v08/ts/handler( get${md.Name}By_${field.name} )
+                        _ this.${md.Name}Model.find
+                            {
+                                @ ${field.name} request.params.${field.name}
+                            =>
+                                param err
+                                param ${md.name}
+                                if err
+                                    _ sendFailure
+                                        @ response
+                                        @ err
+                                        @ 501
+                                _ sendSuccess
+                                    @ response
+                                    {
+                                        @ data ${md.name}
+                $elif field.type == 'arrayRef'
+                    v08/ts/handler( add_${field.path}
+                        _ this.${md.Name}Model.updateOne
+                            {
+                                @ _id request.params.id
+                                { $push
+                                    { ${field.name}
+                                        @ _id request.params.${field.path}
+                            =>
+                                param err
+                                    :any
+                                if err
+                                    _ sendFailure
+                                        @ response
+                                        @ err
+                                        @ 501
+                                _ sendSuccess
+                                    @ response
+                                    {
+                                        @ message 'Successfully added ${field.path} to ${md.Name}!'
+                    v08/ts/handler( remove_${field.path}
+                        _ this.${md.Name}Model.updateOne
+                            {
+                                @ _id request.params.id
+                                { $pull
+                                    { ${field.name}
+                                        @ _id request.params.${field.path}
+                            =>
+                                param err
+                                    :any
+                                if err
+                                    _ sendFailure
+                                        @ response
+                                        @ err
+                                        @ 501
+                                _ sendSuccess
+                                    @ response
+                                    {
+                                        @ message 'Successfully deleted ${field.path} from ${md.Name}!'
+            $if md.indexes
+                $foreach index in md.indexes
+                    $if index.fields.length > 1
+                        v08/ts/handler( get${md.Name}By_${index.name} )
+                            _ this.${md.Name}Model.find
+                                {
+                                    $foreach field in index.fields
+                                        @ ${field.name} request.params.${field.name}
+                                =>
+                                    param err
+                                    param ${md.name}
+                                    if err
+                                        _ sendFailure
+                                            @ response
+                                            @ err
+                                            @ 501
+                                    _ sendSuccess
+                                        @ response
+                                        {
+                                            @ data ${md.name}
+            v08/ts/handler( update${md.Name} )
+                # Note that update(), updateMany(), findOneAndUpdate(), etc. do not execute save() middleware.
+                # If you need save middleware and full validation, first query for the document and then save() it.
+                _ this.${md.Name}Model.findOneAndUpdate
+                    {
+                        @ _id request.params.id
+                    @ request.body
+                    {
+                        @ new true
+                    =>
+                        param err
+                        param ${md.name}
+                        if err
+                            _ sendFailure
+                                @ response
+                                @ err
+                                @ 501
+                        _ sendSuccess
+                            @ response
+                            {
+                                @ data ${md.name}
+            v08/ts/handler( delete${md.Name} )
+                _ this.${md.Name}Model.remove
+                    {
+                        @ _id request.params.id
+                    =>
+                        param err
+                        if err
+                            _ sendFailure
+                                @ response
+                                @ err
+                                @ 501
+                        _ sendSuccess
+                            @ response
+                            {
+                                @ message 'Successfully deleted ${md.name}!'

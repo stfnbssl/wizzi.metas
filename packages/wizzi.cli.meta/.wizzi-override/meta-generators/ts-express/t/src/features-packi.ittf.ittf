@@ -1,0 +1,8 @@
+$group
+    $if cliCtx.usePacki || cliCtx.useWizzi || cliCtx.useWizziJsonFactory
+        $file __dot__wizzi/${pkgPath}src/features/packi/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/packi/index.ts
+        $file __dot__wizzi/${pkgPath}src/features/packi/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/packi/types.ts

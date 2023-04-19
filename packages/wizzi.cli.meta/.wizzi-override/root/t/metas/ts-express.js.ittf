@@ -1,0 +1,52 @@
+$group
+
+    elif cmd == 'ts-express-studio'
+        _ createEx
+            {
+                @ metaGenerator 'ts-express'
+                @ context 'wizzi.studio'
+                @ pkgName 'wizzi.studio'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi.studio'
+    elif cmd == 'ts-express-demo-server'
+        _ createEx
+            {
+                @ metaGenerator 'ts-express'
+                @ context 'wizzi.demo.server'
+                @ pkgName 'wizzi.demo.server'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.demo/packages/wizzi.demo.server'
+    elif cmd == 'ts-express-hello'
+        _ createEx
+            {
+                @ metaGenerator 'ts-express'
+                @ context 'hello'
+                @ pkgName 'demo.ts.express.hello'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/demo.ts.express.hello'
+    elif cmd == 'ts-express-hello-rest'
+        _ createEx
+            {
+                @ metaGenerator 'ts-express'
+                @ context 'hello-rest'
+                @ pkgName 'demo.ts.express.hello.rest'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/demo.ts.express.hello.rest'
+    elif cmd == 'ts-express-sequelize'
+        _ createEx
+            {
+                @ metaGenerator 'ts-express'
+                @ context 'demo-sequelize'
+                @ pkgName 'demo.ts.express.sequelize'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/demo.ts.express.sequelize'
+    elif cmd == 'ts-express-wizzi-heroku'
+        _ createEx
+            {
+                @ metaGenerator 'ts-express'
+                @ context 'wizzi-heroku'
+                @ pkgName 'wizzi-heroku'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku'
+    elif cmd == 'ts-express-wizzi'
+        _ createEx
+            {
+                @ metaGenerator 'ts-express'
+                @ context 'wizzi'
+                @ pkgName 'demo.ts.express.wizzi'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/demo.ts.express.wizzi'
+

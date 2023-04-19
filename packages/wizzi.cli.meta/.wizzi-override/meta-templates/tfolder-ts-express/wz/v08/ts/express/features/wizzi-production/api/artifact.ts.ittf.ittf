@@ -1,0 +1,48 @@
+$group
+
+    ${'$'}
+        var md = {
+            Name: 'ArtifactProduction',
+            name: 'artifactProduction',
+            mongoName: 'artifact',
+            descr: 'artifact production',
+            prefix: 'ap',
+            query: [
+                { name: 'owner', type: 'string' },
+                { name: 'name', type: 'string' },
+            ],
+            fields: [
+                { name: 'owner', type: 'string' },
+                { name: 'name', type: 'string' },
+                { name: 'description', type: 'string' },
+                { name: 'mainIttf', type: 'string' },
+                { name: 'wizziSchema', type: 'string' },
+                { name: 'packiFiles', type: 'string' },
+            ],
+            created_at: true,
+            updated_at: true,
+            update_delete_by_id: true
+        }
+
+    import path from 'path'
+    imports_and_validate_api${'('}&md)
+    import
+        @ tFolderApi
+        from '../index'
+    import
+        @ ITFolderModel
+        from '../types'
+    v08/mongo/crud/get_list_api${'('}&md)
+    v08/mongo/crud/get_api${'('}&md)
+    get_object_api${'('}&md)
+    v08/mongo/crud/create_api${'('}&md)
+    v08/mongo/crud/update_api${'('}&md)
+    v08/mongo/crud/delete_api${'('}&md)
+    merge_files_api${'('}&md)
+    ${'$'}include artifact/cached_get_save
+    ${'$'}include artifact/get_context
+    ${'$'}include artifact/transformation
+    ${'$'}include artifact/generation
+    ${'$'}include artifact/mtree
+    ${'$'}include artifact/mtreeBuildupScript
+    ${'$'}include artifact/prepare

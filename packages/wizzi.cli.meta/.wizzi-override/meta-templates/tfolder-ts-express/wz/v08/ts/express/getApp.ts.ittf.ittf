@@ -1,0 +1,129 @@
+$group
+
+    ${'$'}
+        md.isGetApp = true;
+
+    app/appImports${'('}&md)
+    ${'$'}if wzCtx.Build.useNetlify
+        import serverless from 'serverless-http'
+        index/imports${'('}&md)
+    ${'$'}else
+        app/startImports${'('}&md)
+    +
+    ${'$'}include app/startServices
+    ${'$'}include app/getInitValues
+    ${'$'}include app/initializeApp
+
+    async-function getApp
+
+        const startedServices
+            await 
+                _ startServices
+                    @ config
+
+        const initValues
+            await 
+                _ getInitValues
+                    @ config
+                    @ startedServices
+
+        var app = express()
+        _ initializeApp
+            @ app
+            @ initValues
+        return app
+
+    set module.exports =
+        { 
+            @ getApp
+
+    $if false
+        module
+            kind react
+            var createError = require("http-errors")
+            var express = require("express")
+            var mongoose = require("mongoose")
+            var path = require("path")
+            var cookieParser = require("cookie-parser")
+            var logger = require("morgan")
+            const 
+                { 
+                    @ format
+                = require("date-fns")
+                # 1st party dependencies
+            var configData = require("./config/connection")
+                # 1st party dependencies
+            var indexRouter = require("./routes/index")
+            async-function getApp
+                var connectionInfo
+                    await 
+                        _ configData.getConnectionInfo()
+                    # Database
+                _ mongoose.connect(connectionInfo.DATABASE_URL)
+                var app = express()
+                var port = normalizePort(process.env.PORT || '3000')
+                _ app.set('port', port)
+                    # view engine setup
+                _ app.set("views", path.join(__dirname, "views"))
+                    # view engine setup
+                _ app.set("view engine", "pug")
+                _ app.use(logger("dev"))
+                _ app.use(express.json())
+                _ app.use
+                    _ express.urlencoded
+                        { 
+                            @ extended false
+                _ app.use(cookieParser())
+                _ app.use(express.static(path.join(__dirname, "public")))
+                set app.locals.format = format
+                _ app.use("/", indexRouter)
+                _ app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js"))
+                    # redirect bootstrap JS
+                _ app.use("/css", express.static(__dirname + "/node_modules/bootstrap/dist/css"))
+                    # redirect bootstrap JS
+                    # redirect CSS bootstrap
+                    # catch 404 and forward to error handler
+                _ app.use
+                    function 
+                        param req
+                        param res
+                        param next
+                        _ next(createError(404))
+                    # redirect CSS bootstrap
+                    # catch 404 and forward to error handler
+                    # error handler
+                _ app.use
+                    function 
+                        param err
+                        param req
+                        param res
+                        param next
+                        set res.locals.message = err.message
+                            # set locals, only providing error in development
+                        set res.locals.error =
+                            iif req.app.get("env") === "development"
+                                then err
+                                else
+                                    { 
+                            # render the error page
+                        _ res.status(err.status || 500)
+                            # render the error page
+                        _ res.render("error")
+                    # error handler
+                return app
+                #
+                    # *
+                    # * Normalize a port into a number, string, or false.
+                    # 
+            function normalizePort
+                param val
+                var port = parseInt(val, 10)
+                if isNaN(port)
+                    return val
+                if port >= 0
+                    return port
+                return false
+                #
+                    # *
+                    # * Normalize a port into a number, string, or false.
+                    # 

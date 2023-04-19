@@ -1,0 +1,84 @@
+﻿$group
+
+	var builder
+		{
+			@ create
+				function
+					param component
+					const { kind } = component
+					if kind === 'wrapper'
+						return WrapperPanel
+					elif kind === 'section'
+						return SectionPanel
+					elif kind === 'flex'
+						return FlexPanel
+					elif kind === 'side'
+						return SidePanel
+					elif kind === 'slide'
+						return SlidePanel
+					elif kind === 'info'
+						return InfoPanel
+					elif kind === 'infoLinks'
+						return InfoLinks
+					elif kind === 'menu'
+						return MenuBar
+					elif kind === 'toggler'
+						return Toggler
+					elif kind === 'link'
+						return Link
+					elif kind === 'p'
+						return Paragraph
+					elif kind === 'heading'
+						return Heading
+					else
+						throw Error('Builder.create error, unknown component kind: ' + kind)
+
+			@ setFlex
+				function
+					param style
+					param direction
+					return
+						_ Object.assign
+							@ style
+							{
+								@ display 'flex'
+								@ flexDirection direction
+								@ flexWrap 'wrap'
+								@ justifyContent 'space-between'
+			@ events makeEvents()
+
+	# FIXME fix iife
+	function makeEvents
+		var topics
+			{ 
+		var hOP = topics.hasOwnProperty
+		return 
+			{ 
+				@ subscribe
+					function 
+						param topic
+						param listener
+						if ! (hOP.call(topics, topic))
+							set topics[topic] = []
+						var index = (topics[topic].push(listener) - 1)
+						return 
+							{ 
+								@ remove
+									function 
+										set delete (topics[topic][index])
+				@ publish
+					function 
+						param topic
+						param info
+						if ! (hOP.call(topics, topic))
+							return 
+						_ topics[topic].forEach
+							function 
+								param item
+								_ item
+									iif info != undefined
+										then info
+										else 
+											{ 
+
+

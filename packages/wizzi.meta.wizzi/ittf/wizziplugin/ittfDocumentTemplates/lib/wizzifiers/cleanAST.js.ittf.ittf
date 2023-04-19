@@ -1,0 +1,25 @@
+$group
+	kind jsfile
+
+	var verify = require('wizzi-utils').verify
+
+	function cleanAst
+		param ast
+		delete ast.loc
+			
+		foreach k in Object.keys(ast)
+			if verify.isArray(ast[k])
+				# loog 'k', k
+				var temp = []
+				foreach node in ast[k]
+					if node.type === 'space'
+					else
+						_ cleanAst(node)
+						_ temp.push(node)
+				set ast[k] = temp
+			if verify.isObject(ast[k])
+				# loog 'k', k
+				_ cleanAst(ast[k])
+		return ast
+
+	set module.exports = cleanAst

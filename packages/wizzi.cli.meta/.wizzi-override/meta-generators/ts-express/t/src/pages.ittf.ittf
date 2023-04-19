@@ -1,0 +1,13 @@
+$group
+    
+    $if cliCtx.usePages
+        
+        $file __dot__wizzi/${pkgPath}src/pages/PageFormDocument.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/pages/PageFormDocument.tsx
+        $file __dot__wizzi/${pkgPath}src/pages/EditorDocument.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/pages/EditorDocument.tsx
+        $file __dot__wizzi/${pkgPath}src/pages/t/common.tsx.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/express/pages/tfolder/common.tsx

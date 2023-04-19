@@ -1,0 +1,118 @@
+$group
+    $file __dot__wizzi/t/v08/express/features/filesystem/types.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/filesystem/types.ts
+    $file __dot__wizzi/t/v08/express/features/filesystem/index.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/filesystem/index.ts
+    $file __dot__wizzi/t/v08/express/features/github/index.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/github/index.ts
+    $file __dot__wizzi/t/v08/express/features/github/types.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/github/types.ts
+    $*
+    $file __dot__wizzi/t/v08/express/features/github/apicalls.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/github/apicalls.ts
+    *$
+    $file __dot__wizzi/t/v08/express/features/github/utils.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/github/utils.ts
+    $file __dot__wizzi/t/v08/express/features/packi/index.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/index.ts
+    $file __dot__wizzi/t/v08/express/features/packi/types.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/types.ts
+    $file __dot__wizzi/t/v08/express/features/packi/controllers/productions.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/controllers/productions.ts
+    $*
+    $file __dot__wizzi/t/v08/express/features/packi/controllers/github.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/controllers/github.ts
+    $file __dot__wizzi/t/v08/express/features/packi/controllers/templates.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/controllers/templates.ts
+    $file __dot__wizzi/t/v08/express/features/packi/mongo/packi.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/mongo/packi.ts
+    
+    $file __dot__wizzi/t/v08/express/features/packi/mongo/user.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/mongo/user.ts
+    *$
+    $file __dot__wizzi/t/v08/express/features/repo/apicalls.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/repo/apicalls.ts
+    $file __dot__wizzi/t/v08/express/features/repo/types.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/repo/types.ts
+    $file __dot__wizzi/t/v08/express/features/repo/index.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/repo/index.ts
+    $file __dot__wizzi/t/v08/express/features/t/authHandler.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params name
+        
+            ${'$'}include wz/v08/ts/tfolder/authHandler.ts
+    $file __dot__wizzi/t/v08/express/features/t/catch_reject.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params method
+        
+            ${'$'}include wz/v08/ts/tfolder/catch_reject.ts
+    $file __dot__wizzi/t/v08/express/features/t/catch_fail.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params method
+        
+            ${'$'}include wz/v08/ts/tfolder/catch_fail.ts
+    $file __dot__wizzi/t/v08/express/features/t/controller.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &ctrl
+            wz/v08/ts/tfolder/controller.ts${'('}3)
+    $file __dot__wizzi/t/v08/express/features/t/handler.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params name
+        
+            ${'$'}include wz/v08/ts/tfolder/handler.ts
+        
+       
+    $file __dot__wizzi/t/v08/express/features/wizzi/controllers/t/productions/resolveContexts.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${"${'$'}"}params &md
+        
+            ${'$'}include wz/v08/ts/express/features/wizzi/controllers/t/productions/resolveContexts.ts
+        

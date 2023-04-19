@@ -1,0 +1,69 @@
+$group
+    import 
+        @ SnackTransport
+        @ SnackTransportOptions
+        @ SnackTransportMessage
+        @ SnackTransportListener
+        from 'snack-sdk'
+    export 
+        function createSnackWorkerTransport
+            param options
+                :ref SnackTransportOptions
+            let transport
+                :union 
+                    :ref SnackTransport
+                    :null 
+                = null
+            function getTransport
+                :return
+                    :ref SnackTransport
+                if !transport
+                    const worker
+                        new Worker
+                            @ '../workers/SnackTransport.worker'
+                            { 
+                                @ type 'module'
+                    _ worker.postMessage
+                        { 
+                            @ type 'init'
+                            @ data options
+                    set transport = worker
+                return transport
+            let transportListener
+                :union 
+                    :paren 
+                        :=> 
+                            :void 
+                            param event
+                                :any 
+                    :undefined 
+            return 
+                { 
+                    @ addEventListener
+                        => 
+                            param type
+                                :literal 'message'
+                            param listener
+                                :ref SnackTransportListener
+                            if !transportListener
+                                set transportListener =
+                                    => 
+                                        param event
+                                            :any 
+                                        const message = event.data
+                                        _ listener(message)
+                            _ getTransport().addEventListener(type, transportListener)
+                    @ removeEventListener
+                        => 
+                            param type
+                                :literal 'message'
+                            param _listener
+                                :ref SnackTransportListener
+                            if transportListener
+                                _ transport?.removeEventListener?.(type, transportListener)
+                                set transportListener = undefined
+                    @ postMessage
+                        => 
+                            param message
+                                :ref SnackTransportMessage
+                            _ getTransport().postMessage(message)

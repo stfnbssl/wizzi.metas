@@ -1,0 +1,8 @@
+﻿${'$'}group
+    ${'$'}params err|@@null
+	
+	return
+        ${'$'}if err == null
+		    _ callback(err)
+        ${'$'}else
+            _ callback(${'$'}{err})

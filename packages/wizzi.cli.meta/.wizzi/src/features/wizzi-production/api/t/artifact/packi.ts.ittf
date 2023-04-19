@@ -1,0 +1,49 @@
+$group
+    +
+    export
+        async-function getLastPackiActivity
+            param username
+            var query
+                {
+                    @ _id username
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ UserActivity.find
+                            @ query
+                            function
+                                param err
+                                param result
+                                if err
+                                    # loog 'getLastPackiActivity.UserActivity.find', 'error', err
+                                    return reject(err)
+                                if result.length == 1
+                                    const activity = result[0]._doc
+                                    if activity.openPackies.length > 0
+                                        _ getArtifactProductionObject
+                                            @ username
+                                            @ activity.openPackies[0]
+                                            ._ then
+                                                =>
+                                                    param packiItem
+                                                    _ resolve
+                                                        {
+                                                            @ found true
+                                                            @ _id packiItem._id
+                                                            @ owner packiItem.owner
+                                                            @ name packiItem.name
+                                                            @ selectedFile activity.openFiles[0]
+                                                            @ packiFiles packiItem.packiFiles
+                                                            @ mainIttf packiItem.mainIttf
+                                                            @ wizziSchema packiItem.wizziSchema
+                                            v08/ts/catch_reject( getLastPackiActivity.getArtifactProductionObject )
+                                    else
+                                        _ resolve
+                                            {
+                                                @ found false
+                                else
+                                    _ resolve
+                                        {
+                                            @ found false

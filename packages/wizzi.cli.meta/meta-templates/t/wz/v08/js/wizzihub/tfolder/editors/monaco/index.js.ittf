@@ -1,0 +1,9 @@
+$group
+  $include languages/ittf-language
+  $include themes/colors-dark
+  $include themes/colors-light
+  $include themes/ittf-dark-theme
+  $include themes/ittf-light-theme
+  $include themes/monaco-overrides
+  $include themes/monaco
+  $include monaco-editor

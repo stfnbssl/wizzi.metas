@@ -1,0 +1,10 @@
+$group
+
+    { outputs
+        $if cliCtx.useMongoDb
+            { azureCosmosDBAccountKeys
+                value "[listConnectionStrings(
+                    \ concat('Microsoft.DocumentDb/databaseAccounts/', parameters('databaseAccountId')), 
+                    \ '2015-04-08'
+                    \ )]"
+                type "object"

@@ -1,0 +1,69 @@
+$group
+	${'$'}params &md
+
+    $
+        var openPar = '(';
+        var call = '(&md)';
+
+	var path = require('path')
+	var fs = require('fs')
+    var async = require('async')
+	var wizzi = null
+    ${'$'}if wzCtx.Build.useWizziV08
+	    var wizziUtils = require('@wizzi/utils')
+        var mtree = require('@wizzi/mtree')
+    ${'$'}else
+	    var wizziUtils = require('wizzi-utils')
+        var mtree = require('wizzi-mtree')
+	var verify = wizziUtils.verify
+	var file = wizziUtils.file
+	var mocks = wizziUtils.mocks
+	
+	var errors = wizziUtils.exampleErrors
+	var stringify = require('json-stringify-safe')
+	${'$'}hook imports
+
+	function executeExample
+		${'$'}hook
+
+    function createWizziFactory
+        param globalContext
+        param callback
+
+        if wizzi == null
+            ${'$'}${'$'} Override this to use the version under development
+            ${'$'}virtual requireWizzi
+                # The wizzi package will be the npm version from wizzi/node_modules
+                ${'$'}if wzCtx.Build.useWizziV08
+                    set wizzi = require('@wizzi/factory')
+                ${'$'}else
+                    set wizzi = require('wizzi')
+        info '"wizzi" package version', wizzi.version
+        
+        _ wizzi.fsFactory
+            {
+                { plugins
+                    ${'$'}hook plugins
+                @ globalContext globalContext || {}
+            @ callback
+
+    ${'$'}include v08/wizzi/opers/loadMTree.js
+    ${'$'}include v08/wizzi/opers/loadMTreeBuildupScript.js
+    ${'$'}include v08/wizzi/opers/loadWizziModel.js
+    ${'$'}include v08/wizzi/opers/loadWizziModelAndSaveToJson.js
+    ${'$'}include v08/wizzi/opers/loadModelAndGenerateArtifact.js
+    ${'$'}include v08/wizzi/opers/loadModelAndGenerateArtifactFromText.js
+    ${'$'}include v08/wizzi/opers/loadModelAndTransform.js
+    ${'$'}include v08/wizzi/opers/executeWizziJob.js
+    ${'$'}include v08/wizzi/opers/executegenerateModelDoms.js
+    ${'$'}include v08/wizzi/opers/getIttfFilesBySchema.js
+    ${'$'}include v08/wizzi/opers/fileInfoByPath.js
+    ${'$'}include v08/wizzi/globals/defaultMimeTypes.js
+    function normalize
+        param filepath
+        return verify.replaceAll(filepath, '\\', '/')       
+
+	set module.exports = executeExample
+
+	if require.main === module
+		_ executeExample()

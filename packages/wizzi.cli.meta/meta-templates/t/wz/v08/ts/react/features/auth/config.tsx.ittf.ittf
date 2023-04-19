@@ -1,0 +1,7 @@
+$group
+    export 
+        function getAuthStorageKey
+            return 
+                iif process.env.DEPLOY_ENVIRONMENT === 'staging'
+                    then 'staging.expo.auth'
+                    else 'io.expo.auth'

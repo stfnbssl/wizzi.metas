@@ -1,0 +1,52 @@
+$group
+    ${'$'}params &md
+
+    import
+        as React
+        from 'react'
+    ${'$'}if md.useGlobalStyles
+        import 
+            @ GlobalStyles
+            from '@mui/system'
+    ${'$'}if md.compKind == 'system'
+        import
+            @ Box
+            @ Sheet
+            @ ThemeProvider
+            @ createTheme
+            from '@mui/system'
+    ${'$'}if md.compKind == 'joy'
+        import 
+            @ CssVarsProvider
+            ${'$'}if md.toggleDarkMode
+                @ useColorScheme
+            from '@mui/joy/styles'
+        ${'$'}if md.themeFile
+            :import-type 
+                @ Theme
+                from '@mui/joy/styles'
+        ${'$'}if md.toggleDarkMode        
+            import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded'
+            import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded'
+        ${'$'}if md.themeFile
+            import widgetTheme from '${"$"}{md.themeFile}'
+
+    ${'$'}hook imports
+
+    ${'$'}$if md.compKind == 'system'
+        const widgetTheme
+            _ createTheme
+                {
+                    $hook themeStyles
+
+    ${'$'}if md.toggleDarkMode
+        ${'$'}include v08/react/mui/mode-toggle
+
+    +
+    export
+        function ${"$"}{md.Name}
+            param props
+            ${'$'}hook
+
+    
+

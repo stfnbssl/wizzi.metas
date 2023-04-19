@@ -1,0 +1,11 @@
+$group
+
+    +
+    export 
+        const ${'$'}{name}
+            _ Template.bind
+                { 
+    +
+    set ${'$'}{name}.args
+        { 
+            ${'$'}hook

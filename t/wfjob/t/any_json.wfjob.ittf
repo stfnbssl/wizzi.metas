@@ -1,0 +1,8 @@
+﻿$group
+
+	artifact any_json
+		src ./**/*.json.ittf
+		schema json
+		generator json/document
+		extension json
+		$hook

@@ -1,0 +1,7 @@
+$group
+
+    $foreach prod in cliCtx.Productions
+        folderTemplates(&prod)
+
+    $foreach prod in cliCtx.Productions
+        ittfDocumentTemplates(&prod)

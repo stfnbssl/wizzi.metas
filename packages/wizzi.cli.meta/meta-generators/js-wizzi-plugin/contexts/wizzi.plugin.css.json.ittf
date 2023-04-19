@@ -1,0 +1,57 @@
+{
+    $
+        var pluginBasename = "css";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Css document"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        {
+            name "useCssParser"
+            value "true"
+        {
+            name "usePostCss"
+            value "true"
+    
+    [ Schemas
+        {
+            name "${pluginBasename}"
+            plugin_type "syntax_structure"
+            hasNamespaces false
+            hasTextContents false
+            multiLineCommentBegin "/*"
+            multiLineCommentEnd "*/"
+            hasWizzifier true
+            { wizzifier
+                [ parserImportCode
+                    "var ${pluginBasename}_parser = require('${pluginBasename}/language/parser')"
+                [ parserInvokeCode
+                    " _ ${pluginBasename}_parser.parse(tobeWizzified)"
+                useFormatAstMethods false
+            [ includes
+                {
+                    Name "Svg"
+                    name "svg"
+                    artifactName "svg/document"
+                    [ options
+                    [ items
+                        {
+                            name "svg"
+                            parent "element"
+                            tag "::svg"
+                            root "svg"
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "${pluginBasename}"
+                    contentType "text/css"
+                    isDefault true
+            [ fileExtensions
+                "css"

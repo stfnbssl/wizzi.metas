@@ -1,0 +1,10 @@
+$group
+    
+    $if cliCtx.useWizziDocs
+        
+        $file __dot__wizzi/${pkgPath}src/site/controllers/docs.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/site/controllers/wizzi/docs.ts
+        $file __dot__wizzi/${pkgPath}src/site/views/wizzi/docs/cheatsheet.html.ittf.ittf
+            html
+                ${'$'}include wz/v08/html/views/wizzi/docs/cheatsheet.html

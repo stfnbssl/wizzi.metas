@@ -1,0 +1,8 @@
+﻿$group
+
+	artifact any_js
+		src ./**/*.js.ittf
+		schema js
+		generator js/module
+		extension js
+		$hook

@@ -1,0 +1,10 @@
+﻿$group
+	$params spaittfuri
+
+	artifact spa babelrc
+		src ${spaittfuri}
+		schema spa
+		generator spa/babelrc
+		dest-path .babelrc
+		extension babelrc
+

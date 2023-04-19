@@ -1,0 +1,40 @@
+﻿$group
+    $params &jobCtx
+
+	line ittf-root
+		cwd-folder ${jobCtx.ittf_root_folder}
+		dest-folder ${jobCtx.dest_folder}
+
+		any_js()
+			ignore ${jobCtx.ittf_root_folder}/**/*__copy/**/*.js.ittf
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+        any_json()
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+		any_md()
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+		any_text()
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+		artifact .gitignore
+			src .gitignore.text.ittf
+			schema text
+			generator text/document
+			dest-path .gitignore
+			extension gitignore
+
+		any_plain(ps1)
+
+		any_plain_d_ts()
+
+		artifact any_ittf_inside___copy
+			src ${jobCtx.ittf_root_folder}/**/*__copy/**/*.ittf
+			extension ittf
+
+        $hook

@@ -1,0 +1,10 @@
+$group
+    $params method
+    ._ catch
+        =>
+            param err
+                :any
+            if typeof err === 'object' && err !== null
+                $hook
+            error '${method}.error', err
+            return reject(err)

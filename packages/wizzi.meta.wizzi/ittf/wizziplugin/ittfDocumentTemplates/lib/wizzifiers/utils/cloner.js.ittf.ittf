@@ -1,0 +1,31 @@
+$group
+	kind jsfile
+    
+	var verify = require('wizzi-utils').verify
+    
+	function clone
+		param obj
+        if verify.isArray(obj)
+            var ret
+                [ 
+            foreach item in obj
+                var value
+                    _ clone
+                        @ item
+                if value !== null
+                    _ ret.push(value)
+            return ret
+        elif verify.isObject(obj)
+            var ret
+                { 
+            for var prop in obj
+                if obj.hasOwnProperty(prop)
+                    set ret[prop] = clone(obj[prop])
+            return ret
+        else 
+            return obj
+    
+	set module.exports
+        function 
+            param ast
+			return clone(ast)

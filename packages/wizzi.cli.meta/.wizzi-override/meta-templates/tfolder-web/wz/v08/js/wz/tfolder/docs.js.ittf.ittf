@@ -1,0 +1,75 @@
+$group
+
+	iife
+		
+		if !window.wz
+			set window.wz = {}
+
+        if !window.wz.docs
+            set window.wz.docs
+                {
+                    @ apiUrl "${'$'}{wzCtx.App.baseUrl}/api/v1/docs"
+                    @ webUrl "${'$'}{wzCtx.App.baseUrl}"
+
+		set wz.initDocs
+			function
+                param options
+                set wz.docs
+                    _ Object.assign
+                        {
+                        @ wz.docs
+                        @ options
+
+        set wz.docs.getCheatsheet
+            function
+                param name
+                param callback
+                # loog 'wz.docs.getCheatsheet', name
+                _ wz.fetch.get
+                    `lit 
+                        + 
+                        @ wz.docs.apiUrl
+                        + /cheatsheet/
+                        @ name
+                    @ callback
+                    
+        set wz.docs.createCheatsheet
+            function
+                param name
+                param mainIttf
+				param packiFiles
+				param callback
+
+                # loog 'wz.docs.createItem.mainIttf', mainIttf
+                # loog 'wz.docs.createItem.packiFiles', packiFiles
+
+                _ wz.fetch.post
+                    @ wz.docs.apiUrl + '/cheatsheet/:name'
+                    [
+                        {
+                            @ type 'url'
+                            @ name 'name'
+                            @ value name
+                    {
+                        @ mainIttf
+                        @ packiFiles
+                    @ callback
+        
+        set wz.docs.updateCheatsheet
+            function
+                param name
+                param mainIttf
+				param packiFiles
+				param callback
+
+                _ wz.fetch.put
+                    @ wz.docs.apiUrl + '/cheatsheet/:name'
+                    [
+                        {
+                            @ type 'url'
+                            @ name 'name'
+                            @ value name
+                    {
+                        @ mainIttf
+                        @ packiFiles
+                    @ callback

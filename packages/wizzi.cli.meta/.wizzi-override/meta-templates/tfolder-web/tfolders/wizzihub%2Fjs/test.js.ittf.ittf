@@ -1,0 +1,8 @@
+module
+  kind es6
+  ${'$'}${'$'} ${'$'}include utils/index
+  ${'$'}${'$'} ${'$'}include mvc/index
+  ${'$'}include api/index
+  ${'$'}${'$'} ${'$'}include editors/index
+  ${'$'}${'$'} ${'$'}include styles/index
+  ${'$'}${'$'} ${'$'}include controls/index

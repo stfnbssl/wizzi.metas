@@ -1,0 +1,78 @@
+$group
+
+    +
+    export
+        async-function getUserActivity
+            param id
+            var query
+                { 
+                    @ _id id
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ UserActivity.find
+                            @ query
+                            function 
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                if result.length == 1
+                                    return resolve(result[0]._doc)
+                                return reject(result)
+    +
+    export
+        async-function saveUserActivity
+            param id
+            param items
+            var query
+                { 
+                    @ _id id
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ UserActivity.find
+                            @ query
+                            function 
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                const saveItem
+                                    iif result.length == 1
+                                        then result[0]._doc
+                                        else
+                                            { 
+                                                @ _id id
+                                                @ openPackies []
+                                                @ openFiles []
+                                if items.openPacki
+                                    _ saveItem.openPackies.unshift(items.openPacki)
+                                    if saveItem.openPackies.length > 10
+                                        _ saveItem.openPackies.splice(10)
+                                if items.openFile
+                                    _ saveItem.openFiles.unshift(items.openFile)
+                                    if saveItem.openFiles.length > 20
+                                        _ saveItem.openFiles.splice(20)
+                                _ UserActivity.findOneAndUpdate
+                                    @ query
+                                    @ saveItem
+                                    { 
+                                        @ upsert true
+                                        @ new true
+                                    function 
+                                        param err
+                                        param doc
+                                        if err
+                                            _ console.log('saveUserActivity err', err)
+                                            return reject(err)
+                                        return 
+                                            _ resolve
+                                                { 
+                                                    @ upserted true
+                                                    @ message 'useractivity'
+                                                    @ doc doc._doc

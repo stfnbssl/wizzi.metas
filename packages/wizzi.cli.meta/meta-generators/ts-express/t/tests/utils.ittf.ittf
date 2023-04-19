@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            'fetchApi',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}tests/utils/${item}.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/tests/utils/${item}.ts
+    

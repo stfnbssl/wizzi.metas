@@ -1,0 +1,124 @@
+module
+    $
+        var ctrl = {
+            name: 'TFolder',
+            path: '/tfolder',
+            webSecured: true,
+        }
+    
+    v08/ts/controller( &ctrl )
+            
+        $append imports
+            import ReactDOMServer 
+                from 'react-dom/server'
+            import PageFormDocument 
+                from '../../../pages/PageFormDocument' 
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ createTFolder
+                @ updateTFolder
+                @ deleteTFolder
+                @ getTFolderObject
+                @ getTFolderObjectById
+                from '../api/tfolder'
+            import
+                @ mergePackiFiles
+                from '../utils'
+            +
+            const myname = 'features/production/controllers/tfolder'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument 
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+            
+            $include defaults/tfolder_packifiles
+
+        v08/ts/route_web_secured(get, /new, this.getNewTFolderForm)
+        v08/ts/route_web_secured(post, /new, this.postTFolder)
+        v08/ts/route_web_secured(get, /update/:id, this.getUpdateTFolderForm)
+        v08/ts/route_web_secured(post, /update, this.putTFolder)
+        v08/ts/route_web_secured(get, /delete/:id, this.getDeleteTFolderForm)
+        v08/ts/route_web_secured(post, /delete, this.deleteTFolder)
+        
+        $append handlers
+            
+            v08/ts/handler( getNewTFolderForm )
+                $$ loog myname, 'getNewTFolderForm', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreateTFolder'
+                        { formData 
+                            @ owner (request.session as any).user.username
+                    {
+
+            v08/ts/handler( postTFolder )
+                $$ loog myname + '.postNewTFolder.request.body', JSON.stringify(request.body, null, 2)
+                $$ loog myname + '.postNewTFolder.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                # TODO create from meta
+                _ createTFolder
+                    @ (request.session as any).user.username
+                    @ request.body.tf_name
+                    @ request.body.tf_description
+                    _ JSON.stringify
+                        _ getPackiFiles
+                        $*
+                        _ mergePackiFiles
+                            @ packiFiles
+                            _ getPackiFiles
+                        *$
+                    ._ then
+                        =>
+                            param result
+                                :ref CRUDResult
+                            $$ loog myname + '.postNewTFolder.createTFolder.result', JSON.stringify(result, null, 2)
+                            if result.ok
+                                _ response.redirect('/productions/tfolders')
+                            else
+                                _ response.render
+                                    @ 'error.html.ittf'
+                                    {
+                                        @ message 'creating a new tfolder'
+                                        @ error result
+                    ._ catch
+                        =>
+                            param err
+                                :any
+                            _ response.render
+                                @ 'error.html.ittf'
+                                {
+                                    @ message 'creating a new tfolder'
+                                    @ error err
+
+            v08/ts/handler( getUpdateTFolderForm )
+                update_get_form( tFolder )
+
+            v08/ts/handler( putTFolder )
+                update_put( tFolder )
+
+            v08/ts/handler( getDeleteTFolderForm )
+                delete_get_form( tFolder )
+
+            v08/ts/handler( deleteTFolder )
+                delete_delete( tFolder )

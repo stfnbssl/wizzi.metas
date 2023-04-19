@@ -1,0 +1,77 @@
+$group
+
+    $ 
+        var call = '(&md)';
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "ModalSheet",
+            props: [
+                { name: "visible", type: "boolean" },
+                { name: "className", type: "string", optional: true },
+                { name: "onDismiss", type: "handler", optional:true },
+                { name: "children", type: "node" }
+            ]
+        }
+
+    v08/ts/react/function${'('}md)
+        ${'$'}append imports
+            import 
+                @ ThemeProvider
+                @ c
+                @ s
+                from '../ThemeProvider'
+            import Modal
+                from './Modal'
+        
+        ${'$'}append styles
+            styled StyledThemeProvider (ThemeProvider)
+                display flex
+                flex-direction column
+                position relative
+                text-align center
+                border-radius 4px
+                box-shadow
+                    => s('popover')
+                background-color
+                    => c('content')
+                color
+                    => c('text')
+
+            styled StyledClose .button
+                appearance none
+                border-radius 1em
+                outline 0
+                padding 0
+                position absolute
+                right -1em
+                top -1em
+                width 2em
+                height 2em
+                background
+                    => c('text')
+                border
+                    => "2px solid " + c('content')
+                box-shadow 0 1.5px 3px rgba(0, 0, 0, .16)
+                color
+                    => c('content')
+                font-size 1em
+                font-weight bold
+                text-align center
+
+        < Modal 
+            @ visible {visible}
+            @ onDismiss {onDismiss}
+            < StyledThemeProvider 
+                @ className {className}
+                { 
+                    iif onDismiss
+                        then
+                            < StyledClose 
+                                @ onClick {onDismiss}
+                                @ data-test-id "modal-close"
+                                + ✕
+                        else null
+                + {children}
+

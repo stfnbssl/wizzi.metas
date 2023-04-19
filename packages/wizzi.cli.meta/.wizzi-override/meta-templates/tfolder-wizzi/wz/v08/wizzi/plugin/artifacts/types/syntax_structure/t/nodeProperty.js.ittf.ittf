@@ -1,0 +1,12 @@
+$group
+    $params elname, prop, type|num
+
+    $
+        var quote = type == 'string' ? '"' : '';
+        var value = type == 'true' ? 'true' : 'model.wzName';
+        var openPar = "(";
+    
+    async-md${openPar} ${elname} )
+        var docxParent = ctx.values.docxStack[ctx.values.docxStack.length-1]
+        _ ctx.w(docxParent + '.${prop} = ${quote}' + ${value} + '${quote};')
+        r_cb${openPar})

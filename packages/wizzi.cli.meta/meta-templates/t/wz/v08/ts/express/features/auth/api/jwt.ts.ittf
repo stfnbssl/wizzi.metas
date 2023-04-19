@@ -1,0 +1,46 @@
+$group
+    
+    import express from 'express'
+    import debug from 'debug'
+    import jwt from 'jsonwebtoken'
+    import crypto from 'crypto'
+    +
+    const log
+        :ref debug.IDebugger
+        = debug('features.auth.api:jwt')
+        # @ts-expect-error
+    const jwtSecret
+        :string 
+        = process.env.JWT_SECRET
+        # @ts-expect-error
+    const tokenExpirationInSeconds = 36000
+    +
+    class Jwt
+        m createJWT
+            async
+            param req
+                :ref express.Request
+            param res
+                :ref express.Response
+            try 
+                const refreshId = req.body.userId + jwtSecret
+                const salt = crypto.createSecretKey(crypto.randomBytes(16))
+                # Modified 9/3/23 from salt to salt.export()
+                const hash = crypto.createHmac('sha512', salt.export()).update(refreshId).digest('base64')
+                set req.body.refreshKey = salt.export()
+                const token
+                    _ jwt.sign
+                        @expr req.body
+                        @ jwtSecret
+                        { 
+                            @ expiresIn tokenExpirationInSeconds
+                return 
+                    _ res.status(201).send
+                        { 
+                            @ accessToken token
+                            @ refreshToken hash
+            catch err
+                _ log('createJWT error: %O', err)
+                return res.status(500).send()
+    #
+    export-default new Jwt()

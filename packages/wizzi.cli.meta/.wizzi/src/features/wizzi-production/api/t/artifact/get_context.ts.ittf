@@ -1,0 +1,138 @@
+$group
+    +
+    export
+        async-function getDefaultContext_withCache
+            param owner
+                :string
+            param sysContext
+                :any
+                :optional
+            set sysContext = sysContext || {}
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ getArtifactContextItem
+                            @ owner
+                            @ 'wzCtx;wzctx'
+                            {
+                            ._ then
+                                =>
+                                    param resultItemContext
+                                        :any
+                                    const defaultContext
+                                        _ Object.assign
+                                            {
+                                            @ sysContext
+                                            @ resultItemContext
+                                    _ resolve(defaultContext)
+                            v08/ts/catch_reject( getDefaultContext_withCache.getArtifactContextItem )
+    +
+    export
+        async-function getArtifactContext
+            param owner
+                :string
+            param queryContextString
+                :string
+            param sysContext
+                :any
+                :optional
+            #
+                # sample queryContextString: "wzCtx;wzctx.json|db;item.db.json"
+                # context property 'wzCtx' from json document 'wzctx.json'
+                # context property 'db' from json document 'item.db.json'
+            set sysContext = sysContext || {}
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        if queryContextString && queryContextString.length > 0
+                            const contextItems = queryContextString.split('|')
+                            var j = 0
+                            let resultContext = sysContext
+                            iife next
+                                var contextItem = contextItems[j++]
+                                if !contextItem
+                                    return resolve(resultContext)
+                                _ getArtifactContextItem
+                                    @ owner
+                                    @ contextItem
+                                    @ sysContext
+                                    ._ then
+                                        =>
+                                            param resultItemContext
+                                                :any
+                                            set resultContext
+                                                _ Object.assign
+                                                    {
+                                                    @ resultContext
+                                                    @ resultItemContext
+                                            _ next()
+                                    v08/ts/catch_reject( getArtifactContext.getArtifactContextItem )
+                        else
+                            _ resolve(sysContext)
+    +
+    export
+        async-function getArtifactContextItem
+            param owner
+                :string
+            param queryContextString
+                :string
+            param sysContext
+                :any
+                :optional
+            set sysContext = sysContext || {}
+            return
+                #
+                    # sample queryContextString: "wzCtx;wzctx.json"
+                    # context property 'wzCtx' from json document 'wzctx.json'
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        if queryContextString && queryContextString.length > 0
+                            const parts = queryContextString.split(';')
+                            const contextName = parts[0]
+                            const contextArtifactName = parts[1]
+                            const contextTransformation
+                                iif parts.length > 2
+                                    then parts[2]
+                                    else null
+                            if contextTransformation
+                                _ getArtifactTransformation
+                                    @ owner
+                                    @ contextArtifactName
+                                    @ sysContext
+                                    @ contextTransformation
+                                    ._ then
+                                        =>
+                                            param result
+                                                :any
+                                            _ resolve
+                                                _ Object.assign
+                                                    {
+                                                    @ sysContext
+                                                    {
+                                                        @ [contextName] result.transformResult
+                                    v08/ts/catch_reject( getArtifactContextItem.getArtifactTransformation )
+                            else
+                                _ getArtifactGeneration
+                                    @ owner
+                                    @ contextArtifactName
+                                    @ sysContext
+                                    ._ then
+                                        =>
+                                            param result
+                                                :any
+                                            const contextObject = JSON.parse(result.content)
+                                            _ resolve
+                                                _ Object.assign
+                                                    {
+                                                    @ sysContext
+                                                    {
+                                                        @ [contextName] contextObject
+                                    v08/ts/catch_reject( getArtifactContextItem.getArtifactGeneration )
+                        else
+                            _ resolve(sysContext)

@@ -1,0 +1,17 @@
+$group
+
+    { parameters
+        { webAppName
+            type "string"
+        { hostingPlanName
+            type "string"
+        { appInsightsLocation
+            type "string"
+        { sku
+            type "string"
+            defaultValue "Standard S1"
+        $if cliCtx.useMongoDb
+            { databaseAccountId
+                type "string"
+            { databaseAccountLocation
+                type "string"

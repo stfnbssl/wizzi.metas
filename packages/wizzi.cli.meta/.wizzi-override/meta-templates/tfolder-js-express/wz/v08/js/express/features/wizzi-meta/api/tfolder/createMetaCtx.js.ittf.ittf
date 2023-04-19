@@ -1,0 +1,58 @@
+$group
+
+    set md.createMetaCtx
+        async-function
+            param options
+            r_promise${'('})
+                if options.metaCtx
+                    r_resolve${'('})
+                        @ options.metaCtx
+                elif verify.isNotEmpty(options.metaCtxPackifileName)
+                    _ wizziProds.loadModel
+                        @ options.metaCtxPackifileName
+                        @ options.metaCtxPackifiles
+                        {
+                            { metaCtx
+                                @ pkgName options.outputPackageName  
+                                @ description options.description || options.outputPackageName
+                        =>
+                            param err
+                            param metaCtx
+                            if err
+                                error mdDisplayName + '.createMetaCtx.wizzi.model. Load metaCtx error', err
+                                r_reject${'('}
+                                    {
+                                        @ message mdDisplayName + '.createMetaCtx.wizzi.model. Load metaCtx error'
+                                        @ err
+                            r_resolve${'('})
+                                @ metaCtx                    
+                elif verify.isNotEmpty(options.metaCtxFileName)
+                    const _metaCtxName 
+                        iif options.metaCtxFileName.toLowerCase().endsWith(".json.ittf") 
+                            then options.metaCtxFileName 
+                            else options.metaCtxFileName + '.json.ittf'
+                    var metaGeneratorMetaCtxFilePath
+                        _ path.join
+                            @ options.metaSourcesFolderPath
+                            @ 'meta-generators'
+                            @ options.metaGenerator
+                            @ 'contexts'
+                            @ _metaCtxName
+                    log 'metaGeneratorMetaCtxFilePath', metaGeneratorMetaCtxFilePath
+                    _ wizziProds.loadModelFs
+                        @ metaGeneratorMetaCtxFilePath
+                        {
+                            { metaCtx
+                                @ pkgName options.outputPackageName  
+                                @ description options.description || options.outputPackageName
+                        =>
+                            param err
+                            param metaCtx
+                            if err
+                                error mdDisplayName + '.createMetaCtx.wizzi.model. Load metaCtx error', err
+                                r_reject${'('}
+                                    {
+                                        @ message mdDisplayName + '.createMetaCtx.wizzi.model. Load metaCtx error'
+                                        @ err
+                            r_resolve${'('})
+                                @ metaCtx

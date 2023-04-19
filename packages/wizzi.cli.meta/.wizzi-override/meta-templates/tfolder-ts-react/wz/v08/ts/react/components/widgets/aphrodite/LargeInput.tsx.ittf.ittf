@@ -1,0 +1,152 @@
+$group
+    
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ c
+        from '../ThemeProvider'
+    +
+    export
+        :type LargeInputProps
+            :{ 
+                :p value
+                    :union 
+                        :string 
+                        :undefined 
+                :p disabled
+                    :optional 
+                    :boolean 
+                :p onChange
+                    :=> 
+                        :void 
+                        param event
+                            :ref React.ChangeEvent
+                                :param 
+                                    :ref HTMLInputElement
+                :p placeholder
+                    :optional 
+                    :string 
+                :p name
+                    :optional 
+                    :string 
+                :p type
+                    :optional 
+                    :string 
+                :p autoFocus
+                    :optional 
+                    :boolean 
+                :p error
+                    :optional 
+                    :union 
+                        :ref Error
+                        :null 
+    +
+    :type State
+        :{ 
+            :p focused
+                :boolean 
+    +
+    export
+        class LargeInput
+            super React.Component
+                :param 
+                    :ref LargeInputProps
+                :param 
+                    :ref State
+            p state
+                { 
+                    @ focused true
+            m focus
+                _ this._input.current?.focus?.()
+            => _handleFocus
+                _ this.setState
+                    { 
+                        @ focused true
+            => _handleBlur
+                _ this.setState
+                    { 
+                        @ focused false
+            p _input
+                _ React.createRef
+                    :param 
+                        :ref HTMLInputElement
+            m render
+                return 
+                    div 
+                        @ className {css(styles.container)}
+                        input 
+                            @ ref {this._input}
+                            @ autoFocus {this.props.autoFocus}
+                            @ className
+                                _ css
+                                    @expr styles.input
+                                    iif this.props.error
+                                        then styles.error
+                                        else styles.normal
+                            @ value {this.props.value}
+                            @ name {this.props.name}
+                            @ type {this.props.type}
+                            @ disabled {this.props.disabled}
+                            @ onChange {this.props.onChange}
+                            @ placeholder {this.props.placeholder}
+                            @ onFocus {this._handleFocus}
+                            @ onBlur {this._handleBlur}
+                        { 
+                            iif this.state.focused && this.props.error
+                                then
+                                    div 
+                                        @ className {css(styles.validation)}
+                                        + {this.props.error.message}
+                                else null
+    +
+    export-default LargeInput
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { container
+                    @ position 'relative'
+                { input
+                    @ outline 0
+                    @ fontSize 16
+                    @ borderRadius 3
+                    @ padding '12px 14px 12px 14px'
+                    @ lineHeight '22px'
+                    @ width '100%'
+                    @ borderWidth 1
+                    @ borderStyle 'solid'
+                    @ backgroundColor c('content')
+                { normal
+                    @ borderColor c('border')
+                    { ':focus'
+                        @ borderColor c('selected')
+                { error
+                    @ borderColor c('error')
+                { validation
+                    @ position 'absolute'
+                    @ backgroundColor c('error')
+                    @ color c('error-text')
+                    @ padding '6px 12px'
+                    @ borderRadius 3
+                    @ marginTop 8
+                    @ textAlign 'left'
+                    @ zIndex 1
+                    { ':before'
+                        @ content '""'
+                        @ display 'block'
+                        @ position 'absolute'
+                        @ bottom '100%'
+                        @ width 0
+                        @ height 0
+                        @ borderLeft '6px solid transparent'
+                        @ borderRight '6px solid transparent'
+                        @ borderBottom
+                            `lit 
+                                + 6px solid&nbsp;
+                                _ c('error')
+                                + 

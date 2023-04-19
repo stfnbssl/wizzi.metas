@@ -1,0 +1,14 @@
+$group
+
+    function component
+        const element = document.createElement('h1')
+        set element.innerHTML =
+            [ 
+                @ 'Hello'
+                @ 'webpack'
+                ._ join
+                    @ ' '
+        return element
+    
+    _ document.body.appendChild
+        _ component

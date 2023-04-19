@@ -1,0 +1,6 @@
+$group
+
+    $file __dot__wizzi/t/v08/examples/plugin.js.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/plugin/tfolder/examples/plugin.js
+

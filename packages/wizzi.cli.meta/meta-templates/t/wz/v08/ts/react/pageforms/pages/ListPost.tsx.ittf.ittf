@@ -1,0 +1,153 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "ListPost",
+            props: [
+                { name: "data", type: "any", ref: true },
+            ],
+            stateProps: [
+                { name: "l_posts", type: "[" },
+                { name: "l_search", type: "string" },
+                { name: "l_sort", type: "string" },
+            ]
+        }
+
+    v08/ts/react/component${'('}&md)
+        ${'$'}append imports
+            import debounce from 'lodash/debounce'
+            import nullthrows from 'nullthrows'        
+            common_imports${'('}pages)
+            import
+                @ AddDocumentIcon
+                from '../assets/AddDocumentIcon'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+
+        m componentDidMount
+            $$ loog 'ListPost.componentDidMount', this.props.data
+            const wsObj
+                _ this.props.data.posts.reduce
+                    =>
+                        param obj
+                            :any
+                        param el
+                            :any
+                        if el.wizziSchema
+                            set obj[el.wizziSchema] = true
+                        elif el.mainIttf
+                            const parts = el.mainIttf.split('.')
+                            if parts[parts.length-1] == 'ittf'
+                                set obj[parts[parts.length-2]] = true
+                        return obj
+                    {
+            _ this.setState
+                {
+                    @ l_posts this.props.data.posts
+                    @ l_search ''
+                    @ l_wizziSchema '*'
+                    @ l_sort 'none'
+                    @ l_wizziSchemas Object.keys(wsObj)
+
+        m filterItem
+            param item
+            if this.state.l_wizziSchema !== '*'
+                if this.state.l_wizziSchema !== item.wizziSchema
+                    return false
+            if this.state.l_search.length > 0
+                if (item.name + ' ' + item.description).indexOf(this.state.l_search) < 0
+                    return false
+            return true
+        
+        ${'$'}include handle_input_change
+
+        m render
+            $$ loog 'ListPost.render', this.state
+            if !this.state
+                return
+                    div
+                        + Loading ...
+            return
+                div
+                    @ className flex-column width-full
+                    div
+                        @ className flex-row align-items-start m-100
+                        form 
+                            class width-full
+                            @ aria-label Artifact productions
+                            @ role search
+                            @ acceptCharset UTF-8
+                            method get
+                            div
+                                @ className flex-row m-xxl
+                                div
+                                    @ className flex-column width-full
+                                    div
+                                        @ className m-s 
+                                        input 
+                                            type search
+                                            class form-control width-full
+                                            placeholder Find an blog post…
+                                            autocomplete off
+                                            @ aria-label Find an blog post…
+                                            @ value {this.state.l_search}
+                                            @ onChange {this.handleInputChange}
+                                            @ name 'l_search'
+                                div
+                                    @ className flex-row
+                        div
+                            @ className flex-row m-xxl
+                            div
+                                @ className flex-column m-s
+                                a_icon${'('}New, /post/new)
+                                    < AddDocumentIcon
+                                        @ height 16
+                                        @ width 16
+                    {
+                        && 
+                            + this.state.l_posts  
+                            _ this.state.l_posts.map
+                                =>
+                                    param item
+                                        :any
+                                    param ndx
+                                        :number
+                                    if this.filterItem(item)
+                                        return
+                                            div
+                                                @ className flex-row align-items-start
+                                                @ key {ndx}
+                                                div
+                                                    @ className flex-row border-b-s width-full m-w-xxl
+                                                    div
+                                                        @ className flex-column width-full
+                                                        div
+                                                            @ className font-xl
+                                                            a {item.name}
+                                                                href {'/~~/a/stfnbssl/' + item.name}
+                                                                title {item.description}
+                                                    div
+                                                        @ className font-m p-m
+                                                        a browse
+                                                            href {'/~/stfnbssl/' + item.name}
+                                                            title 'view generated in browser'
+                                                    div
+                                                        @ className font-m p-m
+                                                        a raw
+                                                            href {'/~/stfnbssl/' + item.name + '?meta=raw'}
+                                                            title 'view generated raw'
+                                                    div
+                                                        @ className font-m p-m
+                                                        a mtree
+                                                            href {'/~/stfnbssl/' + item.name + '?meta=mtree'}
+                                                            title 'view builded mTree'
+                                                    div
+                                                        @ className font-m p-m
+                                                        a script
+                                                            href {'/~/stfnbssl/' + item.name + '?meta=script'}
+                                                            title 'view mTree buildup script'
+                                                    list_update_delete_icons${'('}post)

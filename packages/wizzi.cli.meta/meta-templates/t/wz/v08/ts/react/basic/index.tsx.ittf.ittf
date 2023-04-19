@@ -1,0 +1,66 @@
+$group
+    
+    import React from 'react'
+    ${'$'}if wzCtx.Build.react.useV18
+        import ReactDOM from 'react-dom/client'
+    ${'$'}else
+        import ReactDOM from 'react-dom'
+    ${'$'}if wzCtx.Build.react.useRouter
+        import 
+            @ BrowserRouter
+            @ Routes
+            @ Route
+            from "react-router-dom"
+    import './index.css'
+    import App from './components/App'
+    ${'$'}if wzCtx.Build.react.useRouter
+        import
+            @ WidgetsDemo
+            from './components/widgets/demo'
+        ${'$'}if wzCtx.Build.react.useMui
+            import
+                @ WidgetsDemoMui
+                from './components/widgets/demo-mui'
+            ${'$'}if wzCtx.Build.react.useSplitPane
+                import
+                    @ MuiSplitPane
+                    from './components/widgets/split-pane'
+    +
+    ${'$'}if wzCtx.Build.react.useV18
+        const root
+            _ ReactDOM.createRoot
+                _ document.getElementById('root')
+
+    _ ${'$'}{ wzCtx.Build.react.useV18 ? "root.render" : "ReactDOM.render"}
+        < React.StrictMode 
+            ${'$'}if wzCtx.Build.react.useRouter
+                < BrowserRouter 
+                    < Routes 
+                        < Route 
+                            @ path "/"
+                            @ element
+                                < App 
+                        < Route 
+                            @ path "widgets"
+                            @ element
+                                < WidgetsDemo 
+                                    @ title "Widgets"
+                        ${'$'}if wzCtx.Build.react.useMui
+                            < Route 
+                                @ path "widgets-mui"
+                                @ element
+                                    < WidgetsDemoMui 
+                                        @ title "@mui widgets"
+                            ${'$'}if wzCtx.Build.react.useSplitPane
+                                < Route 
+                                    @ path "split-pane"
+                                    @ element
+                                        < MuiSplitPane
+            ${'$'}else
+                < App 
+        ${'$'}if !!wzCtx.Build.react.useV18 == false
+            _ document.getElementById('root')
+    +
+    # If you want to start measuring performance in your app, pass a function
+    # to log results (for example: reportWebVitals(console.log))
+    # or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

@@ -1,0 +1,18 @@
+$group
+
+  
+    $if cliCtx.useJsAppCrud
+
+        $file __dot__wizzi/${pkgPath}src/css/appCrud${cliCtx.jsAppCrud.Name}.css.ittf.ittf
+            css
+                ${'$'}include wz/v08/css/appCrud.css
+
+        $
+            var items = [
+                'main',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/css/t/appCrud/${item}.css.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/css/appCrud/${item}.css

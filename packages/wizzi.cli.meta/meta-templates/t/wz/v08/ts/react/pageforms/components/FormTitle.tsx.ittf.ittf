@@ -1,0 +1,48 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormTitle",
+            props: [
+                { name: 'title', type: 'string' },
+                { name: 'subtitle', type: 'string', optional: true },
+                { name: 'subtitle2', type: 'string', optional: true }
+            ]
+        }
+        
+    v08/ts/react/function${'('}&md)
+        
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+                flex-direction column
+            styled StyledH1 .h1<RootStyleProps>
+                margin-bottom 4px
+            styled StyledSubTitle .span<RootStyleProps>
+                display block
+                font-size 14px
+                font-weight 400
+                margin 0
+
+        return 
+            < StyledRoot
+                < StyledH1
+                    + {title}
+                {
+                    &&
+                        + subtitle && subtitle.length > 0
+                        < StyledSubTitle
+                            + {subtitle}
+                {
+                    &&
+                        + subtitle2 && subtitle2.length > 0
+                        < StyledSubTitle
+                            + {subtitle2}
+

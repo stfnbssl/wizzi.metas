@@ -1,0 +1,12 @@
+$group
+    ${'$'}params coll, indent|@@null, from|0, sep|@@null
+    _ md.genItems
+        @ model.${'$'}{coll}
+        @ ctx
+        {
+            @ indent ${'$'}{indent == "indent" ? true : false}
+            @ from ${'$'}{from}
+            ${'$'}if sep != null
+                @ sep ${'$'}{sep}
+        a_cb${'('})
+            ${'$'}hook

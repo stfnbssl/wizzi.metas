@@ -1,0 +1,30 @@
+﻿$group
+	${'$'}params name, tag
+
+	# process AST-node-property-collection ${'$'}{name} and 
+	# embed its array of nodes in a new tag
+	
+	if node.${'$'}{name} 
+		
+		if typeof node.${'$'}{name}.length === 'undefined'
+			throw new Error('Property node.${'$'}{name} must be an array')
+		
+		if node.${'$'}{name}.length > 0
+
+			var temp${'$'}{name} 
+				{
+					@ tag '${'$'}{tag}'
+					[ children
+		
+			foreach item in node.${'$'}{name}
+				set item.__parent
+					{
+						@ name '${'$'}{name}'
+						@ len node.${'$'}{name}.length
+				_ format
+					@ temp${'$'}{name} 
+					@ item
+					@ options
+
+			_ ret.children.push
+				@ temp${'$'}{name} 

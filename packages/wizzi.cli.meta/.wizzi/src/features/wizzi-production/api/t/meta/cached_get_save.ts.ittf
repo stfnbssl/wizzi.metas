@@ -1,0 +1,120 @@
+$group
+    +
+    export
+        async-function getMetaProductionObject_stop
+            param owner
+                :string
+            param name
+                :string
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ getMetaProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IMetaProductionModel
+                                        = result.item
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    const obj
+                                        {
+                                            @ ...tf._doc
+                                            @ packiFiles tf_packiFiles_object
+                                            @ _id tf._id.toString()
+                                    return
+                                        _ resolve
+                                            @ obj
+                            v08/ts/catch_reject( getMetaProductionObject.getMetaProduction )
+    +
+    export
+        async-function getMetaProductionObjectById_stop
+            param id
+                :string
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ getMetaProductionById
+                            @ id
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IMetaProductionModel
+                                        = result.item
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    const obj
+                                        {
+                                            @ ...tf._doc
+                                            @ packiFiles tf_packiFiles_object
+                                            @ _id tf._id.toString()
+                                    return
+                                        _ resolve
+                                            @ obj
+                            v08/ts/catch_reject( getMetaProductionObjectById.getMetaProductionById )
+    +
+    export
+        async-function getMetaProduction_withCache
+            param owner
+                :string
+            param name
+                :string
+            var cacheKey = owner + '|' + name
+            # loog 'getMetaProduction_withCache.cacheKey', cacheKey
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        $if wzCtx.Build.wizziProduction.useCachedProductions
+                            let mpValue = metaProductionCache.get(cacheKey)
+                            if mpValue
+                                return resolve(mpValue)
+                        $else
+                            let mpValue
+                                {
+                                    { packiFiles
+                        _ getMetaProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IMetaProductionModel
+                                        = result.item
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    set mpValue
+                                        {
+                                            @ packiFiles tf_packiFiles_object
+                                    $if wzCtx.Build.wizziProduction.useCachedProductions
+                                        _ metaProductionCache.set(cacheKey, mpValue)
+                                    return resolve(mpValue)
+                            v08/ts/catch_reject( getMetaProduction_withCache.getArtifactProduction )
+    +
+    export
+        function invalidateCache
+            param owner
+                :string
+            param name
+                :string
+            var cacheKey = owner + '|' + name
+            _ metaProductionCache.del(cacheKey)

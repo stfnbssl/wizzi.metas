@@ -1,0 +1,34 @@
+$group
+
+    $if cliCtx.useApi
+        $file __dot__wizzi/${pkgPath}src/components/editors/PackiMonacoEditor.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/components/editors/PackiMonacoEditor.tsx
+        $file __dot__wizzi/${pkgPath}src/components/editors/PackiEditorProps.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/components/editors/PackiEditorProps.tsx
+        $file __dot__wizzi/${pkgPath}src/components/editors/monacoUserWorker.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/components/editors/monacoUserWorker.tsx
+
+        $file __dot__wizzi/${pkgPath}src/components/editors/languages/ittf.language.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/components/editors/languages/ittf.language.tsx
+
+        $
+            var thItems = [
+                "colors-dark","colors-light",
+                "ittf.dark.theme","ittf.light.theme",
+                "monaco-overrides","monaco"
+            ];
+
+        $foreach item in thItems
+            $file __dot__wizzi/${pkgPath}src/components/editors/themes/${item}.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/editors/themes/${item}.tsx         
+
+        $file __dot__wizzi/${pkgPath}src/components/editors/t/packi/monaco-environment.tsx.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/react/components/editors/tfolder/packi/monaco-environment.tsx
+
+

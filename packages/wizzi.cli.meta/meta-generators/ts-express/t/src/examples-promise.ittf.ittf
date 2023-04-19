@@ -1,0 +1,19 @@
+$group
+
+    $if cliCtx.useExamples
+        $if cliCtx.examples.usePromise
+            $file __dot__wizzi/${pkgPath}src/examples/promise/index.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/examples/promise/index.ts           
+
+            $file __dot__wizzi/${pkgPath}src/examples/promise/services/userService.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/examples/promise/services/userService.ts
+            
+            $file __dot__wizzi/${pkgPath}src/examples/promise/routes/users.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/examples/promise/routes/users.ts
+            
+            $file __dot__wizzi/${pkgPath}src/examples/promise/routes/img.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/examples/promise/routes/img.ts

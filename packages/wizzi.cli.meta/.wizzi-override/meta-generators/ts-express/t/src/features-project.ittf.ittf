@@ -1,0 +1,20 @@
+$group
+    $if cliCtx.useFeatureProject
+        $file __dot__wizzi/${pkgPath}src/features/project/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/project/index.ts
+        $file __dot__wizzi/${pkgPath}src/features/project/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/project/types.ts
+        $file __dot__wizzi/${pkgPath}src/features/project/controllers/apiv1category.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/project/controllers/apiv1category.ts
+        $file __dot__wizzi/${pkgPath}src/features/project/models/category.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/project/models/category.ts
+        $file __dot__wizzi/${pkgPath}src/features/project/api/category.ts.ittf.ittf
+            module
+                $if cliCtx.featureProject.store == "mongoDb"
+                    ${'$'}include wz/v08/ts/express/features/project/api/category.ts
+                $if cliCtx.featureProject.store == "sequelize"
+                    ${'$'}include wz/v08/ts/express/features/project/api/category_sequelize.ts

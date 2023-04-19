@@ -1,0 +1,95 @@
+﻿$group
+
+    const path = require('path')
+    $if cliCtx.useWizziV08
+        const wizzi = require('@wizzi/factory')
+    $else
+        const wizzi = require('wizzi')
+    $if cliCtx.useWizziV08
+        const wizziUtils = require('@wizzi/utils')
+    $else
+        const wizziUtils = require('wizzi-utils')
+    +
+    const
+        {
+            @ verify
+            @ fSystem
+        = wizziUtils
+    +
+    const metaFolderProcessor = require('./metaFolderProcessor')
+    +
+    const wizziProds = require('./wizziProds')
+    +
+    const mdDisplayName = 'features.wizzi-meta.api.wizziMeta'
+    +
+    const file = fSystem.vfile()
+
+    const meta_generators
+        [
+            @ 'ts-node'
+            @ 'ts-express'
+            @ 'ts-client'
+            @ 'js-vanilla'
+            @ 'js-express'
+            @ 'js-wizzi-plugin'
+            @ 'js-wizzi-meta'
+    +
+    const md = module.exports = {}
+    +
+    set md.createWizziPackage
+        async-function
+            param options
+            r_promise${'('})
+                if !options.metaSourcesFolderPath || options.metaSourcesFolderPath.length == 0
+                    r_reject${'('})
+                        @ mdDisplayName + '.createWizziPackage. Missing metaSourcesFolderPath: ' + options.metaSourcesFolderPath
+                if meta_generators.indexOf(options.metaGenerator) < 0
+                    r_reject${'('})
+                        @ mdDisplayName + '.createWizziPackage. Unknown metaGenerator: ' + options.metaGenerator
+                if !options.outputPackageName || options.outputPackageName.length == 0
+                    r_reject${'('})
+                        @ mdDisplayName + '.createWizziPackage. Missing outputPackageName: ' + options.outputPackageName
+
+                log mdDisplayName + '.createWizziPackage.options', options
+
+                var metaGeneratorFolderPath
+                    _ path.join
+                        @ options.metaSourcesFolderPath
+                        @ 'meta-generators'
+                        @ options.metaGenerator
+
+                var metaGeneratorFileTemplatesIndex
+                    _ path.join
+                        @ metaGeneratorFolderPath
+                        @ 'index.ittf.ittf'
+                $$ loog 'metaGeneratorFileTemplatesIndex', metaGeneratorFileTemplatesIndex
+
+                var destinationIttfTempFolder
+                    _ path.join
+                        @ options.metaSourcesFolderPath
+                        @ 'meta-templates'
+                        @ '__temp'
+                        @ options.metaGenerator
+                        @ options.outputPackageName
+                $$ loog 'destinationIttfTempFolder', destinationIttfTempFolder
+
+                _ createMetaCtx
+                    @ options
+                    a_then${'('} metaCtx )
+                        $$ loog mdDisplayName + '.createWizziPackage.metaCtx', metaCtx
+                        _ metaFolderProcessor
+                            @ metaGeneratorFileTemplatesIndex
+                            @ destinationIttfTempFolder
+                            @ metaCtx
+                            a_then${'('} result )
+                                return
+                                    _ generatePackageFiles
+                                        @ destinationIttfTempFolder
+                                        @ options
+                                        @ metaCtx
+                            catch_reject${'('} wizziMeta.createWizziPackage.metaFolderProcessor )
+                    catch_reject${'('} wizziMeta.createWizziPackage.createMetaCtx )
+
+    ${'$'}include createMetaCtx
+    ${'$'}include generatePackageFiles
+

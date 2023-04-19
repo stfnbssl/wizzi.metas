@@ -1,0 +1,49 @@
+module
+    +
+    export
+        :type PackiFile
+            :{
+                :p type
+                    :literal 'CODE'
+                :p contents
+                    :string
+                :p generated
+                    :optional
+                    :boolean
+                :p error
+                    :optional
+                    :ref Error
+        #
+            #
+            # The content of a Packi code file.
+            #
+    +
+    export
+        :type PackiFiles
+            :{
+                :index
+                    :ref PackiFile
+                    param path
+                        :string
+        #
+            #
+            # Dictionary of file-names and their content that make up
+            # the files of the Packi.
+            #
+    +
+    export
+        :interface PackiError
+            :extends Error
+            :p fileName
+                :optional
+                :string
+            :p lineNumber
+                :optional
+                :number
+            :p columnNumber
+                :optional
+                :number
+        #
+            #
+            # An error that can optionally hold a file-name and line/column location.
+            #

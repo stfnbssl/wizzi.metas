@@ -1,0 +1,148 @@
+$group
+
+	set md.parse
+        function 
+            param text
+            param node
+            if !verify.isString(text)
+                return 
+                    { 
+                        @ tokens
+                            [ 
+                        @ join
+                            function
+                                return ''
+            var 
+                decl ch
+                decl l = text.length
+                decl tokens
+                    [ 
+                decl token
+                    { 
+                        @ quote null
+                        @ text ''
+                        @ raw ''
+            
+			for var i = 0; i < l; i++
+                set ch = text[i]
+                
+				if token.quote != null
+                    if ch == token.quote
+                        _ tokens.push(token)
+                        set token =
+                            { 
+                                @ quote null
+                                @ text ''
+                                @ raw ''
+                    else 
+                        set token.text += ch
+                        set token.raw += ch
+                
+				elif ch == '"' || ch == '\''
+                    if token.text.length > 0
+                        _ errors.NodeError("Invalid use of quote inside text", node)
+                    set token.quote = ch
+                
+				elif ['(', ')', '[', ']', '{', '}'].indexOf(ch) > - (1)
+                    if token.text.length > 0
+                        _ tokens.push(token)
+                    _ tokens.push
+                        { 
+                            @ quote null
+                            @ text ch
+                            @ raw ch
+                    set token =
+                        { 
+                            @ quote null
+                            @ text ''
+                            @ raw ''
+                
+				elif ch == ' ' || ch == '\t'
+                    if token.text.length > 0
+                        set token.raw += ch
+                        _ tokens.push(token)
+                        set token
+                            { 
+                                @ quote null
+                                @ text ''
+                                @ raw ''
+                else
+                    set token.text += ch
+                    set token.raw += ch
+            
+			if token.text.length > 0
+                _ tokens.push(token)
+                set token =
+                    { 
+                        @ quote null
+                        @ text ''
+                        @ raw ''
+            return 
+                { 
+                    @ tokens tokens
+                    @ length tokens.length
+                    @ join
+                        function 
+                            param sep
+                            param start
+                            var 
+                                decl t
+                                    [ 
+                                decl startIndex = (start || 0)
+                            for var i = startIndex; i < this.tokens.length; i++
+                                if sep === 'forValue'
+                                    var s = this.tokens[i].text
+                                    if ['(', ')', '[', ']', '{', '}'].indexOf(s) > - (1)
+                                        _ t.push
+                                            @ this.tokens[i].text
+                                    else 
+                                        _ t.push((this.tokens[i].text + ' '))
+                                else 
+                                    _ t.push
+                                        @ this.tokens[i].text
+                            if sep === 'forValue'
+                                return 
+                                    _ t.join('')
+                                        ._ trim()
+                            else 
+                                return 
+                                    _ t.join(sep)
+                                        ._ trim()
+                    @ getByPos
+                        function 
+                            param pos
+                            return 
+                                iif pos > this.length
+                                    then null
+                                    else 
+                                        set this.tokens[(pos - 1)]
+                    @ matchByPos
+                        function 
+                            param pos
+                            param test
+                            return pos > this.length ? false : this.tokens[(pos - 1)].text === test
+                    @ name
+                        function 
+                            return 
+                                iif this.length > 0
+                                    then 
+                                        set this.tokens[0].text
+                                    else null
+                    @ value
+                        function 
+                            return this.join('forValue', 1)
+                    @ nameValue
+                        function 
+                            var ret
+                                { 
+                                    @ name ''
+                                    @ value ''
+                            if this.tokens.length >= 2
+                                set tk = this.tokens[0]
+                                set ret.name = tk.text
+                                for var i = 1; i < this.tokens.length; i++
+                                    set tk = this.tokens[i]
+                                    set ret.value += (tk.quote || '')
+                                    set ret.value += tk.raw
+                                    set ret.value += (tk.quote || '')
+                            return ret

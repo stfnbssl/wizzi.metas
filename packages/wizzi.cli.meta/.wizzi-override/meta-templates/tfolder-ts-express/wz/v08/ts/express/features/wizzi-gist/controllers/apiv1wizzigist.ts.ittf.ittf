@@ -1,0 +1,58 @@
+$group
+    
+    ${'$'}
+        var ctrl = {
+            name: 'ApiV1WizziGist',
+            path: '/api/v1/gist',
+        }
+    
+    v08/ts/controller${'('}&ctrl)
+            
+        ${'$'}append imports
+            import
+                @ getIttfDocument
+                @ putIttfDocument
+                from '../api/wizziGist'
+            +
+            const myname = 'features/wizzifs/controllers/apiv1wizzifs'
+
+        _ this.router.get('/ittf', this.getIttfDocument)
+        _ this.router.put('/ittf', this.putIttfDocument)
+        
+        ${'$'}append handlers
+            v08/ts/handler${'('}getIttfDocument)
+                $$ loog 'getIttfDocument.request.params', request.params
+                check-params${'('} )
+                    not-empty${'('} query , hash )
+
+                _ getIttfDocument
+                    @ hash
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('} ApiV1WizziGist.getIttfDocument )
+
+            v08/ts/handler${'('}putIttfDocument)
+                $$ loog 'request.body', request.body
+                $$ loog 'og 'request.query', request.query
+                check-params${'('} )
+                    not-empty${'('} body , hash )
+                    not-empty${'('} body , content )
+                    optional${'('} body , prettify )
+
+                _ putIttfDocument
+                    @ hash
+                    @ content
+                    @ prettify
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('} ApiV1WizziGist.putIttfDocument )

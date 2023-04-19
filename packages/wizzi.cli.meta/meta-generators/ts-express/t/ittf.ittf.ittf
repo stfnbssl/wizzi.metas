@@ -1,0 +1,87 @@
+$group
+    $file __dot__wizzi/${pkgPath}ittf/demo.wizzi.html.ittf.ittf
+        html
+            body
+                h1 Hello from a Wizzi generated Html document 
+                p I am generated on the fly and served by the 'ittfStatic' middleware,
+                    \b from the "ittf" static folder.
+
+    $file __dot__wizzi/${pkgPath}ittf/models/sitectx.json.ittf.ittf
+        {
+            name "Wizzi"
+            version "0.0.1"
+            title "The artifact meta generation platform."
+            title2 "With Wizzi you set up model driven productions of code, packages, documents and data files."
+            [ subtitles
+                "A single machinery, many productions."
+                "Language agnostic."
+                "All productions are managed by plugins."
+            { author
+                name "Stefano Bassoli"
+                email "stfn.bssl@gmail.com"
+            [ demos
+                { 
+                    title "Pure html" 
+                    href "/public/pure.html"
+                { 
+                    title "Wizzi generated on the fly" 
+                    href "/ittf/demo.wizzi.html.ittf"
+                { 
+                    title "Ittf site" 
+                    href "/ittf/site/index.html.ittf"
+                { 
+                    title "Webapi" 
+                    href "/ittf/site/webapi/index.html.ittf"
+    $file __dot__wizzi/${pkgPath}ittf/site/webapi/t/d-control.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/site/webapi/tfolder/d-control.html
+    $file __dot__wizzi/${pkgPath}ittf/site/webapi/t/d-prop.html.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/html/site/webapi/tfolder/d-prop.html
+    $file __dot__wizzi/${pkgPath}ittf/site/webapi/index.html.ittf.ittf
+        html
+            ${'$'}include wz/v08/html/site/webapi/index.html
+    $file __dot__wizzi/${pkgPath}ittf/site/webapi/index.json.ittf.ittf
+        {
+            [ webapis
+                $if cliCtx.useBlog
+                    {
+                        title 'Wizzi - create blog post'
+                        method 'post'
+                        url '/api/v1/blog/post/:owner/:name'
+                        [ parameters
+                            {
+                                type "text"
+                                paramType "url"
+                                name "owner"
+                                label "Owner"
+                                demoValue "stfnbssl"
+                            {
+                                type "text"
+                                paramType "url"
+                                name "name"
+                                label "Name"
+                                demoValue "post-1"
+                            {
+                                type "text"
+                                paramType "body"
+                                name "title"
+                                label "Title"
+                                demoValue 'Post 1'
+                            {
+                                type "text"
+                                paramType "body"
+                                name "content"
+                                label "Content"
+                                demoValue 'Post 1 content'
+                    {
+                        title 'Wizzi - list blog posts'
+                        method 'get'
+                        url '/api/v1/blog/post/:owner'
+                        [ parameters
+                            {
+                                type "text"
+                                paramType "url"
+                                name "owner"
+                                label "Owner"
+                                demoValue "stfnbssl"

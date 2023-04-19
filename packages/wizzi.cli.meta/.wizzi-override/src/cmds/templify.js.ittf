@@ -1,0 +1,36 @@
+module
+	kind es6
+
+    const path = require('path')
+	const wizziUtils = require('wizzi-utils')
+	const vfile = wizziUtils.vfile
+    const verify = wizziUtils.verify
+    var file = vfile()
+
+    set module.exports
+		=>
+            param sourceFolder
+            param outputPath
+            $$ loog 'sourceFolder', sourceFolder
+            $$ loog 'outputPath', outputPath
+            _ file.getFiles
+                @ sourceFolder
+                { 
+                    @ deep true
+                    @ documentContent true
+                a_cb_test( files )
+                    # $$ loog 'files', files
+                    var sb
+                        [
+                            @ 'template ' + path.basename(sourceFolder)
+                    foreach item in files
+                        _ sb.push
+                            @ '    $file ' + item.relPath
+                        var lines = item.content.split('\n')
+                        foreach line in lines
+                            _ sb.push
+                                @ '        ' + verify.replaceAll(line, '$', '${'$'}')
+                    _ file.write
+                        @ outputPath
+                        _ sb.join
+                            @ '\n'

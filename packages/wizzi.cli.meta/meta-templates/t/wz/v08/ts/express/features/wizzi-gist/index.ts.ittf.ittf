@@ -1,0 +1,25 @@
+$group
+    import
+        @ ControllerType
+        from '../app/types'
+    import
+        as wizziGistTypes
+        from './types'
+    import
+        as wizziGistApi
+        from './api/wizziGist'
+    import
+        @ ApiV1WizziGistController
+        from './controllers/apiv1wizzigist'
+    +
+    const wizziGistControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ApiV1WizziGistController()
+    +
+    export
+        @ wizziGistTypes
+        @ wizziGistControllers
+        @ wizziGistApi

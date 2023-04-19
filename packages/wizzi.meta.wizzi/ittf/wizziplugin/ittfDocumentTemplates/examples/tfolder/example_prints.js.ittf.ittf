@@ -1,0 +1,93 @@
+$group
+	${'$'}params name, level|0, step|1
+
+	function heading1
+		param text
+		info ''
+		info '*'.repeat(120)
+		info '** level ${'$'}{level} - step ${'$'}{step} - ${'$'}{name} - ' + text
+		info '*'.repeat(120)
+		info ''
+	
+	function heading2
+		param text
+		info ''
+		info '   ', '-'.repeat(100)
+		info '   ','-- ${'$'}{name} - ' + text
+		info '   ', '-'.repeat(100)
+		info ''
+
+	function printArray
+		param name
+		param arr
+		param fields
+		param format
+		if format === 'dashes'
+			info '   ', '-'.repeat(100)
+		info '   ', '* array ' + name + ' : '
+		foreach item in arr
+			info '    {', i
+			var keys = fields || Object.keys(item)
+			foreach k in keys
+				_ printValue
+					@ k
+					@ item[k]
+
+	function printValue
+		param key
+		param value
+		param format
+		param p1
+		if format === 'dashes' || format === 'meter'
+			info '   ', '-'.repeat(100)
+		if format === 'json'
+			set value
+				_ stringify
+					@ value
+					@ null
+					@ 4
+		if verify.isNotEmpty(value)
+			var lines
+				_ verify.splitLines
+					@ value
+					{
+						@ numbered true
+			if lines.length === 1
+				info '   ', key, ':', lines[0].text
+			else
+				for var i=0; i<lines.length; i++
+					if i === 0
+						info '   ', key, ':', lines[0].numFmt, lines[0].text
+					else
+						info '   ', spaces(key.length+1), ' ', lines[i].numFmt, lines[i].text
+		elif verify.isObject(value)
+			info '   ', key, ':', inspect(value)
+		else
+			info '   ', key, ':', value
+		if format === 'meter'
+			_ meterLine(p1, '     ' + new Array(1 + key.length).join(' '))
+
+	function spaces
+		param len
+		return new Array(len).join(' ')
+
+	function meterLine
+		param len
+		param indent
+		var sb = []
+		var numW = len < 10 ? 1 : ( len < 100 ? 2 : 3 )
+		var x
+		for var i=0; i<numW; i++
+			for var j=0; j<len; j++
+				set x = formatNum(j, numW)
+				_ sb.push(x.substr(i,1))
+			info indent, sb.join('')
+			set sb = []
+
+	function formatNum
+		param num
+		param len
+		var x = num.toString()
+		return new Array(1 + len-x.length).join(' ') + x
+				
+

@@ -1,0 +1,117 @@
+$group
+    ${'$'}
+      var myName = 'Store';
+      //
+    
+    iife_window${'('} app, ${'$'}{myName})
+        # globals api.Wizzi, mvc.LocalObjectStore
+        function ${'$'}{myName}
+            param name
+            set this.name = name
+            set this.wzApi = api.Wizzi
+            set this.lsMedia = new mvc.LocalObjectStore('worksMedia')
+            set this.mediaItems = null
+            set this.tabelle = null
+
+        set ${'$'}{myName}.prototype.findTabelle
+            function 
+                param_callback${'('} required, Method: ${'$'}{myName}.findTabelle )
+                if this.tabelle
+                  return
+                    _ callback
+                      @ this.tabelle
+                _ this.findAllMedia
+                    =>
+                        param mediaItems
+                        const categories = {}
+                        foreach item in mediaItems
+                            set categories[item.categoria] = item.categoria
+                        _ callback
+                            {
+                                @ categories categories
+
+        set ${'$'}{myName}.prototype.findAllMedia
+            function 
+                param_callback${'('} required, Method: ${'$'}{myName}.findAllMedia )
+                if this.mediaItems
+                  return
+                    _ callback
+                      @ this.mediaItems
+                _ fetch('/~/stfnbssl/works-biga.json').then
+                    => 
+                        param response
+                        if !response.ok
+                            throw new Error("HTTP error " + response.status)
+                        return response.json()
+                    ._ then
+                        => 
+                            param json
+                            const items = []
+                            foreach video in json.videos
+                                foreach item in video.items
+                                    _ items.push
+                                        {
+                                            @ id video.id + '/' + item.name
+                                            @ categoria video.categoria
+                                            @ kind  "video"
+                                            @ videoKind video.kind
+                                            @ videoId video.id
+                                            @ author video.author
+                                            @ videoAuthorId video.authorId
+                                            @ title video.title || video.name
+                                            @ name item.name
+                                            @ time item.time
+                            info "mediaItems", items
+                            set this.mediaItems = items
+                            _ callback
+                              @ items
+                    ._ catch
+                        function 
+                            set this.dataError = true
+
+
+        set ${'$'}{myName}.prototype.findMediaItem
+            function 
+                param id
+                param_callback${'('} required, Method: ${'$'}{myName}.findMediaItem )
+                _ this.findAllMedia
+                  =>
+                    param items
+                    foreach item in items
+                      if item.id == id
+                        return
+                          _ callback
+                            @ item
+                    throw new Error('${'$'}{myName}.findMediaItem.err not found: ' + id)
+        
+
+        set ${'$'}{myName}.prototype.getLocalValue
+            function 
+                param name
+                param defaultValue
+                var lsStore = this.lsMedia
+                return
+                  _ lsStore.getValue
+                    @ name
+                    @ defaultValue
+
+        set ${'$'}{myName}.prototype.setLocalValue
+            function 
+                param name
+                param value
+                var lsStore = this.lsMedia
+                return
+                  _ lsStore.setValue
+                    @ name
+                    @ value
+
+        function compareTitolo
+            param a
+            param b
+            const at = parseInt(a.titolo)
+            const bt = parseInt(b.titolo)
+            if at < bt
+                return 1
+            if at > bt
+                return -1
+            return 0

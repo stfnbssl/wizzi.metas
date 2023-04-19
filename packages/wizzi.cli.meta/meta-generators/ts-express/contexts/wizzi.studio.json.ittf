@@ -1,0 +1,140 @@
+{
+    $
+        var isLocal = true; // it is enough to set this to false and generate for deployong to heroku
+        var isProduction = false;
+        var cloudDomain = "www.wizzihub.com";
+        var port = 5100;
+        var useSslCert = false;
+        var useSsl = isLocal ? false : true;
+        var http = useSsl ? 'https' : 'http';
+        var domain = isLocal ? "localhost" : cloudDomain;
+
+    $include commons
+
+    { App
+        name "Wizzi.Studio"
+        kind "Server"
+
+    isLocal ${isLocal ? "true" : "false"}
+    isProduction ${isProduction ? "true" : "false"}
+    { production
+
+    useSsl ${useSsl ? "true" : "false"}
+    useSslCert ${useSslCert ? "true" : "false"}
+    domain "${domain}"
+    port "${port}"
+    siteUrl "${http}://${domain}"
+    $if domain == "localhost"
+        baseUrl "${http}://${domain}:${port}"
+        useCors true
+        { cors
+            [ clientOrigins
+                "${http}://${domain}:${port}"
+                "${http}://${domain}:5173"
+    $else
+        baseUrl "${http}://${domain}"
+        useCors true
+        { cors
+            [ clientOrigins
+                "${http}://${domain}"
+    siteUrlLocal "${http}://localhost"
+    baseUrlLocal "${http}://localhost:${port}"
+    apiVersion "v1"
+    
+    useAzure false
+    { azure
+
+    useHeroku false
+    { heroku
+
+    useConfig true
+    { config
+        useUserInfo true
+        { userInfo
+
+    useExpress true
+    { express
+
+    useAuthentication false
+    { authentication
+
+    useAccount false
+    { account
+
+    useMongoDb false
+    { mongoDb
+
+    $if domain == "local"
+        useSequelize false
+        { sequelize
+
+    useFeatures true
+    { features
+        useGithub false
+        { github
+        usePackiEdit true
+        { packiEdit
+        useWizzi true
+        { wizzi
+        useWizziFs true
+        { wizziFs
+        useWizziGist true
+        { wizziGist
+        useWizziMeta true
+        { wizziMeta
+        useWizziPackage true
+        { wizziPackage
+
+    useFeatureBlog false
+    { featureBlog
+        store "mongoDb"
+
+    $if domain == "local"
+        useFeatureProject false
+        { featureProject
+            store "sequelize"
+
+    useFeatureGithub false
+    { featureGithub
+
+    usePages true
+    { pages    
+
+    useWizzi true
+    { wizzi
+
+    useWizziDocs false
+    { wizziDocs
+
+    useWizziProductions false
+    { wizziProductions
+
+    useStaticFiles true
+    { staticFiles
+        publicPath "static"
+    
+    useIttfStatic true
+    { ittfStatic
+
+    useWizziViewEngine true
+    { wizziViewEngine
+
+    useWizziCdn false
+    { wizziCdn
+
+    useWizziJsonFactory true
+    { wizziJsonFactory
+
+    usePacki false
+    { packi
+
+    usePackiBrowse false
+    { packiBrowse
+
+    useData false
+    { data
+
+    { utils
+        useScripts true
+        { scripts
+        useDiffMatchPatch true       

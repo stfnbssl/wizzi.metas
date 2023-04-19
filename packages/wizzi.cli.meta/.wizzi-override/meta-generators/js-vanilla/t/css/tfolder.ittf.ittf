@@ -1,0 +1,20 @@
+$group
+    
+    $
+        var items = [
+            'colors',
+            'form',
+            'icons',
+            'layout',
+            'mc',
+            'prettyprint',
+            'tn',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/css/t/${item}.css.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/css/tfolder/${item}.css
+
+
+

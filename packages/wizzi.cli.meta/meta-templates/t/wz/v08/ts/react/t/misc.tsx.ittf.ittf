@@ -1,0 +1,28 @@
+$group
+
+    ${'$'}if name == 'setMyProps'
+        ${'$'}global
+            var myProps = []
+            if (md.props && md.props.length > 0) { myProps = md.props }
+            else {
+                for (var i=0; i<wzCtx.App.Components.length; i++) {
+                    _.log ('wzCtx.App.Components[i].name, md.name', wzCtx.App.Components[i].name, md.name)
+                    if (wzCtx.App.Components[i].name == md.name && wzCtx.App.Components[i].props && wzCtx.App.Components[i].props.length > 0) {
+                        myProps = wzCtx.App.Components[i].props;
+                    }
+                }
+            }
+
+    ${'$'}elif name == 'setMyStateProps'
+        ${'$'}global
+            var myStateProps = []
+            if (md.stateProps && md.stateProps.length > 0) { myStateProps = md.stateProps }
+            else {
+                for (var i=0; i<wzCtx.App.Components.length; i++) {
+                    _.log ('wzCtx.App.Components[i].name, md.name', wzCtx.App.Components[i].name, md.name)
+                    if (wzCtx.App.Components[i].name == md.name && wzCtx.App.Components[i].stateProps && wzCtx.App.Components[i].stateProps.length > 0) {
+                        myStateProps = wzCtx.App.Components[i].stateProps;
+                    }
+                }
+            }
+

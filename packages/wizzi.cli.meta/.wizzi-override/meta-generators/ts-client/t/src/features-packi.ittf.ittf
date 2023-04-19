@@ -1,0 +1,12 @@
+$group
+
+    $if (cliCtx.useFeatures && cliCtx.features.usePacki) || cliCtx.useMonacoEditor
+        $file __dot__wizzi/${pkgPath}src/features/packi/types.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/features/packi/types.tsx
+        $file __dot__wizzi/${pkgPath}src/features/packi/index.tsx.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/react/features/packi/index.tsx
+
+        
+

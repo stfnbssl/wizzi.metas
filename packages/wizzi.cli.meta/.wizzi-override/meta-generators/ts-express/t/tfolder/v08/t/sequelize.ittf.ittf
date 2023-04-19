@@ -1,0 +1,32 @@
+$group
+    $if cliCtx.useSequelize
+        $file __dot__wizzi/t/v08/sequelize/attributes.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/attributes.ts
+        $file __dot__wizzi/t/v08/sequelize/model.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/model.ts
+        $file __dot__wizzi/t/v08/sequelize/modelBuilder.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/modelBuilder.ts
+        $file __dot__wizzi/t/v08/sequelize/modelTypes.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/modelTypes.ts
+        $file __dot__wizzi/t/v08/sequelize/modelController.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/modelController.ts       
+        $file __dot__wizzi/t/v08/sequelize/crud/get_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/crud/get_api.ts
+        $file __dot__wizzi/t/v08/sequelize/crud/get_list_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/crud/get_list_api.ts
+        $file __dot__wizzi/t/v08/sequelize/crud/create_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/crud/create_api.ts
+        $file __dot__wizzi/t/v08/sequelize/crud/update_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/crud/update_api.ts
+        $file __dot__wizzi/t/v08/sequelize/crud/delete_api.ts.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/ts/sequelize/tfolder/crud/delete_api.ts

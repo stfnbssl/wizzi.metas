@@ -1,0 +1,48 @@
+$group
+    $params &md
+    $if wzCtx.Build.useExpress
+        PORT=${wzCtx.App.port}
+        $if wzCtx.Build.useSession
+            SESSION_SECRET=${wzCtx.Build.session.secret}
+        NO_CACHE=${wzCtx.Build.noCache}
+    $if wzCtx.Build.useCors
+        CORS_CLIENT_ORIGIN=${wzCtx.Build.cors.clientOrigin}
+    $if wzCtx.Build.useWizzi
+        IS_WIZZI_DEV=${wzCtx.Build.wizzi.isDev}
+        WIZZI_BASE_PATH=${wzCtx.Build.wizzi.basePath}
+    $if wzCtx.Build.useAuthentication
+        $if wzCtx.Build.authentication.useGithub
+            $if wzCtx.Build.authentication.isLocal
+                GITHUB_CLIENT_ID=${wzCtx.Build.authentication.github.clientIdLocal}
+                GITHUB_CLIENT_SECRET=${wzCtx.Build.authentication.github.clientSecretLocal}
+                GITHUB_CALLBACK_URL=${wzCtx.Build.authentication.github.callbackURLLocal}
+            $else
+                GITHUB_CLIENT_ID=${wzCtx.Build.authentication.github.clientId}
+                GITHUB_CLIENT_SECRET=${wzCtx.Build.authentication.github.clientSecret}
+                GITHUB_CALLBACK_URL=${wzCtx.Build.authentication.github.callbackURL}
+        $if wzCtx.Build.authentication.useGoogle
+            $if wzCtx.Build.authentication.isLocal
+                GOOGLE_CLIENT_ID=${wzCtx.Build.authentication.google.clientIdLocal}
+                GOOGLE_CLIENT_SECRET=${wzCtx.Build.authentication.google.clientSecretLocal}
+                GOOGLE_CALLBACK_URL=${wzCtx.Build.authentication.google.callbackURLLocal}
+            $else
+                GOOGLE_CLIENT_ID=${wzCtx.Build.authentication.google.clientId}
+                GOOGLE_CLIENT_SECRET=${wzCtx.Build.authentication.google.clientSecret}
+                GOOGLE_CALLBACK_URL=${wzCtx.Build.authentication.google.callbackURL}
+    $if wzCtx.Build.useMongoDb
+        MONGO_HOST=${wzCtx.Build.mongoDb.host}
+        MONGO_USER=${wzCtx.Build.mongoDb.user}
+        MONGO_PASSWORD=${wzCtx.Build.mongoDb.password}
+        MONGO_PATH=${wzCtx.Build.mongoDb.dbPath}/${wzCtx.Build.mongoDb.dbName}
+    $if wzCtx.Build.useRedis
+        REDIS_CA=${wzCtx.Build.redis.ca}
+        REDIS_URL=${wzCtx.Build.redis.url}
+        REDIS_PASSWORD=${wzCtx.Build.redis.password}
+    $if wzCtx.Build.useSequelize
+        SEQUELIZE_DATABASE_URL=${wzCtx.Build.sequelize.databaseUrl}
+        SEQUELIZE_DATABASE=${wzCtx.Build.sequelize.database}
+        SEQUELIZE_DIALECT=${wzCtx.Build.sequelize.dialect}
+        SEQUELIZE_USER=${wzCtx.Build.sequelize.user}
+        SEQUELIZE_PASSWORD=${wzCtx.Build.sequelize.password}
+    $if wzCtx.Build.useFeatureGithub
+        GITHUB_ACCESS_TOKEN=${wzCtx.Build.featureGithub.accessToken}

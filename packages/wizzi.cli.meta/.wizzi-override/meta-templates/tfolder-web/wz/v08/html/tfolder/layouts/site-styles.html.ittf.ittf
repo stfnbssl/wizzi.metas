@@ -1,0 +1,71 @@
+$group
+	${'$'}params &opt
+
+    ${'$'}if opt.useBootstrap
+		css /public/lib/bootstrap/dist/css/bootstrap.min.css
+    
+    ${'$'}if opt.useCodemirror
+		s${'('} /public/lib/codemirror/lib/codemirror.css
+		s${'('} /public/lib/codemirror/theme/monokai.css
+		s${'('} /public/lib/codemirror/theme/twilight.css
+
+	${'$'}if typeof(wzCtx.aspect) !== 'undefined'
+		${'$'}if wzCtx.aspect.AnimateCss
+		    ${'$'}if wzCtx.aspect.production
+		        s${'('} /public/lib/animatecss/animate.min.css
+		    ${'$'}else
+		        s${'('} /public/lib/animatecss/animate.css
+
+    ${'$'}if opt.useFontAwesome
+        ${'$'} 
+            var fontAwesomeKey = 'eab461efef';
+        script
+            src https://kit.fontawesome.com/${'$'}{fontAwesomeKey}.js
+            crossorigin anonymous                                    
+
+    ${'$'}if opt.useFontRoboto
+        s${'('} https://fonts.googleapis.com/css?family=Roboto:300,400,500
+    
+    ${'$'}if opt.useFontMaterialIcons
+		s${'('} https://fonts.googleapis.com/icon?family=Material+Icons
+
+    ${'$'}if opt.useGoogleFonts
+        ${'$'}foreach item in opt.googleFonts
+            css https://fonts.googleapis.com/css?family=${'$'}{item}
+	
+    ${'$'}if opt.useHighlight
+	    ${'$'}if opt.isWizziStudio
+	        s${'('} /public/lib/highlight/styles/github.css
+            s${'('} /public/lib/highlightjs-master/dracula.css
+        ${'$'}else
+            s${'('} https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css        
+
+    ${'$'}if opt.useJarallax
+        s${'('} /public/lib/jarallax/jarallax.css
+	
+    ${'$'}if opt.useJsonFormatter
+	    ${'$'}if opt.isWizziStudio
+			s${'('} https://cdnjs.cloudflare.com/ajax/libs/json-formatter/0.7.0/json-formatter.min.css
+	    ${'$'}else
+	        s${'('} https://cdnjs.cloudflare.com/ajax/libs/json-formatter/0.7.0/json-formatter.min.css
+		
+	${'$'}if opt.useMaterialUI
+		s${'('} https://fonts.googleapis.com/icon?family=Material+Icons
+	
+    ${'$'}if opt.usePopper
+        s${'('} /public/lib/popper/main.css
+        
+	${'$'}if opt.usePrism
+	    ${'$'}if opt.isWizziStudio
+		    css /public/lib/prism/prism.css
+		${'$'}else
+		    css https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css
+	
+    ${'$'}if opt.useSocial
+        s${'('} /public/lib/social/social-icons.css
+	
+    ${'$'}if opt.useSweetalert
+		s${'('} https://cdn.jsdelivr.net/npm/sweetalert2@7.31.1/dist/sweetalert2.min.css	
+
+    ${'$'}if opt.mainCss && opt.mainCss.length > 0
+        s${'('} ${'$'}{opt.mainCss}

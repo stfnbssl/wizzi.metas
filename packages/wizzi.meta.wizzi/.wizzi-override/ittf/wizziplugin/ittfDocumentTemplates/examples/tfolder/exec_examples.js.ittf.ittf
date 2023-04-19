@@ -1,0 +1,38 @@
+﻿$group
+
+	${'$'}*
+		require
+		${'$'}
+			var name = 'xxx';
+			var exampleFolders = ['folder_a', 'folder_b', ...];
+	*${'$'}
+
+	import async
+
+	var examples
+		[
+			${'$'}foreach folder in exampleFolders
+				_ require('${'$'}{folder}')
+
+	function exec
+		param callback
+		_ async.mapSeries
+			@ examples
+			function
+				param example
+				param callback
+				_ example(callback)
+            a_cb_test${'('}results)
+				info '${'$'}{name} examples results\n', results
+				if callback
+					_ callback
+						@ null
+						@ '${'$'}{name} examples executed'
+
+	set module.exports
+		function
+			param callback
+			_ exec(callback)
+
+	if require.main === module
+		_ exec

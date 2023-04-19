@@ -1,0 +1,10 @@
+$group
+    $params name
+
+    ${'$'}
+        var md = {};
+        for (var i=0; i<wzCtx.Build.data.reduxItems.length; i++) {
+            if (wzCtx.Build.data.reduxItems[i].name == '${name}') {
+                md.schema = wzCtx.Build.data.reduxItems[i];
+            }
+        }

@@ -1,0 +1,10 @@
+$group
+    
+    $if cliCtx.useAuthentication
+        
+        $file __dot__wizzi/${pkgPath}src/site/controllers/auth.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/site/controllers/auth.ts
+        $file __dot__wizzi/${pkgPath}src/site/views/auth/login.html.ittf.ittf
+            html
+                ${'$'}include wz/v08/html/views/auth/login.html

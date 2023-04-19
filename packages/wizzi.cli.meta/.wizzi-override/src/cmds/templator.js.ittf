@@ -1,0 +1,69 @@
+module
+	kind es6
+
+    const path = require('path')
+	const fs = require('fs')
+	const wizzi = require('wizzi')
+	const wizziUtils = require('wizzi-utils')
+    const verify = wizziUtils.verify
+	const file = wizziUtils.file
+
+    set module.exports
+		=>
+            param sourcePath
+            param destPath
+            param ctx
+
+            _ wizzi.model
+                @ sourcePath
+                {
+                    @ cliCtx ctx
+                =>
+                    param err
+                    param templateModel
+                    if err
+                        error 'err', err
+                        return
+                    # $$ loog 'templateModel', templateModel
+                    foreach child in templateModel.children
+                        if child.name == '$file'
+                            _ processFile
+                                @ child
+                                @ destPath
+
+
+    function processFile
+        param node
+        param destPath
+        var outputPath
+            _ path.join
+                @ destPath
+                @ node.value
+        var sb = []
+        foreach child in node.children
+            _ processContent
+                @ sb
+                @ child
+                @ 0
+        _ file.write
+            @ outputPath
+            _ sb.join
+                @ '\n'
+
+    function processContent
+        param sb
+        param node
+        param indent
+        $$ loog new Array(indent).join(' ') + node.name + ' ' + node.value
+        _ sb.push
+            @ new Array(indent).join(' ') + decode(node.name) + ' ' + decode(node.value)
+        foreach child in node.children
+            _ processContent
+                @ sb
+                @ child
+                @ indent + 4
+
+    function decode
+        param text
+        set text = verify.replaceAll(text, "${'$'}", "$")
+        return verify.replaceAll(text, "£'('£", "(")

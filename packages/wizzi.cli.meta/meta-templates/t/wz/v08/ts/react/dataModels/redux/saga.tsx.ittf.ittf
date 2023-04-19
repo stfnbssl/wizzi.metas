@@ -1,0 +1,113 @@
+$group
+
+    ${'$'}
+        var schema = md.schema;
+
+    import 
+        @ all
+        @ fork
+        @ put
+        @ takeEvery
+        @ call
+        from 'redux-saga/effects'
+    import 
+        @ getType
+        from 'typesafe-actions'
+    import 
+        @ I${'$'}{schema.Name}
+        from './types'
+    import
+        @ get${'$'}{schema.Name}List
+        @ create${'$'}{schema.Name}
+        @ get${'$'}{schema.Name}ById
+        @ update${'$'}{schema.Name}
+        @ delete${'$'}{schema.Name}
+        from './api'
+    import 
+        as ${'$'}{schema.name}Actions
+        from './actions'
+    +
+    saga_handler${'('} ${'$'}{schema.name}, get${'$'}{schema.Name}ListRequest, get${'$'}{schema.Name}ListError )
+        const res
+            :[
+                :ref I${'$'}{schema.Name}
+            =
+                yield get${'$'}{schema.Name}List()
+        $$ loog 'Saga ${'$'}{schema.name}.getList', res
+        yield 
+            _ put
+                _ ${'$'}{schema.name}Actions.get${'$'}{schema.Name}ListSuccess
+                    { 
+                        @ ${'$'}{schema.collectionName} res
+                        @ message "${'$'}{schema.Name} created"
+    +
+    saga_handler${'('} ${'$'}{schema.name}, get${'$'}{schema.Name}ByIdRequest, get${'$'}{schema.Name}ByIdError )
+        const res
+            :ref I${'$'}{schema.Name}
+            =
+                yield get${'$'}{schema.Name}ById(action.payload)
+        $$ loog 'Saga ${'$'}{schema.name}.getById', res
+        yield 
+            _ put
+                _ ${'$'}{schema.name}Actions.get${'$'}{schema.Name}ByIdSuccess
+                    { 
+                        @ ${'$'}{schema.name} res
+                        @ message "${'$'}{schema.Name} retrieved"
+    +
+    saga_handler${'('} ${'$'}{schema.name}, create${'$'}{schema.Name}Request, create${'$'}{schema.Name}Error )
+        const res
+            :ref I${'$'}{schema.Name}
+            =
+                yield create${'$'}{schema.Name}(action.payload)
+        $$ loog 'Saga ${'$'}{schema.name}.create.res', res
+        yield 
+            _ put
+                _ ${'$'}{schema.name}Actions.create${'$'}{schema.Name}Success
+                    { 
+                        @ ${'$'}{schema.name} res
+                        @ message "${'$'}{schema.Name} created"
+    +
+    saga_handler${'('} ${'$'}{schema.name}, update${'$'}{schema.Name}Request, update${'$'}{schema.Name}Error )
+        const res
+            :ref I${'$'}{schema.Name}
+            =
+                yield update${'$'}{schema.Name}(action.payload.id, action.payload.post)
+        $$ loog 'Saga ${'$'}{schema.name}.update', res
+        yield 
+            _ put
+                _ ${'$'}{schema.name}Actions.update${'$'}{schema.Name}Success
+                    { 
+                        @ ${'$'}{schema.name} res
+                        @ message "${'$'}{schema.Name} updated"
+    +
+    saga_handler${'('} ${'$'}{schema.name}, delete${'$'}{schema.Name}Request, delete${'$'}{schema.Name}Error )
+        const res
+            :ref I${'$'}{schema.Name}
+            =
+                yield delete${'$'}{schema.Name}(action.payload)
+        $$ loog 'Saga ${'$'}{schema.name}.delete', res
+        yield 
+            _ put
+                _ ${'$'}{schema.name}Actions.delete${'$'}{schema.Name}Success
+                    { 
+                        @ ${'$'}{schema.name} res
+                        @ message "${'$'}{schema.Name} deleted"
+    +
+    function* watchGetRequest
+        yield takeEvery(getType(${'$'}{schema.name}Actions.get${'$'}{schema.Name}ListRequest), handleGet${'$'}{schema.Name}ListRequest)
+        yield takeEvery(getType(${'$'}{schema.name}Actions.get${'$'}{schema.Name}ByIdRequest), handleGet${'$'}{schema.Name}ByIdRequest)
+
+    +
+    function* watchCrudRequest
+        yield takeEvery(getType(${'$'}{schema.name}Actions.create${'$'}{schema.Name}Request), handleCreate${'$'}{schema.Name}Request)
+        yield takeEvery(getType(${'$'}{schema.name}Actions.update${'$'}{schema.Name}Request), handleUpdate${'$'}{schema.Name}Request)
+        yield takeEvery(getType(${'$'}{schema.name}Actions.delete${'$'}{schema.Name}Request), handleDelete${'$'}{schema.Name}Request)
+    +
+    function* ${'$'}{schema.name}Saga
+        yield 
+            _ all
+                [ 
+                    @ fork(watchGetRequest)
+                    @ fork(watchCrudRequest)
+    +
+    export-default ${'$'}{schema.name}Saga

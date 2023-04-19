@@ -1,0 +1,69 @@
+$group
+    async-function getProductionSetByQueryContext
+        param owner
+            :string
+        param productionName
+            :string
+        param queryContextString
+            :string
+        param progressivePackiFiles
+            :ref packiTypes.PackiFiles
+        param progressiveContext
+            :any
+        #
+            # param queryContextString: contexts[@tfolders]
+            # contexts: context-1[|context-2[|...context-n]
+            # context-x: contextPropertyName;artifactName[;transformName]
+            # tfolders: tfolder-1[|tfolder-2[|...tfolder-n]
+            # tfolders-x: tfolderName
+            # sample queryContextString: "wzCtx;wzctx.json|db;item.db.json@html|css|js"
+            # context property 'wzCtx' will contain json document 'wzctx.json'
+            # context property 'db' will contain json document 'item.db.json'
+            # fragments from tFolders html, css and js will be added to production packiFiles
+        +
+        # loog 'executing getProductionSetByQueryContext', 'owner', owner, 'productionName', productionName, 'queryContextString', queryContextString, 'progressivePackiFiles', Object.keys(progressivePackiFiles), 'progressiveContext', Object.keys(progressiveContext)
+        set progressiveContext
+            _ Object.assign
+                {
+                @ progressiveContext
+                {
+                    @ ctxByQueryContext "Hello by QueryContext"
+        return
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    if queryContextString && queryContextString.length > 0
+                        const queryContextItems = queryContextString.split('|')
+                        # loog 'getProductionSetByQueryContext', queryContextItems
+                        var j = 0
+                        iife next
+                            var queryContextItem = queryContextItems[j++]
+                            if !queryContextItem
+                                # loog 'getProductionSetByQueryContext.done.keys', Object.keys(progressiveContext)
+                                return
+                                    _ resolve
+                                        {
+                                            @ packiFiles progressivePackiFiles
+                                            @ context progressiveContext
+                            _ getArtifactContextItem
+                                @ owner
+                                @ queryContextItem
+                                @ progressiveContext
+                                ._ then
+                                    =>
+                                        param resultItemContext
+                                            :any
+                                        set progressiveContext
+                                            _ Object.assign
+                                                {
+                                                @ progressiveContext
+                                                @ resultItemContext
+                                        _ next()
+                                v08/ts/catch_reject( getProductionSetByQueryContext.getArtifactContextItem )
+                    else
+                        # loog 'getProductionSetByQueryContext', 'no queryContextString'
+                        _ resolve
+                            {
+                                @ packiFiles progressivePackiFiles
+                                @ context progressiveContext

@@ -1,0 +1,17 @@
+﻿$group
+
+    ${'$'}
+        var schema = md.schema;
+    +
+    export
+        :interface I${'$'}{schema.Name}
+            ${'$'}foreach field in schema.fields
+                :p ${'$'}{field.name}
+                    ${'$'}if ["oid","date"].indexOf(field.type) > -1
+                        :string
+                    ${'$'}elif ['string','boolean'].indexOf(field.type) > -1
+                        :${'$'}{field.type}
+                    ${'$'}elif field.type == 'number' || field.type == 'integer' || field.type == 'float'
+                        :number
+                    ${'$'}if !!field.required == false
+                        :optional

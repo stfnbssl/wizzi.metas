@@ -1,0 +1,121 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormObject",
+            props: [
+                { name: 'id', type: 'string'},
+                { name: 'name', type: 'string'},
+                { name: 'label', type: 'string'},
+                { name: "path", type: "string" },
+                { name: 'properties', type: 'any' },
+                { name: 'values', type: 'any' },
+                { name: 'onChange', type: 'any', optional: true },
+            ],
+            stateProps: [
+                { name: "objProperties", type: "any" },
+                { name: "condProperty", type: "any" },
+            ]
+        }
+
+    v08/ts/react/component${'('}&md)
+        ${'$'}append imports
+            import
+                @ c
+                @ s
+                from '../ThemeProvider'
+            common_imports${'('}widgets)
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledInput .input<RootStyleProps>
+
+        ${'$'}append ctor
+            const objProperties = []
+            let condProperty = null
+            foreach p in this.props.properties
+                if p.isCondition 
+                    set condProperty = p
+                else
+                    _ objProperties.push
+                        @ p
+            set this.state
+                {
+                    @ condProperty condProperty
+                    @ objProperties objProperties
+
+        m render
+            const cp = this.state.condProperty
+            $$ loog 'FormObject.render', cp.name, this.props.values[cp.name], this.props.values, this.state
+            return
+                < Box
+                    @ border '1px solid #bcbcbc'
+                    @ padding '10px'
+                    {
+                        &&
+                            + cp
+                            div
+                                < FormCheckBox
+                                    @ label {cp.label || cp.name}
+                                    @ name {cp.name}
+                                    @ id {cp.name}
+                                    @ value {this.props.values[cp.name] || false}
+                                    @ onChange
+                                        =>
+                                            param ev
+                                            _ this.props.onChange
+                                                @ this.props.path + '.' + cp.name
+                                                @ ev.target.checked   
+                                
+                    {
+                        &&
+                            + (cp ? this.props.values[cp.name] : true)
+                            < Box
+                                < HR
+                                {
+                                    _ this.state.objProperties.map
+                                        =>
+                                            param p
+                                                :any
+                                            param ndx
+                                            $$ loog 'p', p
+                                            if p.type == 'string' || p.type == 'number'
+                                                return
+                                                    < FormGroup
+                                                        @ key {ndx}
+                                                        @ label {p.label || p.name}
+                                                        @ name {p.name}
+                                                        @ id {p.name}
+                                                        @ value {this.props.values[p.name] || ''}
+                                                        @ onChange
+                                                            =>
+                                                                param ev
+                                                                _ this.props.onChange
+                                                                    @ this.props.path + '.' + p.name
+                                                                    @ ev.target.value
+                                            elif p.type == 'boolean'
+                                                return
+                                                    < FormCheckBox
+                                                        @ key {ndx}
+                                                        @ label {p.label || p.name}
+                                                        @ name {p.name}
+                                                        @ id {p.name}
+                                                        @ value {this.props.values[p.name]}
+                                                        @ onChange
+                                                            =>
+                                                                param ev
+                                                                _ this.props.onChange
+                                                                    @ this.props.path + '.' + p.name
+                                                                    @ ev.target.checked   
+                                            elif p.type == 'object'
+                                                return
+                                                    < FormObject
+                                                        @ key {ndx}
+                                                        @ label {p.label || p.name}
+                                                        @ name {p.name}
+                                                        @ id {p.name}
+                                                        @ path {this.props.path + '.' + p.name}
+                                                        @ values {this.props.values[p.name] || {}}
+                                                        @ properties {p.properties}
+                                                        @ onChange {this.props.onChange}

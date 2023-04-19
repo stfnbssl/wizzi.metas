@@ -1,0 +1,38 @@
+$group
+	${'$'}if app.Build.react.redux.useThunk ||
+		\b app.useApiMiddleware ||
+		\b app.useThunkWithExtraArgument
+		import { createStore, applyMiddleware } from 'redux'
+		${'$'}if app.Build.react.redux.useThunk
+			import thunk from 'redux-thunk'
+		${'$'}if app.Build.react.useApiMiddleware
+			import api from '../middleware/api'
+		${'$'}if app.Build.react.redux.useThunkWithExtraAergument
+			# in the api middleware we can store global objects
+			# that give problems when stored in the redux state
+			# see https://stackoverflow.com/questions/37221872/storing-global-object-outside-of-redux-store-in-react-redux-app
+			# and https://github.com/reduxjs/redux-thunk
+			import extraArguments from '../middleware/extraArguments'
+	${'$'}else
+		import { createStore } from 'redux'
+
+	import rootReducer from './reducers'
+	+
+	const configureStore
+		=>
+			param preloadedState
+			_ createStore
+				@ rootReducer
+				@ preloadedState
+				${'$'}if app.Build.react.redux.useThunk || app.Build.react.useApiMiddleware || app.Build.react.redux.useThunkWithExtraAergument
+					_ applyMiddleware
+						${'$'}if app.Build.react.redux.useThunk
+							@ thunk
+						${'$'}if app.Build.react.useApiMiddleware
+							@ api
+						${'$'}if app.Build.react.redux.useThunkWithExtraAergument
+							_ thunk.withExtraArgument
+								@ extraArguments
+	+
+	export default configureStore
+

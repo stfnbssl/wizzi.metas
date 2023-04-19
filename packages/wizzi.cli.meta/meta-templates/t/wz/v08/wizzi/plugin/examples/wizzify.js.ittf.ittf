@@ -1,0 +1,56 @@
+$group
+    kind jsfile
+	+
+		$ 
+			var schema = 'graphql'
+
+    +
+	import async
+	import path
+	import util
+	+
+	var ${schema}wizzifier = require('../lib/wizzifiers/${schema}/wizzifier')
+	var file = require('wizzi-utils').file
+	+
+	_ async.map
+		[
+			@ 'data'
+		@ wizzify
+		f_cb_no_err( result )
+			info 'Terminated. result: ', result
+
+	function wizzify
+		param name
+		param callback
+		+
+		var source
+			_ path.join
+				@ __dirname
+				@ 'data'
+				@ name + '.${schema}'
+		+
+		_ ${schema}wizzifier.getWizziIttf
+			_ file.read
+				@ source
+			{
+				@ syntaxOutFile
+					_ path.join
+						@ __dirname
+						@ 'data'
+						@ 'output'
+						@ name + '.${schema}.syntax'
+			f_cb_no_err( ittf )
+				if err
+					error 'error wizzifying: ' + source
+					error 'err', err
+					return callback(null, 'error ' + source)
+				_ file.write
+					_ path.join
+						@ __dirname
+						@ 'data'
+						@ 'output'
+						@ name + '.${schema}.ittf'
+					@ ittf
+				return callback(null, 'success ' + source)
+
+

@@ -1,0 +1,79 @@
+$group
+	${'$'}params name, commands|none
+
+	# process AST node ${'$'}{name}
+
+	${'$'}
+		var items = commands.split(';'), cmd, tag = name, skip = false, isName = false, tagIsVar = false, 
+			\b isText = false, mustBeText = false, couldBeText = false, retIsArray = false, ignore = false;
+		for (var i=0; i<items.length; i++) {
+			cmd = items[i];
+			if (cmd == 'skip') { skip = true; }
+			else if (cmd == 'is-name') { isName = true; }
+			else if (cmd == 'tag-is-var') { tagIsVar = true; }
+			else if (cmd == 'is-text') { isText = true; }
+			else if (cmd == 'must-be-text') { mustBeText = true; }
+			else if (cmd == 'could-be-text') { couldBeText = true; }
+			else if (cmd == 'ret-is-array') { retIsArray = true; }
+			else if (cmd == 'ignore') { ignore = true; }
+			else {tag = cmd} ;
+		}
+	
+	set format.${'$'}{name}
+		function
+			param parent
+			param node
+			param options
+
+			${'$'}if ignore == false
+
+				${'$'}if mustBeText
+					set options.mustBeText = true
+				${'$'}if couldBeText
+					set options.couldBeText = true
+
+				info 'node : ${'$'}{name} ----------------------------------------- parent ittf tag : ', parent.tag
+				foreach item in Object.keys(node)
+					if ['kind', 'start', 'end', 'loc'].indexOf(item) < 0
+						if verify.isNotEmpty(node[item])
+							info 'property', item, node[item], verify.isArray(node[item]) ? 'array' : ''
+						else
+							info 'property', item, verify.isArray(node[item]) ? 'array' : ''
+
+				${'$'}if skip
+					var ret = parent
+				${'$'}else
+					var ret
+						{
+							${'$'}if tagIsVar
+								@ tag ${'$'}{tag}
+							${'$'}else
+								@ tag '${'$'}{tag}' 
+							@ name ''
+							@ isText ${'$'}{isText}
+							@ textified null
+							@ source options.input.substring(node.start, node.end)
+							[ children
+
+				${'$'}hook
+
+
+				${'$'}if isText
+					set ret.textified = ret.name
+
+				${'$'}if isName
+					set parent.name = ret.name
+			
+				${'$'}elif skip == false
+					# loog '### add ', ret.tag , 'to', parent.tag
+					${'$'}if retIsArray
+						foreach item in ret
+							_ parent.children.push(item)
+					${'$'}else
+						_ parent.children.push(ret)
+
+				${'$'}if mustBeText
+					set options.mustBeText = false
+				${'$'}if couldBeText
+					set options.couldBeText = false
+

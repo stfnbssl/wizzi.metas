@@ -1,0 +1,23 @@
+$group
+    +
+    export 
+        function isAndroid
+            param userAgent
+                :string 
+            return /Android/i.test(userAgent)
+    +
+    export 
+        function isIOS
+            param userAgent
+                :string 
+            return /iPhone|iPad|iPod/i.test(userAgent)
+    +
+    export 
+        function isMobile
+            param userAgent
+                :string 
+                = 
+                    iif typeof navigator !== 'undefined'
+                        then navigator.userAgent
+                        else ''
+            return isAndroid(userAgent) || isIOS(userAgent)

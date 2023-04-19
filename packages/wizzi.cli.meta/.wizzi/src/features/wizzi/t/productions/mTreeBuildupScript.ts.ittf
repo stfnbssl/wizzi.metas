@@ -1,0 +1,78 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function mTreeBuildupScript
+                param filePath
+                    :string
+                param files
+                    :ref packiTypes.PackiFiles
+                param context
+                    :any
+                :return
+                    :ref Promise
+                        :param
+                            :any
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            if !verify.isObject(files)
+                                return
+                                    _ reject
+                                        {
+                                            @ action 'wizzi.productions.mTreeBuildupScript'
+                                            @ message 'files parameter must be an object of type PackiFiles'
+                                            @ files
+                            const ittfDocumentUri
+                                _ ensurePackiFilePrefix(filePath)
+                                    :as
+                                        :string
+                            let jsonwf
+                                :any
+                                =
+                                    {
+                            # TODO catch error
+                            set jsonwf =
+                                await
+                                    _ createJsonFsAndFactory(files)
+                            _ jsonwf.wf.loadMTreeBuildupScript
+                                @ ittfDocumentUri
+                                @ context
+                                =>
+                                    param err
+                                        :any
+                                    param buildUpScript
+                                        :string
+                                    if err
+                                        return reject(err)
+                                    _ resolve
+                                        @ buildUpScript
+    +
+    export
+        async-function mTreeBuildupScriptFs
+            param filePath
+                :string
+            param context
+                :any
+            :return
+                :ref Promise
+                    :param
+                        :any
+            throw new Error(myname + '.mTreeBuildupScriptFs not yet implemented')
+    +
+    export
+        async-function mTreeBuildupScriptDb
+            param owner
+                :string
+            param name
+                :string
+            param context
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref GeneratedArtifact
+            throw new Error(myname + '.mTreeBuildupScriptDB not yet implemented')

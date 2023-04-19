@@ -1,0 +1,15 @@
+$group
+
+    $if cliCtx.useJsUtils
+
+        $
+            var items = [
+                'index',
+                't/cache',
+                't/underscore',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/js/t/utils/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/js/utils/${item}.js

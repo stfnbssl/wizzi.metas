@@ -1,0 +1,100 @@
+$group
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import classnames from 'classnames'
+    import 
+        as React
+        from 'react'
+    import 
+        @ c
+        from '../ThemeProvider'
+    +
+    export
+        :type ToggleSwitchProps
+            :{ 
+                :p checked
+                    :boolean 
+                :p label
+                    :string 
+                :p onChange
+                    :=> 
+                        :void 
+                        param event
+                            :ref React.ChangeEvent
+                                :param 
+                                    :ref HTMLInputElement
+                :p className
+                    :optional 
+                    :string 
+    +
+    export
+        function ToggleSwitch
+            param props
+                :ref ToggleSwitchProps
+            return 
+                label 
+                    @ className {classnames(css(styles.container), props.className)}
+                    span 
+                        @ className {css(styles.label)}
+                        + {props.label}
+                    span 
+                        @ className
+                            _ css
+                                @expr styles.switch
+                                iif props.checked
+                                    then styles.active
+                                    else styles.inactive
+                    input 
+                        @ type "checkbox"
+                        @ checked {props.checked}
+                        @ onChange {props.onChange}
+                        @ className {css(styles.check)}
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { container
+                    @ display 'flex'
+                    @ alignItems 'center'
+                    @ margin 8
+                    @ cursor 'pointer'
+                    @ whiteSpace 'nowrap'
+                { switch
+                    @ display 'inline-block'
+                    @ verticalAlign -4
+                    @ width 36
+                    @ height 20
+                    @ borderRadius 12
+                    @ border
+                        `lit 
+                            + 1px solid&nbsp;
+                            _ c('border')
+                            + 
+                    @ backgroundColor c('background')
+                    { ':before'
+                        @ content '""'
+                        @ display 'inline-block'
+                        @ height 14
+                        @ width 14
+                        @ borderRadius 7
+                        @ margin 2
+                        @ transition '.2s'
+                        @ transform 'translateX(0)'
+                { inactive
+                    { ':before'
+                        @ transform 'translateX(0)'
+                        @ backgroundColor c('soft')
+                { active
+                    { ':before'
+                        @ transform 'translateX(16px)'
+                        @ backgroundColor c('primary')
+                { check
+                    @ display 'none'
+                { label
+                    @ flex 1
+                    @ padding '0 .5em'
+                    @ fontWeight 'normal'
+
+    export-default ToggleSwitch                                            

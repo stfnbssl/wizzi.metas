@@ -1,0 +1,103 @@
+﻿$group
+
+	m babelTransformRequire
+		param options
+		if !babelCore
+			set babelCore = require("@babel/core")
+
+	m getBabelTransformConfig
+		param options
+		# TODO calculate cfg from options
+		var cfg
+			{
+				[ presets
+					@ "@babel/preset-env"
+					@ "@babel/preset-react"
+					@ "@babel/preset-flow"
+				#
+					[ plugins
+						[
+							@ "@babel/plugin-proposal-decorators"
+							{
+								@ "legacy"  true
+						@ "@babel/plugin-proposal-function-sent"
+						@ "@babel/plugin-proposal-export-namespace-from"
+						@ "@babel/plugin-proposal-numeric-separator"
+						@ "@babel/plugin-proposal-throw-expressions"
+						# stage 3
+						@ "@babel/plugin-syntax-dynamic-import"
+						@ "@babel/plugin-syntax-import-meta"
+						[
+							@ "@babel/plugin-proposal-class-properties"
+							{
+								@ loose false
+						@ "@babel/plugin-proposal-json-strings"
+		return cfg
+
+	m babelTransformExec
+		param options
+		param callback
+
+		_ this.babelTransformRequire
+			@ options
+
+		var code = options.code
+		var codePath = options.codePath
+
+		# loog 'wizzi-scripts.babelTransformExec.codePath', codePath
+
+		var cfg
+			_ this.getBabelTransformConfig
+				@ options
+
+		if codePath
+			_ babelCore.transformFile
+				@ codePath
+				@ cfg
+				@ callback
+		else
+			_ babelCore.transform
+				@ code
+				@ cfg
+				@ callback
+
+	m babelTransformExecToEventStream
+		param options
+		param res
+		param callback
+
+		_ this.babelTransformExec
+			@ options
+			f_cb_no_err(result)
+				# loog 'wizzi-scripts.babelTransformExecToEventStream.err.result', err, result
+				_ res.writeHead
+					@ 200
+					{ 
+						@ "Content-Type" "text/event-stream"
+						@ "Cache-control" "no-cache"
+
+				var payload
+				if err
+					set payload = util.inspect(err) 
+				else
+					# TODO calculate payload from options
+					var payload = result.code
+				# loog 'payload', payload
+				
+				var str
+				var lines = payload.split("\n")
+				for var i=0; i<lines.length; i++
+					if i == lines.length - 1
+						set str = lines[i]
+					else
+						# Note: The double-newline is *required*
+						_ res.write('data: ' + lines[i] + "\n\n")
+				if str.length > 0
+					_ res.write('data: ' + str + "\n\n")
+				_ res.end('data: ***___CLOSE___***\n\n')
+				
+				if callback
+					return
+						_ callback
+							@ null
+							@ payload

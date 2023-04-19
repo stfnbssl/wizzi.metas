@@ -1,0 +1,116 @@
+$group
+
+    const path = require('path')
+    $*
+    :type parsedFilePath
+        :{
+            :p seedname
+                :string
+            :p schema
+                :string
+            :p isIttfDocument
+                :boolean
+    *$
+    const md = module.exports = {}
+    +
+    set md.parseFilePath
+        function 
+            param filePath
+            $*
+            :return
+                :ref parsedFilePath
+            *$
+            const nameParts = path.basename(filePath).split('.')
+            if nameParts[nameParts.length - 1] === 'ittf'
+                return
+                    {
+                        @ isIttfDocument true
+                        @ schema nameParts[nameParts.length - 2]
+                        @ seedname nameParts.slice(0, -2).join('.')
+            else
+                return
+                    {
+                        @ isIttfDocument false
+                        @ schema nameParts[nameParts.length - 1]
+                        @ seedname nameParts.slice(0, -1).join('.')
+
+	set md.artifactNameFromFileSchema
+        function 
+            param wizziFactoryInstance
+            param schema
+            return wizziFactoryInstance.mapSchemaToDefaultArtifact(schema)
+    +
+    set md.ittfRootFromSchema
+        function
+            param wizziFactoryInstance
+            param schema
+            return wizziFactoryInstance.mapSchemaToRootElement(schema)
+    +
+    set md.pluginsFor
+        function 
+            param wizziFactoryInstance
+            param ittfDocumentPath
+            return wizziFactoryInstance.mapIttfDocumentPathToPluginDependencies(ittfDocumentPath)
+    +
+    set md.generatorFor
+        function
+            param wizziFactoryInstance
+            param ittfDocumentPath
+            return wizziFactoryInstance.mapIttfDocumentPathToDefaultArtifact(ittfDocumentPath)
+    +
+    set md.schemaFromExtension
+        function 
+            param wizziFactoryInstance
+            param extension
+            return wizziFactoryInstance.mapExtensionToSchema(extension)
+    +
+    set md.schemaFromFilePath
+        function 
+            param wizziFactoryInstance
+            param ittfDocumentPath
+            return wizziFactoryInstance.mapIttfDocumentPathToSchema(ittfDocumentPath)
+    +
+    set md.wrapperForSchema
+        function 
+            param wizziFactoryInstance
+            param schema
+            if schema === 'js' || schema === 'jsx'
+                return
+                    {
+                        @ n 'module'
+                        [ children
+                            {
+                                @ n 'kind'
+                                @ v 'react'
+                                [ children
+            elif schema === 'ts' || schema === 'tsx'
+                return
+                    {
+                        @ n 'module'
+                        [ children
+            else
+                const rootTag = wizziFactoryInstance.mapSchemaToRootTag(schema)
+                return
+                    {
+                        @ n rootTag
+                        [ children
+    +
+    const extContentTypeMap
+        {
+            @ '.gif' 'image/gif'
+            @ '.jpeg' 'image/jpeg'
+            @ '.jpg' 'image/jpg'
+            @ '.png' 'image/png'
+            @ '.ttf' 'application/x-font-ttf'
+            @ '.woff' 'application/x-font-woff'
+    +
+    set md.contentTypeFor
+        function 
+            param wizziFactoryInstance
+            param ittfDocumentPath
+            var ret = wizziFactoryInstance.mapIttfDocumentPathToContentType(ittfDocumentPath)
+            if !ret
+                const ittfSchema = schemaFromFilePath(filePath)
+                if ittfSchema
+                    return extContentTypeMap['.' + ittfSchema]
+                return undefined

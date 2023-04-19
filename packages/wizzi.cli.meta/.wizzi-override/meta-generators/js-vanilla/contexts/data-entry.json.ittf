@@ -1,0 +1,37 @@
+{
+    $include commons
+
+    $ 
+
+    { App
+        name "Test Vite React"
+        kind "Client"
+
+    useJsApi true
+    { jsApi
+    useJsDb true
+    { jsDb
+        useLocalStorageDb true
+        { localStorageDb
+    useJsControls true
+    { jsControls
+    useJsEditors true
+    { jsEditors
+    useJsUtils true
+    { jsUtils
+    useJsStyles true
+    { jsStyles
+    useJsMvc true
+    { jsMvc
+    useJsAppCrud true
+    { jsAppCrud
+        name "blog"
+        Name "Blog"
+        [ fields
+            {
+                name "code"
+            {
+                name "value"
+    useCheatsheet true
+    { cheatsheet
+

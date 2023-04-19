@@ -1,0 +1,92 @@
+$group
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ c
+        from '../ThemeProvider'
+    +
+    :type FooterButtonProps
+        :{ 
+            :p active
+                :optional 
+                :boolean 
+            :p icon
+                :optional 
+                :string 
+            :p children
+                :optional 
+                :ref React.ReactNode
+            :p onClick
+                :=> 
+                    :void 
+                    param e
+                        :ref React.MouseEvent
+                            :param 
+                                :ref HTMLButtonElement
+                            :param 
+                                :ref MouseEvent
+    +
+    export
+        function FooterButton
+            { 
+                @ active
+                @ icon
+                @ children
+                @ onClick
+                :ref FooterButtonProps
+            return 
+                button 
+                    @ onClick {onClick}
+                    @ style
+                        iif icon
+                            then
+                                { 
+                                    @ backgroundImage
+                                        `lit 
+                                            + url(
+                                            @ icon
+                                            + )
+                            else undefined
+                    @ className
+                        _ css
+                            @expr styles.button
+                            iif children
+                                then styles.buttonLabel
+                                else undefined
+                            @expr active && styles.active
+                    + {children}
+    +
+    export-default FooterButton
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { button
+                    @ position 'relative'
+                    @ border 0
+                    @ outline 0
+                    @ margin 0
+                    @ height 30
+                    @ padding '0 16px'
+                    @ appearance 'none'
+                    @ backgroundColor 'transparent'
+                    @ backgroundSize 16
+                    @ backgroundRepeat 'no-repeat'
+                    @ backgroundPosition 'center right 8px'
+                    { ':active'
+                        @ backgroundColor c('hover')
+                        @ color c('soft')
+                    { ':hover'
+                        @ backgroundColor c('hover')
+                        @ color c('soft')
+                { buttonLabel
+                    { '@media (min-width: 720px)'
+                        @ padding '5px 32px 5px 8px'
+                { active
+                    @ backgroundColor c('hover')
+                    @ color c('soft')

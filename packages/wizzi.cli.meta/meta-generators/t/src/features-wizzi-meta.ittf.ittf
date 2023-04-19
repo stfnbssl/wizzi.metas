@@ -1,0 +1,24 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.useWizziMeta
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziMeta/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-meta/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziMeta/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-meta/types.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziMeta/controllers/apiv1wizzimeta.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-meta/controllers/apiv1wizzimeta.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziMeta/api/wizziMeta.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-meta/api/wizziMeta.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziMeta/api/metaTemplator.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-meta/api/metaTemplator.ts
+

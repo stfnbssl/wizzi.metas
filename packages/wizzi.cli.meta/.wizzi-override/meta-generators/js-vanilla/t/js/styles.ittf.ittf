@@ -1,0 +1,18 @@
+$group
+
+    $if cliCtx.useJsStyles
+
+        $
+            var items = [
+                'index',
+                't/colors',
+                't/inject-css',
+                't/shadows',
+                't/style-data',
+                't/theme-provider',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/js/t/styles/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/js/styles/${item}.js

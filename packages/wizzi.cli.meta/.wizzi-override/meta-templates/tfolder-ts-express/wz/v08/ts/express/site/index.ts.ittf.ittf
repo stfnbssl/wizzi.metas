@@ -1,0 +1,58 @@
+$group
+
+    import 
+        @ ControllerType
+        from '../features/app'
+
+    ${'$'}if wzCtx.Build.useSite
+        import 
+            @ HomeController
+            from './controllers/home'
+        ${'$'}if wzCtx.Build.useDemoControllers
+            import 
+                @ DemoHomeController
+                from './controllers/demoHome'
+            ${'$'}if wzCtx.Build.useWizziViewEngine
+                import 
+                    @ DemoWizziController
+                    from './controllers/demoWizzi'
+        ${'$'}if wzCtx.Build.useAccount
+            import 
+                @ AccountController
+                from './controllers/account'
+        ${'$'}if wzCtx.Build.useAuthentication
+            import 
+                @ AuthController
+                from './controllers/auth'
+        ${'$'}if wzCtx.Build.useWizziDocs
+            import 
+                @ DocsController
+                from './controllers/docs'
+        ${'$'}if wzCtx.Build.useWizziProductions
+            import 
+                @ ProductionsController
+                from './controllers/productions'
+        ${'$'}hook imports
+    
+    const siteControllers
+        :[ 
+            :ref ControllerType
+        =
+            [ 
+                ${'$'}if wzCtx.Build.useSite
+                    @ new HomeController()
+                    ${'$'}if wzCtx.Build.useDemoControllers
+                        @ new DemoHomeController()
+                        ${'$'}if wzCtx.Build.useWizziViewEngine
+                            @ new DemoWizziController()
+                    ${'$'}if wzCtx.Build.useAuthentication
+                        @ new AuthController()
+                    ${'$'}if wzCtx.Build.useAccount
+                        @ new AccountController()
+                    ${'$'}if wzCtx.Build.useWizziDocs
+                        @ new DocsController()
+                    ${'$'}if wzCtx.Build.useWizziProductions
+                        @ new ProductionsController()
+                ${'$'}hook controllers
+    export
+        @ siteControllers

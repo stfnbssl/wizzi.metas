@@ -1,0 +1,171 @@
+$group
+
+    import cookies from 'js-cookie'
+
+    import
+        @ IStorageBackend
+        from './types'
+
+    export-default 
+        class StorageHandler
+            :implements IStorageBackend
+            p _storageBackend
+                :union 
+                    :ref IStorageBackend
+                    :null 
+                = null
+            p _namespace
+                :string 
+            ctor 
+                param namespace
+                    :string 
+                    :optional 
+                param storageBackend
+                    :string 
+                    :optional 
+                set this._namespace = namespace ?? ''
+                switch storageBackend
+                    case 'localstorage'
+                        try 
+                            set this._storageBackend = window.localStorage
+                        catch e
+                            set this._storageBackend = new CookieStorage()
+                        break 
+                    case 'cookie'
+                        set this._storageBackend = new CookieStorage()
+                        break 
+                    case 'dummy'
+                        set this._storageBackend = new DummyStorage()
+                        break 
+            m getItem
+                param key
+                    :string 
+                try 
+                    return this.storageBackend.getItem(this._getKey(key))
+                catch e
+                    _ this._failover()
+                    return this.storageBackend.getItem(this._getKey(key))
+            m removeItem
+                param key
+                    :string 
+                try 
+                    _ this.storageBackend.removeItem(this._getKey(key))
+                catch e
+                    _ this._failover()
+                    _ this.storageBackend.removeItem(this._getKey(key))
+            m setItem
+                param key
+                    :string 
+                param value
+                    :string 
+                param options
+                    :object 
+                    :optional 
+                try 
+                    _ this.storageBackend.setItem(this._getKey(key), value, options)
+                catch e
+                    _ this._failover()
+                    _ this.storageBackend.setItem(this._getKey(key), value, options)
+            m _getKey
+                param key
+                    :string 
+                :return
+                    :string 
+                return 
+                    `lit 
+                        + 
+                        @ this._namespace
+                        + .
+                        @ key
+                        + 
+            m _failover
+                if this.storageBackend instanceof DummyStorage
+                    _ console.warn('DummyStorage: ignore failover')
+                else
+                    if this.storageBackend instanceof CookieStorage
+                        _ console.warn('CookieStorage: failing over DummyStorage')
+                        set this.storageBackend = new DummyStorage()
+                    else
+                        _ console.warn('LocalStorage: failing over CookieStorage')
+                        set this.storageBackend = new CookieStorage()
+            get storageBackend
+                :return
+                    :ref IStorageBackend
+                if this._storageBackend
+                    return this._storageBackend
+                let storageBackend
+                ${'$'}if wzCtx.TODO
+                    if process.browser
+                        set storageBackend = window.localStorage || new CookieStorage()
+                        # @ts-ignore
+                    else
+                        set storageBackend = new DummyStorage()
+                ${'$'}else
+                    set storageBackend = window.localStorage || new CookieStorage()
+                set this._storageBackend = storageBackend
+                return this._storageBackend
+            set storageBackend
+                param storageBackend
+                    :ref IStorageBackend
+                set this._storageBackend = storageBackend
+    +
+    class CookieStorage
+        :implements IStorageBackend
+        m getItem
+            param key
+                :string 
+            :return
+                :union 
+                    :string 
+                    :undefined 
+            return cookies.get(key)
+        m removeItem
+            param key
+                :string 
+            :return
+                :void 
+            _ cookies.remove(key)
+        m setItem
+            param key
+                :string 
+            param value
+                :string 
+            param options
+                :object 
+                :optional 
+            _ cookies.set
+                @ key
+                @ value
+                ?? 
+                    + options
+                    { 
+    +
+    class DummyStorage
+        :implements IStorageBackend
+        p _storage
+            :{ 
+                :index 
+                    :string 
+                    param key
+                        :string 
+            { 
+        m getItem
+            param key
+                :string 
+            :return
+                :union 
+                    :string 
+                    :null 
+            return this._storage[key]
+        m removeItem
+            param key
+                :string 
+            :return
+                :void 
+            delete this._storage[key]
+        m setItem
+            param key
+                :string 
+            param value
+                :string 
+            set this._storage[key] = value

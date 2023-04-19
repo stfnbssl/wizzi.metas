@@ -1,0 +1,60 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "Avatar",
+            props: [
+                { name: "size", type: "number" },
+                { name: "source", type: "union", types:[
+                    { name: 'string' },
+                    { name: 'null' }
+                ]},
+            ]
+        }
+
+
+    v08/ts/react/function${'('}&md)
+
+        ${'$'}append imports
+            import 
+                @ c
+                from '../ThemeProvider'
+
+        ${'$'}append styles
+            :interface RootStyleProps
+            :interface ImageStyleProps
+                :p size
+                    :number
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+                justify-content center
+                align-items center
+                stroke
+                    => c('text')
+            styled StyledImage .img<ImageStyleProps>
+                width 
+                    => props.size + "px"
+                height
+                    => props.size + "px"
+                border-radius
+                    => (props.size / 2) + "px"
+        
+        < StyledRoot 
+            { 
+                iif source
+                    then
+                        < StyledImage
+                            @ src {source}
+                            @ size {size}
+                    else
+                        svg 
+                            @ width "20"
+                            @ height "20"
+                            @ fill "none"
+                            @ xmlns "http://www.w3.org/2000/svg"
+                            path 
+                                @ d "M13.125 13.563c2.423-3.635 2.831-10.938-2.623-10.938-5.454 0-5.05 7.303-2.627 10.938-2.423 0-5.25 2.389-5.25 4.812h15.75c.004-2.423-2.827-4.813-5.25-4.813z"
+                                @ strokeWidth "1.75"
+                                @ strokeLinecap "round"
+                                @ strokeLinejoin "round"

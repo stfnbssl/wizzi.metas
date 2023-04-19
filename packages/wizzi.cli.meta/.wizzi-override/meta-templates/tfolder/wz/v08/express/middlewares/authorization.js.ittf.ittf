@@ -1,0 +1,94 @@
+$group
+    
+    import jwt from 'express-jwt'
+    import jwksRsa from 'jwks-rsa'
+    import 
+        @ config
+        from '../features/config/index.js'
+    
+    export 
+        const checkJwt
+            _ jwt
+                { 
+                    # Dynamically provide a signing key based on the kid in the header and the singing keys
+                    # provided by the JWKS endpoint.
+                    @ secret
+                        _ jwksRsa.expressJwtSecret
+                            { 
+                                @ cache true
+                                @ rateLimit true
+                                @ jwksRequestsPerMinute 5
+                                @ jwksUri
+                                    `lit 
+                                        + https://
+                                        @ config.auth0Domain
+                                        + /.well-known/jwks.json
+                    # Validate the audience and the issuer.
+                    @ audience config.auth0PackiApiId
+                    @ issuer
+                        `lit 
+                            + https://
+                            @ config.auth0Domain
+                            + /
+                    [ algorithms
+                        @ 'RS256'
+    
+    export 
+        const checkScopes
+            => 
+                param scopes
+                _ jwtAuthz(scopes)
+    
+    export 
+        const AuthorizationMiddleware
+            => 
+                param app
+                _ app.use(checkJwt)
+    
+    const jwtAuthz
+        => 
+            param expectedScopes
+            param options
+            if !Array.isArray(expectedScopes)
+                throw new Error('Parameter expectedScopes must be an array of strings representing the scopes for the endpoint(s)')
+            return 
+                => 
+                    param req
+                    param res
+                    param next
+                    const error
+                        => 
+                            param res
+                            const err_message = 'Insufficient scope'
+                            if options && options.failWithError
+                                return 
+                                    _ next
+                                        { 
+                                            @ statusCode 403
+                                            @ error 'Forbidden'
+                                            @ message err_message
+                            _ res.append
+                                @ 'WWW-Authenticate'
+                                `lit 
+                                    + Bearer scope="
+                                    _ expectedScopes.join(' ')
+                                    + ", error="
+                                    @ err_message
+                                    + "
+                            _ res.status(403).send(err_message)
+                    if expectedScopes.length === 0
+                        return 
+                            _ next
+                    if !req.user || typeof req.user.scope !== 'string'
+                        return error(res)
+                    const scopes = req.user.scope.split(' ')
+                    const allowed
+                        _ expectedScopes.some
+                            => 
+                                param scope
+                                _ scopes.includes(scope)
+                    return 
+                        iif allowed
+                            then
+                                _ next
+                            else error(res)

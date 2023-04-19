@@ -1,0 +1,17 @@
+﻿$group
+    $params &folders
+
+	line ittf-lib
+		cwd-folder ${folders.ittf_lib}
+		dest-folder ${folders.dest}/lib
+
+		any_js()
+			ignore ${folders.ittf_lib}/**/*__copy/**/*.js.ittf
+			model-ref meta
+				export-name wfpackage
+
+		artifact any_ittf_inside___copy
+			src ${folders.ittf_lib}/**/*__copy/**/*.ittf
+			extension ittf
+
+        $hook

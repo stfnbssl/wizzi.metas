@@ -1,0 +1,75 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormGroup",
+            props: [
+                { name: 'id', type: 'string'},
+                { name: 'name', type: 'string'},
+                { name: 'label', type: 'string' },
+                { name: 'required', type: 'boolean', optional: true},
+                { name: 'value', type: 'string'},
+                { name: 'onChange', type: 'input-event' },
+            ]
+        }
+        
+    v08/ts/react/function${'('}&md)
+        
+        ${'$'}append imports
+            import
+                @ c
+                @ s
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledFormGroup .dl<RootStyleProps>
+                width 80%
+            styled StyledInputLabel .dt<RootStyleProps>
+                font-weight 600
+            styled StyledLabelSpan .span<RootStyleProps>
+                color
+                    => c('secondary-text')
+                font-size 12px
+                margin 4px 4px 2px
+                min-height 17px                
+            styled StyledInputBox .dd<RootStyleProps>
+                margin 2px 0
+                width 100%
+            styled StyledInput .input<RootStyleProps>
+                background-color
+                    => c('background')
+                background-position right 8px center
+                background-repeat no-repeat
+                border
+                    => '1px solid ' + c('border')
+                border-radius 6px
+                box-shadow 
+                    => s('small')
+                color
+                    => c('primary-text')
+                font-size 14px
+                line-height 20px
+                outline none
+                padding 5px 12px
+                vertical-align middle
+                width 100%
+
+        return
+            < StyledFormGroup
+                < StyledInputLabel
+                    @ autocomplete off
+                    @ htmlFor {name}
+                    + {label}
+                    < StyledLabelSpan
+                        + { required ? '(*)' : '(optional)' }
+                < StyledInputBox
+                    < StyledInput
+                        @ autocomplete off
+                        @ type text
+                        @ name {name}
+                        @ id {name}                    
+                        @ value {value}                    
+                        @ onChange {onChange}
+

@@ -1,0 +1,125 @@
+$group
+    $params &md
+    +
+    export
+        async-function get${md.Name}Object
+            param owner
+                :string
+            param name
+                :string
+            param loadPackiConfig
+                :boolean
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ get${md.Name}
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const ${md.prefix}
+                                        :ref I${md.Name}Model
+                                        = result.item
+                                    return
+                                        _ resolve
+                                            _ _create${md.Name}Object
+                                                @ ${md.prefix}
+                                                @ loadPackiConfig
+                            v08/ts/catch_reject( features.production.api.${md.name}.get${md.Name}Object.get${md.Name} )
+    +
+    export
+        async-function get${md.Name}ObjectById
+            param id
+                :string
+            param loadPackiConfig
+                :boolean
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ get${md.Name}ById
+                            @ id
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const ${md.prefix}
+                                        :ref I${md.Name}Model
+                                        = result.item
+                                    return
+                                        _ resolve
+                                            _ _create${md.Name}Object
+                                                @ ${md.prefix}
+                                                @ loadPackiConfig
+                            v08/ts/catch_reject( features.production.api.${md.name}.get${md.Name}ObjectById.get${md.Name}ById )
+    async-function _create${md.Name}Object
+        param ${md.prefix}
+            :ref I${md.Name}Model
+        param loadPackiConfig
+            :boolean
+            :optional
+        :return
+            :ref Promise
+                :param
+                    :any
+        +
+        r_promise()
+            # loog 'myname', '_create${md.Name}Object.${md.prefix}', Object.keys(${md.prefix})
+            const ${md.prefix}_packiFiles_object
+                :ref packiTypes.PackiFiles
+                _ JSON.parse(${md.prefix}.packiFiles)
+            # loog 'myname', '_create${md.Name}Object.${md.prefix}_packiFiles_object', Object.keys(${md.prefix}_packiFiles_object)
+            const obj
+                {
+                    @ ...${md.prefix}._doc
+                    @ packiFiles ${md.prefix}_packiFiles_object
+                    @ _id ${md.prefix}._id.toString()
+                    @ packiProduction "${md.Name}"
+                    @ packiConfig ${md.prefix}_packiFiles_object[packiConfigPath]
+                    @ packiConfigObj null
+            +
+            if loadPackiConfig
+                if !obj.packiConfig
+                    return
+                        _ reject
+                            {
+                                @ message 'Missing file ' + packiConfigPath + ' in ${md.Name}'
+                _ wizziProds.generateArtifact
+                    @ packiConfigPath
+                    {
+                        { [packiConfigPath]
+                            @ type obj.packiConfig.type
+                            @ contents obj.packiConfig.contents
+                    {
+                    ._ then
+                        =>
+                            param generationResult
+                                :any
+                            set obj.packiConfigObj = JSON.parse(generationResult.artifactContent)
+                            # loog myname, '_create${md.Name}Object', 'obj.packiConfigObj', JSON.stringify(obj.packiConfigObj)
+                            return
+                                _ resolve
+                                    @ obj
+                    v08/ts/catch_reject( features.production.api.${md.name}.get${md.Name}Object._create${md.Name}Object )
+            else
+                # loog 'myname', '_create${md.Name}Object.resolve', Object.keys(obj)
+                return
+                    _ resolve
+                        @ obj

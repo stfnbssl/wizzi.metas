@@ -1,0 +1,20 @@
+$group
+    $if cliCtx.useAzure || cliCtx.useHeroku
+        $file __dot__wizzi/${pkgPath}predeploy/package.json.ittf.ittf
+            {
+                ${'$'}include cli/v08/package-info.json
+                { scripts
+                    ${'$'}include wz/v08/package/scripts_deploy.json
+                { dependencies
+                    ${"${'$'}"}include v08/package/dependencies
+                { engines
+                    $if cliCtx.useAzure
+                        node "^${"${'$'}"}{wzCtx.Build.azure.nodejsVersion}"
+                    $if cliCtx.useHeroku
+                        node "^${"${'$'}"}{wzCtx.Build.heroku.nodejsVersion}"
+        $file __dot__wizzi/${pkgPath}predeploy/__dot__gitignore.text.ittf.ittf
+            text
+                $if cliCtx.useAzure
+                    ${'$'}include wz/v08/azure/gitignore.text
+                $if cliCtx.useHeroku
+                    ${'$'}include wz/v08/heroku/gitignore.text

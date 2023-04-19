@@ -1,0 +1,118 @@
+$group
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ c
+        from '../ThemeProvider'
+    +
+    :type Segment
+        :< T
+        :{ 
+            :p id
+                :ref T
+            :p text
+                :string 
+    +
+    export
+        :type SegmentedButtonProps
+            :< T
+            :{ 
+                :p selectedId
+                    :ref T
+                :p onSelect
+                    :=> 
+                        :void 
+                        param id
+                            :ref T
+                :p onClick
+                    :optional 
+                    :=> 
+                        :void 
+                :p segments
+                    :[ 
+                        :ref Segment
+                            :param 
+                                :ref T
+                :p className
+                    :optional 
+                    :string 
+    +
+    export
+        function SegmentedButton
+            :< T
+                :string 
+            { 
+                @ selectedId
+                @ onSelect
+                @ segments
+                :ref SegmentedButtonProps
+                    :param 
+                        :ref T
+            return 
+                div 
+                    @ className {css(styles.container)}
+                    { 
+                        _ segments.map
+                            => 
+                                { 
+                                    @ id
+                                    @ text
+                                button 
+                                    @ onClick
+                                        => 
+                                            param e
+                                            _ e.preventDefault()
+                                            _ onSelect(id)
+                                    @ className
+                                        _ css
+                                            @expr styles.button
+                                            iif selectedId === id
+                                                then styles.selected
+                                                else null
+                                    @ key {id}
+                                    span 
+                                        + {text}
+    +
+    export-default SegmentedButton
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { container
+                    @ display 'flex'
+                    @ flexDirection 'row'
+                    @ width '100%'
+                    @ boxShadow
+                        `lit 
+                            + inset 0 0 0 1px&nbsp;
+                            _ c('border')
+                            + 
+                    @ borderRadius 3
+                    @ overflow 'hidden'
+                { button
+                    @ flex 1
+                    @ cursor 'pointer'
+                    @ outline 0
+                    @ border 0
+                    @ padding '.5em 1em'
+                    @ whiteSpace 'nowrap'
+                    @ textDecoration 'none'
+                    @ transitionDuration '170ms'
+                    @ transitionProperty 'color, background'
+                    @ transitionTimingFunction 'linear'
+                    @ appearance 'none'
+                    @ backgroundColor 'transparent'
+                    { ':hover'
+                        @ backgroundColor c('hover')
+                { selected
+                    @ color c('selected-text')
+                    @ backgroundColor c('selected')
+                    { ':hover'
+                        @ backgroundColor c('selected')
+
+    

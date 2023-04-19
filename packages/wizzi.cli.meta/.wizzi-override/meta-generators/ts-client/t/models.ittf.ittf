@@ -1,0 +1,396 @@
+$group
+
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            ${"${'$'}"}include v08/env/vars
+            ---
+            ${'$'}include cli/v08/wzctx-info.json
+            ---
+            { App
+                name "${cliCtx.App.name}"
+                demoName "${cliCtx.App.demoName}"
+                [ Components
+            ---
+            { Styles
+            ---
+            { Build
+                $if cliCtx.useEnvCmd
+                    useEnvCmd true
+                    { envCmd
+                ---
+                [ features
+                    $if cliCtx.useAuthentication
+                        {
+                            name "auth"
+                        {
+                            name "account"
+                    $if cliCtx.useBlog
+                        {
+                            name "blog"
+                    $if cliCtx.useWizziDocs
+                        {
+                            name "docs"
+                    $if cliCtx.useWizziProductions
+                        {
+                            name "production"
+                    $if cliCtx.usePacki
+                        {
+                            name "packi"
+                $if cliCtx.useMonacoEditor
+                    useMonacoEditor true
+                    { monacoEditor
+                $if cliCtx.useReact
+                    ---
+                    ${"${'$'}"}include react.json
+                $if cliCtx.useWebpack
+                    ---
+                    ${"${'$'}"}include webpack.json
+                $if cliCtx.useVite
+                    ---
+                    ${"${'$'}"}include vite.json
+                ${"${'$'}"}include code.json
+                ---
+                $if cliCtx.useConfig
+                    ${"${'$'}"}include config.json
+                    ---
+                ${"${'$'}"}include styles.json
+                ---
+                ${"${'$'}"}include test.json
+                ---
+                $if cliCtx.useWizzi
+                    ${"${'$'}"}include wizzi.json
+                    ---
+                ${"${'$'}"}include utils.json
+                $if cliCtx.useAuthentication
+                    ---
+                    ${"${'$'}"}include auth.json
+                $if cliCtx.useData
+                    ---
+                    ${"${'$'}"}include data.json
+                $if cliCtx.useFeatures
+                    ---
+                    ${"${'$'}"}include features.json
+
+    $if cliCtx.useReact
+        $file __dot__wizzi/models/t/react.json.ittf.ittf
+            ${"${'$'}"}group
+                useReact true
+                { react
+                    useV16 false
+                    $if cliCtx.useVite
+                        useV17 false
+                        useV18 true
+                    $else
+                        useV17 true
+                        useV18 false
+                    $if cliCtx.react.useHotReload
+                        useHotReload true
+                        { hotReload
+                    useRedux false
+                    { redux
+                        useSaga true
+                        { saga
+                            [ see
+                                {
+                                    url "https://github.com/piotrwitek/react-redux-typescript-realworld-app"
+                                    title "React, Redux, TypeScript - RealWorld App"
+                                {
+                                    url "https://github.com/piotrwitek/react-redux-typescript-guide"
+                                    title "React & Redux in TypeScript - Complete Guide"
+                    $if cliCtx.react.useRouter
+                        useRouter true
+                        { router
+                    useHelmetAsync false
+                    useSimpleCodeEditor false
+                    useTextareaAutosize false
+                    useVirtualized false
+                    useSelect false
+                    useRange false
+                    useDate false
+                    $if cliCtx.react.useMui
+                        useMui true
+                        { mui
+                            useSystem true
+                            $if cliCtx.react.mui.useBase
+                                useBase true
+                            $if cliCtx.react.mui.useIcons
+                                useIcons true
+                            $if cliCtx.react.mui.useJoy
+                                useJoy true
+                            $if cliCtx.react.mui.useMaterial
+                                useMaterial false
+                    $if cliCtx.react.useSplitPane
+                        useSplitPane true
+                        { splitPane
+                    $if cliCtx.react.useMarkdownPreview
+                        useMarkdownPreview true
+                        { markdownPreview
+
+    $if cliCtx.useVite
+        $file __dot__wizzi/models/t/vite.json.ittf.ittf
+            ${"${'$'}"}group
+                useVite true
+                { vite
+    
+    $if cliCtx.useWebpack
+        $file __dot__wizzi/models/t/webpack.json.ittf.ittf
+            ${"${'$'}"}group
+                useBabel true
+                { babel
+                    useParser true
+                    useRuntime false
+                    useDinamicImport true
+                    addModuleExport false
+                    useVendor true
+                    { vendor
+                        compactPath "./src/vendor"
+                    useResolutions true
+                    [ resolutions
+                        {
+                            name "**/babel-core"
+                            value "7.0.0-bridge.0"
+                useResolutions true
+                useRegeneratorRuntime false
+                useWebpackApp false
+                { webpackApp
+                    [ items
+                        {
+                            name "hello"
+                            writeToDisk false
+                $if cliCtx.useHotReplacement
+                    useHotReplacement true
+                    { hotReplacement
+                useWebpack true
+                { webpack
+                    useCss true
+                    { css
+                    useStyleLoader false
+                    { styles
+                    useMiniCssExtract true
+                    { miniCssExtract
+                    useSass false
+                    { sass
+                    useHtml true
+                    { html
+                        template "./src/index.html"
+                        filename "index.html"
+                    useMinimizer true
+                    useWorker true
+                    useStatsWriter false
+                    useIgnore true
+                    $if cliCtx.isStandalone
+                        useCodeSplitting false
+                    $else
+                        useCodeSplitting true
+                    outputPath "${cliCtx.webpack.output.path}"
+                    $if cliCtx.webpack.output.publicPath
+                        publicPath "${cliCtx.webpack.output.publicPath}"
+                    $if cliCtx.webpack.output.filename
+                        filename "${cliCtx.webpack.output.filename}"
+                    useEnv true
+                    { env
+                        [ items
+                            {
+                                name "NODE_ENV"
+                                value "env('NODE_ENV')"
+                            {
+                                name "API_SERVER_URL"
+                                value "env('API_SERVER_URL')"
+                            {
+                                name "BUILD_TIMESTAMP"
+                                value "Date.now()"
+                    useNodePolifills true
+                    { nodePolifills
+                        useBuffer true
+                    useDevServer true
+                    { devServer
+                        $$ obsolete contentBase "path.join(__dirname, 'src')"                
+
+    $file __dot__wizzi/models/t/code.json.ittf.ittf
+        ${"${'$'}"}group
+        
+            useTypescript true
+            { typescript
+                ${'$'}${'$'} for webpack client
+                $if !!cliCtx.useVite == false
+                    useBabelLoader true
+                useTsxFiles false
+                
+            $if cliCtx.usePrettier
+                usePrettier true
+                { prettier
+            
+                usePrismjs false
+                { prismjs
+                    [ modes
+            
+            $if cliCtx.useLint
+                useLint true
+                { lint
+    
+    $if cliCtx.useConfig
+        $file __dot__wizzi/models/t/config.json.ittf.ittf
+            ${"${'$'}"}group
+                    
+                useConfig true
+                { config
+                    useEnvalid true
+                    { envalid
+        
+    $file __dot__wizzi/models/t/styles.json.ittf.ittf
+        ${"${'$'}"}group
+                
+                { styles
+                    usePalx false
+                
+                useStyledComponents true
+                { styledComponents
+        
+                useStyledSystem false
+                { styledSystem
+        
+                $if cliCtx.useAphrodite
+                    useAphrodite true
+                    { aphrodite
+                        disableImportant true
+        
+                $if cliCtx.useTailwindcss
+                    useTailwindcss true
+                    { tailwindcss
+        
+                useExpoStyles false
+                { expoStyles
+        
+    $file __dot__wizzi/models/t/test.json.ittf.ittf
+        ${"${'$'}"}group
+                
+            useJest false
+            { jest
+        
+    $file __dot__wizzi/models/t/utils.json.ittf.ittf
+        ${"${'$'}"}group
+                
+            { utils
+                useAxios true
+                useEscapeRegexp false
+                useEscapeHtml false
+                useNullThrows false
+                $if cliCtx.useMonacoEditor
+                    useLodash true
+                useStringifySafe true
+                useParseUrl true
+                useEs6Error false
+                useJsCookie false
+                useQueryString true
+                useSanitizeHtml false
+                useDateFns false
+                useFetchPonyfill false
+                useNanoId false
+                useNodeCache true
+                useGitUrlParse false
+                useJsonToAst false
+    
+    $if cliCtx.useWizzi
+        $file __dot__wizzi/models/t/wizzi.json.ittf.ittf
+            ${"${'$'}"}group
+                    
+                useWizzi true
+                { wizzi
+                    isDev true
+                    $if cliCtx.useAzure || cliCtx.useHeroku
+                        [ plugins
+                            "wizzi-core"
+                            "wizzi-js" 
+                            "wizzi-web" 
+                    $else
+                        [ plugins
+                            "./wizzi-core/index.js"
+                            "./wizzi-js/index.js" 
+                            "./wizzi-web/index.js" 
+                            "./wizzi-meta/index.js"
+                        pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi/packages"
+                    { globalContext
+                        wzConfigIsDevelopment true
+                        wzConfigIsPackageDeploy false
+                    useRunner false
+
+                $if cliCtx.useWizziDocs
+                    useWizziDocs true
+                    { wizziDocs
+                
+                $if cliCtx.useWizziProductions
+                    useWizziProductions true
+                    { wizziProductions
+                        useCachedProductions false
+
+                $if cliCtx.usePacki
+                    usePacki true
+                    { packi
+                        useAdmin false
+                $if cliCtx.usePackiBrowse
+                    usePackiBrowse true
+                    { packiBrowse 
+
+                useIttfStatic true
+                { ittfStatic
+            
+                useWizziViewEngine true
+                { wizziViewEngine
+
+                useWizziJsonFactory true
+                { wizziJsonFactory
+
+    $if cliCtx.useAuthentication
+        $file __dot__wizzi/models/t/auth.json.ittf.ittf
+            ${"${'$'}"}group
+                useAuthentication true
+                { authentication
+                    $if cliCtx.isProduction
+                        isProduction true
+                    $else
+                        isProduction false
+                    $if cliCtx.isLocal
+                        isLocal true
+                    $else
+                        isLocal false
+                    authRequired false
+                    userInfo false
+                    useLocal true
+                    { local
+                    useGithub true
+                    { github
+                        clientIdLocal "${"${'$'}"}{stfnbssl_env.githubClientIdLocal}"
+                        clientSecretLocal "${"${'$'}"}{stfnbssl_env.githubClientSecretLocal}"
+                        callbackURLLocal "${cliCtx.baseUrlLocal}/api/${cliCtx.apiVersion}/authenticate/github/callback"
+                        clientId "${"${'$'}"}{stfnbssl_env.githubClientId}"
+                        clientSecret "${"${'$'}"}{stfnbssl_env.githubClientSecret}"
+                        callbackURL "${cliCtx.baseUrl}/api/${cliCtx.apiVersion}/authenticate/github/callback"
+                    useGoogle true
+                    { google
+                        clientIdLocal "${"${'$'}"}{stfnbssl_env.googleClientIdLocal}"
+                        clientSecretLocal "${"${'$'}"}{stfnbssl_env.googleClientSecretLocal}"
+                        callbackURLLocal "${cliCtx.baseUrlLocal}/api/${cliCtx.apiVersion}/authenticate/google/callback"
+                        clientId "${"${'$'}"}{stfnbssl_env.googleClientId}"
+                        clientSecret "${"${'$'}"}{stfnbssl_env.googleClientSecret}"
+                        callbackURL "${cliCtx.baseUrl}/api/${cliCtx.apiVersion}/authenticate/google/callback"
+
+    $if cliCtx.useData
+        $file __dot__wizzi/models/t/data.json.ittf.ittf
+            ${"${'$'}"}group
+                useData true
+                { data
+                    { Xxx
+                    { Yyy
+
+    $if cliCtx.useFeatures
+        $file __dot__wizzi/models/t/features.json.ittf.ittf
+            ${"${'$'}"}group
+                $if cliCtx.features.usePreferences
+                    usePreferences true
+                    { preferences
+                        configKey "app.preferences"
+                        [ items
+                            {
+                                name "fileTreeShown"
+                                type "boolean"
+                                defaultValue "true"

@@ -1,0 +1,150 @@
+$group
+
+    styles
+        
+        default
+            style-def heading1
+                run
+                    size 56
+                    bold
+                    italic
+                    color red
+            style-def normal
+                run
+                    size 32
+                    color blue
+        
+        paragraph-styles
+            style-def colored
+                name Colored
+                basedOn Normal
+                next Normal
+                run
+                    size 36
+                    color 00FF00
+
+    section one
+        h1 Hello world
+        $foreach item in [0,0,0,0,0,0]
+            p I am very happy and you?
+                + Bah
+                    font
+                        name Garamond
+                    br
+                + Booh
+        p
+            + Colored and shaded
+                size 48
+                color red 
+                shading
+                    color dede00
+                    fill  00dede
+                    type REVERSE_DIAGONAL_STRIPE
+
+        p I am colore vy style colored
+            style colored
+
+        p Im a tab stop LEFT 2268
+            tabStop
+                type LEFT
+                position 2268        
+
+        p Im a tab stop CENTER 2268
+            tabStop
+                type CENTER
+                position 2268        
+
+        p Im a tab stop RIGHT 2268
+            tabStop
+                type RIGHT
+                position 2268        
+
+        p Im a tab stop RIGHT MAX
+            tabStop
+                type RIGHT
+                position MAX    
+
+        p Im a multiple tab stop RIGHT MAX, RIGHT 1000
+            tabStop
+                type RIGHT
+                position MAX    
+            tabStop
+                type RIGHT
+                position 1000    
+
+        p i am underline
+            underline
+                type SINGLE
+                color red
+
+        p i am 
+            + emphasisMark
+                emphasisMark
+        p i am 
+            + strike
+                strike
+        p i am 
+            + doubleStrike
+                doubleStrike
+        p i am 
+            + superScript
+                superScript
+        p i am 
+            + subScript
+                subScript
+        p i am 
+            + smallCaps
+                smallCaps
+        p i am 
+            + allCaps
+                allCaps
+        p i am 
+            + smallCaps
+                smallCaps
+
+        table
+            width
+                size 8000
+                type DXA
+            tr
+                td
+                    p
+                        b Name
+                    width
+                        size 50
+                        type PERCENTAGE
+                td
+                    p
+                        b Role
+                    width
+                        size 50
+                        type PERCENTAGE
+            tr
+                td
+                    p Sarti
+                td
+                    p Portiere
+            tr
+                td
+                    p Burnich
+                td
+                    p Terzino
+
+    section two
+        p
+            $foreach item in [0,0,0,0,0,0]
+                b I am so so
+                    size 32
+                    br
+
+    section three
+        p
+            + I am very bad and you?
+            i Am i italian?
+    
+    $*
+    h1 Hello world
+
+    p
+        + I am very happy and you?
+    *$

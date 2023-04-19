@@ -1,0 +1,111 @@
+module
+    
+    $
+        var ctrl = {
+            name: 'ApiV1TFolder',
+            path: '/api/v1/production/tfolder',
+            apiSecured: wzCtx.App.isLocal == false,
+        }
+    
+    v08/ts/controller( &ctrl )
+            
+        $append imports
+            import
+                @ getListTFolder
+                @ validateTFolder
+                @ getTFolder
+                @ updateTFolder
+                @ createTFolder
+                @ invalidateCache
+                from '../api/tfolder'
+            +
+            const myname = 'features/production/controllers/apiv1tfolder'
+
+        v08/ts/route_api_secured( get, /:owner, this.getTFolderList)
+        v08/ts/route_api_secured( get, /checkname/:owner/:name, this.getCheckTFolderName)
+        v08/ts/route_api_secured( get, /:owner/:name, this.getTFolder)
+        v08/ts/route_api_secured( put, /:id, this.putTFolder)
+        v08/ts/route_api_secured( post, /:owner/:name, this.postTFolder)
+        
+        $append handlers
+
+            v08/ts/handler(  getTFolderList )
+
+                $$ loog 'getTFolderList.request.params', request.params
+                _ getListTFolder
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getTFolderList.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  getTFolderList )
+            
+            v08/ts/handler(  getCheckTFolderName )
+                check_name( tFolder )
+
+            v08/ts/handler(  getTFolder )
+
+                $$ loog 'getTFolder.request.params', request.params
+                _ getTFolder
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getTFolder.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  getTFolder )
+
+            v08/ts/handler(  postTFolder )
+
+                $$ loog 'postTFolder.request.params', request.params
+                $$ loog 'postTFolder.request.body', request.body
+                _ createTFolder
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'postTFolder.result', result
+                            _ invalidateCache
+                                @ request.params.owner
+                                @ request.params.name
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  postTFolder )                    
+
+            v08/ts/handler(  putTFolder )
+
+                $$ loog 'putTFolder.request.params', request.params
+                $$ loog 'putTFolder.request.body', request.body
+                _ updateTFolder
+                    @ request.params.id
+                    @ request.body.owner
+                    @ request.body.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'putTFolder.result', result
+                            _ invalidateCache
+                                @ request.params.owner
+                                @ request.params.name
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  putTFolder )

@@ -1,0 +1,13 @@
+$group
+    
+    $if metaCtx.useDeploy
+
+        $file __dot__wizzi/${pkgPath}root/deploy/development.env.text.ittf.ittf
+            text
+                ${'$'}include deploy/development.env.text
+
+        $file __dot__wizzi/${pkgPath}root/deploy/production.env.text.ittf.ittf
+            text
+                ${'$'}include deploy/production.env.text
+
+

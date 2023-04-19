@@ -1,0 +1,60 @@
+$group
+	${'$'}params &md
+
+    $
+        var openPar = '(';
+        var call = '(&md)';
+
+	${'$'}
+        if (!md.rootElement) {
+            md.rootElement = md.schema;
+        }
+    
+	var util = require('util')
+    var path = require('path')
+    var async = require('async')
+	var verify = require('wizzi-utils').verify
+    var lineparser = require('wizzi-utils').helpers.lineparser
+    var errors = require('../../../../../errors')
+	${'$'}hook imports
+    +
+    var myname = '${'$'}{md.plugin}.artifacts.${'$'}{md.schema}.${'$'}{md.name}.gen.main'
+    +
+	var md
+        set module.exports
+            { 
+    ${'$'}if md.useStmNamespace
+        set md.stm
+            {
+    +
+    ${'$'}hook loads
+    +
+	md-gen-main${call}
+		${'$'}if md.checkSchema
+			if model.wzElement !== '${'$'}{md.rootElement}'
+				_ callback
+					_ error
+						@ 'InvalidArgument'
+						@ 'gen'
+						@ 'Invalid model schema. Expected root element "${'$'}{md.rootElement}". Received: ' + model.wzElement
+                        @ model
+		try
+			${'$'}hook main
+		catch ex
+			return
+				_ callback
+					_ error
+						@ 'Exception'
+						@ 'gen'
+						@ 'An exception encountered during generation'
+                        @ model
+                        @ ex
+	
+    ${'$'}if md.isAsync
+        +
+        async-md-gen-items${call}
+
+    ${'$'}hook
+
+	+
+    f_error${openPar} ${'$'}{md.plugin}/lib/artifacts/${'$'}{md.schema}/${'$'}{md.name}/gen/main )

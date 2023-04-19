@@ -1,0 +1,61 @@
+wfjob demo.ts.node.git-override/job
+    
+    $
+        var jobCtx = {
+            ittf_models_folder: path.join(__dirname, '..', '.wizzi', 'models'),
+            ittf_src_folder: path.join(__dirname, 'src'),
+            ittf_root_folder: path.join(__dirname, 'root'),
+            ittf_meta_generators: path.join(__dirname, 'meta-generators'),
+            dest_folder: path.join(__dirname, '..'),
+            job_model: 'wzCtx'
+        }
+    
+    model ${jobCtx.job_model}
+        schema json
+        src ${jobCtx.ittf_models_folder}/wzctx.json.ittf
+    
+	line ittf-meta-generators
+		cwd-folder ${jobCtx.ittf_meta_generators}
+		dest-folder ${jobCtx.dest_folder}/meta-generators
+        
+        wfjob/any_plain(ittf)
+        wfjob/any_plain(css)
+        wfjob/any_plain(html)
+        wfjob/any_plain(d.ts)
+        wfjob/any_plain(js)
+        wfjob/any_plain(svg)
+        wfjob/any_plain(json)
+        wfjob/any_md()
+    
+    line ittf-root
+        cwd-folder ${jobCtx.ittf_root_folder}
+        dest-folder ${jobCtx.dest_folder}/
+        wfjobs(any_js, &jobCtx)
+        wfjobs(any_ts, &jobCtx)
+        wfjobs(any_tsx, &jobCtx)
+        wfjobs(any_json, &jobCtx)
+        wfjobs(any_xml, &jobCtx)
+        wfjobs(any_md, &jobCtx)
+    
+    line ittf-src
+        cwd-folder ${jobCtx.ittf_src_folder}
+        dest-folder ${jobCtx.dest_folder}/src
+        wfjobs(any_js, &jobCtx)
+        wfjobs(any_ts, &jobCtx)
+        wfjobs(any_tsx, &jobCtx)
+        wfjobs(any_css, &jobCtx)
+        wfjobs(any_json, &jobCtx)
+        wfjobs(any_md, &jobCtx)
+        wfjobs(any_plain, &jobCtx, js)
+        wfjobs(any_plain, &jobCtx, d.ts)
+        wfjobs(any_plain, &jobCtx, html)
+        wfjobs(any_plain, &jobCtx, html.ittf)
+        wfjobs(any_plain, &jobCtx, css)
+        wfjobs(any_plain, &jobCtx, css.ittf)
+        wfjobs(any_plain_image, &jobCtx)
+    
+    production
+        dest-folder ${jobCtx.dest_folder}
+        line-ref ittf-meta-generators
+        line-ref ittf-root
+        line-ref ittf-src

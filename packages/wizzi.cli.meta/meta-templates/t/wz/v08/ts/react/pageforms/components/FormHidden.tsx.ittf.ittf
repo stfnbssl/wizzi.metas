@@ -1,0 +1,22 @@
+$group
+
+    ${'$'}
+        var md = {
+            name: "FormHidden",
+            props: [
+                { name: 'id', type: 'string'},
+                { name: 'name', type: 'string'},
+                { name: 'value', type: 'string'},
+            ]
+        }
+        
+    v08/ts/react/function${'('}&md)
+        
+        ${'$'}append imports
+        
+        return
+            input
+                type hidden
+                id {name}
+                name {name}
+                value {value}

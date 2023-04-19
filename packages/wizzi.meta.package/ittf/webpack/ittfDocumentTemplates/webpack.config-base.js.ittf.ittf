@@ -1,0 +1,31 @@
+$group
+
+    $
+        var mix = '(&jobCtx)';
+
+    webpack/${metaCtx.ver}/imports${mix}
+
+	set module.exports
+		{
+            @ mode
+                iif process.env.NODE_ENV === 'production'
+                    then 'production'
+                    else 'development'
+            @ devtool
+                iif process.env.NODE_ENV === 'production'
+                    then 'source-map'
+                    $$ else 'eval-source-map'
+                    else 'cheap-module-source-map'
+			[ entry
+                webpack/${metaCtx.ver}/entry${mix}
+			{ module
+				[ rules
+                    webpack/${metaCtx.ver}/module.rules${mix}
+			{ resolve
+                webpack/${metaCtx.ver}/resolve${mix}
+			{ output
+                webpack/${metaCtx.ver}/output${mix}
+			[ plugins
+                webpack/${metaCtx.ver}/plugins${mix}
+			{ devServer
+                webpack/${metaCtx.ver}/devServer${mix}

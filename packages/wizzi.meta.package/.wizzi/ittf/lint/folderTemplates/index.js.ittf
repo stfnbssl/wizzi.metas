@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useLint
+        $file __dot__wizzi/lint/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include lint/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/lint/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include lint/tfolder/${item}.js

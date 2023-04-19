@@ -1,0 +1,28 @@
+$group
+    $params &prod
+
+    $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/xxx.js.ittf.ittf
+    
+        ${'$'}{'$'}group
+            
+            log "Hello world"
+
+    $
+        var items = [
+            "alpha",
+            "beta",
+        ];
+
+    $foreach item in items
+        
+        $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/tfolder/${item}.js.ittf.ittf
+            
+            ${'$'}{'$'}group
+            
+                log "Hello ${item}"
+
+    $file __dot__wizzi/ittf/${prod.name}/wzCtxSchemas/index.json.ittf.ittf
+    
+        {
+            
+            productionName "${prod.name}"

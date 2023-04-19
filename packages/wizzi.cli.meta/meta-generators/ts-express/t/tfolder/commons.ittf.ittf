@@ -1,0 +1,17 @@
+$group
+
+    $
+        var items = [
+            'a_cb',
+            'a_cb_throw',
+            'a_cb_no_err',
+            'f_cb',
+            'f_cb_throw',
+            'f_cb_no_err',
+            'r_cb',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/t/${item}.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include wz/v08/js/tfolder/${item}.js

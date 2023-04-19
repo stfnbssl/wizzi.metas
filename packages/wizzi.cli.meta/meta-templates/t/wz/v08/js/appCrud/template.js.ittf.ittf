@@ -1,0 +1,184 @@
+$group
+    ${'$'}
+      var myName = 'Template';
+      //
+
+    iife_window${'('} app, ${'$'}{myName})
+
+        function select_option
+            param __html
+            param ctx
+            $$ loog 'select_option', ctx.value, ctx.label
+            _ __html.push('<option')
+            _ __html.push(' value="' + ctx.value + '"')
+            if ctx.selected
+                _ __html.push(' selected="selected"')
+            _ __html.push('>')
+            _ __html.push(ctx.label)
+            _ __html.push('</option>')   
+
+        html_f tmplSelect
+            div
+                class {{ ctx.class }}
+                select {{ ctx.options }}
+                    name {{ ctx.id }}
+                    id {{ ctx.id }}
+                    class {{ ctx.id }}
+
+        html_f tmpl${cliCtx.jsAppCrud.Name}List
+            tr
+                @ data-id {{ctx.id}}
+                @ class ${cliCtx.jsAppCrud.name}-tr-item
+                td
+                    + {{ctx.id}}
+                $foreach field in cliCtx.jsAppCrud.fields
+                    td
+                        @ class ${cliCtx.jsAppCrud.name}-item-name
+                        a {{ ctx.${field.name} }}
+                td
+                    button
+                        @ data-id {{"delete"}}
+                        + del
+            ${'$'}*
+            li 
+                @ data-id {{ctx.id}}
+                @ class ${cliCtx.jsAppCrud.name}-item
+                div
+                    @ class ${cliCtx.jsAppCrud.name}-item-name
+                    a {{ ctx.code }} / {{ ctx.value }} 
+                        ${'$'}${'$'} @ href #
+                    a delete
+                        ${'$'}${'$'} @ href #
+            *${'$'}
+
+        html_f tmpl${cliCtx.jsAppCrud.Name}Item
+          div
+            h2 {{ ctx.categoria }}
+            $foreach field in cliCtx.jsAppCrud.fields
+                div
+                    + {{ ctx.${field.name} }}
+        
+
+        function ${'$'}{myName}
+
+        set ${'$'}{myName}.prototype.show${cliCtx.jsAppCrud.Name}SelectCategoria
+            function 
+                param data
+                $$ loog "${'$'}{myName}.prototype.show${cliCtx.jsAppCrud.Name}SelectCategoria", data
+                var options = []
+                var aOptions = []
+                _ select_option
+                    @ aOptions
+                    {
+                      @ label "Annulla"
+                      @ value '0'
+                _ options.push
+                    _ aOptions.join('')
+                for const k of Object.keys(data)
+                    var aOptions = []
+                    _ select_option
+                        @ aOptions
+                        {
+                          @ label data[k]
+                          @ value k
+                    _ options.push
+                        _ aOptions.join('')
+                var view = []
+                _ view.push
+                  _ tmplSelect
+                    {
+                      @ id '${cliCtx.jsAppCrud.name}-select-categoria'
+                      @ class '${cliCtx.jsAppCrud.name}-select'
+                      @ options options.join('\n')
+                $$ loog "${'$'}{myName}.prototype.show${cliCtx.jsAppCrud.Name}SelectCategoria", view.join('\n')
+                return view.join('\n')
+        
+        set ${'$'}{myName}.prototype.show${cliCtx.jsAppCrud.Name}List
+            function 
+                param data
+                info "${'$'}{myName}.prototype.show${cliCtx.jsAppCrud.Name}List, data", data
+                var view = []
+                _ view.push
+                    @ "<thead><tr>"
+                _ view.push
+                    @ "<th>id</th>"
+                $foreach field in cliCtx.jsAppCrud.fields
+                    _ view.push
+                        @ "<th>${field.name}</th>"
+                _ view.push
+                    @ "<th></th>"
+                _ view.push
+                    @ "</tr></thead><tbody>"
+                _ data.map
+                    =>
+                        param item
+                        _ view.push
+                            _ tmpl${cliCtx.jsAppCrud.Name}List
+                                @ item
+                _ view.push
+                    @ "</tbody>"
+                return view.join('\n')
+
+        set ${'$'}{myName}.prototype.show${cliCtx.jsAppCrud.Name}Item
+            function 
+                param data
+                var view = []
+                _ view.push
+                  _ tmpl${cliCtx.jsAppCrud.Name}Item
+                    @ data
+                return view.join('\n')
+
+        set ${'$'}{myName}.prototype.create${cliCtx.jsAppCrud.Name}ItemForm
+            function 
+                return
+                    {
+                        @ id "create-${cliCtx.jsAppCrud.name}-item-form"
+                        @ title "Create ${cliCtx.jsAppCrud.Name}"
+                        @ class ""
+                        [ controls
+                            $foreach field in cliCtx.jsAppCrud.fields
+                                {
+                                    @ id "${field.name}"
+                                    @ label "${field.name}"
+                                    @ type "text"
+                                    @ required true
+
+        set ${'$'}{myName}.prototype.update${cliCtx.jsAppCrud.Name}ItemForm
+            function 
+                return
+                    {
+                        @ id "update-${cliCtx.jsAppCrud.name}-item-form"
+                        @ title "Update ${cliCtx.jsAppCrud.Name}"
+                        @ class ""
+                        [ controls
+                            {
+                                @ id "id"
+                                @ label "id"
+                                @ type "text"
+                                @ required true                                                            
+                            $foreach field in cliCtx.jsAppCrud.fields
+                                {
+                                    @ id "${field.name}"
+                                    @ label "${field.name}"
+                                    @ type "text"
+                                    @ required true
+
+        set ${'$'}{myName}.prototype.delete${cliCtx.jsAppCrud.Name}ItemForm
+            function 
+                return
+                    {
+                        @ id "delete-${cliCtx.jsAppCrud.name}-item-form"
+                        @ title "Delete ${cliCtx.jsAppCrud.Name}"
+                        @ class ""
+                        [ controls
+                            {
+                                @ id "id"
+                                @ label "id"
+                                @ type "text"
+                                @ required true                                                            
+                            $foreach field in cliCtx.jsAppCrud.fields
+                                {
+                                    @ id "${field.name}"
+                                    @ label "${field.name}"
+                                    @ type "text"
+                                    @ required true

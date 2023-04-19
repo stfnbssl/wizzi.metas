@@ -1,0 +1,34 @@
+{
+    $
+        var pluginBasename = "wzjob";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Wizzi job plugin"
+        kind "WizziPlugin"
+
+    [ Schemas
+        {
+            name "wzjob"
+            plugin_type "syntax_structure"
+            [ includes
+        {
+            name "wfjob"
+            plugin_type "syntax_structure"
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "wzjob"
+                    isDefault true
+                    contentType "text/plain"             
+            [ fileExtensions
+                "wzjob"       
+            
+
+

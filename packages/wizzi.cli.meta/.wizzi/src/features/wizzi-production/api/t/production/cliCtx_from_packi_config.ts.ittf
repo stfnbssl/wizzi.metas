@@ -1,0 +1,73 @@
+$group
+    +
+    export
+        async-function getCliCtxFromPackiConfig
+            param owner
+                :string
+            param packiConfigObj
+                :any
+            param packiFiles
+                :ref packiTypes.PackiFiles
+            param progressiveContext
+                :any
+            r_promise()
+                if !packiConfigObj.meta || !packiConfigObj.meta.cliCtx
+                    # loog 'api.production.getCliCtxFromPackiConfig', 'no cliCtx found'
+                    return
+                        _ resolve
+                            {
+                const kind = packiConfigObj.meta.cliCtx.kind
+                let filePath
+                let artifact
+                if kind == "file"
+                    set filePath = packiConfigObj.meta.cliCtx.filePath
+                    # loog 'api.production.getCliCtxFromPackiConfig', 'getting from filePath', filePath
+                    return
+                        _ resolve
+                            _ getCliCtxFromPackiFile
+                                @ filePath
+                                @ packiFiles
+                                @ progressiveContext
+                elif kind == "artifact"
+                    set artifact = packiConfigObj.meta.cliCtx.artifact
+                    # loog 'api.production.getCliCtxFromPackiConfig', 'getting from artifact', artifact.name
+                    _ artifactApi.getArtifactGeneration_withPrepare
+                        @ owner
+                        @ packiConfigObj.meta.cliCtx.artifact.name
+                        @ null
+                        @ progressiveContext
+                        @ ""
+                        ._ then
+                            =>
+                                param generationResult
+                                    :any
+                                _ resolve
+                                    _ JSON.parse(generationResult.content)
+                        v08/ts/catch_reject( api.production.getCliCtxFromPackiConfig.getArtifactGeneration_withPrepare )
+                else
+                    # loog 'api.production.getCliCtxFromPackiConfig', 'no valid cliCtx kind found'
+                    return
+                        _ resolve
+                            {
+    +
+    export
+        async-function getCliCtxFromPackiFile
+            param filePath
+                :string
+            param packiFiles
+                :ref packiTypes.PackiFiles
+            param progressiveContext
+                :any
+            r_promise()
+                _ wizziProds.generateArtifact
+                    @ filePath
+                    @ packiFiles
+                    @ progressiveContext
+                    ._ then
+                        =>
+                            param generationResult
+                                :any
+                            # loog 'api.production.getCliCtxFromPackiFile', generationResult.artifactContent
+                            _ resolve
+                                _ JSON.parse(generationResult.artifactContent)
+                    v08/ts/catch_reject( api.production.getCliCtxFromPackiFile.generateArtifact )

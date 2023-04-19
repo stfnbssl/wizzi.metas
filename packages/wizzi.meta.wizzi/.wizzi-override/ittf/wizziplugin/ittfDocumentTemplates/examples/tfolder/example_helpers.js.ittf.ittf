@@ -1,0 +1,92 @@
+﻿$group
+
+	function getIttfFiles
+		param srcpath
+		param schema
+		return
+			_ fs.readdirSync
+				@ srcpath
+				._ filter
+					=>
+						param file
+						return 
+							&&
+								_ fs.lstatSync(path.join(srcpath, file)).isFile()
+								_ verify.endsWith
+									@ file
+									iif schema === 'ittf'
+										then '.ittf'
+										else '.' + schema + '.ittf'
+
+	function getIttfFilesData
+		param srcpath
+		param schema
+		var files
+			_ getIttfFiles
+				@ srcpath
+                @ schema
+		var ret = []
+		foreach file in files
+			_ ret.push
+				{
+					@ path file
+					@ name file.substring(0, file.length - ('.' + schema + '.ittf').length)
+					@ fullPath
+						_ path.join
+							@ srcpath
+							@ file
+		return ret
+
+    function createWizziFactory
+        param globalContext
+        param callback
+        if wizzi == null
+            $$ Override this to use the version under development
+            $virtual requireWizzi
+                # The wizzi package will be the npm version from wizzi/node_modules
+                set wizzi = require('wizzi')
+        info '"wizzi" package version', wizzi.version
+        _ wizzi.fsFactory
+            {
+                { plugins
+                    $hook plugins
+                @ globalContext globalContext || {}
+            @ callback
+	
+    function getLoadModelContext
+		param mtreeBuilUpContext
+		return 
+			_ mocks.getLoadModelContext
+				@ mtreeBuilUpContext
+
+	function getWizziObject
+        param callback
+        if typeof(callback) === 'undefined'
+            return 
+                {
+                    @ loadMTree 
+                        _ mtree.createLoadMTree
+                            @ mocks.repo.getCreateFilesystemStore()
+                            {
+                                @ useCache false
+                    @ file wizziUtils.file
+                    @ verify wizziUtils.verify
+                    @ errors errors
+        else
+            # In case the wizzi model has inner models and requires a wizziFactory instance 
+            _ createWizziFactory
+                {
+                a_cb${'('}wf) 
+                    return 
+                        _ callback
+                            @ null
+                            {
+                                @ loadMTree 
+                                    _ mtree.createLoadMTree
+                                        @ mocks.repo.getCreateFilesystemStore()
+                                        {
+                                            @ useCache false
+                                @ file wizziUtils.file
+                                @ verify wizziUtils.verify
+                                @ errors errors
+                                @ wizziFactory wf

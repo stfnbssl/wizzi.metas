@@ -1,0 +1,124 @@
+$group
+    import 
+        @ Platform
+        @ SDKVersion
+        from '../types'
+    export 
+        :type PlatformOption
+            :{ 
+                :p label
+                    :string 
+                :p value
+                    :ref Platform
+    export 
+        function all
+            :return
+                :[ 
+                    :ref PlatformOption
+            return 
+                [ 
+                    { 
+                        @ label 'My Device'
+                        @ value 'mydevice'
+                    { 
+                        @ label 'iOS'
+                        @ value 'ios'
+                    { 
+                        @ label 'Android'
+                        @ value 'android'
+                    { 
+                        @ label 'Web'
+                        @ value 'web'
+    export 
+        function filter
+            param params
+                :{ 
+                    :p sdkVersion
+                        :ref SDKVersion
+                    :p supportedPlatformsQueryParam
+                        :union 
+                            :string 
+                            :undefined 
+            :return
+                :[ 
+                    :ref PlatformOption
+            const defaultPlatformOptions
+                :[ 
+                    :ref PlatformOption
+                = all()
+            const fallbackPlatformOptions
+                :[ 
+                    :ref PlatformOption
+                =
+                    _ defaultPlatformOptions.filter
+                        => 
+                            param option
+                            set option.value === 'mydevice'
+            if params.supportedPlatformsQueryParam
+                const parsedSupportedPlatformsQueryParam = params.supportedPlatformsQueryParam.split(',')
+                const supportedPlatforms
+                    _ defaultPlatformOptions.filter
+                        => 
+                            param option
+                            _ parsedSupportedPlatformsQueryParam.includes(option.value)
+                    # Ensure that local 'mydevice' is included when ios or android is requested
+                const devicePlatformOption
+                    _ defaultPlatformOptions.find
+                        => 
+                            { 
+                                @ value
+                            set value === 'mydevice'
+                    # Ensure that local 'mydevice' is included when ios or android is requested
+                if 
+                    test
+                        && 
+                            && 
+                                + devicePlatformOption
+                                op! 
+                                    _ supportedPlatforms.find
+                                        => 
+                                            { 
+                                                @ value
+                                            set value === 'mydevice'
+                            _ parsedSupportedPlatformsQueryParam.find
+                                => 
+                                    param value
+                                    @expr value === 'ios' || value === 'android'
+                    _ supportedPlatforms.unshift(devicePlatformOption)
+                if supportedPlatforms.length
+                    return supportedPlatforms
+                return fallbackPlatformOptions
+            return defaultPlatformOptions
+    export 
+        function getSelectedPlatform
+            param params
+                :{ 
+                    :p requestedPlatform
+                        :optional 
+                        :ref Platform
+                    :p sdkVersion
+                        :ref SDKVersion
+                    :p options
+                        :[ 
+                            :ref PlatformOption
+            :return
+                :ref Platform
+            const 
+                { 
+                    @ requestedPlatform
+                    @ options
+                = params
+            let selectedPlatform
+                :ref Platform
+                = requestedPlatform ?? 'web'
+                # If the selected platform is not enabled for this Snack then fallback to
+                # the first available platform
+            if 
+                test
+                    op! 
+                        _ options.find
+                            => 
+                                param platformOption
+                                set platformOption.value === selectedPlatform
+                set selectedPlatform = options[0].value
+            return selectedPlatform

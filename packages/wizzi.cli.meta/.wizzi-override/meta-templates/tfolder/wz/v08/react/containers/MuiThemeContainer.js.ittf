@@ -1,0 +1,88 @@
+﻿$group
+	
+    import React from 'react'
+	import PropTypes from 'prop-types'
+	
+	${'$'}if wzCtx.Build.react.useRedux
+		import { connect } from 'react-redux'
+	
+	import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+	import ${'$'}{wzCtx.Styles.colors.primary} from '@material-ui/core/colors/${'$'}{wzCtx.Styles.colors.primary}'
+	import ${'$'}{wzCtx.Styles.colors.secondary} from '@material-ui/core/colors/${'$'}{wzCtx.Styles.colors.secondary}'
+	
+	${'$'}if wzCtx.Build.react.materialUI.useCssBaseline
+		import CssBaseline from '@material-ui/core/CssBaseline'
+	
+	${'$'}if wzCtx.Build.react.materialUI.useCssBase
+		import CssBase from '../components/CssBase'
+
+    ${'$'}if wzCtx.Build.react.materialUI.usePickers
+        import
+            @ MuiPickersUtilsProvider
+            from '@material-ui/pickers'
+        import DateFnsUtils from "@date-io/date-fns"
+	
+	${'$'}if wzCtx.Build.react.materialUI.useRouter
+		import AppContainer from '../components/AppRouter'
+	${'$'}else
+		import AppContainer from './AppContainer'
+
+    ${'$'}if wzCtx.Styles.useCustomTheme
+        import customTheme from '../theme'
+
+	${'$'}if wzCtx.Styles.useCustomTheme
+        # A theme with custom primary and secondary color. It's optional.
+    ${'$'}else
+        # A custom theme.  It's optional.
+	const theme
+		_ createMuiTheme
+            ${'$'}if wzCtx.Styles.useCustomTheme
+                @ customTheme
+            ${'$'}else
+                {
+                    { palette
+                        { primary
+                            @ light ${'$'}{wzCtx.Styles.colors.primary}[300]
+                            @ main ${'$'}{wzCtx.Styles.colors.primary}[500]
+                            @ dark ${'$'}{wzCtx.Styles.colors.primary}[700]
+                        { secondary
+                            @ light ${'$'}{wzCtx.Styles.colors.secondary}[300]
+                            @ main ${'$'}{wzCtx.Styles.colors.secondary}[500]
+                            @ dark ${'$'}{wzCtx.Styles.colors.secondary}[700]
+                        @ type '${'$'}{wzCtx.Styles.theme.dark ? 'dark' : 'light'}'
+
+	react MuiThemeContainer
+
+		render
+			
+			${'$'}if wzCtx.Build.react.useRedux
+				prop dark
+			${'$'}else
+				const dark = false
+			
+			return
+				< MuiThemeProvider
+					@ theme {theme}
+					${'$'}if wzCtx.Build.react.materialUI.useCssBaseline
+						< CssBaseline
+					${'$'}if wzCtx.Build.react.materialUI.useCssBase
+						< CssBase
+                    ${'$'}if wzCtx.Build.react.materialUI.usePickers
+                        < MuiPickersUtilsProvider
+                            @ utils {DateFnsUtils}
+                            < AppContainer
+                    ${'$'}else
+                        < AppContainer
+
+	${'$'}if wzCtx.Build.react.useRedux
+		export default
+			_ connect
+				=>
+					param state
+					return
+						{
+							@ dark state.dark
+				(
+					@ MuiThemeContainer
+	${'$'}else
+		export default MuiThemeContainer

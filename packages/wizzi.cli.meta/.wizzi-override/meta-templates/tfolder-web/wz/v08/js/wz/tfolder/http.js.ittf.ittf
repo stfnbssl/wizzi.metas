@@ -1,0 +1,54 @@
+﻿$group
+
+	class HttpRequest
+
+		ctor
+			set this.headers = []
+
+		m setAuthBasic
+			param user
+			param psw
+			var credentials = 'username=' + user + '&password=' + psw;
+			_ this.setHeader('Authorization', 'Basic ' + Base64.encode(credentials))
+
+		m setHeader
+			param name
+			param value
+			_ this.headers.push({ name: name, value: value })
+
+		m send
+			param args
+			var
+				decl timeout = (args.timeout || 6 * 60 * 60 * 1000)
+				decl method = args.method
+				decl url = args.url
+				decl data = args.data
+				decl success = args.success
+				decl failure = args.failure
+				decl errorHandler = args.errorHandler
+				decl isGetRequest = method === "GET"
+
+			var self = this
+			set success = _.isFunction(success) ? success : function(data) { console.log(data) }
+			set failure = _.isFunction(failure) ? failure : function(data) { console.log(data) }
+			set errorHandler = _.isFunction(errorHandler) ? errorHandler : function(data) { console.log(data) }
+
+			# loog 'sending ajax'
+			_ $.ajax
+				{
+					@ url url
+					@ type method
+					@ data data
+					@ timeout timeout
+					@ cache false
+                    # Let jquery turn data map into query string only on GET requests.
+					@ processData isGetRequest
+					@ beforeSend
+						function
+							param xhr
+							foreach h in self.headers
+								_ xhr.setRequestHeader(h.name, h.value)
+					@ success success
+					@ failure failure
+					@ error errorHandler
+					@ dataType 'json'

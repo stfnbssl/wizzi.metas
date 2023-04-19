@@ -1,0 +1,43 @@
+$group
+    import isEqual from 'lodash/isEqual'
+    import 
+        @ createStore
+        @ combineReducers
+        from 'redux'
+    export
+        function viewer
+            param state
+                :any 
+                = null
+            param action
+                :any 
+            switch action.type
+                case 'UPDATE_VIEWER'
+                    return 
+                        iif isEqual(state, action.viewer)
+                            then state
+                            else action.viewer
+                default 
+                    return state
+    export
+        function splitTestSettings
+            param state
+                :any 
+                = 
+                    { 
+            param action
+                :any 
+            switch action.type
+                default 
+                    return state
+    export-default 
+        function createStoreWithPreloadedState
+            param state
+                :any 
+            return 
+                _ createStore
+                    _ combineReducers
+                        { 
+                            @ viewer
+                            @ splitTestSettings
+                    @ state

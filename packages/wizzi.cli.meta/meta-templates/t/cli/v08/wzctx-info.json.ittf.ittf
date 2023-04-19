@@ -1,0 +1,19 @@
+$group
+
+    $*
+        Basic infos for "/models/wzctx.json.ittf" document,
+        that will be the wzCtx context object of the created package.
+        The "cliCtx" context object is set by wizzi-cli/cmds/create.
+    *$
+
+    name "${cliCtx.name}"
+    version "${cliCtx.version}"
+	description "${cliCtx.description}"
+    $if cliCtx.author
+        { author
+            name "${cliCtx.author.name}"
+            email "${cliCtx.author.email}"
+	$if cliCtx.licence
+        { license
+            type "${cliCtx.license}"
+            url "${cliCtx.license_url}"

@@ -1,0 +1,257 @@
+$group
+    import ExtendableError from 'es6-error'
+    import 
+        @ getAuthStorageKey
+        from './config'
+    import
+        @ StorageHandler
+        from '../storage'
+    import
+        @ Auth0UserData
+        @ Auth0TokenData
+        from './types'
+    +
+    export-default 
+        class AuthenticationManager
+            p topLevelDomainCookie
+                :private 
+                :ref StorageHandler
+            p profilePromise?
+                :private 
+                :ref Promise
+                    :param 
+                        :union 
+                            :ref Auth0UserData
+                            :null 
+                            :undefined 
+            ctor 
+                set this.topLevelDomainCookie = new StorageHandler()
+            m getCookie
+                :private 
+                param name
+                    :string 
+                :return
+                    :union 
+                        :string 
+                        :null 
+                        :undefined 
+                return this.topLevelDomainCookie.getItem(name)
+            m getProfile
+                async
+                if this.profilePromise
+                    return this.profilePromise
+                set this.profilePromise = this._getUserProfile()
+                try 
+                    const profile
+                        await this.profilePromise
+                    set this.profilePromise = undefined
+                    return profile
+                catch err
+                    set this.profilePromise = undefined
+                    throw err
+            get sessionSecret
+                :return
+                    :union 
+                        :string 
+                        :null 
+                const rawSessionData = this.getCookie('sessionSecret')
+                if !rawSessionData
+                    return null
+                try 
+                    const sessionSecret = JSON.parse(rawSessionData)
+                    if Date.now() >= sessionSecret.expires_at
+                        throw new Error()
+                    return JSON.stringify(sessionSecret)
+                catch e
+                    return null
+            get accessToken
+                :return
+                    :union 
+                        :string 
+                        :null 
+                const tokenData = this.getTokenData()
+                if tokenData
+                    if this.isTokenValid(tokenData)
+                        return tokenData.access_token
+                    return null
+                return null
+            get idToken
+                :return
+                    :union 
+                        :string 
+                        :null 
+                const tokenData = this.getTokenData()
+                if tokenData
+                    if this.isTokenValid(tokenData)
+                        return tokenData.id_token
+                    return null
+                return null
+            m isTokenValid
+                :private 
+                param tokenData
+                    :ref Auth0TokenData
+                :return
+                    :boolean 
+                return Date.now() < tokenData.expires_at
+            m getTokenData
+                :private 
+                :return
+                    :union 
+                        :ref Auth0TokenData
+                        :undefined 
+                        :null 
+                const rawTokenData = this.getCookie('tokenData')
+                if rawTokenData
+                    try 
+                        return JSON.parse(rawTokenData)
+                    catch e
+                        return null
+                return null
+            p _getUserProfile
+                _ _handleApiErrors
+                    async=> 
+                        const 
+                            { 
+                                @ idToken
+                                @ sessionSecret
+                            = this
+                            # if auth0 token set and session secret is missing, return null
+                        if !idToken && !sessionSecret
+                            return null
+                        const result
+                            :{ 
+                                :p data
+                                    :optional 
+                                    :ref Auth0UserData
+                            =
+                                await 
+                                    _ _performApiRequest
+                                        `lit 
+                                            + userInfo
+                                        @ null
+                                        { 
+                                            @ method 'GET'
+                                            { headers
+                                                ... 
+                                                    ( 
+                                                        iif sessionSecret
+                                                            then
+                                                                { 
+                                                                    @ 'Expo-Session' sessionSecret
+                                                            else
+                                                                { 
+                                                ... 
+                                                    ( 
+                                                        iif idToken
+                                                            then
+                                                                { 
+                                                                    @ Authorization
+                                                                        `lit 
+                                                                            + Bearer&nbsp;
+                                                                            @ idToken
+                                                            else
+                                                                { 
+                        return result.data
+    +
+    function _handleApiErrors
+        :< F
+            :ref Function
+        param fn
+            :ref F
+        :return
+            :ref F
+        return 
+            async=> 
+                param args
+                const ourFault = 'Something on our end broke! We are so sorry about this. Try again later'
+                try 
+                    const response
+                        :any 
+                        =
+                            await 
+                                _ fn(...args)
+                    if !response
+                        throw new GenericError()
+                    if !!response.errors && response.errors.length
+                        const error = response.errors[0]
+                        const errorMessage
+                            iif error.details
+                                then error.details.message
+                                else error.message
+                        throw new ApiError()
+                    return response
+                catch e
+                    if e instanceof ApiError || e instanceof GenericError
+                        throw e
+                            # eslint-disable-next-line @typescript-eslint/no-throw-literal
+                    throw new GenericError()
+            # @ts-ignore
+    +
+    async-function _performApiRequest
+        :< T
+        param route
+            :string 
+        param body
+            :union 
+                :object 
+                :null 
+        param options
+            :{ 
+                :p method
+                    :union 
+                        :literal 'GET'
+                        :literal 'POST'
+                :p headers
+                    :optional 
+                    :{ 
+                        :index 
+                            :string 
+                            param key
+                                :string 
+            :optional 
+        :return
+            :ref Promise
+                :param 
+                    :ref T
+        const customHeaders
+            ?? 
+                + options?.headers
+                { 
+        if options
+            delete options.headers
+        +
+        const response
+            await 
+                _ fetch
+                    `lit 
+                        @ process.env.API_SERVER_URL
+                        + /--/api/v2/auth/
+                        @ route
+                    { 
+                        @ method 'POST'
+                        { headers
+                            @ Accept 'application/json'
+                            @ 'Content-Type' 'application/json'
+                            @ ...customHeaders
+                        @ body
+                            && 
+                                + body
+                                _ JSON.stringify
+                                    { 
+                                        @ ...body
+                        ... 
+                            (
+                                ?? 
+                                    + options
+                                    { 
+        return response.json()
+        #
+            # 
+            # Generic helper method to perform a request to the Expo API
+            # 
+    +
+    class GenericError
+        super ExtendableError
+    +
+    class ApiError
+        super ExtendableError

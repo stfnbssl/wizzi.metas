@@ -1,0 +1,61 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormStatic",
+            props: [
+                { name: 'id', type: 'string'},
+                { name: 'name', type: 'string'},
+                { name: 'label', type: 'string' },
+                { name: 'value', type: 'string'},
+            ]
+        }
+        
+    v08/ts/react/function${'('}&md)
+        
+        ${'$'}append imports
+            import
+                @ c
+                @ s
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledFormGroup .dl<RootStyleProps>
+            styled StyledInputLabel .dt<RootStyleProps>
+                font-weight 600
+            styled StyledLabelSpan .span<RootStyleProps>
+                color
+                    => c('secondary-text')
+                font-size 12px
+                margin 4px 4px 2px
+                min-height 17px                
+            styled StyledInputBox .dd<RootStyleProps>
+                margin 2px 0
+            styled StyledInput .input<RootStyleProps>
+                color
+                    => c('primary-text')
+                border none
+                font-size 14px
+                line-height 20px
+                outline none
+                padding 5px 12px
+                vertical-align middle
+
+        return
+            < StyledFormGroup
+                < StyledInputLabel
+                    @ autocomplete off
+                    + {label}
+                < StyledInputBox
+                    < StyledInput
+                        @ autocomplete off
+                        @ type text
+                        @ name {name}
+                        @ id {name}                    
+                        @ value {value}                    
+                        @ enabled {false}
+                        @ readOnly {true}
+
+

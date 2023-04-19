@@ -1,0 +1,115 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            isPure: true,
+            name: "Banner",
+            props: [
+                { name: "visible", type: "boolean" },
+                { name: "className", type: "string", optional: true },
+                { name: "type", type: "union", optional: true, types:[
+                    { name: 'info', literal: true },
+                    { name: 'success', literal: true },
+                    { name: 'error', literal: true },
+                ]},
+                { name: "children", type: "node", optional: true }
+            ],
+            stateProps: [
+                { name: "rendered", type: "boolean" },
+            ]
+        }
+
+    v08/ts/react/component${'('}md)
+
+        ${'$'}append imports
+            import 
+                @ c
+                @ s
+                from '../ThemeProvider'
+
+        ${'$'}append styles
+            :interface BannerStyleProps
+                :p visible
+                    :boolean
+                :p type
+                    :optional 
+                    :union 
+                        :literal 'info'
+                        :literal 'success'
+                        :literal 'error'
+            
+            styled StyledRoot .div
+                position fixed
+                top 0
+                left 0
+                right 0
+                padding 0 10px
+                z-index 999
+                text-align center
+                pointer-events none
+            
+            styled StyledBanner .div<BannerStyleProps>
+                display inline-block
+                margin auto
+                padding 1em
+                max-width 100%
+                background-color
+                    => props.type === 'success' ? c('success') 
+                        \b : props.type === 'error' ? c('error') 
+                        \b : c('primary')
+                color
+                    => props.type === 'success' ? c('success-text') 
+                        \b : props.type === 'error' ? c('error-text') 
+                        \b : c('primary-text')
+                border-radius 0 0 4px 4px
+                transition-duration 200ms
+                pointer-events
+                    => props.visible ? "auto" : "none"
+                box-shadow
+                    => s('popover')
+                transform
+                    => props.visible ? "translateY(0)" : "translateY(-100%)"
+        
+        +
+        m getDerivedStateFromProps
+            static
+            param props
+                :ref BannerProps
+            if props.visible
+                return 
+                    { 
+                        @ rendered true
+            return null
+        +
+        p state
+            { 
+                @ rendered this.props.visible
+        +
+        m componentDidUpdate
+            param prevProps
+                :ref BannerProps
+            if this.props.visible !== prevProps.visible
+                _ clearTimeout(this._timer)
+                if !this.props.visible
+                    set this._timer =
+                        _ setTimeout
+                            => 
+                                _ this.setState
+                                    { 
+                                        @ rendered false
+                            @ 300
+        +
+        p _timer
+            :any 
+        +
+        m render
+            if !this.state.rendered
+                return null
+            return 
+                < StyledRoot
+                    < StyledBanner
+                        @ visible {this.props.visible}
+                        @ type {this.props.type}
+                        @ className {this.props.className}
+                        + {this.props.children}

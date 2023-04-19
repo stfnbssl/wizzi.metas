@@ -1,0 +1,46 @@
+$group
+
+    var __response_ok = false
+    var __response_status = false
+    _ ${'$'}{name}
+        ${'$'}if p1 != null
+            @ ${'$'}{p1}
+        ${'$'}if p2 != null
+            @ ${'$'}{p2}
+        ._ then
+            => 
+                param response
+                $$ loog '${'$'}{name}', 'response', response
+                set __response_status = response.status
+                if response.ok
+                    set __response_ok = true
+                return
+                    _ response.json
+        ._ then
+            function 
+                param data
+                if __response_ok
+                    _ console.log
+                        {
+                            @ action '${'$'}{name}'
+                            @ message "success"
+                            @ data data
+                    ${'$'}hook
+                else
+                    _ console.log
+                        {
+                            @ action '${'$'}{name}'
+                            @ message "failure"
+                            @ responseStatus __response_status
+                            @ error data
+        ._ catch
+            function 
+                param error
+                _ console.log
+                    {
+                        @ action '${'$'}{name}'
+                        @ error error
+                ${'$'}hook catch
+
+
+

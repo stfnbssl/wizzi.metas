@@ -1,0 +1,94 @@
+$group
+    import 
+        @ PackiFiles
+        from '../packi'
+    import 
+        @ Annotation
+        from '../annotations'
+    import 
+        @ isESLintConfig
+        @ isScript
+        @ isJson
+        from '../file'
+    +
+    async-function lintCode
+        param path
+            :string 
+        param code
+            :string 
+        param files
+            :ref PackiFiles
+        :return
+            :ref Promise
+                :param 
+                    :[ 
+                        :ref Annotation
+        const eslintrc = Object.keys(files).find(isESLintConfig)
+        let config
+            :union 
+                :object 
+                :undefined 
+        if eslintrc
+            try 
+                set config =
+                    { 
+                        @ parser 'babel-eslint'
+                        @ ...JSON.parse(files[eslintrc].contents)
+                    # Use the babel-eslint parser by default since it's what we bundle
+                    # This avoids having to specify the parser which might not be obvious
+                    # @ts-ignore
+            catch e
+                return 
+                    [ 
+                        { 
+                            @ message
+                                `lit 
+                                    + Content of the ESLint config (
+                                    @ eslintrc
+                                    + ) is not valid JSON
+                            { location
+                                @ fileName eslintrc
+                                @ startLineNumber 0
+                                @ endLineNumber 0
+                                @ startColumn 0
+                                @ endColumn 0
+                            @ severity 4
+                            @ source 'ESLint'
+        const 
+            { 
+                @ default lintCode
+            =
+                await 
+                    _ import
+                        @ './lintCode'
+        return lintCode(path, code, config)
+    +
+    export-default 
+        async-function lintFile
+            param selectedFile
+                :string 
+            param files
+                :ref PackiFiles
+            :return
+                :ref Promise
+                    :param 
+                        :[ 
+                            :ref Annotation
+            const file = files[selectedFile]
+            if !file || file.type !== 'CODE'
+                return []
+            else
+                if isScript(selectedFile) && file.contents
+                    return lintCode(selectedFile, file.contents, files)
+                else
+                    if isJson(selectedFile)
+                        const 
+                            { 
+                                @ default lintJson
+                            =
+                                await 
+                                    _ import
+                                        @ './lintJson'
+                        return lintJson(selectedFile, file.contents)
+                    else
+                        return []

@@ -1,0 +1,57 @@
+{
+    $include commons
+
+    { App
+        name "TS Node Demo"
+        kind "NodeCLI"
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "css"
+            "graphql"
+            "html"
+            "ittf"
+            "js"
+            "ts"
+            "json"
+            "md"
+            "text"
+            "svg"
+            "xml"
+            "yaml"
+
+    useEnvCmd false
+    { envCmd
+
+    useTypescript true
+    { typescript
+   
+    useMongoDb false
+    { mongoDb
+
+    useFeatures true
+    { features
+        useConfig true
+        { config
+
+        useGithub false
+        { github
+
+        usePacki false
+        { packi
+
+        useWizzi true
+        { wizzi
+
+        useWizziProduction false
+        { wizziProduction
+
+        useWizziCdn false
+        { wizziCdn
+
+    useLint false
+    { lint
+
+    usePrettier false
+    { prettier

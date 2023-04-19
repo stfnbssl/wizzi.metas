@@ -1,0 +1,77 @@
+$group
+
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        +
+        set md.loadModel
+            async-function
+                param filePath
+                param packiFiles
+                param context
+                r_promise_async${'('})
+                    if !verify.isObject(packiFiles)
+                        return
+                            _ reject
+                                {
+                                    @ action mdDisplayName + '.loadModel'
+                                    @ message 'packiFiles parameter must be an object of type PackiFiles'
+                                    @ packiFiles
+                    const ittfDocumentUri
+                        _ ensurePackiFilePrefix(filePath)
+                    const jsonwf
+                        await
+                            _ createJsonFsAndFactory(packiFiles)
+                    _ jsonwf.wf.loadModel
+                        @ ittfDocumentUri
+                        {
+                            @ mTreeBuildupContext context
+                        =>
+                            param err
+                            param result
+                            if err
+                                return reject(err)
+                            _ resolve(result)
+    +
+    set md.loadModelFs
+        async-function
+            param filePath
+            param context
+            r_promise_async${'('})
+                const schemaName = wizziMaps.schemaFromFilePath(filePath)
+                if !schemaName
+                    return reject('File is not a known ittf document: ' + filePath)
+                # TODO catch error
+                const wf
+                    await
+                        _ createFilesystemFactory()
+                _ wf.loadModel
+                    @ schemaName
+                    @ filePath
+                    {
+                        @ mTreeBuildupContext context
+                    =>
+                        param err
+                        param result
+                        if err
+                            return reject(err)
+                        _ resolve(result)
+
+    +
+    async-function loadModelInternal
+        param wf
+        param filePath
+        param context
+        r_promise_async${'('})
+            const schemaName = wizziMaps.schemaFromFilePath(filePath)
+            if !schemaName
+                return reject('File is not a known ittf document: ' + filePath)
+            _ wf.loadModel
+                @ schemaName
+                @ filePath
+                {
+                    @ mTreeBuildupContext context
+                =>
+                    param err
+                    param result
+                    if err
+                        return reject(err)
+                    _ resolve(result)

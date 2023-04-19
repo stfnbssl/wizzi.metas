@@ -1,0 +1,173 @@
+$group
+
+    import path from 'path'
+    $if cliCtx.useWizziV08
+        import wizzi from '@wizzi/factory'
+    $else
+        import wizzi from 'wizzi'
+    import
+        @ verify
+        @ fSystem
+        $if cliCtx.useWizziV08
+            from '@wizzi/utils'
+        $else
+            from 'wizzi-utils'
+    import
+        ${'$'}if wzCtx.Build.useWizziJsonFactory
+            @ createJsonFsAndFactory
+            @ ensurePackiFilePrefix
+        @ createFilesystemFactory
+        @ createFilesystemFactoryWithParameters
+        from './factory'
+    const mdDisplayName = 'features.wizzi-meta.api.metaFolderProcessor'
+    const file = fSystem.vfile()
+    +
+    async-function metaFolderProcessor
+        param folderTemplatesFiles
+        param folderTemplatesIndexFile
+        param destinationIttfTempFolder
+        param destinationPackiFiles
+        param metaCtx
+        r_promise${'('})
+            if !verify.isObject(folderTemplatesFiles)
+                return
+                    _ reject
+                        {
+                            @ action mdDisplayName
+                            @ message 'the folderTemplatesFiles parameter must be an object of type PackiFiles'
+                            @ folderTemplatesFiles
+            let jsonwf
+                =
+                    {
+            
+            const ittfDocumentUri
+                _ ensurePackiFilePrefix(folderTemplatesIndexFile)
+            # TODO catch error
+            set jsonwf =
+                await
+                    _ createJsonFsAndFactory(folderTemplatesFiles)
+            _ jsonwf.wf.loadModel
+                @ ittfDocumentUri
+                {
+                    @ mTreeBuildupContext
+                        {
+                            @ metaCtx metaCtx
+                =>
+                    param err
+                    param packageTemplateModel
+                    if err
+                        error mdDisplayName + '.loadModel', err
+                        r_reject${'('})
+                            {
+                                @ message mdDisplayName + '.loadModel'
+                                @ err
+                    try
+                        foreach child in packageTemplateModel.children
+                            if child.name == '$file'
+                                _ processFile
+                                    @ child
+                                    @ destinationIttfTempFolder
+                                    @ destinationPackiFiles
+                        r_resolve${'('})
+                            {
+                                @ message 'Package generated'
+                    catch ex
+                        r_reject${'('})
+                            {
+                                @ message mdDisplayName + ' Error writing package files'
+                                @ ex
+
+    +
+    async-function metaFolderProcessorFs
+        param folderTemplatesIndexFile
+        param destinationIttfTempFolder
+        param cliCtx
+        r_promise${'('})
+            _ wizzi.model
+                @ folderTemplatesIndexFile
+                {
+                    @ cliCtx cliCtx
+                =>
+                    param err
+                    param packageTemplate
+                    if err
+                        error mdDisplayName + '.wizzi.model', err
+                        r_reject${'('})
+                            {
+                                @ message mdDisplayName + '.wizzi.model'
+                                @ err
+                    try
+                        foreach child in packageTemplate.children
+                            if child.name == '$file'
+                                _ processFileFs
+                                    @ child
+                                    @ destinationIttfTempFolder
+                        r_resolve${'('})
+                            {
+                                @ message 'Package generated'
+                    catch ex
+                        r_reject${'('})
+                            {
+                                @ message mdDisplayName + '. Error writing package files'
+                                @ ex
+
+    function processFile
+        param node
+        param destinationIttfTempFolder
+        param destinationPackiFiles
+        var outputPath = destinationIttfTempFolder + '/' + node.value
+        log mdDisplayName + '.writing', node.value, 'to', outputPath
+        var sb = []
+        foreach child in node.children
+            _ processContent
+                @ sb
+                @ child
+                @ 0
+        set destinationPackiFiles[outputPath]
+            {
+                @ type "CODE"
+                @ contents 
+                    _ sb.join
+                        @ '\n'
+
+    function processFileFs
+        param node
+        param destinationIttfTempFolder
+        $$ loog mdDisplayName + '.writing', node.value, 'to', destinationIttfTempFolder
+        var outputPath
+            _ path.join
+                @ destinationIttfTempFolder
+                @ node.value
+        var sb = []
+        foreach child in node.children
+            _ processContent
+                @ sb
+                @ child
+                @ 0
+        _ file.write
+            @ outputPath
+            _ sb.join
+                @ '\n'
+
+
+    function processContent
+        param sb
+        param node
+        param indent
+        $$ loog new Array(indent).join(' ') + node.name + ' ' + node.value
+        _ sb.push
+            @ new Array(indent).join(' ') + decode(node.name) + ' ' + decode(node.value)
+        foreach child in node.children
+            _ processContent
+                @ sb
+                @ child
+                @ indent + 4
+
+    function decode
+        param text
+        set text = verify.replaceAll(text, "${'$'}", "$")
+        return verify.replaceAll(text, "£'('£", "(")
+
+    +
+    export
+        @ metaFolderProcessor

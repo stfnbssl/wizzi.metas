@@ -1,0 +1,44 @@
+$group
+    kind jsfile
+	+
+	var verify = require('wizzi-utils').verify
+	+
+	var work
+        { 
+    set work.lineSep = "__LS__"
+    set work.textSep = "__TS__"
+	+
+	var md
+        set module.exports =
+            { 
+
+	set md.inlinedTextToTextLines
+        function 
+            param text
+            if typeof(text) === 'undefined' || text == null
+                return 
+                    { 
+                        @ text text
+                        @ lines null
+			var text
+                _ verify.replaceAll
+                    @ text
+                    @ work.textSep
+                    @ '\n'
+            var ss = text.split('\n')
+            if ss.length == 1
+                return 
+                    { 
+                        @ text ss[0]
+                        @ lines null
+            else 
+                var lines
+                    _ verify.replaceAll
+                        @ ss[1]
+                        @ work.lineSep
+                        @ '\n'
+                        ._ split('\n')
+                return 
+                    { 
+                        @ text ss[0]
+                        @ lines lines

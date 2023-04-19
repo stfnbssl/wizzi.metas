@@ -1,0 +1,139 @@
+$group
+
+    import
+        @ Viewer
+        from '../account'
+
+    ${'$'}if wzCtx.Build.usePackiAspects
+        import
+            @ LoggedUser
+            from '../app'
+
+    export 
+        :type AuthProps
+            :{ 
+                ${'$'}if wzCtx.Build.usePackiAspects
+                    :p loggedUser
+                        :optional 
+                        :union 
+                            :ref LoggedUser
+                            :undefined 
+                    :p onLoggedOn
+                        :=> 
+                            :void 
+                            param user
+                                :ref LoggedUser
+                    :p onLoggedOff
+                        :=> 
+                            :void 
+                    :p getSessionSecret
+                        :=> 
+                            :string 
+                    :p viewer
+                        :optional 
+                        :union 
+                            :ref Viewer
+                            :undefined 
+                    :p dispatch
+                        :=> 
+                            :void 
+                            param action
+                                :{ 
+                                    :p type
+                                        :literal 'UPDATE_VIEWER'
+                                    :p viewer
+                                        :union 
+                                            :ref Viewer
+                                            :null 
+                                            :undefined 
+                ${'$'}else
+                    :p legacyLogout
+                        :optional 
+                        :=> 
+                            :ref Promise
+                                :param void
+                    :p getSessionSecret
+                        :=> 
+                            :string 
+                    :p setMetadata
+                        :=> 
+                            :ref Promise
+                                :param void
+                            param metadata
+                                :{ 
+                                    :p appetizeCode
+                                        :string 
+                    :p viewer
+                        :optional 
+                        :union 
+                            :ref Viewer
+                            :undefined 
+                    :p dispatch
+                        :=> 
+                            :void 
+                            param action
+                                :{ 
+                                    :p type
+                                        :literal 'UPDATE_VIEWER'
+                                    :p viewer
+                                        :union 
+                                            :ref Viewer
+                                            :null 
+                                            :undefined 
+    +
+    export 
+        :type Auth0UserData
+            :{ 
+                :p name
+                    :string 
+                :p username
+                    :string 
+                :p id
+                    :string 
+                :p given_name
+                    :string 
+                :p family_name
+                    :string 
+                :p nickname
+                    :string 
+                :p picture
+                    :string 
+                :p updated_at
+                    :string 
+                :p email
+                    :string 
+                :p email_verified
+                    :string 
+                :p nonce
+                    :string 
+                :p iss
+                    :string 
+                :p sub
+                    :string 
+                :p aud
+                    :string 
+                :p exp
+                    :string 
+                :p iat
+                    :string 
+                :p ['https://expo.io/isOnboarded']
+                    :boolean 
+    export           
+        :type Auth0TokenData
+            :{ 
+                :p access_token
+                    :string 
+                :p expires_in
+                    :number 
+                :p expires_at
+                    :number 
+                :p scope
+                    :string 
+                :p state
+                    :string 
+                :p id_token
+                    :string 
+                :p token_type
+                    :literal 'Bearer'
+                :p sessionSecret
+                    :string

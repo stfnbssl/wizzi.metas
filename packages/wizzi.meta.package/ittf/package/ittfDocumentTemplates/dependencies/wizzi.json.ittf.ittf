@@ -1,0 +1,18 @@
+${'$'}group
+
+    $*
+        wizzi properties for "package.json" ittf documents.
+        The "ctx" context object (if present) is set by wizzi-cli/cmds/create.
+    *$
+
+    ${'$'}if wzCtx.Build.useWizzi
+        ${'$'}if wzCtx.Build.wizzi.useLatest
+            wizzi "latest"
+            wizzi-js "latest"
+            wizzi-web "latest"
+            wizzi-core "latest"
+        ${'$'}else
+            wizzi "^0.7.12"
+            wizzi-js "^0.7.5"
+            wizzi-web "^0.7.2"
+            wizzi-core "^0.7.1"        

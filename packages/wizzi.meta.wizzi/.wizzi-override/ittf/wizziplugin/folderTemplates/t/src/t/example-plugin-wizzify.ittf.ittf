@@ -1,0 +1,66 @@
+$group
+    $params &schema
+    kind jsfile
+
+    ${"${'$'}"}
+        var md = {
+            name: '${schema.name}',
+        };
+
+	+
+		${'$'} 
+			var schema = 'graphql'
+
+    +
+	import async
+	import path
+	import util
+	+
+	var ${schema.name}wizzifier = require('../lib/wizzifiers/${schema.name}/wizzifier')
+	var file = require('wizzi-utils').file
+	+
+    let arg = process.argv[2]
+    const moduleName = arg && arg.length > 0 ? arg : 'first'        
+    _ async.map
+		[
+			@ moduleName
+		@ wizzify
+		a_cb_no_throw${'$'}{'('} result )
+			info ''
+            info 'Terminated. result: ', result
+
+	function wizzify
+		param name
+		param callback
+		+
+		var source
+			_ path.join
+				@ __dirname
+				@ 'data'
+				@ name + '.${schema.name}'
+		+
+		_ ${schema.name}wizzifier.getWizziIttf
+			_ file.read
+				@ source
+			{
+				@ syntaxOutFile
+					_ path.join
+						@ __dirname
+						@ 'data'
+						@ 'output'
+						@ name + '.${schema.name}.syntax'
+			a_cb_no_throw${'$'}{'('} ittf )
+				if err
+					error 'error wizzifying: ' + source
+					error 'err', err
+					return callback(null, 'error ' + source)
+				_ file.write
+					_ path.join
+						@ __dirname
+						@ 'data'
+						@ 'output'
+						@ name + '.${schema.name}.ittf'
+					@ ittf
+				return callback(null, 'success ' + source)
+
+

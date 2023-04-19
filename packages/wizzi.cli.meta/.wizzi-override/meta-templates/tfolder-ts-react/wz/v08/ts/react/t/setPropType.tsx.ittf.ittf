@@ -1,0 +1,52 @@
+$group
+
+    :p ${'$'}{prop.name}
+        ${'$'}if prop.type == 'date'
+            :ref Date
+        ${'$'}elif prop.type == '['
+            :[
+                :any
+        ${'$'}elif prop.type == 'node'
+            :ref React.ReactNode
+        ${'$'}elif prop.type == 'mouse-event'
+            :ref (e: React.MouseEvent<HTMLElement>) => void
+        ${'$'}elif prop.type == 'input-event'
+            :=> 
+                :void 
+                param event
+                    :ref React.ChangeEvent
+                        :param 
+                            :ref HTMLInputElement
+        ${'$'}elif prop.type == 'union'
+            :union
+                ${'$'}foreach type in prop.types
+                    ${'$'}if type.ref
+                        :ref ${'$'}{type.name}
+                    ${'$'}if type.literal
+                        :literal '${'$'}{type.name}'
+                    ${'$'}else
+                        :${'$'}{type.name}
+        ${'$'}elif prop.type == 'Promise'
+            :=> 
+                :ref Promise
+                    :param ${'$'}{prop.return}
+                ${'$'}foreach param in prop.params
+                    param ${'$'}{param.name}
+                        :${'$'}{param.type}
+        ${'$'}elif prop.type == 'handler'
+            :=> 
+                ${'$'}if prop.params
+                    ${'$'}foreach param in prop.params
+                        param ${'$'}{param.name}
+                            ${'$'}if param.ref
+                                :ref ${'$'}{param.type}
+                            ${'$'}else
+                                :${'$'}{param.type}
+                :void 
+        ${'$'}elif prop.ref
+            :ref ${'$'}{prop.type}
+        ${'$'}else
+            :${'$'}{prop.type}
+        ${'$'}if prop.optional
+            :optional
+

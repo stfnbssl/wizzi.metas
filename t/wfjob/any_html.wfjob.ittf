@@ -1,0 +1,9 @@
+﻿$group
+
+	artifact any_html
+		src ./**/*.html.ittf
+		schema html
+		generator html/document
+		extension html
+		$hook
+

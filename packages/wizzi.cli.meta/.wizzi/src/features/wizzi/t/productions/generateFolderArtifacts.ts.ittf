@@ -1,0 +1,76 @@
+$group
+    $if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function generateFolderArtifacts
+                param sourceFolderUri
+                    :string
+                param destFolderUri
+                    :string
+                param files
+                    :ref packiTypes.PackiFiles
+                param context
+                    :any
+                    :optional
+                :return
+                    :ref Promise
+                        :param
+                            :ref packiTypes.PackiFiles
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            if !verify.isObject(files)
+                                return
+                                    _ reject
+                                        {
+                                            @ action 'wizzi.productions.generateFolderArtifacts'
+                                            @ message 'files parameter must be an object of type PackiFiles'
+                                            @ files
+                            let jsonwf
+                                :any
+                                =
+                                    {
+                            try
+                                set jsonwf =
+                                    await
+                                        _ createJsonFsAndFactory(files)
+                                _ jsonwf.wf.generateFolderArtifacts
+                                    @ packiFilePrefix + sourceFolderUri
+                                    {
+                                        @ modelRequestContext context
+                                        @ artifactRequestContext context
+                                    {
+                                        @ destFolder packiFilePrefix + destFolderUri
+                                    =>
+                                        param err
+                                            :any
+                                        param result
+                                            :string
+                                        if err
+                                            return reject(err)
+                                        _ jsonwf.wf.fileService.getFiles
+                                            @ packiFilePrefix + destFolderUri
+                                            {
+                                                @ deep true
+                                                @ documentContent true
+                                            =>
+                                                param err
+                                                    :any
+                                                param files
+                                                    :any
+                                                if err
+                                                    return reject(err)
+                                                const packiFiles
+                                                    :ref packiTypes.PackiFiles
+                                                    = {}
+                                                foreach file in files
+                                                    set packiFiles[file.relPath]
+                                                        {
+                                                            @ type 'CODE'
+                                                            @ contents file.content
+                                                _ resolve
+                                                    @ packiFiles
+                            catch ex
+                                return reject(ex)

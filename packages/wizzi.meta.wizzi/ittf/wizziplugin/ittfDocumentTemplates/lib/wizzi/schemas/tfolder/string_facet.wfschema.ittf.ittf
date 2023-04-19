@@ -1,0 +1,8 @@
+$group
+	${'$'}params f, value
+
+	if this.${'$'}{value} && this.${'$'}{value}.length > 0
+		_ this.facets.push
+			{
+				@ name '${'$'}{f}'
+				@ value "'" + this.${'$'}{value} + "'"

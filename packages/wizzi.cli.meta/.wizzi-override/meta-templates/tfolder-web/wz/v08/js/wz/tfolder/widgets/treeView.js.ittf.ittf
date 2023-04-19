@@ -1,0 +1,388 @@
+﻿$group
+
+	#
+		# dependencies
+		# . js/wz/core.js.ittf
+		# . js/wz/contextMenu.js.ittf
+		# params
+		#   { props
+		#     string key
+		#     { app
+		#     { filesystem
+		#       func getFolderRoot
+		#       func folderContextmenuItems
+		#       func fileContextmenuItems
+		#       func populateFolderItem
+		#       func createFolder
+		#       func createFile
+		#       func deleteFolder
+		#       func deleteFile
+		#       func updateFile
+		#       func rename
+		#       func copyCutStart
+		#       func pasteTo
+	class TreeView : wz.EventTarget
+		ctor
+			param props
+			set this.events
+				[
+					@ 'expand'
+					@ 'change'
+					@ 'collapse'
+					@ 'select'
+			set this.props = props
+			set this.key = props.key || 'default'
+			set this.app = props.app
+			set this.filesystem = props.filesystem
+			set this.handlers = {}
+			set this.selectedTreeNode = null
+
+		m render
+			param rootItem
+			param callback
+			if typeof callback === 'undefined'
+				set callback = rootItem
+				set rootItem = null
+			# set this.rootNode = new TreeNode(data, this)
+			if this.filesystem
+				_ this.filesystem.getFolderRoot
+					a_cb_throw${'('} data )
+						$$ loog 'TreeView.folderRoot', data
+						set this.rootNode = new TreeNode(data, this)
+						r_cb${'('} this.rootNode.render() )
+			elif rootItem
+				set this.rootNode = new TreeNode(rootItem, this)
+				r_cb${'('} this.rootNode.render() )
+			else
+				_ callback
+					{
+						@ message 'TreeView.render error: no data for treeNode'
+
+		m handleContextMenu
+			param payload
+			$$ loog 'handleContextMenu.payload', payload, payload.data
+
+			if this.filesystem
+				if payload.data.isFolder
+					_ this.handleContextMenuFolder
+						@ payload
+				else
+					_ this.handleContextMenuFile
+						@ payload
+
+		m handleContextMenuFolder
+			param context
+
+			var that = this
+
+			if !this.contextmenuFolder
+				
+				set this.contextmenuFolder
+					new wz.ContextMenu
+						{
+							@ menusContainerId this.props.formsContainerId
+				_ this.contextmenuFolder.create
+					{
+						{ menu
+							@ id (this.props.id || 'treeview') + '-contextmenuFolder'
+							@ items
+								_ this.filesystem.folderContextmenuItems
+									@ context.treeNode
+						@ onClick
+							=>
+								param data
+								$$ loog 'handleContextMenu_ittfDocument.onClick', data
+								if data.command === 'rename'
+									_ data.payload.treeNode.renameStart
+								elif data.command === 'create folder'
+									_ this.createFolder
+										@ data.payload.treeNode
+								elif data.command === 'create file'
+									_ this.createFile
+										@ data.payload.treeNode
+								elif data.command === 'clone repo'
+									_ this.cloneRepo
+										@ data.payload.treeNode
+								elif data.command === 'checkout repo'
+									_ this.checkoutRepo
+										@ data.payload.treeNode
+								elif data.command === 'copy' || data.command === 'cut'
+									_ this.copyCutStart
+										@ data.payload.treeNode
+										@ data.command
+								elif data.command === 'paste'
+									_ this.pasteTo
+										@ data.payload.treeNode
+								elif data.command === 'delete'
+									_ this.deleteFolder
+										@ data.payload.treeNode
+
+			else
+				
+				_ this.contextmenuFolder.replace
+					{
+						@ items
+							_ this.filesystem.folderContextmenuItems
+								@ context.treeNode
+
+			_ this.contextmenuFolder.handleRightClick
+				@ event
+				{
+					@ data context.data
+					@ treeNode context.treeNode
+
+			set this.contextmenuFolder.onClose
+				=>
+					_ wz.removeClass
+						@ context.treeNode.contentEl
+						@ 'tree-node-context-menu-on'
+
+
+		m handleContextMenuFile
+			param context
+
+			var that = this
+
+			if !this.contextmenuFile
+				
+				set this.contextmenuFile
+					new wz.ContextMenu
+						{
+							@ menusContainerId this.props.formsContainerId
+				_ this.contextmenuFile.create
+					{
+						{ menu
+							@ id (this.props.id || 'treeview') + '-contextmenuFile'
+							@ items 
+								_ this.filesystem.fileContextmenuItems
+									@ context.treeNode
+						@ onClick
+							=>
+								param data
+								$$ loog 'handleContextMenu_ittfDocument.onClick', data
+								if data.command === 'rename'
+									_ data.payload.treeNode.renameStart
+								elif data.command === 'copy' || data.command === 'cut'
+									_ this.copyCutStart
+										@ data.payload.treeNode
+										@ data.command
+								elif data.command === 'paste'
+									_ this.pasteTo
+										@ data.payload.treeNode
+								elif data.command === 'delete'
+									_ this.deleteFile
+										@ data.payload.treeNode
+			
+			else
+				
+				_ this.contextmenuFile.replace
+					{
+						@ items
+							_ this.filesystem.fileContextmenuItems
+								@ context.treeNode
+
+			_ this.contextmenuFile.handleRightClick
+				@ event
+				{
+					@ data context.data
+					@ treeNode context.treeNode
+
+			set this.contextmenuFile.onClose
+				=>
+					_ wz.removeClass
+						@ context.treeNode.contentEl
+						@ 'tree-node-context-menu-on'
+
+		m populate
+			param treeNode
+			param callback
+			_ this.filesystem.populateFolderItem
+				@ treeNode.item
+				a_cb_throw${'('} populatedItem )
+					$$ loog 'TreeView.populate', populatedItem
+					_ treeNode.replace
+						@ populatedItem
+					if callback
+						r_cb${'('})
+
+		m selectTreeNode
+			param treeNode
+			set this.selectedTreeNode = treeNode
+			event_emit${'('} select-tree-node
+				@ key this.key
+				@ treeNode treeNode
+
+		m createFolder
+			param treeNode
+
+			var createExec
+				=>
+					_ this.filesystem.createFolder
+						@ treeNode.item
+						a_cb_throw${'('} newItem
+							# loog 'createFolder.1', newItem
+							var newNode
+								_ treeNode.addItem
+									@ newItem
+							_ treeNode.expand
+							_ newNode.renameStart
+			if !treeNode.item.loadedAt
+				# loog 'createFolder.populate'
+				_ this.populate
+					@ treeNode
+					a_cb_throw${'('})
+						_ createExec
+			else
+				_ createExec
+
+		m deleteFolder
+			param treeNode
+			_ this.filesystem.deleteFolder
+				@ treeNode.item
+				a_cb_throw${'('} result
+					_ treeNode.remove
+
+		m createFile
+			param treeNode
+
+			var createExec
+				=>
+					_ this.filesystem.createFile
+						@ treeNode.item
+						a_cb_throw${'('} newItem
+							var newNode
+								_ treeNode.addItem
+									@ newItem
+							_ treeNode.expand
+							_ newNode.renameStart
+			if !treeNode.item.loadedAt
+				_ this.populate
+					@ treeNode
+					a_cb_throw${'('})
+						_ createExec
+			else
+				_ createExec
+
+		m cloneRepo
+			param treeNode
+
+			var cloneExec
+				async=>
+					_ await gitClone
+						{
+							@ filepath treeNode.item.path
+							@ glEventHub glEventHub
+					#
+						_ this.filesystem.cloneFolder
+							@ treeNode.item
+							a_cb_throw${'('} newItem
+								# loog 'cloneFolder.1', newItem
+								var newNode
+									_ treeNode.addItem
+										@ newItem
+								_ treeNode.expand
+								_ newNode.renameStart
+			if !treeNode.item.loadedAt
+				# loog 'cloneFolder.populate'
+				_ this.populate
+					@ treeNode
+					a_cb_throw${'('})
+						_ cloneExec
+			else
+				_ cloneExec
+
+		m checkoutRepo
+			param treeNode
+
+			var checkoutExec
+				async=>
+					_ await gitCheckout
+						{
+							@ filepath treeNode.item.path
+							@ glEventHub glEventHub
+					#
+						_ this.filesystem.checkoutFolder
+							@ treeNode.item
+							a_cb_throw${'('} newItem
+								# loog 'checkoutFolder.1', newItem
+								var newNode
+									_ treeNode.addItem
+										@ newItem
+								_ treeNode.expand
+								_ newNode.renameStart
+			if !treeNode.item.loadedAt
+				# loog 'checkoutFolder.populate'
+				_ this.populate
+					@ treeNode
+					a_cb_throw${'('})
+						_ checkoutExec
+			else
+				_ checkoutExec
+
+		m updateFile
+			param treeNode
+			param newContent
+			_ this.filesystem.updateFile
+				@ treeNode.item
+				@ newContent
+				a_cb_throw${'('} result
+					set treeNode.item.content = newContent
+					event_emit${'('} tree-node-updated
+						@ key this.key
+						@ treeNode treeNode
+
+		m deleteFile
+			param treeNode
+			_ this.filesystem.deleteFile
+				@ treeNode.item
+				a_cb_throw${'('} result
+					_ treeNode.remove
+
+		m rename
+			param treeNode
+			param newName
+			param callback
+			_ this.filesystem.rename
+				@ treeNode.item
+				@ newName
+				@ callback
+
+		m copyCutStart
+			param treeNode
+			param oper
+			_ treeNode.copyCutStart
+				@ oper
+			_ this.filesystem.copyCutStart
+				@ treeNode.item
+				@ treeNode
+				@ oper
+
+		m pasteTo
+			param treeNode
+			_ this.filesystem.pasteTo
+				@ treeNode.item
+				a_cb_throw${'('} from
+
+					# loog 'treeView.pasteTo', 'from', from, 'to', treeNode.item
+					
+					if from.action === 'copyFile' || from.action === 'copyFolder'
+						var newItem
+							_ itemUtils.cloneItem
+								@ from.context.item
+						_ itemUtils.setDirname
+							@ newItem
+							@ treeNode.item.dirname
+						_ treeNode.addItem
+							@ newItem
+						_ from.context.copyCutFinish
+
+					if from.action === 'moveFile' || from.action === 'moveFolder'
+						var newItem
+							_ itemUtils.cloneItem
+								@ from.context.item
+						_ itemUtils.setDirname
+							@ newItem
+							@ treeNode.item.dirname
+						_ treeNode.addItem
+							@ newItem
+						_ from.context.remove

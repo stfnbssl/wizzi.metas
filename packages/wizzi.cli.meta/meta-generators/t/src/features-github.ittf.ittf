@@ -1,0 +1,23 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.useGithub
+        $
+            var items = [
+                "index",
+                "types",
+                "utils",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/github/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/features/github/${item}.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/github/api/repo.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/github/api/repo.ts
+
+        $if cliCtx.useExpress
+            $file __dot__wizzi/${pkgPath}src/features/github/controllers/apiv1repo.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/features/github/controllers/apiv1repo.ts

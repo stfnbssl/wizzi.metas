@@ -1,0 +1,35 @@
+$group
+    $if cliCtx.useAzure
+
+        $file __dot__wizzi/Tests/package.json.ittf.ittf
+            {
+                
+                ${'$'}include wz/v08/azure/tests/package.json
+
+        $file __dot__wizzi/Tests/__dot__gitignore.text.ittf.ittf
+            text
+                
+                ${'$'}include wz/v08/azure/gitignore.text                
+
+        $file __dot__wizzi/Tests/gulpfile.js.ittf.ittf
+            module
+                kind es6
+                
+                ${'$'}include wz/v08/azure/tests/gulpfile.js
+
+        $file __dot__wizzi/Tests/unit_tests/sampleUnitTests.js.ittf.ittf
+            module
+                kind es6
+                
+                ${'$'}include wz/v08/azure/tests/unitTests.js
+
+        $file __dot__wizzi/Tests/functional_tests/sampleFunctionalTests.js.ittf.ittf
+            module
+                kind es6
+                
+                ${'$'}include wz/v08/azure/tests/functionalTests.js
+
+        $file __dot__wizzi/Tests/connectionData.json.ittf.ittf
+            {
+                
+                ${'$'}include wz/v08/azure/tests/connectionData.json

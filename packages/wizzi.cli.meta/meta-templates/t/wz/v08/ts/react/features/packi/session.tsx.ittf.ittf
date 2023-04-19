@@ -1,0 +1,1171 @@
+$group
+
+    import mapValues from 'lodash/mapValues'
+    import nullthrows from 'nullthrows'
+    ${'$'}if wzCtx.Build.useExpo
+        import DependencyResolver
+            @ DependencyResolverCallback
+            @ verifyDependency
+            @ getMissingDependencies
+            @ getPackageName
+            from './DependencyResolver'
+        import DevSession from './DevSession'
+    import FileUploader
+        @ FileUploaderCallback
+        from './FileUploader'
+    ${'$'}if wzCtx.Build.useExpo
+        import 
+            @ Logger
+            @ createLogger
+            from './Logger'
+    import 
+        as State
+        from './State'
+    ${'$'}if wzCtx.Build.useExpo
+        import 
+            @ WantedDependencyVersions
+            @ WantedDependencyVersionsCallback
+            from './WantedVersions'
+    import defaultConfig
+        @ PackiIdentityState
+        from './defaultConfig'
+    ${'$'}if wzCtx.Build.useExpo
+        import 
+            @ validateSDKVersion
+            @ isModulePreloaded
+            from './sdk'
+        import 
+            @ createTransport
+            @ PackiTransport
+            @ PackiTransportEvent
+            @ PackiTransportOptions
+            from './transports'
+        import 
+            @ ProtocolIncomingMessage
+            @ ProtocolOutgoingMessage
+            @ ProtocolConsoleMessage
+            @ ProtocolErrorMessage
+            @ ProtocolReloadMessage
+            @ ProtocolStatusMessage
+            @ ProtocolRequestStatusMessage
+            from './transports/Protocol'
+        import 
+            @ createWebPlayerTransport
+            @ getWebPlayerIFrameURL
+            from './transports/webPlayer'
+    import 
+        ${'$'}if wzCtx.Build.useExpo
+            @ SDKVersion
+            @ PackiDependencies
+        @ PackiFiles
+        @ PackiFile
+        @ PackiState
+        @ PackiUser
+        ${'$'}if wzCtx.Build.useExpo
+            @ PackiSendBeaconRequest
+            @ PackiLogEvent
+            @ PackiListenerSubscription
+        ${'$'}if wzCtx.Build.useExpo
+            @ PackiDependency
+            @ PackiConnectedClients
+        @ PackiWindowRef
+        @ PackiOptions
+        @ PackiStateListener
+        @ PackiListenerSubscription
+        @ PackiSaveOptions
+        from './types'
+    import 
+        @ createChannel
+        @ fetch
+        @ createURL
+        @ createError
+        @ createUserHeader
+        from './utils'
+
+    export-default 
+        class PackiSession
+            p state
+                :private 
+                :ref PackiState
+            p stateListeners
+                :private 
+                :ref Set
+                    :param 
+                        :ref PackiStateListener
+                new Set
+            ${'$'}if wzCtx.Build.useExpo
+                p logListeners
+                    :private 
+                    :ref Set
+                        :param 
+                            :ref PackiLogListener
+                    new Set
+                p createTransport
+                    :readonly 
+                    :private 
+                    :=> 
+                        :ref PackiTransport
+                        param options
+                            :ref PackiTransportOptions
+                ${'$'}if wzCtx.Build.useExpo
+                    p logger?
+                        :readonly 
+                        :private 
+                        :ref Logger
+            p apiURL
+                :readonly 
+                :private 
+                :string 
+            p host
+                :readonly 
+                :private 
+                :string 
+            ${'$'}if wzCtx.Build.useExpo
+                p dependencyResolver
+                    :readonly 
+                    :private 
+                    :ref DependencyResolver
+            p fileUploader
+                :readonly 
+                :private 
+                :ref FileUploader
+            ${'$'}if wzCtx.Build.useExpo
+                p DevSession
+                    :readonly 
+                    :private 
+                    :ref DevSession
+                p wantedDependencyVersions
+                    :private 
+                    :ref WantedDependencyVersions
+            p codeChangesDelay
+                :private 
+                :number 
+            p codeChangesTimer
+                :private 
+                :any 
+            ${'$'}if wzCtx.Build.useExpo
+                p reloadTimeout
+                    :readonly 
+                    :private 
+                    :number 
+                p previewTimeout
+                    :readonly 
+                    :private 
+                    :number 
+            p webPlayerURL
+                :readonly 
+                :private 
+                :string 
+            ${'$'}if wzCtx.Build.useExpo
+                p pruneConnectionsTimer
+                    :private 
+                    :any 
+                p transportListeners
+                    :readonly 
+                    :private 
+                    :{ 
+                        :index 
+                            :=> 
+                                :void 
+                                param event
+                                    :any 
+                            param key
+                                :string 
+                    { 
+            ctor 
+                param options
+                    :ref PackiOptions
+                const channel = createChannel(options.channel)
+                ${'$'}if wzCtx.Build.useExpo
+                    const sdkVersion = validateSDKVersion(options.sdkVersion ?? defaultConfig.sdkVersion)
+                    const dependencies
+                        iif options.dependencies
+                            then
+                                { 
+                                    @ ...options.dependencies
+                            else
+                                { 
+                set this.apiURL = options.apiURL ?? defaultConfig.apiURL
+                set this.host = options.host ?? defaultConfig.host
+                ${'$'}if wzCtx.Build.useExpo
+                    set this.logger =
+                        iif options.verbose
+                            then createLogger(true)
+                            else undefined
+                set this.codeChangesDelay = options.codeChangesDelay ?? 0
+                ${'$'}if wzCtx.Build.useExpo
+                    set this.reloadTimeout = options.reloadTimeout ?? 0
+                    set this.previewTimeout = options.previewTimeout ?? 10000
+                ${'$'}if wzCtx.Build.useExpo
+                    set this.createTransport = options.createTransport ?? createTransport
+                set this.webPlayerURL = options.webPlayerURL ?? defaultConfig.webPlayerURL
+                ${'$'}if wzCtx.Build.useExpo
+                    let transports
+                        ?? 
+                            + options.transports
+                            { 
+                    if options.online
+                        set transports =
+                            _ State.addObject
+                                @ transports
+                                @ 'pubnub'
+                                _ this.createTransport
+                                    { 
+                                        @ name 'pubnub'
+                                        @ channel
+                                        @ verbose options.verbose
+                                        @ apiURL this.apiURL
+                    if options.webPreviewRef
+                        set transports =
+                            _ State.addObject
+                                @ transports
+                                @ 'webplayer'
+                                _ createWebPlayerTransport
+                                    { 
+                                        @ ref options.webPreviewRef
+                                        @ verbose options.verbose
+                                        @ createTransport this.createTransport
+                                        @ window
+                                            _ nullthrows
+                                                iif typeof window !== 'undefined'
+                                                    then window
+                                                    else
+                                                        ( 
+                                                            + global
+                                                                :as 
+                                                                    :any 
+                                        @ webPlayerURL this.webPlayerURL
+                set this.state =
+                    _ this.updateDerivedState
+                        { 
+                            @ disabled !!options.disabled
+                            @ unsaved false
+                            @ name options.name ?? ''
+                            @ description options.description ?? ''
+                            ${'$'}if wzCtx.Build.useExpo
+                                @ sdkVersion
+                            @ files
+                                ?? 
+                                    + options.files
+                                    { 
+                            ${'$'}if wzCtx.Build.useExpo
+                                @ dependencies
+                                @ missingDependencies getMissingDependencies(dependencies, sdkVersion)
+                                { connectedClients
+                                @ transports
+                            @ user options.user
+                            @ id options.id
+                            @ saveURL
+                                iif options.id
+                                    then 
+                                        _ createURL
+                                            @ this.host
+                                            ${'$'}if wzCtx.Build.useExpo
+                                                @ sdkVersion
+                                            @ undefined
+                                            @ options.id
+                                    else undefined
+                            ${'$'}if wzCtx.Build.useExpo
+                                @ savedSDKVersion
+                                    iif options.id
+                                        then sdkVersion
+                                        else undefined
+                            @ online false
+                            @ url 
+                                _ createURL
+                                    @ this.host
+                                    ${'$'}if wzCtx.Build.useExpo
+                                        @ sdkVersion
+                                    @ channel
+                                    @ options.id
+                            @ channel
+                            ${'$'}if wzCtx.Build.useExpo
+                                @ deviceId options.deviceId
+                        @ PackiIdentityState
+                set this.state.unsaved = false
+                ${'$'}if wzCtx.Build.useExpo
+                    set this.wantedDependencyVersions = new WantedDependencyVersions()
+                    set this.dependencyResolver =
+                        new DependencyResolver
+                            { 
+                                @ snackagerURL options.snackagerURL ?? defaultConfig.snackagerURL
+                                @ logger this.logger
+                                @ callback this.onDependencyResolved
+                set this.fileUploader =
+                    new FileUploader
+                        { 
+                            @ apiURL this.apiURL
+                            ${'$'}if wzCtx.Build.useExpo
+                                @ logger this.logger
+                            @ callback this.onFileUploaded
+                ${'$'}if wzCtx.Build.useExpo
+                    set this.DevSession =
+                        new DevSession
+                            { 
+                                @ apiURL this.apiURL
+                                @ logger this.logger
+                                @ onSendBeaconCloseRequest this.onDevSessionSendBeaconCloseRequest
+                    _ this.logger?.info?.('Packi created', this.getState())
+                _ this.onStateChanged(this.state, PackiIdentityState)
+            +
+            m setName
+                param name
+                    :string 
+                return 
+                    _ this.setState
+                        => 
+                            param state
+                            ( 
+                                iif state.name !== name
+                                    then
+                                        { 
+                                            @ name
+                                    else null
+                #
+                    # 
+                    #  Sets the name of the Packi.
+                    #  @param name E.g. "conspicious orange"
+                    # 
+            +
+            m setDescription
+                param description
+                    :string 
+                return 
+                    _ this.setState
+                        => 
+                            param state
+                            ( 
+                                iif state.description !== description
+                                    then
+                                        { 
+                                            @ description
+                                    else null
+                #
+                    # *
+                    # * Sets the description of the Packi.
+                    # * @param name E.g. "My awesome Packi"
+                    # 
+            +
+            m setUser
+                param user
+                    :ref PackiUser
+                    :optional 
+                return 
+                    _ this.setState
+                        => 
+                            param state
+                            ( 
+                                iif state.user !== user
+                                    then
+                                        { 
+                                            @ user
+                                    else null
+                #
+                    # 
+                    # Sets the associated user account.
+                    # 
+                    # When set and `online` is true, causes this Packi to appear on the
+                    # "Recently in Development" section of all Expo clients that are signed
+                    # in with that account.
+                    # 
+            $include session/state.tsx
+            $include session/code.tsx
+            $include session/files.tsx
+            $include session/updown.tsx
+
+$*module
+    export 
+        :type PackiLogListener
+            :=> 
+                :any 
+                param log
+                    :ref PackiLogEvent
+    export-default 
+        class Packi
+                # 
+                # Content
+                # 
+                #
+                    # *
+                    # * Sets the Expo SDK version.
+                    # * @param sdkVersion Valid SDK version (e.g. "38.0.0")
+                    # 
+            m setSDKVersion
+                param sdkVersion
+                    :ref SDKVersion
+                _ validateSDKVersion(sdkVersion)
+                return 
+                    _ this.setState
+                        => 
+                            param state
+                            iif state.sdkVersion !== sdkVersion
+                                then
+                                    { 
+                                        @ sdkVersion
+                                        @ missingDependencies getMissingDependencies(state.dependencies, sdkVersion, state.wantedDependencyVersions)
+                                else null
+                # 
+                # Content
+                # 
+                #
+                    # *
+                    # * Sets the Expo SDK version.
+                    # * @param sdkVersion Valid SDK version (e.g. "38.0.0")
+                    # 
+            m setDeviceId
+                param deviceId
+                    :string 
+                    :optional 
+                return 
+                    _ this.setState
+                        => 
+                            param state
+                            ( 
+                                iif state.deviceId !== deviceId
+                                    then
+                                        { 
+                                            @ deviceId
+                                    else null
+                #
+                    # *
+                    # * Sets the device-id of an Expo client. When set and `online` is true, causes this
+                    # * Packi to appear on the "Recently in Development" section of that Expo client.
+                    # 
+                #
+                    # *
+                    # * Sets the focus to this Packi.
+                    # *
+                    # * Causes this Packi to be moved to the top of the "Recently in Development" list
+                    # * in the Expo client.
+                    # 
+                # 
+                # Dependencies
+                # 
+                #
+                    # *
+                    # * Updates dependencies.
+                    # *
+                    # * Use this method to add/remove/update dependencies.
+                    # * To remove a dependency specify `null` as the value of the key/value pair.
+                    # *
+                    # * @example
+                    # * ```ts
+                    # * const Packi = new Packi({
+                    # *   dependencies: {
+                    # *     'react-native-paper': '~2.0.0'
+                    # *   }
+                    # * });
+                    # *
+                    # * // Add dependency
+                    # * Packi.updateDependencies({
+                    # *   'expo-font': '9.0.0'
+                    # * });
+                    # *
+                    # * // Remove dependency
+                    # * Packi.updateDependencies({
+                    # *   'expo-font': null
+                    # * });
+                    # * ```
+                    # 
+            m updateDependencies
+                param dependencies
+                    :{ 
+                        :index 
+                            :union 
+                                :ref PackiDependency
+                                :null 
+                            param name
+                                :string 
+                return 
+                    _ this.setState
+                        => 
+                            param state
+                            const newDependencies = State.updateObjects(state.dependencies, dependencies)
+                            return 
+                                iif newDependencies !== state.dependencies
+                                    then
+                                        { 
+                                            @ dependencies newDependencies
+                                            @ missingDependencies getMissingDependencies(newDependencies, state.sdkVersion, state.wantedDependencyVersions)
+                                    else null
+                # 
+                # Dependencies
+                # 
+                #
+                    # *
+                    # * Updates dependencies.
+                    # *
+                    # * Use this method to add/remove/update dependencies.
+                    # * To remove a dependency specify `null` as the value of the key/value pair.
+                    # *
+                    # * @example
+                    # * ```ts
+                    # * const Packi = new Packi({
+                    # *   dependencies: {
+                    # *     'react-native-paper': '~2.0.0'
+                    # *   }
+                    # * });
+                    # *
+                    # * // Add dependency
+                    # * Packi.updateDependencies({
+                    # *   'expo-font': '9.0.0'
+                    # * });
+                    # *
+                    # * // Remove dependency
+                    # * Packi.updateDependencies({
+                    # *   'expo-font': null
+                    # * });
+                    # * ```
+                    # 
+            m updateDerivedDependenciesState
+                :private 
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                if state.wantedDependencyVersions !== prevState.wantedDependencyVersions || state.dependencies !== prevState.dependencies
+                    for 
+                        left
+                            const name
+                        in state.dependencies
+                        const dep = state.dependencies[name]
+                        const wantedVersion = state.wantedDependencyVersions?[name] ?? state.wantedDependencyVersions?[getPackageName(name)] ?? undefined
+                        if dep.wantedVersion !== wantedVersion
+                            set state.dependencies =
+                                iif state.dependencies === prevState.dependencies
+                                    then
+                                        { 
+                                            @ ...state.dependencies
+                                    else state.dependencies
+                            const version
+                                iif (dep.version === '*' || (dep.wantedVersion && dep.version === dep.wantedVersion)) && wantedVersion
+                                    then wantedVersion
+                                    else dep.version
+                            set state.dependencies[name] =
+                                { 
+                                    @ ...dep
+                                    @ version
+                                    @ wantedVersion
+                            if dep.handle && dep.version !== version
+                                delete state.dependencies[name].handle
+                if state.dependencies !== prevState.dependencies
+                    for 
+                        left
+                            const name
+                        in state.dependencies
+                        const dep = state.dependencies[name]
+                        if dep !== prevState.dependencies[name]
+                            const error = verifyDependency(name, dep.version)
+                            if error
+                                set state.dependencies[name] =
+                                    { 
+                                        @ ...dep
+                                        @ error
+            m updateWantedDependencyVersions
+                :private 
+                param state
+                    :ref PackiState
+                param _prevState
+                    :ref PackiState
+                if !state.disabled && Object.keys(state.dependencies).length
+                    _ this.wantedDependencyVersions.setSDKVersion(state.sdkVersion)
+            => onWantedDependencyVersions
+                :private 
+                :return 
+                    :ref WantedDependencyVersionsCallback
+                param _sdkVersion
+                param result
+                param error
+                const wantedDependencyVersions
+                    iif error
+                        then
+                            { 
+                        else result
+                _ this.setState
+                    => 
+                        { 
+                            @ dependencies
+                            @ sdkVersion
+                        (
+                            { 
+                                @ wantedDependencyVersions
+                                @ missingDependencies getMissingDependencies(dependencies, sdkVersion, wantedDependencyVersions)
+            m updateDependencyResolver
+                :private 
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                const dependencies = state.dependencies
+                const prevDependencies = prevState.dependencies
+                    # Stop resolving any removed or changed dependencies
+                if !prevState.disabled && (dependencies !== prevDependencies || state.disabled || state.sdkVersion !== prevState.sdkVersion)
+                    for 
+                        left
+                            const name
+                        in prevDependencies
+                        if !dependencies[name] || dependencies[name].version !== prevDependencies[name].version || state.disabled || (isModulePreloaded(name, state.sdkVersion) && !isModulePreloaded(name, prevState.sdkVersion))
+                            _ this.dependencyResolver.remove(name, prevDependencies[name].version, prevState.sdkVersion)
+                if !state.disabled && (dependencies !== prevDependencies || prevState.disabled || state.sdkVersion !== prevState.sdkVersion || state.wantedDependencyVersions !== prevState.wantedDependencyVersions)
+                    for 
+                        left
+                            const name
+                        in dependencies
+                        const dependency = dependencies[name]
+                        if !dependency.handle && !dependency.error && !isModulePreloaded(name, state.sdkVersion) && !(dependency.version === '*' && !state.wantedDependencyVersions) && (prevDependencies[name]?.version !== dependency.version || (dependency.version === '*' && !prevState.wantedDependencyVersions) || prevDependencies[name]?.handle || prevDependencies[name]?.error || prevState.disabled)
+                            _ this.dependencyResolver.add(name, dependency.version, state.sdkVersion)
+            => onDependencyResolved
+                :private 
+                :return 
+                    :ref DependencyResolverCallback
+                param request
+                param result
+                param error
+                _ this.setState
+                    => 
+                        { 
+                            @ dependencies
+                            @ sdkVersion
+                            @ wantedDependencyVersions
+                        const newDependencies
+                            _ State.addObject
+                                @ dependencies
+                                @expr request.name
+                                { 
+                                    @ ...dependencies[request.name]
+                                    @ version request.version
+                                    ... 
+                                        ( 
+                                            iif result
+                                                then
+                                                    { 
+                                                        @ handle result.handle
+                                                        @ peerDependencies result.dependencies
+                                                else
+                                                    { 
+                                    ... 
+                                        ( 
+                                            iif error
+                                                then
+                                                    { 
+                                                        @ error
+                                                else
+                                                    { 
+                        return 
+                            iif newDependencies !== dependencies
+                                then
+                                    { 
+                                        @ dependencies newDependencies
+                                        @ missingDependencies getMissingDependencies(newDependencies, sdkVersion, wantedDependencyVersions)
+                                else null
+                    # When a dependency is resolved, store its handle and peer-dependencies
+                    # in the state. This state should be persisted by the client so that the next
+                    # time it doesn't need to be resolved again.
+                # 
+                # Online
+                # 
+                #
+                    # *
+                    # * Enables or disables the Packi.
+                    # *
+                    # * When disabled, no uploads or dependency resolve operations
+                    # * are performed.
+                    # 
+            m updateDerivedWebPreviewState
+                :private 
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                const 
+                    { 
+                        @ transports
+                        @ sdkVersion
+                        @ url
+                    = state
+                if (url && !prevState.url) || sdkVersion !== prevState.sdkVersion
+                    set state.webPreviewURL =
+                        iif transports['webplayer']
+                            then getWebPlayerIFrameURL(this.webPlayerURL, sdkVersion, url, !!this.logger)
+                            else undefined
+            => onDevSessionSendBeaconCloseRequest
+                param sendBeaconCloseRequest
+                    :ref PackiSendBeaconRequest
+                _ this.setState
+                    => 
+                        param _state
+                        (
+                            { 
+                                @ sendBeaconCloseRequest
+                # 
+                # Transports
+                # 
+                #
+                    # *
+                    # * Reloads all connected clients.
+                    # *
+                    # * Note: During the reload proces, clients may get disconnected which
+                    # * causes the connectedClient to disappear and re-appear. The `reloadTimeout`
+                    # * option in the constructor can be used to keep connectedClients "alive"
+                    # * during the reload process.
+                    # 
+            m reloadConnectedClients
+                const connectedTransports
+                    new Set
+                        :param 
+                            :ref PackiTransport
+                _ this.setState
+                    => 
+                        param state
+                        let 
+                            { 
+                                @ connectedClients
+                            = state
+                        for 
+                            left
+                                const key
+                            in state.connectedClients
+                            const connectedClient = state.connectedClients[key]
+                            _ connectedTransports.add(state.transports[connectedClient.transport])
+                            set connectedClients =
+                                _ State.addObject
+                                    @ connectedClients
+                                    @ key
+                                    { 
+                                        @ ...connectedClient
+                                        @ status 'reloading'
+                        return 
+                            iif connectedClients !== state.connectedClients
+                                then
+                                    { 
+                                        @ connectedClients
+                                else null
+                const reloadMessage
+                    :ref ProtocolReloadMessage
+                    =
+                        { 
+                            @ type 'RELOAD_SNACK'
+                if connectedTransports.size
+                    _ this.logger?.comm?.('Reloading...')
+                    _ connectedTransports.forEach
+                        => 
+                            param transport
+                            _ transport.postMessage
+                                { 
+                                    @ type 'protocol_message'
+                                    @ data reloadMessage
+                # 
+                # Transports
+                # 
+                #
+                    # *
+                    # * Reloads all connected clients.
+                    # *
+                    # * Note: During the reload proces, clients may get disconnected which
+                    # * causes the connectedClient to disappear and re-appear. The `reloadTimeout`
+                    # * option in the constructor can be used to keep connectedClients "alive"
+                    # * during the reload process.
+                    # 
+                #
+                    # *
+                    # * Requests a preview from the connected clients.
+                    # *
+                    # * The previews are returned in the `previewURL` field of each connectedClient.
+                    # 
+            m getPreviewAsync
+                :return
+                    :ref Promise
+                        :param 
+                            :ref PackiConnectedClients
+                const 
+                    { 
+                        @ connectedClients
+                        @ transports
+                    = this.state
+                const connectedTransports
+                    new Set
+                        :param 
+                            :ref PackiTransport
+                _ Object.values(connectedClients).forEach
+                    => 
+                        { 
+                            @ transport
+                        _ connectedTransports.add(transports[transport])
+                if !connectedTransports.size
+                    return Promise.resolve(connectedClients)
+                const requestStatusMessage
+                    :ref ProtocolRequestStatusMessage
+                    =
+                        { 
+                            @ type 'REQUEST_STATUS'
+                    # Send status request to all transports that have
+                    # active connectedClients.
+                if connectedTransports.size
+                    _ this.logger?.comm?.('Requesting preview...')
+                    _ connectedTransports.forEach
+                        => 
+                            param transport
+                            _ transport.postMessage
+                                { 
+                                    @ type 'protocol_message'
+                                    @ data requestStatusMessage
+                return 
+                    new Promise
+                        :param 
+                            :ref PackiConnectedClients
+                    # Wait for all status-reports to be received and
+                    # return the connectedClients state when done.
+                    # Or timeout when it takes too long...
+                #
+                    # *
+                    # * Requests a preview from the connected clients.
+                    # *
+                    # * The previews are returned in the `previewURL` field of each connectedClient.
+                    # 
+            m updateTransports
+                :private 
+                param state
+                    :ref PackiState
+                param prevState
+                    :ref PackiState
+                const transports = state.transports
+                const prevTransports = prevState.transports
+                    # Stop any any removed transports
+                if !prevState.disabled && (transports !== prevTransports || state.disabled)
+                    for 
+                        left
+                            const id
+                        in prevTransports
+                        if this.transportListeners[id] && (transports[id] !== prevTransports[id] || state.disabled)
+                            _ prevTransports[id].removeEventListener('message', this.transportListeners[id])
+                            delete this.transportListeners[id]
+                            _ prevTransports[id].postMessage
+                                { 
+                                    @ type 'stop'
+                if !state.disabled && (transports !== prevTransports || prevState.disabled)
+                    for 
+                        left
+                            const id
+                        in transports
+                        if !this.transportListeners[id] && (transports[id] !== prevTransports[id] || prevState.disabled)
+                            set this.transportListeners[id] =
+                                => 
+                                    param event
+                                        :any 
+                                    _ this.onTransportEvent(id, event)
+                            _ transports[id].addEventListener('message', this.transportListeners[id])
+                            _ transports[id].postMessage
+                                { 
+                                    @ type 'start'
+                if !state.disabled && !State.isBusy(state) && (transports !== prevTransports || State.isCodeChanged(state, prevState) || prevState.disabled)
+                    _ this._sendCodeChangesDebounced(state, prevTransports !== transports || (!State.isBusy(state) && State.isBusy(prevState)))
+            => onTransportEvent
+                param transport
+                    :string 
+                param event
+                    :ref PackiTransportEvent
+                const 
+                    { 
+                        @ type
+                        @ data
+                    = event
+                    # @ts-ignore
+                const 
+                    { 
+                        @ connectionId
+                    = event
+                    # @ts-ignore
+                switch type
+                    case 'connect'
+                        _ this.logger?.comm?.
+                            `lit 
+                                + Client connected (
+                                @ transport
+                                + )
+                            @ connectionId
+                        _ this.onClientConnected(transport, connectionId, data)
+                        break 
+                    case 'disconnect'
+                        _ this.logger?.comm?.
+                            `lit 
+                                + Client disconnected (
+                                @ transport
+                                + )
+                            @ connectionId
+                            @ data
+                        _ this.onClientDisconnected(transport, connectionId, data)
+                        break 
+                    case 'protocol_message'
+                        _ this.logger?.comm_recv?.
+                            `lit 
+                                + Message received (
+                                @ transport
+                                + )
+                            @ connectionId
+                            @ data
+                        _ this.onProtocolMessageReceived(transport, connectionId, event.data)
+                        break 
+                    case 'send_message'
+                        _ this.onProtocolMessageSent(transport, event.data)
+                        break 
+            m onClientConnected
+                :private 
+                param transport
+                    :string 
+                param connectedClientId
+                    :string 
+                param data
+                    :any 
+                _ this.setState
+                    => 
+                        param state
+                        return 
+                            { 
+                                @ connectedClients
+                                    _ State.addObject
+                                        @expr state.connectedClients
+                                        @ connectedClientId
+                                        { 
+                                            @ transport
+                                            @ id data.id
+                                            @ name data.name
+                                            @ platform data.platform
+                                            @ status 'ok'
+            m onClientDisconnected
+                :private 
+                param _transport
+                    :string 
+                param connectedClientId
+                    :string 
+                param _data
+                    :any 
+                _ this.setState
+                    => 
+                        param state
+                        const connectedClient = state.connectedClients[connectedClientId]
+                            # When the connectedClient is reloading, schedule a cleanup
+                            # in case the connectedClient does not return
+                        if connectedClient?.status === 'reloading' && this.reloadTimeout >= 0
+                            if this.pruneConnectionsTimer
+                                _ clearTimeout(this.pruneConnectionsTimer)
+                                set this.pruneConnectionsTimer = undefined
+                            set this.pruneConnectionsTimer =
+                                _ setTimeout
+                                    => 
+                                        set this.pruneConnectionsTimer = undefined
+                                        _ this.setState
+                                            => 
+                                                param state
+                                                let connectedClients = state.connectedClients
+                                                for 
+                                                    left
+                                                        const key
+                                                    in state.connectedClients
+                                                    if state.connectedClients[key].status === 'reloading'
+                                                        set connectedClients = State.removeObject(connectedClients, key)
+                                                return 
+                                                    iif connectedClients !== state.connectedClients
+                                                        then
+                                                            { 
+                                                                @ connectedClients
+                                                        else null
+                                    @ this.reloadTimeout
+                            return null
+                        else
+                            const connectedClients = State.removeObject(state.connectedClients, connectedClientId)
+                                # Otherwise, remove the connectedClient immediately
+                            return 
+                                iif connectedClients !== state.connectedClients
+                                    then
+                                        { 
+                                            @ connectedClients
+                                    else null
+                # 
+                # Messaging
+                # 
+                #
+                    # *
+                    # * Adds a callback for listening for any client generated log messages.
+                    # *
+                    # * @example
+                    # * ```
+                    # * const unsubscribe = Packi.addLogListener((log) => {
+                    # *   console.log('log message received: ', log);
+                    # * });
+                    # *
+                    # * unsubscribe(); // Remove listener
+                    # * ```
+                    # 
+            m addLogListener
+                param listener
+                    :ref PackiLogListener
+                :return
+                    :ref PackiListenerSubscription
+                _ this.logListeners.add(listener)
+                return 
+                    => 
+                        _ this.logListeners.delete(listener)
+                # 
+                # Messaging
+                # 
+                #
+                    # *
+                    # * Adds a callback for listening for any client generated log messages.
+                    # *
+                    # * @example
+                    # * ```
+                    # * const unsubscribe = Packi.addLogListener((log) => {
+                    # *   console.log('log message received: ', log);
+                    # * });
+                    # *
+                    # * unsubscribe(); // Remove listener
+                    # * ```
+                    # 
+            m onProtocolMessageReceived
+                :private 
+                param transport
+                    :string 
+                param connectedClientId
+                    :string 
+                param message
+                    :ref ProtocolIncomingMessage
+                switch message.type
+                    case 'CONSOLE'
+                        _ this.onConsoleMessageReceived(connectedClientId, message)
+                        break 
+                    case 'ERROR'
+                        _ this.onErrorMessageReceived(connectedClientId, message)
+                        break 
+                    case 'STATUS_REPORT'
+                        _ this.onStatusReportMessageReceived(connectedClientId, message)
+                        break 
+                        # @ts-ignore: CODE is echoed by pubnub, we ignore it
+                    case 'CODE'
+                        break 
+                        # @ts-ignore: CODE is echoed by pubnub, we ignore it
+                        # @ts-ignore: RELOAD_SNACK is echoed by pubnub, we ignore it
+                    case 'RELOAD_SNACK'
+                        break 
+                        # @ts-ignore: RELOAD_SNACK is echoed by pubnub, we ignore it
+                        # @ts-ignore: REQUEST_STATUS is echoed by pubnub, we ignore it
+                    case 'REQUEST_STATUS'
+                        break 
+                        # @ts-ignore: REQUEST_STATUS is echoed by pubnub, we ignore it
+                    default 
+                        _ this.logger?.error?.('Invalid message received', transport, message)
+                        break 
+            m onProtocolMessageSent
+                :private 
+                param transport
+                    :string 
+                param message
+                    :ref ProtocolOutgoingMessage
+                switch message.type
+                    case 'CODE'
+                        _ this.setState
+                            => 
+                                param state
+                                let 
+                                    { 
+                                        @ connectedClients
+                                    = state
+                                for 
+                                    left
+                                        const connectedClientId
+                                    in connectedClients
+                                    const connectedClient = connectedClients[connectedClientId]
+                                    if connectedClient.transport === transport
+                                        set connectedClients =
+                                            _ State.addObject
+                                                @ connectedClients
+                                                @ connectedClientId
+                                                { 
+                                                    @ ...connectedClient
+                                                    @ error undefined
+                                                    @ status
+                                                        iif connectedClient.status === 'error'
+                                                            then 'ok'
+                                                            else connectedClient.status
+                                return 
+                                    iif connectedClients !== state.connectedClients
+                                        then
+                                            { 
+                                                @ connectedClients
+                                        else null
+                        break 
+            m onConsoleMessageReceived
+                :private 
+                param connectedClientId
+                    :string 
+                param message
+                    :ref ProtocolConsoleMessage
+                const payload = message.payload || []
+                const event
+                    :ref PackiLogEvent
+                    =
+                        { 
+                            @ type message.method
+                            @ connectedClient this.state.connectedClients[connectedClientId]
+                            @ message payload.join(' ')
+                                # error?
+                                # arguments: payload,
+                _ this.logListeners.forEach
+                    => 
+                        param listener
+                        _ listener(event)
+            m onErrorMessageReceived
+                :private 
+                param connectedClientId
+                    :string 
+                param message
+                    :ref ProtocolErrorMessage
+                try 
+                    const json = JSON.parse(message.error)
+                    const error
+                        _ createError
+                            { 
+                                @ name json.name || 'Error'
+                                @ message json.message || ''
+                                @ fileName json.fileName
+                                @ lineNumber json.lineNumber || json.loc?.line || json.line
+                                @ columnNumber json.columnNumber || json.loc?.column || json.column
+                                @ stack json.stack
+                    _ this.setState
+                        => 
+                            param state
+                            (
+                                { 
+                                    @ connectedClients
+                                        _ State.addObject
+                                            @expr state.connectedClients
+                                            @ connectedClientId
+                                            { 
+                                                @ ...state.connectedClients[connectedClientId]
+                                                @ error
+                                                @ status 'error'
+                catch e
+                    _ this.logger?.error?.('Failed to parse received error message', message)
+            m onStatusReportMessageReceived
+                :private 
+                param connectedClientId
+                    :string 
+                param message
+                    :ref ProtocolStatusMessage
+                const 
+                    { 
+                        @ previewLocation
+                    = message
+                _ this.setState
+                    => 
+                        param state
+                        (
+                            { 
+                                @ connectedClients
+                                    _ State.addObject
+                                        @expr state.connectedClients
+                                        @ connectedClientId
+                                        { 
+                                            @ ...state.connectedClients[connectedClientId]
+                                            @ previewURL previewLocation
+                                            @ previewTimestamp Date.now()
+*$

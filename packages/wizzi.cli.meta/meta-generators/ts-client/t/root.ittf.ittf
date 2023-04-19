@@ -1,0 +1,81 @@
+$group
+    
+    $file __dot__wizzi/${pkgPath}root/package.json.ittf.ittf
+        {
+            ${'$'}include cli/v08/package-info.json
+            ${'$'}include cli/v08/package-base.json
+    
+    $file __dot__wizzi/${pkgPath}root/tsconfig.json.ittf.ittf
+        {
+            ${'$'}include wz/v08/ts/config/tsconfig.json
+    
+    $file __dot__wizzi/${pkgPath}root/__dot__env.text.ittf.ittf
+        text
+            ${'$'}include cli/v08/env.text
+
+    $file __dot__wizzi/${pkgPath}root/__dot__gitignore.text.ittf.ittf
+        text
+        	${'$'}include cli/v08/gitignore-base.text
+    
+    $if cliCtx.useLint
+        $file __dot__wizzi/${pkgPath}root/__dot__eslintignore.text.ittf.ittf
+            text
+                ${'$'}include wz/v08/eslint/eslintignore.text
+        
+        $file __dot__wizzi/${pkgPath}root/__dot__eslintrc.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include cli/v08/eslintrc-base.js
+    
+    $if cliCtx.usePrettier
+        $file __dot__wizzi/${pkgPath}root/__dot__prettierignore.text.ittf.ittf
+            text
+                ${'$'}include wz/v08/prettier/prettierignore.text
+        
+        $file __dot__wizzi/${pkgPath}root/__dot__prettierrc.json.ittf.ittf
+            {
+                ${'$'}include wz/v08/prettier/rc.json
+
+    $if cliCtx.useWebpack
+        $file __dot__wizzi/${pkgPath}root/babel.config.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include cli/v08/babel.config-base.js
+        
+        $file __dot__wizzi/${pkgPath}root/webpack.config.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include cli/v08/webpack.config-base.js
+
+        $file __dot__wizzi/${pkgPath}root/deploy/development.env.text.ittf.ittf
+            text
+                ${'$'}include wz/v08/deploy/development.env.text
+
+        $file __dot__wizzi/${pkgPath}root/deploy/production.env.text.ittf.ittf
+            text
+                ${'$'}include wz/v08/deploy/production.env.text
+
+    $if cliCtx.useTailwind
+        $file __dot__wizzi/${pkgPath}root/tailwind.config.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include wz/v08/postcss/tailwind.config.js
+
+        $file __dot__wizzi/${pkgPath}root/postcss.config.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include wz/v08/postcss/postcss.config.js
+
+    $if cliCtx.useVite
+        $file __dot__wizzi/${pkgPath}root/tsconfig.node.json.ittf.ittf
+            {
+                ${'$'}include wz/v08/ts/config/tsconfig.node.json
+
+        $file __dot__wizzi/${pkgPath}root/vite.config.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/vite/vite.config.ts
+
+        $file __dot__wizzi/${pkgPath}root/index.html.ittf.ittf
+            html 
+                lang en
+                ${'$'}include wz/v08/vite/html/index.html

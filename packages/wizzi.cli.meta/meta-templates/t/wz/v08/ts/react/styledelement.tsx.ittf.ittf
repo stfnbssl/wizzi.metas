@@ -1,0 +1,19 @@
+$group
+
+    ${'$'}
+        var defaultProps = [];
+    misc${'('}setMyProps,&md)
+    import styled
+        @ keyframes
+        @ css
+        from 'styled-components'
+    ${'$'}hook imports
+
+    export
+        const ${'$'}{md.name}
+            _ styled.${'$'}{md.element}
+                => 
+                    param props
+                        :any
+                    ${'$'}hook
+    export-default ${'$'}{md.name}

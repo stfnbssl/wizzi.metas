@@ -1,0 +1,35 @@
+$group
+    ${'$'}params color|#000, bgcolor|#fff, viewBox|0 0 660 280
+	${'$'}
+		var opt = {};
+		opt.y0 = 10;
+		opt.y1 = 10;
+		opt.y1a = 90;
+		opt.y2 = 210;
+		opt.ybottom = 250;
+        opt.color = color;
+
+	preserve-aspect-ratio xMidYMid meet
+    viewBox ${'$'}{viewBox}
+	rect
+		x 0
+		y 0
+		width 660
+		height 280
+		fill ${'$'}{bgcolor}
+		stroke none
+	
+	polyline
+		stroke ${'$'}{color}
+		fill ${'$'}{color}
+		stroke-width 2
+		points 10 ${'$'}{opt.ybottom}
+			\b 45 ${'$'}{opt.y0} 60 ${'$'}{opt.y0} 75 ${'$'}{opt.y1a + 40} 
+			\b 120 ${'$'}{opt.y2} 120 ${'$'}{opt.y1a + 40} 
+			\b 175 ${'$'}{opt.y2} 175 ${'$'}{opt.y1a + 20} 
+			\b 230 ${'$'}{opt.y2} 230 ${'$'}{opt.ybottom}
+
+	i${'('} 250, &opt )
+	z${'('} 320, &opt )
+	z${'('} 450, &opt )
+	i${'('} 590, &opt )

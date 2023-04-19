@@ -1,0 +1,18 @@
+$group
+
+    $if cliCtx.useJsApi
+
+        $
+            var items = [
+                'index',
+                't/wizzi',
+                't/fetch',
+                't/packiManager',
+                't/wizzi/cdn',
+                't/wizzi/fetch',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/js/t/api/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/js/api/${item}.js

@@ -1,0 +1,46 @@
+$group
+    ${'$'}params &tb
+
+    import
+        @ Sequelize
+        @ Model
+        @ DataTypes
+        from 'sequelize'
+    import
+        @ ModelBuilderType
+        from "../../app/types"
+    +
+    let ${'$'}{tb.Name}Model
+        :ref Model
+    +
+    function createModel
+        param sequelize
+            :ref Sequelize
+        ./model${'('}&tb)
+        return ${'$'}{tb.Name}
+    +
+    export
+        function Get${'$'}{tb.Name}Model
+            :return
+                :ref Model
+            return ${'$'}{tb.Name}Model
+    +
+    export
+        const ${'$'}{tb.Name}ModelBuilder
+            :ref ModelBuilderType
+            =
+                {
+                    @ buildModel
+                        =>
+                            param sequelize
+                                :ref Sequelize
+                            set ${'$'}{tb.Name}Model
+                                _ createModel
+                                    @ sequelize
+                            return ${'$'}{tb.Name}Model
+                    @ applyExtraSetup
+                        =>
+                            param models
+                                :any
+                            _ ${'$'}{tb.Name}Model.associate
+                                @ models

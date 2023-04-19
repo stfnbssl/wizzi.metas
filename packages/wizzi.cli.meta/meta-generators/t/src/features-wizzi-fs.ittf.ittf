@@ -1,0 +1,25 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.useWizziFs
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziFs/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-fs/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziFs/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-fs/types.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziFs/controllers/apiv1wizzifs.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-fs/controllers/apiv1wizzifs.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziFs/api/byHash.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-fs/api/byHash.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizziFs/api/wizziFs.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-fs/api/wizziFs.ts
+
+

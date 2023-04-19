@@ -1,0 +1,28 @@
+$group
+    $params prod
+
+    $
+        var $1 = "$" + "{'$'}"
+
+    ${'$'}if metaCtx.use${_.capitalize(prod.name)}
+
+
+        ${'$'}file __dot__wizzi/${'$'}{pkgPath}/${prod.name}/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${"${'$'}"}include ${prod.name}/xxx.js
+
+
+        ${'$'}
+            var items = [
+                "xxx",
+            ];
+
+        ${'$'}foreach item in items
+
+            ${'$'}file __dot__wizzi/t/${prod.name}/${'$'}{metaVer}/${'$'}{item}.js.ittf.ittf
+                ${"${'${$1}'}"}group
+                
+                    ${"${'$'}"}include ${prod.name}/tfolder/${'$'}{item}.js
+
+

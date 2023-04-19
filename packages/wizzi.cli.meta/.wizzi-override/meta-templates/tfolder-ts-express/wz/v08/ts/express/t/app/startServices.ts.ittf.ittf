@@ -1,0 +1,40 @@
+$group
+    ${'$'}params &md
+    
+    async-function startServices
+        param config
+            :ref ConfigType
+
+        ${'$'}if wzCtx.Build.useMongoDb
+            let modelBuilders
+                :[ 
+                    :ref ModelBuilderType
+                =
+                    [ 
+                        ${'$'}if wzCtx.Build.useAuthorization
+                            @ ...authorizationModelBuilders
+                        ${'$'}if wzCtx.Build.useAccount
+                            @ ...accountModelBuilders
+                        ${'$'}if wzCtx.Build.useBlog
+                            @ ...blogModelBuilders
+                        ${'$'}if wzCtx.Build.features && wzCtx.Build.features.length > 0
+                            ${'$'}foreach feature in wzCtx.Build.features
+                                    ${'$'}if feature.useMongoDb
+                                        @ ...${'$'}{feature.name}ModelBuilders
+
+            await mongodbStart(config, modelBuilders)
+
+        ${'$'}if wzCtx.Build.useFilesystem
+            const fsDb
+                await 
+                    _ filesystemStart(config)
+        
+        ${'$'}if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useRunner    
+            await 
+                _ wizziStart(config)
+
+        return
+            {
+                ${'$'}if wzCtx.Build.useFilesystem
+                    @ fsDb
+

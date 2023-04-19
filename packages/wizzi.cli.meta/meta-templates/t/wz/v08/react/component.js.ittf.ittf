@@ -1,0 +1,169 @@
+$group
+
+	import React from 'react'
+	import PropTypes from 'prop-types'
+	
+	${'$'}if wzCtx.Build.react.useMaterialUI
+		import classNames from 'classnames'
+        ${'$'}if md.withStyles || md.withWidth
+		    import
+                ${'$'}if md.withStyles
+                    @ withStyles
+                ${'$'}if md.withWidth
+                    @ withWidth
+                from '@material-ui/core'
+        ${'$'}if md.withRouter
+            import 
+                @ Link
+                @ withRouter
+                from 'react-router-dom'
+
+	${'$'}if wzCtx.useNextjs
+		import withRoot from '../lib/withRoot'
+	
+	${'$'}if md.withContext
+		import { ${'$'}{md.withContext.name} } from '${'$'}{md.withContext.path}'
+	
+	${'$'}if md.connect
+		import { connect } from 'react-redux'
+	
+	${'$'}if md.pure
+		import pure from 'recompose/pure'
+
+    ${'$'}if wzCtx.Build.react.redux.useForm && md.isReduxForm
+        import 
+            @ Field
+            @ FieldArray
+            from 'redux-form'
+
+    ${'$'}if wzCtx.Build.react.useFormik && md.isFormikForm
+        import 
+            @ Formik
+            @ Form
+            @ Field
+            @ FastField
+            @ FieldArray
+            @ setFieldValue
+            @ setFieldTouched
+            @ ErrorMessage
+            from 'formik'
+
+    ${'$'}if wzCtx.Build.useYup && md.useYup
+        import * as Yup from 'yup'
+
+    ${'$'}if wzCtx.Build.react.useDraftJs && md.useDraftJs
+        import 
+            @ Editor
+            @ EditorState
+            @ RichUtils
+            from 'draft-js'
+
+	${'$'}hook imports
+
+    ${'$'}if !(wzCtx.useNextjs) && (md.withWidth || md.withStyles || md.withRouter || md.connect || md.pure)
+        const compose
+            => 
+                param ...funcs
+                _ funcs.reduce
+                    => 
+                        param a
+                        param b
+                        => 
+                            param ...args
+                            _ a(b(...args))
+                    => 
+                        param arg
+                        + arg
+
+    react ${'$'}{md.name}
+
+        ctor
+            ${'$'}hook ctor
+
+		${'$'}hook
+        
+        ${'$'}if md.withStyles
+            style
+                ${'$'}hook styles
+
+    ${'$'}if md.withStyles || md.withWidth || md.withRouter
+        set ${'$'}{md.name}
+            _ compose
+                ${'$'}if md.withRouter
+                    @ withRouter
+                ${'$'}if md.withStyles
+                    _ withStyles
+                        @ styles
+                ${'$'}if md.withWidth
+                    _ withWidth
+                ( 
+                    @ ${'$'}{md.name}
+
+    export default ${'$'}{md.name}
+
+    ${'$'}*
+	${'$'}if wzCtx.Build.react.useRedux && wzCtx.useNextjs && md.connect
+		redux-maps${'('}&md)
+	+
+	${'$'}
+		var nameSuffix = '';
+	${'$'}if md.withContext
+		const ${'$'}{md.name}Contexted
+			_ ${'$'}{md.withContext.name}
+				@ ${'$'}{md.name + nameSuffix}
+		${'$'}
+			nameSuffix = 'Contexted'
+	
+	${'$'}if wzCtx.Build.react.useMaterialUI
+		
+		export default
+			${'$'}if md.withWidth || md.connect || md.pure
+				_ compose
+					${'$'}if md.pure
+						@ pure
+					_ withStyles
+						@ styles
+					${'$'}if md.withWidth
+						_ withWidth()
+					${'$'}if md.connect
+						_ connect()
+					( 
+						@ ${'$'}{md.name + nameSuffix}
+			${'$'}elif wzCtx.useNextjs
+				_ withRoot
+					_ withStyles
+						@ styles
+						( 
+							@ ${'$'}{md.name + nameSuffix}
+			${'$'}else
+				_ withStyles
+					@ styles
+					( 
+						@ ${'$'}{md.name + nameSuffix}
+	
+	${'$'}elif wzCtx.Build.react.useRedux && wzCtx.useNextjs && md.connect
+		
+		export default
+			_ connect
+				@ mapStateToProps
+				@ mapDispatchToProps
+				@ mergeProps
+				(
+					@ ${'$'}{md.name + nameSuffix}
+
+	${'$'}else
+		
+		export default
+			${'$'}if md.withWidth || md.connect || md.pure
+				_ compose
+					${'$'}if md.pure
+						@ pure
+					${'$'}if md.withWidth
+						_ withWidth()
+					${'$'}if md.connect
+						_ connect()
+					(
+						@ ${'$'}{md.name + nameSuffix}
+			${'$'}else
+				+ ${'$'}{md.name + nameSuffix}
+    *${'$'}

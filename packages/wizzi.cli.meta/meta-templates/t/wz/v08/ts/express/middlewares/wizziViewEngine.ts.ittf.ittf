@@ -1,0 +1,98 @@
+$group
+    ${'$'}if wzCtx.Build.useWizziViewEngine
+        import path from 'path'
+        import
+            @ Application
+            from 'express'
+        import
+            @ MiddlewareType
+            from '../features/app/types'
+        import
+            @ config
+            from '../features/config'
+        import
+            @ wizziProds
+            from '../features/wizzi'
+        export
+            const WizziViewEngineMiddleware
+                :ref MiddlewareType
+                =
+                    =>
+                        param app
+                            :ref Application
+                        _ app.engine
+                            @ 'ittf'
+                            async-function
+                                param filePath
+                                    :string
+                                param options
+                                    :any
+                                param callback
+                                    :any
+                                try
+                                    const twinJsonContext
+                                        await
+                                            _ wizziProds.inferAndLoadContextFs(filePath, 'wzCtx')
+                                    const context
+                                        {
+                                            @ ...options
+                                            @ locals options._locals
+                                            @ ...twinJsonContext
+                                            @ isWizziStudio true
+                                    const siteCtx
+                                        await
+                                            $$ _ loadJsonIttfModel
+                                            _ wizziProds.loadSiteJsonModel
+                                                @ 'sitectx.json.ittf'
+                                                @ context
+                                    set context.siteCtx = siteCtx
+                                    info 'WizziViewEngineMiddleware.filePath', filePath
+                                    info 'WizziViewEngineMiddleware.options', Object.keys(options)
+                                    _ wizziProds.generateArtifactFs(filePath, context).then
+                                        =>
+                                            param generated
+                                            return callback(null, generated.artifactContent)
+                                        ._ catch
+                                            =>
+                                                param err
+                                                error 'WizziViewEngineMiddleware. wizziProds.generateArtifactFs error', err
+                                                return callback(err)
+                                catch ex
+                                    error 'WizziViewEngineMiddleware. Exception', ex
+                                    _ callback(ex)
+                        const viewsFolder = path.resolve(__dirname, '..', 'site', 'views')
+                        _ app.set('views', viewsFolder)
+                            # specify the views directory
+                        _ app.set('view engine', 'ittf')
+                            # register the template engine
+                        info 'WizziViewEngineMiddleware installed, on folder', viewsFolder
+
+        $*
+        async-function loadJsonIttfModel
+            param relPath
+                :string
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ wizziProds.loadModelFs
+                            _ path.join
+                                @ config.ittfPath
+                                @ 'models'
+                                @ relPath
+                            {
+                                @ isWizziStudio true
+                            ._ then
+                                =>
+                                    param model
+                                    $$ loog 'loadJsonIttfModel', model
+                                    _ resolve
+                                        @ model
+                            ._ catch
+                                =>
+                                    param err
+                                    _ reject(err)
+            *$
+    ${'$'}else
+        # <--wizzi!file!exclude-->

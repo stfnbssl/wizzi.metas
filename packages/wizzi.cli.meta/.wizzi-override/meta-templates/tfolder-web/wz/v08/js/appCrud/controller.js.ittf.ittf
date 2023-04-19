@@ -1,0 +1,257 @@
+$group
+    ${'$'}
+      var myName = 'Controller';
+      //
+
+    iife_window${'('} app, ${'$'}{myName})
+        function ${'$'}{myName}
+            param model
+            param view
+            var self = this
+            set self.model = model
+            set self.view = view
+            set self.active${cliCtx.jsAppCrud.Name}Item = null
+            set self.${cliCtx.jsAppCrud.name}SearchTerm = ''
+            ${'$'}*
+                GUIDAS
+            *${'$'}
+            _ self.view.bind
+                @ '${cliCtx.jsAppCrud.name}ViewSearchChange'
+                function 
+                    param data
+                    ${'$'}${'$'} _ alert('${cliCtx.jsAppCrud.name}ViewSearchChange:' + data.value)
+                    _ self.change${cliCtx.jsAppCrud.Name}SearchTerm
+                      @ data.value
+
+            _ self.view.bind
+                @ '${cliCtx.jsAppCrud.name}AddItemClick'
+                function 
+                    param element
+                    ${'$'}${'$'} _ alert('${cliCtx.jsAppCrud.name}AddItemClick')
+                    _ self.showCreate${cliCtx.jsAppCrud.Name}
+
+            _ self.view.bind
+                @ 'onView${cliCtx.jsAppCrud.Name}Item'
+                function 
+                    param command
+                    param data
+                    $$ loog '${'$'}{myName}.onView${cliCtx.jsAppCrud.Name}Item, command', command, "data", data
+                    if command == "update"
+                        _ self.showUpdate${cliCtx.jsAppCrud.Name}
+                            @ data
+                    if command == "delete"
+                        _ self.showDelete${cliCtx.jsAppCrud.Name}
+                            @ data
+                    ${'$'}*
+                    _ self.show${cliCtx.jsAppCrud.Name}Item
+                      @ data
+                    *${'$'}
+
+
+        set ${'$'}{myName}.prototype.initialize
+            function 
+                param locationHash
+                set this.${cliCtx.jsAppCrud.name}SearchTerm
+                  _ this.model.get${cliCtx.jsAppCrud.Name}Value
+                    @ 'searchTerm'
+                    @ ''
+                set this.${cliCtx.jsAppCrud.name}Categoria
+                  _ this.model.get${cliCtx.jsAppCrud.Name}Value
+                    @ 'categoria'
+                    @ ''
+                _ this.view.render
+                  @ 'set${cliCtx.jsAppCrud.Name}SearchTerm'
+                  @ this.${cliCtx.jsAppCrud.name}SearchTerm
+                _ this.model.getTabelle
+                  =>
+                    param tabelle
+                    $$ loog "${'$'}{myName}.prototype.initialize", tabelle
+                    _ this.view.render
+                      @ 'set${cliCtx.jsAppCrud.Name}Selects'
+                      @ tabelle
+                    _ this.view.bind
+                        @ '${cliCtx.jsAppCrud.name}SelectCategoriaChange'
+                        =>
+                            param data
+                            _ this.change${cliCtx.jsAppCrud.Name}Categoria
+                              @ data.value
+                    _ this.view.render
+                      @ 'set${cliCtx.jsAppCrud.Name}SelectCategoria'
+                      @ this.${cliCtx.jsAppCrud.name}Categoria
+                _ this.setView
+                  @ locationHash
+        
+        ${'$'}*
+            ROUTE
+        *${'$'}
+        set ${'$'}{myName}.prototype.setView =
+            function 
+                param locationHash
+                var route = locationHash.split('/')[1]
+                var page = route || ''
+                $$ loog '${'$'}{myName}.setView', 'route', route, 'page', page
+                _ this._updateRouteFilterState(page)
+
+        set ${'$'}{myName}.prototype._updateRouteFilterState =
+            function 
+                param currentPage
+                set this._activeRoute = currentPage
+                if currentPage === ''
+                    set this._activeRoute = currentPage = '${cliCtx.jsAppCrud.name}'
+                
+                if this._activeRoute == '${cliCtx.jsAppCrud.name}'
+                  _ this.view.render
+                    @ 'show${cliCtx.jsAppCrud.Name}View'
+                  
+                  _ this._filter${cliCtx.jsAppCrud.Name}
+                
+                if this._activeRoute == 'other'
+                  _ this.view.render
+                    @ 'showOtherView'
+                
+                _ this.view.render('setFilter', currentPage)
+            #
+                # 
+                # Simply updates the filter nav's selected states
+                # 
+
+
+        set ${'$'}{myName}.prototype.change${cliCtx.jsAppCrud.Name}SearchTerm
+            function 
+                param value
+                $$ loog '${'$'}{myName}.change${cliCtx.jsAppCrud.Name}SearchTerm', value
+                set this.${cliCtx.jsAppCrud.name}SearchTerm = value
+                _ this.model.set${cliCtx.jsAppCrud.Name}Value
+                  @ 'searchTerm'
+                  @ value
+                _ this._filter${cliCtx.jsAppCrud.Name}
+
+        set ${'$'}{myName}.prototype.change${cliCtx.jsAppCrud.Name}Categoria
+            function 
+                param value
+                $$ loog '${'$'}{myName}.change${cliCtx.jsAppCrud.Name}Categoria', value
+                set this.${cliCtx.jsAppCrud.name}Categoria = value
+                _ this.model.set${cliCtx.jsAppCrud.Name}Value
+                  @ 'categoria'
+                  @ value
+                _ this._filter${cliCtx.jsAppCrud.Name}
+
+        set ${'$'}{myName}.prototype._filter${cliCtx.jsAppCrud.Name} =
+            function 
+                $$ loog '${'$'}{myName}._filter${cliCtx.jsAppCrud.Name}'
+                _ this.show${cliCtx.jsAppCrud.Name}List
+
+        set ${'$'}{myName}.prototype.show${cliCtx.jsAppCrud.Name}List
+            function 
+                $$ loog '${'$'}{myName}.show${cliCtx.jsAppCrud.Name}List'
+                _ this.model.get${cliCtx.jsAppCrud.Name}
+                    @ this.${cliCtx.jsAppCrud.name}SearchTerm
+                    @ this.${cliCtx.jsAppCrud.name}Categoria
+                    =>
+                        param items
+                        $$ loog "${'$'}{myName}.show${cliCtx.jsAppCrud.Name}List, items", items
+                        set this.active${cliCtx.jsAppCrud.Name}Items = items
+                        _ this.view.render('show${cliCtx.jsAppCrud.Name}List', items)
+
+        set ${'$'}{myName}.prototype.show${cliCtx.jsAppCrud.Name}Item
+            function
+                param id 
+                $$ loog '${'$'}{myName}.show${cliCtx.jsAppCrud.Name}Item'
+                _ this.model.get${cliCtx.jsAppCrud.Name}Item
+                    @ id
+                    =>
+                        param item
+                        set this.active${cliCtx.jsAppCrud.Name}Item = item
+                        _ this.view.render('show${cliCtx.jsAppCrud.Name}Item', item)
+                        if item.kind == 'video'
+                          if item.videoKind == 'youtube'
+                            _ youTubePlayerChangeVideoId
+                              @ item.videoId
+                              @ item.time
+
+        set ${'$'}{myName}.prototype.showCreate${cliCtx.jsAppCrud.Name}
+            function 
+                param title
+                _ this.view.bind
+                    @ 'create${cliCtx.jsAppCrud.Name}Item'
+                    =>
+                        param originalValues
+                        param formValues
+                        # todo 
+                        info "${'$'}{myName}.create${cliCtx.jsAppCrud.Name}.result.formValues", formValues
+                        _ this.model.create${cliCtx.jsAppCrud.Name}Item
+                            @ formValues
+                            =>
+                                param result
+                                _ alert
+                                    _ JSON.stringify
+                                    @ result
+                                    @ null
+                                    @ 2
+                _ this.view.render
+                    @ 'create${cliCtx.jsAppCrud.Name}Item'
+                    {
+                        @ __kind this._activeRoute
+
+
+        set ${'$'}{myName}.prototype.showUpdate${cliCtx.jsAppCrud.Name}
+            function 
+                param id
+                info "${'$'}{myName}.showUpdate${cliCtx.jsAppCrud.Name}.id", id
+                _ this.view.bind
+                    @ 'update${cliCtx.jsAppCrud.Name}Item'
+                    =>
+                        param originalValues
+                        param formValues
+                        # todo 
+                        info "${'$'}{myName}.update${cliCtx.jsAppCrud.Name}.result.formValues", formValues
+                        _ this.model.update${cliCtx.jsAppCrud.Name}Item
+                            @ formValues
+                            =>
+                                param result
+                                _ alert
+                                    _ JSON.stringify
+                                    @ result
+                                    @ null
+                                    @ 2
+                _ this.model.get${cliCtx.jsAppCrud.Name}Item
+                    @ id
+                    =>
+                        param item
+                        set this.active${cliCtx.jsAppCrud.Name}Item = item
+                        _ this.view.render
+                            @ 'update${cliCtx.jsAppCrud.Name}Item'
+                            {
+                                @ __kind this._activeRoute
+                                @ originalValues item
+
+        set ${'$'}{myName}.prototype.showDelete${cliCtx.jsAppCrud.Name}
+            function 
+                param id
+                info "${'$'}{myName}.showDelete${cliCtx.jsAppCrud.Name}.id", id
+                _ this.view.bind
+                    @ 'delete${cliCtx.jsAppCrud.Name}Item'
+                    =>
+                        param originalValues
+                        param formValues
+                        # todo 
+                        info "${'$'}{myName}.update${cliCtx.jsAppCrud.Name}.result.formValues", formValues
+                        _ this.model.delete${cliCtx.jsAppCrud.Name}Item
+                            @ formValues
+                            =>
+                                param result
+                                _ alert
+                                    _ JSON.stringify
+                                    @ result
+                                    @ null
+                                    @ 2
+                _ this.model.get${cliCtx.jsAppCrud.Name}Item
+                    @ id
+                    =>
+                        param item
+                        set this.active${cliCtx.jsAppCrud.Name}Item = item
+                        _ this.view.render
+                            @ 'delete${cliCtx.jsAppCrud.Name}Item'
+                            {
+                                @ __kind this._activeRoute
+                                @ originalValues item

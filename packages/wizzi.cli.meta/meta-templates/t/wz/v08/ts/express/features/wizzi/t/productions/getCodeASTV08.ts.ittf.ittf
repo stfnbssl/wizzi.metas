@@ -1,0 +1,126 @@
+$group
+
+    export
+        async-function getCodeASTV08Fs
+            param filePath
+                :string 
+            :return
+                :ref Promise
+                    :param
+                        :any
+            r_promise_async${'('})
+                var extension
+                    _ path.extname
+                        @ filePath
+                var schema = wizziMaps.schemaFromExtension(extension)                        
+                const wf
+                    await 
+                        _ createFilesystemFactory()
+                _ wf.getCodeAST
+                    @ filePath
+                    @ schema
+                    =>
+                        param err
+                        param ittfDocument
+                        if err
+                            _ reject
+                                @ err
+                        return
+                            _ resolve
+                                @ ittfDocument
+
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        +
+        export
+            async-function getCodeASTV08
+                param files
+                    :ref packiTypes.PackiFiles
+                :return
+                    :ref Promise
+                        :param
+                            :ref packiTypes.PackiFiles
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            var result
+                                :ref packiTypes.PackiFiles
+                                =
+                                    {
+                            let jsonwf
+                                :any 
+                                =
+                                    { 
+                            set jsonwf =
+                                await 
+                                    _ createJsonFsAndFactory(files)
+                            for const k of Object.keys(files)
+                                var extension = path.extname(k)
+                                $$ loog 'productions.getCodeAST', k, extension
+                                try
+                                    const astResult
+                                        await
+                                            _ handleGetCodeASTV08
+                                                @ jsonwf
+                                                @ extension
+                                                @ files[k].contents
+                                    set result[k + '.ast']
+                                        {
+                                            @ type 'CODE'
+                                            @ contents
+                                                _ stringify 
+                                                    @ astResult
+                                                    @ null
+                                                    @ 2
+                                catch ex
+                                    set result[k + '.ast']
+                                        {
+                                            @ type 'CODE'
+                                            @ contents 
+                                                _ stringify
+                                                    @ ex
+                                                    @ null
+                                                    @ 2
+                            return
+                                _ resolve
+                                    @ result
+
+        +
+        function handleGetCodeASTV08
+            param jsonwf
+                :any
+            param extension
+                :string
+            param codeSnippet
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :any
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        var schema = wizziMaps.schemaFromExtension(extension)
+                        if schema
+                            _ jsonwf.getCodeASTFromText
+                                @ codeSnippet
+                                @ schema
+                                function
+                                    param err
+                                        :any
+                                    param astResult
+                                        :any
+                                    if err
+                                        _ reject
+                                            @ err
+                                    _ resolve
+                                        @ astResult
+                        else
+                            const ittfResult
+                                {
+                                    @ message "The file has an invalid schema."
+                            _ resolve
+                                @ ittfResult

@@ -1,0 +1,133 @@
+$group
+    
+    ${'$'}
+        var ctrl = {
+            name: 'ApiV1Post',
+            path: '/api/v1/blog/post',
+            apiSecured: wzCtx.App.isLocal == false,
+        }
+    
+    v08/ts/controller${'('}&ctrl)
+            
+        ${'$'}append imports
+            import
+                @ validatePost
+                @ getPostList
+                @ getPost
+                @ createPost
+                @ updatePost
+                @ deletePost
+                from '../api/post'
+            +
+            const myname = 'features/blog/controllers/apiv1post'
+
+        v08/ts/route_api_secured${'('} get, /:owner, this.getPostList)
+        v08/ts/route_api_secured${'('} get, /checkname/:owner/:name, this.getCheckPostName)
+        v08/ts/route_api_secured${'('} get, /:owner/:name, this.getPost)
+        v08/ts/route_api_secured${'('} post, /:owner/:name, this.postPost)
+        v08/ts/route_api_secured${'('} delete, /:id, this.deletePost)
+        
+        ${'$'}append handlers
+            
+            v08/ts/handler${'('}getPostList)
+
+                $$ loog 'getPostList.request.params', request.params
+                _ getPostList
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getPostList.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('}getPostList)
+
+            v08/ts/handler${'('}getCheckPostName)
+                _ validatePost
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getCheckPostName.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('}getCheckPostName)
+
+            v08/ts/handler${'('}getPost)
+
+                $$ loog 'getPost.request.params', request.params
+                _ getPost
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getPost.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('}getPost)
+
+            v08/ts/handler${'('}postPost)
+
+                $$ loog 'postPost.request.params', request.params
+                $$ loog 'postPost.request.body', request.body
+                _ createPost
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.title
+                    @ request.body.content
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'postPost.create.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('}postPost)
+
+            v08/ts/handler${'('}putPost)
+
+                $$ loog 'putPost.request.params', request.params
+                $$ loog 'putPost.request.body', request.body
+                _ updatePost
+                    @ request.params.id
+                    @ request.body.owner
+                    @ request.body.name
+                    @ request.body.title
+                    @ request.body.content
+                    @ request.body.state
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'putPost.update.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('}putPost)
+
+            v08/ts/handler${'('}deletePost)
+
+                $$ loog 'deletePost.request.params', request.params
+                $$ loog 'deletePost.request.body', request.body
+                _ deletePost
+                    @ request.params.id
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'deletePost.update.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('}deletePost)

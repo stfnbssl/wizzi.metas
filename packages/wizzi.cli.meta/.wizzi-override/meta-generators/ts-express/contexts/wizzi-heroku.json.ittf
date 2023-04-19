@@ -1,0 +1,122 @@
+{
+    $
+        var isLocal = true; // it is enough to set this to false and generate for deployong to heroku
+        var isProduction = false;
+        var cloudDomain = "www.wizzihub.com";
+        var port = 5000;
+        var useSslCert = false;
+        var useSsl = isLocal ? false : true;
+        var http = useSsl ? 'https' : 'http';
+        var domain = isLocal ? "localhost" : cloudDomain;
+
+    $include commons
+
+    { App
+        name "Wizzi.Heroku"
+        kind "Server"
+
+    isLocal ${isLocal ? "true" : "false"}
+    isProduction ${isProduction ? "true" : "false"}
+    { production
+
+    useSsl ${useSsl ? "true" : "false"}
+    useSslCert ${useSslCert ? "true" : "false"}
+    domain "${domain}"
+    port "${port}"
+    siteUrl "${http}://${domain}"
+    $if domain == "localhost"
+        baseUrl "${http}://${domain}:${port}"
+        useCors true
+        { cors
+            [ clientOrigins
+                "${http}://${domain}:${port}"
+                "${http}://${domain}:5173"
+    $else
+        baseUrl "${http}://${domain}"
+        useCors true
+        { cors
+            [ clientOrigins
+                "${http}://${domain}"
+    siteUrlLocal "${http}://localhost"
+    baseUrlLocal "${http}://localhost:${port}"
+    apiVersion "v1"
+    
+    useAzure false
+    { azure
+
+    useHeroku true
+    { heroku
+
+    useConfig true
+    { config
+
+    useExpress true
+    { express
+
+    useAuthentication true
+    { authentication
+
+    useAccount true
+    { account
+
+    useMongoDb true
+    { mongoDb
+
+    $if domain == "local"
+        useSequelize true
+        { sequelize
+
+    useFeatures true
+    { features
+        useGithub true
+
+    useFeatureBlog true
+    { featureBlog
+        store "mongoDb"
+
+    $if domain == "local"
+        useFeatureProject false
+        { featureProject
+            store "sequelize"
+
+    useFeatureGithub true
+    { featureGithub
+
+    usePages true
+    { pages    
+
+    useWizzi true
+    { wizzi
+
+    useWizziDocs true
+    { wizziDocs
+
+    useWizziProductions true
+    { wizziProductions
+
+    useIttfStatic true
+    { ittfStatic
+
+    useWizziViewEngine true
+    { wizziViewEngine
+
+    useWizziCdn true
+    { wizziCdn
+
+    useWizziJsonFactory true
+    { wizziJsonFactory
+
+    useWizziCdn true
+    { wizziCdn
+
+    usePacki true
+    { packi
+
+    usePackiBrowse true
+    { packiBrowse
+
+    useData true
+    { data
+
+    { utils
+        useDiffMatchPatch true

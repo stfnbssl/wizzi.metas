@@ -1,0 +1,94 @@
+$group
+    
+    $file __dot__wizzi/${pkgPath}src/components/widgets/demo.tsx.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/react/basic/widgets/demo.tsx
+
+    $if cliCtx.useReact && cliCtx.react.useRouter
+        $if cliCtx.react.useMui
+            $file __dot__wizzi/${pkgPath}src/components/widgets/demo-mui.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/basic/widgets/demo-mui.tsx
+
+    $file __dot__wizzi/${pkgPath}src/components/widgets/button.tsx.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/react/basic/widgets/button.tsx
+
+    $file __dot__wizzi/${pkgPath}src/components/widgets/card.tsx.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/react/basic/widgets/card.tsx
+
+    $file __dot__wizzi/${pkgPath}src/components/widgets/tick.tsx.ittf.ittf
+        module
+            ${'$'}include wz/v08/ts/react/basic/widgets/tick.tsx
+
+    $if cliCtx.useReact && cliCtx.react.useMui
+        
+        $if cliCtx.react.mui.useSystem
+            
+            $file __dot__wizzi/${pkgPath}src/components/widgets/muisystem/boxes.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/muisystem/boxes.tsx
+
+            $file __dot__wizzi/${pkgPath}src/components/widgets/muisystem/styled-div.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/muisystem/styled-div.tsx
+
+            $file __dot__wizzi/${pkgPath}src/components/widgets/muisystem/themed-div.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/muisystem/themed-div.tsx
+
+        $if cliCtx.react.mui.useBase
+            
+            $file __dot__wizzi/${pkgPath}src/components/widgets/muibase/button.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/muibase/button.tsx
+            
+            $file __dot__wizzi/${pkgPath}src/components/widgets/muibase/styled-button.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/muibase/styled-button.tsx
+
+        $if cliCtx.react.mui.useJoy
+            
+            $file __dot__wizzi/${pkgPath}src/components/widgets/muijoy/button.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/muijoy/button.tsx
+
+            $file __dot__wizzi/${pkgPath}src/components/widgets/muijoy/login.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/muijoy/login.tsx
+
+        $if cliCtx.react.useSplitPane
+
+            $file __dot__wizzi/${pkgPath}src/components/widgets/react-split-pane/index.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/react-split-pane/index.tsx
+
+            $file __dot__wizzi/${pkgPath}src/components/widgets/react-split-pane/lib/pane.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/react-split-pane/lib/pane.tsx
+
+            $file __dot__wizzi/${pkgPath}src/components/widgets/react-split-pane/lib/split-pane.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/react-split-pane/lib/split-pane.tsx
+
+            $file __dot__wizzi/${pkgPath}src/components/widgets/react-split-pane/lib/resizer.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/react-split-pane/lib/resizer.tsx
+
+            $file __dot__wizzi/${pkgPath}src/components/widgets/react-split-pane/lib/util.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/react-split-pane/lib/util.tsx
+
+            $file __dot__wizzi/${pkgPath}src/components/widgets/split-pane.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/muijoy/split-pane.tsx
+
+    $if cliCtx.useMonacoEditor
+            $file __dot__wizzi/${pkgPath}src/components/widgets/ResizeDetector.tsx.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/react/components/widgets/aphrodite/ResizeDetector.tsx
+
+
+
+

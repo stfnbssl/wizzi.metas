@@ -1,0 +1,15 @@
+﻿$group
+	${'$'}params expr|c1
+
+	# loog 'get_text_from_1_children', isChildrenCount(ret, 1)
+	
+	var got_text_1 = false
+	
+	if isChildrenCount(ret, 1)
+		
+		if ret.children[0].textified || ret.children[0].isText
+			var c1 = ret.children[0].textified || ret.children[0].name
+			set ret.name = ${'$'}{expr}
+			set ret.textified = ret.name
+			set ret.children = []
+			set got_text_1 = true

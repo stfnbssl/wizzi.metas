@@ -1,0 +1,57 @@
+$group
+
+    ${'$'}
+        var name = md.name;
+        var title = md.title || md.name;
+        var from = md.from + '/' + md.name;
+        var hasTParam = !!md.TParam;
+        var TParam = md.TParam;
+
+    import React from 'react'
+    import 
+        @ Story
+        @ Meta
+        from '@storybook/react'
+    import 
+        @ ${'$'}{name}
+        @ ${'$'}{name}Props
+        from '${'$'}{from}'
+    ${'$'}foreach ximport in md.imports
+        import
+            @ ${'$'}{ximport}
+            from '${'$'}{from}'
+
+    ${'$'}hook imports1
+    ${'$'}hook imports2
+    +
+    export-default 
+        @expr
+            { 
+                @ title '${'$'}{title}'
+                @ component ${'$'}{name}
+                [ decorators
+                    => 
+                        param Story
+                        ${'$'}hook decorators
+                { argTypes
+                    ${'$'}hook argTypes
+                { args
+                    ${'$'}hook args
+                { parameters
+                    { docs
+                        ${'$'}hook parameters.docs
+            :as 
+                :ref Meta
+    +
+    const Template
+        :ref Story
+            :param 
+                :ref ${'$'}{name}Props
+                    ${'$'}if hasTParam
+                        :param ${'$'}{TParam}
+        =
+            => 
+                param args
+                ${'$'}hook template
+
+    ${'$'}hook

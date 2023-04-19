@@ -1,0 +1,45 @@
+{
+    $
+        var pluginBasename = "yaml";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Yaml document plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        {
+            name "useYamlParser"
+            value "true"
+
+    [ Schemas
+        {
+            name "yaml"
+            plugin_type "data"
+            multiLineCommentBegin false
+            multiLineCommentEnd false
+            hasWizzifier true
+            hasBuiltinWizziModel true
+            { wizzifier
+                [ parserImportCode
+                    "var yaml_parser = require('js-yaml')"
+                [ parserInvokeCode
+                    "_ yaml_parser.load"
+                    "\t@ tobeWizzified"
+                useFormatAstMethods true
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "yaml"
+                    isDefault true
+                    contentType "text/yaml"
+            [ fileExtensions
+                "yaml"
+                "yml"         
+

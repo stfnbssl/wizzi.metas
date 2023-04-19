@@ -1,0 +1,218 @@
+$group
+    ${'$'}if wzCtx.Build.useExpo
+        import 
+            @ Logger
+            from './Logger'
+    import 
+        @ PackiFile
+        @ PackiError
+        from './types'
+    import 
+        @ fetch
+        @ createError
+        from './utils'
+    export 
+        :type FileUploaderRequest
+            :{ 
+                :p path
+                    :string 
+                :p file
+                    :ref PackiFile
+    export 
+        :type FileUploaderCallback
+            :=> 
+                :any 
+                param request
+                    :ref FileUploaderRequest
+                param resultURL
+                    :string 
+                    :optional 
+                param error
+                    :ref PackiError
+                    :optional 
+    export-default 
+        class FileUploader
+            p apiURL
+                :private 
+                :string 
+            ${'$'}if wzCtx.Build.useExpo
+                p logger?
+                    :private 
+                    :ref Logger
+            p status
+                :private 
+                :{ 
+                    :index 
+                        :{ 
+                            :p file
+                                :ref PackiFile
+                            :p promise
+                                :ref Promise
+                                    :param any
+                        param path
+                            :string 
+                { 
+            p callback
+                :private 
+                :ref FileUploaderCallback
+            ctor 
+                param options
+                    :{ 
+                        :p apiURL
+                            :string 
+                        :p callback
+                            :ref FileUploaderCallback
+                        ${'$'}if wzCtx.Build.useExpo
+                            :p logger
+                                :optional 
+                                :ref Logger
+                set this.apiURL = options.apiURL
+                set this.callback = options.callback
+                ${'$'}if wzCtx.Build.useExpo
+                    set this.logger = options.logger
+            m add
+                param path
+                    :string 
+                param file
+                    :ref PackiFile
+                const status = this.status[path]
+                if status && status.file === file
+                    return status.promise
+                set this.status[path] =
+                    { 
+                        @ file
+                        @ promise this.upload(path, file)
+                return this.status[path].promise
+            m remove
+                param path
+                    :string 
+                param file
+                    :ref PackiFile
+                    :optional 
+                if !file || this.status[path]?.file === file
+                    delete this.status[path]
+            ${'$'}if true $$ wzCtx.Build.useExpo
+                m waitForCompletion
+                    async
+                    let promises
+                        _ Object.values(this.status).map
+                            => 
+                                param status
+                                +
+                                    @expr status.promise
+                    while promises.length
+                        await 
+                            _ Promise.all(promises)
+                        set promises =
+                            _ Object.values(this.status).map
+                                => 
+                                    param status
+                                    +
+                                        @expr status.promise
+            m upload
+                async
+                :private 
+                param path
+                    :string 
+                param file
+                    :ref PackiFile
+                :return
+                    :ref Promise
+                        :param any
+                try 
+                    ${'$'}if wzCtx.Build.useExpo
+                        _ this.logger?.module?.('Uploading file', path, '...')
+                    let url
+                        :string 
+                    let input
+                    switch file.type
+                        case 'CODE'
+                            set url =
+                                `lit 
+                                    + 
+                                    @ this.apiURL
+                                    + /--/api/v2/snack/uploadCode
+                            set input =
+                                { 
+                                    @ method 'POST'
+                                    @ body
+                                        _ JSON.stringify
+                                            { 
+                                                @ code file.contents
+                                    { headers
+                                        @ 'Content-Type' 'application/json'
+                            break 
+                        case 'ASSET'
+                            set url =
+                                `lit 
+                                    + 
+                                    @ this.apiURL
+                                    + /--/api/v2/snack/uploadAsset
+                            if (typeof FormData !== 'undefined' && file.contents instanceof FormData) || (typeof file.contents === 'object' && file.contents.constructor?.name === 'FormData')
+                                set input =
+                                    { 
+                                        @ method 'POST'
+                                        @ body file.contents
+                            else
+                                if typeof FormData !== 'undefined'
+                                    const formData = new FormData()
+                                    _ formData.append('asset', file.contents, file.contents?.name || path)
+                                        # @ts-expect-error: file.contents can be both File or Blob
+                                    set input =
+                                        { 
+                                            @ method 'POST'
+                                            @ body formData
+                                else
+                                    throw new Error()
+                                        # TODO: Add support for uploading files using ArrayBuffer in body to the /snack/uploadAsset end-point
+                                        # That way it's no longer neccessary to polyfill FormData is environments such as node.
+                            break 
+                        default 
+                            throw new Error()
+                                # @ts-ignore: Property 'type' does not exist on type 'never'
+                    const response
+                        await 
+                            _ fetch(url, input)
+                    if !response.ok
+                        const text
+                            await 
+                                _ response.text()
+                        throw new Error()
+                    const result
+                        await 
+                            _ response.json()
+                    const resultURL = result.url
+                    if this.status[path]?.file === file
+                        ${'$'}if wzCtx.Build.useExpo
+                            _ this.logger?.module?.('Uploaded file', path, resultURL)
+                        delete this.status[path]
+                        try 
+                            _ this.callback
+                                { 
+                                    @ path
+                                    @ file
+                                @ resultURL
+                        catch e
+                            return Promise.reject(e)
+                catch e
+                    const error
+                        _ createError
+                            { 
+                                @ message
+                                    `lit 
+                                        + Failed to upload file&nbsp;
+                                        @ path
+                                        + &nbsp;(
+                                        @ e.message
+                                        + )
+                                @ fileName path
+                    ${'$'}if wzCtx.Build.useExpo
+                        _ this.logger?.error?.(error)
+                    if this.status[path]?.file === file
+                        delete this.status[path]
+                        _ this.callback
+                            { 
+                                @ path
+                                @ file
+                            @ undefined
+                            @ error

@@ -1,0 +1,15 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.useWizziDocs
+         $file __dot__wizzi/${pkgPath}src/features/docs/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-docs/index.ts
+        $file __dot__wizzi/${pkgPath}src/features/docs/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-docs/types.ts
+        $file __dot__wizzi/${pkgPath}src/features/docs/api/cheatsheet.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-docs/api/cheatsheet.ts
+        $file __dot__wizzi/${pkgPath}src/features/docs/controllers/apiv1cheatsheet.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-docs/controllers/apiv1cheatsheet.ts

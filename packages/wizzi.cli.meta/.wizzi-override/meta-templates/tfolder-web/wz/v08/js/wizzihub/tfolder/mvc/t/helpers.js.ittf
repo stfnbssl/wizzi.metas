@@ -1,0 +1,63 @@
+$group
+    iife_window() 
+        set window.qs =
+            function 
+                param selector
+                param scope
+                return (scope || document).querySelector(selector)
+            # Get element(s) by CSS selector:
+        set window.qsa =
+            function 
+                param selector
+                param scope
+                return (scope || document).querySelectorAll(selector)
+            # addEventListener wrapper:
+        set window.$on =
+            function 
+                param target
+                param type
+                param callback
+                param useCapture
+                _ target.addEventListener(type, callback, !!useCapture)
+            # addEventListener wrapper:
+            # Attach a handler to event for all elements that match the selector,
+            # now or in the future, based on a root element
+        set window.$delegate =
+            function 
+                param target
+                param selector
+                param type
+                param handler
+                function dispatchEvent
+                    param event
+                    var targetElement = event.target
+                    var potentialElements = window.qsa(selector, target)
+                    var hasMatch = Array.prototype.indexOf.call(potentialElements, targetElement) >= 0
+                    if hasMatch
+                        _ handler.call(targetElement, event)
+                    # https://developer.mozilla.org/en-US/docs/Web/Events/blur
+                var useCapture = type === 'blur' || type === 'focus'
+                    # https://developer.mozilla.org/en-US/docs/Web/Events/blur
+                _ window.$on(target, type, dispatchEvent, useCapture)
+            # Attach a handler to event for all elements that match the selector,
+            # now or in the future, based on a root element
+            # Find the element's parent with the given tag name:
+            # $parent(qs('a'), 'div');
+        set window.$parent =
+            function 
+                param element
+                param tagName
+                if !element.parentNode
+                    return 
+                if element.parentNode.tagName.toLowerCase() === tagName.toLowerCase()
+                    return element.parentNode
+                return window.$parent(element.parentNode, tagName)
+            # Find the element's parent with the given tag name:
+            # $parent(qs('a'), 'div');
+            # Allow for looping on nodes by chaining:
+            # qsa('.foo').forEach(function () {})
+        set NodeList.prototype.forEach = Array.prototype.forEach
+            # Allow for looping on nodes by chaining:
+            # qsa('.foo').forEach(function () {})
+        #
+            # global NodeList

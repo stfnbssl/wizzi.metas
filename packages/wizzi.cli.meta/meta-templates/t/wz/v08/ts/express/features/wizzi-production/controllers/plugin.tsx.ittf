@@ -1,0 +1,226 @@
+module
+    $
+        var ctrl = {
+            name: 'PluginProduction',
+            path: '/plugin',
+            webSecured: true,
+        }
+    
+    v08/ts/controller( &ctrl )
+            
+        $append imports
+            import ReactDOMServer 
+                from 'react-dom/server'
+            import PageFormDocument 
+                from '../../../pages/PageFormDocument' 
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ getTemplatePackiFiles
+                from '../api/meta'
+            import
+                @ createPluginProduction
+                @ updatePluginProduction
+                @ deletePluginProduction
+                @ getPluginProductionObject
+                @ getPluginProductionObjectById
+                from '../api/plugin'
+            import
+                @ mergePackiFiles
+                from '../utils'
+            import
+                @ packiTypes
+                from '../../packi'
+            +
+            const myname = 'features/production/controllers/plugin'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument 
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+            
+            $include defaults/plugin_packifiles
+
+        v08/ts/route_web_secured(get, /new, this.getNewPluginForm)
+        v08/ts/route_web_secured(post, /new, this.postPlugin)
+        v08/ts/route_web_secured(get, /update/:id, this.getUpdatePluginForm)
+        v08/ts/route_web_secured(post, /update, this.putPlugin)
+        v08/ts/route_web_secured(get, /delete/:id, this.getDeletePluginForm)
+        v08/ts/route_web_secured(post, /delete, this.deletePlugin)
+        v08/ts/route_web_secured(get, /props, this.getPluginProperties)
+        
+        $append handlers
+            
+            v08/ts/handler( getNewPluginForm )
+                $$ loog myname, 'getNewPluginForm', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreatePluginProduction'
+                        { formData 
+                            @ owner (request.session as any).user.username
+                    {
+
+            v08/ts/handler( postPlugin )
+                $$ loog myname + '.postNewPlugin.request.body', JSON.stringify(request.body, null, 2)
+                $$ loog myname + '.postNewPlugin.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                _ getTemplatePackiFiles
+                    @ request.body.meta_id
+                    @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
+                    @ request.query.context as string
+                    @ request.body.context ? JSON.parse(request.body.context) : {}
+                    ._ then
+                        =>
+                            param packiFiles
+                                :ref packiTypes.PackiFiles
+                            _ createPluginProduction
+                                @ (request.session as any).user.username
+                                @ request.body.pp_name
+                                @ request.body.pp_description
+                                _ JSON.stringify
+                                    _ mergePackiFiles
+                                        @ packiFiles
+                                        _ getPackiFiles
+                                ._ then
+                                    =>
+                                        param result
+                                            :ref CRUDResult
+                                        $$ loog myname + '.postNewPlugin.createPluginProduction.result', JSON.stringify(result, null, 2)
+                                        if result.ok
+                                            _ response.redirect('/productions/plugins')
+                                        else
+                                            _ response.render
+                                                @ 'error.html.ittf'
+                                                {
+                                                    @ message 'creating a new plugin production'
+                                                    @ error result
+                                v08/ts/catch_error_page(  creating a new plugin production )
+                    v08/ts/catch_error_page(  getting template packi files while creating a new plugin production )
+
+            v08/ts/handler( getUpdatePluginForm )
+                update_get_form( plugin )
+                $*
+                $$ loog myname + '.getUpdatePluginForm', request.path 
+                const parts = request.path.split('/')
+                $$ loog myname + '.getUpdatePluginForm', parts[2], parts.slice(3).join('/')
+                const owner = parts[2]
+                const name = parts.slice(3).join('/')
+                _ getPluginProductionObject
+                    @ owner
+                    @ name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ renderPageForm
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    @ formName 'UpdatePluginProduction'
+                                    { formData 
+                                        @ owner owner
+                                        @ name name
+                                        @ description result.description
+                                        @ _id result._id
+                                {
+                *$
+
+            v08/ts/handler( putPlugin )
+                update_put( plugin )
+
+            v08/ts/handler( getDeletePluginForm )
+                delete_get_form( plugin )
+                $*
+                $$ loog myname + '.getDeletePluginForm', request.path 
+                const parts = request.path.split('/')
+                $$ loog myname + '.getDeletePluginForm', parts[2], parts.slice(3).join('/')
+                const owner = parts[2]
+                const name = parts.slice(3).join('/')
+                _ getPluginProductionObject
+                    @ owner
+                    @ name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ renderPageForm
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    @ formName 'DeletePluginProduction'
+                                    { formData 
+                                        @ owner owner
+                                        @ name name
+                                        @ description result.description
+                                        @ _id result._id
+                                {
+                *$
+
+            v08/ts/handler( deletePlugin )
+                delete_delete( plugin )
+
+            v08/ts/handler( getPluginProperties )
+                $$ loog myname, 'getPluginProperties', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'PropertyEditor'
+                        { formData 
+                            @ owner request.query.owner
+                            @ name request.query.name
+                            { schema
+                                [ properties
+                                    { 
+                                        @ name 'name'
+                                        @ type 'string'
+                                    { 
+                                        @ name 'age'
+                                        @ type 'number'
+                                    { 
+                                        @ name 'jobs'
+                                        @ type 'array'
+                                        [ properties
+                                            { 
+                                                @ name 'title'
+                                                @ type 'string'
+                                            { 
+                                                @ name 'year'
+                                                @ type 'number'
+                                    { 
+                                        @ name 'react'
+                                        @ type 'object'
+                                        [ properties
+                                            { 
+                                                @ name 'useReact'
+                                                @ type 'boolean'
+                                                @ isCondition true
+                                            { 
+                                                @ name 'useRouter'
+                                                @ type 'boolean'
+                                            { 
+                                                @ name 'useRedux'
+                                                @ type 'boolean'
+                    {

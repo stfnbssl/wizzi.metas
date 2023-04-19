@@ -1,0 +1,12 @@
+$group
+
+    export
+        const shadows
+            { 
+                @ popover 'var(--expo-theme-shadows-popover)'
+                @ small 'var(--expo-theme-shadows-small)'
+                @ medium 'var(--expo-theme-shadows-medium)'
+                @ large 'var(--expo-theme-shadows-large)'
+                @ input 'var(--expo-theme-shadows-input)'
+                @ button 'var(--expo-theme-shadows-button)'
+                @ test 'var(--expo-theme-shadows-small)'

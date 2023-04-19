@@ -1,0 +1,8 @@
+$group 
+    
+    $schema "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
+    contentVersion "1.0.0.0"
+    ${'$'}include v08/azure/arm/parameters
+    ${'$'}include v08/azure/arm/resources
+    ${'$'}include v08/azure/arm/outputs
+

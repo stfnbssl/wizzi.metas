@@ -1,0 +1,32 @@
+$group
+    $params &prod
+
+    $file __dot__wizzi/ittf/${prod.name}/folderTemplates/index.ittf.ittf.ittf
+    
+        ${'$'}{'$'}group
+            
+            ${'$'}{'$'}if metaCtx.use${_.capitalize(prod.name)}
+
+                ${'$'}file __dot__wizzi/${prod.name}/yyy.js.ittf.ittf
+                    module
+                        kind es6
+                        ${'$'}{'$'}{'$'}include ${prod.name}/xxx.js
+
+                ${'$'}{'$'}
+                    var items = [
+                        "alpha",
+                        "beta",
+                    ];
+
+                ${'$'}{'$'}foreach item in items
+
+                    ${'$'}file __dot__wizzi/t/${prod.name}/${'$'}{'$'}{metaVer}/${'$'}{'$'}{item}.js.ittf.ittf
+                        ${'$'}{'$'}group
+                        
+                            ${'$'}{'$'}{'$'}include ${prod.name}/tfolder/${'$'}{'$'}{item}.js
+
+    $file __dot__wizzi/ittf/${prod.name}/metaCtxSchemas/index.json.ittf.ittf
+    
+        {
+            
+            productionName "${prod.name}"

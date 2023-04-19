@@ -1,0 +1,101 @@
+﻿$group
+
+	m prettierRequire
+		param options
+		if !prettier
+			set prettier = require("prettier")
+
+	m getPrettierConfig
+		param options
+		# TODO calculate cfg from options
+		# TODO prettier.resolveConfig(filePath [, options])
+		var cfg = options
+		var result
+			{
+				@ printWidth cfg.printWidth || 80
+				@ tabWidth typeof cfg.tabWidth === 'undefined' ? 2 : cfg.tabWidth
+				@ useTabs typeof cfg.useTabs === 'undefined' ? true : cfg.useTabs
+				@ semi typeof cfg.semi === 'undefined' ? true : cfg.semi
+				@ singleQuote cfg.singleQuote
+				@ trailingComma typeof cfg.trailingComma === 'undefined' ?  "none" : cfg.trailingComma
+				@ bracketSpacing typeof cfg.bracketSpacing === 'undefined' ? true : cfg.bracketSpacing
+				@ jsxBracketSameLine cfg.jsxBracketSameLine
+				@ arrowParens typeof cfg.arrowParens === 'undefined' ?  "avoid" : cfg.arrowParens
+				@ parser typeof cfg.parser === 'undefined' ?  "babylon" : cfg.parser
+				@ filepath cfg.filepath
+				@ requirePragma cfg.requirePragma
+				@ insertPragma cfg.insertPragma
+				@ proseWrap typeof cfg.proseWrap === 'preserve' ?  "avoid" : cfg.proseWrap
+		return result
+
+	m prettierExec
+		param options
+		param callback
+
+		_ this.prettierRequire
+			@ options
+
+		var code = options.code
+		var codePath = options.codePath
+		var plugins = options.plugins || []
+
+		var cfg
+			_ this.getPrettierConfig
+				@ options
+
+		if codePath
+			var prettified
+				_ prettier.format
+					_ file.read
+						@ codePath
+					@ cfg
+					@ plugins
+			r_cb(prettified)
+		else
+			var prettified
+				_ prettier.format
+					@ code
+					@ cfg
+					@ plugins
+			r_cb(prettified)
+
+	m prettierExecToEventStream
+		param options
+		param res
+		param callback
+
+		_ this.prettierExec
+			@ options
+			f_cb_no_err(result)
+				# loog 'wizzi-scripts.prettierExecToEventStream.err.result', err, result
+				_ res.writeHead
+					@ 200
+					{ 
+						@ "Content-Type" "text/event-stream"
+						@ "Cache-control" "no-cache"
+
+				var payload
+				if err
+					set payload = util.inspect(err) 
+				else
+					# TODO calculate payload from options
+					var payload = result
+				# loog 'payload', payload
+				
+				var str
+				var lines = payload.split("\n")
+				for var i=0; i<lines.length; i++
+					if i == lines.length - 1
+						set str = lines[i]
+					else
+						# Note: The double-newline is *required*
+						_ res.write('data: ' + lines[i] + "\n\n")
+				if str.length > 0
+					_ res.write('data: ' + str + "\n\n")
+				_ res.end('data: ***___CLOSE___***\n\n')
+				
+				if callback
+					return
+						_ callback
+							@ null
+							@ payload

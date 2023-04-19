@@ -1,0 +1,225 @@
+$group
+    kind jsfile
+    var chalk = require('chalk')
+    var util = require('util')
+    var file = require('wizzi-utils').file
+    var verify = require('wizzi-utils').verify
+    var StringWriter = require("./stringWriter")
+    function log
+        param label
+        param obj
+        _ console.log
+            @ label
+            _ util.inspect
+                @ obj
+                { 
+                    @ depth null
+    var writer
+        function 
+    set writer.prototype.write =
+        function 
+            param filepath
+            param node
+            param callback
+            set this.indentValue = 0
+            var _this = this
+            _ file.openWrite
+                @ filepath
+                function 
+                    param err
+                    param stream
+                    if err
+                        _ callback(err)
+                        return 
+                    set _this.stream = stream
+                    _ _this.node(node)
+                    _ _this.stream.end()
+                    _ callback(null, null)
+    set writer.prototype.stringify =
+        function 
+            param node
+            param options
+            set this.lang = options.lang
+            set this.keepDeleted = options.keepDeleted
+            set this.indentValue = 0
+            set this.stream = new StringWriter()
+            _ this.node(node)
+            return this.stream.toString()
+    set writer.prototype.node =
+        function 
+            param node
+            if !this.keepDeleted && node.__deleted
+                return 
+            if !node.tag
+                return 
+            var _this = this
+            var indent = Array(this.indentValue * 4 + 1).join(" ")
+            if !node.tag
+            if node.tag === '$dummy'
+                return 
+            if node.tag === '$group'
+                _ node.children.forEach
+                    function 
+                        param item
+                        set item.__parent = node
+                        if !item
+                            throw 
+                                new Error
+                                    op+ 
+                                        + 'node has empty children, '
+                                        _ util.inspect
+                                            @ node
+                                            { 
+                                                @ depth 2
+                        _ _this.node(item)
+                return 
+            if this.lang === 'js' && node.tag === 'block'
+                if preserveBlockTags.indexOf(node.__parent.tag) == -1
+                    _ node.children.forEach
+                        function 
+                            param item
+                            if !item
+                                throw 
+                                    new Error
+                                        op+ 
+                                            + 'node has empty children,'
+                                            _ util.inspect
+                                                @ node
+                                                { 
+                                                    @ depth 2
+                            set item.__parent = node
+                            _ _this.node(item)
+                    return 
+            if node.children.length == 1
+                var c = node.children[0]
+                if !c
+                    throw 
+                        new Error
+                            op+ 
+                                + 'node has empty children,'
+                                _ util.inspect
+                                    @ node
+                                    { 
+                                        @ depth 2
+                var t = c.tag
+                if 
+                    test
+                        && 
+                            === 
+                                [ 
+                                    @ '@'
+                                    @ 'var'
+                                    @ 'decl'
+                                    @ 'block'
+                                    ._ indexOf
+                                        @expr node.tag
+                                + -1
+                            + t === 'iife'
+                    _ console.log(chalk.red('IttfWriter ATTENTION: written iife suppressing parent tag ' + node.tag))
+                    _ _this.node(c)
+                    return 
+                if node.tag === 'set' && t === 'set'
+                    _ _this.node(c)
+                    return 
+                if node.tag === 'set' && t === '_' && formatName(node.name).length == 0
+                    _ _this.node(c)
+                    return 
+            _ this.stream.write(indent + node.tag)
+            if typeof node.name !== 'undefined'
+                _ this.stream.write
+                    op+ 
+                        + ' ' + formatName(node.name)
+                        ( 
+                            iif node.__deleted
+                                then '  (deleted)'
+                                else ''
+            _ this.stream.write('\n')
+                # if (typeof node.source !== 'undefined' && node.source.length < 50 ) this.stream.write('    $$ ' + node.source);
+            set this.indentValue++
+            set indent = Array(this.indentValue * 4 + 1).join(" ")
+            for var k in node.attribs
+                _ this.stream.write(indent + k + ' ' + formatAttrib(node.attribs[k]) + '\n')
+            if node.lines && node.lines.length > 0
+                var lindent = indent
+                if node.tag !== '$.'
+                    _ this.stream.write(indent + "$.\n")
+                    set lindent = lindent + "    "
+                var self = this
+                _ node.lines.forEach
+                    function 
+                        param l
+                        _ self.stream.write(lindent + l + '\n')
+            if !node.children
+                _ log('node without children', node)
+            _ node.children.forEach
+                function 
+                    param item
+                    if !item
+                        _ console.log
+                            op+ 
+                                + 'node has empty children, '
+                                _ util.inspect
+                                    @ node
+                                    { 
+                                        @ depth 2
+                    else
+                        set item.__parent = node
+                        _ _this.node(item)
+            set this.indentValue--
+    function formatName
+        param name
+        if verify.isObject(name)
+            _ log('ittfwriter.formatName', name)
+        return 
+            iif name && name.trim
+                then name.trim()
+                else ''
+    function formatAttrib
+        param a
+        if typeof a === 'undefined' || a == null
+            return ''
+        var lines = file.splitLines(a.trim())
+            # log('attrib', a);
+        if lines.length === 1
+            return lines[0]
+        else
+            set acc = []
+            _ lines.forEach
+                function 
+                    param l
+                    _ acc.push(l.trim())
+            return acc.join(' ')
+    set exports.write =
+        function 
+            param filepath
+            param node
+            param callback
+            _ new writer().write
+                @ filepath
+                @ node
+                function 
+                    param err
+                    param result
+                    if err
+                        _ callback(err)
+                        return 
+                    _ callback(null, result)
+    set exports.stringify =
+        function 
+            param node
+            param options
+            set options =
+                || 
+                    + options
+                    { 
+            return new writer().stringify(node, options)
+    var preserveBlockTags
+        [ 
+            @ 'if'
+            @ 'else'
+            @ 'elif'
+            @ 'for'
+            @ 'while'
+            @ 'do'
+            @ 'case'
+            @ 'default'

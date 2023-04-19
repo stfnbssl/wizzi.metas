@@ -1,0 +1,32 @@
+{
+    $
+        var pluginBasename = "rdbms";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Relational DB plugin"
+        kind "WizziPlugin"
+
+    [ Schemas
+        {
+            name "rdbms"
+            plugin_type "data"
+            hasNamespaces true
+            hasTextContents true
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "rdbms"
+                    contentType "text/rdbms"
+                    isDefault true
+            [ fileExtensions
+                "rdbms"                   
+
+    { Utils
+        useInflection true

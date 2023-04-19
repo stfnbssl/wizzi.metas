@@ -1,0 +1,27 @@
+$group
+    
+    import 
+        @ combineReducers
+        from 'redux'
+    import 
+        @ History
+        from 'history'
+    ${'$'}if wzCtx.Build.react.useRouter
+        import 
+            @ connectRouter
+            from 'connected-react-router'
+    ${'$'}foreach item in wzCtx.Build.data.reduxItems     
+        import ${'$'}{item.Name}Reducer
+            from '../features/${'$'}{item.name}/reducer'
+    +
+    const rootReducer
+        => 
+            param history
+                :ref History
+            _ combineReducers
+                { 
+                    ${'$'}if wzCtx.Build.react.useRouter
+                        @ router connectRouter(history)
+                    ${'$'}foreach item in wzCtx.Build.data.reduxItems
+                        @ ${'$'}{item.name} ${'$'}{item.Name}Reducer
+    export-default rootReducer

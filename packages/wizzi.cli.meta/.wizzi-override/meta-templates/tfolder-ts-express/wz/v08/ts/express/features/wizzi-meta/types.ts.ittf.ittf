@@ -1,0 +1,26 @@
+$group
+
+    export
+        :type WizziMetaOptions
+            :{
+                :p metaSourcesFolderPath
+                    :string
+                    :optional
+                :p metaGenerator
+                    :string
+                    :optional
+                :p cliCtx
+                    :any
+                    :optional
+                :p cliCtxName
+                    :string
+                    :optional
+                :p outputPackageName
+                    :string
+                    :optional
+                :p outputPackagePath
+                    :string
+                    :optional
+                :p description
+                    :string
+                    :optional

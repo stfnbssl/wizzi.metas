@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useJsutils
+        $file __dot__wizzi/jsutils/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsutils/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/jsutils/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include jsutils/tfolder/${item}.js

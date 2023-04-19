@@ -1,0 +1,39 @@
+$group
+
+    ${'$'}if wzCtx.Build.useMongoDb
+        let modelBuilders
+            [ 
+                ${'$'}if wzCtx.Build.useAuthorization
+                    @ ...authorizationModelBuilders
+                ${'$'}if wzCtx.Build.useAccount
+                    @ ...accountModelBuilders
+                ${'$'}if wzCtx.Build.useBlog
+                    @ ...blogModelBuilders
+        await mongodbStart(config, modelBuilders)
+        +
+    let middlewaresPre
+        [ 
+            @ ...appMiddlewaresPre
+    let middlewaresPost
+        [ 
+            @ ...appMiddlewaresPost
+        +
+    let controllers
+        [ 
+            ${'$'}if wzCtx.Build.useSite
+                @ ...siteControllers
+            ${'$'}if wzCtx.Build.useAuthorization
+                @ ...authorizationControllers
+            ${'$'}if wzCtx.Build.useAccount
+                @ ...accountControllers
+            ${'$'}if wzCtx.Build.useBlog
+                @ ...blogControllers
+        +
+    warn 'Starting app. Config:', config
+    const appInitializer
+        { 
+            @ config
+            @ middlewaresPre
+            @ controllers
+            @ middlewaresPost
+    const app = new App(appInitializer)

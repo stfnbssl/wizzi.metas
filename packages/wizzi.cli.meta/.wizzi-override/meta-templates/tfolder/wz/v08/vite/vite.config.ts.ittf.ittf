@@ -1,0 +1,13 @@
+$group
+    import 
+        @ defineConfig
+        from 'vite'
+    ${'$'}if wzCtx.Build.useVite
+        import react from '@vitejs/plugin-react'
+    export-default 
+        _ defineConfig
+            { 
+                [ plugins
+                    ${'$'}if wzCtx.Build.useReact
+                        @ react()
+        # https://vitejs.dev/config/

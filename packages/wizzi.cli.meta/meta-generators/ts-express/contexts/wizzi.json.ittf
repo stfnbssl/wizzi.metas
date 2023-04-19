@@ -1,0 +1,30 @@
+{
+    $include commons
+    
+    useAzure true
+    { azure
+
+    useHeroku false
+    { heroku
+
+    useConfig true
+    { config
+
+    useExpress true
+    { express
+    
+    useMongoDb false
+    { mongoDb
+
+    useWizzi true
+    { wizzi
+
+    useIttfStatic true
+    { ittfStatic
+
+    useWizziViewEngine true
+    { wizziViewEngine
+
+    useFeatures true
+    { features    
+    

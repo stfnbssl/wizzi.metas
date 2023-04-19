@@ -1,0 +1,206 @@
+$group
+    export 
+        :type WebkitDirectoryReaderResult
+            :[ 
+                :paren 
+                    :union 
+                        :ref WebkitFileEntry
+                        :ref WebkitDirectoryEntry
+    export 
+        :type WebkitDirectoryReader
+            :{ 
+                :p readEntries
+                    :=> 
+                        :void 
+                        param success
+                            :=> 
+                                :void 
+                                param result
+                                    :ref WebkitDirectoryReaderResult
+                        param error
+                            :=> 
+                                :void 
+                                param e
+                                    :ref Error
+    export 
+        :type WebkitFileEntry
+            :{ 
+                :p isFile
+                    :literal true
+                :p isDirectory
+                    :literal false
+                :p name
+                    :string 
+                :p fullPath
+                    :string 
+                :p file
+                    :=> 
+                        :void 
+                        param success
+                            :=> 
+                                :void 
+                                param f
+                                    :ref File
+                        param failure
+                            :=> 
+                                :void 
+                                param e
+                                    :ref Error
+    export 
+        :type WebkitDirectoryEntry
+            :{ 
+                :p isFile
+                    :literal false
+                :p isDirectory
+                    :literal true
+                :p name
+                    :string 
+                :p fullPath
+                    :string 
+                :p createReader
+                    :=> 
+                        :ref WebkitDirectoryReader
+    const blacklist
+        [ 
+            @ /^\./
+            @ /\.(jks|keystore)$/
+                # hidden files
+            @ /^(android|ios)$/
+                # android keystore
+            @ /^coverage$/
+                # native code
+            @ /^(js|ts)config\.json$/
+                # code ceoverage
+            @ /^flow-typed$/
+                # vscode config
+            @ /^node_modules$/
+                # flow type definitions
+            @ /^npm-debug\.log$/
+                # third party modules
+            @ /^npm-error\.log$/
+                # npm debug log
+            @ /^package-lock\.json$/
+                # npm error log
+            @ /^yarn-debug\.log$/
+                # npm package metadata
+            @ /^yarn-error\.log$/
+                # yarn debug log
+            @ /^yarn\.lock$/
+                # yarn error log
+            @ /^__tests__$/
+                # yarn package metadata
+            @ /~$/
+                # jest tests
+                # hidden and backup files
+    const whitelist
+        [ 
+            @ /^\.eslintrc(\.json)?$/
+    const processEntry
+        async=> 
+            param entry
+                :union 
+                    :ref WebkitFileEntry
+                    :ref WebkitDirectoryEntry
+            param files
+                :[ 
+                    :{ 
+                        :p file
+                            :ref File
+                        :p path
+                            :string 
+            param path
+                :string 
+            if 
+                test
+                    && 
+                        _ blacklist.some
+                            => 
+                                param r
+                                _ r.test(entry.name)
+                        op! 
+                            _ whitelist.some
+                                => 
+                                    param r
+                                    _ r.test(entry.name)
+                return 
+            if entry.isFile
+                const file
+                    await 
+                        new Promise
+                            :param 
+                                :ref File
+                            => 
+                                param resolve
+                                param reject
+                                _ entry.file(resolve, reject)
+                _ files.push
+                    { 
+                        @ path
+                        @ file
+            else
+                if entry.isDirectory
+                    const reader = entry.createReader()
+                    const entries
+                        await 
+                            new Promise
+                                :param 
+                                    :ref WebkitDirectoryReaderResult
+                                => 
+                                    param resolve
+                                    param reject
+                                    _ reader.readEntries(resolve, reject)
+                    await 
+                        _ Promise.all
+                            _ entries.map
+                                async=> 
+                                    param e
+                                        :union 
+                                            :ref WebkitFileEntry
+                                            :ref WebkitDirectoryEntry
+                                    _ processEntry
+                                        @ e
+                                        @ files
+                                        `lit 
+                                            + 
+                                            @ path
+                                            + /
+                                            @ e.name
+                                            + 
+    export-default 
+        async-function convertDataTransferItemsToFiles
+            param items
+                :[ 
+                    :paren 
+                        :union 
+                            :ref File
+                            :ref WebkitFileEntry
+                            :ref WebkitDirectoryEntry
+            param mappings
+                :{ 
+                    :index 
+                        :string 
+                        param key
+                            :string 
+            const files
+                :[ 
+                    :{ 
+                        :p file
+                            :ref File
+                        :p path
+                            :string 
+                = []
+            await 
+                _ Promise.all
+                    _ items.map
+                        => 
+                            param it
+                            const path = mappings[it.name] || it.name
+                            if it instanceof File
+                                _ files.push
+                                    { 
+                                        @ file it
+                                        @ path
+                                return undefined
+                            else
+                                return processEntry(it, files, path)
+            return files

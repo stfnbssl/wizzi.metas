@@ -1,0 +1,11 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}src/index.html.ittf.ittf
+        html
+            ${'$'}include wz/v08/html/index.html
+
+    $if cliCtx.useJsAppCrud
+
+        $file __dot__wizzi/${pkgPath}src/appCrud${cliCtx.jsAppCrud.Name}.html.ittf.ittf
+            html
+                ${'$'}include wz/v08/html/appCrud.html

@@ -1,0 +1,14 @@
+﻿$group
+
+	line ittf-tests
+		cwd-folder ${ittf_tests_folder}
+		dest-folder ${dest_folder}/tests
+
+		any_js()
+			ignore ${ittf_tests_folder}/**/*__copy/**/*.js.ittf
+
+		artifact any_ittf_inside___copy
+			src ${ittf_tests_folder}/**/*__copy/**/*.ittf
+			extension ittf
+
+		$include any_tests_ittf

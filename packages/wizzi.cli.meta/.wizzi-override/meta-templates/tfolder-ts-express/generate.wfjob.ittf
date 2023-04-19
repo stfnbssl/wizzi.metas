@@ -1,0 +1,24 @@
+﻿wfjob wizzi-cli/meta-templates/tfolder-ts-express
+	
+	$
+        var folders = {
+            ittf_wz: path.join(__dirname, 'wz'),
+            dest: path.join(__dirname, '..', '..', '..', 'meta-templates')
+        }
+
+	line ittf-wz
+		cwd-folder ${folders.ittf_wz}
+		dest-folder ${folders.dest}/t/wz
+        
+        wfjob/any_plain(ittf)
+        wfjob/any_plain(css)
+        wfjob/any_plain(html)
+        wfjob/any_plain(d.ts)
+        wfjob/any_plain(js)
+        wfjob/any_plain(svg)
+        wfjob/any_plain(json)
+        wfjob/any_md()
+
+	production
+		dest-folder ${folders.dest}
+        line-ref ittf-wz

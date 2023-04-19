@@ -1,0 +1,18 @@
+$group
+    
+    $if wzCtx.Build.useLint && (wzCtx.Build.useReact || wzCtx.Build.useJest)
+        { eslintConfig
+            [ extends
+                $if wzCtx.Build.useReact
+                    "react-app"
+                $if wzCtx.Build.useJest
+                    "react-app/jest"
+    
+    $if wzCtx.Build.useLint && wzCtx.Build.lint.useHusky
+        { husky
+            { hooks
+                pre-commit "lint-staged"
+        { lint-staged
+            [ *.(js|jsx)
+                "npm run lint:write"
+                "git add"

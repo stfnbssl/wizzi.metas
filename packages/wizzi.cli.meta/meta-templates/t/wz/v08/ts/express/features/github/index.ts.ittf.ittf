@@ -1,0 +1,33 @@
+$group
+    +
+    ${'$'}if wzCtx.Build.useExpress
+        import
+            @ ControllerType
+            from '../app/types'
+        import 
+            @ ApiV1RepoController
+            from './controllers/apiv1repo'
+    import 
+        as githubTypes
+        from './types'
+    import 
+        as githubUtils
+        from './utils'
+    import 
+        as githubApiCalls
+        from './api/repo'
+    ${'$'}if wzCtx.Build.useExpress
+        +
+        const githubControllers
+            :[
+                :ref ControllerType
+            =
+                [
+                    @ new ApiV1RepoController()
+    +
+    export 
+        @ githubTypes
+        @ githubApiCalls
+        @ githubUtils
+        ${'$'}if wzCtx.Build.useExpress
+            @ githubControllers

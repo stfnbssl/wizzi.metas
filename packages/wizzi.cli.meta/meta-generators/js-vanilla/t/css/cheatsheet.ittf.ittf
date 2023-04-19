@@ -1,0 +1,20 @@
+$group
+
+  
+    $if cliCtx.useCheatsheet
+
+        $file __dot__wizzi/${pkgPath}src/css/cheatsheet.css.ittf.ittf
+            css
+                ${'$'}include wz/v08/css/cheatsheet.css
+
+        $
+            var items = [
+                'tn',
+                'mc',
+                'prettyprint',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/css/t/cheatsheet/${item}.css.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include wz/v08/css/tfolder/${item}.css

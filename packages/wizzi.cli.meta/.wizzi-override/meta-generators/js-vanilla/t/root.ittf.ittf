@@ -1,0 +1,9 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}root/readme.md.ittf.ittf
+        md
+            ${'$'}include wz/v08/markdown/readme.md
+
+    $file __dot__wizzi/${pkgPath}root/__dot__gitignore.text.ittf.ittf
+        text
+            ${'$'}include cli/v08/gitignore-base.text

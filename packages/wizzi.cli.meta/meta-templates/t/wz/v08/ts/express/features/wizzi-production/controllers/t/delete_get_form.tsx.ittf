@@ -1,0 +1,40 @@
+$group
+    $params prod
+
+    $
+        var Prod = _.capitalize(prod);
+        var suffix = prod == 'tFolder' ? '' : 'Production';
+
+    $$ loog myname + '.getDelete${Prod}Form', request.path 
+
+    $*
+    const parts = request.path.split('/')
+    $$ loog myname + '.getDelete${Prod}Form', parts[2], parts.slice(3).join('/')
+    const owner = parts[2]
+    const name = parts.slice(3).join('/')
+    *$
+    const id = request.params.id
+    # loog myname + '.getDelete${Prod}Form.id', id
+    _ get${Prod}${suffix}ObjectById
+        $*
+        @ owner
+        @ name
+        *$
+        @ id
+        ._ then
+            =>
+                param result
+                    :any
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'Delete${Prod}${suffix}'
+                        { formData 
+                            @ _id result._id
+                            @ owner result.owner
+                            @ name result.name
+                            @ description result.description
+                            $hook
+                    {

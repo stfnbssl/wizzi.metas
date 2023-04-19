@@ -1,0 +1,156 @@
+$group
+    ${'$'}
+      var myName = 'Store';
+      //
+    
+    iife_window${'('} app, ${'$'}{myName})
+        # globals api.Wizzi, mvc.LocalObjectStore
+        function ${'$'}{myName}
+            param name
+            set this.name = name
+            set this.wzApi = api.Wizzi
+            set this.ls${cliCtx.jsAppCrud.Name} = new mvc.LocalObjectStore('app-crud-${cliCtx.jsAppCrud.Name}')
+            set this.${cliCtx.jsAppCrud.name}Items = null
+            set this.tabelle = null
+            set this.databaseName = "${cliCtx.jsAppCrud.name}db"
+            set this.tableName = "${cliCtx.jsAppCrud.name}"
+            set this.db = new db.LocalStorageDb(this.databaseName, localStorage)
+
+
+        set ${'$'}{myName}.prototype.findTabelle
+            function 
+                param_callback${'('} required, Method: ${'$'}{myName}.findTabelle )
+                if this.tabelle
+                  return
+                    _ callback
+                      @ this.tabelle
+                _ this.findAll${cliCtx.jsAppCrud.Name}
+                    =>
+                        param ${cliCtx.jsAppCrud.name}Items
+                        const categories = {}
+                        foreach item in ${cliCtx.jsAppCrud.name}Items
+                            set categories[item.categoria] = item.categoria
+                        set this.tabelle
+                            {
+                                @ categories categories
+                        _ callback
+                            @ this.tabelle
+
+        set ${'$'}{myName}.prototype.findAll${cliCtx.jsAppCrud.Name}
+            function 
+                param_callback${'('} required, Method: ${'$'}{myName}.findAll${cliCtx.jsAppCrud.Name} )
+                info "${'$'}{myName}.prototype.findAll${cliCtx.jsAppCrud.Name}, current items", this.${cliCtx.jsAppCrud.name}Items
+                if this.${cliCtx.jsAppCrud.name}Items
+                    return
+                        _ callback
+                            @ this.${cliCtx.jsAppCrud.name}Items
+                else
+                    if this.db.tableExists(this.tableName)                
+                        set this.${cliCtx.jsAppCrud.name}Items
+                            _ this.db.queryAll(this.tableName)
+                        foreach item in this.${cliCtx.jsAppCrud.name}Items
+                            set item.id = item.ID
+                        _ callback
+                            @ this.${cliCtx.jsAppCrud.name}Items
+                    else
+                        _ callback
+                            [
+
+                ${'$'}*
+                _ fetch('/~/stfnbssl/works-biga.json').then
+                    => 
+                        param response
+                        if !response.ok
+                            throw new Error("HTTP error " + response.status)
+                        return response.json()
+                    ._ then
+                        => 
+                            param json
+                            const items = []
+                            foreach video in json.videos
+                                foreach item in video.items
+                                    _ items.push
+                                        {
+                                            @ id video.id + '/' + item.name
+                                            @ categoria video.categoria
+                                            @ kind  "video"
+                                            @ videoKind video.kind
+                                            @ videoId video.id
+                                            @ author video.author
+                                            @ videoAuthorId video.authorId
+                                            @ title video.title || video.name
+                                            @ name item.name
+                                            @ time item.time
+                            info "${cliCtx.jsAppCrud.name}Items", items
+                            set this.${cliCtx.jsAppCrud.name}Items = items
+                            _ callback
+                              @ items
+                    ._ catch
+                        function 
+                            set this.dataError = true
+                *${'$'}
+
+        set ${'$'}{myName}.prototype.find${cliCtx.jsAppCrud.Name}Item
+            function 
+                param id
+                param_callback${'('} required, Method: ${'$'}{myName}.find${cliCtx.jsAppCrud.Name}Item )
+                _ this.findAll${cliCtx.jsAppCrud.Name}
+                    =>
+                        param items
+                        foreach item in items
+                            if item.id == id
+                                return
+                                    _ callback
+                                        @ item
+                        throw new Error('${'$'}{myName}.find${cliCtx.jsAppCrud.Name}Item.err not found: ' + id)
+        
+
+        set ${'$'}{myName}.prototype.insert${cliCtx.jsAppCrud.Name}Item
+            function 
+                param objItem
+                param_callback${'('} required, Method: ${'$'}{myName}.find${cliCtx.jsAppCrud.Name}Item )
+                info "${'$'}{myName}.prototype.insert${cliCtx.jsAppCrud.Name}Item, objItem", objItem
+                if !this.db.tableExists(this.tableName)
+                    _ this.db.createTable
+                        @ this.tableName
+                        [ 
+                            $foreach field in cliCtx.jsAppCrud.fields
+                                @ "${field.name}"
+                var result
+                    _ this.db.insert
+                        @ this.tableName
+                        @ objItem
+                _ this.db.commit()
+                _ callback
+                    @ result
+
+        set ${'$'}{myName}.prototype.getLocalValue
+            function 
+                param name
+                param defaultValue
+                var lsStore = this.ls${cliCtx.jsAppCrud.Name}
+                return
+                  _ lsStore.getValue
+                    @ name
+                    @ defaultValue
+
+        set ${'$'}{myName}.prototype.setLocalValue
+            function 
+                param name
+                param value
+                var lsStore = this.ls${cliCtx.jsAppCrud.Name}
+                return
+                  _ lsStore.setValue
+                    @ name
+                    @ value
+
+        function compareTitolo
+            param a
+            param b
+            const at = parseInt(a.titolo)
+            const bt = parseInt(b.titolo)
+            if at < bt
+                return 1
+            if at > bt
+                return -1
+            return 0

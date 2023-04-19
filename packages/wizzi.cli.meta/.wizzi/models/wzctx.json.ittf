@@ -1,0 +1,43 @@
+{
+    $include v08/env/vars
+    
+    name "wizzi.cli.meta"
+    version "0.0.1"
+    description "wizzi.cli.meta"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    
+    { App
+        name "Wizzi CLI meta"
+        kind "NodeCLI"
+    
+    { Build
+        isCLI true
+        [ features
+            {
+                name "packi"
+                hasControllers false
+                useMongoDb false
+            {
+                name "production"
+                fileName "wizzi-production"
+                hasControllers false
+                useMongoDb true
+        useFeaturePacki true
+        { featurePacki
+        useWizziProduction true
+        { wizziProduction
+            useCachedProductions false
+        
+        $include config.json
+        
+        $include code.json
+        
+        $include test.json
+        
+        $include wizzi.json
+        
+        $include utils.json
+        
+        $include db.json

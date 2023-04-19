@@ -1,0 +1,24 @@
+﻿$group
+    $params &jobCtx
+
+	line ittf-lib
+		cwd-folder ${jobCtx.ittf_lib_folder}
+		dest-folder ${jobCtx.dest_folder}/lib
+
+		any_js()
+			ignore ${jobCtx.ittf_lib_folder}/**/*__copy/**/*.js.ittf
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+        any_md()
+			model-ref ${jobCtx.job_model}
+				export-name ${jobCtx.job_model}
+
+        $include any_plain_js
+
+		artifact any_ittf_inside___copy
+			src ${jobCtx.ittf_lib_folder}/**/*__copy/**/*.ittf
+			extension ittf
+
+        $hook
+

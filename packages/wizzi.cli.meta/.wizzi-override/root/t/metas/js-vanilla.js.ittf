@@ -1,0 +1,10 @@
+$group
+
+    elif cmd == 'js-vanilla-data-entry'
+        _ createEx
+            {
+                @ metaGenerator 'js-vanilla'
+                @ context 'data-entry'
+                @ pkgName 'js.vanilla.data-entry'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/js.vanilla.data-entry'
+

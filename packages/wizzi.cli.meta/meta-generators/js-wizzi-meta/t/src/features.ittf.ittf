@@ -1,0 +1,40 @@
+$group
+
+    $*
+
+    $file __dot__wizzi/${pkgPath}src/features/config/env.js.ittf.ittf
+        module
+            ${'$'}include wz/v08/js/express/features/config/env.js
+
+    $file __dot__wizzi/${pkgPath}src/features/config/index.js.ittf.ittf
+        module
+            ${'$'}include wz/v08/js/express/features/config/index.js
+    
+    $
+        var items = [
+            'factory',
+            'wizziProds',
+            'metaFolderProcessor',
+            'wizziMeta',
+        ]
+
+    $foreach item in items
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziMeta/api/${item}.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include wz/v08/js/express/features/wizzi-meta/api/${item}.js
+
+    $
+        var items = [
+            'generateFolderArtifacts',
+        ]
+
+    $foreach item in items
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizziMeta/api/t/${item}.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include wz/v08/js/express/features/wizzi/tfolder/${item}.js
+
+    *$

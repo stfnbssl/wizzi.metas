@@ -1,0 +1,212 @@
+$group
+
+    var youTubePlayer
+        # YT.Player initialized by onYouTubeIframeAPIReady().
+    
+    function onYouTubeIframeAPIReady
+        var videoId = "frYIj2FGmMA"
+        var suggestedQuality = 'tiny'
+        var height = 300
+        var width = 400
+        
+        function onError
+            param event
+            _ youTubePlayer.personalPlayer.errors.push(event.data)
+        
+        function onReady
+            param event
+            info "onReady", videoId
+            var player = event.target
+            _ player.loadVideoById
+                { 
+                    @ suggestedQuality
+                    @ videoId
+            _ player.pauseVideo()
+            _ youTubePlayerDisplayFixedInfos()
+        
+        function onStateChange
+            param event
+            var volume = Math.round(event.target.getVolume())
+        
+        # https://developers.google.com/youtube/player_parameters
+        set youTubePlayer =
+            new YT.Player
+                @ 'YouTube-player'
+                { 
+                    @ videoId
+                    @ height
+                    @ width
+                    { playerVars
+                        @ 'autohide' 0
+                        @ 'cc_load_policy' 0
+                        @ 'controls' 2
+                        @ 'disablekb' 1
+                        @ 'iv_load_policy' 3
+                        @ 'modestbranding' 1
+                        @ 'rel' 0
+                        @ 'showinfo' 0
+                        @ 'start' 3
+                        @ 'origin' "http://localhost:5000"
+                    { events
+                        @ 'onError' onError
+                        @ 'onReady' onReady
+                        @ 'onStateChange' onStateChange
+        
+        set youTubePlayer.personalPlayer =
+            { 
+                @ 'currentTimeSliding' false
+                @ 'errors' []
+
+        set document.getElementById('YouTube-player').sandbox += ' allow-presentation'
+
+        info "set youTubePlayer. Done"
+    
+    function youTubePlayerActive
+        return youTubePlayer && youTubePlayer.hasOwnProperty('getPlayerState')
+    
+    function youTubePlayerChangeVideoId
+        param videoId
+        param time
+        const seconds = timeToSeconds(time)
+        $$ loog 'youTubePlayerChangeVideoId', time, seconds
+        _ youTubePlayer.loadVideoById
+            { 
+                @ suggestedQuality 'tiny'
+                @ videoId
+                @ startSeconds seconds
+        ${'$'}*
+        _ youTubePlayer.cueVideoById
+            { 
+                @ suggestedQuality 'tiny'
+                @ videoId
+        _ youTubePlayer.pauseVideo()
+        *${'$'}
+        _ youTubePlayerDisplayFixedInfos()
+    
+    function youTubePlayerCurrentTimeChange
+        param currentTime
+        # param currentTime: 0 <= number <= 100
+        set youTubePlayer.personalPlayer.currentTimeSliding = false
+        $$ loog 'youTubePlayerCurrentTimeChange', youTubePlayerActive(), currentTime, youTubePlayer.getDuration()
+        if youTubePlayerActive()
+            _ youTubePlayer.seekTo(currentTime * youTubePlayer.getDuration() / 100, true)
+        
+    function youTubePlayerCurrentTimeSlide
+        set youTubePlayer.personalPlayer.currentTimeSliding = true
+    
+    function youTubePlayerDisplayFixedInfos
+        if youTubePlayerActive()
+        
+    function youTubePlayerDisplayInfos
+        if (this.nbCalls === undefined) || (this.nbCalls >= 3)
+            set this.nbCalls = 0
+        else
+            set ++this.nbCalls
+        var indicatorDisplay
+            op+ 
+                op+ 
+                    + '<span id="indicator-display" title="timing of informations refreshing">'
+                    [ 
+                        @ '|'
+                        @ '/'
+                        @ String.fromCharCode(8212)
+                        @ '\\'
+                        .[ this.nbCalls
+                + '</span>'
+        
+        if youTubePlayerActive()
+            var state = youTubePlayer.getPlayerState()
+            var current = youTubePlayer.getCurrentTime()
+            var duration = youTubePlayer.getDuration()
+            var currentPercent
+                ( 
+                    iif current && duration
+                        then current * 100 / duration
+                        else 0
+            var fraction
+                ( 
+                    iif youTubePlayer.hasOwnProperty('getVideoLoadedFraction')
+                        then youTubePlayer.getVideoLoadedFraction()
+                        else 0
+            var url = youTubePlayer.getVideoUrl()
+            if !current
+                set current = 0
+            if !duration
+                set duration = 0
+            var volume = youTubePlayer.getVolume()
+            if !youTubePlayer.personalPlayer.currentTimeSliding
+                ${'$'}${'$'} set document.getElementById('YouTube-player-progress').value = currentPercent
+            set document.getElementById('YouTube-player-infos').innerHTML = (indicatorDisplay + 'URL: <a class="url" href="' + url + '">' + url + '</a><br>' + 'Quality: <strong>' + youTubePlayer.getPlaybackQuality() + '</strong>' + ' &mdash; Available quality: <strong>' + youTubePlayer.getAvailableQualityLevels() + '</strong><br>' + 'State <strong>' + state + '</strong>: <strong>' + youTubePlayerStateValueToDescription(state) + '</strong><br>' + 'Loaded: <strong>' + (fraction * 100).toFixed(1) + '</strong>%<br>' + 'Duration: <strong>' + current.toFixed(2) + '</strong>/<strong>' + duration.toFixed(2) + '</strong>s = <strong>' + currentPercent.toFixed(2) + '</strong>%<br>' + 'Volume: <strong>' + volume + '</strong>%')
+            set document.getElementById('YouTube-player-errors').innerHTML = '<div>Errors: <strong>' + youTubePlayer.personalPlayer.errors + '</strong></div>'
+        else
+            set document.getElementById('YouTube-player-infos').innerHTML = indicatorDisplay
+    
+    function youTubePlayerPause
+        if youTubePlayerActive()
+            _ youTubePlayer.pauseVideo()
+    
+    function youTubePlayerPlay
+        $$ loog 'youTubePlayerPlay', youTubePlayerActive()
+        if youTubePlayerActive()
+            _ youTubePlayer.playVideo()
+    
+    function youTubePlayerStateValueToDescription
+        param state
+        param unknow
+        # See values:
+        # https://developers.google.com/youtube/iframe_api_reference#Playback_status
+        var STATES
+            { 
+                @ '-1' 'unstarted'
+                @ '0' 'ended'
+                @ '1' 'playing'
+                @ '2' 'paused'
+                @ '3' 'buffering'
+                @ '5' 'video cued'
+        return 
+            ( 
+                iif state in STATES
+                    then STATES[state]
+                    else unknow
+    
+    function youTubePlayerStop
+        if youTubePlayerActive()
+            _ youTubePlayer.stopVideo()
+            _ youTubePlayer.clearVideo()
+    
+    function youTubePlayerVolumeChange
+        param volume
+        # param volume: 0 <= number <= 100
+        if youTubePlayerActive()
+            _ youTubePlayer.setVolume(volume)
+
+    function timeToSeconds
+        param time
+        if time && time.length > 0
+          const parts = time.split(':')
+          for var i=0; i<parts.length; i++
+            set parts[i] = parseInt(parts[i])
+          $$ loog 'timeToSeconds', parts
+          if parts.length == 1
+            return parts[0]
+          elif parts.length == 2
+            return parts[0] * 60 + parts[1]
+          elif parts.length == 3
+            return parts[0] * 3600 + parts[1] * 60 + parts[2]
+          else
+            return 0
+        else
+          return 0
+    
+    iife 
+        function init
+            var tag = document.createElement('script')
+            set tag.src = 'https://www.youtube.com/iframe_api'
+            var first_script_tag = document.getElementsByTagName('script')[0]
+            _ first_script_tag.parentNode.insertBefore(tag, first_script_tag)
+            _ setInterval(youTubePlayerDisplayInfos, 1000)
+        if window.addEventListener
+            _ window.addEventListener('load', init)
+        else
+            if window.attachEvent
+                _ window.attachEvent('onload', init)

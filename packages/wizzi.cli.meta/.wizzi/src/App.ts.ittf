@@ -1,0 +1,19 @@
+module
+    $
+        var md = {}
+    v08/app/startImports.ts(&md)
+    +
+    v08/app/startServices.ts(&md)
+    +
+    async-function start
+        const services
+            await
+                _ startServices
+                    @ config
+        return
+            {
+                @ services
+    +
+    export-default
+        {
+            @ start

@@ -1,0 +1,36 @@
+$group
+
+    $if cliCtx.useAuthentication
+        
+        $file __dot__wizzi/${pkgPath}src/features/auth/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/auth/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/auth/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/auth/types.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/auth/api/jwt.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/auth/api/jwt.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/auth/middlewares/auth.middleware.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/auth/middlewares/auth.middleware.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/auth/middlewares/jwt.middleware.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/auth/middlewares/jwt.middleware.ts
+
+        $if cliCtx.useAuthentication && cliCtx.authentication.usePermissionFlag
+            $file __dot__wizzi/${pkgPath}src/features/auth/middlewares/permission.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/features/auth/middlewares/permission.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/auth/controllers/apiv1authenticate.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/auth/controllers/apiv1authenticate.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/auth/controllers/apiv1authenticate.email.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/auth/controllers/apiv1authenticate.email.ts

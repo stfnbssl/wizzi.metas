@@ -1,0 +1,62 @@
+$group
+    $file __dot__wizzi/${pkgPath}root/package.json.ittf.ittf
+        {
+            ${'$'}include cli/v08/package-info.json
+            ${'$'}include cli/v08/package-base.json
+    $file __dot__wizzi/${pkgPath}root/readme.md.ittf.ittf
+        md
+            ${'$'}include wz/v08/markdown/readme.md
+    $file __dot__wizzi/${pkgPath}root/tsconfig.json.ittf.ittf
+        {
+            ${"${'$'}"}
+        		var md = {};
+        	
+            v08/ts/tsconfig${'$'}{'('}&md)
+    $file __dot__wizzi/${pkgPath}root/__dot__env.text.ittf.ittf
+        text
+            ${'$'}include cli/v08/env.text
+    $file __dot__wizzi/${pkgPath}root/__dot__eslintignore.text.ittf.ittf
+        text
+        
+        	${'$'}include wz/v08/eslint/eslintignore.text
+    $file __dot__wizzi/${pkgPath}root/__dot__eslintrc.js.ittf.ittf
+        module
+            kind es6
+        	${'$'}include cli/v08/eslintrc-base.js
+    $file __dot__wizzi/${pkgPath}root/__dot__gitignore.text.ittf.ittf
+        text
+        	${'$'}include cli/v08/gitignore-base.text
+    $file __dot__wizzi/${pkgPath}root/__dot__prettierignore.text.ittf.ittf
+        text
+        	${'$'}include wz/v08/prettier/prettierignore.text
+    $file __dot__wizzi/${pkgPath}root/__dot__prettierrc.json.ittf.ittf
+        {
+        	${'$'}include wz/v08/prettier/rc.json
+    $file __dot__wizzi/${pkgPath}root/bin/www.js.ittf.ittf
+        module
+            kind es6
+        	${'$'}include wz/v08/azure/bin/www.js.ittf.ittf
+    $file __dot__wizzi/${pkgPath}root/__dot__deployment.text.ittf.ittf
+        text
+            ${'$'}include wz/v08/azure/deployment.text   
+
+    $if cliCtx.useAzure
+        $file __dot__wizzi/${pkgPath}root/Web.config.xml.ittf.ittf
+            xml
+                ${'$'}include wz/v08/azure/config/Web.config.xml
+        $file __dot__wizzi/${pkgPath}root/Web.Debug.config.xml.ittf.ittf
+            xml
+                ${'$'}include wz/v08/azure/config/Web.Debug.config.xml
+        $file __dot__wizzi/${pkgPath}root/server.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include wz/v08/azure/rootServer.js
+    
+    $if cliCtx.useHeroku
+        $file __dot__wizzi/${pkgPath}root/Procfile.text.ittf.ittf
+            text
+                ${'$'}include wz/v08/heroku/procfile.text
+        $file __dot__wizzi/${pkgPath}root/server.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include wz/v08/heroku/rootServer.js

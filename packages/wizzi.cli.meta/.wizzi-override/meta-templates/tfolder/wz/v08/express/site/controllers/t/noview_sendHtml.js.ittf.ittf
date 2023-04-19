@@ -1,0 +1,12 @@
+$group
+    $params func
+
+    let ctx
+        {
+            $hook ctx
+
+    _ sendHtml
+        @ response
+        _ buildPage
+            @ ${func}
+            @ ctx

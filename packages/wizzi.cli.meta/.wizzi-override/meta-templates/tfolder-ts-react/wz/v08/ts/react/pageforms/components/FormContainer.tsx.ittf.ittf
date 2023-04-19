@@ -1,0 +1,32 @@
+$group
+
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormContainer",
+            props: [
+                { name: 'children', type: 'node' }
+            ]
+        }
+        
+    v08/ts/react/function${'('}&md)
+        
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledRoot .div<RootStyleProps>
+                display flex
+                flex-direction column
+                width 80%
+                margin-left auto
+                margin-right auto
+                background-color #fff
+
+        return 
+            < StyledRoot
+                + {children}
+

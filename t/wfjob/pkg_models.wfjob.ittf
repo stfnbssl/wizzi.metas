@@ -1,0 +1,8 @@
+﻿$group
+    $params &jobCtx
+
+    line ittf-models
+		cwd-folder ${jobCtx.ittf_models_folder}
+		dest-folder ${jobCtx.dest_folder}
+		wfjob/any_json()
+        $hook

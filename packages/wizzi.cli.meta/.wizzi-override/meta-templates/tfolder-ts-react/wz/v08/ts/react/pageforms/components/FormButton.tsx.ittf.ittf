@@ -1,0 +1,46 @@
+$group
+    
+    ${'$'}
+        var md = {
+            styled: true,
+            name: "FormButton",
+            props: [
+                { name: 'id', type: 'string'},
+                { name: 'label', type: 'string' },
+                { name: 'type', type: 'string' },
+                { name: 'variant', type: 'string' },
+                { name: 'onClick', type: 'any', optional: true },
+            ]
+        }
+
+    v08/ts/react/function${'('}&md)
+
+        ${'$'}append imports
+            import
+                @ c
+                from '../ThemeProvider'
+        
+        ${'$'}append styles
+            :interface RootStyleProps
+            styled StyledRoot .button<RootStyleProps>
+                appearance none
+                border 1px solid
+                border-radius 6px
+                cursor pointer
+                display inline-block
+                font-size 14px
+                font-weight 500
+                line-height 20px
+                padding 5px 16px
+                position relative
+                user-select none
+                vertical-align middle
+                white-space nowrap
+
+        return
+            < StyledRoot
+                @ id {id}
+                @ type {type}
+                @ variant {variant}
+                @ onClick {onClick}
+                + {label}

@@ -1,0 +1,22 @@
+$group
+
+    $if cliCtx.useFeatures && cliCtx.features.useWizziCdn
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-cdn/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-cdn/index.ts
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-cdn/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-cdn/types.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-cdn/mongo/resource.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-cdn/mongo/resource.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizzi-cdn/api/resource.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi-cdn/api/resource.ts
+
+        $if cliCtx.App.kind == "server"
+            $file __dot__wizzi/${pkgPath}src/features/wizzi-cdn/controllers/resource.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/features/wizzi-cdn/controllers/apiv1resource.ts
