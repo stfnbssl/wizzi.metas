@@ -1,0 +1,46 @@
+$group
+
+    ${'$'}
+        var md = {
+            isGetApp: false
+        }
+
+    ${'$'}if wzCtx.Build.useNetlify
+        index/start${'('}&md)
+    ${'$'}else
+        index/imports${'('}&md)
+        var app
+            :any
+            {
+                @ instance null
+        async-function start
+            index/start${'('}&md)
+            _ app.instance.listen
+    
+        try 
+            _ start
+        catch ex
+            error ex
+
+    ${'$'}if wzCtx.Build.useNetlify
+        set module.exports = app.instance
+        set module.exports.handler = serverless(app.instance)
+    ${'$'}else
+        export
+            function close
+                param done
+                    :any
+                try
+                    _ console.log
+                        `lit 
+                            + Index closing.
+                    _ console.log
+                        `lit 
+                            + app.instance.close:
+                            @ app.instance.close
+                    _ app.instance.close
+                        =>
+                            _ done
+                catch ex
+                    error 'index.close. Exception:', ex
+                    _ done

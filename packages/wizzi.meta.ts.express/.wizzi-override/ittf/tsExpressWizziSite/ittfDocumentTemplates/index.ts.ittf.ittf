@@ -1,0 +1,60 @@
+$group
+
+    import 
+        @ ControllerType
+        from '../features/app'
+
+    ${'$'}if wzCtx.Build.useSite
+        import 
+            @ HomeController
+            from './controllers/home'
+        ${'$'}if wzCtx.Build.site.useDemoHome
+            import 
+                @ DemoHomeController
+                from './controllers/demoHome'
+        ${'$'}if wzCtx.Build.useWizziViewEngine
+            ${'$'}if wzCtx.Build.site.demoWizzi
+                import 
+                    @ DemoWizziController
+                    from './controllers/demoWizzi'
+        ${'$'}if wzCtx.Build.site.useAccount
+            import 
+                @ AccountController
+                from './controllers/account'
+        ${'$'}if wzCtx.Build.site.useAuthentication
+            import 
+                @ AuthController
+                from './controllers/auth'
+        ${'$'}if wzCtx.Build.site.useWizziDocs
+            import 
+                @ DocsController
+                from './controllers/docs'
+        ${'$'}if wzCtx.Build.site.useWizziProductions
+            import 
+                @ ProductionsController
+                from './controllers/productions'
+        ${'$'}hook imports
+    
+    const siteControllers
+        :[ 
+            :ref ControllerType
+        =
+            [ 
+                ${'$'}if wzCtx.Build.useSite
+                    @ new HomeController()
+                    ${'$'}if wzCtx.Build.site.useDemoHome
+                        @ new DemoHomeController()
+                    ${'$'}if wzCtx.Build.useWizziViewEngine
+                        ${'$'}if wzCtx.Build.site.useDemoWizzi
+                            @ new DemoWizziController()
+                    ${'$'}if wzCtx.Build.site.useAuthentication
+                        @ new AuthController()
+                    ${'$'}if wzCtx.Build.site.useAccount
+                        @ new AccountController()
+                    ${'$'}if wzCtx.Build.site.useWizziDocs
+                        @ new DocsController()
+                    ${'$'}if wzCtx.Build.site.useWizziProductions
+                        @ new ProductionsController()
+                ${'$'}hook controllers
+    export
+        @ siteControllers

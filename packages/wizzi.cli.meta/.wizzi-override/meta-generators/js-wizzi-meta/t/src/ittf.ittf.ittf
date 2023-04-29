@@ -1,5 +1,29 @@
 $group
 
+    $file __dot__wizzi/ittf/t/params/use.ittf.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/meta/ittf/tfolder/params/array.json
+
+    $file __dot__wizzi/ittf/t/params/boolean.ittf.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/meta/ittf/tfolder/params/boolean.json
+
+    $file __dot__wizzi/ittf/t/params/string.ittf.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/meta/ittf/tfolder/params/string.json
+
+    $file __dot__wizzi/ittf/t/params/object.ittf.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/meta/ittf/tfolder/params/object.json
+
+    $file __dot__wizzi/ittf/t/params/array.ittf.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/meta/ittf/tfolder/params/array.json
+
+    $file __dot__wizzi/ittf/t/params/use.ittf.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/wizzi/meta/ittf/tfolder/params/use.json
+
     $foreach prod in cliCtx.Productions
         folderTemplates(&prod)
 

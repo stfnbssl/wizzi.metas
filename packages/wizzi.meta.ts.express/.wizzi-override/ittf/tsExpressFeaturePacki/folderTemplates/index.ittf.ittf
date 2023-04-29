@@ -1,0 +1,14 @@
+$group
+    $if metaCtx.useTsExpressFeaturePacki
+        $include wzCtxModel
+
+        $file __dot__wizzi/${pkgPath}src/features/packi/index.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/packi/types.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/types.ts
+
+
+        $include edit

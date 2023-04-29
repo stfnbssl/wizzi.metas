@@ -1,0 +1,30 @@
+$group
+    ${'$'}params &md
+
+    head
+        @title ${'$'}{md.title}
+		meta
+			charset UTF-8
+		meta
+			name viewport
+			content width=device-width, initial-scale=1.0
+    body
+        nav
+            class .w3-bar.w3-border.w3-light-grey
+            role navigation
+        a Home
+            href /
+            class .w3-bar-item.w3-button
+        ${'$'}if locals.user
+            a Profile
+                href /account/profile
+                class .w3-bar-item.w3-button
+            a Log Out
+                href /auth/logout
+                class .w3-bar-item.w3-button
+        ${'$'}else
+            a Log In
+                id qsLoginBtn
+                href /auth/login
+                class .w3-bar-item.w3-button
+        ${'$'}hook

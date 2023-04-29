@@ -1,0 +1,31 @@
+$group
+
+    import 
+        @ Application
+        from 'express'
+    import 
+        as bodyParser
+        from 'body-parser'
+    import 
+        @ MiddlewareType
+        from '../features/app/types'
+    +
+    # Node.js request body parsing middleware which parses the incoming request body before your handlers, 
+    # and make it available under req.body property. It simplifies the incoming request.
+    export 
+        const BodyParserMiddleware
+            :ref MiddlewareType
+            =
+                => 
+                    param app
+                        :ref Application
+                    _ app.use
+                        _ bodyParser.json
+                            { 
+                                @ limit '50mb'
+                    _ app.use
+                        _ bodyParser.urlencoded
+                            { 
+                                @ limit '50mb'
+                                @ extended true
+                    success 'BodyParserMiddleware installed'

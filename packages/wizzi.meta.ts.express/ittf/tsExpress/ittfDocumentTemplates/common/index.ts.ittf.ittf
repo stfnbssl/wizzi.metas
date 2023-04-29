@@ -1,0 +1,17 @@
+$group
+    
+    import 
+        as commonTypes
+        from './types'
+    ${'$'}if wzCtx.Build.useExpress
+        import BodyValidationMiddleware from './middlewares/body.validation'
+    +
+    ${'$'}if wzCtx.Build.useExpress
+        const commonMiddlewares
+            {
+                @ BodyValidationMiddleware
+    +
+    export 
+        @ commonTypes
+        ${'$'}if wzCtx.Build.useExpress
+            @ commonMiddlewares

@@ -1,0 +1,7 @@
+$group
+    $file __dot__wizzi/t/v08/ts/catch_reject.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/tfolder/catch_reject.ts
+    $file __dot__wizzi/t/v08/ts/catch_throw.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/tfolder/catch_throw.ts

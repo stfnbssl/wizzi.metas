@@ -16,7 +16,7 @@ $group
 		[
 			@ 'data'
 		@ wizzify
-		f_cb_no_err( result )
+		a_cb_no_throw( result )
 			info 'Terminated. result: ', result
 
 	function wizzify
@@ -39,7 +39,7 @@ $group
 						@ 'data'
 						@ 'output'
 						@ name + '.${schema}.syntax'
-			f_cb_no_err( ittf )
+			a_cb_no_throw( ittf )
 				if err
 					error 'error wizzifying: ' + source
 					error 'err', err

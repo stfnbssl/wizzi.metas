@@ -1,0 +1,314 @@
+$group
+    
+    import 
+        @ JsonComponents
+        @ jsonfile
+        @ JsonFsDocumentManager
+        from 'wizzi-repo'
+    import path from 'path'
+    import wizzi from 'wizzi'
+    import 
+        @ ConfigType
+        from '../features/config'
+    import 
+        @ fsTypes
+        from '../features/filesystem'
+    import 
+        @ rejects
+        from 'assert'
+    import 
+        @ FileDef
+        @ VFile
+        @ vfile
+            as createVFileFS
+        @ VFileFS
+        from 'wizzi-utils'
+    import 
+        @ FsDb
+        @ FsDbResult
+        from '../features/filesystem/types'
+    import 
+        @ packiTypes
+        from '../features/packi'
+    
+    :type cb
+        :< T
+        :=> 
+            :void 
+            param err
+                :any 
+            param result
+                :ref T
+    
+    let vfile
+        :ref VFile
+    
+    let docman
+        :ref JsonFsDocumentManager
+    
+    let packiTemplatesJsonUri = 'json://root/packi/templates'
+    
+    let lastTemplatesReload
+        :number 
+        = 0
+    let saveConfig
+        :ref ConfigType
+    export-default 
+        async-function start
+            param config
+                :ref ConfigType
+            :return
+                :ref Promise
+                    :param 
+                        :ref FsDb
+            set saveConfig = config
+            const 
+                { 
+                    @ packiTemplatesFolder
+                = config
+            var packiTemplatesPath = path.join(__dirname, '..', '..', '..', packiTemplatesFolder)
+            $$ loog 'filesystem.start.Packi templates path: ', packiTemplatesPath
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param rejects
+                        _ JsonComponents.createJsonFs
+                            [ 
+                            => 
+                                param err
+                                param jsonFs
+                                if err
+                                    _ rejects(err)
+                                $$ loog 'filesystem.start.created JsonFs'
+                                _ jsonfile
+                                    { 
+                                        @ jsonFs
+                                    => 
+                                        param err
+                                        param result
+                                        set vfile = result
+                                        $$ loog 'filesystem.start.created json vfile'
+                                        set docman = JsonComponents.createDocumentManager(jsonFs)
+                                        _ docman.uploadFolder
+                                            @ packiTemplatesPath
+                                            @ packiTemplatesJsonUri
+                                            => 
+                                                param err
+                                                param result
+                                                if err
+                                                    _ rejects(err)
+                                                set lastTemplatesReload = new Date().getTime()
+                                                const list = FsDbDriver.getPackiTemplatesList()
+                                                _ list.then
+                                                    => 
+                                                        param value
+                                                        $$ loog 'filesystem.start.At start got packi templates', value
+                                                        _ resolve(FsDbDriver)
+                                                    ._ catch
+                                                        => 
+                                                            param err
+                                                            _ console.log('filesystem.start.Error retrieving packi templates', err)
+    +
+    const FsDbDriver
+        :ref fsTypes.FsDb
+        =
+            { 
+                @ getPackiTemplatesList
+                    async-function 
+                        :return
+                            :ref Promise
+                                :param 
+                                    :[ 
+                                        :string 
+                        return 
+                            new Promise
+                                => 
+                                    param resolve
+                                    param rejects
+                                    _ reloadTemplates
+                                        => 
+                                            _ vfile.getFolders
+                                                @ packiTemplatesJsonUri
+                                                { 
+                                                    @ deep false
+                                                => 
+                                                    param err
+                                                    param result
+                                                    if err
+                                                        _ rejects(err)
+                                                    const ret
+                                                        :[ 
+                                                            :string 
+                                                        = []
+                                                    _ result.forEach
+                                                        => 
+                                                            param item
+                                                            if item.relPath.startsWith('__') == false
+                                                                _ ret.push(item.relPath)
+                                                    _ resolve(ret)
+                @ getPackiTemplate
+                    async-function 
+                        param id
+                            :string 
+                        :return
+                            :ref Promise
+                                :param 
+                                    :[ 
+                                        :ref FileDef
+                        return 
+                            new Promise
+                                => 
+                                    param resolve
+                                    param rejects
+                                    _ reloadTemplates
+                                        => 
+                                            _ vfile.getFiles
+                                                `lit 
+                                                    + 
+                                                    @ packiTemplatesJsonUri
+                                                    + /
+                                                    @ id
+                                                    + 
+                                                { 
+                                                    @ deep true
+                                                    @ documentContent true
+                                                => 
+                                                    param err
+                                                    param result
+                                                    if err
+                                                        _ rejects(err)
+                                                    _ resolve(result)
+                @ getStarterTemplate
+                    async-function 
+                        :return
+                            :ref Promise
+                                :param 
+                                    :[ 
+                                        :ref FileDef
+                        return 
+                            new Promise
+                                => 
+                                    param resolve
+                                    param rejects
+                                    _ reloadTemplates
+                                        => 
+                                            _ vfile.getFiles
+                                                `lit 
+                                                    + 
+                                                    @ packiTemplatesJsonUri
+                                                    + /__starter
+                                                { 
+                                                    @ deep true
+                                                    @ documentContent true
+                                                => 
+                                                    param err
+                                                    param result
+                                                    if err
+                                                        _ rejects(err)
+                                                    _ resolve(result)
+                @ savePackiTemplate
+                    async-function 
+                        param id
+                            :string 
+                        param files
+                            :ref packiTypes.PackiFiles
+                        :return
+                            :ref Promise
+                                :param 
+                                    :ref FsDbResult
+                        const 
+                            { 
+                                @ packiTemplatesFolder
+                            = saveConfig
+                        var templateFolder = path.join(__dirname, '..', '..', '..', packiTemplatesFolder, id)
+                        $$ loog 'filesystem.savePackiTemplate.id,path: ', id, templateFolder
+                        try 
+                            let result
+                                await 
+                                    _ deleteFolder(templateFolder)
+                            $$ loog 'filesystem.savePackiTemplate.deleteFolder.result: ', result
+                            await 
+                                _ asyncForEach
+                                    _ Object.keys(files)
+                                    async=> 
+                                        param file
+                                            :string 
+                                        $$ loogg 'filesystem.savePackiTemplate.writeFile.begin: ', path.join(templateFolder, file)
+                                        let result
+                                            await 
+                                                _ writeFile(path.join(templateFolder, file), files[file].contents)
+                                        $$ loogg 'filesystem.savePackiTemplate.writeFile.result: ', result
+                            return 
+                                _ Promise.resolve
+                                    { 
+                                        @ writtenCount Object.keys(files).length
+                        catch err
+                            _ console.log('filesystem.savePackiTemplate.err: ', err)
+                            return Promise.reject(err)
+    +
+    function deleteFolder
+        param folderPath
+            :string 
+        :return
+            :ref Promise
+                :param boolean
+        return 
+            new Promise
+                => 
+                    param resolve
+                    param reject
+                    _ createVFileFS().deleteFolder
+                        @ folderPath
+                        => 
+                            param err
+                            param result
+                            if err
+                                _ console.log('filesystem.deleteFolder.err', err)
+                                return reject(err)
+                            _ resolve(true)
+    +
+    function writeFile
+        param filePath
+            :string 
+        param content
+            :string 
+        :return
+            :ref Promise
+                :param boolean
+        return 
+            new Promise
+                => 
+                    param resolve
+                    param reject
+                    _ createVFileFS().write
+                        @ filePath
+                        @ content
+                        => 
+                            param err
+                            param result
+                            if err
+                                _ console.log('filesystem.writeFile.err', err)
+                                return reject(err)
+                            _ resolve(true)
+    +
+    function reloadTemplates
+        param callback
+            :ref Function
+        if (new Date().getTime() - lastTemplatesReload) > 60 * 1000
+            _ start(saveConfig).then
+                => 
+                    set lastTemplatesReload = new Date().getTime()
+                    _ callback()
+        else
+            _ callback()
+    +
+    async-function asyncForEach
+        param array
+            :[ 
+                :string 
+        param callback
+            :ref Function
+        for let index = 0; index < array.length; index++
+            await 
+                _ callback(array[index], index, array)

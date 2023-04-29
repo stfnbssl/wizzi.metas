@@ -1,8 +1,0 @@
-﻿$group
-    
-    [ 'spaced-comment'
-        @ 'warn'
-        @ 'always'
-        { 
-            { block
-                @ balanced true

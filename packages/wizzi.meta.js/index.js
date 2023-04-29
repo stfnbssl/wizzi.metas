@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.8
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.js\.wizzi-override\root\index.js.ittf
-    utc time: Wed, 19 Apr 2023 07:50:06 GMT
+    utc time: Thu, 27 Apr 2023 19:14:18 GMT
 */
 'use strict';
 
@@ -120,9 +120,8 @@ class FactoryMeta {
     getMetaProductionStarter(options, callback) {
         
         var productions = [
-            "jscommons", 
-            "jsexpress", 
-            "jsutils"
+            "jsCommons", 
+            "jsUtils"
         ];
         async.map(productions, (prod, callback) => {
         
@@ -205,9 +204,8 @@ function error(errorName, method, message, innerError) {
 module.exports = {
     provides: {
         metaProductions: [
-            'jscommons', 
-            'jsexpress', 
-            'jsutils'
+            'jsCommons', 
+            'jsUtils'
         ]
      }, 
     createMetaPlugin: function(options, callback) {

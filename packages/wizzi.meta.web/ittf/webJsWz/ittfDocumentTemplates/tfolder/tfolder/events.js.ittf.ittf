@@ -1,0 +1,41 @@
+$group
+
+    iife
+        if document.addEventListener
+            set window.addEvent =
+                function 
+                    param elem
+                    param type
+                    param handler
+                    param useCapture
+                    _ elem.addEventListener(type, handler, !(!(useCapture)))
+                    return handler
+            set window.removeEvent =
+                function 
+                    param elem
+                    param type
+                    param handler
+                    param useCapture
+                    _ elem.removeEventListener(type, handler, !(!(useCapture)))
+                    return true
+        elif document.attachEvent
+            set window.addEvent =
+                function 
+                    param elem
+                    param type
+                    param handler
+                    set type = ("on" + type)
+                    var boundedHandler
+                        function 
+                            return handler.apply(elem, arguments)
+                    _ elem.attachEvent(type, boundedHandler)
+                    return boundedHandler
+            set window.removeEvent =
+                function 
+                    param elem
+                    param type
+                    param handler
+                    set type = ("on" + type)
+                    _ elem.detachEvent(type, handler)
+                    return true
+		(

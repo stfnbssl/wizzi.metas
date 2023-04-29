@@ -1,0 +1,37 @@
+{
+    $
+        var pluginBasename = "ppt";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "PowerPoint plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        {
+            name "usePptxgenjs"
+            value "true"
+
+    [ Schemas
+        {
+            name "ppt"
+            plugin_type "syntax_structure"
+            hasWizzifier false
+            { wizzifier
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "ppt"
+                    isDefault true
+                    contentType "appication/ppt"
+            [ fileExtensions
+                "ppt"                   
+
+
+

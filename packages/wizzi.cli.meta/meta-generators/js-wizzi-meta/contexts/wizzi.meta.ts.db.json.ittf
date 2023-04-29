@@ -1,0 +1,29 @@
+{
+
+    $
+        var metaBasename = "tsDb";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Typescript db meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "tsDbMongoDb"
+        {
+            name "tsDbPostgres"
+        {
+            name "tsDbRedis"
+        {
+            name "tsDbSequelize"

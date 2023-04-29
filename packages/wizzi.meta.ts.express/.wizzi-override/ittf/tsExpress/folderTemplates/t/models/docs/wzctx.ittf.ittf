@@ -1,0 +1,310 @@
+$group
+
+    ${"${'$'}"}global
+        var wzCtx = {
+            name: "stfnbssl.github.io/wizzi",
+            version: "0.7.1",
+            description: "Wizzi github page",
+            author: "Stefano Bassoli",
+            license: "MIT",
+            Params: {
+                title: "Wizzi",
+                baseUrl: "https://stfnbssl.github.io/wizzi"
+            },
+            Section: {
+                items: [
+                    {
+                        title: "Concepts",
+                        url: "/ittf/site/docs/concepts/overview.html.ittf"
+                    },
+                    {
+                        title: "How to",
+                        url: "/ittf/site/docs/howtos/getstarted.html.ittf"
+                    },
+                    {
+                        title: "Sample code",
+                        url: "/ittf/site/docs/samplecode/overview.html.ittf"
+                    },
+                    {
+                        title: "Geeky",
+                        url: "/ittf/site/docs/geeky/overview.html.ittf"
+                    },
+                    {
+                        title: "Cheatsheets",
+                        url: "/docs/cheatsheet/html"
+                    },
+                    {
+                        title: "Play",
+                        url: "/ittf/site/docs/play/index.html.ittf"
+                    }
+                ]
+            },
+            Docs: {
+                items: [
+                    {
+                        title: "Overview",
+                        url: "./overview.html.ittf"
+                    },
+                    {
+                        title: "Ittf Documents",
+                        url: "./ittfdocuments.html.ittf"
+                    },
+                    {
+                        title: "Template Engine",
+                        url: "./templateengine.html.ittf"
+                    },
+                    {
+                        title: "JsWizzi",
+                        url: "./jswizzi.html.ittf"
+                    },
+                    {
+                        title: "mTrees",
+                        url: "./mtrees.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Schemas",
+                        url: "./wizzischemas.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Model DOMs",
+                        url: "./wizzimodeldoms.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Model Instances",
+                        url: "./wizzimodelinstances.html.ittf"
+                    },
+                    {
+                        title: "Model Transformers",
+                        url: "./modeltransformers.html.ittf"
+                    },
+                    {
+                        title: "Artifact Generators",
+                        url: "./artifactgenerators.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Jobs",
+                        url: "./wizzijobs.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Plugins",
+                        url: "./wizziplugins.html.ittf"
+                    },
+                    {
+                        title: "Wizzi API",
+                        url: "./wizziapi.html.ittf"
+                    },
+                    {
+                        title: "Wizzi CLI",
+                        url: "./wizzicli.html.ittf"
+                    },
+                    {
+                        title: "Virtual Store System",
+                        url: "./virtualstoresystem.html.ittf"
+                    },
+                    {
+                        title: "Glossary",
+                        url: "./glossary.html.ittf"
+                    }
+                ]
+            },
+            HowTos: {
+                items: [
+                    {
+                        title: "Get started",
+                        url: "./getstarted.html.ittf"
+                    },
+                    {
+                        title: "Wizzi API",
+                        url: "./wizziapi.html.ittf"
+                    }
+                ]
+            },
+            SampleCode: {
+                items: [
+                    {
+                        title: "Overview",
+                        url: "./overview.html.ittf"
+                    },
+                    {
+                        title: "Template Engine",
+                        url: "./templateengine.html.ittf"
+                    },
+                    {
+                        title: "JsWizzi",
+                        url: "./jswizzi.html.ittf"
+                    },
+                    {
+                        title: "mTrees",
+                        url: "./mtrees.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Schemas",
+                        url: "./wizzischemas.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Model DOMs",
+                        url: "./wizzimodeldoms.html.ittf"
+                    },
+                    {
+                        title: "Model Transformers",
+                        url: "./modeltransformers.html.ittf"
+                    },
+                    {
+                        title: "Artifact Generators",
+                        url: "./artifactgenerators.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Jobs",
+                        url: "./wizzijobs.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Plugins",
+                        url: "./wizziplugins.html.ittf"
+                    },
+                    {
+                        title: "Wizzi API",
+                        url: "./wizziapi.html.ittf"
+                    },
+                    {
+                        title: "Virtual Store System",
+                        url: "./virtualstoresystem.html.ittf"
+                    },
+                    {
+                        title: "Glossary",
+                        url: "./glossary.html.ittf"
+                    }
+                ]
+            },
+            Geeky: {
+                items: [
+                    {
+                        title: "Overview",
+                        url: "./overview.html.ittf"
+                    },
+                    {
+                        title: "Template Engine",
+                        url: "./templateengine.html.ittf"
+                    },
+                    {
+                        title: "JsWizzi",
+                        url: "./jswizzi.html.ittf"
+                    },
+                    {
+                        title: "mTrees",
+                        url: "./mtrees.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Schemas",
+                        url: "./wizzischemas.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Model DOMs",
+                        url: "./wizzimodeldoms.html.ittf"
+                    },
+                    {
+                        title: "Model Transformers",
+                        url: "./modeltransformers.html.ittf"
+                    },
+                    {
+                        title: "Artifact Generators",
+                        url: "./artifactgenerators.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Jobs",
+                        url: "./wizzijobs.html.ittf"
+                    },
+                    {
+                        title: "Wizzi Plugins",
+                        url: "./wizziplugins.html.ittf"
+                    },
+                    {
+                        title: "Wizzi API",
+                        url: "./wizziapi.html.ittf"
+                    },
+                    {
+                        title: "Wizzi CLI",
+                        url: "./wizzicli.html.ittf"
+                    },
+                    {
+                        title: "Virtual Store System",
+                        url: "./virtualstoresystem.html.ittf"
+                    },
+                    {
+                        title: "Glossary",
+                        url: "./glossary.html.ittf"
+                    }
+                ]
+            },
+            Starter: {
+                "items": [
+                    {
+                        title: "wizzi-starter-wizzi-plugin",
+                        url: "https://github.com/wizzifactory/wizzi-examples/tree/master/packages/wizzi-starter-wizzi-plugin"
+                    },
+                    {
+                        title: "wizzi-starter-webpack-react",
+                        url: "https://github.com/wizzifactory/wizzi-examples/tree/master/packages/wizzi-starter-webpack-react"
+                    },
+                    {
+                        title: "wizzi-starter-mern",
+                        url: "https://github.com/wizzifactory/wizzi-examples/tree/master/packages/wizzi-starter-mern"
+                    },
+                    {
+                        title: "wizzi-starter-nextjs",
+                        url: "https://github.com/wizzifactory/wizzi-examples/tree/master/packages/wizzi-starter-nextjs"
+                    },
+                    {
+                        title: "wizzi-starter-gatsby",
+                        url: "https://github.com/wizzifactory/wizzi-examples/tree/master/packages/wizzi-starter-gatsby"
+                    }
+                ]
+            },
+            "Plugin": {
+                items: [
+                    {
+                        title: "wizzi-js",
+                        url: "https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-js/dist"
+                    },
+                    {
+                        title: "wizzi-web",
+                        url: "https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-web/dist"
+                    },
+                    {
+                        title: "wizzi-lab",
+                        url: "https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-lab/dist"
+                    }
+                ]
+            },
+            Colors: {
+                "bg_0": "#333",
+                "bg_f_0": "#000",
+                "c_0": "#fff",
+                "bg_dark": "#333",
+                "bg_dark_medium": "#444",
+                "c_dark": "#ddd",
+                "c_dark_medium": "#bbb",
+                "h3_c_dark": "#fc0"
+            },
+            Fonts: {
+                "useMaterialIcons": true,
+                "materialIcons": {
+                    "baseUrl": "https://stfnbssl.github.io/wizzi/fonts",
+                    "fontWeight": "400",
+                    "size": "24px"
+                }
+            }
+        }
+        var mpage = {
+            Colors: {
+                background: "#ffffff",
+                scheme1Fade90: "whiteFade-90,rgba(255,255,255,0.9)",
+                themeBack: "#ffffff",
+                primary: "#BDF3EE",
+                primaryDark: "#122944",
+                primary30: "#BDF3EE",
+                gray70: "grey-70,#222B31",
+                grad1: "#81B6CF",
+                grad2: "#222B31"
+            }
+        }
+

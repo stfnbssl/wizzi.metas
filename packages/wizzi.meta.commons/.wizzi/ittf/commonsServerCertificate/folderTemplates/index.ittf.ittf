@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useCommonsServerCertificate
+        $file __dot__wizzi/commonsServerCertificate/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include commonsServerCertificate/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/commonsServerCertificate/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include commonsServerCertificate/tfolder/${item}.js

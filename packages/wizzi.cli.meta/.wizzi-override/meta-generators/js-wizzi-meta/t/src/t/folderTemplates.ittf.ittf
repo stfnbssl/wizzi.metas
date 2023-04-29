@@ -7,6 +7,8 @@ $group
             
             ${'$'}{'$'}if metaCtx.use${_.capitalize(prod.name)}
 
+                ${'$'}{'$'}include wzCtxModel
+
                 ${'$'}file __dot__wizzi/${prod.name}/yyy.js.ittf.ittf
                     module
                         kind es6
@@ -25,6 +27,16 @@ $group
                         
                             ${'$'}{'$'}{'$'}include ${prod.name}/tfolder/${'$'}{'$'}{item}.js
 
+    
+    $file __dot__wizzi/ittf/${prod.name}/folderTemplates/t/wzCtxModel.ittf.ittf.ittf
+        ${'$'}{'$'}group
+
+            ${'$'}file __dot__wizzi/models/t/${prod.name}.json.ittf.ittf
+                ${'$'}{'$'}{'$'}{'$'}group
+                        
+                    useXxx true
+                    { xxx
+    
     $file __dot__wizzi/ittf/${prod.name}/metaCtxSchemas/index.json.ittf.ittf
     
         {

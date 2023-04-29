@@ -123,6 +123,14 @@ else if (cmd == 'js-vanilla-data-entry') {
         destPath: 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/js.vanilla.data-entry'
      })
 }
+else if (cmd == 'wizzi-plugin-ppt') {
+    createEx({
+        metaGenerator: 'js-wizzi-plugin', 
+        context: 'wizzi.plugin.ppt', 
+        pkgName: 'wizzi.plugin.ppt', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin.ppt'
+     })
+}
 else if (cmd == 'wizzi-plugin-first') {
     createEx({
         metaGenerator: 'js-wizzi-plugin', 
@@ -323,6 +331,38 @@ else if (cmd == 'wizzi-plugin-java') {
         destPath: 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin.java'
      })
 }
+else if (cmd == 'wizzi-meta-docs') {
+    createEx({
+        metaGenerator: 'js-wizzi-meta', 
+        context: 'wizzi.meta.docs', 
+        pkgName: 'wizzi.meta.docs', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.docs'
+     })
+}
+else if (cmd == 'wizzi-meta-commons') {
+    createEx({
+        metaGenerator: 'js-wizzi-meta', 
+        context: 'wizzi.meta.commons', 
+        pkgName: 'wizzi.meta.commons', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.commons'
+     })
+}
+else if (cmd == 'wizzi-meta-web') {
+    createEx({
+        metaGenerator: 'js-wizzi-meta', 
+        context: 'wizzi.meta.web', 
+        pkgName: 'wizzi.meta.web', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.web'
+     })
+}
+else if (cmd == 'wizzi-meta-cloud') {
+    createEx({
+        metaGenerator: 'js-wizzi-meta', 
+        context: 'wizzi.meta.cloud', 
+        pkgName: 'wizzi.meta.cloud', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.cloud'
+     })
+}
 else if (cmd == 'wizzi-meta-js') {
     createEx({
         metaGenerator: 'js-wizzi-meta', 
@@ -363,12 +403,12 @@ else if (cmd == 'wizzi-meta-ts-client') {
         destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.client'
      })
 }
-else if (cmd == 'wizzi-meta-package') {
+else if (cmd == 'wizzi-meta-ts-db') {
     createEx({
         metaGenerator: 'js-wizzi-meta', 
-        context: 'wizzi.meta.package', 
-        pkgName: 'wizzi.meta.package', 
-        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.package'
+        context: 'wizzi.meta.ts.db', 
+        pkgName: 'wizzi.meta.ts.db', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.db'
      })
 }
 else if (cmd == 'wizzi-meta-wizzi') {

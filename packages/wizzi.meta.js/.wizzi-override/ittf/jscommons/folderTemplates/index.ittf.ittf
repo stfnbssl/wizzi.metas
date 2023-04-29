@@ -1,6 +1,6 @@
 $group
 
-    $if metaCtx.useJscommons
+    $if metaCtx.useJsCommons
 
         $
             var items = [
@@ -28,4 +28,4 @@ $group
         $foreach item in items
             $file __dot__wizzi/${pkgPath}t/${item}.js.ittf.ittf
                 ${"${'$'}"}group
-                    ${'$'}include jscommons/tfolder/${item}.js
+                    ${'$'}include jsCommons/tfolder/${item}.js

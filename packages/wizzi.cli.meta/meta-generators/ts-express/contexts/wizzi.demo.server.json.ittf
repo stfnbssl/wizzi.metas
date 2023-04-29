@@ -101,7 +101,7 @@
 
     useWizzi true
     { wizzi
-        useVersionV08 true
+        useVersion08 true
 
     useWizziDocs false
     { wizziDocs

@@ -1,0 +1,26 @@
+$group
+
+    { compilerOptions
+        sourceMap true
+        module "commonjs"
+        moduleResolution "node"
+        strict true
+        target "ES6"
+        outDir "./dist"
+        [ lib
+            "dom" 
+            "es5" 
+            "es2015.collection" 
+            "es2015.promise" 
+        [ types
+            "node"
+        baseUrl "./node_modules"
+        $$ jsx "preserve"
+        jsx "react-jsx"
+        esModuleInterop true
+        [ typeRoots
+            "node_modules/@types" 
+    [ include
+        "./src/**/*" 
+    [ exclude
+        "node_modules" 

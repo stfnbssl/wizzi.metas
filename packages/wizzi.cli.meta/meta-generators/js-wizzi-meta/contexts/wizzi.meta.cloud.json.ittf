@@ -1,0 +1,25 @@
+{
+
+    $
+        var metaBasename = "cloud";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Cloud meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "cloudAzure"
+        {
+            name "cloudHeroku"

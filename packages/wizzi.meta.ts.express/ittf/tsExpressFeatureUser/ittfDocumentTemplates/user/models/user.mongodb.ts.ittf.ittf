@@ -1,0 +1,34 @@
+$group
+
+    ${'$'}if wzCtx.Build.useMongoDb
+        ${'$'}
+            var md = {
+                Name: 'User',
+                hasId: false
+            }
+        v08/mongo/crud/model${'('}&md)
+            ${'$'}append fields
+                @ _id String
+                @ email String
+                { password
+                    @ type String
+                    @ select false
+                @ firstName String
+                @ lastName String
+                @ permissionFlags Number
+                @ created_at Date
+                @ updated_at Date
+
+            _ UserSchema.index
+                {
+                    @ email 1
+                {
+                    @ unique true
+
+    $*
+    ${'$'}if wzCtx.Build.useSequelize
+        ${'$'}foreach tb in wzCtx.Build.data.Blog.db.tables
+            ${'$'}if tb.Name == 'Post'
+                ${'$'} tb.__db = wzCtx.Build.data.Blog.db
+                v08/sequelize/modelBuilder${'('}&tb)
+    *$

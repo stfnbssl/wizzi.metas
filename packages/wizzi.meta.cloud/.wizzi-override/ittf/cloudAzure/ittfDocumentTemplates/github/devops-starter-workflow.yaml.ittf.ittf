@@ -1,0 +1,32 @@
+$group
+    
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+    : name Build and Deploy node Express app to azure
+    : on
+        : push
+            : branches
+                - master
+    
+    : env
+        : AZURE_WEBAPP_NAME "${'$'}{wzCtx.Build.azure.webAppName}"          # set this to your application's name
+        : AZURE_WEBAPP_PACKAGE_PATH "${'$'}{wzCtx.Build.azure.packagePath}" # set this to the path to your web app project, defaults to the repository root
+        : NODE_VERSION "${'$'}{wzCtx.Build.azure.nodejsVersion}"            # set this to the node version to use
+        : RESOURCEGROUPNAME "${'$'}{wzCtx.Build.azure.resourceGroupName}"
+        : LOCATION "${'$'}{wzCtx.Build.azure.webAppLocation}"
+        : HOSTINGPLANNAME "${'$'}{wzCtx.Build.azure.hostingPlanName}"
+        : APPINSIGHTLOCATION "${'$'}{wzCtx.Build.azure.appInsightsLocation}"
+        : SKU "${'$'}{wzCtx.Build.azure.sku}"
+        $if cliCtx.useMongoDb
+            : DATABASEACCOUNTID "${'$'}{wzCtx.Build.azure.databaseAccountId}"
+            : DATABASEACCOUNTLOCATION "${'$'}{wzCtx.Build.azure.databaseAccountLocation}"
+        : PORT 3000 
+        : SESSION_SECRET "axr45hngmuoil9********0ofgt*kjj6767648%$£3f5&/4bnsa-----qq4)$35670qq4q"
+        : NO_CACHE true 
+        : CORS_CLIENT_ORIGIN "${'$'}{wzCtx.Build.cors.clientOrigin}"
+        : IS_WIZZI_DEV true 
+        : WIZZI_BASE_PATH "" 
+    
+    : jobs
+        ${'$'}include v08/azure/github/devops/build
+        ${'$'}include v08/azure/github/devops/deploy
+        ${'$'}include v08/azure/github/devops/functional-tests

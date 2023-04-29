@@ -1,0 +1,53 @@
+$group
+
+    ${'$'}
+        var ctrl = {
+            name: 'Auth',
+            path: '/auth',
+            kind: 'site'
+        }
+
+    v08/ts/controller${'('} &ctrl )
+        ${'$'}append imports
+                import
+                    as queryString 
+                    from 'query-string'
+                import
+                    @ config
+                    from '../../features/config'
+                const myname = 'site.controllers.auth'
+        
+        v08/ts/route${'('} get, /login, this.login)
+        v08/ts/route${'('} get, /login/github, this.loginGithub)
+        v08/ts/route${'('} get, /login/google, this.loginGoogle)
+        v08/ts/route${'('} get, /logout, this.logout)
+        
+        ${'$'}append handlers
+
+            v08/ts/handler${'('} login )
+                _ response.render
+                    @ 'auth/login.html.ittf'
+                    {
+                        @ title 'Sign in to Wizzi · Wizzi'
+
+            v08/ts/handler${'('} loginGithub )
+                _ response.redirect(`https://github.com/login/oauth/authorize?client_id=${config.githubClientId}`);
+
+            v08/ts/handler${'('} loginGoogle )
+                $$ loog og myname, 'loginGoogle'
+                const queryParams
+                    _ queryString.stringify
+                        {
+                            @ client_id config.googleClientId
+                            @ scope 'openid email profile'
+                            @ redirect_uri '${'$'}{wzCtx.App.baseUrl}/api/${'$'}{wzCtx.App.apiVersion}/authenticate/google/callback'
+                            @ nonce 'gartps'
+                            @ response_type 'code'
+                _ response.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${queryParams}`)
+           
+            v08/ts/handler${'('} logout )
+                set (request as any).session.user = null
+                set (request as any).session.github_access_token = null
+                set (request as any).session.google_access_token = null
+                _ response.redirect('/')
+

@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useCss
+        $file __dot__wizzi/css/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include css/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/css/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include css/tfolder/${item}.js

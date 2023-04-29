@@ -1,0 +1,3 @@
+{
+    productionName "tsExpressFeatureAuth"
+    params/boolean( useJwt )

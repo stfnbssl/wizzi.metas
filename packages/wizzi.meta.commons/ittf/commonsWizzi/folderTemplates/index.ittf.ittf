@@ -1,0 +1,9 @@
+$group
+    
+    $if metaCtx.useCommonsWizzi
+
+        $include __wizzi
+        $include __wizzi.config
+        $include __wizzi.override.config
+        $include tfolder/commons
+        $include tfolder/wfjobs

@@ -1,0 +1,30 @@
+$group
+
+    export 
+        :type WizziConfigType
+            :{ 
+                :p repoBasePath
+                    :string 
+                :p metaBasePath
+                    :string 
+                :p studioBasePath
+                    :string 
+                :p jobsBasePath
+                    :string 
+                :p crawlBasePath
+                    :string 
+                :p githubBasePath
+                    :string 
+                :p cheatsheetsBasePath
+                    :string 
+                :p siteMetaBasePath
+                    :string
+                :p jsonDataMetaBasePath
+                    :string
+                :p storeKind
+                    :string          
+                :p plugins
+                    :[
+                        :string
+                :p pluginsBasePath
+                    :string

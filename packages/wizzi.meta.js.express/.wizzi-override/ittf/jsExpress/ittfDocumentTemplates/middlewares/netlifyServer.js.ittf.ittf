@@ -1,0 +1,15 @@
+$group
+
+    ${'$'}if wzCtx.Build.useNetlify
+        import 
+            @ NetlifyRouter
+            from '../features/netlify/index.js'
+
+        ${'$'}hook imports
+        
+        export
+            const NetlifyServerMiddleware
+                => 
+                    param app
+                    _ app.use('/.netlify/functions/server', NetlifyRouter)
+                    ${'$'}hook

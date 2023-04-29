@@ -1,0 +1,115 @@
+$group
+    
+    ${'$'}
+        var ca = 'm-s color-header font-l font-w-xxl';
+        var ca2 = 'color-header font-x font-w-s';
+        var ca_inverse = 'm-s p-s color-header-inverse bg-color-header-inverse font-l font-w-xxl';
+    
+    import jsesc from 'jsesc'
+    import React from 'react'
+    
+    common${'('}false)
+
+    :type PageFormDocumentProps
+        :{ 
+            :p data
+                :object
+            :p queryParams
+                :object
+            :p content
+                :{ 
+                    :p html
+                        :string 
+                    :p css
+                        :{ 
+                            :p content
+                                :string 
+                            :p renderedClassNames
+                                :[ 
+                                    :string 
+                :optional
+    +
+    export-default 
+        function PageFormDocument
+            param props
+                :ref PageFormDocumentProps
+            const 
+                { 
+                    @ data
+                    @ queryParams
+                    @ content
+                = props
+            return 
+                html 
+                    head 
+                        meta 
+                            @ charSet "utf-8"
+                        meta 
+                            @ httpEquiv "X-UA-Compatible"
+                            @ content "IE=edge"
+                        meta 
+                            @ name "viewport"
+                            @ content "width=device-width,minimum-scale=1,initial-scale=1"
+                        link 
+                            @ rel "stylesheet"
+                            @ href "https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,500,600"
+                        link 
+                            @ rel "stylesheet"
+                            @ href "https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
+                        link 
+                            @ rel "stylesheet"
+                            @ href "/ittf/css/main.css.ittf"
+                        script
+                            src https://bundle.run/buffer@6.0.3
+                        < style 
+                            @ type "text/css"
+                            @ dangerouslySetInnerHTML
+                                { 
+                                    @ __html PageCss
+                        < script 
+                            @ dangerouslySetInnerHTML
+                                {
+                                    @ __html
+                                        `lit 
+                                            + &nbsp; window.__INITIAL_DATA__ =&nbsp;
+                                            _ jsesc
+                                                { 
+                                                    @ data
+                                                    @ queryParams
+                                                { 
+                                                    @ quotes 'double'
+                                                    @ isScriptContext true
+                    body
+                        div
+                            @ className flex-row space-between bg-color-header color-header align-items-center
+                            id __main_navbar
+                            div
+                                @ className flex-row
+                                a${'('} , /, ${'$'}{ca2}
+                                    div
+                                        style {{width: "80px", marginTop: "5px", marginLeft: "20px"}}
+                                        $$ images/logo${'('}#efefef, #434343)
+                            div
+                                @ className flex-row
+                                a${'('} Starter, /ittf/site/starter.html.ittf, ${'$'}{ca}
+                                a${'('} Lab, /ittf/site/lab.html.ittf, ${'$'}{ca}
+                                div
+                                    className ${'$'}{ca_inverse}
+                                    + Productions
+                                a${'('} Project, /ittf/site/project.html.ittf, ${'$'}{ca}
+
+                            div
+                                @ className flex-row
+                                a${'('} Docs, /ittf/site/docs.html.ittf, ${'$'}{ca}
+                            div
+                                @ className flex-row m-r-x
+                                a${'('} Profile, /profile, ${'$'}{ca}
+                                a${'('} Log Out, /logout, ${'$'}{ca}
+                        $*
+                        pre
+                            code {JSON.stringify(data, null, 2)}
+                        *$
+                        section
+                            id root
+                        script
+                            src "/public/pageforms/main.bundle.js"

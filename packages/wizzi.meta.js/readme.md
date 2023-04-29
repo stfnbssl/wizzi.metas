@@ -12,15 +12,11 @@ wizzi.meta.js
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.js/tree/master/.wizzi/ittf/lib/wizzi/productions/jscommons.wfproduction.ittf>jscommons</a><td>jscommons wizzi meta production</td>
+<a href https://github.com//wizzi.meta.js/tree/master/.wizzi/ittf/lib/wizzi/productions/jsCommons.wfproduction.ittf>jsCommons</a><td>jsCommons wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.js/tree/master/.wizzi/ittf/lib/wizzi/productions/jsexpress.wfproduction.ittf>jsexpress</a><td>jsexpress wizzi meta production</td>
-</tr>
-<tr>
-<td>
-<a href https://github.com//wizzi.meta.js/tree/master/.wizzi/ittf/lib/wizzi/productions/jsutils.wfproduction.ittf>jsutils</a><td>jsutils wizzi meta production</td>
+<a href https://github.com//wizzi.meta.js/tree/master/.wizzi/ittf/lib/wizzi/productions/jsUtils.wfproduction.ittf>jsUtils</a><td>jsUtils wizzi meta production</td>
 </tr>
 </table>
 

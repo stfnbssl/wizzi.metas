@@ -1,0 +1,11 @@
+{
+    productionName "tsExpressTests"
+    [ parameters
+        params/use( jest )
+        {
+            name "Xxx"
+            type "string"
+            kind "enum"
+            [ enumValues
+                "aaa"
+                "bbb"

@@ -1,0 +1,12 @@
+$group
+    
+    $if metaCtx.useCommonsEnv
+        
+        $file __dot__wizzi/${pkgPath}root/__dot__env.text.ittf.ittf
+            text
+                ${"${'$'}"}include env/${metaVer}/env.text
+
+        
+        $file __dot__wizzi/t/env/${metaVer}/env.text.ittf.ittf
+            ${"${'$'}"}group
+                ${'$'}include commonsEnv/index.text

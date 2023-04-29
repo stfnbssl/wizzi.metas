@@ -4,10 +4,7 @@ $group
         var items = [
             'a_cb',
             'a_cb_throw',
-            'a_cb_no_err',
-            'f_cb',
-            'f_cb_throw',
-            'f_cb_no_err',
+            'a_cb_no_throw',
             'r_cb',
             ];
 

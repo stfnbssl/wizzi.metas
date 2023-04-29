@@ -1,0 +1,25 @@
+$group
+
+    function getPackiFiles
+        return
+            {
+                { ['.packi/config.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    { meta'
+                            @ '        name "..name.."'
+                            @ '        [ contexts'
+                            @ '            {'
+                            @ '                ${'$'}${'$'} propertyName "..name.."'
+                            @ '                ${'$'}${'$'} artifactName "..name.."'
+                            @ '    [ tfolders'
+                            @ '        {'
+                            @ '            ${'$'}${'$'} name "..name.."'
+                            @ '    [ contexts'
+                            @ '        {'
+                            @ '            ${'$'}${'$'} propertyName "..name.."'
+                            @ '            ${'$'}${'$'} artifactName "..name.."'
+                            ._ join
+                                @ '\n'

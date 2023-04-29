@@ -1,0 +1,66 @@
+$group
+    
+    react IFramePage
+        ctor
+            set this.ifr = null
+            set this.styleEl = null
+            set this.cssNode = null
+        
+        did-mount
+            if this.props.styleSheets
+                _ this._updateStylesheets(this.props.styleSheets)
+            if this.props.content || this.props.css || this.props.js
+                _ this._updateSrc
+        
+        did-update
+            if this.props.styleSheets != prevProps.styleSheets
+                _ this._updateStylesheets(this.props.styleSheets || [])
+            if this.props.content || this.props.css || this.props.js
+                _ this._updateSrc
+        
+        m _updateSrc
+            param content
+            const url
+                _ wz.getGeneratedPageURL
+                    @ this.props.content
+                    @ this.props.css
+                    @ this.props.js
+            set this.ifr.src = url
+        
+        m _updateStylesheets
+            param styleSheets
+            const document = this.ifr.contentDocument
+            if document
+                const head = document.getElementsByTagName('head')[0]
+                const links = head.querySelectorAll('link')
+                for let i = 0, l = links.length; i < l; i++
+                    const link = links[i]
+                    _ link.parentNode.removeChild(link)
+                if styleSheets && styleSheets.length
+                    _ styleSheets.forEach
+                        =>
+                            param href
+                            const link = document.createElement('link')
+                            _ link.setAttribute('rel', 'stylesheet')
+                            _ link.setAttribute('type', 'text/css')
+                            _ link.setAttribute('href', href)
+                            _ head.appendChild(link)
+        
+        render
+            return
+                div
+                    @ style
+                        {
+                            @ width '100%'
+                            @ height '100%'
+                    iframe
+                        @ frameBorder {0}
+                        @ sandbox "allow-scripts"
+                        @ style
+                            {
+                                @ width '100%'
+                                @ height '100%'
+                        @ ref
+                            =>
+                                param f
+                                set this.ifr = f

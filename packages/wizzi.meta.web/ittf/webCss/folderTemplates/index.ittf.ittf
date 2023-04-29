@@ -1,0 +1,41 @@
+$group
+    
+    $if metaCtx.useWebCss
+
+        $file __dot__wizzi/${pkgPath}ittf/css/index.css.ittf.ittf
+            css
+                ${'$'}include webCss/index.css
+
+        $if metaCtx.useCheatsheet
+
+            $file __dot__wizzi/${pkgPath}ittf/css/cheatsheet.css.ittf.ittf
+                css
+                    ${'$'}include webCss/cheatsheet.css
+
+        $
+            var items = [
+                "main",
+                "cheatsheet",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}ittf/css/${item}.css.ittf.ittf
+                css
+                    ${'$'}include ${item}.css
+
+        $
+            var items = [
+                "colors",
+                "form",
+                "icons",
+                "layout",
+                "mc",
+                "tn",
+                "prettyprint",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}ittf/css/t/${item}.css.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include tfolder/${item}.css
+        

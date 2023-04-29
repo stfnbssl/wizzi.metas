@@ -1,0 +1,67 @@
+$group
+    section 
+        div
+          style display:flex;
+          div
+            h1 ${metaCtx.webAppCrud.Name}
+          div
+            style display:flex;
+            class filters
+            div
+              style margin:18px 130px; font-size: 1.4em;
+              a ${metaCtx.webAppCrud.Name}
+                href #/${metaCtx.webAppCrud.name}
+                class selected
+            div
+              style margin:18px 30px; font-size: 1.4em;
+              a Other
+                href #/other
+                class 
+    section 
+        div
+          class ${metaCtx.webAppCrud.name}-view
+          div
+            class ${metaCtx.webAppCrud.name}-container
+            div
+                class ${metaCtx.webAppCrud.name}-explorer
+                section 
+                    class ${metaCtx.webAppCrud.name}-view-filter flex-row justify-content-space-between bg-filter
+                    div
+                        class ${metaCtx.webAppCrud.name}-view-search
+                        input 
+                            type search
+                            class ${metaCtx.webAppCrud.name}-view-search-field m-s p-s
+                            placeholder Find …
+                            autocomplete off
+                            @ aria-label Find …
+                    div
+                        class ${metaCtx.webAppCrud.name}-view-select-categoria
+                        style padding-top:20px;
+                    div
+                        class ${metaCtx.webAppCrud.name}-view-select-titolo
+                        style padding-top:20px;
+                    div
+                        class ${metaCtx.webAppCrud.name}-view-buttons
+                        style padding-top:20px;
+                        button
+                            + Add
+                            class ${metaCtx.webAppCrud.name}-add-button 
+                section 
+                    class main bg-list
+                    table
+                        class ${metaCtx.webAppCrud.name}-list
+                    ${'$'}*
+                    ul 
+                        class ${metaCtx.webAppCrud.name}-list
+                    *${'$'}
+            div
+                class ${metaCtx.webAppCrud.name}-item-box
+                div
+                    class ${metaCtx.webAppCrud.name}-item
+        div
+            class other-view
+        footer 
+            class info
+            p Powered by Wizzi. Wizzi is created by
+                a Stefano Bassoli
+                    href https://github.com/stfnbssl

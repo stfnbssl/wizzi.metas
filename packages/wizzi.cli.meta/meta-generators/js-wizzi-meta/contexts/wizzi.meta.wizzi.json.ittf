@@ -11,10 +11,12 @@
 
     [ Productions
         {
-            name "wzjobs"
+            name "wizziJobs"
         {
-            name "wizzicommons"
+            name "wizziCommons"
         {
-            name "wizziplugin"
+            name "wizziPlugin"
+            isPackageMain true
         {
-            name "wizzimeta"
+            name "wizziMeta"
+            isPackageMain true

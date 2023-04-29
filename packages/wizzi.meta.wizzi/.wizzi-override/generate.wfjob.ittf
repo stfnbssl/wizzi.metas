@@ -61,7 +61,7 @@ wfjob wizzi.meta.wizzi/job
     
     production
         dest-folder ${jobCtx.dest_folder}
-        $$ line-ref ittf-models
+        line-ref ittf-models
         line-ref ittf-ittf
-        $$ line-ref ittf-root
-        $$ line-ref ittf-examples
+        line-ref ittf-root
+        line-ref ittf-examples

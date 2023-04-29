@@ -1,0 +1,12 @@
+$group
+    
+    $if metaCtx.useWebSiteDemo
+
+        $file __dot__wizzi/${pkgPath}public/pure.html
+            <html>
+                <body>
+                    <h1>Hello from a pure Html document</h1>
+                    <p>I am served by 'express.static' from the "public" folder.</p>
+                </body>
+            </html>
+

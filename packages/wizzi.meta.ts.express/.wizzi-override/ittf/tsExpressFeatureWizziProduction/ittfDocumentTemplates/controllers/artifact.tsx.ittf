@@ -1,0 +1,135 @@
+module
+    $
+        var ctrl = {
+            name: 'ArtifactProduction',
+            path: '/artifact',
+            webSecured: true,
+        }
+    
+    v08/ts/controller( &ctrl )
+            
+        $append imports
+            import ReactDOMServer 
+                from 'react-dom/server'
+            import PageFormDocument 
+                from '../../../pages/PageFormDocument' 
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ createArtifactProduction
+                @ updateArtifactProduction
+                @ deleteArtifactProduction
+                @ getArtifactProductionObject
+                @ getArtifactProductionObjectById
+                from '../api/artifact'
+            import
+                @ createInitialPackiFiles
+                from '../utils'
+            +
+            const myname = 'features/production/controllers/artifact'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument 
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+
+        v08/ts/route_web_secured( get, /new, this.getNewArtifactForm)
+        v08/ts/route_web_secured( post, /new, this.postArtifact)
+        v08/ts/route_web_secured( get, /update/:id, this.getUpdateArtifactForm)
+        v08/ts/route_web_secured( post, /update, this.putArtifact)
+        v08/ts/route_web_secured( get, /delete/:id, this.getDeleteArtifactForm)
+        v08/ts/route_web_secured( post, /delete, this.deleteArtifact)
+        
+        $append handlers
+            
+            v08/ts/handler(  getNewArtifactForm )
+                $$ loog og myname, 'getNewArtifactForm', JSON.stringify(request.query, null, 2)
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreateArtifactProduction'
+                        { formData 
+                            @ owner (request.session as any).user.username
+                            @ name request.query.name
+                            @ mainIttf request.query.mainIttf
+                            @ schema request.query.schema
+                    {
+
+            v08/ts/handler(  postArtifact )
+                # loog myname + '.postNewArtifact.request.body', JSON.stringify(request.body, null, 2)
+                $$ loog myname + '.postNewArtifact.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+                const wizziSchema = request.body.ap_wizzi_schema || 'html'
+                const mainIttf = request.body.ap_main_ittf || 'index.' + wizziSchema + '.ittf'
+                const contexts = request.body.ap_contexts || '[]'
+                const tfolders = request.body.ap_tfolders || '[]'
+                _ createArtifactProduction
+                    @ (request.session as any).user.username
+                    @ request.body.ap_name
+                    @ request.body.ap_description
+                    @ mainIttf
+                    @ wizziSchema
+                    _ JSON.stringify
+                        _ createInitialPackiFiles
+                            @ contexts
+                            @ tfolders
+                            @ wizziSchema
+                            @ mainIttf
+                    ._ then
+                        =>
+                            param result
+                                :ref CRUDResult
+                            $$ loog og myname + '.postNewArtifact.createArtifactProduction.result', JSON.stringify(result, null, 2)
+                            if result.ok
+                                # _ response.redirect('/productions/artifacts')
+                                _ response.redirect
+                                    @ '/~~/a/' + (request.session as any).user.username + '/' + request.body.ap_name
+                            else
+                                _ response.render
+                                    @ 'error.html.ittf'
+                                    {
+                                        @ message 'creating a new artifact production'
+                                        @ error result
+                    ._ catch
+                        =>
+                            param err
+                                :any
+                            _ response.render
+                                @ 'error.html.ittf'
+                                {
+                                    @ message 'creating a new artifact production'
+                                    @ error err
+
+            v08/ts/handler(  getUpdateArtifactForm )
+                update_get_form( artifact )
+                    @ mainIttf result.mainIttf
+                    @ wizziSchema result.wizziSchema
+
+            v08/ts/handler(  putArtifact )
+                update_put( artifact )
+
+            v08/ts/handler(  getDeleteArtifactForm )
+                delete_get_form( artifact )
+                    @ mainIttf result.mainIttf
+                    @ wizziSchema result.wizziSchema
+
+            v08/ts/handler(  deleteArtifact )
+                delete_delete( artifact )

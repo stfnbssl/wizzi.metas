@@ -1,15 +1,16 @@
 $group
-    $if metaCtx.useWizzimeta
-        $file __dot__wizzi/wizzimeta/yyy.js.ittf.ittf
+    $if metaCtx.useWizziMeta
+        $include wzCtxModel
+        $file __dot__wizzi/wizziMeta/yyy.js.ittf.ittf
             module
                 kind es6
-                ${'$'}include wizzimeta/xxx.js
+                ${'$'}include wizziMeta/xxx.js
         $
             var items = [
                 "alpha",
                 "beta",
             ];
         $foreach item in items
-            $file __dot__wizzi/t/wizzimeta/${metaVer}/${item}.js.ittf.ittf
+            $file __dot__wizzi/t/wizziMeta/${metaVer}/${item}.js.ittf.ittf
                 $group
-                    ${'$'}include wizzimeta/tfolder/${item}.js
+                    ${'$'}include wizziMeta/tfolder/${item}.js

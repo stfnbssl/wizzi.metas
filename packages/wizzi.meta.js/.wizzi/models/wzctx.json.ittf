@@ -30,11 +30,8 @@
             useStringifySafe true
     [ Productions
         {
-            name "jscommons"
-            title "jscommons wizzi meta production"
+            name "jsCommons"
+            title "jsCommons wizzi meta production"
         {
-            name "jsexpress"
-            title "jsexpress wizzi meta production"
-        {
-            name "jsutils"
-            title "jsutils wizzi meta production"
+            name "jsUtils"
+            title "jsUtils wizzi meta production"

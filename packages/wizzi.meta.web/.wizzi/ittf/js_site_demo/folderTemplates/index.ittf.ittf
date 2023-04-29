@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useJs_site_demo
+        $file __dot__wizzi/js_site_demo/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include js_site_demo/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/js_site_demo/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include js_site_demo/tfolder/${item}.js

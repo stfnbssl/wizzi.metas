@@ -1,0 +1,23 @@
+{
+
+    $
+        var metaBasename = "tsClient";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Typescript client meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "tsClientReact"

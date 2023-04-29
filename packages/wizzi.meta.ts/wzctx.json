@@ -1,0 +1,53 @@
+{
+    "name": "wizzi.meta.ts",
+    "npnName": "@wizzi/meta.ts",
+    "pluginBasename": "",
+    "version": "",
+    "description": "wizzi.meta.ts",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2023"
+    },
+    "metaNamespace": "ts",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.ittf/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "tsCommons",
+            "title": "tsCommons wizzi meta production"
+        },
+        {
+            "name": "tsUtils",
+            "title": "tsUtils wizzi meta production"
+        },
+        {
+            "name": "tsNode",
+            "title": "tsNode wizzi meta production",
+            "isPackageMain": true
+        }
+    ]
+}

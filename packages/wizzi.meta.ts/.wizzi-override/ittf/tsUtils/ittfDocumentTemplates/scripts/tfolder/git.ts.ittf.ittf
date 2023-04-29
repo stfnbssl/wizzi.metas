@@ -1,0 +1,23 @@
+﻿$group
+
+	m gitExec
+		param options
+		param callback
+
+		_ this.powershellExec
+			{
+				@ scriptPath options.scriptPath
+				@ params options.params
+			@ callback
+
+	m gitExecToEventStream
+		param options
+		param res
+		param callback
+
+		_ this.powershellExecToEventStream
+			{
+				@ scriptPath options.scriptPath
+				@ params options.params
+			@ res
+			@ callback

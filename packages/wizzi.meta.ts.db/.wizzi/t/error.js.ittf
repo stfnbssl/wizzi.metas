@@ -1,0 +1,21 @@
+$group
+    $params name, arg1|@@null, arg2|@@null, arg3|@@null, arg4|@@null
+    function ${name}Error
+        $if arg1 != null
+            param ${arg1}
+        $if arg2 != null
+            param ${arg2}
+        $if arg3 != null
+            param ${arg3}
+        $if arg4 != null
+            param ${arg4}
+        set this.name = '${name}Error'
+        $hook
+        # 5/8/17 set this.stack = (new Error()).stack
+    set ${name}Error.prototype.toString
+        function
+            return this.message
+    set ${name}Error.prototype = Object.create(Error.prototype)
+    set ${name}Error.prototype.constructor = ${name}Error
+    set md.${name}Error = ${name}Error
+    +

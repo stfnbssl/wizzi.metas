@@ -1,0 +1,123 @@
+$group
+
+    # taken from https://github.com/expo/snack/blob/main/website/src/client/components/ThemeProvider.tsx
+    # modified by Stefano Bassoli
+    $
+      var myName = 'ThemeProvider';
+      //
+    
+    iife_window( styles, ${myName})
+        
+        function ${myName}
+            param styleData
+            set styleData = styles.computeStyleData(styleData)
+            var colors = styleData.Colors
+            var shadows = styleData.Shadows
+            set this.lightColors
+                {
+                    @ primary colors.primary[500]
+                    @ secondary colors.black
+                    @ error colors.semantic.error
+                    @ warning colors.semantic.warning
+                    @ success colors.semantic.success
+                    @ 'primary-text' colors.white
+                    @ 'secondary-text' colors.white
+                    @ 'error-text' colors.white
+                    @ 'warning-text' colors.white
+                    @ 'success-text' colors.white
+                    @ text colors.gray[900]
+                    @ soft colors.gray[500]
+                    @ 'soft-text' colors.white
+                    @ background '#F9F9F9'
+                        # semantic.background offered too little contrast with content
+                        # background: colors.semantic.background,
+                    @ content colors.white
+                    @ hover colors.gray[100]
+                    @ disabled colors.gray[300]
+                    @ selected colors.primary[500]
+                    @ 'selected-text' colors.white
+                    @ border colors.semantic.border
+            +
+            set this.lightShadows
+                {
+                    @ popover shadows.popover
+                    @ small shadows.small
+                # Use custom colors for dark theme which are not
+                # so saturated and blue-ish
+                # const darkGray = colors.gray;
+            +
+            const darkGray
+                {
+                    @ 100 '#F5F5F5'
+                    @ 200 '#EBEBEB'
+                    @ 250 '#DDDDDD'
+                    @ 300 '#CFCFCF'
+                    @ 400 '#B0B0B0'
+                    @ 500 '#8F8F8F'
+                    @ 600 '#5C5C5C'
+                    @ 700 '#3B3B3B'
+                    @ 800 '#2F2F2F'
+                    @ 900 '#212121'
+                # Use custom colors for dark theme which are not
+                # so saturated and blue-ish
+                # const darkGray = colors.gray;
+            +
+            set this.darkColors
+                {
+                    @ primary colors.primary[400]
+                    @ secondary colors.white
+                    @ error colors.red[500]
+                    @ warning colors.yellow[500]
+                    @ success colors.green[600]
+                    @ 'primary-text' colors.white
+                    @ 'secondary-text' colors.black
+                    @ 'error-text' colors.white
+                    @ 'warning-text' colors.white
+                    @ 'success-text' colors.white
+                    @ text darkGray[200]
+                    @ soft darkGray[500]
+                    @ 'soft-text' colors.black
+                    @ background darkGray[900]
+                    @ content darkGray[800]
+                    @ hover darkGray[700]
+                    @ disabled darkGray[600]
+                    @ selected colors.white
+                    @ 'selected-text' darkGray[800]
+                    @ border darkGray[700]
+            +
+            set this.darkShadows
+                {
+                    @ popover shadows.popover
+                    @ small 'none'
+        set ${myName}.prototype.c
+            function
+                param color
+                param theme
+                if theme
+                    const colors
+                        iif theme === 'dark'
+                            then this.darkColors
+                            else this.lightColors
+                    return colors[color]
+                else
+                    return
+                        `lit
+                            + var(--color-
+                            @ color
+                            + )
+        set ${myName}.prototype.s
+            function
+                param shadow
+                param theme
+                if theme
+                    const shadows
+                        iif theme === 'dark'
+                            then this.darkShadows
+                            else this.lightShadows
+                    return shadows[shadow]
+                else
+                    return
+                        `lit
+                            + var(--shadow-
+                            @ shadow
+                            + )

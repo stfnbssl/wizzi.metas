@@ -1,0 +1,16 @@
+$group
+    $if metaCtx.useTsDbPostgres
+        $include wzCtxModel
+        $file __dot__wizzi/tsPostgres/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tsPostgres/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/tsPostgres/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include tsPostgres/tfolder/${item}.js

@@ -1,0 +1,212 @@
+$group
+
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            ${"${'$'}"}include v08/env/vars
+            ---
+            name "${metaCtx.name}"
+            version "${metaCtx.version}"
+            description "${metaCtx.description}"
+            $if metaCtx.author
+                { author
+                    name "${metaCtx.author.name}"
+                    email "${metaCtx.author.email}"
+            $if metaCtx.licence
+                { license
+                    type "${metaCtx.license}"
+                    url "${metaCtx.license_url}"            
+            ---
+            { App
+                name "Wizzi Hub"
+                title "The public Wizzi Web App"
+                isLocal ${metaCtx.isLocal ? "true" : "false"}
+                isProduction ${metaCtx.isProduction ? "true" : "false"}
+                port "${metaCtx.port}"
+                useSsl ${metaCtx.useSsl ? "true" : "false"}
+                siteUrl "${metaCtx.siteUrl}"
+                baseUrl "${metaCtx.baseUrl}"
+                siteUrlLocal "${metaCtx.siteUrlLocal}"
+                baseUrlLocal "${metaCtx.baseUrlLocal}"
+                apiVersion "${metaCtx.apiVersion}"
+                { constants
+                    { preview
+                        minWidth 700
+                [ Components
+            ---
+            { Styles
+            ---
+            { Build
+                [ features
+                    $if metaCtx.useTsExpressFeatureAccount
+                        {
+                            name "account"
+                            hasControllers true
+                            useMongoDb true
+                    $if metaCtx.useTsExpressFeatureAuth
+                        {
+                            name "auth"
+                            hasControllers true
+                            useMongoDb false
+                    $if metaCtx.useTsExpressFeatureBlog
+                        {
+                            name "blog"
+                            hasControllers true
+                            useMongoDb true
+                    $if metaCtx.useTsExpressFeatureGithub
+                        {
+                            name "github"
+                            hasControllers true
+                            useMongoDb false
+                    $if metaCtx.useTsExpressFeatureProject
+                        {
+                            name "project"
+                            hasControllers true
+                            useMongoDb true
+                    $if metaCtx.useTsExpressFeatureWizziDocs
+                        {
+                            name "docs"
+                            hasControllers true
+                            useMongoDb false
+                    $if metaCtx.useTsExpressFeatureWizzi
+                        {
+                            name "wizzi"
+                            fileName "wizzi"
+                            hasControllers true
+                            useMongoDb false
+                        $if metaCtx.tsExpressFeatureWizzi.useWizziFs
+                            {
+                                name "wizziFs"
+                                fileName "wizzi-fs"
+                                hasControllers true
+                                useMongoDb false
+                        $if metaCtx.tsExpressFeatureWizzi.useWizziGist
+                            {
+                                name "wizziGist"
+                                fileName "wizzi-gist"
+                                hasControllers true
+                                useMongoDb false
+                        $if metaCtx.tsExpressFeatureWizzi.useWizziMeta
+                            {
+                                name "wizziMeta"
+                                fileName "wizzi-meta"
+                                hasControllers true
+                                useMongoDb false
+                        $if metaCtx.tsExpressFeatureWizzi.useWizziProductions
+                            {
+                                name "production"
+                                hasControllers true
+                                useMongoDb true
+                        $if metaCtx.tsExpressFeatureWizzi.useWizziCdn
+                            {
+                                name "cdn"
+                                hasControllers true
+                                useMongoDb true
+                    $if metaCtx.useTsExpressFeaturePacki
+                        $* TODO is different from packiEdit ???
+                        $if metaCtx.useTsExpressFeaturePacki
+                            {
+                                name "packi"
+                                hasControllers true
+                                useMongoDb false
+                        *$
+                        $if metaCtx.tsExpressFeaturePacki.usePackiEdit
+                            {
+                                name "packiEdit"
+                                hasControllers true
+                                useMongoDb false
+                    $if metaCtx.useTsExpressFeatureUser
+                        {
+                            name "user"
+                            hasControllers true
+                            $if metaCtx.tsExpressFeatureUser.store = "mongoDb"
+                                useMongoDb true
+                $if metaCtx.useTsExpressFeatureGithub
+                    useFeatureGithub true
+                    { featureGithub
+                        accessToken "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"
+                [ examples
+                    $if metaCtx.useExamples
+                        $if metaCtx.examples.usePromise
+                            {
+                                name "promise"
+                                hasControllers true
+                                useMongoDb false
+                $if metaCtx.useCloudAzure
+                    ${"${'$'}"}include cloudAzure.json
+                    ---
+                $if metaCtx.useCloudHeroku
+                    ${"${'$'}"}include cloudHeroku.json
+                    ---
+                ${"${'$'}"}include code.json
+                ---
+                ${"${'$'}"}include tsExpress.json
+                ---
+                $if metaCtx.useTsExpressData
+                    ${"${'$'}"}include tsExpressData.json
+                    ---
+                $if metaCtx.useTsExpressFeatureAuth
+                    ${"${'$'}"}include tsExpressFeatureAuth.json
+                    ---
+                $if metaCtx.useTsExpressFeatureConfig
+                    ${"${'$'}"}include tsExpressFeatureConfig.json
+                    ---
+                $if metaCtx.useTsExpressFeatureWizzi
+                    ${"${'$'}"}include tsExpressFeatureWizzi.json
+                    ---
+                $if metaCtx.useTsExpressStyles
+                    ${"${'$'}"}include tsExpressStyles.json
+                    ---
+                $if metaCtx.useTsExpressTests
+                    ${"${'$'}"}include tsExpressTests.json
+                    ---
+                $if metaCtx.useTsExpressUtils
+                    ${"${'$'}"}include tsExpressUtils.json
+                    ---
+                $if metaCtx.useTsExpressWizziSite
+                    ${"${'$'}"}include tsExpressWizziSite.json
+                    ---
+                $if metaCtx.tsExpress.useReactPages
+                    ${"${'$'}"}include react.json
+                    ---
+                $if metaCtx.useTsDbMongoDb
+                    ${"${'$'}"}include tsdbmongodb.json
+                    ---
+                $if metaCtx.useTsDbPostgres
+                    ${"${'$'}"}include tsdbpostgres.json
+                    ---
+                $if metaCtx.useTsDbSequelize
+                    ${"${'$'}"}include tsdbsequelize.json
+                    ---
+                $if metaCtx.useTsDbData
+                    ${"${'$'}"}include tsdbdata.json
+                    ---
+
+    $file __dot__wizzi/models/t/code.json.ittf.ittf
+        ${"${'$'}"}group
+        
+            useTypescript true
+            { typescript
+                ${'$'}${'$'} for webpack client
+                useBabelLoader true
+                useTsxFiles false
+                
+            $if metaCtx.useCommonsEslint
+                usePrettier true
+                { prettier
+        
+            $if metaCtx.useCommonsPrismjs
+                usePrismjs false
+                { prismjs
+                    [ modes
+        
+            $if metaCtx.useCommonsEslint
+                useLint true
+                { lint
+    
+    $if metaCtx.tsExpress.useReactPages
+        $file __dot__wizzi/models/t/react.json.ittf.ittf
+            ${"${'$'}"}group
+                useReact true
+                { react
+                    usePages true
+                    { pages

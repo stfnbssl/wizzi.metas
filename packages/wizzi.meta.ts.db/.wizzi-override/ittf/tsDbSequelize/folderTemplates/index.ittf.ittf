@@ -1,0 +1,9 @@
+$group
+    $if metaCtx.useTsDbSequelize
+        $include wzCtxModel
+
+        $file __dot__wizzi/${pkgPath}src/services/sequelize.ts.ittf.ittf
+            module
+                ${'$'}include tsSequelize/services/sequelize.ts
+
+        $include tfolder/v08/index       

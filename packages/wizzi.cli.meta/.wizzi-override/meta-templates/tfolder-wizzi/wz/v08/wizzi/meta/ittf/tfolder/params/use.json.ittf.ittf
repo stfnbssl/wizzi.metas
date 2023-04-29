@@ -1,0 +1,10 @@
+$group
+    ${'$'}params name
+    {
+        name use"${'$'}{_.capitalize(name)}"
+        type "boolean"
+    { 
+        name ${'$'}{name}
+        type "object"
+        [ properties
+            ${'$'}hook

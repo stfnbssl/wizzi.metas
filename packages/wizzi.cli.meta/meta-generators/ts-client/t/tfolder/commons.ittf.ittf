@@ -4,7 +4,7 @@ $group
         var items = [
             'a_cb',
             'a_cb_throw',
-            'a_cb_no_err',
+            'a_cb_no_throw',
             'a_then',
             'a_then_catch_reject',
             'a_reject',

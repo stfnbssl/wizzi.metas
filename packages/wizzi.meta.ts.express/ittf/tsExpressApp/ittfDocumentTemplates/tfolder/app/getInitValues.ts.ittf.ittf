@@ -1,0 +1,70 @@
+$group
+    ${'$'}params &md
+    
+    async-function getInitValues
+        param config
+            :ref ConfigType
+        param startedServices
+            :any
+        +
+        let middlewaresPre
+            :[ 
+                :ref MiddlewareType
+            =
+                [ 
+                    @ ...appMiddlewaresPre
+        +
+        let middlewaresPost
+            :[ 
+                :ref MiddlewareType
+            =
+                [ 
+                    @ ...appMiddlewaresPost
+        +
+        let apis
+            :[ 
+                :ref ApiType
+            =
+                [ 
+                    ${'$'}if wzCtx.Build.useWizziIttf
+                        @ ...ittfApi
+        +
+        let controllers
+            :[ 
+                :ref ControllerType
+            =
+                [ 
+                    ${'$'}if wzCtx.Build.useSite
+                        @ ...siteControllers
+                    $$ For now auth needs MongoDb
+                    ${'$'}if wzCtx.Build.useMongoDb 
+                        ${'$'}if wzCtx.Build.useAuthorization
+                            @ ...authorizationControllers
+                    ${'$'}if wzCtx.Build.useAccount
+                        @ ...accountControllers
+                    ${'$'}if wzCtx.Build.useBlog
+                        @ ...postControllers
+                    ${'$'}if wzCtx.Build.useWizzi
+                        ${'$'}if wzCtx.Build.wizzi.useControllers
+                            @ ...wizziControllers
+                    ${'$'}if wzCtx.Build.features && wzCtx.Build.features.length > 0
+                        ${'$'}foreach feature in wzCtx.Build.features
+                                ${'$'}if feature.hasControllers
+                                    @ ...${'$'}{feature.name}Controllers
+
+        const appInitializer
+            :ref AppInitializerType
+            =
+                { 
+                    @ config
+                    @ middlewaresPre
+                    { globalApi
+                    @ apis
+                    @ controllers
+                    @ middlewaresPost
+                    ${'$'}if wzCtx.Build.useFilesystem
+                        @ startedServices.fsDb
+                    ${'$'}if wzCtx.Build.useAuthentication
+                        @ apiSecured
+
+        return appInitializer

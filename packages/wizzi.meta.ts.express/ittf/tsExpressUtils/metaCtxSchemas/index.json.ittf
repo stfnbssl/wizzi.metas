@@ -1,0 +1,3 @@
+{
+    productionName "tsExpressUtils"
+    params/use( diffMatchPatch )

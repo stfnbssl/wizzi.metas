@@ -1,0 +1,11 @@
+$group
+    ${'$'}params url
+    ${'$'}if isWizziStudio
+        script
+            src ${'$'}{url}.ittf
+            crossorigin anonymous        
+    ${'$'}else
+        script
+            src ${'$'}{url}
+            crossorigin anonymous        
+

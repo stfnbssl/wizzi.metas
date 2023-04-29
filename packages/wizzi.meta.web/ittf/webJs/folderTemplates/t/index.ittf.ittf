@@ -1,0 +1,8 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}src/js/index.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wz/v08/js/index.js
+
+    $$ require webAppCrud

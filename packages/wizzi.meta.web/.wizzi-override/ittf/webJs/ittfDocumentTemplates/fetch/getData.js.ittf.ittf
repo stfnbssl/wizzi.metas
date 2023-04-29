@@ -1,0 +1,8 @@
+$group
+
+    function getData
+        param url
+
+        return
+            _ executeFetch
+                @ url

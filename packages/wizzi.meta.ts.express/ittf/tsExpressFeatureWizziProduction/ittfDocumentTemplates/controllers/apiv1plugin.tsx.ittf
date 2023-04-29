@@ -1,0 +1,105 @@
+module
+    
+    $
+        var ctrl = {
+            name: 'ApiV1PluginProduction',
+            path: '/api/v1/production/plugin',
+            apiSecured: wzCtx.App.isLocal == false,
+        }
+    
+    v08/ts/controller( &ctrl )
+            
+        $append imports
+            import
+                @ getListPluginProduction
+                @ validatePluginProduction
+                @ getPluginProduction
+                @ updatePluginProduction
+                @ createPluginProduction
+                from '../api/plugin'
+            +
+            const myname = 'features/production/controllers/apiv1pluginproduction'
+
+        v08/ts/route_api_secured( get, /:owner, this.getPluginProductionList)
+        v08/ts/route_api_secured( get, /checkname/:owner/:name, this.getCheckPluginName)
+        v08/ts/route_api_secured( get, /:owner/:name, this.getPluginProduction)
+        v08/ts/route_api_secured( put, /:id, this.putPluginProduction)
+        v08/ts/route_api_secured( post, /:post, this.postPluginProduction)
+        
+        $append handlers
+
+            v08/ts/handler(  getPluginProductionList )
+
+                $$ loog 'getPluginProductionList.request.params', request.params
+                _ getListPluginProduction
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getPluginProductionList.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  getPluginProductionList )
+            
+            v08/ts/handler(  getCheckPluginName )
+                check_name( plugin )
+
+            v08/ts/handler(  getPluginProduction )
+
+                $$ loog 'getPluginProduction.request.params', request.params
+                _ getPluginProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getPluginProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  getPluginProduction )
+
+            v08/ts/handler(  postPluginProduction )
+
+                $$ loog 'postPluginProduction.request.params', request.params
+                $$ loog 'postPluginProduction.request.body', request.body
+                _ createPluginProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'postPluginProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  postPluginProduction )
+
+            v08/ts/handler(  putPluginProduction )
+
+                $$ loog 'putPluginProduction.request.params', request.params
+                $$ loog 'putPluginProduction.request.body', request.body
+                _ updatePluginProduction
+                    @ request.params.id
+                    @ request.body.owner
+                    @ request.body.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loogg 'putPluginProduction.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail(  putPluginProduction )
+

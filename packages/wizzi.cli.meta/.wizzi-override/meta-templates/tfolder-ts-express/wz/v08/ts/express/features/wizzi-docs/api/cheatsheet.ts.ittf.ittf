@@ -126,7 +126,7 @@ $group
                                     $$ loog 'contextLoader.prettify', JSON.stringify(item.ittf, null, 2)
                                     _ pretty.prettifyIttfHtmlFromString
                                         @ item.ittf
-                                        a_cb_no_err${'('} pretty )
+                                        a_cb_no_throw${'('} pretty )
                                             if err
                                                 set item.ittfPretty = JSON.stringify(err, null, 4)
                                             else

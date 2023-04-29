@@ -1,5 +1,37 @@
 $group
 
+    elif cmd == 'wizzi-meta-docs'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.docs'
+                @ pkgName 'wizzi.meta.docs'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.docs'
+
+    elif cmd == 'wizzi-meta-commons'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.commons'
+                @ pkgName 'wizzi.meta.commons'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.commons'
+
+    elif cmd == 'wizzi-meta-web'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.web'
+                @ pkgName 'wizzi.meta.web'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.web'
+
+    elif cmd == 'wizzi-meta-cloud'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.cloud'
+                @ pkgName 'wizzi.meta.cloud'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.cloud'
+
     elif cmd == 'wizzi-meta-js'
         _ createEx
             {
@@ -40,13 +72,13 @@ $group
                 @ pkgName 'wizzi.meta.ts.client'
                 @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.client'
 
-    elif cmd == 'wizzi-meta-package'
+    elif cmd == 'wizzi-meta-ts-db'
         _ createEx
             {
                 @ metaGenerator 'js-wizzi-meta'
-                @ context 'wizzi.meta.package'
-                @ pkgName 'wizzi.meta.package'
-                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.package'
+                @ context 'wizzi.meta.ts.db'
+                @ pkgName 'wizzi.meta.ts.db'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.db'
 
     elif cmd == 'wizzi-meta-wizzi'
         _ createEx

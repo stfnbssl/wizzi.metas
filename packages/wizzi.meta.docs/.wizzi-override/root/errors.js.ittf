@@ -1,0 +1,56 @@
+module
+    kind es6
+    +
+    var util = require('util')
+    var stringify = require('json-stringify-safe')
+    var chalk = require('chalk')
+    +
+    var md = module.exports = {}
+    set md.name = '${wzCtx.name}.errors'
+    +
+    class WizziMetaError
+        super Error
+        ctor
+            param message
+            param model
+            param other
+            base message
+            set this.name = "WizziMetaError"
+            # legacy error test
+            set this.__is_error = true
+            set this.data
+                {
+                    @ model
+                    @ ...other||{}
+            _ Error.captureStackTrace(this, this.constructor)
+            if model
+                set this.errorLines
+                    [
+                        @ 'TODO'
+        m toString
+            var msg = []
+            _ msg.push(chalk.red('Error: ' + this.message))
+            _ msg.push(chalk.red('  name: ' + this.data.errorName))
+            if this.data.model
+            elif this.data.uri
+                _ msg.push(chalk.yellow('  uri: ' + this.data.uri))
+            else
+                _ msg.push(chalk.yellow('  uri: unknown'))
+            if this.errorLines
+                foreach line in this.errorLines
+                    _ msg.push(chalk.yellow('  ' + line))
+            if this.data.errorName === 'JsWizziError'
+                _ msg.push(chalk.yellow('  onStatement: ' + this.data.onStatement))
+            if this.data.inner
+                _ msg.push(chalk.magenta('  Inner error: ' + this.data.inner.name + ': ' + this.data.inner.message))
+            return msg.join('\n')
+    set md.WizziMetaError = WizziMetaError
+    class InternalWizziMetaError
+        super WizziMetaError
+        ctor
+            param error
+            base error.message
+            set this.data
+                {
+                    @ error
+    set md.InternalWizziMetaError = InternalWizziMetaError

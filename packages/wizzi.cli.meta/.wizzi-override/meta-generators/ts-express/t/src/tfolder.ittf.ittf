@@ -5,7 +5,7 @@ $group
         var items = [
             'a_cb',
             'a_cb_throw',
-            'a_cb_no_err',
+            'a_cb_no_throw',
             'a_cb_promise',
             'a_cb_async_promise',
             'a_reject',

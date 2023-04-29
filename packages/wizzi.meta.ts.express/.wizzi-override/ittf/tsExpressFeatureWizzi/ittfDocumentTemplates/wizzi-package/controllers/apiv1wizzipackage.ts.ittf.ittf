@@ -1,0 +1,36 @@
+$group
+    
+    ${'$'}
+        var ctrl = {
+            name: 'ApiV1WizziPackage',
+            path: '/api/v1/package',
+        }
+    
+    v08/ts/controller${'('}&ctrl)
+            
+        ${'$'}append imports
+            import
+                @ generateFromConfigFile
+                from '../api/wizziPackage'
+            +
+            const myname = 'features/wizzipackage/controllers/wizzipackage'
+
+        _ this.router.post('/create', this.createPackage)
+        
+        ${'$'}append handlers
+            v08/ts/handler${'('}createPackage)
+                $$ loog 'getIttfDocument.request.params', request.params
+                rest/check-params${'('} )
+                    rest/not-empty${'('} query , hash )
+
+                _ generateFromConfigFile
+                    @ hash
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_fail${'('} ApiV1WizziPackage.createPackage.createWizziPackage )
+

@@ -1,0 +1,186 @@
+﻿$group
+
+    import path from 'path'
+    import wizzi from 'wizzi'
+    import
+        @ verify
+        @ fSystem
+        from 'wizzi-utils'
+    import
+        @ metaTemplator
+        from './metaTemplator'
+    import
+        @ WizziMetaOptions
+        from '../types'
+    import 
+        @ wizziProds
+        from '../../wizzi'
+    # generateFolderArtifacts
+    const file = fSystem.vfile()
+
+    const meta_generators
+        [
+            @ 'ts-node'
+            @ 'ts-express'
+            @ 'ts-client'
+            @ 'js-vanilla'
+            @ 'js-wizzi-plugin'
+
+    +
+    async-function createWizziPackage
+        param options
+            :ref WizziMetaOptions
+        r_promise${'('})
+            if !options.metaSourcesFolderPath || options.metaSourcesFolderPath.length == 0
+                r_reject${'('})
+                    @ 'wizziMeta.createWizziPackage. Missing metaSourcesFolderPath: ' + options.metaSourcesFolderPath
+            if meta_generators.indexOf(options.metaGenerator) < 0
+                r_reject${'('})
+                    @ 'wizziMeta.createWizziPackage. Unknown metaGenerator: ' + options.metaGenerator
+            if !options.outputPackageName || options.outputPackageName.length == 0
+                r_reject${'('})
+                    @ 'wizziMeta.createWizziPackage. Missing outputPackageName: ' + options.outputPackageName
+
+            $$ loog 'wizziMeta.createWizziPackage.options', options
+
+            var metaGeneratorFolderPath
+                _ path.join
+                    @ options.metaSourcesFolderPath
+                    @ 'meta-generators'
+                    @ options.metaGenerator
+
+            var metaGeneratorFileTemplatesIndex
+                _ path.join
+                    @ metaGeneratorFolderPath
+                    @ 'index.ittf.ittf'
+            $$ loog 'metaGeneratorFileTemplatesIndex', metaGeneratorFileTemplatesIndex
+
+            var destinationIttfTempFolder
+                _ path.join
+                    @ options.metaSourcesFolderPath
+                    @ 'meta-templates'
+                    @ '__temp'
+                    @ options.metaGenerator
+                    @ options.outputPackageName
+            $$ loog 'destinationIttfTempFolder', destinationIttfTempFolder
+
+            _ createmetaCtx
+                @ options
+                a_then${'('} metaCtx )
+                    $$ loog 'wizziMeta.createWizziPackage.metaCtx', metaCtx
+                    _ metaTemplator
+                        @ metaGeneratorFileTemplatesIndex
+                        @ destinationIttfTempFolder
+                        @ metaCtx
+                        a_then${'('} result )
+                            +
+                            
+                            +
+                            return
+                                _ generatePackageFiles
+                                    @ destinationIttfTempFolder
+                                    @ options
+                                    @ metaCtx
+                        catch_reject${'('} wizziMeta.createWizziPackage.metaTemplator )
+                catch_reject${'('} wizziMeta.createWizziPackage.createmetaCtx )
+
+    async-function createmetaCtx
+        param options
+            :ref WizziMetaOptions
+        r_promise${'('})
+            if options.metaCtx
+                r_resolve${'('})
+                    @ options.metaCtx
+            if !options.metaCtxName || options.metaCtxName.length == 0
+                r_reject${'('})
+                    @ 'wizziMeta.createmetaCtx. Missing both metaCtx and metaCtxName: ' + options.metaCtxName 
+            const _metaCtxName 
+                iif options.metaCtxName.toLowerCase().endsWith(".json.ittf") 
+                    then options.metaCtxName 
+                    else options.metaCtxName+ '.json.ittf'
+            var metaGeneratormetaCtxFilePath
+                _ path.join
+                    @ options.metaSourcesFolderPath
+                    @ 'meta-generators'
+                    @ options.metaGenerator
+                    @ 'contexts'
+                    @ _metaCtxName
+            $$ loog 'metaGeneratormetaCtxFilePath', metaGeneratormetaCtxFilePath
+            _ wizzi.model
+                _ path.join
+                    @ metaGeneratormetaCtxFilePath
+                {
+                    { metaCtx
+                        @ pkgName options.outputPackageName  
+                        @ description options.description || options.outputPackageName
+                =>
+                    param err
+                        :any
+                    param metaCtx
+                        :any
+                    if err
+                        error 'wizziMeta.createmetaCtx.wizzi.model. Load metaCtx error', err
+                        r_reject${'('}
+                            {
+                                @ message 'wizziMeta.createmetaCtx.wizzi.model. Load metaCtx error'
+                                @ err
+                    r_resolve${'('})
+                        @ metaCtx
+
+    async-function generatePackageFiles
+        param destinationIttfTempFolder
+            :string
+        param options
+            :ref WizziMetaOptions
+        param metaCtx
+            :any
+        r_promise${'('})
+            if !options.outputPackagePath || options.outputPackagePath.length == 0
+                r_reject${'('})
+                    @ 'wizziMeta.generatePackageFiles. Missing outputPackagePath: ' + options.outputPackagePath
+            # TODO check parent folder of outputPackagePath exists
+            
+            $$ loog"wizziMeta.generatePackageFiles.generating to folder", path.join(options.outputPackagePath, options.outputPackageName)
+            _ wizziProds.generateFolderArtifactsFs
+                @ destinationIttfTempFolder
+                ${'$'}*
+                {
+                    { modelContext
+                        {
+                            @ metaCtx metaCtx
+                    @ artifactContext {}
+                {
+                    @ destFolder
+                        _ path.join
+                            @ options.outputPackagePath
+                            @ options.outputPackageName
+                    @ copyInclude ['*']
+                    @ copyExclude []
+                *${'$'}
+                _ path.join
+                    @ options.outputPackagePath
+                    @ options.outputPackageName
+                {
+                    @ metaCtx metaCtx
+                a_then${'('} genFolderResult )
+                    ${'$'}*
+                    _ file.deleteFolder
+                        @ destinationIttfTempFolder
+                        =>
+                            param err
+                            if err
+                                error 'wizziMeta.generatePackageFiles.deleteFolder error', err
+                                r_reject${'('}
+                                    {
+                                        message 'wizziMeta.generatePackageFiles.deleteFolder error'
+                                        @  err
+                            r_resolve${'('})
+                                @ genFolderResult
+                    *${'$'}
+                    r_resolve${'('})
+                        @ genFolderResult
+                catch_reject${'('} wizziMeta.generatePackageFiles.wizziProds.generateFolderArtifactsFs )
+
+    +
+    export
+        @ createWizziPackage

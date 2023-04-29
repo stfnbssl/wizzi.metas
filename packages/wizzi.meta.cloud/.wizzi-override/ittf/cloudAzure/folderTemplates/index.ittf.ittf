@@ -1,0 +1,40 @@
+$group
+    
+    $if metaCtx.useCloudAzure
+        $include wzCtxModel
+
+        $file __dot__wizzi/__dot__github/workflows/devops-starter-workflow.yaml.ittf.ittf
+            yaml
+                ${"${'$'}"}
+                    var md = {};
+                
+                ${'$'}include cloudAzure/github/devops-starter-workflow.yaml
+
+
+        $file __dot__wizzi/armTemplates/windows-webapp-template.json.ittf.ittf
+            {
+                ${"${'$'}"}
+                    var md = {};
+                
+                ${'$'}include cloudAzure/arm/windows.webapp.template.json
+
+
+        $file __dot__wizzi/${pkgPath}predeploy/package.json.ittf.ittf
+            {
+                ${'$'}include commonsPackage/package-info.json
+                { scripts
+                    ${'$'}include commonsPackage/scripts_deploy.json
+                { dependencies
+                    ${"${'$'}"}include commonsPackage/dependencies
+                { engines
+                    node "^${"${'$'}"}{wzCtx.Build.azure.nodejsVersion}"
+        
+        $file __dot__wizzi/${pkgPath}predeploy/__dot__gitignore.text.ittf.ittf
+            text
+                ${'$'}include cloudAzure/gitignore.text
+
+        $include ./root
+        $include ./tests
+        $include ./tfolder
+
+

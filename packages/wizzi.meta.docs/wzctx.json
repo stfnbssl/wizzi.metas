@@ -1,0 +1,60 @@
+{
+    "name": "wizzi.meta.docs",
+    "npnName": "@wizzi/meta.docs",
+    "pluginBasename": "",
+    "version": "",
+    "description": "wizzi.meta.docs",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2023"
+    },
+    "metaNamespace": "docs",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.ittf/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "docsHtml",
+            "title": "docsHtml wizzi meta production"
+        },
+        {
+            "name": "docsMarkdown",
+            "title": "docsMarkdown wizzi meta production"
+        },
+        {
+            "name": "docsPdf",
+            "title": "docsPdf wizzi meta production"
+        },
+        {
+            "name": "docsPpt",
+            "title": "docsPpt wizzi meta production"
+        },
+        {
+            "name": "docsWord",
+            "title": "docsWord wizzi meta production"
+        }
+    ]
+}

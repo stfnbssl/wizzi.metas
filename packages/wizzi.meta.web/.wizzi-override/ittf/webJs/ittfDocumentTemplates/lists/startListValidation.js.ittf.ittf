@@ -1,0 +1,42 @@
+$group
+
+    function startListValidation
+        param $
+        param list
+
+        var rules = {}
+        
+    $*
+        foreach item in form.controls
+            _ setControlRule
+                @ $
+                @ item
+                @ rules
+
+        _ $('#' + form.id).validate
+            { 
+                @ rules rules
+                @ errorElement 'div'
+                @ onfocusout
+                    function 
+                        param element
+                        $$ loog 'onfocusout', element
+                        _ $(element).valid
+                        # loog $(element).valid()
+
+    function setControlRule
+        param $
+        param item
+        param rules
+
+        if item.type == 'group'
+            foreach child in item.controls
+                _ setControlRule
+                    @ $
+                    @ child
+                    @ rules
+            return
+        
+        if item.required
+            set rules[item.id] = "required"
+    *$

@@ -1,0 +1,28 @@
+$group
+    $if metaCtx.useTsExpressFeatureProject
+        $include wzCtxModel
+
+        $file __dot__wizzi/${pkgPath}src/features/project/index.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureProject/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/project/types.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureProject/types.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/project/controllers/apiv1category.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureProject/controllers/apiv1category.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/project/models/category.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureProject/models/category.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/project/api/category.ts.ittf.ittf
+            module
+                $if metaCtx.tsExpressFeatureProject.store == "mongoDb"
+                    ${'$'}include tsExpressFeatureProject/api/category.ts
+                $if metaCtx.tsExpressFeatureProject.store == "sequelize"
+                    ${'$'}include tsExpressFeatureProject/api/category_sequelize.ts
+
+

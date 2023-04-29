@@ -1,0 +1,28 @@
+{
+
+    $
+        var metaBasename = "ts";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Typescript meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "tsCommons"
+        {
+            name "tsUtils"
+        {
+            name "tsNode"
+            isPackageMain true

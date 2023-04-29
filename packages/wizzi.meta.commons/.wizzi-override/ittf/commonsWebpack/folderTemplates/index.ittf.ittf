@@ -1,0 +1,28 @@
+$group
+    
+    $if metaCtx.useCommonsWebpack
+
+        $file __dot__wizzi/${pkgPath}root/webpack.config.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include commonsWebpack/webpack.config-base.js
+
+        $
+            var items = [
+                "devServer",
+                "entry",
+                "externals",
+                "imports",
+                "module.rules",
+                "optimization",
+                "output",
+                "plugins",
+                "resolve",
+            ];
+
+        $foreach item in items
+
+            $file __dot__wizzi/t/webpack/${metaVer}/${item}.js.ittf.ittf
+                ${"${'$'}"}group
+                
+                    ${'$'}include commonsWebpack/tfolder/${item}.js

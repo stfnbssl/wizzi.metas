@@ -53,4 +53,5 @@ $group
                     {
                         name "${p.name}"
                         title "${p.name} wizzi meta production"
-
+                        $if p.isPackageMain
+                            isPackageMain true

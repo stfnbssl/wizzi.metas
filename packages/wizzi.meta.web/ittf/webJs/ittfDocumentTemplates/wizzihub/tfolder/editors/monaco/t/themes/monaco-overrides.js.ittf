@@ -1,0 +1,219 @@
+$group
+
+    $
+        var myName = 'MonacoOverrides';
+        //
+    
+    iife_window( editors, ${myName})
+        function ${myName}
+            param styleData
+            set this.styleData = styles.computeStyleData(styleData)
+        set ${myName}.prototype.getCss
+            function
+                const css = String.raw
+                var tp = new styles.ThemeProvider(this.styleData)
+                var darkColors = new editors.MonacoColorsDark(styleData)
+                var lightColors = new editors.MonacoColorsLight(styleData)
+                var monacoTheme = new editors.MonacoTheme(styleData)
+                var light = monacoTheme.light()
+                var dark = monacoTheme.dark()
+                return
+                    _` css
+                        + &lf;
+                        + &nbsp; /* Common overrides */&lf;
+                        + &nbsp; .packi-monaco-editor .monaco-editor .line-numbers {&lf;
+                        + &nbsp;   color: currentColor;&lf;
+                        + &nbsp;   opacity: 0.5;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; /* Context menu overrides */&lf;
+                        + &nbsp; .packi-monaco-editor .context-view.monaco-menu-container {&lf;
+                        + &nbsp;   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;&lf;
+                        + &nbsp;   background-color: transparent;&lf;
+                        + &nbsp;   box-shadow: none;&lf;
+                        + &nbsp;   border: none;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar {&lf;
+                        + &nbsp;   padding: 4px;&lf;
+                        + &nbsp;   border-radius: 3px;&lf;
+                        + &nbsp;   border-style: solid;&lf;
+                        + &nbsp;   box-shadow:&nbsp;
+                        _ tp.s('popover')
+                        + &nbsp;!important;&lf;
+                        + &nbsp;   background-color:&nbsp;
+                        _ tp.c('content')
+                        + &nbsp;!important;&lf;
+                        + &nbsp;   color:&nbsp;
+                        _ tp.c('text')
+                        + &nbsp;!important;&lf;
+                        + &nbsp;   border-color: transparent !important;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .monaco-menu .monaco-action-bar {&lf;
+                        + &nbsp;   border-width: 0;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .monaco-menu .monaco-action-bar {&lf;
+                        + &nbsp;   border-width: 1px;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .action-item .action-label,&lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .action-item .action-label:focus {&lf;
+                        + &nbsp;   font-size: 14px;&lf;
+                        + &nbsp;   line-height: 1;&lf;
+                        + &nbsp;   color: inherit;&lf;
+                        + &nbsp;   border: 0;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .action-item .action-menu-item,&lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .action-item .action-menu-item:focus {&lf;
+                        + &nbsp;   color: inherit !important;&lf;
+                        + &nbsp;   text-shadow: none !important;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .action-item.disabled .action-menu-item {&lf;
+                        + &nbsp;   pointer-events: none;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .action-item.focused:not(.disabled),&lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .action-item:hover:not(.disabled) {&lf;
+                        + &nbsp;   border-radius: 2px;&lf;
+                        + &nbsp;   background-color:&nbsp;
+                        _ tp.c('primary')
+                        + &nbsp;!important;&lf;
+                        + &nbsp;   color: white !important;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .action-item .action-menu-item {&lf;
+                        + &nbsp;   background-color: transparent !important;&lf;
+                        + &nbsp;   color: inherit !important;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor&lf;
+                        + &nbsp;   .monaco-menu&lf;
+                        + &nbsp;   .monaco-action-bar&lf;
+                        + &nbsp;   .action-item&lf;
+                        + &nbsp;   .action-menu-item:focus:not(.disabled)&lf;
+                        + &nbsp;   .action-label,&lf;
+                        + &nbsp; .packi-monaco-editor&lf;
+                        + &nbsp;   .monaco-menu&lf;
+                        + &nbsp;   .monaco-action-bar&lf;
+                        + &nbsp;   .action-item:hover:not(.disabled)&lf;
+                        + &nbsp;   .action-label {&lf;
+                        + &nbsp;   color: inherit;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .keybinding {&lf;
+                        + &nbsp;   color: inherit;&lf;
+                        + &nbsp;   font-size: 85%;&lf;
+                        + &nbsp;   font-family: 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;&lf;
+                        + &nbsp;   line-height: 18px;&lf;
+                        + &nbsp;   opacity: 0.5;&lf;
+                        + &nbsp;   margin-left: 8px;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .keybinding,&lf;
+                        + &nbsp; .packi-monaco-editor .monaco-menu .monaco-action-bar .action-label:not(.separator) {&lf;
+                        + &nbsp;   padding: 8px 12px;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor .monaco-action-bar .action-label.separator {&lf;
+                        + &nbsp;   border-bottom-color: currentColor;&lf;
+                        + &nbsp;   opacity: 0.1;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; /* Light theme overrides */&lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .JsxText {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ light.colors['editor.foreground']
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .JsxSelfClosingElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .JsxOpeningElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .JsxClosingElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .tagName-of-JsxOpeningElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .tagName-of-JsxClosingElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .tagName-of-JsxSelfClosingElement {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ lightColors.syntax.property
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .name-of-JsxAttribute {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ lightColors.syntax.number
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .name-of-PropertyAssignment {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ lightColors.syntax.string
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-light .name-of-PropertyAccessExpression {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ lightColors.syntax.constant
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; /* Dark theme overrides */&lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .JsxText {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ dark.colors['editor.foreground']
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .JsxSelfClosingElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .JsxOpeningElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .JsxClosingElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .tagName-of-JsxOpeningElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .tagName-of-JsxClosingElement,&lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .tagName-of-JsxSelfClosingElement {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ darkColors.syntax.property
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .name-of-JsxAttribute {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ darkColors.syntax.number
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .name-of-PropertyAssignment {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ darkColors.syntax.string
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-editor.theme-dark .name-of-PropertyAccessExpression {&lf;
+                        + &nbsp;   color:&nbsp;
+                        @ darkColors.syntax.constant
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-vim-statusbar {&lf;
+                        + &nbsp;   font-family:&nbsp;
+                        @ 'var(--font-monospace)'
+                        + ;&lf;
+                        + &nbsp;   font-size: 12px;&lf;
+                        + &nbsp;   padding: 0 16px;&lf;
+                        + &nbsp;   height: 24px;&lf;
+                        + &nbsp;   line-height: 24px;&lf;
+                        + &nbsp;   border-top: 1px solid&nbsp;
+                        _ tp.c('border')
+                        + ;&lf;
+                        + &nbsp; }&lf;
+                        + &lf;
+                        + &nbsp; .packi-monaco-vim-statusbar input {&lf;
+                        + &nbsp;   font-family:&nbsp;
+                        @ 'var(--font-monospace)'
+                        + ;&lf;
+                        + &nbsp;   height: 100%;&lf;
+                        + &nbsp;   outline: 0;&lf;
+                        + &nbsp;   border: 0;&lf;
+                        + &nbsp;   background: transparent;&lf;
+                        + &nbsp; }&lf;

@@ -1,0 +1,16 @@
+$group
+    $if metaCtx.useTsExpressFeaturePacki
+        $include wzCtxModel
+        $file __dot__wizzi/tsExpressFeaturePacki/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tsExpressFeaturePacki/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/tsExpressFeaturePacki/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include tsExpressFeaturePacki/tfolder/${item}.js

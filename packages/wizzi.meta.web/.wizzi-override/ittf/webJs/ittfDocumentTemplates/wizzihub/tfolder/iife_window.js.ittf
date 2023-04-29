@@ -1,0 +1,26 @@
+$group
+  $params ns|@@null, apiName|@@null, kind|@@null, requires|@@null
+  
+  $if requires != null && requires.indexOf('Underscore') > -1
+    if !window.utils || !window.utils.Underscore 
+      throw new Error('The api "${apiName}" requires the object "utils.Underscore". You must include it.')
+  iife 
+    param window
+    $if requires != null && requires.indexOf('Underscore') > -1
+      param _
+    $if ns != null
+      set window.${ns} = window.${ns} || {}
+    $if apiName != null && kind == 'increment'
+      const ${apiName}
+        ||
+          @expr ${ns}.${apiName}
+          {
+    
+    $hook
+    
+    $if apiName != null
+      set window.${ns}.${apiName} = ${apiName}
+    (
+      @ window
+      $if requires != null && requires.indexOf('Underscore') > -1
+        @ utils.Underscore

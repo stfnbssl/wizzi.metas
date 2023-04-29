@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useCloudHeroku
+        $file __dot__wizzi/cloudHeroku/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include cloudHeroku/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/cloudHeroku/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include cloudHeroku/tfolder/${item}.js

@@ -1,0 +1,121 @@
+{
+    "name": "wizzi.meta.ts.express",
+    "npnName": "@wizzi/meta.tsExpress",
+    "pluginBasename": "",
+    "version": "",
+    "description": "wizzi.meta.ts.express",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2023"
+    },
+    "metaNamespace": "tsExpress",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.ittf/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "tsExpress",
+            "title": "tsExpress wizzi meta production"
+        },
+        {
+            "name": "tsExpressApp",
+            "title": "tsExpressApp wizzi meta production",
+            "isPackageMain": true
+        },
+        {
+            "name": "tsExpressData",
+            "title": "tsExpressData wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureAccount",
+            "title": "tsExpressFeatureAccount wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureAuth",
+            "title": "tsExpressFeatureAuth wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureBlog",
+            "title": "tsExpressFeatureBlog wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureConfig",
+            "title": "tsExpressFeatureConfig wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureFilesystem",
+            "title": "tsExpressFeatureFilesystem wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureGithub",
+            "title": "tsExpressFeatureGithub wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeaturePacki",
+            "title": "tsExpressFeaturePacki wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureProject",
+            "title": "tsExpressFeatureProject wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureRepo",
+            "title": "tsExpressFeatureRepo wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureUser",
+            "title": "tsExpressFeatureUser wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureWizzi",
+            "title": "tsExpressFeatureWizzi wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureWizziDocs",
+            "title": "tsExpressFeatureWizziDocs wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureWizziProduction",
+            "title": "tsExpressFeatureWizziProduction wizzi meta production"
+        },
+        {
+            "name": "tsExpressStyles",
+            "title": "tsExpressStyles wizzi meta production"
+        },
+        {
+            "name": "tsExpressTests",
+            "title": "tsExpressTests wizzi meta production"
+        },
+        {
+            "name": "tsExpressUtils",
+            "title": "tsExpressUtils wizzi meta production"
+        },
+        {
+            "name": "tsExpressWizziSite",
+            "title": "tsExpressWizziSite wizzi meta production"
+        }
+    ]
+}

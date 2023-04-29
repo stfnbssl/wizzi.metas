@@ -1,0 +1,165 @@
+$group
+
+    function startList
+        param $
+        param list
+        param context
+        
+        if list.def.kind == 'table'
+            _ startList_table
+                @ $
+                @ list
+                @ context 
+        else
+            _ startList_ul
+                @ $
+                @ list
+                @ context 
+
+    function startList_ul
+        param $
+        param list
+        param context
+
+    function startList_table
+        param $
+        param list
+        param context
+
+        var list_def = list.def
+
+        var keyId
+        var options
+            { 
+                [ valueNames
+        
+        foreach column_def in list_def.columns
+            if column_def.isKey
+                set keyId = column_def.id
+            _ options.valueNames.push
+                @ column_def.id
+
+        if !keyId || keyId.length < 1
+            throw new Error('Id key missing on list ' + list_def.id)
+        
+        $$ loog 'starting list', list_def.id, $('#' + list_def.id)[0]
+        
+        # Init list
+        var listObj = new List(list_def.id, options)
+        
+        var
+            decl addBtn = $('#add-' + list_def.id + '-btn')
+            decl editBtn = $('#edit-' + list_def.id + '-btn').hide()
+
+        _ addBtn.click
+            function 
+                var valuesObj
+                    _ lt_formFieldsValues
+                set valuesObj[keyId]
+                    _ Math.floor
+                        @ Math.random() * 110000
+                _ listObj.add
+                    @ valuesObj
+                _ lt_clearFormFields
+                if list_def.onAdd
+                    _ list_def.onAdd
+                        @ valuesObj
+        
+        _ editBtn.click
+            function 
+                var item = listObj.get(keyId, $('#' + keyId + '_field').val())[0]
+                var oldValues = Object.assign({}, item.values())
+                var newValues = lt_formFieldsValues()
+                _ item.values
+                    @ newValues
+                if list_def.onUpdate
+                    _ list_def.onUpdate
+                        {
+                            @ old oldValues
+                            @ new newValues
+                _ lt_clearFormFields
+                _ editBtn.hide
+                _ addBtn.show
+
+        _ lt_setItemsEventHandlers
+
+        _ startListMethods
+            @ $
+            @ list_def
+            @ listObj
+            @ keyId
+        
+        function lt_setItemsEventHandlers
+            _ $(document).on
+                @ 'click'
+                @ '.remove-' + list_def.id + '-item-btn'
+                function 
+                    var itemId
+                        _ $(this).closest('tr').find('.' + keyId).text
+                    var itemValues
+                        _ listObj.get(keyId, itemId)[0].values
+                    # _ listObj.remove(keyId, itemId)
+                    if list_def.onDeleteItem
+                        _ list_def.onDeleteItem
+                            @ itemValues
+            
+            _ $(document).on
+                @ 'click'
+                @ '.edit-' + list_def.id + '-item-btn'
+                function 
+                    var itemId
+                        _ $(this).closest('tr').find('.' + keyId).text
+                    var itemValues
+                        _ listObj.get(keyId, itemId)[0].values
+                    foreach column_def in list_def.columns
+                        _ $('#' + column_def.id + '_field').val(itemValues[column_def.id])
+                    _ editBtn.show
+                    _ addBtn.hide
+                    if list_def.onSelectItem
+                        _ list_def.onSelectItem
+                            @ itemValues
+        
+        function lt_clearFormFields
+            foreach column_def in list_def.columns
+                _ $('#' + column_def.id + '_field').val('')
+
+        function lt_formFieldsValues
+            var ret = {}
+            foreach column_def in list_def.columns
+                set ret[column_def.id] = $('#' + column_def.id + '_field').val()
+            return ret
+
+    function startListMethods
+        param $
+        param list_def
+        param listObj
+        param keyId
+
+        set list_def.__methods
+            {
+                
+                @ onDoneAddItem
+                    function
+                        param values
+                        $$ loog 'onDoneAddItem', values
+                        _ listObj.add
+                            @ values
+                
+                @ onDoneUpdateItem
+                    function
+                        param newValues
+                        $$ loog 'onDoneUpdateItem', newValues, newValues[keyId]
+                        var item = listObj.get(keyId, newValues[keyId])[0]
+                        _ item.values
+                            @ newValues
+               
+                @ onDoneDeleteItem
+                    function
+                        param itemId
+                        $$ loogg 'onDoneDeleteItem', itemId
+
+                        _ listObj.remove(keyId, itemId)
+
+        if list_def.onStart
+            _ list_def.onStart
+                @ list_def.__methods

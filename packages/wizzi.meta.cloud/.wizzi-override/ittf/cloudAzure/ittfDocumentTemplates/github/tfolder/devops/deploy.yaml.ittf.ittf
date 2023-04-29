@@ -1,0 +1,80 @@
+$group
+
+    : Deploy
+        : name Deploy to azure web app
+        : needs build
+        : runs-on ubuntu-latest
+        : timeout-minutes ${'$'}{wzCtx.Build.azure.timeoutMinutesMedium}
+        : steps
+        # Downloading build artifact
+        - name: Download a Build Artifact
+            : uses actions/download-artifact@v2
+            : continue-on-error false
+            : with
+                : name buildartifacts
+                : path buildartifacts
+
+        # Uzipping build artifacts
+        - name: Unzipping Build artifact
+            : run |
+                unzip -qq ./buildartifacts/Application.zip -d .
+
+        # Downloading Arm Templates
+        - name: Download Arm template
+            : uses actions/download-artifact@v2
+            : continue-on-error false
+            : with
+                : name deploymenttemplates
+                : path deploymenttemplates
+
+        # Uzipping Arm template directory
+        - name: Unzipping ARM artifact
+            : run |
+                unzip -qq ./deploymenttemplates/armtemplates.zip -d .
+
+        # login to azure
+        - name: Login to Azure
+            : uses azure/login@v1
+            : continue-on-error false
+            : with
+                : creds ${"${'$'}"}{{ secrets.AZURE_CREDENTIALS }}
+
+        # Deploy Arm template
+        - name: Deploy ARM Template
+            : uses azure/CLI@v1
+            : continue-on-error false
+            : with
+                : inlineScript |
+                    az group create --name "${"${'$'}"}{{ env.RESOURCEGROUPNAME }}" --location "${"${'$'}"}{{ env.LOCATION }}"
+                    az deployment group create 
+                        \b --resource-group "${"${'$'}"}{{ env.RESOURCEGROUPNAME }}" 
+                        \b --template-file ./armTemplates/windows-webapp-template.json 
+                        \b --parameters webAppName="${"${'$'}"}{{ env.AZURE_WEBAPP_NAME }}" 
+                        \b hostingPlanName="${"${'$'}"}{{ env.HOSTINGPLANNAME }}" 
+                        \b appInsightsLocation="${"${'$'}"}{{ env.APPINSIGHTLOCATION }}" 
+                        \b sku="${"${'$'}"}{{ env.SKU }}" 
+                        $if cliCtx.useMongoDb
+                            ${'\b'} databaseAccountId="${"${'$'}"}{{ env.DATABASEACCOUNTID }}" 
+                            ${'\b'} databaseAccountLocation="${"${'$'}"}{{ env.DATABASEACCOUNTLOCATION }}"
+
+        $if cliCtx.useMongoDb
+            - name: Fetch connection strings
+                : id getConnectionStrings
+                : run |
+                    sudo chmod  766 ./Application/connectionData.json
+                    echo "::set-output name=connectionstrings::`az cosmosdb keys list --name "${"${'$'}"}{{ env.DATABASEACCOUNTID }}" --resource-group "${"${'$'}"}{{ env.RESOURCEGROUPNAME }}" --type connection-strings --query connectionStrings[0].connectionString |xargs`"
+                    echo "::add-mask::`az cosmosdb keys list --name "${"${'$'}"}{{ env.DATABASEACCOUNTID }}" --resource-group "${"${'$'}"}{{ env.RESOURCEGROUPNAME }}" --type connection-strings --query connectionStrings[0].connectionString |xargs`"
+            
+            - name: Update connection string   
+                : uses microsoft/variable-substitution@v1 
+                : with
+                    : files './Application/connectionData.json'
+                : env
+                    : connectionString "${"${'$'}"}{{ steps.getConnectionStrings.outputs.connectionstrings }}"
+                
+        # Deploy web app
+        - name: 'Deploy to Azure WebApp'
+            : uses azure/webapps-deploy@v2
+            : with 
+                : app-name ${"${'$'}"}{{ env.AZURE_WEBAPP_NAME }}
+                : package ${"${'$'}"}{{ env.AZURE_WEBAPP_PACKAGE_PATH }}

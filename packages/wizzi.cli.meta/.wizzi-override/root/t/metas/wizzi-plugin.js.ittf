@@ -1,5 +1,12 @@
 $group
 
+    elif cmd == 'wizzi-plugin-ppt'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-plugin'
+                @ context 'wizzi.plugin.ppt'
+                @ pkgName 'wizzi.plugin.ppt'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin.ppt'
     elif cmd == 'wizzi-plugin-first'
         _ createEx
             {

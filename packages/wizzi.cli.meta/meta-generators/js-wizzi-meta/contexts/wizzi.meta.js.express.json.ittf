@@ -1,0 +1,29 @@
+{
+
+    $
+        var metaBasename = "jsExpress";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Js server meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "jsExpress"
+        {
+            name "jsExpressApp"
+            isPackageMain true
+        {
+            name "jsExpressWizziSite"
+            $$ A WizziSite uses views rendered by the WizziViewEngine

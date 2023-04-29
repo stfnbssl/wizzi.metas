@@ -334,7 +334,7 @@ $group
             useWizzi true
             { wizzi
                 isDev true
-                $if cliCtx.useWizzi && cliCtx.wizzi.useVersionV08
+                $if cliCtx.useWizzi && cliCtx.wizzi.useVersion08
                     [ plugins
                         $foreach item in cliCtx.wizziPlugins
                             "./${item.name}/index.js"

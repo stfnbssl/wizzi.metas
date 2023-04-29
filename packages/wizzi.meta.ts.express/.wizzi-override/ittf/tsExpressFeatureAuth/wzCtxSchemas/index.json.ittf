@@ -1,0 +1,6 @@
+{
+    productionName "tsExpressFeatureAuth"
+    [ parameters
+        {
+            name "usePermissionFlag"
+            type "boolean"

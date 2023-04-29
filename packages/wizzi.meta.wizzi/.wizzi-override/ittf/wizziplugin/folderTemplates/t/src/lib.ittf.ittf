@@ -36,7 +36,7 @@ $group
         $foreach item in items
             $file __dot__wizzi/lib/artifacts/utils/${item}.js.ittf.ittf
                 module
-                    ${'$'}include wizziplugin/lib/artifacts/utils/${item}.js
+                    ${'$'}include wizziPlugin/lib/artifacts/utils/${item}.js
 
         $file __dot__wizzi/lib/artifacts/${schema.name}/extended/trans/main.js.ittf.ittf
             module
@@ -47,15 +47,15 @@ $group
                 
                 $file __dot__wizzi/lib/artifacts/${schema.name}/extended/trans/t/contents.js.ittf.ittf
                     ${"${'$'}"}group
-                        ${'$'}include wizziplugin/lib/artifacts/trans/extended/contents.js
+                        ${'$'}include wizziPlugin/lib/artifacts/trans/extended/contents.js
                 
                 $file __dot__wizzi/lib/artifacts/${schema.name}/extended/trans/t/comment.js.ittf.ittf
                     ${"${'$'}"}group
-                        ${'$'}include wizziplugin/lib/artifacts/trans/extended/comment.js
+                        ${'$'}include wizziPlugin/lib/artifacts/trans/extended/comment.js
 
                 $file __dot__wizzi/lib/artifacts/${schema.name}/extended/trans/t/biblio.js.ittf.ittf
                     ${"${'$'}"}group
-                        ${'$'}include wizziplugin/lib/artifacts/trans/extended/biblio.js
+                        ${'$'}include wizziPlugin/lib/artifacts/trans/extended/biblio.js
 
         $if schema.hasWizzifier
                 $file __dot__wizzi/lib/wizzifiers/${schema.name}/wizzifier.js.ittf.ittf
@@ -74,11 +74,11 @@ $group
                             // schema.wizzifier.useFormatAstMethods ${schema.wizzifier.useFormatAstMethods}
                             var useFormatAstMethods = ${schema.wizzifier.useFormatAstMethods ? 'true' : 'false'}
                             var invokeCodeHasCallback = ${schema.wizzifier.invokeCodeHasCallback ? 'true' : 'false'}
-                        ${'$'}include wizziplugin/lib/wizzifiers/wizzifier.js
+                        ${'$'}include wizziPlugin/lib/wizzifiers/wizzifier.js
 
                 $file __dot__wizzi/lib/wizzifiers/${schema.name}/cleanAST.js.ittf.ittf
                     module
-                        ${'$'}include wizziplugin/lib/wizzifiers/cleanAST.js
+                        ${'$'}include wizziPlugin/lib/wizzifiers/cleanAST.js
 
                 $
                     var items = [
@@ -88,7 +88,7 @@ $group
                 $foreach item in items
                     $file __dot__wizzi/lib/wizzifiers/t/${item}.js.ittf.ittf
                         ${"${'$'}"}group
-                            ${'$'}include wizziplugin/lib/wizzifiers/tfolder/${item}.js
+                            ${'$'}include wizziPlugin/lib/wizzifiers/tfolder/${item}.js
 
                 $if schema.wizzifier.useFormatAstMethods
                     $
@@ -110,23 +110,23 @@ $group
                     $foreach item in items
                         $file __dot__wizzi/lib/wizzifiers/${schema.name}/t/${item}.js.ittf.ittf
                             ${"${'$'}"}group
-                                ${'$'}include wizziplugin/lib/wizzifiers/tfolder/schema_specific/${item}.js
+                                ${'$'}include wizziPlugin/lib/wizzifiers/tfolder/schema_specific/${item}.js
 
                 $file __dot__wizzi/lib/wizzifiers/utils/lineparser.js.ittf.ittf
                     module
-                        ${'$'}include wizziplugin/lib/wizzifiers/utils/lineparser.js
+                        ${'$'}include wizziPlugin/lib/wizzifiers/utils/lineparser.js
                 
                 $file __dot__wizzi/lib/wizzifiers/utils/ittfWriter.js.ittf.ittf
                     module
-                        ${'$'}include wizziplugin/lib/wizzifiers/utils/ittfWriter.js
+                        ${'$'}include wizziPlugin/lib/wizzifiers/utils/ittfWriter.js
 
                 $file __dot__wizzi/lib/wizzifiers/utils/stringWriter.js.ittf.ittf
                     module
-                        ${'$'}include wizziplugin/lib/wizzifiers/utils/stringWriter.js
+                        ${'$'}include wizziPlugin/lib/wizzifiers/utils/stringWriter.js
 
                 $file __dot__wizzi/lib/wizzifiers/utils/cloner.js.ittf.ittf
                     module
-                        ${'$'}include wizziplugin/lib/wizzifiers/utils/cloner.js
+                        ${'$'}include wizziPlugin/lib/wizzifiers/utils/cloner.js
 
                 $
                     var items = [
@@ -137,11 +137,11 @@ $group
                 $foreach item in items
                     $file __dot__wizzi/lib/wizzifiers/utils/t/${item}.js.ittf.ittf
                         ${"${'$'}"}group
-                            ${'$'}include wizziplugin/lib/wizzifiers/utils/tfolder/${item}.js
+                            ${'$'}include wizziPlugin/lib/wizzifiers/utils/tfolder/${item}.js
 
                 $file __dot__wizzi/lib/wizzifiers/errors.js.ittf.ittf
                     module
-                        ${'$'}include wizziplugin/lib/wizzifiers/errors.js
+                        ${'$'}include wizziPlugin/lib/wizzifiers/errors.js
 
 
 
@@ -156,7 +156,7 @@ $group
     $foreach item in items
         $file __dot__wizzi/lib/wizzi/schemas/t/${item}.wfschema.ittf.ittf
             ${"${'$'}"}group
-                ${'$'}include wizziplugin/lib/wizzi/schemas/tfolder/${item}.wfschema
+                ${'$'}include wizziPlugin/lib/wizzi/schemas/tfolder/${item}.wfschema
 
     $
         var items = [
@@ -180,6 +180,6 @@ $group
     $foreach item in items
         $file __dot__wizzi/lib/artifacts/t/${item}.js.ittf.ittf
             ${"${'$'}"}group
-                ${'$'}include wizziplugin/lib/artifacts/tfolder/${item}.js
+                ${'$'}include wizziPlugin/lib/artifacts/tfolder/${item}.js
 
 

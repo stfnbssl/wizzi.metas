@@ -1,0 +1,117 @@
+$group
+    
+    $file __dot__wizzi/models/t/tsExpressData.json.ittf.ittf
+        ${'$'}{'$'}group
+            
+            useData true
+            { data
+                $if metaCtx.useTsExpressFeatureBlog
+                    { Blog
+                        { db
+                            Name "Blog"
+                            name "blog"
+                            [ tables
+                                { 
+                                    Name "Post"
+                                    Names "Posts"
+                                    name "post"
+                                    names "posts"
+                                    descr "Post"
+                                    [ indexes
+                                    [ fields
+                                        { 
+                                            name "id"
+                                            type "integer"
+                                            autoIncrement true
+                                            primaryKey true
+                                        { 
+                                            name "title"
+                                            type "string"
+                                            allowNull false
+                                        { 
+                                            name "content"
+                                            type "string"
+                                            allowNull false
+                    { Project
+                        { db
+                            Name "Project"
+                            name "project"
+                            [ tables
+                                { 
+                                    Name "Category"
+                                    Names "Categories"
+                                    name "category"
+                                    names "categories"
+                                    descr "Category"
+                                    [ indexes
+                                    [ fields
+                                        { 
+                                            name "id"
+                                            type "integer"
+                                            autoIncrement true
+                                            primaryKey true
+                                        { 
+                                            name "name"
+                                            type "string"
+                                            allowNull false
+                                { 
+                                    Name "Todo"
+                                    Names "Todos"
+                                    name "todo"
+                                    names "todos"
+                                    descr "Todo"
+                                    [ indexes
+                                    [ fields
+                                        { 
+                                            name "id"
+                                            type "integer"
+                                            autoIncrement true
+                                            primaryKey true
+                                        { 
+                                            name "activity"
+                                            type "string"
+                                            allowNull false
+                                        { 
+                                            name "category"
+                                            type "string"
+                                            allowNull false
+                                        { 
+                                            name "done"
+                                            type "boolean"
+                                            defaultValue "false"
+                                            allowNull false
+                                { 
+                                    Name "Issue"
+                                    Names "Issues"
+                                    name "issue"
+                                    names "issues"
+                                    descr "Issue"
+                                    [ indexes
+                                    [ fields
+                                        { 
+                                            name "id"
+                                            type "integer"
+                                            autoIncrement true
+                                            primaryKey true
+                                        { 
+                                            name "description"
+                                            type "string"
+                                            allowNull false
+                                        { 
+                                            name "category"
+                                            type "string"
+                                            allowNull false
+                                        { 
+                                            name "closed"
+                                            type "boolean"
+                                            defaultValue "false"
+                                            allowNull false
+                            [ relations
+                                { 
+                                    kind "one-to-many"
+                                    ltable "Category"
+                                    rtable "Todo"
+                                { 
+                                    kind "one-to-many"
+                                    ltable "Category"
+                                    rtable "Issue"                                       

@@ -1,0 +1,17 @@
+$group
+	${'$'}params result|notUsed, typen|@@null, typev|@@null
+
+	=>
+		param err
+            :any
+		param ${'$'}{result}
+            ${'$'}if typen != null
+                ${'$'}{typen} ${'$'}{typev!=null ? typev : ''}
+            ${'$'}else
+                :any
+		if err
+			return
+				_ callback
+					@ err
+		${'$'}hook
+

@@ -221,6 +221,8 @@ $group
     ${'$'}if wzCtx.Build.usePostCss
         postcss "^8.4.21"
         postcss-color-function "^4.1.0"
+    ${'$'}if wzCtx.Build.usePptxgenjs
+        pptxgenjs "latest"
     ${'$'}if wzCtx.Build.usePrismjs
         prismjs "^1.21.0"
     ---

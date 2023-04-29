@@ -1,0 +1,27 @@
+$group
+
+    ${'$'}
+        var schema = md.schema;
+
+    import
+        @ mount${'$'}{schema.Name}Page
+        @ mount${'$'}{schema.Name}List
+        @ mount${'$'}{schema.Name}Form
+        from './${'$'}{schema.name}.js'
+
+    function component
+        const element = document.createElement('div')
+        set element.id = 'page-container'
+        return element
+    
+    _ document.body.appendChild
+        _ component    
+
+    _ mount${'$'}{schema.Name}Page
+        @ 'page-container'
+
+    _ mount${'$'}{schema.Name}Form
+        @ '${'$'}{schema.name}-form-container'
+
+    _ mount${'$'}{schema.Name}List
+        @ '${'$'}{schema.name}-list-container'

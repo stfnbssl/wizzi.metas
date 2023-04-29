@@ -1,0 +1,63 @@
+{
+
+    $
+        var metaBasename = "tsExpress";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Typescript server meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "tsExpress"
+        {
+            name "tsExpressApp"
+            isPackageMain true
+        {
+            name "tsExpressData"
+        {
+            name "tsExpressFeatureAccount"
+        {
+            name "tsExpressFeatureAuth"
+        {
+            name "tsExpressFeatureBlog"
+        {
+            name "tsExpressFeatureConfig"
+        {
+            name "tsExpressFeatureFilesystem"
+        {
+            name "tsExpressFeatureGithub"
+        {
+            name "tsExpressFeaturePacki"
+        {
+            name "tsExpressFeatureProject"
+        {
+            name "tsExpressFeatureRepo"
+        {
+            name "tsExpressFeatureUser"
+        {
+            name "tsExpressFeatureWizzi"
+        {
+            name "tsExpressFeatureWizziDocs"
+        {
+            name "tsExpressFeatureWizziProduction"
+        {
+            name "tsExpressStyles"
+        {
+            name "tsExpressTests"
+        {
+            name "tsExpressUtils"
+        {
+            name "tsExpressWizziSite"
+            $$ A WizziSite uses views rendered by the WizziViewEngine

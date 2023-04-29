@@ -20,8 +20,6 @@
 
     [ Productions
         {
-            name "jscommons"
+            name "jsCommons"
         {
-            name "jsexpress"
-        {
-            name "jsutils"
+            name "jsUtils"

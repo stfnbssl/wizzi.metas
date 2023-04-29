@@ -1,0 +1,24 @@
+$group
+	${'$'}params result|notUsed, typen|@@null, typev|@@null, message|@@null
+
+	async=>
+		param err
+            :any
+		param ${'$'}{result}
+            ${'$'}if typen != null
+                ${'$'}{typen} ${'$'}{typev!=null ? typev : ''}
+            ${'$'}else
+                :any
+		if err
+            ${'$'}if message != null
+			    error "${'$'}{message}", err
+            return
+				_ reject
+                    ${'$'}if message != null
+                        {
+                            @ message "${'$'}{message}"
+                            @ err
+                    ${'$'}else
+					    @ err
+		${'$'}hook
+

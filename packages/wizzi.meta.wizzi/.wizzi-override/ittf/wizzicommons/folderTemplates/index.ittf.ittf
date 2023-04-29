@@ -1,5 +1,5 @@
 $group
-    $if metaCtx.useWizzicommons
+    $if metaCtx.useWizziCommons
         $
             var items = [
                 "executegenerateModelDoms",
@@ -19,11 +19,11 @@ $group
             
             $file __dot__wizzi/t/wizzicommons/opers/${item}.js.ittf.ittf
                 ${"${'$'}"}group
-                    ${'$'}include wizzicommons/tfolder/opers/${item}.js
+                    ${'$'}include wizziCommons/tfolder/opers/${item}.js
 
 
         $file __dot__wizzi/t/wizzicommons/globals/defaultMimeTypes.js.ittf.ittf
             ${"${'$'}"}group
-                ${'$'}include wizzicommons/tfolder/globals/defaultMimeTypes.js                    
+                ${'$'}include wizziCommons/tfolder/globals/defaultMimeTypes.js                    
 
 

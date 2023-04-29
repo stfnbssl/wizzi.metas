@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useJs_site_webapi
+        $file __dot__wizzi/js_site_webapi/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include js_site_webapi/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/js_site_webapi/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include js_site_webapi/tfolder/${item}.js

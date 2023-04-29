@@ -1,0 +1,17 @@
+$group
+    
+    $if metaCtx.useTsExpressFeatureConfig
+        $include wzCtxModel
+
+        $file __dot__wizzi/${pkgPath}src/features/config/env.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureConfig/env.ts
+    
+        $file __dot__wizzi/${pkgPath}src/features/config/index.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureConfig/index.ts
+    
+        $file __dot__wizzi/${pkgPath}src/features/config/types.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureConfig/types.ts
+

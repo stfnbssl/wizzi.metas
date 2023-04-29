@@ -1,0 +1,269 @@
+module
+    $
+        var ctrl = {
+            name: 'ApiV1Generations',
+            path: '/api/v1/production/generations',
+            apiSecured: wzCtx.App.isLocal == false
+        }
+    
+    v08/ts/controller( &ctrl )
+        $append imports
+            import
+                @ wizziTypes
+                @ wizziProds
+                @ WizziFactory
+                from '../../wizzi'
+            import
+                @ artifactApi
+                from '../../production'
+            import
+                @ PackiFiles
+                from '../../packi/types'
+            import
+                @ PackiProduction
+                from '../types'
+            import
+                @ productionApi
+                from '../../production' 
+            const myname = 'features/production/controllers/apiv1generations'
+        
+        v08/ts/route_api_secured( post, /mtree/:id, this.mTree)
+        v08/ts/route_api_secured( post, /mtreescript/:id, this.mTreeBuildupScript)
+        v08/ts/route_api_secured( post, /artifact/:id, this.generateArtifact)
+        v08/ts/route_api_secured( post, /transform/:id/:transformer, this.transformModel)
+        v08/ts/route_api_secured( post, /job, this.executeJob)
+        v08/ts/route_api_secured( post, /wizzify, this.wizzify)
+        v08/ts/route_api_secured( post, /codeast, this.codeAST)
+        
+        $append handlers
+            v08/ts/handler( mTree )
+                const owner = (request.session as any).user.username
+                const id = request.params.id
+                const req_files
+                    :ref PackiFiles
+                    = request.body.packiFiles
+                const productionKind
+                    :ref PackiProduction
+                    = request.body.productionKind
+                const productionName
+                    :string
+                    = request.body.productionName
+                # loog myname, 'mTree.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
+                _ productionApi.prepareProduction
+                    @ productionKind
+                    @ owner
+                    @ productionName
+                    @ ''
+                    {
+                    ._ then
+                        =>
+                            param packageProductionSet
+                                :any
+                            _ wizziProds.mTree
+                                @ id
+                                @ packageProductionSet.packiFiles
+                                @ packageProductionSet.context
+                                ._ then
+                                    =>
+                                        param result
+                                            :any
+                                        # loog myname, 'mTree.result', result
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ mTreeIttf result.mTreeIttf
+                                v08/ts/catch_send_fail( features.production.controllers.productions.mTree.execute )
+                    v08/ts/catch_send_fail( features.production.controllers.productions.mTree.prepareProduction )
+
+            v08/ts/handler( mTreeBuildupScript )
+                const owner = (request.session as any).user.username
+                const id = request.params.id
+                const req_files
+                    :ref PackiFiles
+                    = request.body.packiFiles
+                const productionKind
+                    :ref PackiProduction
+                    = request.body.productionKind
+                const productionName
+                    :string
+                    = request.body.productionName
+                # loog myname, 'mTreeBuildupScript.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
+                _ productionApi.prepareProduction
+                    @ productionKind
+                    @ owner
+                    @ productionName
+                    @ ''
+                    {
+                    ._ then
+                        =>
+                            param packageProductionSet
+                                :any
+                            _ wizziProds.mTreeBuildupScript
+                                @ id
+                                @ packageProductionSet.packiFiles
+                                @ packageProductionSet.context
+                                ._ then
+                                    =>
+                                        param result
+                                        # loog myname, 'mTreeBuildupScript.result', result
+                                        _ sendSuccess
+                                            @ response
+                                            @ result
+                                v08/ts/catch_send_fail( features.production.controllers.productions.mTreeBuildupScript.execute )
+                    v08/ts/catch_send_fail( features.production.controllers.productions.mTreeBuildupScript.prepareProduction )
+            
+            v08/ts/handler( generateArtifact )
+                const owner = (request.session as any).user.username
+                const id = request.params.id
+                const req_files
+                    :ref PackiFiles
+                    = request.body.packiFiles
+                const productionKind
+                    :ref PackiProduction
+                    = request.body.productionKind
+                const productionName
+                    :string
+                    = request.body.productionName
+                # loog myname, 'generateArtifact.id, productionKind,  productionName, files', id, productionKind, productionName, Object.keys(req_files)
+                _ productionApi.prepareProduction
+                    @ productionKind
+                    @ owner
+                    @ productionName
+                    @ ''
+                    {
+                    ._ then
+                        =>
+                            param packageProductionSet
+                                :any
+                            _ wizziProds.generateArtifact
+                                @ id
+                                @ packageProductionSet.packiFiles
+                                @ packageProductionSet.context
+                                ._ then
+                                    =>
+                                        param value
+                                        # loog myname, 'generateArtifact.result', value
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ generatedArtifact value
+                                v08/ts/catch_send_fail( features.production.controllers.production.generateArtifact.execute )
+                    v08/ts/catch_send_fail( features.production.controllers.production.generateArtifact.prepareProduction )
+            
+            v08/ts/handler( transformModel )
+                const owner = (request.session as any).user.username
+                const id = request.params.id
+                const transformer = request.params.transformer
+                const req_files
+                    :ref PackiFiles
+                    = request.body.packiFiles
+                const productionKind
+                    :ref PackiProduction
+                    = request.body.productionKind
+                const productionName
+                    :string
+                    = request.body.productionName
+                # loog myname, 'mTree.received files', Object.keys(req_files)
+                _ productionApi.prepareProduction
+                    @ productionKind
+                    @ owner
+                    @ productionName
+                    @ ''
+                    {
+                    ._ then
+                        =>
+                            param packageProductionSet
+                                :any
+                            _ wizziProds.transformModel
+                                @ id
+                                @ packageProductionSet.packiFiles
+                                @ packageProductionSet.context
+                                {
+                                    @ transformer transformer
+                                ._ then
+                                    =>
+                                        param value
+                                        # loog 'generateArtifact.result', value
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ transformedModel value.transformResult
+                                v08/ts/catch_send_fail( features.production.controllers.production.transformModel.execute )
+                    v08/ts/catch_send_fail( features.production.controllers.production.transformModel.prepareProduction )
+            
+            v08/ts/handler( executeJob )
+                const owner = (request.session as any).user.username
+                const req_files
+                    :ref PackiFiles
+                    = request.body.packiFiles
+                const productionKind
+                    :ref PackiProduction
+                    = request.body.productionKind
+                const productionName
+                    :string
+                    = request.body.productionName
+                # loog myname, 'mTree.received files', Object.keys(req_files)
+                _ productionApi.prepareProduction
+                    @ productionKind
+                    @ owner
+                    @ productionName
+                    @ ''
+                    {
+                    ._ then
+                        =>
+                            param packageProductionSet
+                                :any
+                            _ wizziProds.executeJobs
+                                @ packageProductionSet.packiFiles
+                                @ packageProductionSet.context
+                                ._ then
+                                    async=>
+                                        param fsJson
+                                        const files
+                                            await
+                                                _ WizziFactory.extractGeneratedFiles(fsJson)
+                                        # loog 'features.production.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ generatedArtifacts files
+                                v08/ts/catch_send_fail( features.production.controllers.production.executeJob.execute )
+                    v08/ts/catch_send_fail( features.production.controllers.production.executeJob.prepareProduction )
+            
+            v08/ts/handler( wizzify )
+                const files
+                    :ref PackiFiles
+                    = request.body.packiFiles
+                if files
+                    # loog 'features.production.controllers.production.wizzify.received files', Object.keys(files)
+                _ wizziProds.wizzify
+                    @ files
+                    ._ then
+                        async=>
+                            param result
+                                :ref PackiFiles
+                            # loog 'features.production.controllers.production.wizzify.result', result
+                            _ sendSuccess
+                                @ response
+                                {
+                                    @ wizzifiedPackiFiles result
+                    v08/ts/catch_send_fail( features.production.controllers.production.wizzify.execute )
+
+            v08/ts/handler( codeAST )
+                const files
+                    :ref PackiFiles
+                    = request.body.packiFiles
+                if files
+                    # loog 'features.production.controllers.production.codeAST.received files', Object.keys(files)
+                _ wizziProds.getCodeAST
+                    @ files
+                    ._ then
+                        async=>
+                            param result
+                                :ref PackiFiles
+                            # loog 'features.production.controllers.production.codeAST.result', result
+                            _ sendSuccess
+                                @ response
+                                {
+                                    @ codeASTPackiFiles result
+                    v08/ts/catch_send_fail( features.production.controllers.production.codeAST.execute )                    

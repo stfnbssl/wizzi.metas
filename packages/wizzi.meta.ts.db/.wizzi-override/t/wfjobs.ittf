@@ -1,0 +1,326 @@
+$group
+    $params name, &jobCtx, ext|@@null
+    $if name == 'any_js'
+        artifact any_js
+            src ./**/*.js.ittf
+            schema js
+            generator js/module
+            extension js
+            ignore /**/bin/**/*.js
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_ts'
+        artifact any_ts
+            src ./**/*.ts.ittf
+            schema ts
+            generator ts/module
+            extension ts
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_tsx'
+        artifact any_tsx
+            src ./**/*.tsx.ittf
+            schema ts
+            generator ts/module
+            extension tsx
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_css'
+        artifact any_css
+            src ./**/*.css.ittf
+            schema css
+            generator css/document
+            extension css
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_svg'
+        artifact any_svg
+            src ./**/*.svg.ittf
+            schema svg
+            generator svg/document
+            extension svg
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_html'
+        artifact any_html
+            src ./**/*.html.ittf
+            schema html
+            generator html/document
+            extension html
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_json'
+        artifact any_json
+            src ./**/*.json.ittf
+            schema json
+            generator json/document
+            extension json
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_xml'
+        artifact any_xml
+            src ./**/*.xml.ittf
+            schema xml
+            generator xml/document
+            extension xml
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_yml'
+        artifact any_yml
+            src ./**/*.yml.ittf
+            schema yaml
+            generator yaml/document
+            extension yml
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_yaml'
+        artifact any_yaml
+            src ./**/*.yaml.ittf
+            schema yaml
+            generator yaml/document
+            extension yaml
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_md'
+        artifact any_md
+            src ./**/*.md.ittf
+            schema md
+            generator md/document
+            extension md
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_text'
+        artifact any_text
+            src ./**/*.text.ittf
+            schema text
+            generator text/document
+            extension text
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_text_no_extension'
+        artifact any_text
+            src ./**/*.text.ittf
+            schema text
+            generator text/document
+            extension @@null
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_ittf'
+        artifact any_ittf
+            src ./**/*.ittf.ittf
+            schema ittf
+            generator ittf/document
+            extension ittf
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == '.env'
+        artifact .env
+            src .env.text.ittf
+            schema text
+            generator text/document
+            dest-path .env
+            extension env
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'www'
+        artifact www
+            src bin/www.js.ittf
+            schema js
+            generator js/module
+            dest-path bin/www
+            extension
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == '.babelrc'
+        artifact .babelrc
+            src .babelrc.json.ittf
+            schema json
+            generator json/document
+            dest-path .babelrc
+            extension babelrc
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == '.gitignore'
+        artifact .gitignore
+            src .gitignore.text.ittf
+            schema text
+            generator text/document
+            dest-path .gitignore
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == '.prettierrc'
+        artifact .prettierrc
+            src .prettierrc.json.ittf
+            schema json
+            generator json/document
+            dest-path .prettierrc.json
+            extension json
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == '.prettierignore'
+        artifact .prettierignore
+            src .prettierignore.text.ittf
+            schema text
+            generator text/document
+            dest-path .prettierignore
+            extension text
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == '.eslintrc'
+        artifact .eslintrc
+            src .eslintrc.js.ittf
+            schema js
+            generator js/module
+            dest-path .eslintrc.js
+            extension js
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == '.eslintignore'
+        artifact .eslintignore
+            src .eslintignore.text.ittf
+            schema text
+            generator text/document
+            dest-path .eslintignore
+            extension text
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == '.npmignore'
+        artifact .npmignore
+            src .npmignore.text.ittf
+            schema text
+            generator text/document
+            dest-path .npmignore
+            extension text
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'vite-env.d.ts'
+        artifact vite-env.d.ts
+            src vite-env.d.ts.text.ittf
+            schema text
+            generator text/document
+            dest-path vite-env.d.ts
+            extension text
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'Procfile'
+        artifact Procfile
+            src Procfile.text.ittf
+            schema text
+            generator text/document
+            dest-path Procfile
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == '.azure_deployment'
+        artifact .azure_deployment
+            src .deployment.text.ittf
+            schema text
+            generator text/document
+            dest-path .deployment
+            extension text
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'server.cert'
+        artifact server.cert
+            src server.cert.text.ittf
+            schema text
+            generator text/document
+            dest-path server.cert
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'server.key'
+        artifact server.key
+            src server.key.text.ittf
+            schema text
+            generator text/document
+            dest-path server.key
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_plain'
+        artifact any_plain_${ext}
+            src ./**/*.${ext}
+            extension ${ext}
+    $elif name == 'any_plain_image'
+        artifact any_plain_jpeg
+            src ./**/*.jpeg
+            extension jpeg
+        artifact any_plain_jpg
+            src ./**/*.jpg
+            extension jpg
+        artifact any_plain_gif
+            src ./**/*.gif
+            extension gif
+        artifact any_plain_png
+            src ./**/*.png
+            extension png
+        artifact any_plain_bmp
+            src ./**/*.bmp
+            extension bmp
+        artifact any_plain_svg
+            src ./**/*.svg
+            extension svg
+    $elif name == 'any_examples__copy'
+        artifact any_examples_${ext}_inside___copy
+            src ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.${ext}
+            extension ${ext}
+    $elif name == 'any_lib__copy'
+        artifact any_lib_${ext}_inside___copy
+            src ${jobCtx.ittf_lib_folder}/**/*__copy/**/*.${ext}
+            extension ${ext}
+    $else
+        $throw wfjob name not managed: ${name}

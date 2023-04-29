@@ -1,0 +1,13 @@
+$group
+    $params name, items, from|0
+    var len_${name} = ${items}.length
+    function repeater_${name}
+        param index_${name}
+        if index_${name} === len_${name}
+            return
+                _ next_${name}
+        var item_${name} = ${items}[index_${name}]
+        $hook
+    _ repeater_${name}(${from})
+    function next_${name}
+        $hook next

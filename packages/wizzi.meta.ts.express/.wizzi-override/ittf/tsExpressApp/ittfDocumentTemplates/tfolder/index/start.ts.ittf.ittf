@@ -1,0 +1,102 @@
+$group
+    ${'$'}params &md
+    
+    ${'$'}if wzCtx.Build.useMongoDb
+        let modelBuilders
+            :[ 
+                :ref ModelBuilderType
+            =
+                [ 
+                    ${'$'}if wzCtx.Build.useAuthorization
+                        @ ...authorizationModelBuilders
+                    ${'$'}if wzCtx.Build.useAccount
+                        @ ...accountModelBuilders
+                    ${'$'}if wzCtx.Build.useBlog
+                        @ ...postModelBuilders
+                    ${'$'}if wzCtx.Build.features && wzCtx.Build.features.length > 0
+                        ${'$'}foreach feature in wzCtx.Build.features
+                                ${'$'}if feature.useMongoDb
+                                    @ ...${'$'}{feature.name}ModelBuilders
+                    ${'$'}if wzCtx.Build.examples && wzCtx.Build.examples.length > 0
+                        ${'$'}foreach example in wzCtx.Build.examples
+                                ${'$'}if example.useMongoDb
+                                    @ ...example${'$'}{_.capitalize(example.name)}ModelBuilders
+
+        await mongodbStart(config, modelBuilders)
+        +
+    let middlewaresPre
+        :[ 
+            :ref MiddlewareType
+        =
+            [ 
+                @ ...appMiddlewaresPre
+    let middlewaresPost
+        :[ 
+            :ref MiddlewareType
+        =
+            [ 
+                @ ...appMiddlewaresPost
+        +
+    let apis
+        :[ 
+            :ref ApiType
+        =
+            [ 
+                ${'$'}if wzCtx.Build.useWizziIttf
+                    @ ...ittfApi
+        +
+    let controllers
+        :[ 
+            :ref ControllerType
+        =
+            [ 
+                ${'$'}if wzCtx.Build.useSite
+                    @ ...siteControllers
+                $$ For now auth needs MongoDb
+                ${'$'}if wzCtx.Build.useMongoDb
+                    ${'$'}if wzCtx.Build.useAuthorization
+                        @ ...authorizationControllers
+                ${'$'}if wzCtx.Build.useAccount
+                    @ ...accountControllers
+                ${'$'}if wzCtx.Build.useBlog
+                    @ ...postControllers
+                ${'$'}if wzCtx.Build.useWizzi
+                    ${'$'}if wzCtx.Build.wizzi.useControllers
+                        @ ...wizziControllers
+                ${'$'}if wzCtx.Build.features && wzCtx.Build.features.length > 0
+                    ${'$'}foreach feature in wzCtx.Build.features
+                            ${'$'}if feature.hasControllers
+                                @ ...${'$'}{feature.name}Controllers
+                ${'$'}if wzCtx.Build.examples && wzCtx.Build.examples.length > 0
+                    ${'$'}foreach example in wzCtx.Build.examples
+                            ${'$'}if example.hasControllers
+                                @ ...example${'$'}{_.capitalize(example.name)}Controllers
+
+        +
+    warn 'Starting app. Config:', config
+    
+    ${'$'}if wzCtx.Build.useFilesystem
+        const fsDb
+            await 
+                _ filesystemStart(config)
+    
+    ${'$'}if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useRunner    
+        await 
+            _ wizziStart(config)
+
+    const appInitializer
+        :ref AppInitializerType
+        =
+            { 
+                @ config
+                @ middlewaresPre
+                { globalApi
+                @ apis
+                @ controllers
+                @ middlewaresPost
+                ${'$'}if wzCtx.Build.useFilesystem
+                    @ fsDb
+
+    set app.instance = new App(appInitializer)
+
+

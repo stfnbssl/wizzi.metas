@@ -1,0 +1,56 @@
+$group
+
+    ${'$'}if wzCtx.type == 'module'
+        import { dirname } from 'path'
+        import { fileURLToPath } from 'url'
+        const __dirname = dirname(fileURLToPath(import.meta.url))
+    
+    import path from 'path'
+    export
+        const config
+            { 
+                @ mode "development"
+                { resolve
+                    [ extensions
+                        @ ".tsx"
+                        @ ".ts"
+                        @ ".js"
+                @ entry 
+                    _ path.resolve
+                        @ __dirname
+                        @ './src/index.ts'
+                { module
+				    [ rules
+                        {	
+                            @ test /\.(js|ts|tsx)$/
+                            @ exclude /node_modules/
+                            { use
+                                @ loader 'babel-loader'
+                                { options
+                                    [ presets
+                                        @ '@babel/preset-env'
+                                        @ '@babel/preset-react'
+                                        @ '@babel/preset-typescript'
+                        $*
+                        {	
+                            @ test /\.(ts|tsx)$/
+                            @ exclude /node_modules/
+                            [ use
+                                @ 'ts-loader'
+                        *$
+                        {
+                            @ test /\.(css|scss)$/
+                            [ use
+                                @ "css-loader"
+                        {
+                            @ test /\.(jpg|jpeg|png|gif|mp3|svg)$/
+                            [ use
+                                @ "file-loader" 
+                { output
+                    @ path
+                        _ path.resolve
+                            @ __dirname
+                            @ 'static'
+                    @ filename 'hello.bundle.js'
+                    @ publicPath '/webpacks/hello'
+                @ devtool 'cheap-module-source-map'

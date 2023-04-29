@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useJsappcrud
+        $file __dot__wizzi/jsappcrud/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsappcrud/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/jsappcrud/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include jsappcrud/tfolder/${item}.js

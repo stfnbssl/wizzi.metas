@@ -1,0 +1,359 @@
+$group
+    $
+        var myName = 'MonacoEditor';
+        //
+    
+    iife_window( editors, ${myName})
+        var setupExecuted = false
+        const editorStates = new Map()
+            # Store editor states such as cursor position, selection and scroll position for each model
+        const findModel
+            =>
+                param path
+                _ monaco.editor.getModels().find
+                    =>
+                        param model
+                        ===
+                            + model.uri.path
+                            `lit
+                                + /
+                                @ path
+        
+        function ${myName}
+            param styleData
+            set this.styleData = styles.computeStyleData(styleData)
+            set this.overrides = new editors.MonacoOverrides(this.styleData)
+            set this._disposables = []
+            set this._editor = null
+            set this.props
+                {
+                    @ lineNumbers 'on'
+                    @ wordWrap 'on'
+                    @ scrollBeyondLastLine false
+                    { minimap
+                        @ enabled false
+                    @ fontFamily 'var(--font-monospace)'
+                    @ fontLigatures true
+            set this._handleResize
+                =>
+                  _ _.debounce
+                      =>
+                          _ this._editor?.layout?.()
+                      @ 50
+                      {
+                          @ leading true
+                          @ trailing true
+            set this._handleEditFile
+                =>
+                    param _event
+                    const model = this._editor?.getModel?.()
+                    if model
+                        const value = model.getValue()
+                        if value !== this.props.files[this.props.selectedFileName]?.contents
+                            _ this.props.updateFiles
+                                =>
+                                    (
+                                        {
+                                            { [this.props.selectedFileName]
+                                                @ type 'CODE'
+                                                @ contents value
+
+
+        set ${myName}.setup
+            function 
+                param styleData
+                param callback
+                if typeof callback == 'undefined'
+                    set callback = styleData
+                    set styleData = null
+                if setupExecuted
+                    return
+                        _ callback
+                _ require.config
+                    { 
+                        { paths
+                            @ 'vs' 'https://cdn.bootcdn.net/ajax/libs/monaco-editor/0.20.0/min/vs'
+                _ require
+                    [ 
+                        @ 'vs/editor/editor.main'
+                    function 
+                        _ ${myName}.register
+                        set setupExecuted = true
+                        return
+                            _ callback
+
+        set ${myName}.register
+            function
+              const monacoTheme = new editors.MonacoTheme(this.styleData)
+              const ittfLightTheme = editors.MonacoIttfLightTheme
+              const ittfDarkTheme = editors.MonacoIttfDarkTheme
+              const light = monacoTheme.light()
+              const dark = monacoTheme.dark()
+              info 'ittfLightTheme', ittfLightTheme
+              info 'ittfDarkTheme', ittfDarkTheme
+              info 'light', light
+              info 'dark', dark
+              _ monaco.languages.register
+                  {
+                      @ id 'ittf'
+              _ monaco.languages.setMonarchTokensProvider('ittf', editors.MonacoIttfLanguage)
+              _ monaco.editor.defineTheme('ittfLight', editors.MonacoIttfLightTheme)
+              _ monaco.editor.defineTheme('ittfDark', editors.MonacoIttfDarkTheme)
+              _ monaco.editor.defineTheme('light', monacoTheme.light())
+              _ monaco.editor.defineTheme('dark', monacoTheme.dark())
+        
+        set ${myName}.prototype.setProps
+            function
+                param props
+                const prevProps
+                    _ Object.assign
+                      {
+                      @ this.props
+                set this.props
+                    _ Object.assign
+                      {
+                      @ this.props
+                      @ props
+                _ this.componentDidUpdate
+                    @ prevProps
+
+
+        set ${myName}.prototype.getEditorTheme
+            function
+              param theme
+              param filePath
+              if filePath.endsWith('.ittf')
+                  return theme == 'ligth' ? 'ittfLight' : 'ittfDark'
+              else
+                  return theme
+        
+        set ${myName}.prototype.componentDidMount
+            function
+                const
+                    {
+                        @ files
+                        @ selectedFileName
+                        @ autoFocus
+                        @ updateFiles
+                        @ onSelectFile
+                        @ readOnly
+                        ... rest
+                    = this.props
+                const options
+                    {
+                        @ ...rest
+                        @ theme this.getEditorTheme(rest.theme, selectedFileName)
+                        @ readOnly readOnly
+                const editor
+                    _ monaco.editor.create
+                        @ this.$container
+                        {
+                            ... options
+                            @ model null
+                set this._editor = editor
+                const codeEditorService = editor._codeEditorService
+                const openEditorBase = codeEditorService.openCodeEditor.bind(codeEditorService)
+                set codeEditorService.openCodeEditor =
+                    async=>
+                        param input
+                        param source
+                        const result = await openEditorBase(input, source)
+                        const
+                            {
+                                @ resource
+                                @ options
+                            = input
+                        _ this.props.onSelectFile(resource.path.replace(/^\//, ''))
+                            # Remove the leading slash added by the Uri
+                        _ editor.setSelection(options.selection)
+                        _ editor.revealLine(options.selection.startLineNumber)
+                        return result
+                    # The methods provided by the service are on it's prototype
+                    # So spreading this object doesn't work, we must mutate it
+                _ this._disposables.push
+                    @ editor
+                _ this._disposables.push
+                    _ editor.onDidChangeModelContent(this._handleEditFile)
+                _ this._openFile
+                    @ selectedFileName
+                    @ files[selectedFileName]?.contents
+                    @ autoFocus
+                for const path in files
+                    const file = files[path]
+                    if file.type === 'CODE'
+                        _ this._initializeFile(path, file.contents)
+                    # Load all the files so the editor can provide proper intellisense
+
+        set ${myName}.prototype.componentDidUpdate
+            function
+                param prevProps
+                const
+                    {
+                        @ container
+                        @ selectedFileName
+                        @ files
+                        @ autoFocus
+                        @ theme
+                        @ updateFiles
+                        @ onSelectFile
+                        ... rest
+                    = this.props
+                if this._editor == null
+                    set this.$container = document.getElementById(container)
+                    _ this.componentDidMount
+                const options
+                    {
+                        @ ...rest
+                        @ theme this.getEditorTheme(theme, selectedFileName)
+                if this._editor
+                    _ this._editor.updateOptions(options)
+                    const model = this._editor.getModel()
+                    const value = files[selectedFileName]?.contents
+                    if selectedFileName !== prevProps.selectedFileName
+                        _ editorStates.set(prevProps.selectedFileName, this._editor.saveViewState())
+                            # Save the editor state for the previous file so we can restore it when it's re-opened
+                        _ this._openFile(selectedFileName, value, autoFocus)
+                    else
+                        if model && value !== model.getValue()
+                            _ this._editor.executeEdits
+                                @ null
+                                [
+                                    {
+                                        @ range model.getFullModelRange()
+                                        @ text value
+                                # @ts-ignore
+                if theme !== prevProps.theme || selectedFileName !== prevProps.selectedFileName
+                    _ monaco.editor.setTheme
+                        _ this.getEditorTheme
+                            @ theme
+                            @ selectedFileName
+                if prevProps.files !== this.props.files
+                    for const path in this.props.files
+                        const file = this.props.files[path]
+                        if file.type === 'CODE' && 
+                            \b (!prevProps.files || file.contents !== prevProps.files[path]?.contents) &&
+                            \b path !== selectedFileName
+                            _ this._initializeFile(path, file.contents)
+        
+        set ${myName}.prototype.dispose
+            function
+                _ this._disposables.forEach
+                    =>
+                        param d
+                        _ d.dispose()
+        
+        set ${myName}.prototype._initializeFile
+            function
+                param path
+                param value
+                let model = findModel(path)
+                if model && !model.isDisposed()
+                    _ model.pushEditOperations
+                        [
+                        [
+                            {
+                                @ range model.getFullModelRange()
+                                @ text value
+                        # If a model exists, we need to update it's value
+                        # This is needed because the content for the file might have been modified externally
+                        # Use `pushEditOperations` instead of `setValue` or `applyEdits` to preserve undo stack
+                        # @ts-ignore
+                else
+                    if path.endsWith('.ittf')
+                        set model =
+                            _ monaco.editor.createModel
+                                @ value
+                                @ 'ittf'
+                                _ monaco.Uri.from
+                                    {
+                                        @ scheme 'file'
+                                        @ path
+                    else
+                        set model =
+                            _ monaco.editor.createModel
+                                @ value
+                                @ undefined
+                                _ monaco.Uri.from
+                                    {
+                                        @ scheme 'file'
+                                        @ path
+                    _ model.updateOptions
+                        {
+                            @ tabSize 4
+                            @ insertSpaces true
+
+        set ${myName}.prototype._openFile
+            function
+                param path
+                param value
+                param focus
+                info 'PackiMonacoEditor', '_openFile', path, value
+                _ this._initializeFile(path, value)
+                const model = findModel(path)
+                if this._editor && model
+                    _ this._editor.setModel(model)
+                    const editorState = editorStates.get(path)
+                        # Restore the editor state for the file
+                    if editorState
+                        _ this._editor.restoreViewState(editorState)
+                    if focus
+                        _ this._editor.focus()
+        
+        set ${myName}.prototype.render
+            function
+                param container
+                if this._editor == null
+                    set this.$container = document.getElementById(container)
+                    _ this.componentDidMount
+                $*
+                return
+                    div
+                        @ className {css(styles.container)}
+                        < style
+                            @ type "text/css"
+                            @ dangerouslySetInnerHTML
+                                {
+                                    @ __html overrides
+                        < ResizeDetector
+                            @ onResize {this._handleResize}
+                            div
+                                @ ref {this._node}
+                                @ className
+                                    _ classnames
+                                        _ css(styles.editor)
+                                        @ 'packi-monaco-editor'
+                                        `lit
+                                            + theme-
+                                            @ this.props.theme
+    const styles
+        _ StyleSheet.create
+            {
+                { container
+                    @ display 'flex'
+                    @ flex 1
+                    @ flexDirection 'column'
+                    @ height '100%'
+                    @ width '100%'
+                { editor
+                    @ height '100%'
+                    @ width '100%'
+
+                *$
+
+        $if false
+            set ${myName}.removePath
+                function $$ static
+                  param path
+                  _ editorStates.delete(path)
+                      # Remove editor states
+                  const model = findModel(path)
+                      # Remove associated models
+                  _ model?.dispose?.()
+            set ${myName}.renamePath
+                function $$ static
+                    param oldPath
+                    param newPath
+                    const selection = editorStates.get(oldPath)
+                    _ editorStates.delete(oldPath)
+                    _ editorStates.set(newPath, selection)
+                    _ this.removePath(oldPath)

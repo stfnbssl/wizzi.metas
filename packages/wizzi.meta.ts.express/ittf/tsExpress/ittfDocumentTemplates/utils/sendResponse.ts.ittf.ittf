@@ -1,0 +1,98 @@
+$group
+
+    import 
+        @ Response
+        from 'express'
+
+    import HttpException from '../httpException'
+
+    function sendContent
+        param res
+            :ref Response
+        param contentType
+            :string
+        param content
+            :string
+        _ res.writeHead
+            @ 200
+            { 
+                @ 'Content-Type' contentType
+                @ 'Content-Length' content ? content.length : 0
+        _ res.end(content)
+
+    export 
+        const sendHtml
+            => 
+                param res
+                    :ref Response
+                param content
+                    :string
+                _ sendContent
+                    @ res
+                    @ 'text/html'
+                    @ content
+    
+    export 
+        const sendFailure
+            => 
+                param res
+                    :ref Response
+                param error
+                    :any
+                param status
+                    :number 
+                _ res.status
+                    iif error && error.status
+                        then error.status
+                        else status
+                _ res.type('application/json')
+                _ res.send(error)
+    
+    export 
+        const sendSuccess
+            => 
+                param res
+                    :ref Response
+                param message
+                    :any 
+                _ res.status(200)
+                _ res.type('application/json')
+                _ res.send(message)
+    
+    export 
+        function sendPromiseResult
+            :< T
+            param res
+                :ref Response
+            param message
+                :ref Promise
+                    :param 
+                        :ref T
+            _ message.then
+                => 
+                    param result
+                        :ref T
+                    _ sendSuccess(res, result)
+                        # console.log('sendPromiseResult.ok', result);
+                ._ catch
+                    => 
+                        param err
+                            :any 
+                        error 'sendPromiseResult.err', err
+                        _ sendFailure(res, err, 500)
+    
+    export 
+        function sendPromiseLikeResult
+            :< T
+            param res
+                :ref Response
+            param message
+                :ref PromiseLike
+                    :param 
+                        :ref T
+            _ message.then
+                => 
+                    param result
+                        :ref T
+                    _ sendSuccess(res, result)
+                    $$ loog 'sendPromiseLikeResult.ok', result

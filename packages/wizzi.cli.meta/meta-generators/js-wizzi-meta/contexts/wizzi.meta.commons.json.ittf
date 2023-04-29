@@ -1,0 +1,47 @@
+{
+
+    $
+        var metaBasename = "commons";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Commons meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "commonsBabel"
+        {
+            name "commonsBabelrc"
+        {
+            name "commonsDeploy"
+        {
+            name "commonsEnv"
+        {
+            name "commonsEslint"
+        {
+            name "commonsGit"
+        {
+            name "commonsPackage"
+        {
+            name "commonsPostcss"
+        {
+            name "commonsPrettier"
+        {
+            name "commonsServerCertificate"
+        {
+            name "commonsTailwind"
+        {
+            name "commonsWebpack"
+        {
+            name "commonsWizzi"

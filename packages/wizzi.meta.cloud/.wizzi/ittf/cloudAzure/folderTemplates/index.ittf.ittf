@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useCloudAzure
+        $file __dot__wizzi/cloudAzure/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include cloudAzure/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/cloudAzure/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include cloudAzure/tfolder/${item}.js

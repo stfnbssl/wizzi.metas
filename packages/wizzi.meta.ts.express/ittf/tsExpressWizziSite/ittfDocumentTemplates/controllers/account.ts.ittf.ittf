@@ -1,0 +1,172 @@
+$group
+
+    ${'$'}
+        var ctrl = {
+            name: 'Account',
+            path: '/account',
+            kind: 'site',
+            webSecured: true
+        }
+
+    v08/ts/controller${'('} &ctrl )
+        ${'$'}append imports
+                import
+                    as queryString 
+                    from 'query-string'
+                import axios from 'axios'
+                import
+                    @ userApi
+                    from '../../features/account'
+
+                const myname = 'site.controllers.account'
+        
+        v08/ts/route_web_secured${'('} get, /profile, this.profile)
+        v08/ts/route${'('} get, /profile/github, this.profileGithub)
+        v08/ts/route${'('} get, /profile/google, this.profileGoogle)
+        
+        ${'$'}append handlers
+
+            v08/ts/handler${'('} profile )
+                _ response.render
+                    @ 'account/profile.html.ittf'
+                    {
+                        @ title (request as any).session.user ? (request as any).session.user.name + ' profile · Wizzi' : 'User unknown'
+                $*
+                const options
+                    {
+                        @ limit 10
+                        { sort
+                            @ updated_at -1
+                const artifactList = artifactApi.getListArtifactProduction(options)
+                const packageList = packageApi.getListPackageProduction(options)
+                const tfolderList = tFolderApi.getListTFolder(options)
+                _ Promise.all
+                    [
+                        @ artifactList
+                        @ packageList
+                        @ tfolderList
+                    ._ then
+                        =>
+                            param values
+                                :any
+                            const [artifacts, packages, tfolders] = values
+                            $$ loog 'artifacts', artifacts
+                            $$ loog 'packages', packages
+                            $$ loog 'tfolders', tfolders
+                            _ response.render
+                                @ 'home/profile.html.ittf'
+                                {
+                                    @ title (request as any).session.user ? (request as any).session.user.name + ' profile · Wizzi' : 'User unknown'
+                                    @ artifacts artifacts.item
+                                    @ packages packages.item
+                                    @ tfolders tfolders.item
+                *$          
+
+            v08/ts/handler${'('} profileGithub )
+                $$ loog myname, 'profileGithub', (request as any).session.github_access_token
+                $$ loog myname, 'profileGithub', (request as any).session
+                _ axios
+                    {
+                        @ method 'get'
+                        @ url `https://api.github.com/user`
+                        { headers
+                            @ Authorization 'token ' + (request as any).session.github_access_token
+                    ._ then
+                        =>
+                            param githubResult
+                                :any
+                            $$ loog myname, 'profileGithub', 'githubResult.data', githubResult.data
+                            if githubResult.data.email == null
+                                _ response.render
+                                    @ 'account/error-github-email-private.html.ittf'
+                                    {
+                                        @ profile githubResult.data
+                                        @ message 'trying to create your wizzi account'
+                            else
+                                _ userApi.getUserByEmail
+                                    @ githubResult.data.email
+                                    ._ then
+                                        =>
+                                            param wizziresult
+                                                :any
+                                            $$ loog myname, 'profileGithub', 'getUserByEmail', 'wizziresult', wizziresult
+                                            if wizziresult.found
+                                                set (request as any).session.user = wizziresult.user
+                                                _ response.redirect('/account/profile')
+                                                # _ response.send('<pre><code>' +  JSON.stringify({ userData: user /*result.data*/ }, null, 2) + '</code></pre>')
+                                            else
+                                                const queryParams
+                                                    _ queryString.stringify
+                                                        {
+                                                            @ name githubResult.data.name
+                                                            @ email githubResult.data.email
+                                                            @ avatar_url githubResult.data.avatar_url
+                                                            @ openid_provider 'github'
+                                                _ response.redirect(`/user/new?${queryParams}`)
+                                    ._ catch
+                                        =>
+                                            param err
+                                                :any
+                                            error myname, 'profileGithub', 'getUserByEmail', 'error', err
+                                            _ response.render
+                                                @ 'error.html.ittf'
+                                                {
+                                                    @ error err
+                                                    @ message 'Error getting user data by email from mongodb'
+
+            v08/ts/handler${'('} profileGoogle )
+                $$ loog og myname, 'profileGoogle'
+                _ axios
+                    {
+                        @ method 'get'
+                        @ url `https://www.googleapis.com/oauth2/v2/userinfo`
+                        { headers
+                            @ Authorization 'Bearer ' + (request as any).session.google_access_token
+                    ._ then
+                        =>
+                            param googleResult
+                                :any
+                            $$ loog og myname, 'profileGoogle', 'googleResult.data', googleResult.data
+                            if googleResult.data.email == null
+                                _ response.render
+                                    @ 'account/error-google-email-private.html.ittf'
+                                    {
+                                        @ profile googleResult.data
+                                        @ message 'trying to create your wizzi account'
+                            else
+                                _ userApi.getUserByEmail
+                                    @ googleResult.data.email
+                                    ._ then
+                                        =>
+                                            param wizziresult
+                                                :any
+                                            $$ loog og myname, 'profileGoogle', 'getUserByEmail', 'wizziresult', wizziresult
+                                            if wizziresult.found
+                                                set (request as any).session.user = wizziresult.user
+                                                _ response.redirect('/account/profile')
+                                                # _ response.send('<pre><code>' +  JSON.stringify({ userData: user /*result.data*/ }, null, 2) + '</code></pre>')
+                                            else
+                                                const queryParams
+                                                    _ queryString.stringify
+                                                        {
+                                                            @ name googleResult.data.name
+                                                            @ email googleResult.data.email
+                                                            @ avatar_url googleResult.data.picture
+                                                            @ openid_provider 'google'
+                                                _ response.redirect(`/user/new?${queryParams}`)
+                                    ._ catch
+                                        =>
+                                            param err
+                                                :any
+                                            $$ loog og myname, 'profileGoogle', 'getUserByEmail', 'error', err
+                                            _ response.render
+                                                @ 'error.html.ittf'
+                                                {
+                                                    @ error err
+                                                    @ message 'getting user data by email'
+
+                            $*
+                            # _ response.json({ userData: googleResult.data })
+                            set (request as any).session.user = googleResult.data
+                            _ response.send('<pre><code>' +  JSON.stringify({ userData: googleResult.data }, null, 2) + '</code></pre>')
+                            *$

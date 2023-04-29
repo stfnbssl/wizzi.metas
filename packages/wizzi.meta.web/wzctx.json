@@ -1,0 +1,76 @@
+{
+    "name": "wizzi.meta.web",
+    "npnName": "@wizzi/meta.web",
+    "pluginBasename": "",
+    "version": "",
+    "description": "wizzi.meta.web",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2023"
+    },
+    "metaNamespace": "web",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.ittf/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "webHtml",
+            "title": "webHtml wizzi meta production"
+        },
+        {
+            "name": "webJs",
+            "title": "webJs wizzi meta production"
+        },
+        {
+            "name": "webJsWz",
+            "title": "webJsWz wizzi meta production"
+        },
+        {
+            "name": "webCss",
+            "title": "webCss wizzi meta production"
+        },
+        {
+            "name": "webSvg",
+            "title": "webSvg wizzi meta production"
+        },
+        {
+            "name": "webSiteDemo",
+            "title": "webSiteDemo wizzi meta production"
+        },
+        {
+            "name": "webSiteWebapi",
+            "title": "webSiteWebapi wizzi meta production"
+        },
+        {
+            "name": "webAppCrud",
+            "title": "webAppCrud wizzi meta production"
+        },
+        {
+            "name": "webWizziDocs",
+            "title": "webWizziDocs wizzi meta production"
+        }
+    ]
+}

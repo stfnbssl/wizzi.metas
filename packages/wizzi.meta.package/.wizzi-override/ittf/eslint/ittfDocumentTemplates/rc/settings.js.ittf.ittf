@@ -1,5 +1,0 @@
-﻿$group
-
-    ${'$'}if wzCtx.Build.useReact
-        { react
-            @ version '16.8'

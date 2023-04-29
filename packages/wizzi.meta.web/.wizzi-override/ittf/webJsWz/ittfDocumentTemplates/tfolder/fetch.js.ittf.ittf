@@ -1,0 +1,163 @@
+﻿$group
+	
+    iife
+		
+		if !window.wz
+			set window.wz = {}
+
+        if !window.wz.fetch
+            set window.wz.fetch = {}
+
+        set wz.fetch.buildUrl
+            function
+                param url
+                param params
+                var newUrl = url
+                if params && params.length > 0
+                    var seen = false
+                    foreach p in params
+                        if p.type == 'url'
+                            set newUrl = wz.replace(newUrl, ':' + p.name, encodeURIComponent(p.value))
+                        else
+                            if !seen
+                                set newUrl = newUrl + '?' + p.name + '=' + encodeURIComponent(p.value)
+                                set seen = true
+                            else
+                                set newUrl = newUrl + '&' + p.name + '=' + encodeURIComponent(p.value)
+                return newUrl
+
+        set wz.fetch.get
+            function
+                param url
+                param params
+                param callback
+                
+                if !callback
+                    set callback = params
+                    set params = null
+
+                var buildedUrl = wz.fetch.buildUrl(url, params)
+                # loog 'wz.fetch.get.buildedUrl', buildedUrl
+
+                _ fetch
+                    @ buildedUrl
+                    { 
+                        @ method 'GET'
+                        { headers
+                            @ Accept 'application/json'
+                            @ 'Content-Type' 'application/json'
+                    ._ then
+                        =>
+                            param response
+                            if response.ok
+                                return 
+                                    _ response.json
+                            else
+                                throw response.json()
+                    ._ then
+                        =>
+                            param json
+                            # loog 'fetch.get', url, 'response', json
+                            _ callback
+                                @ null
+                                @ json
+                    ._ catch
+                        =>
+                            param err
+                            # loog 'fetch.get', url, 'err', Object.keys(err), err
+                            _ callback
+                                @ err            
+
+        set wz.fetch.post
+            function
+                param url
+                param params
+                param body
+                param callback
+                
+                if !callback
+                    set callback = params
+                    set params = null
+
+                var buildedUrl = wz.fetch.buildUrl(url, params)
+                # loog 'wz.fetch.post.buildedUrl', buildedUrl
+                
+                _ fetch
+                    @ buildedUrl
+                    { 
+                        @ method 'POST'
+                        { headers
+                            @ Accept 'application/json'
+                            @ 'Content-Type' 'application/json'
+                        @ body 
+                            _ JSON.stringify
+                                @ body
+                    ._ then
+                        =>
+                            param response
+                            if response.ok
+                                return 
+                                    _ response.json
+                            else
+                                throw response.json()
+                    ._ then
+                        =>
+                            param json
+                            # loog 'fetch.post', url, 'response', json
+                            _ callback
+                                @ null
+                                @ json
+                    ._ catch
+                        =>
+                            param err
+                            # loog 'fetch.post', url, 'err', Object.keys(err), err
+                            _ callback
+                                @ err            
+
+        set wz.fetch.put
+            function
+                param url
+                param params
+                param body
+                param callback
+                
+                if !callback
+                    set callback = params
+                    set params = null
+
+                var buildedUrl = wz.fetch.buildUrl(url, params)
+                # loog 'wz.fetch.put.url', url
+                # loog 'wz.fetch.put.params', params
+                # loog 'wz.fetch.put.buildedUrl', buildedUrl
+                
+                _ fetch
+                    @ buildedUrl
+                    { 
+                        @ method 'PUT'
+                        { headers
+                            @ Accept 'application/json'
+                            @ 'Content-Type' 'application/json'
+                        @ body 
+                            _ JSON.stringify
+                                @ body
+                    ._ then
+                        =>
+                            param response
+                            if response.ok
+                                return 
+                                    _ response.json
+                            else
+                                throw response.json()
+                    ._ then
+                        =>
+                            param json
+                            # loog 'fetch.post', url, 'response', json
+                            _ callback
+                                @ null
+                                @ json
+                    ._ catch
+                        =>
+                            param err
+                            # loog 'fetch.post', url, 'err', Object.keys(err), err
+                            _ callback
+                                @ err                                            

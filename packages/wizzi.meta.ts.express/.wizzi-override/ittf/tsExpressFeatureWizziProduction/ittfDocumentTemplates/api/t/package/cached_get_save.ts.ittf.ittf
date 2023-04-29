@@ -1,0 +1,130 @@
+$group
+
+    +
+    export
+        async-function getPackageProductionObject_stop
+            param owner
+                :string
+            param name
+                :string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getPackageProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IPackageProductionModel
+                                        = result.item
+                                    $$ loog 'myname', 'getPackageProductionObject.tf', tf
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    $$ loog 'myname', 'getPackageProductionObject.tf_packiFiles_object', tf_packiFiles_object
+                                    const obj
+                                        { 
+                                            @ ...tf._doc
+                                            @ packiFiles tf_packiFiles_object
+                                            @ _id tf._id.toString()
+                                    $$ loog 'myname', 'getPackageProductionObject', obj
+                                    return 
+                                        _ resolve
+                                            @ obj
+                            v08/ts/catch_reject${'('} getPackageProductionObject.getPackageProduction )
+
+    +
+    export
+        async-function getPackageProductionObjectById_stop
+            param id
+                :string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ getPackageProductionById
+                            @ id
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IPackageProductionModel
+                                        = result.item
+                                    $$ loog 'myname', 'getPackageProductionObjectById.tf', tf
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    $$ loog 'myname', 'getPackageProductionObjectById.tf_packiFiles_object', tf_packiFiles_object
+                                    const obj
+                                        { 
+                                            @ ...tf._doc
+                                            @ packiFiles tf_packiFiles_object
+                                            @ _id tf._id.toString()
+                                    $$ loog 'myname', 'getPackageProductionObjectById', obj
+                                    return 
+                                        _ resolve
+                                            @ obj
+                            v08/ts/catch_reject${'('} getPackageProductionObjectById.getPackageProductionById )
+
+    +
+    export
+        async-function getPackageProduction_withCache
+            param owner
+                :string
+            param name
+                :string
+            var cacheKey = owner + '|' + name
+            $$ loog 'getPackageProduction_withCache.cacheKey', cacheKey
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        ${'$'}if wzCtx.Build.wizziProduction.useCachedProductions
+                            let ppValue = packageCache.get(cacheKey)
+                            if ppValue
+                                return resolve(ppValue)
+                        ${'$'}else
+                            let ppValue
+                                { 
+                                    { packiFiles
+                        _ getPackageProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IPackageProductionModel
+                                        = result.item
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    set ppValue
+                                        { 
+                                            @ packiFiles tf_packiFiles_object
+                                    ${'$'}if wzCtx.Build.wizziProduction.useCachedProductions
+                                        _ packageProductionCache.set(cacheKey, ppValue)
+                                    return resolve(ppValue)
+                            v08/ts/catch_reject${'('} getPackageProduction_withCache.getArtifactProduction )
+
+    +
+    export
+        function invalidateCache
+            param owner
+                :string
+            param name
+                :string
+            var cacheKey = owner + '|' + name
+            _ packageProductionCache.del(cacheKey)

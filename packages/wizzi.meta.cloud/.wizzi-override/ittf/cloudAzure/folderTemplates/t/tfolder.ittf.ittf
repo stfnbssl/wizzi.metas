@@ -1,0 +1,45 @@
+$group
+    
+    $
+        var items = [
+            "build.yaml",
+            "deploy.yaml",
+            "functional-tests.yaml",
+        ];
+
+    $foreach item in items
+
+        $file __dot__wizzi/t/v08/azure/github/devops/${item}.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include cloudAzure/github/tfolder/devops/${item}
+
+    $
+        var items = [
+            "parameters.json",
+            "resources.json",
+            "outputs.json",
+        ];
+
+    $foreach item in items
+
+        $file __dot__wizzi/t/v08/azure/arm/${item}.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include cloudAzure/arm/tfolder/${item}
+
+    $
+        var items = [
+            "unitTest.js",
+            "functionalTest.js",
+        ];
+
+    $foreach item in items
+
+        $file __dot__wizzi/t/v08/azure/tests/gulp/${item}.ittf.ittf
+            ${"${'$'}"}group
+                ${"${'$'}"}params &md
+                
+                ${'$'}include cloudAzure/tests/tfolder/gulp/${item}     

@@ -1,0 +1,30 @@
+$group
+
+    ${'$'}
+        var opt = {
+        }
+
+    layouts/site${'('} &opt )
+
+        ${'$'}if false
+            pre
+                code
+                    + ${'$'}{JSON.stringify(locals, null, 2)}
+                    + ${'$'}{JSON.stringify(siteCtx, null, 2)}
+
+        . m-l-200 m-r-200 
+            . flex-column justify-content-center
+                . text-align-center m-t-100 font-w-xxl
+                    style font-size: 72px
+                    + ${'$'}{siteCtx.name}
+                . text-align-center m-t-100
+                    style font-size: 52px
+                    + ${'$'}{siteCtx.title}
+                . text-align-center 
+                    style font-size: 52px
+                    + ${'$'}{siteCtx.title2}
+                . text-align-center m-t-100
+                    style font-size: 32px
+                    ${'$'}foreach item in siteCtx.subtitles
+                        . m-t-s
+                            + ${'$'}{item}

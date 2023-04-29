@@ -1,0 +1,9 @@
+$group
+
+    $file __dot__wizzi/t/v08/app/startImports.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/node/app/tfolder/startImports.ts
+
+    $file __dot__wizzi/t/v08/app/startServices.ts.ittf.ittf
+        ${"${'$'}"}group
+            ${'$'}include wz/v08/ts/node/app/tfolder/startServices.ts
