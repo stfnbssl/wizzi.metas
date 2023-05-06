@@ -36,10 +36,7 @@ $group
                 from '../api/context'
             import
                 @ file
-                $if metaCtx.useWizziV08
-                    from '@wizzi/factory'
-                $else
-                    from 'wizzi'
+                from '@wizzi/factory'
             const myname = '${'$'}{myname}'
 
         ${'$'}if wzCtx.Build.useAuthentication

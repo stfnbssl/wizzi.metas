@@ -1,0 +1,179 @@
+$group
+
+    $if metaCtx.tsExpressFeaturePacki.usePackiProductions
+        
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/index.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/packi-productions/index.ts
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/types.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/packi-productions/types.ts
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/utils.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/packi-productions/utils.ts
+
+        $
+            var items = [
+                "artifact",
+                "meta",
+                "package",
+                "plugin",
+                "tfolder",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/mongo/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/mongo/${item}.ts
+
+        $
+            var items = [
+                "artifact",
+                "meta",
+                "package",
+                "plugin",
+                "production",
+                "tfolder",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/${item}.ts
+        
+        $
+            var items = [
+                "cached_get_save",
+                "generation",
+                "get_context",
+                "mtree",
+                "mtreeBuildupScript",
+                "packi",
+                "prepare",
+                "transformation",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/artifact/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/tfolder/artifact/${item}.ts
+
+        $
+            var items = [
+                "cached_get_save",
+                "get_metaGeneration",
+                "get_templatePackiFiles",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/meta/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/tfolder/meta/${item}.ts
+
+        $
+            var items = [
+                "cached_get_save",
+                "artifact_generation",
+                "get_wizzi_meta_folder",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/package/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/tfolder/package/${item}.ts
+
+        $
+            var items = [
+                "cached_get_save",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/plugin/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/tfolder/plugin/${item}.ts
+
+        $
+            var items = [
+                "cached_get_save",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/tfolder/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/tfolder/tfolder/${item}.ts
+
+        $
+            var items = [
+                "metaCtx_from_packi_config",
+                "ctx_from_production_object",
+                "ctx_from_query_string",
+                "ctx_get"
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/production/${item}.ts.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/tfolder/production/${item}.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/get_object_api.ts.ittf.ittf
+            ${'${"$"}'}group
+                ${'$'}include tsExpressFeaturePacki/packi-productions/api/tfolder/get_object_api.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/imports_and_validate_api.ts.ittf.ittf
+            ${'${"$"}'}group
+                ${'$'}include tsExpressFeaturePacki/packi-productions/api/tfolder/imports_and_validate_api.ts
+
+        $
+            var items = [
+                "artifact",
+                "package",
+                "plugin",
+                "tfolder",
+                "meta",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/controllers/${item}.tsx.ittf.ittf
+                module
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/controllers/${item}.tsx
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/controllers/apiv1${item}.tsx.ittf.ittf
+                module
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/controllers/apiv1${item}.tsx
+        
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/controllers/apiv1generations.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/packi-productions/controllers/apiv1generations.ts
+
+        $
+            var items = [
+                "apiv1_exec_update",
+                "apiv1_imports",
+                "apiv1_put",
+                "check_name",
+                "delete_delete",
+                "delete_get_form",
+                "update_get_form",
+                "update_put",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/controllers/t/${item}.tsx.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/controllers/tfolder/${item}.tsx
+
+
+        $
+            var items = [
+                "artifact",
+                "package",
+                "plugin",
+                "tfolder",
+                "meta",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/controllers/t/defaults/${item}_packifiles.tsx.ittf.ittf
+                ${'${"$"}'}group
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/controllers/tfolder/defaults/${item}_packifiles.tsx
+
+

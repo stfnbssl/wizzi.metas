@@ -8,10 +8,7 @@ $group
     import path from 'path'
     import
         @ file
-        $if metaCtx.useWizziV08
-            from '@wizzi/factory'
-        $else
-            from 'wizzi'
+        from '@wizzi/factory'
     import
         @ config
         from '../../config'

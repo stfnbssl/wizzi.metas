@@ -1,0 +1,35 @@
+﻿$group
+
+	- 
+		- Sidebar element (example)
+		- aside 
+			- id sidebar
+			- class sidebar flex
+			- hgroup
+				- ...
+			- menu
+				- ... 
+		- js
+			- $(window).load
+				- function 
+					- $("body").addClass("go")
+
+    . sidebar
+        opacity 0
+        transition opacity 0 .5s
+        height 100%
+    
+	. go .sidebar
+        opacity 1
+        transition .3s
+    
+	. sidebar
+        user-select none
+        position relative
+        z-index 1000
+        flex-direction column
+        width 20rem
+        background whitesmoke
+    
+	. sidebar.minimized
+        margin-left -16.5rem

@@ -26,7 +26,7 @@ $group
             from '../features/wizzi'
         import
             @ WizziModel
-            from 'wizzi'
+            from '@wizzi/factory'
         export
             const IttfStaticMiddleware
                 :ref MiddlewareType

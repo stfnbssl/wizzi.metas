@@ -4,7 +4,7 @@ $group
         var opt = {
         }
 
-    layouts/site${'('} &opt )
+    html/layouts/site${'('} &opt )
 
         ${'$'}if false
             pre

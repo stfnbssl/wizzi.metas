@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.8
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.web\.wizzi-override\root\index.js.ittf
-    utc time: Sat, 29 Apr 2023 11:16:28 GMT
+    utc time: Mon, 01 May 2023 18:44:43 GMT
 */
 'use strict';
 
@@ -120,14 +120,15 @@ class FactoryMeta {
     getMetaProductionStarter(options, callback) {
         
         var productions = [
+            "webAppCrud", 
+            "webCss", 
             "webHtml", 
             "webJs", 
             "webJsWz", 
-            "webCss", 
-            "webSvg", 
             "webSiteDemo", 
             "webSiteWebapi", 
-            "webAppCrud", 
+            "webSvg", 
+            "webStudioMeta", 
             "webWizziDocs"
         ];
         async.map(productions, (prod, callback) => {
@@ -211,14 +212,15 @@ function error(errorName, method, message, innerError) {
 module.exports = {
     provides: {
         metaProductions: [
+            'webAppCrud', 
+            'webCss', 
             'webHtml', 
             'webJs', 
             'webJsWz', 
-            'webCss', 
-            'webSvg', 
             'webSiteDemo', 
             'webSiteWebapi', 
-            'webAppCrud', 
+            'webSvg', 
+            'webStudioMeta', 
             'webWizziDocs'
         ]
      }, 

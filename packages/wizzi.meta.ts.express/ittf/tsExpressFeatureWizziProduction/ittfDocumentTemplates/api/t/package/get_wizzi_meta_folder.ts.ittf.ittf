@@ -102,7 +102,7 @@ $group
                                                 @ '{'
                                                 @ '    meta "' + packageProductionObject.packiConfigObj.meta.name + '"'
                                                 @ '    metaCtxKind"' + packageProductionObject.packiConfigObj.meta.metaCtx.kind + '"'
-                                                @ '    metaCtxFilePath"' + packageProductionObject.packiConfigObj.meta.metaCtx.filePath + '"'
+                                                @ '    metaCtxFilepath"' + packageProductionObject.packiConfigObj.meta.metaCtx.filePath + '"'
                                                 @ '    metaCtxMessage"' + metaCtx.message + '"'
                                                 ._ join
                                                     @ '\n'    

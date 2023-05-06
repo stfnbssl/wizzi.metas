@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.8
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.express\.wizzi-override\root\index.js.ittf
-    utc time: Sat, 29 Apr 2023 12:28:57 GMT
+    utc time: Sat, 06 May 2023 11:49:42 GMT
 */
 'use strict';
 
@@ -127,6 +127,7 @@ class FactoryMeta {
             "tsExpressFeatureAuth", 
             "tsExpressFeatureBlog", 
             "tsExpressFeatureConfig", 
+            "tsExpressFeatureCdn", 
             "tsExpressFeatureFilesystem", 
             "tsExpressFeatureGithub", 
             "tsExpressFeaturePacki", 
@@ -135,7 +136,7 @@ class FactoryMeta {
             "tsExpressFeatureUser", 
             "tsExpressFeatureWizzi", 
             "tsExpressFeatureWizziDocs", 
-            "tsExpressFeatureWizziProduction", 
+            "tsExpressIttf", 
             "tsExpressStyles", 
             "tsExpressTests", 
             "tsExpressUtils", 
@@ -229,6 +230,7 @@ module.exports = {
             'tsExpressFeatureAuth', 
             'tsExpressFeatureBlog', 
             'tsExpressFeatureConfig', 
+            'tsExpressFeatureCdn', 
             'tsExpressFeatureFilesystem', 
             'tsExpressFeatureGithub', 
             'tsExpressFeaturePacki', 
@@ -237,7 +239,7 @@ module.exports = {
             'tsExpressFeatureUser', 
             'tsExpressFeatureWizzi', 
             'tsExpressFeatureWizziDocs', 
-            'tsExpressFeatureWizziProduction', 
+            'tsExpressIttf', 
             'tsExpressStyles', 
             'tsExpressTests', 
             'tsExpressUtils', 

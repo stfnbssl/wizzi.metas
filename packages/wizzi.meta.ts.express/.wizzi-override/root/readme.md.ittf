@@ -12,7 +12,7 @@ md
         $foreach production in wzCtx.Productions
             tr
                 td
-                    span <a href https://github.com/${wzCtx.github.userId}/${wzCtx.name}/tree/master/.wizzi/ittf/lib/wizzi/productions/${production.name}.wfproduction.ittf>${production.name}</a>
+                    span <a href https://github.com/${wzCtx.github.userId}/${wzCtx.name}/tree/master/.wizzi/ittf/lib/packi/productions/${production.name}.wfproduction.ittf>${production.name}</a>
                 td ${production.title}
     $hook
     br

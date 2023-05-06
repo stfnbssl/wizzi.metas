@@ -4,10 +4,25 @@ $group
         +
         export 
             async-function metaGenerate
+                $* VIA
                 param files
                     :ref packiTypes.PackiFiles
-                param context
+                *$
+                param metaCtx
                     :any 
+                param factoryPlugins
+                    :any 
+                    :optional
+                param metaPlugins
+                    :any 
+                    :optional
+                param globalContext
+                    :{
+                        :index
+                            :any
+                            param k
+                                :string
+                    :optional
                 :return
                     :ref Promise
                         :param 
@@ -17,6 +32,7 @@ $group
                         async=> 
                             param resolve
                             param reject
+                            $* VIA
                             if !verify.isObject(files)
                                 return
                                     _ reject
@@ -24,8 +40,9 @@ $group
                                             @ action 'wizzi.productions.metaGenerate'
                                             @ message 'files parameter must be an object of type PackiFiles'
                                             @ files
+                            *$
                             $$ loogmyname, 'metaGenerate.files', Object.keys(files)
-                            $$ loogmyname, 'metaGenerate.context', Object.keys(context)
+                            log myname, 'metaGenerate.metaCtx', Object.keys(metaCtx)
                             let jsonwf
                                 :any 
                                 =
@@ -33,24 +50,20 @@ $group
                             try 
                                 set jsonwf =
                                     await 
-                                        _ createJsonFsAndFactory(files)
+                                        _ createJsonFsAndFactory
+                                            {
+                                            @ factoryPlugins
+                                            @ metaPlugins
                                 _ jsonwf.wf.metaGenerate
-                                    @ packiFilePrefix + 'index.ittf.ittf'
                                     {
-                                        @ modelRequestContext context
-                                    {
-                                        @ tempFolder packiFilePrefix + 'template'
-                                        @ destFolder packiFilePrefix + '.wizzi'
-                                    a_reject${'('}jsonFs, :ref, JsonFs)
-                                        _ jsonFsToPackiFiles
-                                            @ jsonwf.jsonFs
-                                            @ '.wizzi'
-                                            ._ then
-                                                =>
-                                                    param wizziPackiFiles
-                                                        :ref packiTypes.PackiFiles
-                                                    _ resolve
-                                                        @ wizziPackiFiles
-                                            v08/ts/catch_reject${'('} ${'$'}{myname}.metaGenerate )
+                                        @ metaCtx metaCtx $$ getMetaContext()
+                                        { paths
+                                            @ metaProductionTempFolder '___template'
+                                            @ metaProductionWizziFolder '.wizzi'
+                                        { globalContext
+                                    a_reject${'('}wizziPackiFiles, :ref, packiTypes.PackiFiles)
+                                        _ resolve
+                                            @ wizziPackiFiles
+
                             catch ex
                                 return reject(ex)                                                    

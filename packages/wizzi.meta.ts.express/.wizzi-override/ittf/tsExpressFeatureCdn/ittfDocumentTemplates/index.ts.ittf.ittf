@@ -1,0 +1,46 @@
+$group
+    ${'$'}
+        var name = 'cdn';
+    
+    import
+        @ ModelBuilderType
+        @ ControllerType
+        from '../app/types'
+    import
+        as ${'$'}{name}Types
+        from './types'
+    import
+        @ CdnResourceModelBuilder
+        @ GetCdnResourceModel
+        from './mongo/resource'
+    import
+        @ ApiV1CdnResourceController
+        from './controllers/apiv1resource'
+    import
+        as resourceApi
+        from './api/resource'
+    +
+    const ${'$'}{name}ModelGetters
+        {
+            @ GetCdnResourceModel
+    +
+    const ${'$'}{name}ModelBuilders
+        :[
+            :ref ModelBuilderType
+        =
+            [
+                @ CdnResourceModelBuilder
+    +
+    const ${'$'}{name}Controllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ApiV1CdnResourceController()
+    +
+    export
+        @ ${'$'}{name}Types
+        @ ${'$'}{name}ModelGetters
+        @ ${'$'}{name}ModelBuilders
+        @ ${'$'}{name}Controllers
+        @ resourceApi

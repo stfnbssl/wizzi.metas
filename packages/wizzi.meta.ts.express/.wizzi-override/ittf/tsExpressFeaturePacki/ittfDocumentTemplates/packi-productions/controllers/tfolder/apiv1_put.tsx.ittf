@@ -1,0 +1,27 @@
+$group
+    ${'$'}params &ctrl
+
+    v08/ts/handler${'('}  put${'$'}{ctrl.Production}${'$'}{ctrl.Production == 'TFolder' ? '' : 'Production'}PackiDiffs )
+
+        log 'put${'$'}{ctrl.Production}${'$'}{ctrl.Production == 'TFolder' ? '' : 'Production'}PackiDiffs.request.params', request.params
+        log 'put${'$'}{ctrl.Production}${'$'}{ctrl.Production == 'TFolder' ? '' : 'Production'}PackiDiffs.request.body.options', Object.keys(request.body.options)
+        log 'put${'$'}{ctrl.Production}${'$'}{ctrl.Production == 'TFolder' ? '' : 'Production'}PackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs)
+        const options = request.body.options || {}
+        _ get${'$'}{ctrl.Production}${'$'}{ctrl.Production == 'TFolder' ? '' : 'Production'}ObjectById
+            @ request.params.id
+            ._ then
+                => 
+                    param prev${'$'}{ctrl.Production}
+                        :any
+                    log 'put${'$'}{ctrl.Production}${'$'}{ctrl.Production == 'TFolder' ? '' : 'Production'}PackiDiffs.prevPackiFiles', Object.keys(prev${'$'}{ctrl.Production}.packiFiles)
+                    const pm
+                        new PackiBuilder
+                            @ prev${'$'}{ctrl.Production}.packiFiles
+                    _ pm.applyPatch_ChangesOnly
+                        @ request.body.packiDiffs
+                    return
+                        _ exec_update${'$'}{ctrl.Production}${'$'}{ctrl.Production == 'TFolder' ? '' : 'Production'}
+                            @ request
+                            @ response
+                            @ pm.packiFiles
+            v08/ts/catch_send_fail${'('} put${'$'}{ctrl.Production}${'$'}{ctrl.Production == 'TFolder' ? '' : 'Production'}PackiDiffs.get${'$'}{ctrl.Production}${'$'}{ctrl.Production == 'TFolder' ? '' : 'Production'}ObjectById )                            

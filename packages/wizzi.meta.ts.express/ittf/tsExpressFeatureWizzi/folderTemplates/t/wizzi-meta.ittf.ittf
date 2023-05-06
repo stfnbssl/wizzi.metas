@@ -17,8 +17,3 @@ $group
         $file __dot__wizzi/${pkgPath}src/features/wizziMeta/api/wizziMeta.ts.ittf.ittf
             module
                 ${'$'}include tsExpressFeatureWizzi/wizzi-meta/api/wizziMeta.ts
-
-        $file __dot__wizzi/${pkgPath}src/features/wizziMeta/api/metaTemplator.ts.ittf.ittf
-            module
-                ${'$'}include tsExpressFeatureWizzi/wizzi-meta/api/metaTemplator.ts
-

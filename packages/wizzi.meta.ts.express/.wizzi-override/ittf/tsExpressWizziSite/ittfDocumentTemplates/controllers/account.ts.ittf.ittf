@@ -5,7 +5,7 @@ $group
             name: 'Account',
             path: '/account',
             kind: 'site',
-            webSecured: true
+            webSecured: wzCtx.Build.useAuthentication
         }
 
     v08/ts/controller${'('} &ctrl )
@@ -20,7 +20,10 @@ $group
 
                 const myname = 'site.controllers.account'
         
-        v08/ts/route_web_secured${'('} get, /profile, this.profile)
+        ${'$'}if wzCtx.Build.useAuthentication
+            v08/ts/route_web_secured${'('} get, /profile, this.profile)
+        ${'$'}else
+            v08/ts/route${'('} get, /profile, this.profile)
         v08/ts/route${'('} get, /profile/github, this.profileGithub)
         v08/ts/route${'('} get, /profile/google, this.profileGoogle)
         

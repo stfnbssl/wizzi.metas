@@ -10,21 +10,21 @@ $group
             
         ${'$'}append imports
             import
-                @ createWizziPackage
+                @ executeMetaProduction
                 from '../api/wizziMeta'
             +
             const myname = 'features/wizzimeta/controllers/wizzimeta'
 
-        _ this.router.post('/create', this.createPackage)
+        _ this.router.post('/execute', this.execute)
         
         ${'$'}append handlers
-            v08/ts/handler${'('}createPackage)
+            v08/ts/handler${'('}execute)
                 $$ loog 'getIttfDocument.request.params', request.params
                 rest/check-params${'('} )
                     rest/not-empty${'('} query , hash )
 
-                _ createWizziPackage
-                    @ hash
+                _ executeMetaProduction
+                    {
                     ._ then
                         =>
                             param result
@@ -32,5 +32,5 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_fail${'('} ApiV1WizziMeta.createPackage.createWizziPackage )
+                    v08/ts/catch_fail${'('} ApiV1WizziMeta.execute.executeMetaProduction )
 

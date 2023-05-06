@@ -171,7 +171,7 @@ $group
         		line-ref ittf-src
                 $if metaCtx.useTsExpressWizziSite
                     line-ref ittf-src-images
-                    $if metaCtx.useTsExpressFeatureWizziDocs
+                    $if metaCtx.tsExpressWizziSite.useWizziDocs
                         line-ref ittf-src-models
                 line-ref ittf-ittf
                 line-ref ittf-tests

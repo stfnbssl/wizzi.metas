@@ -28,7 +28,7 @@ module
             import
                 @ artifactApi
                 @ productionApi
-                from '../../production'
+                from '../../packiProductions'
 
             const myname = 'features/production/controllers/apiv1metaproduction'
 

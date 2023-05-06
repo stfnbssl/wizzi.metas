@@ -1,0 +1,16 @@
+$group
+    $if metaCtx.useWebStudioMeta
+        $include wzCtxModel
+        $file __dot__wizzi/webStudioMeta/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include webStudioMeta/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/webStudioMeta/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include webStudioMeta/tfolder/${item}.js

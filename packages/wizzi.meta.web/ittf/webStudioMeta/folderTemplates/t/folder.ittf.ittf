@@ -1,0 +1,22 @@
+$group
+
+    $file __dot__wizzi/ittf/meta/folder/index.html.ittf.ittf
+        html
+            ${'$'}include webStudioMeta/folder/index.html
+
+
+    $file __dot__wizzi/ittf/meta/folder/styles.css.ittf.ittf
+        css
+            ${'$'}include webStudioMeta/folder/styles.css
+
+    $
+        var items = [
+            "css/fsitems.css",
+            "css/mc.css",
+            "css/tn.css",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/ittf/meta/folder/t/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webStudioMeta/folder/tfolder/${item}

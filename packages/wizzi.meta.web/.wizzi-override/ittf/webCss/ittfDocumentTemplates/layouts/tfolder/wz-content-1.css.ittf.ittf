@@ -1,0 +1,12 @@
+﻿$group
+
+	- ========================================
+		- WIZZI CONTENT 1
+		- s/root/t/wz-content-1.css.ittf
+		- ----------------------------------------
+
+	. wz-content-1
+		position fixed
+		margin-left ${'$'}{opt.sb_1_min_w}px
+		height 100%
+		width calc(100% - ${'$'}{opt.sb_1_min_w}px)

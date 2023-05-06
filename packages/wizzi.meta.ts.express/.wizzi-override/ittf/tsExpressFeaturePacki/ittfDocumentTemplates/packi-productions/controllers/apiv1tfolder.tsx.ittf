@@ -1,0 +1,114 @@
+$group
+    
+    $
+        var routeApiFragment = metaCtx.isLocal ? 'route' : 'route_api_secured';
+
+    ${'$'}
+        var ctrl = {
+            name: 'ApiV1TFolder',
+            path: '/api/v1/production/tfolder',
+            apiSecured: wzCtx.App.isLocal == false,
+            Production: 'TFolder',
+            production: 'tfolder',
+        }
+    
+    v08/ts/controller${'('} &ctrl )
+            
+        ${'$'}append imports
+            apiv1_imports${'('} &ctrl )
+            +
+            const myname = 'features/production/controllers/apiv1tfolder'
+
+        v08/ts/${routeApiFragment}${'('} get, /:owner, this.getTFolders)
+        v08/ts/${routeApiFragment}${'('} get, /checkname/:owner/:name, this.getCheckTFolderName)
+        v08/ts/${routeApiFragment}${'('} get, /:owner/:name, this.getTFolder)
+        v08/ts/${routeApiFragment}${'('} put, /:id, this.putTFolder)
+        v08/ts/${routeApiFragment}${'('} put, /packidiffs/:id, this.putTFolderPackiDiffs)
+        v08/ts/${routeApiFragment}${'('} post, /:owner/:name, this.postTFolder)
+        
+        ${'$'}append handlers
+
+            v08/ts/handler${'('}  getTFolders )
+
+                $$ loog 'getTFolders.request.params', request.params
+                _ getTFolderList
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getTFolders.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('}  getTFolders )
+            
+            v08/ts/handler${'('}  getCheckTFolderName )
+                check_name${'('} tFolder )
+
+            v08/ts/handler${'('}  getTFolder )
+
+                $$ loog 'getTFolder.request.params', request.params
+                _ getTFolder
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'getTFolder.result', result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('}  getTFolder )
+
+            v08/ts/handler${'('}  postTFolder )
+
+                $$ loog 'postTFolder.request.params', request.params
+                $$ loog 'postTFolder.request.body', request.body
+                _ createTFolder
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'postTFolder.result', result
+                            _ invalidateCache
+                                @ request.params.owner
+                                @ request.params.name
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('}  postTFolder )                    
+
+            v08/ts/handler${'('}  putTFolder )
+
+                $$ loog 'putTFolder.request.params', request.params
+                $$ loog 'putTFolder.request.body', request.body
+                _ updateTFolder
+                    @ request.params.id
+                    @ request.body.owner
+                    @ request.body.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog 'putTFolder.result', result
+                            _ invalidateCache
+                                @ request.params.owner
+                                @ request.params.name
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('}  putTFolder )
+            
+            apiv1_put${'('} &ctrl )    
+    
+    apiv1_exec_update${'('} &ctrl )                            

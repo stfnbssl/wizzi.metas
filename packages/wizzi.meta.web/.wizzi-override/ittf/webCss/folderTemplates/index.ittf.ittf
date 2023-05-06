@@ -2,9 +2,9 @@ $group
     
     $if metaCtx.useWebCss
 
-        $file __dot__wizzi/${pkgPath}ittf/css/index.css.ittf.ittf
+        $file __dot__wizzi/${pkgPath}ittf/css/main.css.ittf.ittf
             css
-                ${'$'}include webCss/index.css
+                ${'$'}include webCss/main.css
 
         $if metaCtx.useCheatsheet
 
@@ -21,7 +21,7 @@ $group
         $foreach item in items
             $file __dot__wizzi/${pkgPath}ittf/css/${item}.css.ittf.ittf
                 css
-                    ${'$'}include ${item}.css
+                    ${'$'}include webCss/${item}.css
 
         $
             var items = [
@@ -37,5 +37,7 @@ $group
         $foreach item in items
             $file __dot__wizzi/${pkgPath}ittf/css/t/${item}.css.ittf.ittf
                 ${"${'$'}"}group
-                    ${'$'}include tfolder/${item}.css
+                    ${'$'}include webCss/tfolder/${item}.css
+
+        $include layouts
         

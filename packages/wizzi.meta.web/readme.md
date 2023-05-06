@@ -12,6 +12,14 @@ wizzi.meta.web
 </tr>
 <tr>
 <td>
+<a href https://github.com//wizzi.meta.web/tree/master/.wizzi/ittf/lib/wizzi/productions/webAppCrud.wfproduction.ittf>webAppCrud</a><td>webAppCrud wizzi meta production</td>
+</tr>
+<tr>
+<td>
+<a href https://github.com//wizzi.meta.web/tree/master/.wizzi/ittf/lib/wizzi/productions/webCss.wfproduction.ittf>webCss</a><td>webCss wizzi meta production</td>
+</tr>
+<tr>
+<td>
 <a href https://github.com//wizzi.meta.web/tree/master/.wizzi/ittf/lib/wizzi/productions/webHtml.wfproduction.ittf>webHtml</a><td>webHtml wizzi meta production</td>
 </tr>
 <tr>
@@ -24,14 +32,6 @@ wizzi.meta.web
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.web/tree/master/.wizzi/ittf/lib/wizzi/productions/webCss.wfproduction.ittf>webCss</a><td>webCss wizzi meta production</td>
-</tr>
-<tr>
-<td>
-<a href https://github.com//wizzi.meta.web/tree/master/.wizzi/ittf/lib/wizzi/productions/webSvg.wfproduction.ittf>webSvg</a><td>webSvg wizzi meta production</td>
-</tr>
-<tr>
-<td>
 <a href https://github.com//wizzi.meta.web/tree/master/.wizzi/ittf/lib/wizzi/productions/webSiteDemo.wfproduction.ittf>webSiteDemo</a><td>webSiteDemo wizzi meta production</td>
 </tr>
 <tr>
@@ -40,7 +40,11 @@ wizzi.meta.web
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.web/tree/master/.wizzi/ittf/lib/wizzi/productions/webAppCrud.wfproduction.ittf>webAppCrud</a><td>webAppCrud wizzi meta production</td>
+<a href https://github.com//wizzi.meta.web/tree/master/.wizzi/ittf/lib/wizzi/productions/webSvg.wfproduction.ittf>webSvg</a><td>webSvg wizzi meta production</td>
+</tr>
+<tr>
+<td>
+<a href https://github.com//wizzi.meta.web/tree/master/.wizzi/ittf/lib/wizzi/productions/webStudioMeta.wfproduction.ittf>webStudioMeta</a><td>webStudioMeta wizzi meta production</td>
 </tr>
 <tr>
 <td>

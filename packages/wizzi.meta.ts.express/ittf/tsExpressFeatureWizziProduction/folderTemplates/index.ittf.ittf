@@ -1,17 +1,17 @@
 $group
     
-    $if metaCtx.useTsExpressFeatureWizziProduction
+    $if metaCtx.useTsExpressFeaturePackiProductions
         $include wzCtxModel
 
-        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/index.ts.ittf.ittf
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/index.ts.ittf.ittf
             module
-                ${'$'}include tsExpressFeatureWizziProduction/index.ts
-        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/types.ts.ittf.ittf
+                ${'$'}include tsExpressFeaturePacki/packi-productions/index.ts
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/types.ts.ittf.ittf
             module
-                ${'$'}include tsExpressFeatureWizziProduction/types.ts
-        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/utils.ts.ittf.ittf
+                ${'$'}include tsExpressFeaturePacki/packi-productions/types.ts
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/utils.ts.ittf.ittf
             module
-                ${'$'}include tsExpressFeatureWizziProduction/utils.ts
+                ${'$'}include tsExpressFeaturePacki/packi-productions/utils.ts
 
         $
             var items = [
@@ -23,9 +23,9 @@ $group
             ];
 
         $foreach item in items
-            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/mongo/${item}.ts.ittf.ittf
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/mongo/${item}.ts.ittf.ittf
                 module
-                    ${'$'}include tsExpressFeatureWizziProduction/mongo/${item}.ts
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/mongo/${item}.ts
 
         $
             var items = [
@@ -38,9 +38,9 @@ $group
             ];
 
         $foreach item in items
-            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/${item}.ts.ittf.ittf
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/${item}.ts.ittf.ittf
                 module
-                    ${'$'}include tsExpressFeatureWizziProduction/api/${item}.ts
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/${item}.ts
         
         $
             var items = [
@@ -55,9 +55,9 @@ $group
             ];
 
         $foreach item in items
-            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/artifact/${item}.ts.ittf.ittf
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/artifact/${item}.ts.ittf.ittf
                 ${'${"$"}'}group
-                    ${'$'}include tsExpressFeatureWizziProduction/api/t/artifact/${item}.ts
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/t/artifact/${item}.ts
 
         $
             var items = [
@@ -67,9 +67,9 @@ $group
             ];
 
         $foreach item in items
-            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/meta/${item}.ts.ittf.ittf
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/meta/${item}.ts.ittf.ittf
                 ${'${"$"}'}group
-                    ${'$'}include tsExpressFeatureWizziProduction/api/t/meta/${item}.ts
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/t/meta/${item}.ts
 
         $
             var items = [
@@ -79,9 +79,9 @@ $group
             ];
 
         $foreach item in items
-            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/package/${item}.ts.ittf.ittf
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/package/${item}.ts.ittf.ittf
                 ${'${"$"}'}group
-                    ${'$'}include tsExpressFeatureWizziProduction/api/t/package/${item}.ts
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/t/package/${item}.ts
 
         $
             var items = [
@@ -89,9 +89,9 @@ $group
             ];
 
         $foreach item in items
-            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/plugin/${item}.ts.ittf.ittf
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/plugin/${item}.ts.ittf.ittf
                 ${'${"$"}'}group
-                    ${'$'}include tsExpressFeatureWizziProduction/api/t/plugin/${item}.ts
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/t/plugin/${item}.ts
 
         $
             var items = [
@@ -99,9 +99,9 @@ $group
             ];
 
         $foreach item in items
-            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/tfolder/${item}.ts.ittf.ittf
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/tfolder/${item}.ts.ittf.ittf
                 ${'${"$"}'}group
-                    ${'$'}include tsExpressFeatureWizziProduction/api/t/tfolder/${item}.ts
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/t/tfolder/${item}.ts
 
         $
             var items = [
@@ -112,18 +112,18 @@ $group
             ];
 
         $foreach item in items
-            $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/production/${item}.ts.ittf.ittf
+            $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/production/${item}.ts.ittf.ittf
                 ${'${"$"}'}group
-                    ${'$'}include tsExpressFeatureWizziProduction/api/t/production/${item}.ts
+                    ${'$'}include tsExpressFeaturePacki/packi-productions/api/t/production/${item}.ts
 
-        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/get_object_api.ts.ittf.ittf
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/get_object_api.ts.ittf.ittf
             ${'${"$"}'}group
-                ${'$'}include tsExpressFeatureWizziProduction/api/t/get_object_api.ts
+                ${'$'}include tsExpressFeaturePacki/packi-productions/api/t/get_object_api.ts
 
-        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/merge_files_api.ts.ittf.ittf
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/merge_files_api.ts.ittf.ittf
             ${'${"$"}'}group
-                ${'$'}include tsExpressFeatureWizziProduction/api/t/merge_files_api.ts
+                ${'$'}include tsExpressFeaturePacki/packi-productions/api/t/merge_files_api.ts
 
-        $file __dot__wizzi/${pkgPath}src/features/wizzi-production/api/t/imports_and_validate_api.ts.ittf.ittf
+        $file __dot__wizzi/${pkgPath}src/features/packiProductions/api/t/imports_and_validate_api.ts.ittf.ittf
             ${'${"$"}'}group
-                ${'$'}include tsExpressFeatureWizziProduction/api/t/imports_and_validate_api.ts
+                ${'$'}include tsExpressFeaturePacki/packi-productions/api/t/imports_and_validate_api.ts

@@ -33,15 +33,25 @@ $group
                                     const twinJsonContext
                                         await
                                             _ wizziProds.inferAndLoadContextFs(filePath, 'wzCtx')
+                                    var optionsLocals
+                                        _ Object.assign
+                                            {
+                                            @ options._locals
+                                            ${'$'}if wzCtx.App.isLocal
+                                                {
+                                                    { user
+                                                        @ avatar_url config.userAvatarUrl
+                                                        @ name config.userDisplayName
+                                                        @ username config.userUserName
+                                                        $$ TODO @ email config.userUserEmail
                                     const context
                                         {
                                             @ ...options
-                                            @ locals options._locals
+                                            @ locals optionsLocals
                                             @ ...twinJsonContext
                                             @ isWizziStudio true
                                     const siteCtx
                                         await
-                                            $$ _ loadJsonIttfModel
                                             _ wizziProds.loadSiteJsonModel
                                                 @ 'sitectx.json.ittf'
                                                 @ context
@@ -66,33 +76,5 @@ $group
                         _ app.set('view engine', 'ittf')
                             # register the template engine
                         info 'WizziViewEngineMiddleware installed, on folder', viewsFolder
-
-        $*
-        async-function loadJsonIttfModel
-            param relPath
-                :string
-            return
-                new Promise
-                    =>
-                        param resolve
-                        param reject
-                        _ wizziProds.loadModelFs
-                            _ path.join
-                                @ config.ittfPath
-                                @ 'models'
-                                @ relPath
-                            {
-                                @ isWizziStudio true
-                            ._ then
-                                =>
-                                    param model
-                                    $$ loog 'loadJsonIttfModel', model
-                                    _ resolve
-                                        @ model
-                            ._ catch
-                                =>
-                                    param err
-                                    _ reject(err)
-            *$
     ${'$'}else
         # <--wizzi!file!exclude-->

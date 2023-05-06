@@ -6,24 +6,13 @@ $group
     import path from 'path'
     import fs from 'fs'
     import stringify from 'json-stringify-safe'
-    $if metaCtx.useWizziV08
-        import wizzi from '@wizzi/factory'
-        import
-            @ fSystem
-            @ ittfScanner
-            @ ittfGraph
-            @ verify
-            from '@wizzi/utils'
-    $else
-        import wizzi from 'wizzi'
-        ${'$'}if wzCtx.Build.useWizziJsonFactory
-            import wizziTools from 'wizzi-tools'
-        import
-            @ fSystem
-            @ ittfScanner
-            @ ittfGraph
-            @ verify
-            from 'wizzi-utils'
+    import wizzi from '@wizzi/factory'
+    import
+        @ fSystem
+        @ ittfScanner
+        @ ittfGraph
+        @ verify
+        from '@wizzi/utils'
     ${'$'}if wzCtx.Build.useWizziJsonFactory
         import
             @ packiFilePrefix
@@ -74,9 +63,7 @@ $group
     ${'$'}include productions/inferAndLoadContext
     ${'$'}include productions/scanIttfDocument
     ${'$'}include productions/wizzify
-    ${'$'}include productions/wizzifyV08
     ${'$'}include productions/getCodeAST
-    ${'$'}include productions/getCodeASTV08
     ${'$'}include productions/loadSiteJsonModel
 
     ${'$'}if wzCtx.Build.useWizziJsonFactory

@@ -5,7 +5,7 @@ $group
         from 'path'
     import 
         as wizzi
-        from 'wizzi'
+        from '@wizzi/factory'
     import 
         @ ConfigType
         from '../../features/config'

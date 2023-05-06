@@ -1,0 +1,46 @@
+﻿$group
+
+	-
+		- Tip element (example)
+		- span 
+			- class tip
+				- data-tip flex-grow
+    
+	. tip
+        position relative
+        z-index 500
+    
+	. tip:hover:before
+        + .tip:hover:after
+        display block
+        position absolute
+        background #555
+        text-align center
+    
+	. tip:hover:before
+        content ""
+        width 8px
+        height 8px
+        transform rotate(45deg)
+        top 27px
+        left 22px
+    
+	. tip:hover:after
+        content attr(data-tip)
+        color whitesmoke
+        top 31px
+        width 90px
+        font-size 14px
+        padding 10px
+        line-height 1.36
+
+	. justify-content-tip:hover:before
+        top -11px
+        left 60px
+    
+	. justify-content-tip:hover:after
+        top -65px
+        width 300px
+    
+	. flex-basis-tip:hover:after
+        width 260px

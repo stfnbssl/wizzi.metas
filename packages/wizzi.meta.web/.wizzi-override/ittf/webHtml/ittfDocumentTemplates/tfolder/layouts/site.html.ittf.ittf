@@ -103,7 +103,7 @@ $group
                 a${'('} , /, ${'$'}{ca2}
                     div
                         style width: 80px; margin-top: 5px; margin-left: 20px;
-                        images/logo${'('}#efefef, #434343)
+                        html/images/logo${'('}#efefef, #434343)
             . flex-row
                 ${'$'}if locals.user
                     ${'$'}if opt.section != 'Starter'

@@ -57,6 +57,25 @@ $group
                             name "github"
                             hasControllers true
                             useMongoDb false
+                    $if metaCtx.useTsExpressFeaturePacki
+                        {
+                            name "packi"
+                            $if metaCtx.tsExpressFeaturePacki.usePackiProductions
+                                hasControllers true
+                            $else
+                                hasControllers false
+                            useMongoDb false
+                        $if metaCtx.tsExpressFeaturePacki.useStudioFolderEdit
+                            {
+                                name "packiStudioFolderEdit"
+                                hasControllers true
+                                useMongoDb false
+                        $if metaCtx.tsExpressFeaturePacki.usePackiProductions
+                            {
+                                name "packiProductions"
+                                fileName "packi-productions"
+                                hasControllers true
+                                useMongoDb true
                     $if metaCtx.useTsExpressFeatureProject
                         {
                             name "project"
@@ -91,29 +110,18 @@ $group
                                 fileName "wizzi-meta"
                                 hasControllers true
                                 useMongoDb false
+                        $* see metaCtx.tsExpressFeaturePacki.usePackiProductions
                         $if metaCtx.tsExpressFeatureWizzi.useWizziProductions
                             {
                                 name "production"
                                 hasControllers true
                                 useMongoDb true
+                        *$
                         $if metaCtx.tsExpressFeatureWizzi.useWizziCdn
                             {
                                 name "cdn"
                                 hasControllers true
                                 useMongoDb true
-                    $if metaCtx.useTsExpressFeaturePacki
-                        $* TODO is different from packiEdit ???
-                        $if metaCtx.useTsExpressFeaturePacki
-                            {
-                                name "packi"
-                                hasControllers true
-                                useMongoDb false
-                        *$
-                        $if metaCtx.tsExpressFeaturePacki.usePackiEdit
-                            {
-                                name "packiEdit"
-                                hasControllers true
-                                useMongoDb false
                     $if metaCtx.useTsExpressFeatureUser
                         {
                             name "user"
@@ -131,6 +139,7 @@ $group
                                 name "promise"
                                 hasControllers true
                                 useMongoDb false
+               
                 $if metaCtx.useCloudAzure
                     ${"${'$'}"}include cloudAzure.json
                     ---
@@ -152,6 +161,9 @@ $group
                     ---
                 $if metaCtx.useTsExpressFeatureWizzi
                     ${"${'$'}"}include tsExpressFeatureWizzi.json
+                    ---
+                $if metaCtx.useTsExpressFeaturePacki
+                    ${"${'$'}"}include tsExpressFeaturePacki.json
                     ---
                 $if metaCtx.useTsExpressStyles
                     ${"${'$'}"}include tsExpressStyles.json

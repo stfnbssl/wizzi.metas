@@ -30,9 +30,7 @@ $group
             "scanIttfDocument",
             "transformModel",
             "wizzify",
-            "wizzifyV08",
             "getCodeAST",
-            "getCodeASTV08",
             "loadSiteJsonModel",
         ];
 

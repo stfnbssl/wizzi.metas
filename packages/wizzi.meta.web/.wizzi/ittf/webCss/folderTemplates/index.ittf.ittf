@@ -1,5 +1,6 @@
 $group
     $if metaCtx.useWebCss
+        $include wzCtxModel
         $file __dot__wizzi/webCss/yyy.js.ittf.ittf
             module
                 kind es6

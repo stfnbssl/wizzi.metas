@@ -30,6 +30,12 @@
             useStringifySafe true
     [ Productions
         {
+            name "webAppCrud"
+            title "webAppCrud wizzi meta production"
+        {
+            name "webCss"
+            title "webCss wizzi meta production"
+        {
             name "webHtml"
             title "webHtml wizzi meta production"
         {
@@ -39,20 +45,17 @@
             name "webJsWz"
             title "webJsWz wizzi meta production"
         {
-            name "webCss"
-            title "webCss wizzi meta production"
-        {
-            name "webSvg"
-            title "webSvg wizzi meta production"
-        {
             name "webSiteDemo"
             title "webSiteDemo wizzi meta production"
         {
             name "webSiteWebapi"
             title "webSiteWebapi wizzi meta production"
         {
-            name "webAppCrud"
-            title "webAppCrud wizzi meta production"
+            name "webSvg"
+            title "webSvg wizzi meta production"
+        {
+            name "webStudioMeta"
+            title "webStudioMeta wizzi meta production"
         {
             name "webWizziDocs"
             title "webWizziDocs wizzi meta production"

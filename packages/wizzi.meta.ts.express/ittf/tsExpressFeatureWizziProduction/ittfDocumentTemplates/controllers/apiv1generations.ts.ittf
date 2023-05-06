@@ -15,7 +15,7 @@ module
                 from '../../wizzi'
             import
                 @ artifactApi
-                from '../../production'
+                from '../../packiProductions'
             import
                 @ PackiFiles
                 from '../../packi/types'
@@ -24,7 +24,7 @@ module
                 from '../types'
             import
                 @ productionApi
-                from '../../production' 
+                from '../../packiProductions' 
             const myname = 'features/production/controllers/apiv1generations'
         
         v08/ts/route_api_secured( post, /mtree/:id, this.mTree)

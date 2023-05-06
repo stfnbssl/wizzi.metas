@@ -10,12 +10,29 @@ $group
             module
                 ${'$'}include tsExpressFeatureWizzi/wizzi-gist/types.ts
 
+        $
+            var items = [
+                "gistFs",
+                "wizziGist",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizziGist/api/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include tsExpressFeatureWizzi/wizzi-gist/api/${item}.ts
+        $
+            var items = [
+                "crudGist",
+                "duplicateRename",
+                "get_executeGist",
+                "getGistList",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizziGist/api/t/${item}.ts.ittf.ittf
+                ${"${'$'}"}group
+                    ${'$'}include tsExpressFeatureWizzi/wizzi-gist/api/tfolder/${item}.ts
+
         $file __dot__wizzi/${pkgPath}src/features/wizziGist/controllers/apiv1wizzigist.ts.ittf.ittf
             module
                 ${'$'}include tsExpressFeatureWizzi/wizzi-gist/controllers/apiv1wizzigist.ts
-
-        $file __dot__wizzi/${pkgPath}src/features/wizziGist/api/wizziGist.ts.ittf.ittf
-            module
-                ${'$'}include tsExpressFeatureWizzi/wizzi-gist/api/wizziGist.ts
-
-

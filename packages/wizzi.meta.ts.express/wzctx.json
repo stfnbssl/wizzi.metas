@@ -66,6 +66,10 @@
             "title": "tsExpressFeatureConfig wizzi meta production"
         },
         {
+            "name": "tsExpressFeatureCdn",
+            "title": "tsExpressFeatureCdn wizzi meta production"
+        },
+        {
             "name": "tsExpressFeatureFilesystem",
             "title": "tsExpressFeatureFilesystem wizzi meta production"
         },
@@ -98,8 +102,8 @@
             "title": "tsExpressFeatureWizziDocs wizzi meta production"
         },
         {
-            "name": "tsExpressFeatureWizziProduction",
-            "title": "tsExpressFeatureWizziProduction wizzi meta production"
+            "name": "tsExpressIttf",
+            "title": "tsExpressIttf wizzi meta production"
         },
         {
             "name": "tsExpressStyles",

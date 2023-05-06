@@ -1,0 +1,20 @@
+﻿$group
+	${'$'}params &opt
+
+	${'$'}if opt.fa_1
+		${'$'}include fa-1
+
+	${'$'}include reset
+
+	< body
+		font-family arial, verdana, sans-serif
+		font-size 15px
+		margin 0
+
+	${'$'}if opt.sidebar_1
+		${'$'}include wz-sidebar-1
+		${'$'}include wz-content-1
+
+	${'$'}if opt.prettyprint
+		${'$'}include wz-code
+		${'$'}include wz-prettyprint

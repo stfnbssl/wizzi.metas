@@ -1,6 +1,0 @@
-$group
-    
-    $if metaCtx.tsExpressWizziSite.useWizziProductions
-        $file __dot__wizzi/${pkgPath}src/site/controllers/productions.ts.ittf.ittf
-            module
-                ${'$'}include tsExpressWizziSite/controllers/wizzi/productions.ts

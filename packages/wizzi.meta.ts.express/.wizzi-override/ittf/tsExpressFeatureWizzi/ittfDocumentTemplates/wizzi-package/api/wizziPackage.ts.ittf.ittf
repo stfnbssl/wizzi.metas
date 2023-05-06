@@ -1,7 +1,7 @@
 $group
 
     import path from 'path'
-    import wizzi from 'wizzi'
+    import wizzi from '@wizzi/factory'
     import
         @ verify
         @ fSystem

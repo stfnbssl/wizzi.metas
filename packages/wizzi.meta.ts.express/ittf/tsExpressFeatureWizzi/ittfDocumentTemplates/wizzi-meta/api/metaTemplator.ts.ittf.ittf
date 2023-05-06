@@ -1,7 +1,7 @@
 $group
 
     import path from 'path'
-    import wizzi from 'wizzi'
+    import wizzi from '@wizzi/factory'
     import
         @ verify
         @ fSystem
@@ -21,13 +21,13 @@ $group
     +
     async-function metaTemplator
         param folderTemplatesFiles
-            :ref packiTypes.packiFiles
+            :ref packiTypes.PackiFiles
         param folderTemplatesIndexFile
             :string
         param destinationIttfTempFolder
             :string
         param destinationPackiFiles
-            :ref packiTypes.packiFiles
+            :ref packiTypes.PackiFiles
         param metaCtx
             :any
         r_promise${'('})
@@ -129,7 +129,7 @@ $group
         param destinationIttfTempFolder
             :string
         param destinationPackiFiles
-            :ref packiTypes.packiFiles
+            :ref packiTypes.PackiFiles
         var outputPath = destinationIttfTempFolder + '/' + node.value
         log 'wizziMeta.metaTemplator.writing', node.value, 'to', outputPath
         var sb = []

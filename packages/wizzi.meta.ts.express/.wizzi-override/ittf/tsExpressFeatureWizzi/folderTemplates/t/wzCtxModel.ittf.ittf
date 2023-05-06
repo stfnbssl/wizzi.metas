@@ -10,6 +10,11 @@ $group
                     $foreach item in metaCtx.tsExpressFeatureWizzi.plugins
                         "${item}"
                 pluginsBaseFolder "${metaCtx.tsExpressFeatureWizzi.pluginsBaseFolder}"
+                $if metaCtx.tsExpressFeatureWizzi.useWizziMeta
+                    [ metaPlugins
+                        $foreach item in metaCtx.tsExpressFeatureWizzi.wizziMeta.metaPlugins
+                            "${item}"
+                    metaPluginsBaseFolder "${metaCtx.tsExpressFeatureWizzi.wizziMeta.metaPluginsBaseFolder}"
                 { globalContext
                     wzConfigIsDevelopment true
                     wzConfigIsPackageDeploy false
@@ -23,10 +28,6 @@ $group
                 useWizziFs true
                 { wizziFs
             
-            $if metaCtx.tsExpressFeatureWizzi.useWizziProductions
-                useWizziProductions true
-                { wizziProductions
-                    useCachedProductions false
 
             $if metaCtx.tsExpressFeatureWizzi.usePacki
                 usePacki true

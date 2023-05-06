@@ -1,93 +1,40 @@
 $group
-
     import path from 'path'
     import
         @ verify
         @ fSystem
         @ pretty
+        @ crypto
         from 'wizzi-utils'
-    import
-        @ wizziFsApi
-        from '../../wizziFs'
-	var fsfile = fSystem.vfile()
-
+    import * as gistFs from './gistFs'
+    import * as wizziFs from '../../../utils/wizziFs'
+    import * as scriptManager from '../../../utils/scripts/scriptManager'
+    import 
+        @ GistOptions 
+        @ GistKind
+        from '../types'
+    import 
+        @ wizziProds
+        from '../../wizzi'
+    var fsfile = fSystem.vfile()
     +
-    async-function getIttfDocument
-        param hash
-            :string
-        r_promise${'('})
-            _ wizziFsApi.getIttfFileContentByHash
-                @ hash
-                ._ then
-                    =>
-                        param ittf
-                            :any
-                        return
-                            _ resolve
-                                {
-                                    @ content ittf.content
-                ._ catch
-                    =>
-                        param error
-                            :any
-                        return 
-                            _ reject
-                                {
-                                    @ message "Error retrieving Ittf Document"
-                                    @ error
-
+    var GIST_KINDS = ['gist', 'fragment', 'context']
+    function isGistKind
+        param kind
+        return GIST_KINDS.indexOf(kind) > -1
     +
-    async-function putIttfDocument
-        param hash
-            :string
-        param content
-            :string
-        param prettify
-            :string
-        r_promise${'('})
-            _ wizziFsApi.putIttfFileContentByHash
-                @ hash
-                @ content
-                ._ then
-                    =>
-                        param ittf
-                        if prettify
-                            _ pretty.prettifyIttfHtmlFromString
-                                @ content
-                                =>
-                                    param err
-                                        :any
-                                    param prettified
-                                        :string
-                                    if err
-                                        return
-                                            _ resolve
-                                                {
-                                                    { data
-                                                        @ pretty null
-                                    else
-                                        return
-                                            _ resolve
-                                                {
-                                                    { data
-                                                        @ pretty prettified
-                                                    @ message 'Ittf Document written'
-                        else
-                            _ resolve
-                                {
-                                    { data
-                                        @ pretty null
-                                    @ message 'Ittf Document written'
-                ._ catch
-                    =>
-                        param error
-                        return 
-                            _ reject
-                                {
-                                    @ message "Error writing Ittf Document"
-                                    @ error
-
+    ${'$'}include getGistList
+    ${'$'}include crudGist
+    ${'$'}include duplicateRename
+    ${'$'}include get_executeGist
+    
     +
     export
-        @ getIttfDocument
-        @ putIttfDocument
+        @ getGist
+        @ getGistList
+        @ createGist
+        @ updateGist
+        @ deleteGist
+        @ duplicateGist
+        @ renameGist
+        @ executeGist

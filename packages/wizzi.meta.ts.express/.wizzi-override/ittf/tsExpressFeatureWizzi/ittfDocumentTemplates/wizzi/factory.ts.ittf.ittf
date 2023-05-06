@@ -1,24 +1,15 @@
 $group
 
     import path from 'path'
-    $if metaCtx.useWizziV08
-        import wizzi from '@wizzi/factory'
-    $else
-        import wizzi from 'wizzi'
+    import wizzi from '@wizzi/factory'
     import 
         @ fSystem
-        $if metaCtx.useWizziV08
-            from '@wizzi/utils'
-        $else
-            from 'wizzi-utils'    
+        from '@wizzi/utils'
     import
         @ JsonComponents
         @ JsonDocumentDto
         @ JsonFs
-        $if metaCtx.useWizziV08
-            from '@wizzi/repo'
-        $else
-            from 'wizzi-repo'
+        from '@wizzi/repo'
     ${'$'}if wzCtx.Build.useWizziJsonFactory
         import
             @ packiFilePrefix
@@ -40,29 +31,25 @@ $group
     +
     const myname = 'features/wizzi/factory'
     +
-    ${'$'}if wzCtx.Build.useWizziJsonFactory
-        export
-            function packiFilesToJsonDocuments
-                param files
-                    :ref packiTypes.PackiFiles
-                :return
-                    :[
-                        :ref JsonDocumentDto
-                const jsonDocuments
-                    :[
-                        :ref JsonDocumentDto
-                    = []
-                _ Object.keys(files).map
-                    =>
-                        param value
-                        if files[value].type === 'CODE'
-                            const filePath = ensurePackiFilePrefix(value)
-                            _ jsonDocuments.push
-                                {
-                                    @ path filePath
-                                    @ content files[value].contents
-                return jsonDocuments
-        +
+    function getWzCtxFactoryPlugins
+        return
+            {
+                [ items
+                    ${'$'}foreach item in wzCtx.Build.wizzi.plugins
+                        @ '${'$'}{item}'
+                ${'$'}if wzCtx.Build.wizzi.pluginsBaseFolder
+                    @ pluginsBaseFolder '${'$'}{wzCtx.Build.wizzi.pluginsBaseFolder}'
+
+    +
+    function getWzCtxMetaPlugins
+        return
+            {
+                [ items
+                    ${'$'}foreach item in wzCtx.Build.wizzi.metaPlugins
+                        @ '${'$'}{item}'
+                ${'$'}if wzCtx.Build.wizzi.metaPluginsBaseFolder
+                    @ metaPluginsBaseFolder '${'$'}{wzCtx.Build.wizzi.metaPluginsBaseFolder}'
+    +
     export
         async-function createFilesystemFactoryWithParameters
             param pluginsBaseFolder
@@ -101,6 +88,12 @@ $group
 
     export
         async-function createFilesystemFactory
+            param factoryPlugins
+                :any 
+                :optional
+            param metaPlugins
+                :any 
+                :optional
             param globalContext
                 :{
                     :index
@@ -131,12 +124,14 @@ $group
                             {
                                 { repo
                                     @ storeKind "filesystem"
-                                { plugins
-                                    [ items
-                                        ${'$'}foreach item in wzCtx.Build.wizzi.plugins
-                                            @ '${'$'}{item}'
-                                    ${'$'}if wzCtx.Build.wizzi.pluginsBaseFolder
-                                        @ pluginsBaseFolder '${'$'}{wzCtx.Build.wizzi.pluginsBaseFolder}'
+                                @ plugins
+                                    iif factoryPlugins
+                                        then factoryPlugins
+                                        else getWzCtxFactoryPlugins()
+                                @ metaPlugins
+                                    iif metaPlugins
+                                        then metaPlugins
+                                        else getWzCtxMetaPlugins()
                                 @ globalContext
                                     _ Object.assign
                                         {
@@ -155,9 +150,44 @@ $group
     +
     ${'$'}if wzCtx.Build.useWizziJsonFactory
         export
+            function packiFilesToJsonDocuments
+                param files
+                    :ref packiTypes.PackiFiles
+                :return
+                    :[
+                        :ref JsonDocumentDto
+                const jsonDocuments
+                    :[
+                        :ref JsonDocumentDto
+                    = []
+                _ Object.keys(files).map
+                    =>
+                        param value
+                        if files[value].type === 'CODE'
+                            const filePath = ensurePackiFilePrefix(value)
+                            _ jsonDocuments.push
+                                {
+                                    @ path filePath
+                                    @ content files[value].contents
+                return jsonDocuments
+        +
+        export
             async-function createJsonFsAndFactory
                 param files
                     :ref packiTypes.PackiFiles
+                param factoryPlugins
+                    :any 
+                    :optional
+                param metaPlugins
+                    :any 
+                    :optional
+                param globalContext
+                    :{
+                        :index
+                            :any
+                            param k
+                                :string
+                    :optional
                 :return
                     :ref Promise
                         :param
@@ -201,11 +231,20 @@ $group
                                     _ wizzi.jsonFactory
                                         {
                                             @ jsonFs
-                                            { plugins
-                                                [ items
-                                                    ${'$'}foreach item in wzCtx.Build.wizzi.plugins
-                                                        @ '${'$'}{item}'
-                                                @ pluginsBaseFolder '${'$'}{wzCtx.Build.wizzi.pluginsBaseFolder}'
+                                            @ plugins
+                                                iif factoryPlugins
+                                                    then factoryPlugins
+                                                    else getWzCtxFactoryPlugins()
+                                            @ metaPlugins
+                                                iif metaPlugins
+                                                    then metaPlugins
+                                                    else getWzCtxMetaPlugins()
+                                            @ globalContext
+                                                _ Object.assign
+                                                    {
+                                                    ||
+                                                        + globalContext
+                                                        {
                                         function
                                             param err
                                                 :any

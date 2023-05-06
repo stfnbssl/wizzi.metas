@@ -1,5 +1,6 @@
 $group
     $if metaCtx.useWebAppCrud
+        $include wzCtxModel
         $file __dot__wizzi/webAppCrud/yyy.js.ittf.ittf
             module
                 kind es6

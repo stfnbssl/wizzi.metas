@@ -1,0 +1,49 @@
+$group
+
+    ${'$'}
+        //var packiPath = '/packi';
+        var packiPath = '/~~';
+
+    import React from 'react'
+
+    :type PackiItemListProps
+        :{ 
+            :p items
+                :[
+                    :any
+
+    export-default 
+        function PackiItemList
+            param props
+                :ref PackiItemListProps
+            return
+                div
+                    ul
+                        {
+                            _ props.items.map
+                                =>
+                                    param item
+                                        :any
+                                    param ndx
+                                        :number
+                                    return 
+                                        li
+                                            @ key {ndx}
+                                            div
+                                                style
+                                                    {
+                                                        @ padding '30px'
+                                                        @ borderBottom '1px solid #cecece'
+                                                div
+                                                    style
+                                                        {
+                                                            @ padding '5px'
+                                                    a {item.name}
+                                                        href {'${'$'}{packiPath}/stfnbssl/' + item.name}
+                                                div
+                                                    style
+                                                        {
+                                                            @ padding '5px'
+                                                            @ fontSize '0.8em'
+                                                    a {item._id.toString()}
+                                                        href {'${'$'}{packiPath}/' + item._id.toString()}

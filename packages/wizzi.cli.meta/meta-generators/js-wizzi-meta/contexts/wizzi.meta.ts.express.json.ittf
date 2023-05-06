@@ -35,6 +35,8 @@
         {
             name "tsExpressFeatureConfig"
         {
+            name "tsExpressFeatureCdn"
+        {
             name "tsExpressFeatureFilesystem"
         {
             name "tsExpressFeatureGithub"
@@ -51,7 +53,7 @@
         {
             name "tsExpressFeatureWizziDocs"
         {
-            name "tsExpressFeatureWizziProduction"
+            name "tsExpressIttf"
         {
             name "tsExpressStyles"
         {

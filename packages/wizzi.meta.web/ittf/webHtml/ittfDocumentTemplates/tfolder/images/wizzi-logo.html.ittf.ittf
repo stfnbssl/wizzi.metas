@@ -29,7 +29,7 @@ $group
 			\b 175 ${'$'}{opt.y2} 175 ${'$'}{opt.y1a + 20} 
 			\b 230 ${'$'}{opt.y2} 230 ${'$'}{opt.ybottom}
 
-	i${'('} 250, &opt )
-	z${'('} 320, &opt )
-	z${'('} 450, &opt )
-	i${'('} 590, &opt )
+	wizzi-logo-i${'('} 250, &opt )
+	wizzi-logo-z${'('} 320, &opt )
+	wizzi-logo-z${'('} 450, &opt )
+	wizzi-logo-i${'('} 590, &opt )

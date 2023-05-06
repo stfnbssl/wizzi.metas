@@ -1,0 +1,27 @@
+html
+
+	${'$'}
+        var opt = {
+            section: 'Productions',
+		    title: 'Package productions',
+        }
+
+    html/layouts/site${'('} &opt )
+
+        ${'$'}append head-scripts
+            script
+                src https://bundle.run/buffer@6.0.3
+            < script
+                + const Buffer = buffer.Buffer;
+                + ${'$'}{__INITIAL_DATA__}
+        
+        top-navigation${'('} packages )
+
+        . flex-row justify-content-center
+            profile-sidebar${'('}s)
+            . flex-column width-full
+                # root
+        
+        script
+            src "/public/pageforms/main.bundle.js"            
+

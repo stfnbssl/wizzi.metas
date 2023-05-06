@@ -86,3 +86,6 @@ $group
                         :string 
                     :p userAvatarUrl
                         :string 
+                $foreach item in metaCtx.tsExpressFeatureConfig.values
+                    :p ${item.name}
+                        :${item.type}

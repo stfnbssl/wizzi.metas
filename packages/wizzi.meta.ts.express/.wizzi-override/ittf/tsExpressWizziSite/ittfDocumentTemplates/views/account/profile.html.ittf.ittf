@@ -6,7 +6,7 @@ $group
             title: 'Profile',
         }
 
-    layouts/site${'('} &opt )
+    html/layouts/site${'('} &opt )
         . flex-row justify-content-center
             profile-sidebar${'('})
 

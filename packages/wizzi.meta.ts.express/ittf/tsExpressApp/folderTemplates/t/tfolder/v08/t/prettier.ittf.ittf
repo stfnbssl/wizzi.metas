@@ -1,6 +1,0 @@
-$group
-    $if metaCtx.usePrettier
-        $file __dot__wizzi/t/v08/prettier/rc.json.ittf.ittf
-            ${"${'$'}"}group
-            
-                ${'$'}include wz/v08/prettier/rc.json

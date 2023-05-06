@@ -20,21 +20,23 @@
 
     [ Productions
         {
+            name "webAppCrud"
+        {
+            name "webCss"
+        {
             name "webHtml"
         {
             name "webJs"
         {
             name "webJsWz"
         {
-            name "webCss"
-        {
-            name "webSvg"
-        {
             name "webSiteDemo"
         {
             name "webSiteWebapi"
         {
-            name "webAppCrud"
+            name "webSvg"
+        {
+            name "webStudioMeta"
         {
             name "webWizziDocs"
 

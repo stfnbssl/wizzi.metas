@@ -23,5 +23,6 @@ $group
                 useGitUrlParse false
                 useJsonToAst false
                 useRimRaf false
-                $if metaCtx.tsExpressUtils.useDiffMatchPatch
-                    useDiffMatchPatch true
+                $if metaCtx.useTsExpressFeaturePacki
+                    $if metaCtx.tsExpressFeaturePacki.usePackiProductions
+                        useDiffMatchPatch true

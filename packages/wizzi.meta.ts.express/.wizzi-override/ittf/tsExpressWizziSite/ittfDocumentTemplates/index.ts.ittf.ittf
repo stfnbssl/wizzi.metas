@@ -28,11 +28,11 @@ $group
         ${'$'}if wzCtx.Build.site.useWizziDocs
             import 
                 @ DocsController
-                from './controllers/docs'
-        ${'$'}if wzCtx.Build.site.useWizziProductions
+                from './controllers/wizziDocs'
+        ${'$'}if wzCtx.Build.site.usePackiProductions
             import 
-                @ ProductionsController
-                from './controllers/productions'
+                @ PackiProductionsController
+                from './controllers/packiProductions'
         ${'$'}hook imports
     
     const siteControllers
@@ -53,8 +53,8 @@ $group
                         @ new AccountController()
                     ${'$'}if wzCtx.Build.site.useWizziDocs
                         @ new DocsController()
-                    ${'$'}if wzCtx.Build.site.useWizziProductions
-                        @ new ProductionsController()
+                    ${'$'}if wzCtx.Build.site.usePackiProductions
+                        @ new PackiProductionsController()
                 ${'$'}hook controllers
     export
         @ siteControllers

@@ -1,0 +1,20 @@
+$group
+	
+	${'$'}
+		var opt = {
+			resetMarginsPaddingsBorders: true,
+			resetDisplayBlock: false,
+			resetOlUl: true,
+			resetBlockquote: false,
+			resetTable: false,
+			resetLinks: true,
+			prettyprint: false,
+			debug_css: false,
+			c_0: '#000',
+			c_bg_0: '#fff',
+			fa_1: false,
+			sidebar_1: false,
+			sb_1_min_w: 0,
+			logo_w: 70,
+			logo_h: 35,
+		};

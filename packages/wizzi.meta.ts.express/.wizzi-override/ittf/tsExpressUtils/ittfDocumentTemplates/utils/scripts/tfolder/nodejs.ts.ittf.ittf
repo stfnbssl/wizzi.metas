@@ -1,0 +1,31 @@
+$group
+    async-function nodeJsExec
+        param options
+            :ref ScriptOptions
+        var scriptPath = options.scriptPath
+        var scriptArgs = options.args
+        var args = [path.basename(scriptPath)]
+        if scriptArgs && scriptArgs.length > 0
+            set args = args.concat(scriptArgs)
+        return
+            _ spawnExec
+                {
+                    @ command 'node'
+                    @ cwd path.dirname(scriptPath)
+                    @ args args
+    async-function nodeJsExecToEventStream
+        param options
+            :ref ScriptOptions
+        param response
+            :ref any
+        var scriptPath = options.scriptPath
+        var scriptArgs = options.args
+        var args = [path.basename(scriptPath)]
+        if scriptArgs && scriptArgs.length > 0
+            set args = args.concat(scriptArgs)
+        _ spawnExecToEventStream
+            {
+                @ command 'node'
+                @ cwd path.dirname(scriptPath)
+                @ args args
+            @ response

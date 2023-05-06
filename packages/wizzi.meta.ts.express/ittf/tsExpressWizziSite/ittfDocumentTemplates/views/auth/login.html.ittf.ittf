@@ -6,7 +6,7 @@ $group
             title: 'Login',
         }
 
-    layouts/site${'('} &opt )
+    html/layouts/site${'('} &opt )
         . flex-row justify-content-center m-xxl
             . flex-column border-s
                 . m-t-xxl

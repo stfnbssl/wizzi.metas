@@ -1,5 +1,5 @@
 {
     productionName "tsExpressFeaturePacki"
     [ parameters
-        name "usePackiEdit"
-        type "boolean"
+        params/use( studioFolderEdit
+        params/use( packiProductions

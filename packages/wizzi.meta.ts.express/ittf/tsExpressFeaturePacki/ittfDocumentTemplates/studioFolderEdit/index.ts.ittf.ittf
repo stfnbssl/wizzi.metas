@@ -1,0 +1,29 @@
+$group
+
+    import 
+        @ ControllerType
+        from '../app/types'
+    
+    import 
+        as packiStudioFolderEditTypes
+        from './types'
+    
+    import 
+        @ LocalEditController
+        from './controllers/localedit'
+    
+    import 
+        @ ApiV1LocalController
+        from './controllers/apiv1local'
+
+    const packiStudioFolderEditControllers
+        :[ 
+            :ref ControllerType
+        =
+            [ 
+                @ new LocalEditController()
+                @ new ApiV1LocalController()
+    
+    export 
+        @ packiStudioFolderEditTypes
+        @ packiStudioFolderEditControllers

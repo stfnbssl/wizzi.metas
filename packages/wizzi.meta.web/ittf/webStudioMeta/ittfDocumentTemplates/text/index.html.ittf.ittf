@@ -1,0 +1,61 @@
+$group
+
+    ${'$'}
+        var ca = 'm-s color-header font-x font-w-s';
+        var ca2 = 'color-header font-x font-w-s';
+
+	head
+        css /ittf/styles/reset.css.ittf
+        css /ittf/styles/main.css.ittf
+        css /ittf/styles/header.css.ittf
+		css /ittf/meta/text/styles.css.ittf
+
+	body
+
+        . flex-row space-between bg-color-header color-header
+            . flex-row
+                html/a${'('} , /, ${'$'}{ca2}
+                    div
+                        style width: 80px; margin-top: 5px; margin-left: 20px;
+                        html/images/logo${'('}#efefef, #434343)
+            . flex-row
+                html/a${'('} Artifacts, /productions/artifacts, ${'$'}{ca}
+                html/a${'('} Packages, /productions/packages, ${'$'}{ca}
+                html/a${'('} Metas, /productions/metas, ${'$'}{ca}
+                html/a${'('} tFolders, /productions/tfolders, ${'$'}{ca}
+            . flex-row
+                html/a${'('} Docs, /, ${'$'}{ca}
+            . flex-row
+                html/a${'('} Profile, /profile, ${'$'}{ca}
+                html/a${'('} Log Out, /logout, ${'$'}{ca}
+
+		nav
+            ul
+                li
+                    h6 ${'$'}{ts.uri}
+
+		# mc-wrapper
+			class mc-wrapper-layout
+
+			. mc-frame
+
+
+				. mc-content
+
+					# ittf-editor-form
+						class editor-form
+						# ittf-editor-title
+							class editor-title
+						. editor-content
+							. editor-panel
+								# editorContainer
+							. editor-buttons
+								# ittf-editor-save
+									class editor-button
+									+ Save
+								# ittf-editor-cancel
+									class editor-button
+									+ Cancel
+		
+		js /static/lib/ace/src-noconflict/ace.js
+		js /ittf/meta/text/main.js.ittf

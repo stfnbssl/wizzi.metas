@@ -7,7 +7,6 @@ $group
         $include src/middlewares
         $include src/pages
         $include src/tfolder
-        $include src/utils
         $include tests/utils
         $*
         $include models

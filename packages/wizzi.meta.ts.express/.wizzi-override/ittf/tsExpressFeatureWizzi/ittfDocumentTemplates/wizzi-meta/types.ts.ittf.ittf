@@ -1,26 +1,60 @@
 $group
 
+    import 
+        @ packiTypes
+        from '../packi'
+
+    :type WizziProductionRef
+        :{
+            :p kind
+                :string
+            :p name
+                :string
+            :p apiURL
+                :string
+
+    :type WizziMetaPersistence
+        :{
+            :p type
+                :string
+                :optional
+            :p folderPath
+                :string
+                :optional
+            :p packageOwner
+                :string
+                :optional
+            :p packageName
+                :string
+                :optional
+
     export
-        :type WizziMetaOptions
+        :type WizziMetaRequest
             :{
-                :p metaSourcesFolderPath
+                :p description
                     :string
                     :optional
-                :p metaGenerator
-                    :string
+                :p metaPlugins
+                    :[ 
+                        :string 
+                    :optional
+                :p factoryPlugins
+                    :[ 
+                        :string 
                     :optional
                 :p metaCtx
                     :any
                     :optional
-                :p metaCtxName
+                :p metaCtxFilepath
                     :string
+                    :optional
+                :p metaCtxRef
+                    :ref WizziProductionRef
                     :optional
                 :p outputPackageName
                     :string
                     :optional
-                :p outputPackagePath
-                    :string
+                :p persist
+                    :ref WizziMetaPersistence
                     :optional
-                :p description
-                    :string
-                    :optional
+

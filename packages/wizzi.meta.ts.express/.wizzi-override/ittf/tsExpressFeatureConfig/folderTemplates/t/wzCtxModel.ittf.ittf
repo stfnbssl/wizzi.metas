@@ -6,7 +6,7 @@ $group
             { config
                 useEnvalid true
                 { envalid
-                $if metaCtx.tsExpressFeatureConfig && metaCtx.tsExpressFeatureConfig.useUserInfo
+                $if metaCtx.tsExpressFeatureConfig && metaCtx.tsExpressFeatureConfig.useStudioUserInfo
                     useUserInfo true
                     { userInfo
 

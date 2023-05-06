@@ -1,0 +1,48 @@
+﻿$group
+
+	#
+		# params
+		# { ctx
+		#   { clickHandler
+		# { options
+		#   string container
+		#   string class
+		#   string dataField
+		#     optional
+	function setupClickListener
+		param ctx
+		param options
+		var el = wz.element('#' + options.containerId)
+		if !el
+			throw new Error('wz.setupClickHandler requires an existing `options.containerId` html element. Received: ' + options.container)
+		_ wz.click
+			@ el
+			@ create_clickListener(ctx, options)
+
+	function create_clickListener
+		param ctx
+		param options
+		return
+			function clickListener
+				param event
+				# log 'clickListener.target', event.target
+				var dataValue = null
+				if options.dataField
+					if Array.isArray(options.dataField)
+						set dataValue = {}
+						foreach item in options.dataField
+							set dataValue[item] = event.target.dataset[item]
+					else
+						set dataValue = event.target.dataset[options.dataField]
+					# log 'clickListener.target.dataValue', dataValue
+				# log 'has class ' + options.targetClass, wz.hasClass(event.target, options.targetClass)
+				if wz.hasClass(event.target, options.targetClass)
+					_ ctx.clickHandler.handleClick
+						@ event.target
+						@ dataValue
+					_ event.preventDefault()
+					_ event.stopPropagation()
+				else
+					if ctx.clickHandler.checkClick(event.target)
+						_ event.preventDefault()
+						_ event.stopPropagation()

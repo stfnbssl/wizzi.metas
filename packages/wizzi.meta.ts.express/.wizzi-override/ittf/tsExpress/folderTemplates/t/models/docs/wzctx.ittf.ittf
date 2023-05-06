@@ -31,7 +31,7 @@ $group
                     },
                     {
                         title: "Cheatsheets",
-                        url: "/docs/cheatsheet/html"
+                        url: "/wizzi/docs/cheatsheet/html"
                     },
                     {
                         title: "Play",

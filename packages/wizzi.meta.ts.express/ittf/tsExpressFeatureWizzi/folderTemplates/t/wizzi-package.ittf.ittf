@@ -22,6 +22,3 @@ $group
             module
                 ${'$'}include tsExpressFeatureWizzi/wizzi-package/api/packageFs.ts
         
-        $file __dot__wizzi/${pkgPath}src/features/wizziPackage/api/packageGenerator.ts.ittf.ittf
-            module
-                ${'$'}include tsExpressFeatureWizzi/wizzi-package/api/packageGenerator.ts

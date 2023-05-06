@@ -20,9 +20,9 @@ $group
                     $if metaCtx.tsExpressWizziSite.useAuthentication
                         useAuthentication true
                         { authentication
-                    $if metaCtx.tsExpressFeatureWizzi.useWizziProductions
-                        useWizziProductions true
-                        { wizziProductions
-                    $if metaCtx.tsExpressFeatureWizzi.useWizziDocs
+                    $if metaCtx.tsExpressWizziSite.usePackiProductions
+                        usePackiProductions true
+                        { packiProductions
+                    $if metaCtx.tsExpressWizziSite.useWizziDocs
                         useWizziDocs true
                         { wizziDocs

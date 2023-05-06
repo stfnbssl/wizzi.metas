@@ -1,0 +1,12 @@
+module
+    $
+        var md = {
+        }
+    
+    v08/express/features/packi/types(&md)
+
+    $include mongoData
+
+    $foreach schema in mongoSchemas
+        $ md = schema
+        v08/mongo/type(&md)

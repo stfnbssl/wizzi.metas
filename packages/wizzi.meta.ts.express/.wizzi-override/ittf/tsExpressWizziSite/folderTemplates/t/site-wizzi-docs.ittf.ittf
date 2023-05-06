@@ -2,10 +2,10 @@ $group
     
     $if metaCtx.tsExpressWizziSite.useWizziDocs
         
-        $file __dot__wizzi/${pkgPath}src/site/controllers/docs.ts.ittf.ittf
+        $file __dot__wizzi/${pkgPath}src/site/controllers/wizziDocs.ts.ittf.ittf
             module
-                ${'$'}include tsExpressWizziSite/controllers/wizzi/docs.ts
+                ${'$'}include tsExpressWizziSite/controllers/wizziDocs.ts
         
         $file __dot__wizzi/${pkgPath}src/site/views/wizzi/docs/cheatsheet.html.ittf.ittf
             html
-                ${'$'}include tsExpressWizziSite/views/wizzi/docs/cheatsheet.html
+                ${'$'}include tsExpressWizziSite/views/wizziDocs/cheatsheet.html

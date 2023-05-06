@@ -1,32 +1,33 @@
 $group
-    
+
     ${'$'}
         var ctrl = {
             name: 'ApiV1WizziGist',
             path: '/api/v1/gist',
         }
-    
+
     v08/ts/controller${'('}&ctrl)
-            
         ${'$'}append imports
             import
-                @ getIttfDocument
-                @ putIttfDocument
+                @ createGist
+                @ updateGist
+                @ deleteGist
                 from '../api/wizziGist'
             +
-            const myname = 'features/wizzifs/controllers/apiv1wizzifs'
-
-        _ this.router.get('/ittf', this.getIttfDocument)
-        _ this.router.put('/ittf', this.putIttfDocument)
-        
+            const myname = 'features/wizzigist/controllers/apiv1wizzigist'
+        _ this.router.post('/', this.execCreateGist)
+        _ this.router.put('/', this.execUpdateGist)
         ${'$'}append handlers
-            v08/ts/handler${'('}getIttfDocument)
-                $$ loog 'getIttfDocument.request.params', request.params
+            v08/ts/handler${'('}execCreateGist)
+                log 'execCreateGist.request.params', request.params
                 rest/check-params${'('} )
-                    rest/not-empty${'('} query , hash )
-
-                _ getIttfDocument
-                    @ hash
+                    rest/not-empty${'('} query , kind )
+                    rest/not-empty${'('} query , name )
+                    rest/not-empty${'('} query , schema )
+                _ createGist
+                    @ kind
+                    @ name
+                    @ schema
                     ._ then
                         =>
                             param result
@@ -34,20 +35,17 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_fail${'('} ApiV1WizziGist.getIttfDocument )
-
-            v08/ts/handler${'('}putIttfDocument)
-                $$ loog 'request.body', request.body
-                $$ loog 'og 'request.query', request.query
+                    v08/ts/catch_fail${'('} ApiV1WizziGist.execCreateGist )
+            
+            v08/ts/handler${'('}execUpdateGist)
+                log 'request.body', request.body
+                log 'request.query', request.query
                 rest/check-params${'('} )
                     rest/not-empty${'('} body , hash )
                     rest/not-empty${'('} body , content )
-                    rest/optional${'('} body , prettify )
-
-                _ putIttfDocument
+                _ updateGist
                     @ hash
                     @ content
-                    @ prettify
                     ._ then
                         =>
                             param result
@@ -55,4 +53,4 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_fail${'('} ApiV1WizziGist.putIttfDocument )
+                    v08/ts/catch_fail${'('} ApiV1WizziGist.execUpdateGist )

@@ -1,10 +1,7 @@
 $group
 
     import path from 'path'
-    $if metaCtx.useWizziV08
-        import wizzi from '@wizzi/factory'
-    $else
-        import wizzi from 'wizzi'
+    import wizzi from '@wizzi/factory'
     import 
         @ fSystem
         $if metaCtx.useWizziV08
