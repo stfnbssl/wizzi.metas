@@ -1,0 +1,19 @@
+$group
+
+    $file __dot__wizzi/models/t/commonsBabel.json.ittf.ittf
+        ${'$'}{'$'}group
+
+            useBabel true
+            { babel
+                useParser true
+                useRuntime false
+                useDinamicImport true
+                addModuleExport false
+                useVendor true
+                { vendor
+                    compactPath "./src/vendor"
+                useResolutions true
+                [ resolutions
+                    {
+                        name "**/babel-core"
+                        value "7.0.0-bridge.0"

@@ -7,10 +7,10 @@ $group
             : needs Deploy
             : steps
             - uses: actions/checkout@v2
-            - name: Use Node.js ${"${'$'}"}{{ env.NODE_VERSION }}
+            - name: Use Node.js ${'$'}{'$'}{{ env.NODE_VERSION }}
                 : uses actions/setup-node@v1
                 : with
-                    : node-version ${"${'$'}"}{{ env.NODE_VERSION }}
+                    : node-version ${'$'}{'$'}{{ env.NODE_VERSION }}
 
             # Run functional tests
             - name: Run Functional Tests
@@ -20,4 +20,4 @@ $group
                     npm install
                     cd ../Tests
                     npm install
-                    gulp functionaltest --webAppUrl https://${"${'$'}"}{{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/
+                    gulp functionaltest --webAppUrl https://${'$'}{'$'}{{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/

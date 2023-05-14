@@ -30,7 +30,7 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}src/features/wizziGist/api/t/${item}.ts.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include tsExpressFeatureWizzi/wizzi-gist/api/tfolder/${item}.ts
 
         $file __dot__wizzi/${pkgPath}src/features/wizziGist/controllers/apiv1wizzigist.ts.ittf.ittf

@@ -7,10 +7,12 @@ $group
             ${'$'}if wzCtx.Build.webpack.useEnv
                 serve:client "env-cmd -f deploy/client/development.env webpack serve --open --mode development"
                 build:client "env-cmd -f deploy/client/development.env webpack --mode development"
+                watch:client "env-cmd -f deploy/client/development.env webpack --mode development --watch"
                 build:client:prod "env-cmd -f deploy/client/production.env webpack --mode production"
             ${'$'}else
                 serve:client "webpack serve --open --mode development"
                 build:client "webpack --mode development"
+                watch:client "webpack --mode development --watch"
                 build:client:prod "webpack --mode production"
         ${'$'}if wzCtx.Build.useExpress
             ${'$'}if wzCtx.Build.useTypescript
@@ -43,6 +45,7 @@ $group
                 ${'$'}else
                     start "env-cmd -f deploy/development.env webpack serve --open --mode development"
                 build "env-cmd -f deploy/development.env webpack --mode development"
+                watch "env-cmd -f deploy/development.env webpack --mode development --watch"
                 build:prod "env-cmd -f deploy/production.env webpack --mode production"
             ${'$'}else
                 ${'$'}if wzCtx.Build.webpack.useDevServer
@@ -50,6 +53,7 @@ $group
                 ${'$'}else
                     start "webpack serve --open --mode development"
                 build "webpack --mode development"
+                watch "webpack --mode development --watch"
                 build:prod "webpack --mode production"
     ${'$'}elif wzCtx.Build.useReactCreateApp
         start "react-scripts start"

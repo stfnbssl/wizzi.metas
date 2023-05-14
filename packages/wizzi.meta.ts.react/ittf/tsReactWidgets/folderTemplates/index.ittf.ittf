@@ -1,0 +1,9 @@
+$group
+    $if metaCtx.useTsReactWidgets
+        $include wzCtxModel
+        
+        $include src/aphrodite
+        $include src/muibase
+        $include src/muijoy
+        $include src/muisystem
+        $include src/styled

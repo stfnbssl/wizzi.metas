@@ -1,0 +1,70 @@
+$group
+    
+    {
+        @ test /\.(js|jsx)?$/
+        @ exclude /(node_modules|(vendor\/.+\.js))/
+        { use
+            @ loader 'babel-loader'
+            { options
+                @ cacheDirectory true
+    $if wzCtx.Build.useTypescript
+        $if wzCtx.Build.typescript.useBabelLoader
+            {
+                @ test /\.(ts|tsx)?$/
+                @ exclude /(node_modules|(vendor\/.+\.js))/
+                { use
+                    @ loader 'babel-loader'
+                    { options
+                        @ cacheDirectory true
+        $else
+            {
+                @ test /\.(ts|tsx)$/
+                @ exclude /(node_modules|(vendor\/.+\.js))/
+                [ use
+                    @ "ts-loader"
+    $if wzCtx.Build.webpack.useHtml
+        {
+            @ test /\.html$/
+            [ use
+                {
+                    @ loader "html-loader"
+    
+    $if wzCtx.Build.useVue
+        {
+            @ test /\.vue$/
+            @ exclude /node_modules/
+            [ use
+                @ 'vue-loader'
+    
+    $if wzCtx.Build.webpack.useCss
+        {
+            @ test /\.css$/
+            [ use
+                $if wzCtx.Build.webpack.useMiniCssExtract
+                    @ MiniCssExtractPlugin.loader
+                @ 'css-loader'
+                $if wzCtx.Build.webpack.useStyleLoader
+                    @ 'style-loader'
+                $if wzCtx.Build.useVue
+                    @ 'vue-style-loader'
+    
+    $if wzCtx.Build.webpack.useSass || wzCtx.Build.useCodemirror || wzCtx.Build.useMonaco || wzCtx.Build.usePrismjs
+        {
+            @ test /\.scss$/
+            @ exclude /(node_modules)/
+            [ use
+                @ 'sass-loader'
+    
+    {
+        @ test /\.(jpg|jpeg|png|gif|mp3|svg|ttf)$/
+        { use
+            @ loader "file-loader"
+            { options
+                @ outputPath 'assets/'
+    
+    $if wzCtx.Build.useGraphql
+        $if wzCtx.Build.graphql.excludePolyfill
+            {
+                @ test path.resolve(__dirname, 'node_modules/cross-fetch/dist/browser-polyfill.js')
+                    # graphql-request includes this polyfill
+                @ use 'null-loader'

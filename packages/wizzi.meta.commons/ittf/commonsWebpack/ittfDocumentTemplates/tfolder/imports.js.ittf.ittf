@@ -40,6 +40,9 @@ $group
                 @ StatsWriterPlugin
             = require('webpack-stats-plugin')
     ---
+    ${'$'}if wzCtx.Build.webpack.useYaml
+        const yaml = require('yamljs')
+    ---
     ${'$'}if wzCtx.Build.webpack.useEnv
         function env
             param key

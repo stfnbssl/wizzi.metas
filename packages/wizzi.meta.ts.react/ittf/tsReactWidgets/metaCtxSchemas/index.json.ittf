@@ -1,0 +1,8 @@
+{
+    productionName "tsReactWidgets"
+    [ parameters
+        params/use( aphrodite
+        params/use( muiBase
+        params/use( muiJoy
+        params/use( muiSystem
+        params/use( styled

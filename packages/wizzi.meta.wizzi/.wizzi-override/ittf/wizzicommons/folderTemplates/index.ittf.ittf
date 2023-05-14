@@ -18,12 +18,12 @@ $group
         $foreach item in items
             
             $file __dot__wizzi/t/wizzicommons/opers/${item}.js.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include wizziCommons/tfolder/opers/${item}.js
 
 
         $file __dot__wizzi/t/wizzicommons/globals/defaultMimeTypes.js.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include wizziCommons/tfolder/globals/defaultMimeTypes.js                    
 
 

@@ -90,29 +90,6 @@ $group
             ${"${'$'}"}group
                 ${'$'}include wz/v08/html/tfolder/a.html
 
-        $file __dot__wizzi/${pkgPath}src/t/layouts/site.html.ittf.ittf
-            ${"${'$'}"}group
-                ${'$'}include wz/v08/html/tfolder/layouts/site.html
-        
-        $file __dot__wizzi/${pkgPath}src/t/layouts/site-styles.html.ittf.ittf
-            ${"${'$'}"}group
-                ${'$'}include wz/v08/html/tfolder/layouts/site-styles.html
-        
-        $file __dot__wizzi/${pkgPath}src/t/layouts/site-scripts.html.ittf.ittf
-            ${"${'$'}"}group
-                ${'$'}include wz/v08/html/tfolder/layouts/site-scripts.html
-        
-        $file __dot__wizzi/${pkgPath}src/t/images/logo.ittf.ittf
-            svg
-                ${'$'}include wz/v08/html/tfolder/images/wizzi-logo.html
-        
-        $file __dot__wizzi/${pkgPath}src/t/images/t/i.ittf.ittf
-            ${"${'$'}"}group
-                ${'$'}include wz/v08/html/tfolder/images/tfolder/wizzi-logo-i.html
-        
-        $file __dot__wizzi/${pkgPath}src/t/images/t/z.ittf.ittf
-            ${"${'$'}"}group
-                ${'$'}include wz/v08/html/tfolder/images/tfolder/wizzi-logo-z.html
 
         $file __dot__wizzi/${pkgPath}src/t/demo_layout.html.ittf.ittf
             ${"${'$'}"}group

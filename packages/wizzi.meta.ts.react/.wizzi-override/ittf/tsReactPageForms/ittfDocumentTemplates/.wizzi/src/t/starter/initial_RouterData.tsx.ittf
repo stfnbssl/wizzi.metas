@@ -1,0 +1,15 @@
+$group
+    $params name, kind|success
+
+    { ${name}
+        $if kind == 'success'
+            @ type 'success'
+            $$ ...
+            @ formName 'CreatePacki'
+            { formData
+        $else
+            @ type 'error'
+            { error
+                @ message 'Packi error'
+        :as 
+            :any

@@ -93,8 +93,8 @@ $group
                                             => 
                                                 param result
                                                     :any
-                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
-                                                # loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 200) + '...'
+                                                $$ loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.length
+                                                $$ loog 'getArtifactGeneration_withPrepare', productionName, result.artifactContent.substring(0, 200) + '...'
                                                 const response
                                                     { 
                                                         @ content result.artifactContent

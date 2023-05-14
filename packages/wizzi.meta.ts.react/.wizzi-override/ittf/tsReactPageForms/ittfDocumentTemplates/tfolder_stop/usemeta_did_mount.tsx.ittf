@@ -1,0 +1,23 @@
+$group
+
+    const metas
+        await
+            _ getData
+                @ 'production/meta/' + encodeURIComponent(owner)
+    log 'componentDidMount.metas', metas
+    const options 
+        [
+            {
+                @ name ''
+                @ value ''
+    foreach item in metas
+        _ options.push
+            {
+                @ name item.owner + '/' + item.name
+                @ value item.id
+    _ this.setState
+        {
+            @ meta_listOptions options
+
+
+    

@@ -1,0 +1,29 @@
+$group
+
+    $file __dot__wizzi/src/index.js.ittf.ittf
+        module
+            ${'$'}include jsVanillaWebpackGetStartedApp/src/index.js
+
+    $if metaCtx.jsVanillaWebpackGetStartedApp.useWebpackCss
+        $file __dot__wizzi/src/style.css.ittf.ittf
+             css
+                ${'$'}include jsVanillaWebpackGetStartedApp/src/style.css
+
+    $if _.isArray(metaCtx.jsVanillaWebpackGetStartedApp.webpackEntries)
+        $if metaCtx.jsVanillaWebpackGetStartedApp.webpackEntries.length > 0
+            $foreach entry in metaCtx.jsVanillaWebpackGetStartedApp.webpackEntries
+                $file __dot__wizzi/src/${entry.name}.js.ittf.ittf
+                    module
+                        ${'$'}include jsVanillaWebpackGetStartedApp/src/${entry.name}.js
+
+    $if metaCtx.jsVanillaWebpackGetStartedApp.useWebpackJson
+        $file __dot__wizzi/src/data.json.ittf.ittf
+            {
+                ${'$'}include jsVanillaWebpackGetStartedApp/src/data.json
+
+
+    $if metaCtx.jsVanillaWebpackGetStartedApp.useWebpackYaml
+        $file __dot__wizzi/src/data.yaml.ittf.ittf
+            yaml
+                ${'$'}include jsVanillaWebpackGetStartedApp/src/data.yaml
+

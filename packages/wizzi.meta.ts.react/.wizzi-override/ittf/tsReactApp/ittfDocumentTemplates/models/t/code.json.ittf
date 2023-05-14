@@ -1,0 +1,11 @@
+$group
+    useTypescript true
+    { typescript
+        useBabelLoader true
+    usePrettier true
+    { prettier
+    usePrismjs true
+    { prismjs
+        [ modes
+    useLint true
+    { lint

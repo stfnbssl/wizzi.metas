@@ -2,7 +2,7 @@ $group
 
     $file __dot__wizzi/models/wzctx.json.ittf.ittf
         {
-            ${"${'$'}"}include v08/env/vars
+            ${'$'}{'$'}include v08/env/vars
             ---
             name "${metaCtx.name}"
             version "${metaCtx.version}"
@@ -43,10 +43,12 @@ $group
                             hasControllers true
                             useMongoDb true
                     $if metaCtx.useTsExpressFeatureAuth
-                        {
-                            name "auth"
-                            hasControllers true
-                            useMongoDb false
+                        $if metaCtx.tsExpressFeatureAuth.useLocalUserFromConfig
+                        $else
+                            {
+                                name "auth"
+                                hasControllers true
+                                useMongoDb false
                     $if metaCtx.useTsExpressFeatureBlog
                         {
                             name "blog"
@@ -141,60 +143,60 @@ $group
                                 useMongoDb false
                
                 $if metaCtx.useCloudAzure
-                    ${"${'$'}"}include cloudAzure.json
+                    ${'$'}{'$'}include cloudAzure.json
                     ---
                 $if metaCtx.useCloudHeroku
-                    ${"${'$'}"}include cloudHeroku.json
+                    ${'$'}{'$'}include cloudHeroku.json
                     ---
-                ${"${'$'}"}include code.json
+                ${'$'}{'$'}include code.json
                 ---
-                ${"${'$'}"}include tsExpress.json
+                ${'$'}{'$'}include tsExpress.json
                 ---
                 $if metaCtx.useTsExpressData
-                    ${"${'$'}"}include tsExpressData.json
+                    ${'$'}{'$'}include tsExpressData.json
                     ---
                 $if metaCtx.useTsExpressFeatureAuth
-                    ${"${'$'}"}include tsExpressFeatureAuth.json
+                    ${'$'}{'$'}include tsExpressFeatureAuth.json
                     ---
                 $if metaCtx.useTsExpressFeatureConfig
-                    ${"${'$'}"}include tsExpressFeatureConfig.json
+                    ${'$'}{'$'}include tsExpressFeatureConfig.json
                     ---
                 $if metaCtx.useTsExpressFeatureWizzi
-                    ${"${'$'}"}include tsExpressFeatureWizzi.json
+                    ${'$'}{'$'}include tsExpressFeatureWizzi.json
                     ---
                 $if metaCtx.useTsExpressFeaturePacki
-                    ${"${'$'}"}include tsExpressFeaturePacki.json
+                    ${'$'}{'$'}include tsExpressFeaturePacki.json
                     ---
                 $if metaCtx.useTsExpressStyles
-                    ${"${'$'}"}include tsExpressStyles.json
+                    ${'$'}{'$'}include tsExpressStyles.json
                     ---
                 $if metaCtx.useTsExpressTests
-                    ${"${'$'}"}include tsExpressTests.json
+                    ${'$'}{'$'}include tsExpressTests.json
                     ---
                 $if metaCtx.useTsExpressUtils
-                    ${"${'$'}"}include tsExpressUtils.json
+                    ${'$'}{'$'}include tsExpressUtils.json
                     ---
                 $if metaCtx.useTsExpressWizziSite
-                    ${"${'$'}"}include tsExpressWizziSite.json
+                    ${'$'}{'$'}include tsExpressWizziSite.json
                     ---
                 $if metaCtx.tsExpress.useReactPages
-                    ${"${'$'}"}include react.json
+                    ${'$'}{'$'}include react.json
                     ---
                 $if metaCtx.useTsDbMongoDb
-                    ${"${'$'}"}include tsdbmongodb.json
+                    ${'$'}{'$'}include tsdbmongodb.json
                     ---
                 $if metaCtx.useTsDbPostgres
-                    ${"${'$'}"}include tsdbpostgres.json
+                    ${'$'}{'$'}include tsdbpostgres.json
                     ---
                 $if metaCtx.useTsDbSequelize
-                    ${"${'$'}"}include tsdbsequelize.json
+                    ${'$'}{'$'}include tsdbsequelize.json
                     ---
                 $if metaCtx.useTsDbData
-                    ${"${'$'}"}include tsdbdata.json
+                    ${'$'}{'$'}include tsdbdata.json
                     ---
 
     $file __dot__wizzi/models/t/code.json.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
         
             useTypescript true
             { typescript
@@ -217,7 +219,7 @@ $group
     
     $if metaCtx.tsExpress.useReactPages
         $file __dot__wizzi/models/t/react.json.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 useReact true
                 { react
                     usePages true

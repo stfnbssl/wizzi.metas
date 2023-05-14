@@ -1,0 +1,8 @@
+$group
+    
+    $if wzCtx.Build.webpack.useDevServer
+        $if wzCtx.Build.webpack.devServer.contentBase
+            @ contentBase ${wzCtx.Build.webpack.devServer.contentBase}
+        $if wzCtx.Build.useHotReplacement
+            @ open true
+            @ hot true

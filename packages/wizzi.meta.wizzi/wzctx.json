@@ -37,20 +37,22 @@
     },
     "Productions": [
         {
-            "name": "wzjobs",
-            "title": "wzjobs wizzi meta production"
+            "name": "wizziJobs",
+            "title": "wizziJobs wizzi meta production"
         },
         {
-            "name": "wizzicommons",
-            "title": "wizzicommons wizzi meta production"
+            "name": "wizziCommons",
+            "title": "wizziCommons wizzi meta production"
         },
         {
-            "name": "wizziplugin",
-            "title": "wizziplugin wizzi meta production"
+            "name": "wizziPlugin",
+            "title": "wizziPlugin wizzi meta production",
+            "isPackageMain": true
         },
         {
-            "name": "wizzimeta",
-            "title": "wizzimeta wizzi meta production"
+            "name": "wizziMeta",
+            "title": "wizziMeta wizzi meta production",
+            "isPackageMain": true
         }
     ]
 }

@@ -18,5 +18,5 @@ $group
 
     $foreach item in items
         $file __dot__wizzi/t/v08/ts/${item}.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include tsCommons/tfolder/${item}.ts

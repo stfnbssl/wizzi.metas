@@ -83,7 +83,7 @@ $group
             param name
                 :string
             var cacheKey = owner + '|' + name
-            # loog 'getMetaProduction_withCache.cacheKey', cacheKey
+            $$ loog 'getMetaProduction_withCache.cacheKey', cacheKey
             return 
                 new Promise
                     => 

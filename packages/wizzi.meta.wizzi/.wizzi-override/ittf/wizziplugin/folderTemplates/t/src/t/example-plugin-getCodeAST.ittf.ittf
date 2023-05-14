@@ -2,7 +2,7 @@ $group
     $params &schema
     kind jsfile
 
-    ${"${'$'}"}
+    ${'$'}{'$'}
         var md = {
             name: '${schema.name}',
         };

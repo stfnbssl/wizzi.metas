@@ -1,0 +1,87 @@
+$group
+
+    import hoistNonReactStatics from 'hoist-non-react-statics'
+    import 
+        as React
+        from 'react'
+    import 
+        @ $Subtract
+        from '../../types'
+    import
+        @ PreferencesContextType
+        @ PreferencesContext
+        from './types'
+    +
+    export-default 
+        function withPreferences
+            :< P
+                :ref PreferencesContextType
+            param Comp
+                :ref React.ComponentType
+                    :param 
+                        :ref P
+            :return
+                :ref React.ComponentType
+                    :param 
+                        :ref $Subtract
+                            :param 
+                                :ref P
+                            :param 
+                                :ref PreferencesContextType
+            class PreferenceConsumerComponent
+                super React.Component
+                    :param 
+                        :ref $Subtract
+                            :param 
+                                :ref P
+                            :param 
+                                :ref PreferencesContextType
+                p displayName
+                    static
+                    `lit 
+                        + withPreferences(
+                        @ Comp.displayName ?? Comp.name
+                        + )
+                m render
+                    const 
+                        { 
+                            @ forwardedRef
+                            ... rest
+                        = this.props
+                        # @ts-ignore
+                    return 
+                        < PreferencesContext.Consumer 
+                            { 
+                                => 
+                                    param props
+                                    return 
+                                        < Comp 
+                                            @ ref {forwardedRef}
+                                            @ {...props}
+                                            @ {...rest}
+                                        # @ts-ignore
+                #
+                    # $FlowIssue: Flow doesn't know about forwardRef yet
+            const Result
+                _ React.forwardRef
+                    => 
+                        param props
+                        param ref
+                        < PreferenceConsumerComponent 
+                            @ {...props}
+                            @ forwardedRef {ref}
+                                # @ts-ignore
+                            # @ts-ignore
+                #
+                    # $FlowIssue: Flow doesn't know about forwardRef yet
+            _ hoistNonReactStatics(Result, Comp)
+            return 
+                + Result
+                    :as 
+                        :any 
+        
+        # The properties of PreferencesContextType are injected in the component enhanced by withPreferences.
+        # The PreferencesContextType properties are taken from the PreferencesContext.Consumer.
+        #
+        # react-redux doesn't work with forwardRef: https://github.com/reduxjs/react-redux/issues/914
+        # so this HOC always needs wrap a connect call, and a connect call cannot wrap this

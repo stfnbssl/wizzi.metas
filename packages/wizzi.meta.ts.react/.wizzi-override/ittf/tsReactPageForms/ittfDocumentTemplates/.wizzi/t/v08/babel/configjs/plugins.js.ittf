@@ -1,0 +1,49 @@
+$group
+    $if wzCtx.Build.babel.useDinamicImport
+        @ "@babel/plugin-syntax-dynamic-import"
+    @ '@babel/plugin-proposal-class-properties'
+    @ "@babel/plugin-proposal-object-rest-spread"
+    $if wzCtx.Build.utils.useLodash
+        @ 'lodash'
+    ...
+        (
+            iif isWebpack
+                then
+                    [
+                        $if wzCtx.Build.webpack.useCodeSplitting
+                            @ 'webpack-chunkname'
+                                # for code splitting
+                else
+                    [
+                        $if wzCtx.Build.babel.useDinamicImport
+                            @ 'dynamic-import-node'
+                            [
+                                @ 'file-loader'
+                                {
+                                    @ name '[hash].[ext]'
+                                    [ extensions
+                                        @ 'png'
+                                        @ 'jpg'
+                                        @ 'jpeg'
+                                        @ 'gif'
+                                        @ 'svg'
+                                    @ publicPath '/dist/assets'
+                                    @ outputPath '/build/assets'
+                                    @ context ''
+                                    @ limit 0
+                                    # to transpile require(image) to a url
+                                # to transpile import() to a deferred require()
+    $if wzCtx.Build.usePrismjs
+        [
+            @ "prismjs"
+            {
+                [ languages
+                    $foreach mode in wzCtx.Build.prismjs.modes
+                        "${mode}"
+                @ plugins ["line-numbers"]
+                @ theme "twilight"
+                @ css true
+    @ "@babel/plugin-transform-classes"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.addModuleExport
+            @ "add-module-exports"

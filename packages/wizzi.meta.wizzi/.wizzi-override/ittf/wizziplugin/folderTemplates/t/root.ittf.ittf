@@ -21,21 +21,21 @@ $group
             kind es6
             ${'$'}include wizziPlugin/root/index.js
     $file __dot__wizzi/root/t/model-factory.js.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include wizziPlugin/root/t/model-factory.js
     
     $file __dot__wizzi/root/t/model-transformation.js.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include wizziPlugin/root/t/model-transformation.js
     
     $file __dot__wizzi/root/t/artifact-generation.js.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include wizziPlugin/root/t/artifact-generation.js
     
     $file __dot__wizzi/root/t/wizzification.js.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include wizziPlugin/root/t/wizzification.js            
 
     $file __dot__wizzi/root/t/schema-definition.js.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include wizziPlugin/root/t/schema-definition.js

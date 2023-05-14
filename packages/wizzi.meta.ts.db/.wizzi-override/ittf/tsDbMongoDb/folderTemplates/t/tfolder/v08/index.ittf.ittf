@@ -9,7 +9,7 @@ $group
 
     $foreach item in items
         $file __dot__wizzi/t/v08/mongo/${item}.ts.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include tsDbMongoDb/tfolder/${item}.ts
 
     $
@@ -25,7 +25,7 @@ $group
 
     $foreach item in items
         $file __dot__wizzi/t/v08/mongo/crud/${item}.ts.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include tsDbMongoDb/tfolder/crud/${item}.ts
 
 

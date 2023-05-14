@@ -1,0 +1,42 @@
+$group
+    
+    $
+        var items = [
+            'FormAvatar',
+            'FormButton',
+            'FormCheckBox',
+            'FormContainer',
+            'FormFile',
+            'FormGroup',
+            'FormHidden',
+            'FormObject',
+            'FormRadioBox',
+            'FormRow',
+            'FormSelect',
+            'FormStatic',
+            'FormText',
+            'FormTitle',
+            'HR',
+            'ThemeDemo',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/components/pageforms/${item}.tsx.ittf.ittf
+            module
+                ${'$'}include tsReactPageForms/components/${item}.tsx
+
+
+    $
+        var items = [
+            'Box',
+            'FlexRow',
+            'Link',
+            'Para',
+            'StyledButton',
+            'Text',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/components/pageforms/styles/${item}.tsx.ittf.ittf
+            module
+                ${'$'}include tsReactPageForms/components/styles/${item}.tsx

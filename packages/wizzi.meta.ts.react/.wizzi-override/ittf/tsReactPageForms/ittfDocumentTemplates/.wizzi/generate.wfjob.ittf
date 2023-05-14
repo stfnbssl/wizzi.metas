@@ -1,0 +1,65 @@
+wfjob wizzi.pageforms/job
+    
+    $
+        var jobCtx = {
+            ittf_models_folder: path.join(__dirname, 'models'),
+            ittf_root_folder: path.join(__dirname, 'root'),
+            ittf_src_folder: path.join(__dirname, 'src'),
+            ittf_typings_folder: path.join(__dirname, 'typings'),
+            dest_folder: path.join(__dirname, '..', 'dist'),
+            job_model: 'wzCtx'
+        }
+    
+    model ${jobCtx.job_model}
+        schema json
+        src ${jobCtx.ittf_models_folder}/wzctx.json.ittf
+    
+    line ittf-models
+        cwd-folder ${jobCtx.ittf_models_folder}
+        wfjobs(any_json, &jobCtx)
+    
+    line ittf-root
+        cwd-folder ${jobCtx.ittf_root_folder}
+        wfjobs(any_js, &jobCtx)
+        wfjobs(any_ts, &jobCtx)
+        wfjobs(any_tsx, &jobCtx)
+        wfjobs(any_json, &jobCtx)
+        wfjobs(any_md, &jobCtx)
+        wfjobs(any_text_no_extension, &jobCtx)
+        wfjobs(.env, &jobCtx)
+        wfjobs(.gitignore, &jobCtx)
+        wfjobs(.npmignore, &jobCtx)
+        wfjobs(.eslintrc, &jobCtx)
+        wfjobs(.eslintignore, &jobCtx)
+        wfjobs(.prettierrc, &jobCtx)
+        wfjobs(.prettierignore, &jobCtx)
+    
+    line ittf-src
+        cwd-folder ${jobCtx.ittf_src_folder}
+        dest-folder ${jobCtx.dest_folder}/src
+        wfjobs(any_js, &jobCtx)
+        wfjobs(any_ts, &jobCtx)
+        wfjobs(any_tsx, &jobCtx)
+        wfjobs(any_html, &jobCtx)
+        wfjobs(any_css, &jobCtx)
+        wfjobs(any_json, &jobCtx)
+        wfjobs(any_md, &jobCtx)
+        wfjobs(any_svg, &jobCtx)
+        wfjobs(any_plain, &jobCtx, js)
+        wfjobs(any_plain, &jobCtx, tsx)
+        wfjobs(any_plain, &jobCtx, d.ts)
+        wfjobs(any_plain, &jobCtx, html)
+        wfjobs(any_plain, &jobCtx, css)
+        wfjobs(any_plain_image, &jobCtx)
+    
+    line ittf-typings
+        cwd-folder ${jobCtx.ittf_typings_folder}
+        dest-folder ${jobCtx.dest_folder}/typings
+        wfjobs(any_plain, &jobCtx, d.ts)
+    
+    production
+        dest-folder ${jobCtx.dest_folder}
+        line-ref ittf-models
+        line-ref ittf-root
+        line-ref ittf-src
+        line-ref ittf-typings

@@ -1,0 +1,8 @@
+$group
+    $file __dot__wizzi/models/t/jsReactUtils.json.ittf.ittf
+        ${'$'}{'$'}group
+            { utils
+                $if metaCtx.jsReactUtils.useLodash
+                    useLodash true
+                    { lodash
+

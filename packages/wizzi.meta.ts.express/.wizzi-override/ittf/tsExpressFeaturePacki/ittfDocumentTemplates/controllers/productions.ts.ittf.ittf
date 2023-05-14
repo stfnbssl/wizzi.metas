@@ -34,7 +34,7 @@ $group
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog myname, 'mTree.received files', Object.keys(req_files)
+                $$ loog myname, 'mTree.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
@@ -49,7 +49,7 @@ $group
                                     =>
                                         param value
                                             :any
-                                        # loog myname, 'mTree.result', value
+                                        $$ loog myname, 'mTree.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -61,7 +61,7 @@ $group
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog myname, 'mTreeBuildupScript.received files', Object.keys(req_files)
+                $$ loog myname, 'mTreeBuildupScript.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
@@ -75,7 +75,7 @@ $group
                                 ._ then
                                     =>
                                         param value
-                                        # loog myname, 'mTreeBuildupScript.result', value
+                                        $$ loog myname, 'mTreeBuildupScript.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -87,7 +87,7 @@ $group
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog myname, 'generateArtifact.received files', Object.keys(req_files)
+                $$ loog myname, 'generateArtifact.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
@@ -101,7 +101,7 @@ $group
                                 ._ then
                                     =>
                                         param value
-                                        # loog myname, 'generateArtifact.result', value
+                                        $$ loog myname, 'generateArtifact.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -115,7 +115,7 @@ $group
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog myname, 'transformModel.received files', Object.keys(req_files)
+                $$ loog myname, 'transformModel.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
@@ -131,7 +131,7 @@ $group
                                 ._ then
                                     =>
                                         param value
-                                        # loog 'generateArtifact.result', value
+                                        $$ loog 'generateArtifact.result', value
                                         _ sendSuccess
                                             @ response
                                             {
@@ -142,7 +142,7 @@ $group
                 const req_files
                     :ref PackiFiles
                     = request.body
-                # loog 'ProductionsController.executeJob.received files', Object.keys(req_files)
+                $$ loog 'ProductionsController.executeJob.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
@@ -158,7 +158,7 @@ $group
                                         const files
                                             await
                                                 _ WizziFactory.extractGeneratedFiles(fsJson)
-                                        # loog 'features.packi.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
+                                        $$ loog 'features.packi.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
                                         _ sendSuccess
                                             @ response
                                             {
@@ -170,12 +170,12 @@ $group
                 const files
                     :ref PackiFiles
                     = request.body
-                # loog 'wizzify.received files', Object.keys(files)
+                $$ loog 'wizzify.received files', Object.keys(files)
                 _ wizziProds.wizzify(files).then
                     async=>
                         param ittfResult
                             :ref PackiFiles
-                        # loog 'features.packi.controllers.production.wizzify.ittfResult', ittfResult
+                        $$ loog 'features.packi.controllers.production.wizzify.ittfResult', ittfResult
                         _ sendSuccess
                             @ response
                             {
@@ -183,5 +183,5 @@ $group
                     ._ catch
                         =>
                             param err
-                            # loog 'features.packi.controllers.production.wizzify.err', err
+                            $$ loog 'features.packi.controllers.production.wizzify.err', err
                             _ sendFailure(response, err, 501)

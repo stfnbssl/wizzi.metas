@@ -40,6 +40,22 @@ $group
                 @ pkgName 'wizzi.meta.js'
                 @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.js'
 
+    elif cmd == 'wizzi-meta-js-vanilla'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.js.vanilla'
+                @ pkgName 'wizzi.meta.js.vanilla'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.js.vanilla'
+
+    elif cmd == 'wizzi-meta-js-react'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.js.react'
+                @ pkgName 'wizzi.meta.js.react'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.js.react'
+
     elif cmd == 'wizzi-meta-js-express'
         _ createEx
             {
@@ -64,13 +80,13 @@ $group
                 @ pkgName 'wizzi.meta.ts.express'
                 @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.express'
 
-    elif cmd == 'wizzi-meta-ts-client'
+    elif cmd == 'wizzi-meta-ts-react'
         _ createEx
             {
                 @ metaGenerator 'js-wizzi-meta'
-                @ context 'wizzi.meta.ts.client'
-                @ pkgName 'wizzi.meta.ts.client'
-                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.client'
+                @ context 'wizzi.meta.ts.react'
+                @ pkgName 'wizzi.meta.ts.react'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.react'
 
     elif cmd == 'wizzi-meta-ts-db'
         _ createEx

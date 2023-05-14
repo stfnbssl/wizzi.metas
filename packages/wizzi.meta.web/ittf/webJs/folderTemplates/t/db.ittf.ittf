@@ -10,5 +10,5 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}ittf/js/t/db/${item}.js.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webJs/db/${item}.js

@@ -1,0 +1,18 @@
+$group
+    { utils
+        useAxios false
+        useEscapeRegexp true
+        useEscapeHtml true
+        useNullThrows true
+        useLodash true
+        useStringifySafe true
+        useParseUrl false
+        useEs6Error true
+        useJsCookie true
+        useQueryString true
+        useSanitizeHtml true
+        useDateFns true
+        useFetchPonyfill true
+        useNanoId true
+        useGitUrlParse false
+        useJsonToAst false

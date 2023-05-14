@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.8
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.wizzi\.wizzi\root\index.js.ittf
-    utc time: Wed, 19 Apr 2023 07:23:28 GMT
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.wizzi\.wizzi-override\root\index.js.ittf
+    utc time: Wed, 10 May 2023 06:50:05 GMT
 */
 'use strict';
 
@@ -120,20 +120,19 @@ class FactoryMeta {
     getMetaProductionStarter(options, callback) {
         
         var productions = [
-            "wzjobs", 
-            "wizzicommons", 
-            "wizziplugin", 
-            "wizzimeta"
+            "wizziJobs", 
+            "wizziCommons", 
+            "wizziPlugin", 
+            "wizziMeta"
         ];
         async.map(productions, (prod, callback) => {
         
             if (options && options.metaCtx) {
                 const useProductionVar = 'use' + prod[0].toUpperCase() + prod.substring(1);
-                console.log('getMetaProductionStarter.useProductionVar', useProductionVar);
-                console.log('getMetaProductionStarter.options.metaCtx[useProductionVar]', options.metaCtx[useProductionVar]);
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
+                console.log('getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]);
             }
             this.getMetaProduction(prod, (err, metaProduction) => {
             
@@ -206,10 +205,10 @@ function error(errorName, method, message, innerError) {
 module.exports = {
     provides: {
         metaProductions: [
-            'wzjobs', 
-            'wizzicommons', 
-            'wizziplugin', 
-            'wizzimeta'
+            'wizziJobs', 
+            'wizziCommons', 
+            'wizziPlugin', 
+            'wizziMeta'
         ]
      }, 
     createMetaPlugin: function(options, callback) {

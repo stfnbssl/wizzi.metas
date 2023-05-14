@@ -1,0 +1,17 @@
+$group
+    
+    $
+        var items = [
+            'a_icon',
+            'check_name',
+            'check_name_create',
+            'handle_input_change',
+            'handle_submit',
+            'list_update_delete_icons',
+            'pageforms_common_imports',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/t/${item}.tsx.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsReactPageForms/tfolder/${item}.tsx

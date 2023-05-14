@@ -1,0 +1,3 @@
+$group
+    useDemoControllers false
+    { demoControllers

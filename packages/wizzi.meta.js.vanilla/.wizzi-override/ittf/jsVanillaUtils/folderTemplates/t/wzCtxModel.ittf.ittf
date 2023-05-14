@@ -1,0 +1,7 @@
+$group
+    $file __dot__wizzi/models/t/jsVanillaUtils.json.ittf.ittf
+        ${'$'}{'$'}group
+            { utils
+                $if metaCtx.jsVanillaUtils.useLodash
+                    useLodash true
+                    { lodash

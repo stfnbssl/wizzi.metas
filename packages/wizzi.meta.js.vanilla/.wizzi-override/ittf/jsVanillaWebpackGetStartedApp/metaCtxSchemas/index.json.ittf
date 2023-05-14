@@ -1,0 +1,11 @@
+{
+    productionName "jsVanillaWebpackGetStarted"
+    [ parameters
+        params/use( webpackCss )
+            params/use( miniCssExtractor )
+        params/use( webpackSass )
+        params/use( webpackImages )
+        params/use( webpackHtml )
+        params/use( webpackJson )
+        params/use( webpackYaml )
+        params/use( webpackOutput

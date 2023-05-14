@@ -1,0 +1,26 @@
+$group
+    
+    import 
+        @ authManager
+        from '../features/auth/index.js'
+
+    # passport.session() acts as a middleware to alter the req object 
+    # and change the 'user' value that is currently the session id (from the client cookie) 
+    # into the true deserialized user object.
+    # see https://stackoverflow.com/questions/22052258/what-does-passport-session-middleware-do
+    
+    export 
+        const PassportMiddleware
+            => 
+                param app
+                # serializeUser and deserializeUser are set by the authManager
+                const passport
+                    _ authManager.getPassport
+                +
+                _ app.use
+                    _ passport.initialize
+                +
+                # is equivalent to
+                # app.use(passport.authenticate('session'));
+                _ app.use
+                    _ passport.session

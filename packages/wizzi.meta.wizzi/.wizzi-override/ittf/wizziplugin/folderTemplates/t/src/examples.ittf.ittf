@@ -66,5 +66,5 @@ $group
 
     $foreach item in items
         $file __dot__wizzi/examples/t/${item}.js.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include wizziPlugin/examples/tfolder/${item}.js

@@ -1,0 +1,89 @@
+$group
+
+    ${'$'}
+        var usePreferences = false;
+    
+    import cookies from 'js-cookie'
+    import 
+        as React
+        from 'react'
+    import ReactDOM from 'react-dom'
+    import 
+        @ HelmetProvider
+        from 'react-helmet-async'
+    import 
+        @ Provider
+        from 'react-redux'
+    
+    ${'$'}if wzCtx.Build.react.useRouter
+        import 
+            @ BrowserRouter
+            from 'react-router-dom'
+        import Router from './components/Router'
+    ${'$'}else
+        import App from './App'
+        import NonExistent from './components/NonExistent'
+    
+    ${'$'}if usePreferences
+        import 
+            @ PreferencesProvider 
+            from './features/preferences'
+    
+    import ThemeProvider from './ThemeProvider'
+
+    :declare 
+        const __INITIAL_DATA__
+            :{ 
+                :p data
+                    :any
+                :p queryParams
+                    :any
+    +
+    ${'$'}if !wzCtx.Build.react.useRouter
+        function AppContainer
+            param props
+                :any 
+            const 
+                { 
+                    @ data
+                    ... rest
+                = props
+            if data && data.type === 'success'
+                const appProps
+                    { 
+                        @ ...props
+                        @ ...rest
+                        @ query props.queryParams
+                        @ formName data.formName
+                        @ formData data.formData
+                return 
+                    < App 
+                        @ {...appProps}
+            else
+                return 
+                    < NonExistent 
+
+    function PageFormsApp
+        return 
+            ${'$'}${'$'} < React.StrictMode 
+            < React.Fragment
+                < HelmetProvider 
+                    ${'$'}*
+                    < PreferencesProvider 
+                        @ cookies {cookies}
+                    *${'$'}
+                    < ThemeProvider 
+                        ${'$'}if wzCtx.Build.react.useRouter
+                            < BrowserRouter 
+                                < Router 
+                                    @ data {__INITIAL_DATA__.data}
+                                    @ queryParams {__INITIAL_DATA__.queryParams}
+                                    @ userAgent {navigator.userAgent}
+                        ${'$'}else
+                            < AppContainer
+                                @ data {__INITIAL_DATA__.data}
+                                @ queryParams {__INITIAL_DATA__.queryParams}
+
+    _ ReactDOM.render
+        < PageFormsApp 
+        _ document.getElementById('root')

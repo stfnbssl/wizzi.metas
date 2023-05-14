@@ -1,0 +1,54 @@
+$group
+    import 
+        as React
+        from 'react'
+    ${'$'}if wzCtx.Build.useMonacoEditor
+        import 
+            @ PackiFiles
+            from '../../features/packi'    
+        import 
+            @ PackiMonacoEditor
+            from '../editors/PackiMonacoEditor'
+    import 
+        @ SplitPane 
+        from './react-split-pane'
+    ${'$'}if wzCtx.Build.useMonacoEditor
+        const packiFiles
+            :ref PackiFiles
+            {
+                { ['index.html.ittf']
+                    @ type "CODE"
+                    @ contents "html"
+    +
+    export
+        function MuiSplitPane
+            param props
+                :any
+            return
+                < SplitPane 
+                    @ split "vertical"
+                    @ minSize {50}
+                    ${'$'}if wzCtx.Build.useMonacoEditor
+                        < PackiMonacoEditor
+                            @ selectedFileName "index.html.ittf"
+                            @ files {packiFiles}
+                            @ theme "dark"
+                            @ updateFiles
+                                =>
+                                    param value
+                                    _ console.log
+                                        @ 'MuiSplitPane.PackiMonacoEditor.updateFiles.value', value
+                            @ onSelectFile
+                                =>
+                                    param value
+                                    _ console.log
+                                        @ 'MuiSplitPane.PackiMonacoEditor.onSelectFile.value', value
+                    ${'$'}else
+                        div
+                            h1 Pane vertical left
+                    < SplitPane 
+                        @ split "horizontal"
+                        div 
+                            h1 Pane horizontal top
+                        div 
+                            h1 Pane horizontal bottom

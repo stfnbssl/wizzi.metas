@@ -371,6 +371,22 @@ else if (cmd == 'wizzi-meta-js') {
         destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.js'
      })
 }
+else if (cmd == 'wizzi-meta-js-vanilla') {
+    createEx({
+        metaGenerator: 'js-wizzi-meta', 
+        context: 'wizzi.meta.js.vanilla', 
+        pkgName: 'wizzi.meta.js.vanilla', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.js.vanilla'
+     })
+}
+else if (cmd == 'wizzi-meta-js-react') {
+    createEx({
+        metaGenerator: 'js-wizzi-meta', 
+        context: 'wizzi.meta.js.react', 
+        pkgName: 'wizzi.meta.js.react', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.js.react'
+     })
+}
 else if (cmd == 'wizzi-meta-js-express') {
     createEx({
         metaGenerator: 'js-wizzi-meta', 
@@ -395,12 +411,12 @@ else if (cmd == 'wizzi-meta-ts-express') {
         destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.express'
      })
 }
-else if (cmd == 'wizzi-meta-ts-client') {
+else if (cmd == 'wizzi-meta-ts-react') {
     createEx({
         metaGenerator: 'js-wizzi-meta', 
-        context: 'wizzi.meta.ts.client', 
-        pkgName: 'wizzi.meta.ts.client', 
-        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.client'
+        context: 'wizzi.meta.ts.react', 
+        pkgName: 'wizzi.meta.ts.react', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.ts.react'
      })
 }
 else if (cmd == 'wizzi-meta-ts-db') {

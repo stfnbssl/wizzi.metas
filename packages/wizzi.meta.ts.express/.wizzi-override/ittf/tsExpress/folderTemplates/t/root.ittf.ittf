@@ -2,7 +2,7 @@ $group
     
     $file __dot__wizzi/${pkgPath}root/tsconfig.json.ittf.ittf
         {
-            ${"${'$'}"}
+            ${'$'}{'$'}
         		var md = {};
         	
             v08/ts/tsconfig${'$'}{'('}&md)

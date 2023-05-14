@@ -1,0 +1,28 @@
+$group
+    $params kind, prefix
+    $
+        var prod = 'artifact';
+        if (prefix == 'pp') { prod = 'package'; }
+        if (prefix == 'pl') { prod = 'plugin'; }
+        if (prefix == 'mp') { prod = 'meta'; }
+        if (prefix == 'tf') { prod = 'tfolder'; }
+
+    < React.Fragment
+        < HR
+        < FlexRow
+            @ justifyContent "space-evenly"
+            < FormButton
+                @ label '${kind} ${prod} production'
+                @ id 'btn_${kind.toLowerCase()}_${prefix}'
+                @ variant 'submit'
+                @ type 'submit'
+                @ bgColor "#2ea44f"
+                @ onClick
+                    =>
+                        param ev
+                        _ this.handleSubmit${kind}(ev)
+            < FormButton
+                @ label 'Cancel'
+                @ id 'btn_cancel_${prefix}'
+                @ type 'button'
+                @ onClick {this.handleCancel}

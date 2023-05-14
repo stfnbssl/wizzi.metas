@@ -1,7 +1,7 @@
 $group
     $params &schema
     
-    ${"${'$'}"}
+    ${'$'}{'$'}
         var md = {
             plugin: '${metaCtx.name}',
             name: 'document',
@@ -13,14 +13,14 @@ $group
 
     gen${"${'('}"} &md )
 
-        ${"${'$'}"}append imports
+        ${'$'}{'$'}append imports
             $if schema.includes && schema.includes.length > 0
                 var included_writers = require('./included_writers')
             $if metaCtx.wizzi_plugin_type == 'prettify'
                 var pretty = require('wizzi-utils').pretty
-                ${"${'$'}"}${"${'$'}"} var highlightCode = require('./highlightCode')
+                ${'$'}{'$'}${'$'}{'$'} var highlightCode = require('./highlightCode')
 
-        ${"${'$'}"}append main
+        ${'$'}{'$'}append main
             _ md.${schema.name}
                 @ model
                 @ ctx
@@ -50,14 +50,14 @@ $group
 
 
         $if schema.includes && schema.includes.length > 0
-            ${"${'$'}"}include includes
+            ${'$'}{'$'}include includes
 
         $*
         $if schema.plugin_type == 'prettify'
-            ${"${'$'}"}include v08/wizzi/plugin/artifacts/types/prettify/artifact-gen-main.js
+            ${'$'}{'$'}include v08/wizzi/plugin/artifacts/types/prettify/artifact-gen-main.js
 
         $if schema.plugin_type == 'syntax_structure'
-            ${"${'$'}"}include v08/wizzi/plugin/artifacts/types/syntax_structure/artifact-gen-main.js
+            ${'$'}{'$'}include v08/wizzi/plugin/artifacts/types/syntax_structure/artifact-gen-main.js
         *$
 
         

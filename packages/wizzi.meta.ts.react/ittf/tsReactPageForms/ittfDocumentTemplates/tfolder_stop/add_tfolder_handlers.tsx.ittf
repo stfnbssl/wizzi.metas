@@ -1,0 +1,27 @@
+$group
+    $params stateProp|tfolder
+        
+    => handleTFolderAdd
+        param tfolder
+            :ref TFolderRef
+        _ this.setState
+            => 
+                param state
+                (
+                    { 
+                        @ ${stateProp}_dependencies [tfolder, ...state.${stateProp}_dependencies]
+
+    => handleTFolderDelete
+        param deltfolder
+            :ref TFolderRef
+        _ this.setState
+            => 
+                param state
+                const tfolders = []
+                foreach tfolder in this.state.${stateProp}_dependencies
+                    if tfolder.name !== deltfolder.name
+                        _ tfolders.push
+                            @ tfolder
+                return
+                    {
+                        @ ${stateProp}_dependencies tfolders

@@ -64,7 +64,7 @@ $group
                             ._ then
                                 =>
                                     param items
-                                    $$ loogg myname + '.resolveContexts.all.items', items
+                                    $$ loog myname + '.resolveContexts.all.items', items
                                     var context: any = {}
                                     _ items.map
                                         =>

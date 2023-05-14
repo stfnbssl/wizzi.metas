@@ -234,11 +234,11 @@ $group
                                     async=> 
                                         param file
                                             :string 
-                                        $$ loogg 'filesystem.savePackiTemplate.writeFile.begin: ', path.join(templateFolder, file)
+                                        $$ loog 'filesystem.savePackiTemplate.writeFile.begin: ', path.join(templateFolder, file)
                                         let result
                                             await 
                                                 _ writeFile(path.join(templateFolder, file), files[file].contents)
-                                        $$ loogg 'filesystem.savePackiTemplate.writeFile.result: ', result
+                                        $$ loog 'filesystem.savePackiTemplate.writeFile.result: ', result
                             return 
                                 _ Promise.resolve
                                     { 

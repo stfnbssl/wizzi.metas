@@ -1,14 +1,14 @@
 $group
     $params &schema
 
-    ${"${'$'}"}
+    ${'$'}{'$'}
         var md = {
             name: '${schema.name}',
         };
     
     wizziplugin/examples/plugin${"${'('}"} &md )
 
-        ${"${'$'}"}append plugins
+        ${'$'}{'$'}append plugins
             [ items
                 @ './index.js'
                 $if metaCtx.useWizziV08

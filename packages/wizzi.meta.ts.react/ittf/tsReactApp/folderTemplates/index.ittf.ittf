@@ -1,0 +1,6 @@
+$group
+    $if metaCtx.useTsReactApp
+        $include wzCtxModel
+        $include src/pageforms
+        $include __generate
+        $include models

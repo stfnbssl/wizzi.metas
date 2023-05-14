@@ -18,7 +18,7 @@ $group
                                 param err
                                 param result
                                 if err
-                                    # loog 'getLastPackiActivity.UserActivity.find', 'error', err
+                                    $$ loog 'getLastPackiActivity.UserActivity.find', 'error', err
                                     return reject(err)
                                 if result.length == 1
                                     const activity = result[0]._doc

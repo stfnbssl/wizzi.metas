@@ -155,7 +155,7 @@ $group
                 :any 
             param callback
                 :ref Function
-            $$ loogg 'wizzifile.onPrepare.enter.factoryName', factoryName
+            $$ loog 'wizzifile.onPrepare.enter.factoryName', factoryName
             if factoryName === FACTORY_SITE
                 _ loadRuntimeModels
                     function 

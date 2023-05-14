@@ -1,0 +1,21 @@
+$group
+    
+    #
+        # This is an example middleware that checks if the user is logged in.
+        # If the user is not logged in, it stores the requested url in `returnTo` attribute
+        # and then redirects to `/auth/login`.
+    
+    export-default 
+        function getSecured
+            $$ loog 'middleware.getSecured called'
+            return 
+                function secured
+                    param req
+                    param res
+                    param next
+                    $$ loog 'middleware.secured called', req.user
+                    if req.user
+                        return 
+                            _ next
+                    set req.session.returnTo = req.originalUrl
+                    _ res.redirect('/auth/login') 

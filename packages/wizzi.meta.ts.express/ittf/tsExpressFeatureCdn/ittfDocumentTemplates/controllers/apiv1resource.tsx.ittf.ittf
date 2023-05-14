@@ -62,7 +62,7 @@ $group
                         =>
                             param result
                                 :any
-                            # loog 'getCheckResourceName.result', result
+                            $$ llog 'getCheckResourceName.result', result
                             _ sendSuccess
                                 @ response
                                 @ result
@@ -95,7 +95,7 @@ $group
                         =>
                             param result
                                 :any
-                            # loog 'postCdnResource.create.result', result
+                            $$ llog 'postCdnResource.create.result', result
                             _ invalidateCache
                                 @ request.params.owner
                                 @ request.params.name

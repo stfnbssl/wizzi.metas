@@ -11,5 +11,5 @@ $group
                 ${'$'}include tsExpress/pages/EditorDocument.tsx
         
         $file __dot__wizzi/${pkgPath}src/pages/t/common.tsx.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include tsExpress/pages/tfolder/common.tsx

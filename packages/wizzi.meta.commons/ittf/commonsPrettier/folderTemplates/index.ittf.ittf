@@ -4,11 +4,11 @@ $group
         
         $file __dot__wizzi/${pkgPath}root/__dot__prettierignore.text.ittf.ittf
             text
-                ${"${'$'}"}include commonsPrettier/${metaVer}/prettierignore.text
+                ${'$'}{'$'}include prettier/${metaVer}/prettierignore.text
         
         $file __dot__wizzi/${pkgPath}root/__dot__prettierrc.json.ittf.ittf
             {
-                ${"${'$'}"}include commonsPrettier/${metaVer}/rc.json
+                ${'$'}{'$'}include prettier/${metaVer}/rc.json
 
         $
             var items = [
@@ -18,7 +18,7 @@ $group
         $foreach item in items
 
             $file __dot__wizzi/t/prettier/${metaVer}/${item}.text.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                 
                     ${'$'}include commonsPrettier/${item}.text
 
@@ -30,7 +30,7 @@ $group
         $foreach item in items
 
             $file __dot__wizzi/t/prettier/${metaVer}/${item}.json.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                 
                     ${'$'}include commonsPrettier/${item}.json       
         

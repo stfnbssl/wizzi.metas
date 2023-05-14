@@ -1,0 +1,34 @@
+$group
+    $params stateProp|tfolder
+        
+    < HR
+    < FormHidden
+        @ id '${stateProp}_contexts'
+        @ name '${stateProp}_contexts'
+        @ value {JSON.stringify(this.state.${stateProp}_contexts)}
+    < FormCheckBox
+        @ label 'Add a data context'
+        @ name '${stateProp}_add_context'
+        @ id '${stateProp}_add_context'
+        @ value {this.state.${stateProp}_add_context}
+        @ onChange {this.handleInputChange}
+    {
+        &&
+            + this.state.${stateProp}_add_context
+            div
+                {
+                    _ this.state.${stateProp}_contexts.map
+                        =>
+                            param context
+                            param ndx
+                            log 'Create${stateProp}.context', context
+                            return
+                                div
+                                    @ key {ndx}
+                                    < FormRow
+                                        @ type 'delete'
+                                        @ value {context}
+                                        @ onDelete {this.handleContextDelete}
+                < FormRow
+                    @ type 'add'
+                    @ onAdd {this.handleContextAdd}

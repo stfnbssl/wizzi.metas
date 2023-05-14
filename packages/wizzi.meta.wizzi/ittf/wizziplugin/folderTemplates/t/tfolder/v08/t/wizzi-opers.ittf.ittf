@@ -18,6 +18,6 @@ $group
     $foreach item in items
         
         $file __dot__wizzi/t/v08/wizzi/opers/${item}.js.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include wizziplugin/examples/opers/${item}.js
 

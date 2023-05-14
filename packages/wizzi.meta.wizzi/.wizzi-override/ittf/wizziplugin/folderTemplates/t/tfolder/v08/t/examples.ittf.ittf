@@ -1,6 +1,6 @@
 $group
 
     $file __dot__wizzi/t/wizziplugin/examples/plugin.js.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include wizziplugin/tfolder/examples/plugin.js
 

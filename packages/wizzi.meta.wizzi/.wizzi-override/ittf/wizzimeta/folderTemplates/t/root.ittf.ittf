@@ -28,9 +28,9 @@ $group
             ${'$'}include wizzimeta/root/index.js
 
     $file __dot__wizzi/root/t/meta-production.js.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include wizzimeta/root/t/meta-production.js
     
     $file __dot__wizzi/root/t/meta-production-starter.js.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include wizzimeta/root/t/meta-production-starter.js

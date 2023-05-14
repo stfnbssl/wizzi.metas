@@ -1,0 +1,21 @@
+module
+    kind es6
+    const path = require('path')
+    set module.exports =
+        =>
+            param api
+            const isWebpack
+                _ api.caller
+                    =>
+                        param caller
+                        _ Boolean(caller && caller.name === 'babel-loader')
+            return
+                {
+                    [ plugins
+                        $include v08/babel/configjs/plugins
+                    [ presets
+                        $include v08/babel/configjs/presets
+                    { env
+                        $include v08/babel/configjs/env
+                    [ overrides
+                        $include v08/babel/configjs/overrides

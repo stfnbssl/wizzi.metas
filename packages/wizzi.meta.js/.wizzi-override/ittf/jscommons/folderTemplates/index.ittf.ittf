@@ -27,5 +27,5 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}t/${item}.js.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include jsCommons/tfolder/${item}.js

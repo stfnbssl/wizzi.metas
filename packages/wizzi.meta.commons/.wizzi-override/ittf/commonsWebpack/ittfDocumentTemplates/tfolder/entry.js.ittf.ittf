@@ -2,14 +2,14 @@ $group
     ---
     ${'$'}if wzCtx.Build.useTypescript
         ${'$'}if wzCtx.Build.isClientServer
-            @ './src/client/index.tsx'
+            @ index './src/client/index.tsx'
         ${'$'}else
-            @ './src/index.tsx'
+            @ index './src/index.tsx'
     ${'$'}else
         ${'$'}if wzCtx.Build.isClientServer
-            @ './src/client/index.js'
+            @ index './src/client/index.js'
         ${'$'}else
-            @ './src/index.js'
+            @ index './src/index.js'
     ${'$'}if wzCtx.Build.useServiceWorker
         ${'$'}if wzCtx.Build.useTypescript
             ${'$'}if wzCtx.Build.isClientServer
@@ -25,3 +25,6 @@ $group
             ${'$'}else
                 @ sw './src/sw.js'
                     # Service worker
+    ${'$'}if _.isArray(wzCtx.Build.webpack.entries)
+        ${'$'}foreach entry in wzCtx.Build.webpack.entries
+            @ ${'$'}{entry.name} '${'$'}{entry.path}'

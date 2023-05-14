@@ -4,7 +4,7 @@ $group
             
             useSequelize true
             { sequelize
-                databaseUrl "${"${'$'}"}{stfnbssl_env.sequelizeDbUrl}"
+                databaseUrl "${'$'}{'$'}{stfnbssl_env.sequelizeDbUrl}"
                 $if metaCtx.tsDbSequelize.usePostgres
                     dialect "postgres"
                     usePostgres true

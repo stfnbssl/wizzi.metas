@@ -1,0 +1,16 @@
+$group
+    $if metaCtx.useTsReactRedux
+        $include wzCtxModel
+        $file __dot__wizzi/tsReactRedux/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tsReactRedux/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/tsReactRedux/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include tsReactRedux/tfolder/${item}.js

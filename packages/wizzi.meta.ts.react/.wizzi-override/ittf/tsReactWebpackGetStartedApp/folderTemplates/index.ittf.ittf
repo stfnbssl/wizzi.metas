@@ -1,0 +1,6 @@
+$group
+    $if metaCtx.useTsReactWebpackGetStartedApp
+        $include __generate
+        $include models
+        $include root
+        $include src

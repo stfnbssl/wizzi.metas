@@ -152,7 +152,7 @@ $group
                                                 @ artifactContent result
                                                 @ sourcePath filePath
                                                 @ artifactGenerator generator
-                                            $$ loogg 'Generated artifact', result
+                                            $$ loog 'Generated artifact', result
                             catch ex
                                 return reject(ex)
                         else

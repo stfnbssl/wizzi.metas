@@ -1,0 +1,7 @@
+$group
+    $file __dot__wizzi/models/t/tsReactFeatures.json.ittf.ittf
+        ${'$'}{'$'}group
+            $if metaCtx.tsReactFeatures.usePreferences
+                { preferences
+                    configKey '${metaCtx.tsReactFeatures.preferences.configKey}'
+                    [ items

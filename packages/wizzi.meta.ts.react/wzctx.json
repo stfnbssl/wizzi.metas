@@ -1,0 +1,108 @@
+{
+    "name": "wizzi.meta.ts.react",
+    "npnName": "@wizzi/meta.tsReact",
+    "pluginBasename": "",
+    "version": "",
+    "description": "wizzi.meta.ts.react",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2023"
+    },
+    "metaNamespace": "tsReact",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.ittf/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "tsReact",
+            "title": "tsReact wizzi meta production"
+        },
+        {
+            "name": "tsReactApp",
+            "title": "tsReactApp wizzi meta production"
+        },
+        {
+            "name": "tsReactAssets",
+            "title": "tsReactAssets wizzi meta production"
+        },
+        {
+            "name": "tsReactBasicWebpack",
+            "title": "tsReactBasicWebpack wizzi meta production"
+        },
+        {
+            "name": "tsReactBasicVite",
+            "title": "tsReactBasicVite wizzi meta production"
+        },
+        {
+            "name": "tsReactComponents",
+            "title": "tsReactComponents wizzi meta production"
+        },
+        {
+            "name": "tsReactEditor",
+            "title": "tsReactEditor wizzi meta production"
+        },
+        {
+            "name": "tsReactFeatures",
+            "title": "tsReactFeatures wizzi meta production"
+        },
+        {
+            "name": "tsReactPageForms",
+            "title": "tsReactPageForms wizzi meta production"
+        },
+        {
+            "name": "tsReactRedux",
+            "title": "tsReactRedux wizzi meta production"
+        },
+        {
+            "name": "tsReactStoryboard",
+            "title": "tsReactStoryboard wizzi meta production"
+        },
+        {
+            "name": "tsReactThemes",
+            "title": "tsReactThemes wizzi meta production"
+        },
+        {
+            "name": "tsReactTypings",
+            "title": "tsReactTypings wizzi meta production"
+        },
+        {
+            "name": "tsReactUtils",
+            "title": "tsReactUtils wizzi meta production"
+        },
+        {
+            "name": "tsReactWebpackGetStartedApp",
+            "title": "tsReactWebpackGetStartedApp wizzi meta production"
+        },
+        {
+            "name": "tsReactWebpackWidgetsApp",
+            "title": "tsReactWebpackWidgetsApp wizzi meta production"
+        },
+        {
+            "name": "tsReactWidgets",
+            "title": "tsReactWidgets wizzi meta production"
+        }
+    ]
+}

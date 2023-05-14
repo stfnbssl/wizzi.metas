@@ -1,6 +1,6 @@
 $group
 
-    ${"${'$'}"}global
+    ${'$'}{'$'}global
         var wzCtx = {
             name: "stfnbssl.github.io/wizzi",
             version: "0.7.1",

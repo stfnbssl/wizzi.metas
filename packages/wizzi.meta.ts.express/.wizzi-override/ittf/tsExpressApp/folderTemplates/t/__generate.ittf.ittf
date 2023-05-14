@@ -12,7 +12,7 @@ $group
     $file __dot__wizzi/generate.wfjob.ittf.ittf
         wfjob ${'$'}{metaCtx.name}/job
             ---
-        	${"${'$'}"}
+        	${'$'}{'$'}
                 var jobCtx = {
         		    ittf_models_folder: path.join(__dirname, 'models'),
                     ittf_src_folder: path.join(__dirname, 'src'),
@@ -31,17 +31,17 @@ $group
                     job_model: 'wzCtx'
                 }
             ---
-            model ${"${'$'}"}{jobCtx.job_model}
+            model ${'$'}{'$'}{jobCtx.job_model}
                 schema json
-                src ${"${'$'}"}{jobCtx.ittf_models_folder}/wzctx.json.ittf
+                src ${'$'}{'$'}{jobCtx.ittf_models_folder}/wzctx.json.ittf
             ---
             line ittf-models
-                cwd-folder ${"${'$'}"}{jobCtx.ittf_models_folder}
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_models_folder}
                 wfjobs${'$'}{'('}any_json, &jobCtx)
             ---
         	line ittf-root
-        		cwd-folder ${"${'$'}"}{jobCtx.ittf_root_folder}
-                dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${rootPath}
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_root_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${rootPath}
         
         		wfjobs${'$'}{'('}any_js, &jobCtx)
                 wfjobs${'$'}{'('}any_ts, &jobCtx)
@@ -50,7 +50,7 @@ $group
                 wfjobs${'$'}{'('}any_xml, &jobCtx)
                 wfjobs${'$'}{'('}any_md, &jobCtx)
                 $if metaCtx.useCommonsEnv
-                wfjobs${'$'}{'('}.env, &jobCtx)
+                    wfjobs${'$'}{'('}.env, &jobCtx)
                 $if metaCtx.useCloudAzure
                     wfjobs${'$'}{'('}www, &jobCtx)
                 wfjobs${'$'}{'('}.gitignore, &jobCtx)
@@ -66,8 +66,8 @@ $group
                     wfjobs${'$'}{'('}Procfile, &jobCtx)
         	---
             line ittf-src
-        		cwd-folder ${"${'$'}"}{jobCtx.ittf_src_folder}
-        		dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${srcPath}
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_folder}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}
         
                 wfjobs${'$'}{'('}any_js, &jobCtx)
                 wfjobs${'$'}{'('}any_ts, &jobCtx)
@@ -85,20 +85,20 @@ $group
 
         	---
             line ittf-src-images
-        		cwd-folder ${"${'$'}"}{jobCtx.ittf_src_t_images}
-        		dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${srcPath}/t/images
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_t_images}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}/t/images
                 wfjobs${'$'}{'('}any_plain, &jobCtx, ittf)
 
         	---
             line ittf-src-models
-        		cwd-folder ${"${'$'}"}{jobCtx.ittf_src_t_models}
-        		dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${srcPath}/t/models
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_t_models}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}/t/models
                 wfjobs${'$'}{'('}any_plain, &jobCtx, ittf)
 
             ---
             line ittf-tests
-                cwd-folder ${"${'$'}"}{jobCtx.ittf_tests_folder}
-                dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${testsPath}
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_tests_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${testsPath}
         
                 wfjobs${'$'}{'('}any_js, &jobCtx)
                 wfjobs${'$'}{'('}any_ts, &jobCtx)
@@ -116,8 +116,8 @@ $group
         	
             ---
             line ittf-public
-                cwd-folder ${"${'$'}"}{jobCtx.ittf_public_folder}
-                dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${publicPath}
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_public_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${publicPath}
         
                 wfjobs${'$'}{'('}any_js, &jobCtx)
                 wfjobs${'$'}{'('}any_html, &jobCtx)
@@ -128,8 +128,8 @@ $group
                 wfjobs${'$'}{'('}any_plain_image, &jobCtx)
         	---
             line ittf-ittf
-                cwd-folder ${"${'$'}"}{jobCtx.ittf_ittf_folder}
-                dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${ittfPath}
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_ittf_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${ittfPath}
         
                 wfjobs${'$'}{'('}any_plain, &jobCtx, ittf)
                 wfjobs${'$'}{'('}any_plain_image, &jobCtx)
@@ -137,15 +137,15 @@ $group
             $if metaCtx.useCloudAzure
                 ---
                 line ittf-armTemplates
-                    cwd-folder ${"${'$'}"}{jobCtx.ittf_armTemplates_folder}
-                    dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${armTemplatesPath}
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_armTemplates_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${armTemplatesPath}
                 
                     wfjobs${'$'}{'('}any_json, &jobCtx)
                     wfjobs${'$'}{'('}any_js, &jobCtx)
                 ---
                 line ittf-github
-                    cwd-folder ${"${'$'}"}{jobCtx.ittf_github_folder}
-                    dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${githubPath}
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_github_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${githubPath}
                 
                     wfjobs${'$'}{'('}any_json, &jobCtx)
                     wfjobs${'$'}{'('}any_js, &jobCtx)
@@ -154,8 +154,8 @@ $group
             $if metaCtx.useCloudAzure || metaCtx.useCloudHeroku
                 ---
                 line ittf-predeploy
-                    cwd-folder ${"${'$'}"}{jobCtx.ittf_predeploy_folder}
-                    dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${preDeployPath}
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_predeploy_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${preDeployPath}
                 
                     wfjobs${'$'}{'('}any_json, &jobCtx)
                     wfjobs${'$'}{'('}any_js, &jobCtx)
@@ -164,7 +164,7 @@ $group
             ---
             
             production
-        		dest-folder ${"${'$'}"}{jobCtx.dest_folder}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}
                 line-ref ittf-models
                 line-ref ittf-root
                 line-ref ittf-public

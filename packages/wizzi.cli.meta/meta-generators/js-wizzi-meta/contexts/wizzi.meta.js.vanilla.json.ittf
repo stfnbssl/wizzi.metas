@@ -1,0 +1,25 @@
+{
+
+    $
+        var metaBasename = "jsVanilla";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Js vanilla meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "jsVanillaWebpackGetStartedApp"
+        {
+            name "jsVanillaUtils"

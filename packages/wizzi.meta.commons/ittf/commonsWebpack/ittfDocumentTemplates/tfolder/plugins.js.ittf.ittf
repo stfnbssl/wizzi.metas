@@ -54,6 +54,8 @@ $group
     ${'$'}if wzCtx.Build.webpack.useHtml
 		new HtmlWebpackPlugin
 			{
+                ${'$'}if wzCtx.Build.webpack.html.title
+                    @ title '${'$'}{wzCtx.Build.webpack.html.title}'
                 ${'$'}if wzCtx.Build.webpack.html.template
 				    @ template '${'$'}{wzCtx.Build.webpack.html.template}'
                 ${'$'}if wzCtx.Build.webpack.html.filename

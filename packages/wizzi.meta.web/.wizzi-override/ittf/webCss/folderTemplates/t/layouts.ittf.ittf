@@ -1,7 +1,7 @@
 $group
     
     $file __dot__wizzi/${pkgPath}ittf/t/css/layouts/meta_main.css.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include webCss/layouts/meta_main.css
 
     $
@@ -16,6 +16,6 @@ $group
 
     $foreach item in items
         $file __dot__wizzi/${pkgPath}ittf/t/css/layouts/t/${item}.css.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include webCss/layouts/tfolder/${item}.css
 

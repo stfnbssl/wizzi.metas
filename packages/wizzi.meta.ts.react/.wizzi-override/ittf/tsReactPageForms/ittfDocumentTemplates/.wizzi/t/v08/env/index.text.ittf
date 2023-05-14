@@ -1,0 +1,22 @@
+$group
+    $params &md
+    PORT=${wzCtx.App.port}
+    SESSION_SECRET=axr45hngmuoil9********0ofgt*kjj6767648%$£3f5&/4bnsa-----qq4)$35670qq4q
+    NO_CACHE=${wzCtx.Build.noCache}
+    $if wzCtx.Build.useCors
+        CORS_CLIENT_ORIGIN=${wzCtx.Build.cors.clientOrigin}
+    $if wzCtx.Build.useWizzi
+        IS_WIZZI_DEV=${wzCtx.Build.wizzi.isDev}
+    $if wzCtx.Build.usePacki
+        PACKI_API_ENDPOINT=${wzCtx.Build.packi.endPoint}
+        PACKI_STORE_FOLDER=${wzCtx.Build.packi.storeFolder}
+        PACKI_TEMPLATES_FOLDER=${wzCtx.Build.packi.templatesFolder}
+    $if wzCtx.Build.useAuthentication
+        $if wzCtx.Build.authentication.useGithub
+            GITHUB_CLIENT_ID=${wzCtx.Build.authentication.github.clientId}
+            GITHUB_CLIENT_SECRET=${wzCtx.Build.authentication.github.clientSecret}
+            GITHUB_CALLBACK_URL=${wzCtx.Build.authentication.github.callbackURL}
+    $if wzCtx.Build.useMongoDb
+        MONGO_USER=${wzCtx.Build.mongoDb.user}
+        MONGO_PASSWORD=${wzCtx.Build.mongoDb.password}
+        MONGO_PATH=${wzCtx.Build.mongoDb.dbPath}/${wzCtx.Build.mongoDb.dbName}

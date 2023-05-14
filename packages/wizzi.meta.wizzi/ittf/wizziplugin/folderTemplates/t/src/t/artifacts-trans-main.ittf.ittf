@@ -1,7 +1,7 @@
 $group
     $params &schema
 
-    ${"${'$'}"}
+    ${'$'}{'$'}
         var md = {
             plugin: '${metaCtx.name}',
             name: 'extended',
@@ -12,7 +12,7 @@ $group
 
     trans${"${'('}"} &md )
         
-        ${"${'$'}"}append main
+        ${'$'}{'$'}append main
 
             set transformedModel
                 {
@@ -60,7 +60,7 @@ $group
                 return name.indexOf('.') > -1 ? name : (ns || 'global') + '.' + name      
 
     $if schema.hasTextContents
-        ${"${'$'}"}include comment
-        ${"${'$'}"}include contents
-        ${"${'$'}"}include biblio
+        ${'$'}{'$'}include comment
+        ${'$'}{'$'}include contents
+        ${'$'}{'$'}include biblio
 

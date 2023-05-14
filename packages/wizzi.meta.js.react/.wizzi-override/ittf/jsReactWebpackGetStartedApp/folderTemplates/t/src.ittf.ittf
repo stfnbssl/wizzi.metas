@@ -1,0 +1,29 @@
+$group
+
+    $file __dot__wizzi/src/index.js.ittf.ittf
+        module
+            ${'$'}include jsReactWebpackGetStartedApp/src/index.js
+
+    $if metaCtx.jsReactWebpackGetStartedApp.useWebpackCss
+        $file __dot__wizzi/src/style.css.ittf.ittf
+             css
+                ${'$'}include jsReactWebpackGetStartedApp/src/style.css
+
+    $if _.isArray(metaCtx.jsReactWebpackGetStartedApp.webpackEntries)
+        $if metaCtx.jsReactWebpackGetStartedApp.webpackEntries.length > 0
+            $foreach entry in metaCtx.jsReactWebpackGetStartedApp.webpackEntries
+                $file __dot__wizzi/src/${entry.name}.js.ittf.ittf
+                    module
+                        ${'$'}include jsReactWebpackGetStartedApp/src/${entry.name}.js
+
+    $if metaCtx.jsReactWebpackGetStartedApp.useWebpackJson
+        $file __dot__wizzi/src/data.json.ittf.ittf
+            {
+                ${'$'}include jsReactWebpackGetStartedApp/src/data.json
+
+
+    $if metaCtx.jsReactWebpackGetStartedApp.useWebpackYaml
+        $file __dot__wizzi/src/data.yaml.ittf.ittf
+            yaml
+                ${'$'}include jsReactWebpackGetStartedApp/src/data.yaml
+

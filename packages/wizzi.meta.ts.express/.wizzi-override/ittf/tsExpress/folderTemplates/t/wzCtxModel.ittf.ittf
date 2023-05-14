@@ -1,7 +1,7 @@
 $group
 
     $file __dot__wizzi/models/t/tsExpress.json.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
 
             useExpress true
             { express
@@ -18,7 +18,7 @@ $group
             useSession true
             { session
                 name "${'$'}{metaCtx.name}"
-                secret "${"${'$'}"}{stfnbssl_env.sessionSecret}"
+                secret "${'$'}{'$'}{stfnbssl_env.sessionSecret}"
         
             noCache true
         

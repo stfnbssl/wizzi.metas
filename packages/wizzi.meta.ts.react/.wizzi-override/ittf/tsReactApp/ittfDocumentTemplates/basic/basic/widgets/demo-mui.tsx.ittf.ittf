@@ -1,0 +1,66 @@
+$group
+
+    ${'$'}
+        var md = {
+            name: "WidgetsDemoMui",
+            props: [
+                {
+                    name: "title",
+                    type: "string"
+                }
+            ]
+        }
+
+    ${'$'}if wzCtx.Build.react.useMui
+        ${'$'}if wzCtx.Build.react.mui.useSystem
+            import
+                @ Boxes as MuiSystemBoxes
+                from './muisystem/boxes'
+            import
+                @ StyledDiv as MuiSystemStyledDiv
+                from './muisystem/styled-div'
+            import
+                @ ThemedDiv as MuiSystemThemedDiv
+                from './muisystem/themed-div'
+        ${'$'}if wzCtx.Build.react.mui.useBase
+            import
+                @ Button as MuibaseButton
+                from './muibase/button'
+            import
+                @ Button as MuibaseStyledButton
+                from './muibase/styled-button'
+        ${'$'}if wzCtx.Build.react.mui.useJoy
+            import
+                @ JoyButton as MuijoyButton
+                from './muijoy/button'
+            import
+                @ Login as MuijoyLogin
+                from './muijoy/login'
+    
+    v08/ts/react/function${'('}&md)
+        div
+            h2 
+                + {title}
+            ${'$'}if wzCtx.Build.react.useMui
+                ${'$'}if wzCtx.Build.react.mui.useSystem
+                    div
+                        < MuiSystemBoxes
+                    div
+                        < MuiSystemStyledDiv
+                            + Hello i am a @muisystem styled div
+                    div
+                        < MuiSystemThemedDiv
+                            + Hello i am a @muisystem themed div
+                ${'$'}if wzCtx.Build.react.mui.useBase
+                    div
+                        < MuibaseButton
+                            + Hello i am a @muibase Button
+                    div
+                        < MuibaseStyledButton
+                            + Hello i am a @muibase styled Button                            
+                ${'$'}if wzCtx.Build.react.mui.useJoy
+                    div
+                        < MuijoyButton
+                            + Hello i am a @muijoy Button
+                    div
+                        < MuijoyLogin

@@ -1,0 +1,38 @@
+$group
+    $params kind, prefix
+
+    $
+        var prods = 'artifacts';
+        var name = 'name';
+        if (prefix == 'pp') { prods = 'packages'; }
+        if (prefix == 'pl') { prods = 'plugins'; }
+        if (prefix == 'mp') { prods = 'metas'; }
+        if (prefix == 'tf') { prods = 'tfolders'; }
+        if (kind == 'Update') { name = 'name_new'; }
+
+    => handleSubmit${kind}
+        param ev
+            :ref React.MouseEvent
+                :param 
+                    :ref HTMLElement
+        log 'handleSubmit${kind}' 
+        $if kind != "Delete"
+            log 'this.state.${prefix}_${name}_available', this.state.${prefix}_${name}_available
+            if !(this.state.${prefix}_${name}_available == true)
+                log 'handleSubmit${kind} prevent default'
+                _ ev.preventDefault
+                #
+                    _ this.formRef.dispatchEvent
+                        new Event
+                            @ 'submit'
+                            {
+                                @ cancelable true
+                                @ bubbles true
+
+    => handleCancel
+        param ev
+            :ref React.MouseEvent
+                :param 
+                    :ref HTMLElement
+        _ ev.preventDefault
+        set window.location.href = "/productions/${prods}";

@@ -14,5 +14,5 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/t/${item}.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include commonsWizzi/tfolder/jscommons/${item}.js

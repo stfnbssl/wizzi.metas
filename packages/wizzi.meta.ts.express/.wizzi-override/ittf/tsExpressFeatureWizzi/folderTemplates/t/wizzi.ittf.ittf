@@ -36,7 +36,7 @@ $group
 
     $foreach item in items
         $file __dot__wizzi/${pkgPath}src/features/wizzi/t/productions/${item}.ts.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include tsExpressFeatureWizzi/wizzi/t/productions/${item}.ts
     $file __dot__wizzi/${pkgPath}src/features/wizzi/types.ts.ittf.ittf
         module

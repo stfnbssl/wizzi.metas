@@ -36,7 +36,7 @@ $group
                                         =>
                                             param k
                                             _ k.endsWith('/' + twinJsonBaseName)
-                                $$ loogg 'features.wizzi.productions.inferAndLoadContextJson.twinDocumentUri', twinDocumentUri, Object.keys(files)
+                                $$ loog 'features.wizzi.productions.inferAndLoadContextJson.twinDocumentUri', twinDocumentUri, Object.keys(files)
                                 if twinDocumentUri
                                     _ loadModelInternal
                                         @ wf

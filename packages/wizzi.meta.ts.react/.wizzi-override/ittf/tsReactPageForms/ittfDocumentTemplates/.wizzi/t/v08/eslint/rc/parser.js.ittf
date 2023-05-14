@@ -1,0 +1,12 @@
+$group
+    @ parser '@typescript-eslint/parser'
+        ## This allows ESLint to understand TypeScript syntax.
+            # This is required, or else ESLint will throw errors
+            # as it tries to parse TypeScript code as if it were regular JavaScript.
+    { parserOptions
+        @ ecmaVersion 2018
+        @ sourceType "module"
+    { env
+        $if wzCtx.Build.useWebpack || wzCtx.Build.useReact
+            @ browser true
+        @ es6 true

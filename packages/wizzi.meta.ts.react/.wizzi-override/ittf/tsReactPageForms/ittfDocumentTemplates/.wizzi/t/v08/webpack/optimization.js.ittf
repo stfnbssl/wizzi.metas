@@ -1,0 +1,48 @@
+$group
+    
+    { optimization
+        @ noEmitOnErrors true
+        @ minimize process.env.NODE_ENV === 'production'
+        $if wzCtx.Build.webpack.useMinimizer
+            [ minimizer
+                new TerserPlugin
+                    {
+                        @ exclude /eslint_bundle/
+                        @ parallel true
+        $if wzCtx.Build.webpack.useStatsWriter
+            new StatsWriterPlugin
+                {
+                    @ filename 'build-stats.js'
+                    [ fields
+                        @ 'hash'
+                        @ 'assets'
+                        @ 'assetsByChunkName'
+                    $if wzCtx.Build.useServiceWorker
+                        @ transform
+                            =>
+                                {
+                                    @ hash
+                                    @ assets
+                                    @ assetsByChunkName
+                                `lit
+                                    + &lf;
+                                    + &nbsp;       // This script is used in the service worker&lf;
+                                    + &nbsp;       self.__WEBPACK_BUILD_STATS__ =&nbsp;
+                                    _ JSON.stringify
+                                        {
+                                            @ hash
+                                            @ entry assetsByChunkName.app[0]
+                                            @ assets
+                                                _ assets.map
+                                                    =>
+                                                        param a
+                                                        `lit
+                                                            + /dist/
+                                                            @ a.name
+                                                            +
+                                                    ._ filter
+                                                        =>
+                                                            param a
+                                                            + !a.endsWith('.map')
+                                    + &lf;
+                                    + &nbsp;    &nbsp;

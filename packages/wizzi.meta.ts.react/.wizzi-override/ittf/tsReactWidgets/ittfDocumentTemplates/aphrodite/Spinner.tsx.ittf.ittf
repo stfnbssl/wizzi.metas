@@ -1,0 +1,156 @@
+$group
+    import 
+        @ css
+        @ StyleSheet
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    import 
+        @ usePreferences 
+        from '../../features/preferences/index'
+    +
+    export
+        :type SpinnerProps
+            :{ 
+                :p rgba
+                    :optional 
+                    :{ 
+                        :p red
+                            :number 
+                        :p green
+                            :number 
+                        :p blue
+                            :number 
+                        :p alpha
+                            :number 
+                :p segments
+                    :optional 
+                    :number 
+                :p segmentWidth
+                    :optional 
+                    :number 
+                :p segmentLength
+                    :optional 
+                    :number 
+                :p spacing
+                    :optional 
+                    :number 
+                :p fadeTo
+                    :optional 
+                    :number 
+                :p fadeSteps
+                    :optional 
+                    :number 
+    +
+    export
+        function Spinner
+            { 
+                @ rgba
+                @ segments
+                    = 12
+                @ segmentWidth
+                    = 2
+                @ segmentLength
+                    = 6
+                @ spacing
+                    = 4
+                @ fadeTo
+                    = 31 / 98
+                @ fadeSteps
+                    = 6
+                :ref SpinnerProps
+            const [prefs] = usePreferences()
+            const 
+                { 
+                    @ red
+                    @ green
+                    @ blue
+                    @ alpha
+                =
+                    iif rgba !== undefined
+                        then rgba
+                        else
+                            iif prefs.theme === 'dark'
+                                then
+                                    { 
+                                        @ red 255
+                                        @ green 255
+                                        @ blue 255
+                                        @ alpha 0.5
+                                else
+                                    { 
+                                        @ red 70
+                                        @ green 48
+                                        @ blue 235
+                                        @ alpha 1
+            const innerRadius = segmentWidth * 2 + spacing
+            const opacityDelta = (1 - fadeTo) / fadeSteps
+            const lines = []
+            for let ii = 0; ii < segments; ii++
+                const opacity = 1 - Math.min(ii, fadeSteps) * opacityDelta
+                const rotation = (-ii * 360) / segments
+                _ lines.push
+                    line 
+                        @ key {ii}
+                        @ x1 "0"
+                        @ y1 {innerRadius}
+                        @ x2 "0"
+                        @ y2 {innerRadius + segmentLength}
+                        @ style
+                            { 
+                                @ opacity
+                        @ transform
+                            `lit 
+                                + rotate(
+                                @ rotation
+                                + )
+            const rgbaColor
+                `lit 
+                    + rgba(
+                    @ red
+                    + ,&nbsp;
+                    @ green
+                    + ,&nbsp;
+                    @ blue
+                    + ,&nbsp;
+                    @ alpha
+                    + )
+            const radius = innerRadius + segmentLength + Math.ceil(segmentWidth / 2)
+            return 
+                svg 
+                    @ className {css(styles.indicator)}
+                    @ width {radius * 2}
+                    @ height {radius * 2}
+                    g 
+                        @ stroke {rgbaColor}
+                        @ strokeWidth {segmentWidth}
+                        @ strokeLinecap "round"
+                        @ transform
+                            `lit 
+                                + translate(
+                                @ radius
+                                + ,&nbsp;
+                                @ radius
+                                + )
+                        + {lines}
+    +
+    const spinKeyframes
+        { 
+            { from
+                @ transform 'rotate(0deg)'
+            { to
+                @ transform 'rotate(360deg)'
+    +
+    export-default Spinner
+    +
+    const styles
+        _ StyleSheet.create
+            { 
+                { indicator
+                    @ animationDuration '1s'
+                    @ animationIterationCount 'infinite'
+                    @ animationName spinKeyframes
+                    @ animationTimingFunction 'steps(12)'
+
+    

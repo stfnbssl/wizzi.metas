@@ -3,7 +3,7 @@ $group
     $
         var mix = '(&jobCtx)';
 
-    webpack/${metaCtx.ver}/imports${mix}
+    webpack/${metaVer}/imports${mix}
 
 	set module.exports
 		{
@@ -17,15 +17,15 @@ $group
                     $$ else 'eval-source-map'
                     else 'cheap-module-source-map'
 			[ entry
-                webpack/${metaCtx.ver}/entry${mix}
+                webpack/${metaVer}/entry${mix}
 			{ module
 				[ rules
-                    webpack/${metaCtx.ver}/module.rules${mix}
+                    webpack/${metaVer}/module.rules${mix}
 			{ resolve
-                webpack/${metaCtx.ver}/resolve${mix}
+                webpack/${metaVer}/resolve${mix}
 			{ output
-                webpack/${metaCtx.ver}/output${mix}
+                webpack/${metaVer}/output${mix}
 			[ plugins
-                webpack/${metaCtx.ver}/plugins${mix}
+                webpack/${metaVer}/plugins${mix}
 			{ devServer
-                webpack/${metaCtx.ver}/devServer${mix}
+                webpack/${metaVer}/devServer${mix}

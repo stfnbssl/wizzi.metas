@@ -155,7 +155,7 @@ $group
                                 =>
                                     param value
                                         :any
-                                    $$ loogg myname + '.resolveContext', contextItem.type, 'sourcePath', contextItem.sourcePath, value
+                                    $$ loog myname + '.resolveContext', contextItem.type, 'sourcePath', contextItem.sourcePath, value
                                     _ resolve(value)
                             ._ catch
                                 =>

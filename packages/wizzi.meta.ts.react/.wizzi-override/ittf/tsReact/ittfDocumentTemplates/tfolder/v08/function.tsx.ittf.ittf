@@ -1,0 +1,90 @@
+$group
+    ${'$'}params &md
+    ${'$'}
+        var defaultProps = [];
+    misc${'('} setMyProps, &md )
+    import React
+        @ FunctionComponent
+        from 'react'
+    ${'$'}if md.connected
+        import
+            @ bindActionCreators
+            @ Dispatch
+            from 'redux'
+        import
+            @ connect
+            from 'react-redux'
+    ${'$'}if md.styled
+        # see https://mxstbr.blog/2016/11/styled-components-magic-explained/
+        import styled
+            @ keyframes
+            @ css
+            from 'styled-components'
+    ${'$'}if md.aphrodite
+        import
+            @ StyleSheet
+            @ css
+            from 'aphrodite'
+        import classnames from 'classnames'
+    +
+    ${'$'}hook imports
+    +
+    ${'$'}if md.connected
+        export
+            :type ${'$'}{md.name}Props
+                :intersect
+                    :ref ReturnType
+                        :param
+                            :typeof mapStateToProps
+                    :ref ReturnType
+                        :param
+                            :typeof mapDispatchToProps
+                    :{
+                        ${'$'}foreach prop in myProps
+                            ${'$'} if (prop.xdefault) { defaultProps.push(prop); }
+                            ${'$'}include setPropType
+    ${'$'}else
+        export
+            :interface ${'$'}{md.name}Props
+                ${'$'}foreach prop in myProps
+                    ${'$'} if (prop.xdefault) { defaultProps.push(prop); }
+                    ${'$'}include setPropType
+    +
+    ${'$'}if md.aphrodite
+        const styles
+            _ StyleSheet.create
+                {
+                    ${'$'}hook styles_aphrodite
+    ${'$'}hook styles
+    export
+        const ${'$'}{md.name}
+            :ref FunctionComponent
+                :param
+                    :ref ${'$'}{md.name}Props
+            =>
+                ${'$'}if md.connected
+                    param props
+                ${'$'}else
+                    {
+                        ${'$'}foreach prop in myProps
+                            @ ${'$'}{prop.name}
+                ${'$'}hook
+    ${'$'}if defaultProps.length > 0
+        set ${'$'}{md.name}.defaultProps
+            {
+                ${'$'}foreach prop in defaultProps
+                    ${'$'}if prop.type == 'string'
+                        @ ${'$'}{prop.name} "${'$'}{prop.xdefault}"
+                    ${'$'}else
+                        @ ${'$'}{prop.name} ${'$'}{prop.xdefault}
+    ${'$'}if md.connected
+        export
+            const ${'$'}{md.name}Connected
+                _ connect
+                    @ mapStateToProps
+                    @ mapDispatchToProps
+                    (
+                        @ ${'$'}{md.name}
+        export-default ${'$'}{md.name}Connected
+    ${'$'}else
+        export-default ${'$'}{md.name}

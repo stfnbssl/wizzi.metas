@@ -17,10 +17,9 @@ $group
                 param callback
                 if options && options.metaCtx
                     const useProductionVar = 'use' + prod[0].toUpperCase() + prod.substring(1)
-                    log 'getMetaProductionStarter.useProductionVar', useProductionVar
-                    log 'getMetaProductionStarter.options.metaCtx[useProductionVar]', options.metaCtx[useProductionVar]
                     if !options.metaCtx[useProductionVar]
                         r_cb( {} )
+                    log 'getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]
                 _ this.getMetaProduction
                     @ prod
                     a_cb( metaProduction )

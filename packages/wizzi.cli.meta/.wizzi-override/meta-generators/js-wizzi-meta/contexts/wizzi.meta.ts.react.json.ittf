@@ -1,0 +1,56 @@
+{
+
+    $
+        var metaBasename = "tsReact";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Typescript react meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "tsReact"
+        {
+            name "tsReactApp"
+        {
+            name "tsReactAssets"
+        {
+            name "tsReactBasicWebpack"
+        {
+            name "tsReactBasicVite"
+        {
+            name "tsReactComponents"
+        {
+            name "tsReactEditor"
+        {
+            name "tsReactFeatures"
+        {
+            name "tsReactPageForms"
+        {
+            name "tsReactRedux"
+        {
+            name "tsReactStoryboard"
+        {
+            name "tsReactThemes"
+        {
+            name "tsReactTypings"
+        {
+            name "tsReactUtils"
+        {
+            name "tsReactWebpackGetStartedApp"
+        {
+            name "tsReactWebpackWidgetsApp"
+        {
+            name "tsReactWidgets"
+

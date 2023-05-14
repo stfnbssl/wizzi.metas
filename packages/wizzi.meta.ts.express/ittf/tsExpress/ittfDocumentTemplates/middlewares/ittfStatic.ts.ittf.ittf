@@ -373,7 +373,7 @@ $group
                         {
                             @ 'Content-Type' 'text/html'
                             @ 'Content-Length' generated.artifactContent.length
-                        $$ loogg 'generated.meta.document', generated.artifactContent
+                        $$ loog 'generated.meta.document', generated.artifactContent
                     _ response.end(generated.artifactContent)
             catch ex
                 error 'sendFolderScan.exception', ex

@@ -292,6 +292,8 @@
         ${'$'}if wzCtx.Build.vue.useVuetify
             vuetify  "^1.4.3"
     ${'$'}if wzCtx.Build.useWebpack
+        ${'$'}if wzCtx.Build.webpack.useYaml
+            yamljs "latest"
         ${'$'}if wzCtx.Build.useVExpo
             webpack "^4.29.0"
             webpack-cli "^3.2.1"

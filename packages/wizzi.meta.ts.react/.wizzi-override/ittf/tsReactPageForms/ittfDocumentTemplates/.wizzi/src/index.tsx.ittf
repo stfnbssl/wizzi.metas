@@ -1,0 +1,82 @@
+module
+    
+    $
+        var usePreferences = false;
+        var initialData = true;
+    
+    import cookies from 'js-cookie'
+    import 
+        as React
+        from 'react'
+    import ReactDOM from 'react-dom'
+    import 
+        @ HelmetProvider
+        from 'react-helmet-async'
+    import 
+        @ Provider
+        from 'react-redux'
+    
+    import App from './components/App'
+    import NonExistent from './components/NonExistent'
+    
+    $if usePreferences
+        import 
+            @ PreferencesProvider 
+            from './features/preferences'
+    
+    import ThemeProvider from './components/ThemeProvider'
+
+    $if initialData
+        :declare 
+            const __INITIAL_DATA__
+                :{ 
+                    :p data
+                        :any
+                    :p queryParams
+                        :any
+    $else
+        import
+            @ __INITIAL_DATA__
+            from './initialData'
+    +
+    $if !wzCtx.Build.react.useRouter
+        function AppContainer
+            param props
+                :any 
+            const 
+                { 
+                    @ data
+                    ... rest
+                = props
+            if data && data.type === 'success'
+                const appProps
+                    { 
+                        @ ...props
+                        @ ...rest
+                        @ query props.queryParams
+                        @ formName data.formName
+                        @ formData data.formData
+                return 
+                    < App 
+                        @ {...appProps}
+            else
+                return 
+                    < NonExistent 
+
+    function PageFormsApp
+        return 
+            $$ < React.StrictMode 
+            < React.Fragment
+                < HelmetProvider 
+                    $*
+                    < PreferencesProvider 
+                        @ cookies {cookies}
+                    *$
+                    < ThemeProvider 
+                        < AppContainer
+                            @ data {__INITIAL_DATA__.data}
+                            @ queryParams {__INITIAL_DATA__.queryParams}
+
+    _ ReactDOM.render
+        < PageFormsApp 
+        _ document.getElementById('root')

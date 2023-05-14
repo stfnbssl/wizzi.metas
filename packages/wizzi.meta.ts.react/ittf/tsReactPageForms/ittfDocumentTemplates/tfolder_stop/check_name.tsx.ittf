@@ -1,0 +1,42 @@
+$group
+    $params prod, name
+    
+    $
+        var Prod = _.capitalize(prod);
+
+    m _checkAvalible${Prod}Name
+        async
+        const
+            {
+                @ owner
+            = this.props.data
+        const ${name}_checked = this.state.${name}
+        const endpoint
+            `lit
+                _ nullthrows(process.env.API_SERVER_URL)
+                + /production/${prod}/checkname/
+                @ encodeURIComponent(owner)
+                + /
+                @ encodeURIComponent(${name}_checked)
+        log 'Create${Prod}._checkAvalible${Prod}Name.endpoint', endpoint
+        const response
+            await 
+                _ fetch(endpoint)
+        if !response.ok
+            throw 
+                new Error
+                    `lit 
+                        + checkAvalible_${prod}_Name error
+                        + &nbsp;-&nbsp;
+                        @ response.status
+                        + &nbsp;-&nbsp;
+                        @ response.statusText
+        const result
+            await 
+                _ response.json()
+        log 'Create${Prod}._checkAvalible${Prod}Name.result', result
+        _ this.setState
+            {
+                @ ${name}_available result.isValid
+                @ ${name}_checked ${name}_checked
+    

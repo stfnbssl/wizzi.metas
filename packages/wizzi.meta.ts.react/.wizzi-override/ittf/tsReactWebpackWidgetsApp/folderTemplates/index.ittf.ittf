@@ -1,0 +1,10 @@
+$group
+    $if metaCtx.useTsReactWebpackWidgetsApp
+        $
+            var thisProduction = metaCtx.tsReactWebpackWidgetsApp;
+
+        $include __generate
+        $include models
+        $include root
+        $include src
+

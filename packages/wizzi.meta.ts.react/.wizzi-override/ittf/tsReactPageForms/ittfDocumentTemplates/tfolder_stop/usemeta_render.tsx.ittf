@@ -1,0 +1,56 @@
+$group
+
+    < HR
+    < FormSelect
+        @ label {'Use meta production'}
+        @ name 'meta_id'
+        @ id 'meta_id'
+        @ value {this.state.meta_id}
+        @ options {this.state.meta_listOptions}
+        @ onChange
+            =>
+                param ev
+                _ this.handleMetaChange
+                    @ ev.target.value
+    {
+        &&
+            + this.state.meta_props
+            _ this.state.meta_props.map
+                =>
+                    param p
+                        :any
+                    param ndx
+                    if p.type == 'string' || p.type == 'number'
+                        return
+                            < FormGroup
+                                @ key {ndx}
+                                @ label {p.label || p.name}
+                                @ name {p.name}
+                                @ id {p.name}
+                                @ value {this.state.meta_propsValues[p.name]}
+                                @ onChange
+                                    =>
+                                        param ev
+                                        _ this.handleMetaPropsValuesChange
+                                            @ p.name
+                                            @ ev.target.value
+                    if p.type == 'object'
+                        return
+                            < FormObject
+                                @ key {ndx}
+                                @ label {p.label || p.name}
+                                @ name {p.name}
+                                @ id {p.name}
+                                @ path {p.name}
+                                @ values {this.state.meta_propsValues[p.name] || {}}
+                                @ properties {p.properties}
+                                @ onChange {this.handleMetaPropsValuesChange}
+    {
+        &&
+            + this.state.meta_id.length > 0
+            < FormText
+                @ label 'Values'
+                @ name 'meta_propsValues'
+                @ id 'meta_propsValues'
+                @ required {true}
+                @ value {JSON.stringify(this.state.meta_propsValues, null, 4)}

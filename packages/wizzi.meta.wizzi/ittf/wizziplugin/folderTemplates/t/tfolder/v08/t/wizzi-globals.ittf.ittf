@@ -1,5 +1,5 @@
 $group
 
     $file __dot__wizzi/t/v08/wizzi/globals/defaultMimeTypes.js.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
             ${'$'}include wz/v08/wizzi/globals/defaultMimeTypes.js

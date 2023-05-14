@@ -22,7 +22,7 @@ $group
 
     $foreach item in items
         $file __dot__wizzi/${pkgPath}t/${item}.ts.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include wz/v08/ts/tfolder/${item}.ts
 
 

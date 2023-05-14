@@ -97,7 +97,7 @@ $group
                         =>
                             param result
                                 :any
-                            $$ loogg 'putPluginProduction.result', result
+                            $$ loog 'putPluginProduction.result', result
                             _ sendSuccess
                                 @ response
                                 @ result

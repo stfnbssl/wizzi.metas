@@ -36,7 +36,7 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}ittf/css/t/${item}.css.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webCss/tfolder/${item}.css
 
         $include layouts

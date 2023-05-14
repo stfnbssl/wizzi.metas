@@ -1,0 +1,107 @@
+$group
+    
+    $if wzCtx.Build.webpack.useEnv
+        new webpack.DefinePlugin
+            {
+                { 'process.env'
+                    $foreach item in wzCtx.Build.webpack.env.items
+                        @ ${item.name} JSON.stringify(${item.value})
+    
+    $if wzCtx.Build.webpack.useIgnore
+        new webpack.IgnorePlugin
+            @ /^((fs)|(path)|(os)|(crypto)|(source-map-support))$/
+            @ /vs(\/|\\)language(\/|\\)typescript(\/|\\)lib/
+    
+    $if wzCtx.Build.webpack.useNodePolifills
+        new webpack.ProvidePlugin
+            {
+                $if wzCtx.Build.webpack.nodePolifills.useBuffer
+                    @ Buffer
+                        [
+                            @ 'buffer'
+                            @ 'Buffer'
+    
+    $if wzCtx.Build.useMonacoEditor
+        #
+            new MonacoWebpackPlugin()
+            new webpack.DefinePlugin
+                {
+                    @ 'process.browser' true
+        new webpack.ContextReplacementPlugin
+            @ /monaco-editor(\\|\/)esm(\\|\/)vs(\\|\/)editor(\\|\/)common(\\|\/)services/
+    
+    $if wzCtx.Build.useMonaco2
+        $$ https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+        new MonacoEditorPlugin
+            {
+                [ languages
+                    @ 'javascript'
+                    @ 'typescript'
+                    @ 'css'
+                    @ 'html'
+    
+    $if wzCtx.Build.webpack.useWorker
+        # Needed no more see https://github.com/GoogleChromeLabs/worker-plugin/issues/88
+        # new WorkerPlugin()
+    
+    $if wzCtx.Build.webpack.useMiniCssExtract
+        new MiniCssExtractPlugin()
+    
+    $if wzCtx.Build.webpack.useHtml
+        new HtmlWebpackPlugin
+            {
+                $if wzCtx.Build.webpack.html.template
+                    @ template '${wzCtx.Build.webpack.html.template}'
+                $if wzCtx.Build.webpack.html.filename
+                    @ filename '${wzCtx.Build.webpack.html.filename}'
+                $else
+                    @ filename './index.html'
+    
+    $if wzCtx.Build.useVue
+        new VueLoaderPlugin()
+    
+    $if wzCtx.Build.useHotReplacement
+        new webpack.HotModuleReplacementPlugin()
+    
+    $if wzCtx.Build.webpack.useCopy
+        new CopyWebpackPlugin
+            [
+                {
+                    @ from 'src/static'
+    
+    $if wzCtx.Build.webpack.useStatsWriter
+        new StatsWriterPlugin
+            {
+                @ filename 'build-stats.js'
+                [ fields
+                    @ 'hash'
+                    @ 'assets'
+                    @ 'assetsByChunkName'
+                @ transform
+                    =>
+                        {
+                            @ hash
+                            @ assets
+                            @ assetsByChunkName
+                        `lit
+                            + &lf;
+                            + &nbsp;       // This script is used in the service worker&lf;
+                            + &nbsp;       self.__WEBPACK_BUILD_STATS__ =&nbsp;
+                            _ JSON.stringify
+                                {
+                                    @ hash
+                                    @ entry assetsByChunkName.app[0]
+                                    @ assets
+                                        _ assets.map
+                                            =>
+                                                param a
+                                                `lit
+                                                    + /dist/
+                                                    @ a.name
+                                                    +
+                                            ._ filter
+                                                =>
+                                                    param a
+                                                    + !a.endsWith('.map')
+                            + &lf;
+                            + &nbsp;    &nbsp;

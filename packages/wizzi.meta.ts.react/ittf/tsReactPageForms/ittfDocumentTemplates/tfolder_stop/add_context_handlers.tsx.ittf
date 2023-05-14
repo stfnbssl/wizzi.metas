@@ -1,0 +1,29 @@
+$group
+    $params stateProp|tfolder
+        
+    => handleContextAdd
+        param context
+            :ref ContextRef
+        _ this.setState
+            => 
+                param state
+                (
+                    { 
+                        @ ${stateProp}_contexts [context, ...state.${stateProp}_contexts]
+
+
+    => handleContextDelete
+        param delcontext
+            :ref ContextRef
+        _ this.setState
+            => 
+                param state
+                const contexts = []
+                foreach context in this.state.${stateProp}_contexts
+                    if context.name !== delcontext.name
+                        _ contexts.push
+                            @ context
+                return
+                    {
+                        @ ${stateProp}_contexts contexts
+

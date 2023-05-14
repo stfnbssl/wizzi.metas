@@ -1,7 +1,7 @@
 $group
 
     $file __dot__wizzi/models/t/tsExpressFeatureWizzi.json.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
                 
             useWizzi true
             { wizzi

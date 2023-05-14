@@ -1,0 +1,64 @@
+$group
+    useBabel true
+    { babel
+        useParser true
+        useRuntime false
+        useDinamicImport true
+        addModuleExport false
+        useVendor true
+        { vendor
+            compactPath "./src/vendor"
+        useResolutions true
+        [ resolutions
+            {
+                name "**/babel-core"
+                value "7.0.0-bridge.0"
+    useResolutions true
+    useRegeneratorRuntime false
+    useWebpackApp false
+    { webpackApp
+        [ items
+            {
+                name "hello"
+                writeToDisk false
+    useHotReplacement false
+    { hotReplacement
+    useWebpack true
+    { webpack
+        useCss true
+        { css
+        useStyleLoader false
+        { styles
+        useMiniCssExtract true
+        { miniCssExtract
+        useSass false
+        { sass
+        useHtml true
+        { html
+            template "./src/index.html"
+            filename "index.html"
+        useMinimizer true
+        useWorker true
+        useStatsWriter false
+        useIgnore true
+        useCodeSplitting true
+        outputPath "C:/My/wizzi/stfnbssl/wizzi.apps/packages/wizzi-heroku/public/pageforms"
+        publicPath "/public/pageforms/"
+        useEnv true
+        { env
+            [ items
+                {
+                    name "NODE_ENV"
+                    value "env('NODE_ENV')"
+                {
+                    name "API_SERVER_URL"
+                    value "env('API_SERVER_URL')"
+                {
+                    name "BUILD_TIMESTAMP"
+                    value "Date.now()"
+        useNodePolifills true
+        { nodePolifills
+            useBuffer true
+        useDevServer true
+        { devServer
+            contentBase "path.join(__dirname, 'src')"

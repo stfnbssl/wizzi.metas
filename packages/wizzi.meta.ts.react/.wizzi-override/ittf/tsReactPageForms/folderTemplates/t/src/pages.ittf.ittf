@@ -1,0 +1,16 @@
+$group
+    
+    $
+        var items = [
+            'ListPost',
+            'CreatePost',
+            'UpdatePost',
+            'DeletePost',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/pages/${item}.tsx.ittf.ittf
+            module
+                ${'$'}include tsReactPageForms/pages/${item}.tsx
+
+

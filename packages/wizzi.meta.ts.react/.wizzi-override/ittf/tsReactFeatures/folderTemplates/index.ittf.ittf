@@ -1,0 +1,5 @@
+$group
+    $if metaCtx.useTsReactFeatures
+        $include wzCtxModel
+        $include src/preferences
+        $include src/prettier

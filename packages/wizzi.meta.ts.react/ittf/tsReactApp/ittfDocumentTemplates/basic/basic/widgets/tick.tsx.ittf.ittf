@@ -1,0 +1,37 @@
+$group
+
+    ${'$'}
+        var md = {
+            name: "Tick",
+            props: [
+            ],
+            stateItems: [
+                {
+                    name: "time",
+                    type: "date"
+                }
+            ]
+        }
+
+    v08/ts/react/component${'('}&md)
+        +
+        m tick
+            _ this.setState
+                { 
+                    @ time new Date()
+        +
+        m componentWillMount
+            _ this.tick
+        +
+        m componentDidMount
+            _ setInterval
+                => 
+                    _ this.tick
+                @ 1000
+        +
+        m render
+            return 
+                p 
+                    + The current time is \b
+                    { 
+                        _ this.state.time.toLocaleTimeString

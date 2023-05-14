@@ -15,8 +15,12 @@ $group
         @ filename '[name].bundle.js'
         @ chunkFilename '[id].[hash].chunk.js'
     ${'$'}else
-        @ path path.resolve(__dirname, 'dist', 'scripts')
-        @ filename '${'$'}{wzCtx.name}.js'
+        ${'$'}if wzCtx.Build.webpack.useOutput
+            @ filename '${'$'}{wzCtx.Build.webpack.output.filename}'
+            @ path ${'$'}{wzCtx.Build.webpack.output.path}
+        ${'$'}else
+            @ path path.resolve(__dirname, 'dist', 'scripts')
+            @ filename '${'$'}{wzCtx.name}.js'
     ---
 	${'$'}if wzCtx.Build.isLibrary
 		@ library '${'$'}{wzCtx.Build.library.name}'
@@ -24,3 +28,4 @@ $group
 		    @ libraryTarget 'var'
         ${'$'}else
             @ libraryTarget '${'$'}{wzCtx.Build.library.target}'
+    @ clean true

@@ -2,6 +2,6 @@ $group
     $if metaCtx.useWebWizziDocs
 
         $file __dot__wizzi/${pkgPath}ittf/t/models/docs/wzctx.ittf.ittf
-            ${"${'$'}"}group
+            ${'$'}{'$'}group
                 ${'$'}include webWizziDocs/models/docs/wzctx
 

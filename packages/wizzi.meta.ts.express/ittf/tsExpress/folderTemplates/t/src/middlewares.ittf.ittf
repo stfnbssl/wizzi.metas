@@ -8,15 +8,19 @@ $group
             "session","static","userInViews"
         ];
         if (metaCtx.useTsExpressFeatureAuth) {
-            mwItems.push("webSecured");
-            mwItems.push("apiSecured");
-            mwItems.push("authorization");
+            if (metaCtx.tsExpressFeatureAuth.useLocalUserFromConfig) {
+            } else {
+                mwItems.push("webSecured");
+                mwItems.push("apiSecured");
+                mwItems.push("authorization");
+            }
         }
         if (metaCtx.useTsExpressFeatureWizzi) {
             mwItems.push("ittfStatic");
             mwItems.push("wizziViewEngine");
             mwItems.push("wizziCdn");
         }
+
 
     $foreach item in mwItems
         $file __dot__wizzi/${pkgPath}src/middlewares/${item}.ts.ittf.ittf

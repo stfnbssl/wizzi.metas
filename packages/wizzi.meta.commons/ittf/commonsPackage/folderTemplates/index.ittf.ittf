@@ -6,45 +6,45 @@ $group
         
             {
             
-                name "${"${'$'}"}{wzCtx.npnName ? wzCtx.npnName : wzCtx.name}"
+                name "${'$'}{'$'}{wzCtx.npnName ? wzCtx.npnName : wzCtx.name}"
                 
-                version "${"${'$'}"}{wzCtx.version}"
+                version "${'$'}{'$'}{wzCtx.version}"
                 
-                ${"${'$'}"}if wzCtx.author
+                ${'$'}{'$'}if wzCtx.author
                     { author
-                        name "${"${'$'}"}{wzCtx.author.name}"
-                        email "${"${'$'}"}{wzCtx.author.email}"
+                        name "${'$'}{'$'}{wzCtx.author.name}"
+                        email "${'$'}{'$'}{wzCtx.author.email}"
                 
                 private false
                 
-                ${"${'$'}"}if wzCtx.license
+                ${'$'}{'$'}if wzCtx.license
                     [ licenses
                         { 
-                            type "${"${'$'}"}{wzCtx.license.type}"
-                            url "${"${'$'}"}{wzCtx.license.url}"
-                main "${"${'$'}"}{wzCtx.main}"
+                            type "${'$'}{'$'}{wzCtx.license.type}"
+                            url "${'$'}{'$'}{wzCtx.license.url}"
+                main "${'$'}{'$'}{wzCtx.main}"
                 
-                ${"${'$'}"}if wzCtx.Build.useVite
+                ${'$'}{'$'}if wzCtx.Build.useVite
                     type "module"
-                ${"${'$'}"}else
-                    ${"${'$'}"}if wzCtx.type
-                        type "${"${'$'}"}{wzCtx.type}"
+                ${'$'}{'$'}else
+                    ${'$'}{'$'}if wzCtx.type
+                        type "${'$'}{'$'}{wzCtx.type}"
                 
                 { scripts
-                    ${"${'$'}"}include package/${metaVer}/scripts
+                    ${'$'}{'$'}include package/${metaVer}/scripts
 
                 { dependencies
-                    ${"${'$'}"}include package/${metaVer}/dependencies
+                    ${'$'}{'$'}include package/${metaVer}/dependencies
 
                 { devDependencies
-                    ${"${'$'}"}include package/${metaVer}/devDependencies
+                    ${'$'}{'$'}include package/${metaVer}/devDependencies
 
-                ${"${'$'}"}include package/${metaVer}/tools
+                ${'$'}{'$'}include package/${metaVer}/tools
 
-                ${"${'$'}"}include package/${metaVer}/browser
+                ${'$'}{'$'}include package/${metaVer}/browser
 
-                ${"${'$'}"}${"${'$'}"} see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/
-                ${"${'$'}"}include package/${metaVer}/resolutions
+                ${'$'}{'$'}${'$'}{'$'} see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/
+                ${'$'}{'$'}include package/${metaVer}/resolutions
 
         $
             var items = [
@@ -59,7 +59,7 @@ $group
         $foreach item in items
 
             $file __dot__wizzi/t/package/${metaVer}/${item}.json.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                 
                     ${'$'}include commonsPackage/${item}.json
         

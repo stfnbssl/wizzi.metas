@@ -36,9 +36,37 @@ $group
                         
                     useXxx true
                     { xxx
+
+    $file __dot__wizzi/ittf/${prod.name}/wzCtxSchemas/index.json.ittf.ittf
     
+        {
+            
+            productionName "${prod.name}"
+            [ parameters
+                {
+                    name "useXxx"
+                    type "boolean"
+                {
+                    name "Xxx"
+                    type "string"
+                    kind "enum"
+                    [ enumValues
+                        "aaa"
+                        "bbb"            
+
     $file __dot__wizzi/ittf/${prod.name}/metaCtxSchemas/index.json.ittf.ittf
     
         {
             
             productionName "${prod.name}"
+            [ parameters
+                {
+                    name "useXxx"
+                    type "boolean"
+                {
+                    name "Xxx"
+                    type "string"
+                    kind "enum"
+                    [ enumValues
+                        "aaa"
+                        "bbb"            

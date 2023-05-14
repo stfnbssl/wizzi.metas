@@ -1,0 +1,26 @@
+$group
+    head 
+        meta 
+            charset utf-8
+        @title Getting Started
+        $if metaCtx.useTsReactUtils && metaCtx.tsReactUtils.useLodash
+            $if metaCtx.tsReactWebpackGetStartedApp.useWebpackHtml
+            $else
+                $if metaCtx.tsReactWebpackGetStartedApp.useWebpackPrintMe
+                    js ./dist/print.bundle.ts
+        $else
+            js https://unpkg.com/lodash@4.17.20
+    body 
+        # root
+        $if metaCtx.useTsReactUtils && metaCtx.tsReactUtils.useLodash
+            $if metaCtx.tsReactWebpackGetStartedApp.useWebpackHtml
+                - Since we'll be bundling our scripts and we'll use the html-webpack-plugin, we don't need to write the script tag to load the bundle
+                - It will be written by the html-webpack-plugin
+            $else
+                - Since we'll be bundling our scripts, load the bundle, instead of the raw ./src file
+                $if metaCtx.tsReactWebpackGetStartedApp.useWebpackPrintMe
+                    js ./dist/index.bundle.js
+                $else
+                    js ./dist/main.js
+                    
+        $else

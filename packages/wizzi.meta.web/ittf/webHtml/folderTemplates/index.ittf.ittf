@@ -17,7 +17,7 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}ittf/t/${item}.html.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webHtml/tfolder/${item}.html
             
 
@@ -33,7 +33,7 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}ittf/t/html/images/t/${item}.html.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webHtml/tfolder/images/tfolder/${item}.html
 
         $
@@ -45,6 +45,6 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}ittf/t/html/layouts/${item}.html.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webHtml/tfolder/layouts/${item}.html
         

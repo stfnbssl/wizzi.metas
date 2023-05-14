@@ -1,0 +1,34 @@
+module
+    +
+    export
+        :type $SetComplement
+            :< A
+            :< A1
+                :ref A
+            :iif
+                :check
+                    :ref A
+                :extends
+                    :ref A1
+                :then
+                    :never
+                :else
+                    :ref A
+    +
+    export
+        :type $Subtract
+            :< T
+                :ref T1
+            :< T1
+                :object
+            :ref Pick
+                :param
+                    :ref T
+                :param
+                    :ref $SetComplement
+                        :param
+                            :keyof
+                                :ref T
+                        :param
+                            :keyof
+                                :ref T1

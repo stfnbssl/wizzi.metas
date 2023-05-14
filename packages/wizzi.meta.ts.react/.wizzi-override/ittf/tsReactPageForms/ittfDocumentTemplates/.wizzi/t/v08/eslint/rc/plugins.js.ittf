@@ -1,0 +1,4 @@
+$group
+    $if wzCtx.Build.usePrettier
+        @ 'prettier'
+    @ '@typescript-eslint'

@@ -13,7 +13,7 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}src/t/html/appCrud/${item}.html.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webAppCrud/html/tfolder/${item}.html
 
         $file __dot__wizzi/${pkgPath}src/css/appCrud${metaCtx.webAppCrud.Name}.css.ittf.ittf
@@ -27,7 +27,7 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}src/css/t/appCrud/${item}.css.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webAppCrud/css/tfolder/${item}.css
 
 
@@ -49,5 +49,5 @@ $group
 
         $foreach item in items
             $file __dot__wizzi/${pkgPath}src/js/t/appCrud/${item}.js.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webAppCrud/js/tfolder/${item}.js

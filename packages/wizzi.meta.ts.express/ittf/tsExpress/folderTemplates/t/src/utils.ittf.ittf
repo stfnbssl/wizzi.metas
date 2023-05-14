@@ -43,7 +43,7 @@ $group
 
             $foreach item in items
                 $file __dot__wizzi/${pkgPath}src/utils/scripts/t/${item}.ts.ittf.ittf
-                    ${"${'$'}"}group
+                    ${'$'}{'$'}group
                         ${'$'}include wz/v08/ts/utils/scripts/tfolder/${item}.ts
 
         $if metaCtx.useFeatures && metaCtx.features.useWizziFs

@@ -1,0 +1,30 @@
+$group
+    useData false
+    { data
+        [ reduxItems
+            {
+                name "packidb"
+                Name "PackiDb"
+                Title "Packi"
+                Titles "Packies"
+                collectionName "packies"
+                [ fields
+                    {
+                        name "_id"
+                        type "oid"
+                        isListItem true
+                    {
+                        name "owner"
+                        type "string"
+                        isListItem true
+                    {
+                        name "name"
+                        type "string"
+                        isListItem true
+                    {
+                        name "description"
+                        type "string"
+                    {
+                        name "packifiles"
+                        type "string"
+                        formControlType "folder"

@@ -17,7 +17,7 @@ $group
         $foreach item in items
 
             $file __dot__wizzi/t/babelrc/${metaVer}/${item}.json.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                 
                     ${'$'}include commonsBabelrc/tfolder/${item}.json
 

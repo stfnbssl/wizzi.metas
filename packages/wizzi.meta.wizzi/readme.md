@@ -12,19 +12,19 @@ wizzi.meta.wizzi
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wzjobs.wfproduction.ittf>wzjobs</a><td>wzjobs wizzi meta production</td>
+<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziJobs.wfproduction.ittf>wizziJobs</a><td>wizziJobs wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wizzicommons.wfproduction.ittf>wizzicommons</a><td>wizzicommons wizzi meta production</td>
+<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziCommons.wfproduction.ittf>wizziCommons</a><td>wizziCommons wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziplugin.wfproduction.ittf>wizziplugin</a><td>wizziplugin wizzi meta production</td>
+<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziPlugin.wfproduction.ittf>wizziPlugin</a><td>wizziPlugin wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wizzimeta.wfproduction.ittf>wizzimeta</a><td>wizzimeta wizzi meta production</td>
+<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziMeta.wfproduction.ittf>wizziMeta</a><td>wizziMeta wizzi meta production</td>
 </tr>
 </table>
 

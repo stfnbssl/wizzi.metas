@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.8
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.web\.wizzi-override\root\index.js.ittf
-    utc time: Mon, 01 May 2023 18:44:43 GMT
+    utc time: Wed, 10 May 2023 06:47:59 GMT
 */
 'use strict';
 
@@ -135,11 +135,10 @@ class FactoryMeta {
         
             if (options && options.metaCtx) {
                 const useProductionVar = 'use' + prod[0].toUpperCase() + prod.substring(1);
-                console.log('getMetaProductionStarter.useProductionVar', useProductionVar);
-                console.log('getMetaProductionStarter.options.metaCtx[useProductionVar]', options.metaCtx[useProductionVar]);
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
+                console.log('getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]);
             }
             this.getMetaProduction(prod, (err, metaProduction) => {
             

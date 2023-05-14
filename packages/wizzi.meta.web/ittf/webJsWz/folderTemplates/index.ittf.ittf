@@ -16,28 +16,28 @@ $group
 
         $foreach item in public_tfolder
             $file __dot__wizzi/${pkgPath}public/t/${item}.js.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webJs/tfolder/${item}.js
 
         $file __dot__wizzi/${pkgPath}public/wz.js.ittf.ittf
             module
                 kind react
                 $foreach item in wzItems
-                    ${"${'$'}"}include ./wz/${item}
+                    ${'$'}{'$'}include ./wz/${item}
                 $foreach item in wzItems_widgets
-                    ${"${'$'}"}include ./wz/widgets/${item}
+                    ${'$'}{'$'}include ./wz/widgets/${item}
 
         $foreach item in wzItems_tfolder
             $file __dot__wizzi/${pkgPath}public/t/wz/t/${item}.js.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webJsWz/tfolder/tfolder/${item}.js
 
         $foreach item in wzItems
             $file __dot__wizzi/${pkgPath}public/t/wz/${item}.js.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webJsWz/tfolder/${item}.js
 
         $foreach item in wzItems_widgets
             $file __dot__wizzi/${pkgPath}public/t/wz/widgets/${item}.js.ittf.ittf
-                ${"${'$'}"}group
+                ${'$'}{'$'}group
                     ${'$'}include webJsWz/tfolder/widgets/${item}.js

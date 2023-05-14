@@ -140,6 +140,6 @@ $group
                                             @ transformResult result
                                             @ sourcePath filePath
                                             @ modelTransformer transformer
-                                        $$ loogg 'Transformed model', result
+                                        $$ loog 'Transformed model', result
                         else
                             _ reject('No model transformer available for document ' + filePath)
