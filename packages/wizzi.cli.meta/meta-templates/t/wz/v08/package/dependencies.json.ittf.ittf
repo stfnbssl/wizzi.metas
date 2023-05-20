@@ -85,6 +85,8 @@ $group
             ${'$'}if wzCtx.Build.react.materialUI.usePickers
                 $$ date-fns "^1.30.1"
                 date-fns "2.0.0"
+    ${'$'}if wzCtx.Build.useDocx
+        docx "latest"
     ${'$'}elif wzCtx.Build.useExpress
         debug "~2.6.9"
     ${'$'}if wzCtx.Build.utils.useDiffMatchPatch
@@ -213,6 +215,8 @@ $group
         palx '^1.0.3'
     ${'$'}if wzCtx.Build.utils.useParseUrl
         parseurl "^1.3.3"
+    ${'$'}if wzCtx.Build.usePdfmake
+        pdfmake "latest"
     ${'$'}if wzCtx.Build.usePostgres || (wzCtx.Build.useSequelize && wzCtx.Build.sequelize.usePostgres)
         pg "^8.8.0"
             $$ pg short for postgres is a Postgres client for Node.js

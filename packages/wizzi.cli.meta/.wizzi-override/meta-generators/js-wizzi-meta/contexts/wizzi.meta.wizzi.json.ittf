@@ -13,7 +13,7 @@
         {
             name "wizziJobs"
         {
-            name "wizziCommons"
+            name "wizziFactory"
         {
             name "wizziPlugin"
             isPackageMain true

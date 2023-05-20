@@ -1,0 +1,36 @@
+$group
+
+    $if metaCtx.useDocumentsPpt
+
+        $
+            var items = [
+                'presentazione',
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/models/t/ppt/${item}.json.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include documentsJson/ppt/${item}.json
+        
+        $
+            var items = [
+                'div',
+                'div-rect',
+                'image-rect',
+                'image',
+                'list-rect',
+                'list',
+                'slide',
+                'section',
+                'text-rect',
+                'textblock',
+                'word-biblioref',
+                'word-br',
+                'word-red',
+                'word',
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/models/t/ppt/t/${item}.json.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include documentsJson/ppt/tfolder/${item}.json

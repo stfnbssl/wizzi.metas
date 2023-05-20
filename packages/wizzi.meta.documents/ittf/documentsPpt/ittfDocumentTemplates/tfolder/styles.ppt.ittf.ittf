@@ -1,0 +1,75 @@
+$group
+
+    # LAYOUT_WIDE w=13.33
+    
+    style-def DebugText
+        font Arial
+        font-size 10
+        color FF0000
+
+    style-def Tab
+        x 0.5
+        y 0.13
+        col-w
+            w 9
+            w 3.33
+    
+    style-def TextL
+        color 9F9F9F
+        margin 3
+        border $$ TRBL order
+            top null
+            right null
+            bottom 
+                pt 1
+                color CFCFCF
+            left null
+    
+    style-def OptsR
+        color 9F9F9F
+        margin 3
+        border
+            top 0
+            right 0
+                pt 1
+                color CFCFCF
+            bottom 0
+            left 0
+        align right
+    
+    style-def Code
+        color 9F9F9F
+        margin 3
+        border
+            pt 1
+            color CFCFCF
+        fill
+            color F1F1F1
+        font Courier
+        font-size 12
+    
+    style-def SubTitle
+        x 0.5
+        y 0.7
+        w 4
+        h 0.3
+        font-size 18
+        font Arial
+        color 0088CC
+        fill
+            color FFFFFF
+    
+    style-def TitleText
+        font-size 14
+        color 0088CC
+        bold
+    
+    style-def TitleTextBk
+        font-size 14
+        color 0088CC
+        bold
+        br
+    
+    style-def TitleOpts
+        font-size 13
+        color 9F9F9F

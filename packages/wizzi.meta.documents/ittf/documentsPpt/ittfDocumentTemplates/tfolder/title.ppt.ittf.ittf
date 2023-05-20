@@ -1,0 +1,27 @@
+$group
+    ${'$'}params value, &theme
+
+    shape RECTANGLE
+        y 4%
+        x 0
+        w 100%
+        h 8%
+        fill
+            color ${'$'}{theme.colors.titleBkg}
+    
+    p ${'$'}{value} 
+        style heading1
+        y 5%
+        x 5%
+        w 90%
+        h 8%
+        align center
+
+    p titleColor: ${'$'}{theme.colors.title}, titleBkg: ${'$'}{theme.colors.titleBkg}
+        style DebugText
+        y 14%
+        x 5%
+        w 90%
+        h 4%
+        align center
+

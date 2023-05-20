@@ -1,0 +1,17 @@
+$group
+    ${'$'}params title|@@null, category|@@null
+    {
+        [ objects
+            
+            ${'$'}if category != null
+                {
+                    kind "categorized-title"
+                    category "${'$'}{category}"
+                    text "${'$'}{title}"
+            ${'$'}else
+                ${'$'}if title != null
+                    {
+                        kind "title"
+                        text "${'$'}{title}"
+            ${'$'}hook
+

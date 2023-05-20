@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.8
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.commons\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 12 May 2023 16:40:41 GMT
+    utc time: Sat, 20 May 2023 06:13:48 GMT
 */
 'use strict';
 
@@ -179,7 +179,7 @@ class FactoryMeta {
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
-                console.log('getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]);
+                console.log('using meta production', useProductionVar, options.metaCtx[useProductionVar]);
             }
             this.getMetaProduction(prod, (err, metaProduction) => {
             
@@ -250,6 +250,7 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
+    version: '0.0.1', 
     provides: {
         metaProductions: [
             'commonsBabel', 

@@ -1,0 +1,59 @@
+$group
+
+    $
+        var thisProduction = metaCtx.documentsApp;
+
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            ${'$'}{'$'}include v08/env/vars
+            ---
+            name "${metaCtx.name}"
+            version "${metaCtx.version}"
+            description "${metaCtx.description}"
+            $if metaCtx.author
+                { author
+                    name "${metaCtx.author.name}"
+                    email "${metaCtx.author.email}"
+            $if metaCtx.licence
+                { license
+                    type "${metaCtx.license}"
+                    url "${metaCtx.license_url}"            
+            ---
+            { App
+                name "DocumentsApp"
+                title "Documents  App"
+            ---
+            { Styles
+            ---
+            { Build
+                [ features
+                
+                $if metaCtx.useDocumentsUtils
+                    ${'$'}{'$'}include documentsUtils.json
+                    ---
+                { package
+                    [ scripts
+                        $if metaCtx.useDocumentsPpt
+                            {
+                                name "ppt"
+                                value "node ./documents/ppt/presentazione.ppt.js"
+                        $if metaCtx.useDocumentsPdf
+                            {
+                                name "pdf"
+                                value "node ./documents/pdf/document.pdf.js"
+                        $if metaCtx.useDocumentsDocx
+                            {
+                                name "docx"
+                                value "node ./documents/docx/document.docx.js"
+                        {
+                            name "get:images"
+                            value "node ./src/utils/getJsonImages.js"
+
+            { Data
+                $if metaCtx.useDocumentsPpt
+                    ${'$'}{'$'}include ppt/presentation
+                $if metaCtx.useDocumentsPdf
+                    ${'$'}{'$'}include pdf/document
+                $if metaCtx.useDocumentsDocx
+                    ${'$'}{'$'}include docx/document
+        

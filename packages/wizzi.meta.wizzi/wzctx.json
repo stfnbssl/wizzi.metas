@@ -2,7 +2,7 @@
     "name": "wizzi.meta.wizzi",
     "npnName": "@wizzi/meta.wizzi",
     "pluginBasename": "",
-    "version": "",
+    "version": "0.0.1",
     "description": "wizzi.meta.wizzi",
     "author": {
         "name": "Stefano Bassoli",
@@ -41,8 +41,8 @@
             "title": "wizziJobs wizzi meta production"
         },
         {
-            "name": "wizziCommons",
-            "title": "wizziCommons wizzi meta production"
+            "name": "wizziFactory",
+            "title": "wizziFactory wizzi meta production"
         },
         {
             "name": "wizziPlugin",

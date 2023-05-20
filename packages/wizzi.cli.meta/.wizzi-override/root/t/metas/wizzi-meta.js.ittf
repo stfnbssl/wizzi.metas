@@ -1,5 +1,13 @@
 $group
 
+    elif cmd == 'wizzi-meta-documents'
+        _ createEx
+            {
+                @ metaGenerator 'js-wizzi-meta'
+                @ context 'wizzi.meta.documents'
+                @ pkgName 'wizzi.meta.documents'
+                @ destPath 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.documents'
+
     elif cmd == 'wizzi-meta-docs'
         _ createEx
             {

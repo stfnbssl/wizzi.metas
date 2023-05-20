@@ -1,0 +1,16 @@
+$group
+    $if metaCtx.useDocumentsPdf
+        $include wzCtxModel
+        $file __dot__wizzi/documentsPdf/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include documentsPdf/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/documentsPdf/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include documentsPdf/tfolder/${item}.js

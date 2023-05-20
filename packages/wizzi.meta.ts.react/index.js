@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.8
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.react\.wizzi-override\root\index.js.ittf
-    utc time: Sun, 14 May 2023 15:38:22 GMT
+    utc time: Tue, 16 May 2023 06:27:35 GMT
 */
 'use strict';
 
@@ -183,7 +183,7 @@ class FactoryMeta {
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
-                console.log('getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]);
+                console.log('using meta production', useProductionVar, options.metaCtx[useProductionVar]);
             }
             this.getMetaProduction(prod, (err, metaProduction) => {
             
@@ -254,6 +254,7 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
+    version: '0.0.1', 
     provides: {
         metaProductions: [
             'tsReact', 

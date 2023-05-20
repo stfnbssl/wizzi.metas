@@ -1,0 +1,36 @@
+{
+
+    $
+        var metaBasename = "documents";
+
+    $include commons
+
+    metaNamespace "${metaBasename}"
+
+    usePackageVersion true
+
+    useWizziV08 true
+    { wizziV08
+        [ plugins
+            "ittf"
+    
+    { App
+        name "Documents meta production"
+        kind "MetaProduction"
+
+    [ Productions
+        {
+            name "documentsApp"
+        {
+            name "documentsDocx"
+        {
+            name "documentsHtmlSlide"
+        {
+            name "documentsJson"
+        {
+            name "documentsPdf"
+        {
+            name "documentsPpt"
+        {
+            name "documentsUtils"
+

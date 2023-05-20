@@ -1,0 +1,14 @@
+﻿$group
+	$params result, format|json
+
+	=>
+		param err
+		param ${result}
+		if err
+			return
+				_ sendError
+					@ res
+					@ err
+					{
+						@ format '${format}'
+		$hook

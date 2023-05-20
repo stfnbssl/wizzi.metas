@@ -1,0 +1,9 @@
+$group
+    ${'$'}params &obj
+
+    ${'$'} var pos = obj.position
+
+    y ${'$'}{pos.y}
+    x ${'$'}{pos.x}
+    w ${'$'}{pos.w}
+    h ${'$'}{pos.h}

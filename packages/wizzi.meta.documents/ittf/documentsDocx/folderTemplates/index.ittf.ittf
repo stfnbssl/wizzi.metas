@@ -1,0 +1,16 @@
+$group
+    $if metaCtx.useDocumentsDocx
+        $include wzCtxModel
+        $file __dot__wizzi/documentsDocx/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include documentsDocx/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/documentsDocx/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include documentsDocx/tfolder/${item}.js

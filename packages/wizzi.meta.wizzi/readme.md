@@ -16,7 +16,7 @@ wizzi.meta.wizzi
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziCommons.wfproduction.ittf>wizziCommons</a><td>wizziCommons wizzi meta production</td>
+<a href https://github.com//wizzi.meta.wizzi/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziFactory.wfproduction.ittf>wizziFactory</a><td>wizziFactory wizzi meta production</td>
 </tr>
 <tr>
 <td>

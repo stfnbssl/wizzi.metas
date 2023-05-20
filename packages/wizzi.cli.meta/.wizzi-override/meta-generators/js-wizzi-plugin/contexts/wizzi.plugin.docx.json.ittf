@@ -1,0 +1,37 @@
+{
+    $
+        var pluginBasename = "docx";
+
+    $include commons
+    $include v08
+
+    usePackageVersion true
+
+    { App
+        name "Pdf plugin"
+        kind "WizziPlugin"
+
+    [ BuildVars
+        {
+            name "useDocx"
+            value "true"
+
+    [ Schemas
+        {
+            name "docx"
+            plugin_type "syntax_structure"
+            hasWizzifier false
+            { wizzifier
+            [ includes
+            [ transformers
+            [ artifacts
+                {
+                    name "document"
+                    outmime "docx"
+                    isDefault true
+                    contentType "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            [ fileExtensions
+                "docx"                   
+
+
+

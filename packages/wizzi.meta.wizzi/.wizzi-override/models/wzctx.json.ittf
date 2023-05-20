@@ -33,8 +33,8 @@
             name "wizziJobs"
             title "wizziJobs wizzi meta production"
         {
-            name "wizziCommons"
-            title "wizziCommons wizzi meta production"
+            name "wizziFactory"
+            title "wizziFactory wizzi meta production"
         {
             name "wizziPlugin"
             title "wizziPlugin wizzi meta production"

@@ -1,0 +1,5 @@
+$group
+    $if metaCtx.useDocumentsApp
+        $include wzCtxModel
+        $include __generate
+        $include models

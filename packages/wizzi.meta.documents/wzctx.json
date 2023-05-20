@@ -1,0 +1,68 @@
+{
+    "name": "wizzi.meta.documents",
+    "npnName": "@wizzi/meta.documents",
+    "pluginBasename": "",
+    "version": "",
+    "description": "wizzi.meta.documents",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2023"
+    },
+    "metaNamespace": "documents",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.ittf/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "documentsApp",
+            "title": "documentsApp wizzi meta production"
+        },
+        {
+            "name": "documentsDocx",
+            "title": "documentsDocx wizzi meta production"
+        },
+        {
+            "name": "documentsHtmlSlide",
+            "title": "documentsHtmlSlide wizzi meta production"
+        },
+        {
+            "name": "documentsJson",
+            "title": "documentsJson wizzi meta production"
+        },
+        {
+            "name": "documentsPdf",
+            "title": "documentsPdf wizzi meta production"
+        },
+        {
+            "name": "documentsPpt",
+            "title": "documentsPpt wizzi meta production"
+        },
+        {
+            "name": "documentsUtils",
+            "title": "documentsUtils wizzi meta production"
+        }
+    ]
+}

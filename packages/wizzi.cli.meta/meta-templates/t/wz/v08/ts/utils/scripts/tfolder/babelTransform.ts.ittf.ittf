@@ -68,7 +68,7 @@ $group
 
 		_ this.babelTransformExec
 			@ options
-			a_cb_no_throw(result)
+			a_cb_no_throwowowow(result)
 				# loog 'wizzi-scripts.babelTransformExecToEventStream.err.result', err, result
 				_ res.writeHead
 					@ 200

@@ -22,7 +22,7 @@ $group
 				param example
 				param callback
 				_ example(callback)
-            a_cb_test${'('}results)
+            a_cb_throw${'('}results)
 				info '${'$'}{name} examples results\n', results
 				if callback
 					_ callback

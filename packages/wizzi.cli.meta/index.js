@@ -123,6 +123,22 @@ else if (cmd == 'js-vanilla-data-entry') {
         destPath: 'C:/My/wizzi/stfnbssl/wizzi.labs/wizzi.meta.demos/packages/js.vanilla.data-entry'
      })
 }
+else if (cmd == 'wizzi-plugin-docx') {
+    createEx({
+        metaGenerator: 'js-wizzi-plugin', 
+        context: 'wizzi.plugin.docx', 
+        pkgName: 'wizzi.plugin.docx', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin.docx'
+     })
+}
+else if (cmd == 'wizzi-plugin-pdf') {
+    createEx({
+        metaGenerator: 'js-wizzi-plugin', 
+        context: 'wizzi.plugin.pdf', 
+        pkgName: 'wizzi.plugin.pdf', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin.pdf'
+     })
+}
 else if (cmd == 'wizzi-plugin-ppt') {
     createEx({
         metaGenerator: 'js-wizzi-plugin', 
@@ -329,6 +345,14 @@ else if (cmd == 'wizzi-plugin-java') {
         context: 'wizzi.plugin.java', 
         pkgName: 'wizzi.plugin.java', 
         destPath: 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages/wizzi.plugin.java'
+     })
+}
+else if (cmd == 'wizzi-meta-documents') {
+    createEx({
+        metaGenerator: 'js-wizzi-meta', 
+        context: 'wizzi.meta.documents', 
+        pkgName: 'wizzi.meta.documents', 
+        destPath: 'C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta.documents'
      })
 }
 else if (cmd == 'wizzi-meta-docs') {

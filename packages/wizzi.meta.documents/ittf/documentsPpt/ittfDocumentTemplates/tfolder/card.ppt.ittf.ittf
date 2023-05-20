@@ -1,0 +1,20 @@
+$group
+    ${'$'}params title, &pos, &theme
+
+    shape RECTANGLE
+        y ${'$'}{pos.y}
+        x ${'$'}{pos.x}
+        w ${'$'}{pos.w}
+        h 4%
+        fill
+            color ${'$'}{theme.colors.cardTitleBkg}
+
+    p ${'$'}{title} 
+        y ${'$'}{pos.y}
+        x ${'$'}{pos.x}
+        w ${'$'}{pos.w}
+        h 4%
+        color ${'$'}{theme.colors.cardTitle}
+        align center
+
+    ${'$'}hook

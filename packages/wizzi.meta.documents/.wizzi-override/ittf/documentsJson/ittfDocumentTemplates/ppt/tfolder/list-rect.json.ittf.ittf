@@ -1,0 +1,26 @@
+$group
+    ${'$'}params title|@@null, rect|@@null
+    ${'$'}
+        if (rect == null) {
+            rect = title;
+            title = null
+        }
+
+    {
+        ${'$'}if title != null
+            kind "titled-list"
+        ${'$'}else
+            kind "list"
+        
+        ${'$'} var ss = rect.split(' ')
+
+        { position
+            isObject true
+            y "${'$'}{ss[0]}"
+            x "${'$'}{ss[1]}"
+            h "${'$'}{ss[2]}"
+            w "${'$'}{ss[3]}"
+
+        ${'$'}if title != null
+            title "${'$'}{title}"
+        ${'$'}hook
