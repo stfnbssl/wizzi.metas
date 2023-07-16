@@ -1,0 +1,31 @@
+module
+    kind react
+    import 
+        @ CodegenConfig
+        from '@graphql-codegen/cli'
+    const url
+        @expr process.env.GRAFBASE_API_URL
+            :as 
+                :string 
+    const xApiKey
+        @expr process.env.GRAFBASE_API_KEY
+            :as 
+                :string 
+    const config
+        :ref CodegenConfig
+        =
+            { 
+                [ schema
+                    { 
+                        { [url]
+                            { headers
+                                @ 'x-api-key' xApiKey
+                [ documents
+                    @ 'app/**/*.tsx'
+                    @ 'app/**/*.ts'
+                @ ignoreNoDocuments true
+                { generates
+                    { './gql/'
+                        @ preset 'client'
+                        @ plugins []
+    export-default config

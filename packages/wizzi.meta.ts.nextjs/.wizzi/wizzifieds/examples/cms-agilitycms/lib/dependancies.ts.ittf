@@ -1,0 +1,80 @@
+module
+    kind react
+    import 
+        @ convertPascalToKebabCase
+        from './utils'
+    const path = require('path')
+    const userComponentsPath = path.resolve('./components')
+    const libComponentsPath = path.resolve('./lib/components')
+    const requireComponent
+        => 
+            param name
+            let Component = null
+            try 
+                set Component =
+                    _ require
+                        `lit 
+                            + ../components/
+                            @ name
+                            + .tsx
+                        . default
+                    # check the user path first (must be relative paths)
+            catch 
+            if !Component
+                try 
+                    set Component =
+                        _ require
+                            `lit 
+                                + ./components/
+                                @ name
+                                + .tsx
+                            . default
+                        # fallback to lib path (must be relative paths)
+                catch 
+            return Component
+        # Bug: when dynamic imports are used within the module, it doest not get outputted server-side
+        # let AgilityModule = dynamic(() => import ('../components/' + m.moduleName));
+    export 
+        const requireComponentDependancyByName
+            => 
+                param name
+                let pascalCaseName = name
+                let kebabCaseName = convertPascalToKebabCase(name)
+                let Component = null
+                try 
+                    set Component = requireComponent(kebabCaseName)
+                catch 
+                if !Component
+                    try 
+                        set Component = requireComponent(pascalCaseName)
+                    catch 
+                if !Component
+                    throw 
+                        `lit 
+                            + Could not find a component with the name&nbsp;
+                            @ name
+                            + . Tried searching:&lf;
+                            + &nbsp;      &nbsp;
+                            @ userComponentsPath
+                            + /
+                            @ kebabCaseName
+                            + .tsx',&lf;
+                            + &nbsp;      &nbsp;
+                            @ libComponentsPath
+                            + /
+                            @ kebabCaseName
+                            + .tsx',&lf;
+                            + &nbsp;      &nbsp;
+                            @ userComponentsPath
+                            + /
+                            @ pascalCaseName
+                            + .tsx',&lf;
+                            + &nbsp;      &nbsp;
+                            @ libComponentsPath
+                            + /
+                            @ pascalCaseName
+                            + .tsx'.
+                        # eslint-disable-next-line no-throw-literal
+                return Component
+        # Bug: when dynamic imports are used within the module, it doest not get outputted server-side
+        # let AgilityModule = dynamic(() => import ('../components/' + m.moduleName));

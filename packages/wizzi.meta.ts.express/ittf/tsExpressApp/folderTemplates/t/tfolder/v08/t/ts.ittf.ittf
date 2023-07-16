@@ -1,0 +1,40 @@
+$group
+    $file __dot__wizzi/t/v08/ts/controller.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/controller.ts
+    $file __dot__wizzi/t/v08/ts/handler.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/handler.ts
+    $file __dot__wizzi/t/v08/ts/route.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/route.ts    
+    $file __dot__wizzi/t/v08/ts/route_api_secured.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/route_api_secured.ts    
+    $file __dot__wizzi/t/v08/ts/route_web_secured.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/route_web_secured.ts    
+    $file __dot__wizzi/t/v08/ts/catch_fail.ittf.ittf $$ Deprecated use catch_send_fail instead
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/catch_send_fail.ts
+    $file __dot__wizzi/t/v08/ts/catch_send_fail.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/catch_send_fail.ts
+    $file __dot__wizzi/t/v08/ts/catch_fail_html.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/catch_fail_html.ts
+    $file __dot__wizzi/t/v08/ts/catch_reject.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/catch_reject.ts
+    $file __dot__wizzi/t/v08/ts/catch_error_page.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/catch_error_page.ts
+    $file __dot__wizzi/t/v08/ts/else_send_fail.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/else_send_fail.ts
+    $file __dot__wizzi/t/v08/ts/authHandler.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/tfolder/authHandler.ts
+    $file __dot__wizzi/t/v08/ts/tsconfig.json.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wz/v08/ts/config/tsconfig_server.json

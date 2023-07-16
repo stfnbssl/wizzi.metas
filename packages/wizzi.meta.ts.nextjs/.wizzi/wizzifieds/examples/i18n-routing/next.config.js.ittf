@@ -1,0 +1,16 @@
+module
+    kind react
+    const nextConfig
+        { 
+            { i18n
+                [ locales
+                    @ 'en'
+                    @ 'fr'
+                    @ 'nl'
+                @ defaultLocale 'en'
+        # @ts-check
+        #
+            # *
+            # * @type {import('next').NextConfig}
+            # *
+    set module.exports = nextConfig

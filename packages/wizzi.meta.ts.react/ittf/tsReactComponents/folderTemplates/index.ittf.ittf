@@ -1,0 +1,4 @@
+$group
+    $if metaCtx.useTsReactComponents
+        $include wzCtxModel
+        $include src/shell

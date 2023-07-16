@@ -1,0 +1,11 @@
+module
+    kind react
+    export 
+        const MyComponent
+            => 
+                { 
+                    @ children
+                div 
+                    + {children}
+        #
+            # * @type {import('react').FC}

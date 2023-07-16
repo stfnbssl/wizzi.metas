@@ -1,0 +1,9 @@
+$group
+    
+    $if metaCtx.useWebStudioMeta
+        $include wzCtxModel
+        
+        $include document
+        $include folder
+        $include text
+        $include tfolder

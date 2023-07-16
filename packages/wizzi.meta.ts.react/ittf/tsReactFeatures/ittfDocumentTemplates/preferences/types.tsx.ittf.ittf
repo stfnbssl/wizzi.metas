@@ -1,0 +1,63 @@
+$group
+
+    import React
+        from 'react'
+
+    export 
+        :type ThemeName
+            :union 
+                :literal 'light'
+                :literal 'dark'
+    +
+    export 
+        :type PanelType
+            :union 
+                :literal 'errors'
+                :literal 'logs'
+
+    +
+    export 
+        :type PreferencesType
+            :{ 
+                :p theme
+                    :ref ThemeName
+                :p panelsShown
+                    :boolean 
+                :p panelType
+                    :ref PanelType
+                ${'$'}foreach item in wzCtx.Build.preferences.items
+                    ${'$'} var hyphen = item.type == 'string' ? '"' : '';
+                    :p ${'$'}{item.name}
+                        :${'$'}{item.type}
+
+    +
+    export 
+        :type SetPreferencesType
+            :=> 
+                :void 
+                param overrides
+                    :ref Partial
+                        :param 
+                            :ref PreferencesType
+
+    +
+    export 
+        :type PreferencesContextType
+            :{ 
+                :p setPreferences
+                    :ref SetPreferencesType
+                :p preferences
+                    :ref PreferencesType
+        # react-redux doesn't work with forwardRef: https://github.com/reduxjs/react-redux/issues/914
+        # so this HOC always needs wrap a connect call, and a connect call cannot wrap this
+
+    +
+    export 
+        const PreferencesContext
+            _ React.createContext
+                :param 
+                    :union 
+                        :ref PreferencesContextType
+                        :null 
+                @ null
+

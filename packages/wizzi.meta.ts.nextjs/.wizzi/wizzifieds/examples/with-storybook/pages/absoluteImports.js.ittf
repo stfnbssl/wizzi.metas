@@ -1,0 +1,25 @@
+module
+    kind react
+    import 
+        @ Links
+        from 'components/Links'
+    import 
+        @ MyComponent
+        from 'components/MyComponent'
+    import Head from 'next/head'
+    export-default 
+        function AbsoluteImports
+            return 
+                div 
+                    < Head 
+                        < title 
+                            + Absolute Imports
+                        link 
+                            @ rel "icon"
+                            @ href "/favicon.ico"
+                    < Links 
+                    main 
+                        + This uses an absolute import:
+                        + {' '}
+                        < MyComponent 
+                            + Im absolutely imported

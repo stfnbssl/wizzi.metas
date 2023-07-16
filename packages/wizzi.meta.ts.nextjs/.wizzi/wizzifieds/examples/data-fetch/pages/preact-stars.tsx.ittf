@@ -1,0 +1,39 @@
+module
+    kind react
+    import Link from 'next/link'
+    :import-type 
+        @ InferGetStaticPropsType
+        from 'next'
+    :import-type 
+        @ Repository
+        from '../types/github'
+    export 
+        async-function getStaticProps
+            const res
+                await 
+                    _ fetch('https://api.github.com/repos/preactjs/preact')
+            const json
+                :ref Repository
+                =
+                    await 
+                        _ res.json()
+            return 
+                { 
+                    { props
+                        @ stars json.stargazers_count
+    export-default 
+        function PreactStarsPage
+            { 
+                @ stars
+                :ref InferGetStaticPropsType
+                    :param 
+                        :typeof getStaticProps
+            return 
+                < React.Fragment
+                    p 
+                        + Preact has
+                        + {stars}
+                        + ⭐
+                    < Link 
+                        @ href "/"
+                        + I bet Next.js has more stars (?)

@@ -1,0 +1,33 @@
+$group
+
+    $if metaCtx.useJsCommons
+        $include wzCtxModel
+
+        $
+            var items = [
+                'a_cb',
+                'a_cb_throw',
+                'a_cb_no_throw',
+                'a_reject',
+                'a_then',
+                'a_then_catch_reject',
+                'catch',
+                'catch_reject',
+                'checked_call',
+                'checked_call_return',
+                'checked_call_return_set',
+                'error',
+                'repeater',
+                'repeater_increment',
+                'r_cb',
+                'r_cb_err',
+                'r_promise',
+                'r_promise_async',
+                'r_reject',
+                'r_resolve',
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}t/${item}.js.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include jsCommons/tfolder/${item}.js

@@ -1,0 +1,17 @@
+$group
+    kind react
+    import React from 'react'
+    import 
+        @ createRoot
+        from "react-dom/client"
+    
+    function Hello
+        return
+            div
+                h1 
+                    + Hello webpack
+
+    const container = document.getElementById("root")
+    const root = createRoot(container)
+    _ root.render
+        < Hello

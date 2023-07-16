@@ -1,0 +1,70 @@
+$group
+    $params &schema
+    kind jsfile
+
+    ${'$'}{'$'}
+        var md = {
+            name: '${schema.name}',
+        };
+
+    v08/examples/plugin${'$'}{'('} &md )
+        ${'$'}{'$'}append plugins
+            [ items
+                @ './wizzi.plugin.${schema.name}/index.js'
+                $foreach include in schema.includes
+                    @ './wizzi.plugin.${include.name}/index.js'
+            @ pluginsBaseFolder
+                _ path.resolve
+                    @ __dirname
+                    @ '..'
+                    @ '..'
+        ${'$'}{'$'}append imports
+            var ${schema.name}wizzifier = require('../lib/wizzifiers/${schema.name}/wizzifier')
+        +
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'        
+        _ async.map
+            [
+                @ moduleName
+            @ wizzify
+            a_cb_no_throw${'$'}{'('} result )
+                info ''
+                info 'Terminated. result: ', result
+
+        function wizzify
+            param name
+            param callback
+            +
+            var source
+                _ path.join
+                    @ __dirname
+                    @ 'data'
+                    @ name + '.${schema.name}'
+            +
+            _ createWizziFactory
+                {
+                a_cb_no_throw${'$'}{'('} wf )
+                    _ ${schema.name}wizzifier.getWizziIttf
+                        _ file.read
+                            @ source
+                        {
+                            @ wf wf
+                            @ syntaxOutFile
+                                _ path.join
+                                    @ __dirname
+                                    @ 'data'
+                                    @ 'output'
+                                    @ name + '.${schema.name}.syntax'
+                        a_cb_no_throw${'$'}{'('} ittf )
+                            if err
+                                error 'error wizzifying: ' + source
+                                error 'err', err
+                                return callback(null, 'error ' + source)
+                            _ file.write
+                                _ path.join
+                                    @ __dirname
+                                    @ 'data'
+                                    @ 'output'
+                                    @ name + '.${schema.name}.ittf'
+                                @ ittf
+                            return callback(null, 'success ' + source)

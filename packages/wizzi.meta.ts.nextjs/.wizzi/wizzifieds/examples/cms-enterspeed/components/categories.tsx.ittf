@@ -1,0 +1,32 @@
+module
+    kind react
+    :type Props
+        :{ 
+            :p categories
+                :[ 
+                    :string 
+    export-default 
+        function Categories
+            { 
+                @ categories
+                :ref Props
+            return 
+                span 
+                    @ className "ml-1"
+                    + under
+                    { 
+                        iif categories.length > 0
+                            then
+                                (
+                                    _ categories.map
+                                        => 
+                                            param category
+                                            param index
+                                            span 
+                                                @ key {index}
+                                                @ className "ml-1"
+                                                + {category}
+                            else
+                                span 
+                                    @ className "ml-1"
+                                    + {categories}

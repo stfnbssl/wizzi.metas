@@ -1,0 +1,16 @@
+module
+    kind react
+    const nextConfig
+        { 
+            @ reactStrictMode true
+            m redirects
+                async
+                return 
+                    [ 
+                        { 
+                            @ source '/'
+                            @ destination '/home/memory-cache'
+                            @ permanent true
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

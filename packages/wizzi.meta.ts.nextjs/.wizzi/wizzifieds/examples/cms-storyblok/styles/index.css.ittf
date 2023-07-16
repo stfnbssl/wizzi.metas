@@ -1,0 +1,7 @@
+css
+    < @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.grayscale
+        filter grayscale(1)

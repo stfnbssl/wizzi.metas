@@ -1,0 +1,32 @@
+$group
+    $file __dot__wizzi/root/readme.md.ittf.ittf
+        md
+            ${'$'}include tsNextjsBasicApp/root/readme.md
+    $file __dot__wizzi/root/README2.md.ittf.ittf
+        md
+            ${'$'}include tsNextjsBasicApp/root/README2.md
+    $file __dot__wizzi/root/license.text.ittf.ittf
+        text
+            ${'$'}include tsNextjsBasicApp/root/license.text
+    $file __dot__wizzi/root/tsconfig.json.ittf.ittf
+        {
+            ${'$'}include tsNextjsBasicApp/root/tsconfig.json
+    
+    $if metaCtx.tsNextjsBasicApp.useTailwind || metaCtx.useTsNextjsBlog
+        $file __dot__wizzi/root/tailwind.config.js.ittf.ittf
+            module
+                ${'$'}include tsNextjsBasicApp/root/tailwind.config.js
+        $file __dot__wizzi/root/postcss.config.js.ittf.ittf
+            module
+                ${'$'}include tsNextjsBasicApp/root/postcss.config.js
+    
+    $file __dot__wizzi/root/tsconfig.json.ittf.ittf
+        {
+            ${'$'}include tsNextjsBasicApp/root/tsconfig.json
+    
+    $file __dot__wizzi/root/next-env.d.ts.text.ittf.ittf
+        text
+            /// <reference types="next" />
+            /// <reference types="next/image-types/global" />
+            // NOTE: This file should not be edited
+            // see https://nextjs.org/docs/basic-features/typescript for more information.            

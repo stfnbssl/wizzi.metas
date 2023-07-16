@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useCommonsGit
+        $file __dot__wizzi/commonsGit/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include commonsGit/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/commonsGit/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include commonsGit/tfolder/${item}.js

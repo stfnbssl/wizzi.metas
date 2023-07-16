@@ -1,0 +1,71 @@
+module
+    kind react
+    import React
+        @ ReactNode
+        from 'react'
+    import Header from './Header'
+    :type Props
+        :{ 
+            :p children
+                :ref ReactNode
+    const Layout
+        :ref React.FC
+            :param 
+                :ref Props
+        =
+            => 
+                param props
+                div 
+                    @ style
+                        { 
+                            @ paddingBottom '30px'
+                    < Header 
+                    div 
+                        @ className "layout"
+                        + {props.children}
+                    < style 
+                        @ jsx
+                        @ global
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;     html {&lf;
+                                + &nbsp;       box-sizing: border-box;&lf;
+                                + &nbsp;     }&lf;
+                                + &lf;
+                                + &nbsp;     *,&lf;
+                                + &nbsp;     *:before,&lf;
+                                + &nbsp;     *:after {&lf;
+                                + &nbsp;       box-sizing: inherit;&lf;
+                                + &nbsp;     }&lf;
+                                + &lf;
+                                + &nbsp;     body {&lf;
+                                + &nbsp;       margin: 0;&lf;
+                                + &nbsp;       padding: 0;&lf;
+                                + &nbsp;       font-size: 16px;&lf;
+                                + &nbsp;       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,&lf;
+                                + &nbsp;         Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',&lf;
+                                + &nbsp;         'Segoe UI Symbol';&lf;
+                                + &nbsp;       background: rgba(0, 0, 0, 0);&lf;
+                                + &nbsp;     }&lf;
+                                + &lf;
+                                + &nbsp;     input,&lf;
+                                + &nbsp;     textarea,&lf;
+                                + &nbsp;     button {&lf;
+                                + &nbsp;       font-size: 16px;&lf;
+                                + &nbsp;     }&lf;
+                                + &lf;
+                                + &nbsp;     button {&lf;
+                                + &nbsp;       cursor: pointer;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;  &nbsp;
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;     .layout {&lf;
+                                + &nbsp;       padding: 0 2rem;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;  &nbsp;
+    export-default Layout

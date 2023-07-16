@@ -1,0 +1,15 @@
+module
+    kind react
+    const withNextra
+        _ require('nextra')
+            { 
+                @ theme 'nextra-theme-blog'
+                @ themeConfig './theme.config.js'
+                    # optional: add `unstable_staticImage: true` to enable Nextra's auto image import
+        #
+            # * @type {import('next').NextConfig}
+    const nextConfig
+        { 
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = withNextra(nextConfig)

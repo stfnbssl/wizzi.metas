@@ -1,0 +1,28 @@
+module
+    kind react
+    import Iron from '@hapi/iron'
+    export 
+        async-function createLoginSession
+            param session
+            param secret
+            const createdAt = Date.now()
+            const obj
+                { 
+                    @ ...session
+                    @ createdAt
+            const token
+                await 
+                    _ Iron.seal(obj, secret, Iron.defaults)
+            return token
+    export 
+        async-function getLoginSession
+            param token
+            param secret
+            const session
+                await 
+                    _ Iron.unseal(token, secret, Iron.defaults)
+            const expiresAt = session.createdAt + session.maxAge * 1000
+                # Validate the expiration date of the session
+            if session.maxAge && Date.now() > expiresAt
+                throw new Error('Session expired')
+            return session

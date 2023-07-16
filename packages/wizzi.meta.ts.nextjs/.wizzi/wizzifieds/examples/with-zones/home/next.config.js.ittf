@@ -1,0 +1,36 @@
+module
+    kind react
+    const 
+        { 
+            @ BLOG_URL
+        = process.env
+        #
+            # * @type {import('next').NextConfig}
+    const nextConfig
+        { 
+            m rewrites
+                async
+                return 
+                    [ 
+                        { 
+                            @ source '/:path*'
+                            @ destination
+                                `lit 
+                                    + /:path*
+                        { 
+                            @ source '/blog'
+                            @ destination
+                                `lit 
+                                    + 
+                                    @ BLOG_URL
+                                    + /blog
+                        { 
+                            @ source '/blog/:path*'
+                            @ destination
+                                `lit 
+                                    + 
+                                    @ BLOG_URL
+                                    + /blog/:path*
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

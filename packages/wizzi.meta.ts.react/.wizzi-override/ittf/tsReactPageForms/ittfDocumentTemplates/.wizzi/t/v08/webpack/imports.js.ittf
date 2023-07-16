@@ -1,0 +1,55 @@
+$group
+    
+    const path = require('path')
+    const resolve = path.resolve
+    const webpack = require('webpack')
+    
+    $if wzCtx.Build.useMonacoEditor
+        # const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+        # const MonacoWebpackPlugin = require('monaco-editor-webpack-3-plugin')
+    
+    $if wzCtx.Build.useMonaco2
+        const MonacoEditorPlugin = require('monaco-editor-webpack-plugin')
+    
+    $if wzCtx.Build.webpack.useHtml
+        const HtmlWebpackPlugin = require('html-webpack-plugin')
+    $if wzCtx.Build.useVue
+        const VueLoaderPlugin = require('vue-loader/lib/plugin')
+    
+    $if wzCtx.Build.webpack.useMerge
+        const merge = require("webpack-merge")
+    
+    $if wzCtx.Build.webpack.useCopy
+        const CopyWebpackPlugin = require('copy-webpack-plugin');
+    
+    $if wzCtx.Build.webpack.useMiniCssExtract
+        const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+            #
+                # eslint-disable import/no-commonjs
+    
+    $if wzCtx.Build.webpack.useMinimizer
+        const TerserPlugin = require('terser-webpack-plugin')
+    
+    $if wzCtx.Build.webpack.useWorker
+        # Needed no more see https://github.com/GoogleChromeLabs/worker-plugin/issues/88
+        # const WorkerPlugin = require('worker-plugin')
+    
+    $if wzCtx.Build.webpack.useStatsWriter
+        const
+            {
+                @ StatsWriterPlugin
+            = require('webpack-stats-plugin')
+    
+    $if wzCtx.Build.webpack.useEnv
+        function env
+            param key
+            param def
+            const value = process.env[key]
+            if value !== undefined
+                return value
+            throw
+                new Error
+                    `lit
+                        + Environment variable&nbsp;
+                        @ key
+                        + &nbsp;isn't specified

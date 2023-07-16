@@ -1,0 +1,152 @@
+module
+    kind react
+    import 
+        @ useState
+        from 'react'
+    import 
+        @ useVisitorData
+        from '@fingerprintjs/fingerprintjs-pro-react'
+    import VisitorDataPresenter from '../../components/VisitorDataPresenter'
+    function SignInPage
+        const [login, setLogin] = useState('')
+        const [password, setPassword] = useState('')
+        const [tag, setTag] = useState('')
+        const [ignoreCache, setIgnoreCache] = useState(false)
+        const [extendedResult, setExtendedResult] = useState(false)
+        const 
+            { 
+                @ getData
+                @ data
+                @ isLoading
+                @ error
+            =
+                _ useVisitorData
+                    { 
+                        @ extendedResult
+                        @ tag
+                        @ linkedId login
+                    { 
+                        @ immediate false
+        return 
+            section 
+                @ className "body"
+                h3 
+                    + Sign in
+                div 
+                    p 
+                        + Another common use-case is when you want to only fingerprint a user&lf;          after they perform some action, in this case - submit a form. For this&lf;          purpose
+                        code 
+                            + useVisitorData
+                        + hook should be called with
+                        + {' '}
+                        code 
+                            + immediate
+                        + flag set to
+                        code 
+                            + false
+                        + and call the
+                        + {' '}
+                        code 
+                            + getData
+                        + function on form submission.
+                    p 
+                        + Try submitting the form with any values and notice that a fingerprint&lf;          will be calculated.
+                div 
+                    @ className "form-control checkbox"
+                    label 
+                        @ htmlFor "ignore-cache"
+                        + Ignore cache:
+                        input 
+                            @ id "ignore-cache"
+                            @ type "checkbox"
+                            @ checked {ignoreCache}
+                            @ onChange
+                                => 
+                                    param e
+                                    _ setIgnoreCache(e.currentTarget.checked)
+                div 
+                    @ className "form-control checkbox"
+                    label 
+                        @ htmlFor "extended-result"
+                        + Extended result:
+                        input 
+                            @ id "extended-result"
+                            @ type "checkbox"
+                            @ checked {extendedResult}
+                            @ onChange
+                                => 
+                                    param e
+                                    _ setExtendedResult(e.currentTarget.checked)
+                    sub 
+                        + will be used as extended_result param for the request
+                form 
+                    @ className "form"
+                    @ onSubmit
+                        => 
+                            param e
+                            _ e.preventDefault()
+                            _ getData
+                                { 
+                                    @ ignoreCache
+                                ._ then
+                                    => 
+                                        param data
+                                        if data
+                                            _ console.log(data)
+                    div 
+                        @ className "form-control"
+                        label 
+                            @ htmlFor "login"
+                            + Login:
+                        input 
+                            @ id "login"
+                            @ type "text"
+                            @ name "login"
+                            @ required
+                            @ autoComplete "off"
+                            @ value {login}
+                            @ onChange
+                                => 
+                                    param e
+                                    _ setLogin(e.currentTarget.value)
+                        sub 
+                            + will be used as linked_id param for the request
+                    div 
+                        @ className "form-control"
+                        label 
+                            @ htmlFor "password"
+                            + Password:
+                        input 
+                            @ id "password"
+                            @ type "password"
+                            @ name "password"
+                            @ required
+                            @ value {password}
+                            @ onChange
+                                => 
+                                    param e
+                                    _ setPassword(e.currentTarget.value)
+                    div 
+                        @ className "form-control"
+                        label 
+                            @ htmlFor "tag"
+                            + Tag:
+                        input 
+                            @ id "tag"
+                            @ type "text"
+                            @ name "tag"
+                            @ value {tag}
+                            @ onChange
+                                => 
+                                    param e
+                                    _ setTag(e.currentTarget.value)
+                        sub 
+                            + will be used as tag param for the request
+                    button 
+                        @ type "submit"
+                        + Submit
+                < VisitorDataPresenter 
+                    @ data {data}
+                    @ isLoading {isLoading}
+                    @ error {error}
+    export-default SignInPage

@@ -1,0 +1,15 @@
+module
+    kind react
+    import 
+        @ style
+        from 'typestyle'
+    const className
+        _ style
+            { 
+                @ color 'red'
+    export-default 
+        function Home
+            return 
+                div 
+                    @ className {className}
+                    + Hello Next.js!

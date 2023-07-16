@@ -1,0 +1,51 @@
+module
+    kind react
+    import 
+        @ useGraphQL
+        from 'graphql-react'
+    export-default 
+        function IndexPage
+            const 
+                { 
+                    @ loading
+                    @ cacheValue
+                        { 
+                            @ data
+                        =
+                            { 
+                =
+                    _ useGraphQL
+                        { 
+                            m fetchOptionsOverride
+                                param options
+                                set options.url = 'https://graphql-pokemon.vercel.app'
+                            { operation
+                                @ query
+                                    `lit 
+                                        + &lf;
+                                        + &nbsp;       {&lf;
+                                        + &nbsp;         pokemon(name: "Pikachu") {&lf;
+                                        + &nbsp;           name&lf;
+                                        + &nbsp;           image&lf;
+                                        + &nbsp;         }&lf;
+                                        + &nbsp;       }&lf;
+                                        + &nbsp;    &nbsp;
+                                        #
+                                            # GraphQL
+                            @ loadOnMount true
+                            @ loadOnReload true
+                            @ loadOnReset true
+            return 
+                iif data
+                    then
+                        img 
+                            @ src {data.pokemon.image}
+                            @ alt {data.pokemon.name}
+                    else
+                        iif loading
+                            then
+                                p 
+                                    + Loading…
+                            else
+                                p 
+                                    + Error!

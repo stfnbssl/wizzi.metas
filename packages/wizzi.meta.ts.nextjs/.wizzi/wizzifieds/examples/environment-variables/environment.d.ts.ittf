@@ -1,0 +1,22 @@
+module
+    kind react
+    :declare 
+        :module NodeJS
+            export 
+                :interface ProcessEnv
+                    :p ENV_VARIABLE
+                        :string 
+                    :p NEXT_PUBLIC_ENV_VARIABLE
+                        :string 
+                    :p DEVELOPMENT_ENV_VARIABLE
+                        :string 
+                    :p NEXT_PUBLIC_DEVELOPMENT_ENV_VARIABLE
+                        :string 
+                    :p ENV_LOCAL_VARIABLE
+                        :string 
+                    :p NEXT_PUBLIC_ENV_LOCAL_VARIABLE
+                        :string 
+                    :p PRODUCTION_ENV_VARIABLE
+                        :string 
+                    :p NEXT_PUBLIC_PRODUCTION_ENV_VARIABLE
+                        :string 

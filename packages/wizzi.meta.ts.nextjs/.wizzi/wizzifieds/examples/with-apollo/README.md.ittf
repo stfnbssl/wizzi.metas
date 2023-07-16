@@ -1,0 +1,101 @@
+md
+    h1 
+        + Apollo Example
+    p 
+        a 
+            href https://www.apollographql.com/client/
+            title 
+            + Apollo
+        + is a GraphQL client that allows you to easily query the exact data you need from a GraphQL server. In addition to fetching and mutating data, Apollo analyzes your queries and their results to construct a client-side cache of your data, which is kept up to date as further queries and mutations are run.
+    br 
+    p 
+        + In this simple example, we integrate Apollo seamlessly with
+        a 
+            href https://nextjs.org/docs/basic-features/data-fetching
+            title 
+            + Next.js data fetching methods
+        + to fetch queries in the server and hydrate them in the browser.
+    br 
+    p 
+        + This example relies on
+        a 
+            href https://github.com/prisma-labs/nextjs-graphql-api-examples
+            title 
+            + Prisma + Nexus
+        + for its GraphQL backend.
+    br 
+    h2 
+        + Demo
+    p 
+        a 
+            href https://next-with-apollo.vercel.app
+            title 
+            + https://next-with-apollo.vercel.app
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + :
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-apollo&project-name=with-apollo&repository-name=with-apollo
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-apollo with-apollo-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-apollo with-apollo-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-apollo with-apollo-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

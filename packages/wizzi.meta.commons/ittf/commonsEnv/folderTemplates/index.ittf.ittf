@@ -1,0 +1,22 @@
+$group
+    
+    $if metaCtx.useCommonsEnv
+        
+        $file __dot__wizzi/${pkgPath}root/__dot__env.text.ittf.ittf
+            text
+                ${'$'}{'$'}include env/${metaVer}/env.text
+
+        
+        $file __dot__wizzi/t/env/${metaVer}/env.text.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include commonsEnv/index.text
+
+        $if metaCtx.commonsEnv.useDeployClient
+
+            $file __dot__wizzi/root/deploy/client/development.env.text.ittf.ittf
+                text
+                    ${'$'}include commonsEnv/deploy/client/development.env.text
+
+            $file __dot__wizzi/root/deploy/client/production.env.text.ittf.ittf
+                text
+                    ${'$'}include commonsEnv/deploy/client/production.env.text

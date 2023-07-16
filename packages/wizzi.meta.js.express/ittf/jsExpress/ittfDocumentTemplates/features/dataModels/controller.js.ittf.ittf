@@ -1,0 +1,166 @@
+$group
+
+    ${'$'}
+        var schema = md.schema;
+
+    import { Router } from 'express'
+    import { sendFailure, sendSuccess } from '../../../utils/response.js'
+    import { Get${'$'}{schema.Name}Model } from '../mongo/${'$'}{schema.name}.js'
+
+    export
+        class ${'$'}{schema.Name}Controller
+            ctor
+                set this.path = '/api/v1/${'$'}{schema.collectionName}'
+                set this.router = Router()
+                set this.${'$'}{schema.name}Model = null
+
+            m initialize
+                param initValues
+                $$ loog 'Entering ${'$'}{schema.Name}Controller.initialize'
+                set this.${'$'}{schema.name}Model = Get${'$'}{schema.Name}Model()
+                _ this.router.get(`/`, this.get${'$'}{schema.CollectionName}.bind(this))
+                _ this.router.post(`/`, this.create${'$'}{schema.Name}.bind(this))
+                _ this.router.get(`/:id`, this.get${'$'}{schema.Name}ById.bind(this))
+                _ this.router.put(`/:id`, this.update${'$'}{schema.Name}.bind(this))
+                _ this.router.delete(`/:id`, this.delete${'$'}{schema.Name}.bind(this))
+
+            m get${'$'}{schema.CollectionName}
+                param req
+                param res
+                _ this.${'$'}{schema.name}Model.find
+                    =>
+                        param err
+                        param ${'$'}{schema.collectionName}
+                        if err
+                            error '${'$'}{schema.Name}Controller.get${'$'}{schema.CollectionName}.err', err
+                            return
+                                _ sendFailure
+                                    @ res
+                                    @ err
+                        else
+                            $$ loog 'get${'$'}{schema.CollectionName}.${'$'}{schema.collectionName}', ${'$'}{schema.collectionName}
+                            _ sendSuccess
+                                @ res
+                                {
+                                    @ ${'$'}{schema.collectionName} ${'$'}{schema.collectionName}
+
+            m create${'$'}{schema.Name}
+                param req
+                param res
+                $$ loog 'Entering ${'$'}{schema.Name}Controller.create${'$'}{schema.Name}, req.body', req.body
+                const data = req.body.data
+                let ${'$'}{schema.name} = new this.${'$'}{schema.name}Model(data)
+                _ ${'$'}{schema.name}.save
+                    ._ then
+                        => 
+                            param ${'$'}{schema.name}
+                            $$ loog '${'$'}{schema.Name}Controller.create.save, ${'$'}{schema.Name}
+                            _ sendSuccess
+                                @ res
+                                { 
+                                    @ 'message' '${'$'}{schema.Name} created successfully'
+                                    @ ${'$'}{schema.name} ${'$'}{schema.name}
+                    ._ catch
+                        => 
+                            param err
+                            error '${'$'}{schema.Name}Controller.create${'$'}{schema.Name}.err', err
+                            _ sendFailure
+                                @ res
+                                {
+                                    @ message "${'$'}{schema.Name} could not be created."
+                                    @ err
+
+            m get${'$'}{schema.Name}ById
+                param req
+                param res
+                let id = req.params.id
+                _ this.${'$'}{schema.name}Model.findById
+                    @ id
+                    function 
+                        param err
+                        param ${'$'}{schema.name}
+                        if err
+                            error '${'$'}{schema.Name}Controller.get${'$'}{schema.Name}ById.err', err
+                            return
+                                _ sendFailure
+                                    @ res
+                                    {
+                                        @ message "${'$'}{schema.Name} could not be retrieved."
+                                        @ err
+                        _ sendSuccess
+                            @ res
+                            { 
+                                @ ${'$'}{schema.name} ${'$'}{schema.name}
+            
+            m update${'$'}{schema.Name}
+                param req
+                param res
+                const id = req.params.id;
+                _ this.${'$'}{schema.name}Model.findById
+                    @ id
+                    =>
+                        param err
+                        param ${'$'}{schema.name}
+                        if err
+                            error '${'$'}{schema.Name}Controller.update${'$'}{schema.Name}.err', err
+                            return
+                                _ sendFailure
+                                    @ res
+                                    {
+                                        @ message "${'$'}{schema.Name} could not be updated."
+                                        @ err
+                        if !${'$'}{schema.name}
+                            return
+                                _ sendFailure
+                                    @ res
+                                    {
+                                        @ message '${'$'}{schema.Name} data not found'
+                                    @ 500
+                        else
+                            const data = req.body.data
+                            ${'$'}foreach field in schema.fields
+                                ${'$'}if field.type != 'oid'
+                                    set ${'$'}{schema.name}.${'$'}{field.name} = data.${'$'}{field.name}
+                            _ ${'$'}{schema.name}.save
+                                ._ then
+                                    => 
+                                        param ${'$'}{schema.name}
+                                        $$ loog '${'$'}{schema.Name}Controller.update.save, ${'$'}{schema.Name}
+                                        _ sendSuccess
+                                            @ res
+                                            {
+                                                @ message '${'$'}{schema.Name} update complete.'
+                                ._ catch
+                                    => 
+                                        param err
+                                        error '${'$'}{schema.Name}Controller.update${'$'}{schema.Name}.err', err
+                                        _ sendFailure
+                                            @ res
+                                            {
+                                                @ message '${'$'}{schema.Name} could not be updated.'
+                                                @ err
+                                            @ 500
+
+            m delete${'$'}{schema.Name}
+                param req
+                param res
+                const id = req.params.id;
+                _ this.${'$'}{schema.name}Model.findByIdAndRemove
+                    { 
+                        @ _id id
+                    =>
+                        param err
+                        param ${'$'}{schema.name}
+                        if err
+                            error 'delete${'$'}{schema.Name}.err', err
+                            return
+                                _ sendFailure
+                                    @ res
+                                    {
+                                        @ message "${'$'}{schema.Name} could not be deleted."
+                                        @ err
+                        else
+                            _ sendSuccess
+                                @ res
+                                { 
+                                    @ message '${'$'}{schema.Name} successfully removed'

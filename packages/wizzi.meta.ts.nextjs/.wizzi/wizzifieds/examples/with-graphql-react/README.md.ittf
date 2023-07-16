@@ -1,0 +1,177 @@
+md
+    h1 
+        + Next.js example with
+        a 
+            href https://github.com/jaydenseric/graphql-react
+            title 
+            code graphql-react
+    p 
+        a 
+            href https://github.com/jaydenseric/graphql-react
+            title 
+            code graphql-react
+        + is a
+        a 
+            href https://graphql.org
+            title 
+            + GraphQL
+        + client for
+        a 
+            href https://reactjs.org
+            title 
+            + React
+        + using modern
+        a 
+            href https://react.dev/learn/scaling-up-with-reducer-and-context
+            title 
+            + context
+        + and
+        a 
+            href https://react.dev/learn/scaling-up-with-reducer-and-context
+            title 
+            + hooks
+        + APIs that is lightweight (&lt; 3 KB
+        a 
+            href https://github.com/ai/size-limit
+            title 
+            + size limited
+        + ) but powerful; the first
+        a 
+            href https://facebook.github.io/relay
+            title 
+            + Relay
+        + and
+        a 
+            href https://apollographql.com/docs/react
+            title 
+            + Apollo
+        + alternative with server side rendering.
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + :
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-graphql-react&project-name=with-graphql-react&repository-name=with-graphql-react
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-graphql-react with-graphql-react-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-graphql-react with-graphql-react-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-graphql-react with-graphql-react-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h2 
+        + Notes
+    ul 
+        li 
+            + In
+            code pages/_app.js
+            + a
+            a 
+                href https://github.com/vercel/next.js#custom-app
+                title 
+                + custom
+                code App
+                + component
+            + is decorated with the
+            a 
+                href https://github.com/jaydenseric/next-graphql-react/#function-withgraphqlapp
+                title 
+                code withGraphQLApp
+            + 
+            a 
+                href https://reactjs.org/docs/higher-order-components
+                title 
+                + higher-order component
+            + from
+            a 
+                href https://github.com/jaydenseric/next-graphql-react
+                title 
+                code next-graphql-react
+            + , generating a
+            code graphql
+            + prop that populates the
+            a 
+                href https://github.com/jaydenseric/graphql-react#function-graphqlprovider
+                title 
+                code GraphQLProvider
+            + component from
+            a 
+                href https://github.com/jaydenseric/graphql-react
+                title 
+                code graphql-react
+            + .
+        li 
+            + In
+            code pages/index.js
+            + the
+            a 
+                href https://github.com/jaydenseric/graphql-react#function-usegraphql
+                title 
+                code useGraphQL
+            + React hook from
+            a 
+                href https://github.com/jaydenseric/graphql-react
+                title 
+                code graphql-react
+            + is used to query the
+            a 
+                href https://github.com/lucasbento/graphql-pokemon
+                title 
+                + GraphQL Pokémon API
+            + and show a picture of Pikachu.

@@ -1,0 +1,39 @@
+module
+    kind react
+    import 
+        @ css
+        from '@emotion/react'
+    import 
+        @ Animated
+        @ Basic
+        @ bounce
+        @ Combined
+        @ Pink
+        @ BasicExtended
+        @ ComponentSelectorsExtended
+        from '../shared/styles'
+    const Home
+        => 
+            div 
+                @ css
+                    _` css
+                        + &lf;
+                        + &nbsp;     display: flex;&lf;
+                        + &nbsp;     flex-direction: column;&lf;
+                        + &nbsp;  &nbsp;
+                < Basic 
+                    + Cool Styles
+                < Pink 
+                    + Pink text
+                < Combined 
+                    + With
+                    code 
+                        + :hover
+                    + .
+                < Animated 
+                    @ animation {bounce}
+                    + Let's bounce.
+                < ComponentSelectorsExtended 
+                    < BasicExtended 
+                        + Nested
+    export-default Home

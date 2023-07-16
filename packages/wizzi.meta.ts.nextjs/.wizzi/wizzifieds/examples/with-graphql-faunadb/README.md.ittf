@@ -1,0 +1,10 @@
+md
+    h1 
+        + FaunaDB Graphql Starter Example -- The FaunaDB Guestbook
+    p 
+        + This sample application has been moved to
+        a 
+            href https://github.com/vercel/next.js/tree/canary/examples/with-fauna
+            title 
+            + another folder
+        + .

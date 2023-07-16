@@ -1,0 +1,71 @@
+$group
+
+
+    $if metaCtx.tsExpress.useReactPages || metaCtx.useTsExpressWizziSite
+
+        $
+            var items = [
+                "a",
+                "j",
+                "s",
+                "js_wz",
+                "css_wz",
+            ];
+
+        $foreach item in items 
+            $file __dot__wizzi/${pkgPath}src/t/html/${item}.html.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include webHtml/tfolder/${item}.html
+
+        $foreach item in items 
+            $file __dot__wizzi/${pkgPath}src/t/html/${item}.tsx.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include webHtml/tfolder/${item}.html
+
+    $if metaCtx.useTsExpressWizziSite
+        
+        $$ Views
+        $$ Here in src/t because accessed by:
+        $$ src/site/views/** and 
+        $$ src/pages/** 
+
+        $file __dot__wizzi/${pkgPath}src/t/html/layouts/site.html.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webHtml/tfolder/layouts/site.html
+        
+        $file __dot__wizzi/${pkgPath}src/t/html/layouts/site-styles.html.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webHtml/tfolder/layouts/site-styles.html
+        
+        $file __dot__wizzi/${pkgPath}src/t/html/layouts/site-scripts.html.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webHtml/tfolder/layouts/site-scripts.html
+
+        $file __dot__wizzi/${pkgPath}src/t/html/images/logo.html.ittf.ittf
+            svg
+                ${'$'}include webHtml/tfolder/images/wizzi-logo.html
+        
+        $file __dot__wizzi/${pkgPath}src/t/html/images/t/wizzi-logo-i.html.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webHtml/tfolder/images/tfolder/wizzi-logo-i.html
+        
+        $file __dot__wizzi/${pkgPath}src/t/html/images/t/wizzi-logo-z.html.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webHtml/tfolder/images/tfolder/wizzi-logo-z.html
+
+        $file __dot__wizzi/${pkgPath}src/t/images/logo.svg.ittf.ittf
+            svg
+                ${'$'}include webHtml/tfolder/images/wizzi-logo.html
+        
+        $file __dot__wizzi/${pkgPath}src/t/images/t/wizzi-logo-i.svg.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webHtml/tfolder/images/tfolder/wizzi-logo-i.html
+        
+        $file __dot__wizzi/${pkgPath}src/t/images/t/wizzi-logo-z.svg.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webHtml/tfolder/images/tfolder/wizzi-logo-z.html
+    
+        $if metaCtx.useTsExpressFeatureAuth || (metaCtx.useTsExpressFeaturePacki && metaCtx.tsExpressFeaturePacki.usePackiProductions) 
+            $file __dot__wizzi/${pkgPath}src/t/profile-sidebar.html.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include webHtml/views/tfolder/profile-sidebar.html             

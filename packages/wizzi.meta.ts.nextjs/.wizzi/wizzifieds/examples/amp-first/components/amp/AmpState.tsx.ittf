@@ -1,0 +1,43 @@
+module
+    kind react
+    import 
+        @ AmpIncludeCustomElement
+        from './AmpCustomElement'
+    :type AmpStateProps
+        :{ 
+            :p id
+                :optional 
+                :string 
+            :p src
+                :optional 
+                :string 
+            :p children
+                :optional 
+                :ref React.ReactNode
+    const AmpState
+        :ref React.FC
+            :param 
+                :ref AmpStateProps
+        =
+            => 
+                { 
+                    @ id
+                    @ src
+                    @ children
+                return 
+                    < React.Fragment
+                        < AmpIncludeCustomElement 
+                            @ name "amp-bind"
+                            @ version "0.1"
+                        < amp-state 
+                            @ id {id}
+                            @ src {src}
+                            { 
+                                && 
+                                    + children
+                                    script 
+                                        @ type "application/json"
+                                        @ dangerouslySetInnerHTML
+                                            { 
+                                                @ __html JSON.stringify(children)
+    export-default AmpState

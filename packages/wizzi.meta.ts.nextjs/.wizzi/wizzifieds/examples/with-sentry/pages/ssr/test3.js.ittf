@@ -1,0 +1,16 @@
+module
+    kind react
+    const Test3
+        => 
+            h1 
+                + SSR Test 3
+    export 
+        async-function getServerSideProps
+            const doAsyncWork
+                => 
+                    _ Promise.reject(Error('SSR Test 3'))
+            _ doAsyncWork()
+            return 
+                { 
+                    { props
+    export-default Test3

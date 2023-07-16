@@ -1,0 +1,15 @@
+module
+    kind react
+    const 
+        { 
+            @ withAxiom
+        = require('next-axiom')
+        #
+            # * @type {import('next').NextConfig}
+    const nextConfig
+        _ withAxiom
+            { 
+                @ reactStrictMode true
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

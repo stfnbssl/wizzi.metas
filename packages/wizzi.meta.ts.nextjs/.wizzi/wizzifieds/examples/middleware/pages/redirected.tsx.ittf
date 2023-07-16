@@ -1,0 +1,14 @@
+module
+    kind react
+    import 
+        @ NextPage
+        from 'next'
+    export 
+        const RedirectedPage
+            :ref NextPage
+            =
+                => 
+                    return 
+                        h1 
+                            + Redirected from /about
+    export-default RedirectedPage

@@ -1,0 +1,12 @@
+module
+    kind react
+    const nextConfig
+        { 
+            { experimental
+                @ appDir true
+        # @ts-check
+        #
+            # *
+            # * @type {import('next').NextConfig}
+            # *
+    set module.exports = nextConfig

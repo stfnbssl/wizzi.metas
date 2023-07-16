@@ -1,0 +1,39 @@
+module
+    kind react
+    import Document from 'next/document'
+    import 
+        @ ServerPortal
+        from '@jesstelford/react-portal-universal/server'
+    export-default 
+        class MyDocument
+            super Document
+            m getInitialProps
+                static
+                async
+                param ctx
+                const portals = new ServerPortal()
+                const originalRenderPage = ctx.renderPage
+                set ctx.renderPage =
+                    => 
+                        _ originalRenderPage
+                            { 
+                                @ enhanceApp
+                                    => 
+                                        param App
+                                        => 
+                                            param props
+                                            _ portals.collectPortals
+                                                < App 
+                                                    @ {...props}
+                const 
+                    { 
+                        @ html
+                        ... props
+                    =
+                        await 
+                            _ Document.getInitialProps(ctx)
+                const htmlWithPortals = portals.appendUniversalPortals(html)
+                return 
+                    { 
+                        @ html htmlWithPortals
+                        @ ...props

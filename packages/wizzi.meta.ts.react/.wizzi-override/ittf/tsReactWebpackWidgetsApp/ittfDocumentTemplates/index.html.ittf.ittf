@@ -1,0 +1,7 @@
+$group
+    head 
+        meta 
+            charset utf-8
+        @title Typescript react webpack widgets App
+    body 
+        # root

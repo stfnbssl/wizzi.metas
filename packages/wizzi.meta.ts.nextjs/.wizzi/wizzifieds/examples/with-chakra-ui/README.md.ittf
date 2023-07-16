@@ -1,0 +1,121 @@
+md
+    h1 
+        + Example app with
+        a 
+            href https://github.com/chakra-ui/chakra-ui
+            title 
+            + chakra-ui
+        + and TypeScript
+    p 
+        + This example features how to use
+        a 
+            href https://github.com/chakra-ui/chakra-ui
+            title 
+            + chakra-ui
+        + as the component library within a Next.js app with TypeScript.
+    br 
+    p 
+        + Next.js and chakra-ui have built-in TypeScript declarations, so we&#39;ll get autocompletion for their modules straight away.
+    br 
+    p 
+        + We are connecting the Next.js
+        code _app.js
+        + with
+        code chakra-ui
+        + &#39;s Provider and theme so the pages can have app-wide dark/light mode. We are also creating some components which shows the usage of
+        code chakra-ui
+        + &#39;s style props.
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-chakra-ui
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-chakra-ui&project-name=with-chakra-ui&repository-name=with-chakra-ui
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    h3 
+        + Using
+        code create-next-app
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-chakra-ui with-chakra-ui-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-chakra-ui with-chakra-ui-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-chakra-ui with-chakra-ui-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h2 
+        + Notes
+    p 
+        + Chakra has supported Gradients and RTL in
+        code v1.1
+        + . To utilize RTL,
+        a 
+            href https://chakra-ui.com/docs/features/rtl-support
+            title 
+            + add RTL direction and swap
+        + .
+    br 
+    p 
+        + If you don&#39;t have multi-direction app, you should make
+        code &lt;Html lang=&quot;ar&quot; dir=&quot;rtl&quot;&gt;
+        + inside
+        code _document.ts
+        + .

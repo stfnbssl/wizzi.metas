@@ -1,0 +1,32 @@
+$group
+
+    var async = require('async')
+    var stringify = require('json-stringify-safe');
+    var metaIndex = require('../index')
+
+    var productions
+        [
+            ${'$'}foreach prod in wzCtx.Productions
+                @ "${'$'}{prod.name}"
+
+    _ metaIndex.createMetaPlugin
+        {
+        a_cb${'('} mf )
+            _ async.map
+                @ productions
+                =>
+                    param prod
+                    param callback
+                    _ mf.getMetaProduction
+                        @ prod
+                        a_cb${'('} metaProduction )
+                            r_cb${'('} metaProduction )
+                =>
+                    param err
+                    param result
+                    const dump
+                        _ stringify
+                            @ result
+                            @ null
+                            @ 2
+                    log 'result', dump

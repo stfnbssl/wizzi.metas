@@ -1,0 +1,78 @@
+$group
+    ${'$'}params &md
+
+    +
+    export
+        async-function update${'$'}{md.Name}
+            ${'$'}if md.update_delete_by_id
+                param id
+                    :string
+            ${'$'}foreach item in md.fields
+                param ${'$'}{item.name}
+                    ${'$'}if item.type == 'date'
+                        :ref Date
+                    ${'$'}elif item.type == 'buffer'
+                        :ref Buffer
+                    ${'$'}elif item.type == 'object'
+                        :{
+                    ${'$'}elif item.type == 'array'
+                        :[
+                    ${'$'}else
+                        :${'$'}{item.type}
+                    :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref CRUDResult
+            +
+            #
+                _ console.log
+                    @ myname
+                    @ 'update${'$'}{md.Name}' 
+                    ${'$'}foreach item in md.fields
+                        @ ${'$'}{item.name}
+            +
+            const ${'$'}{md.Name} = Get${'$'}{md.Name}Model()
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        const query
+                            { 
+                                ${'$'}if md.update_delete_by_id
+                                    @ _id id
+                                ${'$'}else
+                                    ${'$'}foreach item in md.query
+                                        @ ${'$'}{item.name} ${'$'}{item.name}
+                        const update
+                            :any
+                            { 
+                        ${'$'}foreach item in md.fields
+                            if typeof ${'$'}{item.name} !== 'undefined'
+                                set update['${'$'}{item.name}'] = ${'$'}{item.name}
+                        ${'$'}if md.updated_at
+                            set update['updated_at'] = new Date()
+                        +
+                        _ ${'$'}{md.Name}.findOneAndUpdate
+                            @ query
+                            @ update
+                            {
+                            =>
+                                param err
+                                    :any
+                                param result
+                                    :any
+                                if err
+                                    error myname, 'update${'$'}{md.Name}', '${'$'}{md.Name}.findOneAndUpdate', 'error', err
+                                    return reject(err)
+                                +
+                                $$ loog myname, 'update${'$'}{md.Name}', '${'$'}{md.Name}.findOneAndUpdate', 'result', result
+                                return
+                                    _ resolve
+                                        {
+                                            @ oper 'update'
+                                            @ ok true
+                                            @ message '${'$'}{md.descr} updated'

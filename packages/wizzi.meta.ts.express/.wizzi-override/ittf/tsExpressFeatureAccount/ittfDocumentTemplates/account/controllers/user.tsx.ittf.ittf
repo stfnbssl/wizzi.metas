@@ -1,0 +1,124 @@
+$group
+    ${'$'}
+        var ctrl = {
+            name: 'User',
+            path: '/user',
+        }
+    
+    v08/ts/controller${'('}&ctrl)
+            
+        ${'$'}append imports
+            import ReactDOMServer 
+                from 'react-dom/server'
+            import PageFormDocument 
+                from '../../../pages/PageFormDocument' 
+            import
+                @ CreateUserResult
+                from '../types'
+            import
+                @ validateUsername
+                @ createUserFromSignup
+                from '../api/user'
+            +
+            const myname = 'features/account/controllers/user'
+            +
+            function renderPackiPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument 
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+
+        _ this.router.get('/new', this.getNewUserForm)
+        _ this.router.post('/new', this.postNewUser)
+        _ this.router.get('/update', this.getUpdateUserForm)
+        _ this.router.post('/update', this.postUpdateUser)
+        _ this.router.get('/delete', this.getDeleteUserForm)
+        _ this.router.delete('/delete', this.deleteUser)
+        
+        ${'$'}append handlers
+            
+            v08/ts/handler${'('}getNewUserForm)
+                $$ loog myname, 'getNewUserForm', JSON.stringify(request.query, null, 2)
+                _ renderPackiPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreateUser'
+                        { formData 
+                            @ name request.query.name
+                            @ email request.query.email
+                            @ avatar_url request.query.avatar_url
+                            @ openid_provider request.query.openid_provider
+                    {
+
+            v08/ts/handler${'('}postNewUser)
+                $$ loog myname + '.postNewUser.request.body', JSON.stringify(request.body, null, 2)
+                _ createUserFromSignup
+                    {
+                        @ name request.body.u_name
+                        @ email request.body.u_email
+                        @ avatarUrl request.body.u_avatar_url
+                        @ openidProvider request.body.u_openid_provider
+                        @ wizziUserName request.body.u_username
+                    ._ then
+                        =>
+                            param result
+                                :ref CreateUserResult
+                            $$ loog myname + '.postNewUser.createUserFromSignup.result', JSON.stringify(result, null, 2)
+                            if result.created
+                                set (request as any).session.user = result.user
+                                _ response.redirect('/account/profile')
+                            else
+                                _ response.render
+                                    @ 'error.html.ittf'
+                                    {
+                                        @ message 'creating a new wizzi user'
+                                        @ error result
+                    ._ catch
+                        =>
+                            param err
+                                :any
+                            _ response.render
+                                @ 'error.html.ittf'
+                                {
+                                    @ message 'creating a new wizzi user'
+                                    @ error err
+
+
+            v08/ts/handler${'('}getUpdateUserForm)
+            
+                $$ loog myname + '.getUpdateUserForm', 
+                _ renderPackiPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'UpdateUser'
+                        { formData 
+                            @ website 'http://dummy.com'
+                    {
+
+            v08/ts/handler${'('}postUpdateUser)
+                $$ loog myname + '.postUpdateUser', 
+
+            v08/ts/handler${'('}getDeleteUserForm)
+                $$ loog myname + '.getDeleteUserForm', 
+
+            v08/ts/handler${'('}deleteUser)
+                $$ loog myname + '.deleteUser', 

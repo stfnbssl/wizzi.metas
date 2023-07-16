@@ -1,0 +1,223 @@
+$group
+	${'$'}params &opt
+
+    ${'$'}
+        var useReact = opt.useReact || opt.useMaterialUI;
+        var useBabel = useReact || opt.useBabel;
+
+    ---
+    $*
+    BABEL MUST BE LAST
+    *$
+
+    ${'$'}if opt.useAce
+        ${'$'}if opt.isWizziStudio
+            ${'$'}if opt.production
+                html/j${'('} /public/lib/ace/src-min-noconflict/ace.js
+            ${'$'}else
+                html/j${'('} /public/lib/ace/src-noconflict/ace.js
+        ${'$'}else
+            html/j${'('} https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js
+
+	${'$'}if opt.useBootstrap
+		html/j${'('} /public/lib/bootstrap/dist/js/bootstrap.min.js
+    
+    ${'$'}if opt.useEventEmitter
+        html/j${'('} https://unpkg.com/eventemitter3@latest/umd/eventemitter3.min.js
+
+    ${'$'}if opt.useCodemirror
+        html/j${'('} /public/lib/codemirror/lib/codemirror.js
+        html/j${'('} /public/lib/codemirror/mode/javascript/javascript.js
+        html/j${'('} /public/lib/codemirror/mode/xml/xml.js
+        html/j${'('} /public/lib/codemirror/theme/monokai.css
+        html/j${'('} /public/lib/codemirror/theme/twilight.css
+
+    ${'$'}if opt.useDeepDiff
+        ${'$'}if opt.isWizziStudio
+            html/j${'('} /public/lib/flitbit/deep-diff.min.js
+        ${'$'}else
+            html/j${'('} https://cdnjs.cloudflare.com/ajax/libs/deep-diff/0.3.3/deep-diff.min.js
+
+    ${'$'}if opt.useKeycode
+        ${'$'}if opt.isWizziStudio
+            html/j${'('} /public/lib/material-ui/keycode.min.2.2.0.js
+        ${'$'}else
+            html/j${'('} https://cdn.jsdelivr.net/npm/keycode.js
+
+    ${'$'}if opt.useHighlight
+        ${'$'}if opt.isWizziStudio
+            html/j${'('} https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js
+        ${'$'}else	   
+            html/j${'('} https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js
+
+    ${'$'}if opt.useInteractJs
+        html/j${'('} /public/lib/interactjs/interact.js
+
+    ${'$'}if opt.useJarallax
+        html/j${'('} /public/lib/object-fit-images/ofi.min.js
+        ${'$'}if opt.production
+            html/j${'('} /public/lib/jarallax/jarallax.min.js
+            html/j${'('} /public/lib/jarallax/jarallax-video.min.js
+            html/j${'('} /public/lib/jarallax/jarallax-element.min.js
+        ${'$'}else
+            html/j${'('} /public/lib/jarallax/jarallax.js
+            html/j${'('} /public/lib/jarallax/jarallax-video.js
+            html/j${'('} /public/lib/jarallax/jarallax-element.js
+
+    ${'$'}if opt.useJQuery || opt.useBootstrap
+        ${'$'}if opt.production
+            html/j${'('} /public/lib/jquery/jquery.min.js
+        ${'$'}else
+            html/j${'('} /public/lib/jquery/jquery.js
+
+    ${'$'}if opt.useJsonFormatter
+        ${'$'}if opt.isWizziStudio
+            html/j${'('} /public/lib/json-formatter/json-formatter.js
+        ${'$'}else	     
+            html/j${'('} https://cdn.jsdelivr.net/npm/json-formatter-js@2.2.1/dist/json-formatter.min.js
+
+	${'$'}if opt.useJss
+        js /public/lib/jss/jss.js
+		js /public/lib/jss/jss-preset-default.js
+
+    ${'$'}if opt.useMarkdown
+        html/j${'('} https://cdn.jsdelivr.net/npm/marked/marked.min.js
+
+    ${'$'}if opt.useMathJax
+        html/j${'('} https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML
+
+    ${'$'}if opt.usePopper
+        html/j${'('} /public/lib/popper/popper.js
+
+	${'$'}if opt.usePrism
+		${'$'}if opt.isWizziStudio
+		    js /public/lib/prism/prism.js
+		${'$'}else
+            js https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js		
+
+    ${'$'}if opt.usePubSub
+        js /public/lib/pubsub/pubsub.js
+
+    ${'$'}if useReact
+        ${'$'}if opt.production
+            html/j${'('} https://unpkg.com/prop-types@15.8.1/prop-types.min.js
+        ${'$'}else
+            html/j${'('} https://unpkg.com/prop-types@15.8.1/prop-types.js
+
+        ${'$'}if opt.useReactLatest
+            ${'$'}if opt.production
+                html/j${'('} https://unpkg.com/react@18.2.0/umd/react.production.min.js
+                html/j${'('} https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js
+            ${'$'}else
+                html/j${'('} https://unpkg.com/react@latest/umd/react.development.js
+                html/j${'('} https://unpkg.com/react-dom@latest/umd/react-dom.development.js
+        ${'$'}else
+            ${'$'}if opt.production
+                html/j${'('} https://unpkg.com/react@18.2.0/umd/react.production.min.js
+                html/j${'('} https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js
+            ${'$'}else
+                html/j${'('} https://unpkg.com/react@18.2.0/umd/react.development.js
+                html/j${'('} https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js
+
+        ${'$'}if opt.useClassNames
+            html/j${'('} /public/lib/react/classnames.js
+
+        ${'$'}if opt.useMaterialUI
+            ${'$'}if opt.materialUI.latest
+                ${'$'}if opt.production
+                    html/j${'('} https://unpkg.com/@mui/material@latest/umd/material-ui.production.min.js
+                ${'$'}else
+                    html/j${'('} https://unpkg.com/@mui/material@latest/umd/material-ui.development.js
+            ${'$'}else
+                ${'$'}if opt.production
+                    ${'$'}if opt.materialUI.v4
+                        html/j${'('} https://unpkg.com/@material-ui/core@4.12.4/umd/material-ui.development.min.js
+                    ${'$'}else
+                        html/j${'('} https://unpkg.com/@mui/material@5.8.7/umd/material-ui.production.min.js
+                ${'$'}else
+                    ${'$'}if opt.materialUI.v4
+                        html/j${'('} https://unpkg.com/@material-ui/core@4.12.4/umd/material-ui.development.js
+                    ${'$'}else
+                        html/j${'('} https://unpkg.com/@mui/material@5.8.7/umd/material-ui.development.js
+        ${'$'}if opt.useRouter
+            ${'$'}if opt.local || opt.isWizziStudio
+                html/j${'('} /public/lib/react/react-router.min.4.3.1.js
+            ${'$'}else
+                ${'$'}if opt.useRouterLatest
+                    html/j${'('} https://unpkg.com/react-router-dom@latest/umd/react-router-dom.js
+                ${'$'}else
+                    html/j${'('} https://unpkg.com/react-router-dom@4.3.1/umd/react-router-dom.js
+
+        ${'$'}if opt.useReactGrid
+            html/j${'('} /public/lib/react/react-grid-layout.min.js
+
+        ${'$'}if opt.useDownshift
+            ${'$'}if opt.local || opt.isWizziStudio
+                html/j${'('} https://unpkg.com/downshift@6.1.7/dist/downshift.umd.js
+            ${'$'}else
+                html/j${'('} https://cdn.jsdelivr.net/npm/downshift@2.0.10/dist/downshift.umd.min.js
+
+
+        ${'$'}if opt.useGridLayout
+            ${'$'}if opt.useGridLayoutLatest
+                html/j${'('} https://unpkg.com/react-grid-layout@latest/dist/react-grid-layout.min.js
+            ${'$'}else
+                html/j${'('} https://unpkg.com/react-grid-layout@1.3.4/dist/react-grid-layout.min.js
+
+        ${'$'}if opt.react.useStyledComponents
+            js //unpkg.com/styled-components@4.0.1/dist/styled-components.min.js
+        
+        ${'$'}if opt.react.useTransitionGroup
+            js https://cdnjs.cloudflare.com/ajax/libs/react-transition-group/4.4.1/react-transition-group.min.js
+
+    
+    ${'$'}if opt.useRxJs
+        html/j${'('} /public/lib/rxjs/rxjs.umd.min.js
+        
+    ${'$'}if opt.useScrollReveal
+        html/j${'('} /public/lib/scrollreveal/scrollreveal.js
+
+	${'$'}if opt.useSplit
+		js /public/lib/controls/split.js
+	
+    ${'$'}if opt.useSweetalert
+	    html/j${'('} https://cdn.jsdelivr.net/npm/sweetalert2@7.31.1/dist/sweetalert2.all.min.js
+	
+    ${'$'}if opt.useUnderscore
+        ${'$'}if opt.production
+            html/j${'('} /public/lib/underscore/underscore.min.js
+        ${'$'}else
+            html/j${'('} /public/lib/underscore/underscore.js
+    
+    ${'$'}if opt.useVue
+		html/j${'('} https://unpkg.com/vue
+
+	${'$'}if opt.useWizzi
+	    ${'$'}if opt.isWizziStudio
+		    html/j${'('} /public/wizzi-play/scripts/wizzi.standalone.js
+        ${'$'}else		  
+            html/j${'('} /scripts/wizzi.standalone.js	
+
+	${'$'}if opt.useMathJax
+        script
+            # 
+                _ MathJax.Hub.Config
+                    {
+                        @ tex2jax
+                            {
+                                @ inlineMath [['${'$'}','${'$'}'], ['\\${'('}','\\)']]
+                                @ processEscapes true
+    
+    ${'$'}if useBabel
+        html/j${'('} https://unpkg.com/babel-standalone@latest/babel.min.js
+
+    ${'$'}if opt.useMonaco
+        html/j${'('} /public/lib/monaco-editor/min/vs/loader.js
+
+    ${'$'}if opt.mainJs && opt.mainJs.length > 0
+        ${'$'}if useBabel
+            script
+                src ${'$'}{opt.mainJs}
+                type text/babel
+        ${'$'}else
+            js ${'$'}{opt.mainJs}

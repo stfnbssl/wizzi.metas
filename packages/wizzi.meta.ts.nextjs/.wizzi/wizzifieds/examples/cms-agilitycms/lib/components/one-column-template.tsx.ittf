@@ -1,0 +1,11 @@
+module
+    kind react
+    import ContentZone from './content-zone'
+    export-default 
+        function OneColumnTemplate
+            param props
+            return 
+                < React.Fragment
+                    < ContentZone 
+                        @ name "MainContentZone"
+                        @ {...props}

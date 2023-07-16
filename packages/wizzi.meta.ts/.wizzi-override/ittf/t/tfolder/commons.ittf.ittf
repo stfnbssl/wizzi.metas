@@ -1,0 +1,28 @@
+$group
+
+    $
+        var items = [
+            'a_cb',
+            'a_cb_throw',
+            'a_cb_no_throw',
+            'a_cb_promise',
+            'a_cb_async_promise',
+            'a_reject',
+            'a_then',
+            'a_then_async',
+            'a_then_async_catch_reject',
+            'a_then_catch_reject',
+            'catch_reject',
+            'r_promise',
+            'r_promise_async',
+            'r_promise_try_catch',
+            'r_resolve',
+            'r_reject',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}t/${item}.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wz/v08/ts/tfolder/${item}.ts
+
+

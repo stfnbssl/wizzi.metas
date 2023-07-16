@@ -1,0 +1,101 @@
+md
+    h1 
+        + Image Component Example
+    p 
+        + This example shows how to use the
+        a 
+            href https://nextjs.org/docs/api-reference/next/image
+            title 
+            + Image Component in Next.js
+        + serve optimized, responsive images.
+    br 
+    p 
+        + The index page (
+        a 
+            href pages/index.tsx
+            title 
+            code pages/index.tsx
+        + ) has a couple images, one internal image and one external image. In
+        a 
+            href next.config.js
+            title 
+            code next.config.js
+        + , the
+        code domains
+        + property is used to enable external images. The other pages demonstrate the different layouts. Run or deploy the app to see how it works!
+    br 
+    h2 
+        + Live demo
+    p 
+        a 
+            href https://image-component.nextjs.gallery
+            title 
+            + https://image-component.nextjs.gallery
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/image-component
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/image-component&project-name=image-component&repository-name=image-component
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example image-component image-app
+        + # or
+        + yarn create next-app --example image-component image-app
+        + # or
+        + pnpm create next-app --example image-component image-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

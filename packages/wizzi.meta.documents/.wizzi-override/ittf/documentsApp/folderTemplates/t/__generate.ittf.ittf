@@ -1,0 +1,88 @@
+$group
+    
+    $
+        var rootPath = '';
+        var documentsPath = 'documents';
+        var srcPath = 'src';
+        var testsPath = 'tests';
+
+    $file __dot__wizzi/generate.wfjob.ittf.ittf
+        wfjob ${'$'}{metaCtx.name}/job
+            ---
+        	${'$'}{'$'}
+                var jobCtx = {
+        		    ittf_models_folder: path.join(__dirname, 'models'),
+                    ittf_src_folder: path.join(__dirname, 'src'),
+        		    ittf_root_folder: path.join(__dirname, 'root'),
+                    ittf_documents_folder: path.join(__dirname, 'documents'),
+        		    dest_folder: path.join(__dirname, '..'),
+                    job_model: 'wzCtx'
+                }
+            ---
+            model ${'$'}{'$'}{jobCtx.job_model}
+                schema json
+                src ${'$'}{'$'}{jobCtx.ittf_models_folder}/wzctx.json.ittf
+            ---
+            line ittf-models
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_models_folder}
+                wfjobs${'$'}{'('}any_json, &jobCtx)
+            ---
+        	line ittf-root
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_root_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${rootPath}
+        
+        		wfjobs${'$'}{'('}any_js, &jobCtx)
+                wfjobs${'$'}{'('}any_ts, &jobCtx)
+                wfjobs${'$'}{'('}any_tsx, &jobCtx)
+                wfjobs${'$'}{'('}any_html, &jobCtx)
+                wfjobs${'$'}{'('}any_css, &jobCtx)
+                wfjobs${'$'}{'('}any_json, &jobCtx)
+                wfjobs${'$'}{'('}any_xml, &jobCtx)
+                wfjobs${'$'}{'('}any_md, &jobCtx)
+                wfjobs${'$'}{'('}.gitignore, &jobCtx)
+        	---
+            line ittf-src
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_folder}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}
+        
+                wfjobs${'$'}{'('}any_js, &jobCtx)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, js)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, d.ts)
+                wfjobs${'$'}{'('}any_plain_image, &jobCtx)
+        	---
+            line ittf-documents
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_folder}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${documentsPath}
+
+                wfjobs${'$'}{'('}any_ppt, &jobCtx)
+                wfjobs${'$'}{'('}any_pdf, &jobCtx)
+                wfjobs${'$'}{'('}any_docx, &jobCtx)
+            ---
+            $if metaCtx.useDocumentsTests
+                line ittf-tests
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_tests_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${testsPath}
+            
+                    wfjobs${'$'}{'('}any_js, &jobCtx)
+                    wfjobs${'$'}{'('}any_ts, &jobCtx)
+                    wfjobs${'$'}{'('}any_tsx, &jobCtx)
+                    wfjobs${'$'}{'('}any_css, &jobCtx)
+                    wfjobs${'$'}{'('}any_json, &jobCtx)
+                    wfjobs${'$'}{'('}any_md, &jobCtx)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, js)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, d.ts)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, html)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, html.ittf)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, css)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, css.ittf)
+                    wfjobs${'$'}{'('}any_plain_image, &jobCtx)
+                ---
+
+            production
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}
+                line-ref ittf-models
+                line-ref ittf-root
+        		line-ref ittf-src
+                line-ref ittf-documents
+                $if metaCtx.useDocumentsTests
+                    line-ref ittf-tests

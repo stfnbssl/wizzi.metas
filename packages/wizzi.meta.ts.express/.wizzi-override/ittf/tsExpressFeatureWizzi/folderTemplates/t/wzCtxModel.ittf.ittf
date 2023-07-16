@@ -1,0 +1,52 @@
+$group
+
+    $file __dot__wizzi/models/t/tsExpressFeatureWizzi.json.ittf.ittf
+        ${'$'}{'$'}group
+                
+            useWizzi true
+            { wizzi
+                isDev true
+                [ plugins
+                    $foreach item in metaCtx.tsExpressFeatureWizzi.plugins
+                        "${item}"
+                pluginsBaseFolder "${metaCtx.tsExpressFeatureWizzi.pluginsBaseFolder}"
+                $if metaCtx.tsExpressFeatureWizzi.useWizziMeta
+                    [ metaPlugins
+                        $foreach item in metaCtx.tsExpressFeatureWizzi.wizziMeta.metaPlugins
+                            "${item}"
+                    metaPluginsBaseFolder "${metaCtx.tsExpressFeatureWizzi.wizziMeta.metaPluginsBaseFolder}"
+                { globalContext
+                    wzConfigIsDevelopment true
+                    wzConfigIsPackageDeploy false
+                useRunner false
+
+            $if metaCtx.tsExpressFeatureWizzi.useWizziDocs
+                useWizziDocs true
+                { wizziDocs
+
+            $if metaCtx.tsExpressFeatureWizzi.useWizziFileSystem
+                useWizziFs true
+                { wizziFs
+            
+
+            $if metaCtx.tsExpressFeatureWizzi.usePacki
+                usePacki true
+                { packi
+                    useAdmin false
+            
+            $if metaCtx.tsExpressFeatureWizzi.usePackiBrowse
+                usePackiBrowse true
+                { packiBrowse 
+
+            useIttfStatic true
+            { ittfStatic
+        
+            useWizziViewEngine true
+            { wizziViewEngine
+
+            $if metaCtx.tsExpressFeatureWizzi.useWizziCdn
+                useWizziCdn true
+                { wizziCdn
+
+            useWizziJsonFactory true
+            { wizziJsonFactory

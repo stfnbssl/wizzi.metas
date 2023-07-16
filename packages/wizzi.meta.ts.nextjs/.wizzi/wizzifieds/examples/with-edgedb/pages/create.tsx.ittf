@@ -1,0 +1,121 @@
+module
+    kind react
+    import React
+        @ useState
+        from 'react'
+    import Layout from '../components/Layout'
+    import Router from 'next/router'
+    import Link from 'next/link'
+    const Draft
+        :ref React.FC
+        =
+            => 
+                const [title, setTitle] = useState('')
+                const [content, setContent] = useState('')
+                const [authorName, setAuthorName] = useState('')
+                const submitData
+                    async=> 
+                        param e
+                            :ref React.SyntheticEvent
+                        _ e.preventDefault()
+                        try 
+                            const body
+                                { 
+                                    @ title
+                                    @ content
+                                    @ authorName
+                            const result
+                                await 
+                                    _ fetch
+                                        `lit 
+                                            + /api/post
+                                        { 
+                                            @ method 'POST'
+                                            { headers
+                                                @ 'Content-Type' 'application/json'
+                                            @ body JSON.stringify(body)
+                            await 
+                                _ result.json()
+                            await 
+                                _ Router.push('/drafts')
+                        catch error
+                            _ console.error(error)
+                return 
+                    < Layout 
+                        div 
+                            form 
+                                @ onSubmit {submitData}
+                                h1 
+                                    + Create draft
+                                input 
+                                    @ autoFocus
+                                    @ onChange
+                                        => 
+                                            param e
+                                            _ setTitle(e.target.value)
+                                    @ placeholder "Title"
+                                    @ type "text"
+                                    @ value {title}
+                                input 
+                                    @ onChange
+                                        => 
+                                            param e
+                                            _ setAuthorName(e.target.value)
+                                    @ placeholder "Author name"
+                                    @ type "text"
+                                    @ value {authorName}
+                                textarea 
+                                    @ cols {50}
+                                    @ onChange
+                                        => 
+                                            param e
+                                            _ setContent(e.target.value)
+                                    @ placeholder "Content"
+                                    @ rows {8}
+                                    @ value {content}
+                                input 
+                                    @ disabled {!content || !title || !authorName}
+                                    @ type "submit"
+                                    @ value "Create"
+                                < Link 
+                                    @ href "/"
+                                    @ legacyBehavior
+                                    a 
+                                        @ className "back"
+                                        + Cancel
+                        < style 
+                            @ jsx
+                            { 
+                                `lit 
+                                    + &lf;
+                                    + &nbsp;       .page {&lf;
+                                    + &nbsp;         background: white;&lf;
+                                    + &nbsp;         padding: 3rem;&lf;
+                                    + &nbsp;         display: flex;&lf;
+                                    + &nbsp;         justify-content: center;&lf;
+                                    + &nbsp;         align-items: center;&lf;
+                                    + &nbsp;       }&lf;
+                                    + &lf;
+                                    + &nbsp;       input[type='text'],&lf;
+                                    + &nbsp;       textarea {&lf;
+                                    + &nbsp;         width: 100%;&lf;
+                                    + &nbsp;         padding: 0.5rem;&lf;
+                                    + &nbsp;         margin: 0 0 0.75rem 0;&lf;
+                                    + &nbsp;         border-radius: 0.25rem;&lf;
+                                    + &nbsp;         border: 0.125rem solid rgba(0, 0, 0, 0.2);&lf;
+                                    + &nbsp;       }&lf;
+                                    + &lf;
+                                    + &nbsp;       input[type='submit'] {&lf;
+                                    + &nbsp;         cursor: pointer;&lf;
+                                    + &nbsp;         border: 2px solid transparent;&lf;
+                                    + &nbsp;         border-radius: 4px;&lf;
+                                    + &nbsp;         padding: 0.5rem 1.25rem;&lf;
+                                    + &nbsp;         background-color: #0e61fe;&lf;
+                                    + &nbsp;         color: white;&lf;
+                                    + &nbsp;       }&lf;
+                                    + &lf;
+                                    + &nbsp;       .back {&lf;
+                                    + &nbsp;         margin-left: 1rem;&lf;
+                                    + &nbsp;       }&lf;
+                                    + &nbsp;    &nbsp;
+    export-default Draft

@@ -1,0 +1,30 @@
+module
+    kind react
+    import 
+        @ Resolvers
+        from './resolvers-types'
+    const userProfile
+        { 
+            @ id String(1)
+            @ name 'John Smith'
+            @ status 'cached'
+    const resolvers
+        :ref Resolvers
+        =
+            { 
+                { Query
+                    m viewer
+                        param _parent
+                        param _args
+                        param _context
+                        param _info
+                        return userProfile
+                { Mutation
+                    m updateName
+                        param _parent
+                        param _args
+                        param _context
+                        param _info
+                        set userProfile.name = _args.name
+                        return userProfile
+    export-default resolvers

@@ -1,0 +1,14 @@
+module
+    kind react
+    import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict'
+    export-default 
+        function distanceToNow
+            param dateTime
+                :union 
+                    :number 
+                    :ref Date
+            return 
+                _ formatDistanceToNowStrict
+                    @ dateTime
+                    { 
+                        @ addSuffix true

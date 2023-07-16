@@ -1,0 +1,185 @@
+module
+    kind react
+    const API_URL = 'https://graphql.datocms.com'
+    const API_TOKEN = process.env.DATOCMS_API_TOKEN
+        # See: https://www.datocms.com/blog/offer-responsive-progressive-lqip-images-in-2020
+    const responsiveImageFragment
+        `lit 
+            + &lf;
+            + &nbsp; fragment responsiveImageFragment on ResponsiveImage {&lf;
+            + &nbsp; srcSet&lf;
+            + &nbsp;   webpSrcSet&lf;
+            + &nbsp;   sizes&lf;
+            + &nbsp;   src&lf;
+            + &nbsp;   width&lf;
+            + &nbsp;   height&lf;
+            + &nbsp;   aspectRatio&lf;
+            + &nbsp;   alt&lf;
+            + &nbsp;   title&lf;
+            + &nbsp;   bgColor&lf;
+            + &nbsp;   base64&lf;
+            + &nbsp; }&lf;
+            + 
+        # See: https://www.datocms.com/blog/offer-responsive-progressive-lqip-images-in-2020
+    async-function fetchAPI
+        param query
+        param 
+            @ variables
+            @ preview
+            = 
+        const res
+            await 
+                _ fetch
+                    op+ 
+                        + API_URL
+                        ( 
+                            iif preview
+                                then '/preview'
+                                else ''
+                    { 
+                        @ method 'POST'
+                        { headers
+                            @ 'Content-Type' 'application/json'
+                            @ Authorization
+                                `lit 
+                                    + Bearer&nbsp;
+                                    @ API_TOKEN
+                                    + 
+                        @ body
+                            _ JSON.stringify
+                                { 
+                                    @ query
+                                    @ variables
+        const json
+            await 
+                _ res.json()
+        if json.errors
+            _ console.error(json.errors)
+            throw new Error('Failed to fetch API')
+        return json.data
+    export 
+        async-function getPreviewPostBySlug
+            param slug
+            const data
+                await 
+                    _ fetchAPI
+                        `lit 
+                            + &lf;
+                            + &nbsp;   query PostBySlug($slug: String) {&lf;
+                            + &nbsp;     post(filter: {slug: {eq: $slug}}) {&lf;
+                            + &nbsp;       slug&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }
+                        { 
+                            @ preview true
+                            { variables
+                                @ slug
+            return data?.post
+    export 
+        async-function getAllPostsWithSlug
+            const data
+                await 
+                    _ fetchAPI
+                        `lit 
+                            + &lf;
+                            + &nbsp;   {&lf;
+                            + &nbsp;     allPosts {&lf;
+                            + &nbsp;       slug&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }&lf;
+                            + &nbsp;&nbsp;
+            return data?.allPosts
+    export 
+        async-function getAllPostsForHome
+            param preview
+            const data
+                await 
+                    _ fetchAPI
+                        `lit 
+                            + &lf;
+                            + &nbsp;   {&lf;
+                            + &nbsp;     allPosts(orderBy: date_DESC, first: 20) {&lf;
+                            + &nbsp;       title&lf;
+                            + &nbsp;       slug&lf;
+                            + &nbsp;       excerpt&lf;
+                            + &nbsp;       date&lf;
+                            + &nbsp;       coverImage {&lf;
+                            + &nbsp;         responsiveImage(imgixParams: {fm: jpg, fit: crop, w: 2000, h: 1000 }) {&lf;
+                            + &nbsp;           ...responsiveImageFragment&lf;
+                            + &nbsp;         }&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;       author {&lf;
+                            + &nbsp;         name&lf;
+                            + &nbsp;         picture {&lf;
+                            + &nbsp;           url(imgixParams: {fm: jpg, fit: crop, w: 100, h: 100, sat: -100})&lf;
+                            + &nbsp;         }&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }&lf;
+                            + &lf;
+                            + &nbsp;  &nbsp;
+                            @ responsiveImageFragment
+                            + &lf;
+                            + &nbsp;&nbsp;
+                        { 
+                            @ preview
+            return data?.allPosts
+    export 
+        async-function getPostAndMorePosts
+            param slug
+            param preview
+            const data
+                await 
+                    _ fetchAPI
+                        `lit 
+                            + &lf;
+                            + &nbsp; query PostBySlug($slug: String) {&lf;
+                            + &nbsp;   post(filter: {slug: {eq: $slug}}) {&lf;
+                            + &nbsp;     title&lf;
+                            + &nbsp;     slug&lf;
+                            + &nbsp;     content&lf;
+                            + &nbsp;     date&lf;
+                            + &nbsp;     ogImage: coverImage{&lf;
+                            + &nbsp;       url(imgixParams: {fm: jpg, fit: crop, w: 2000, h: 1000 })&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     coverImage {&lf;
+                            + &nbsp;       responsiveImage(imgixParams: {fm: jpg, fit: crop, w: 2000, h: 1000 }) {&lf;
+                            + &nbsp;         ...responsiveImageFragment&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     author {&lf;
+                            + &nbsp;       name&lf;
+                            + &nbsp;       picture {&lf;
+                            + &nbsp;         url(imgixParams: {fm: jpg, fit: crop, w: 100, h: 100, sat: -100})&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }&lf;
+                            + &lf;
+                            + &nbsp;   morePosts: allPosts(orderBy: date_DESC, first: 2, filter: {slug: {neq: $slug}}) {&lf;
+                            + &nbsp;     title&lf;
+                            + &nbsp;     slug&lf;
+                            + &nbsp;     excerpt&lf;
+                            + &nbsp;     date&lf;
+                            + &nbsp;     coverImage {&lf;
+                            + &nbsp;       responsiveImage(imgixParams: {fm: jpg, fit: crop, w: 2000, h: 1000 }) {&lf;
+                            + &nbsp;         ...responsiveImageFragment&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     author {&lf;
+                            + &nbsp;       name&lf;
+                            + &nbsp;       picture {&lf;
+                            + &nbsp;         url(imgixParams: {fm: jpg, fit: crop, w: 100, h: 100, sat: -100})&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }&lf;
+                            + &nbsp; }&lf;
+                            + &lf;
+                            + &nbsp;&nbsp;
+                            @ responsiveImageFragment
+                            + &lf;
+                            + &nbsp;&nbsp;
+                        { 
+                            @ preview
+                            { variables
+                                @ slug
+            return data

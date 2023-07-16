@@ -1,0 +1,126 @@
+module
+    kind react
+    import 
+        @ useState
+        from 'react'
+    import 
+        @ useQuery
+        from 'graphql-hooks'
+    import ErrorMessage from './error-message'
+    import PostUpvoter from './post-upvoter'
+    import Submit from './submit'
+    export 
+        const ALL_POSTS_QUERY
+            `lit 
+                + &lf;
+                + &nbsp; query allPosts($first: Int!, $skip: Int!) {&lf;
+                + &nbsp;   allPosts(orderBy: { createdAt: desc }, first: $first, skip: $skip) {&lf;
+                + &nbsp;     id&lf;
+                + &nbsp;     title&lf;
+                + &nbsp;     votes&lf;
+                + &nbsp;     url&lf;
+                + &nbsp;     createdAt&lf;
+                + &nbsp;   }&lf;
+                + &nbsp;   _allPostsMeta {&lf;
+                + &nbsp;     count&lf;
+                + &nbsp;   }&lf;
+                + &nbsp; }&lf;
+                + 
+    export 
+        const allPostsQueryOptions
+            => 
+                param skip = 0
+                (
+                    { 
+                        { variables
+                            @ skip
+                            @ first 10
+                        @ updateData
+                            => 
+                                param prevResult
+                                param result
+                                (
+                                    { 
+                                        @ ...result
+                                        @ allPosts
+                                            iif prevResult
+                                                then
+                                                    [ 
+                                                        @ ...prevResult.allPosts
+                                                        @ ...result.allPosts
+                                                else result.allPosts
+    export-default 
+        function PostList
+            const [skip, setSkip] = useState(0)
+            const 
+                { 
+                    @ loading
+                    @ error
+                    @ data
+                    @ refetch
+                = useQuery(ALL_POSTS_QUERY, allPostsQueryOptions(skip))
+            if error
+                return 
+                    < ErrorMessage 
+                        @ message "Error loading posts."
+            if !data
+                return 
+                    div 
+                        + Loading
+            const 
+                { 
+                    @ allPosts
+                    @ _allPostsMeta
+                = data
+            const areMorePosts = allPosts.length < _allPostsMeta.count
+            return 
+                < React.Fragment
+                    < Submit 
+                        @ onSubmission
+                            => 
+                                _ refetch
+                                    { 
+                                        { variables
+                                            @ skip 0
+                                            @ first allPosts.length
+                    section 
+                        ul 
+                            { 
+                                _ allPosts.map
+                                    => 
+                                        param post
+                                        param index
+                                        li 
+                                            @ key {post.id}
+                                            div 
+                                                span 
+                                                    + {index + 1}
+                                                    + .
+                                                a 
+                                                    @ href {post.url}
+                                                    + {post.title}
+                                                < PostUpvoter 
+                                                    @ id {post.id}
+                                                    @ votes {post.votes}
+                                                    @ onUpdate
+                                                        => 
+                                                            _ refetch
+                                                                { 
+                                                                    { variables
+                                                                        @ skip 0
+                                                                        @ first allPosts.length
+                        { 
+                            iif areMorePosts
+                                then
+                                    button 
+                                        @ className "more"
+                                        @ onClick
+                                            => 
+                                                _ setSkip(skip + 10)
+                                        + {' '}
+                                        { 
+                                            iif loading && !data
+                                                then 'Loading...'
+                                                else 'Show More'
+                                        + {' '}
+                                else ''

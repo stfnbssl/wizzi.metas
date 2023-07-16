@@ -1,0 +1,52 @@
+$group
+
+    async=> handleMetaChange
+        param value
+            :string
+        # value is the meta id
+        log 'handleMetaChange.value', value
+        if value && value.length > 0
+            const result
+                await
+                    _ getData
+                        @ 'production/meta/props/' + encodeURIComponent(value)
+            log 'handleMetaChange.result', result, result.meta.properties
+            const properties = result.meta.properties
+            const values
+                :any
+                {
+            foreach prop in properties
+                if prop.type == 'string' || prop.type == 'number'
+                    set values[prop.name] = prop.defaultValue || ''
+                elif prop.type == 'array'
+                    set values[prop.name] = []
+                elif prop.type == 'object'
+                    set values[prop.name] = {}
+            _ this.setState
+                {
+                    @ meta_id value
+                    @ meta_props result.meta.properties
+                    @ meta_propsValues values
+        else
+            _ this.setState
+                {
+                    @ meta_id value
+                    @ meta_props []
+                    @ meta_propsValues {}
+
+    => handleMetaPropsValuesChange
+        param valuePath
+            :string
+        param value
+            :any
+        _ this.setState
+            =>
+                param state
+                const newValues
+                    _ lodashSet
+                        @ state.meta_propsValues
+                        @ valuePath
+                        @ value
+                return
+                    {
+                        @ meta_propsValues newValues

@@ -1,0 +1,87 @@
+md
+    h1 
+        + Internationalized Routing
+    p 
+        + This example shows how to create internationalized pages using Next.js and the i18n routing feature. It shows a normal page, a non-dynamic
+        code getStaticProps
+        + page, a dynamic
+        code getStaticProps
+        + page, and a
+        code getServerSideProps
+        + page.
+    br 
+    p 
+        + For further documentation on this feature see the
+        a 
+            href https://nextjs.org/docs/advanced-features/i18n-routing
+            title 
+            + Internationalized Routing docs
+        + .
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/i18n-routing
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/i18n-routing&project-name=i18n-routing&repository-name=i18n-routing
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example i18n-routing i18n-app
+        + # or
+        + yarn create next-app --example i18n-routing i18n-app
+        + # or
+        + pnpm create next-app --example i18n-routing i18n-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

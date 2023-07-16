@@ -1,0 +1,11 @@
+$group
+
+    $file __dot__wizzi/examples/step_1.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wizziMeta/examples/step_1.js
+
+    $file __dot__wizzi/examples/step_2.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wizziMeta/examples/step_2.js

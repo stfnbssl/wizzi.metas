@@ -1,0 +1,15 @@
+module
+    kind react
+    import 
+        @ defineConfig
+        from 'windicss/helpers'
+    export-default 
+        _ defineConfig
+            { 
+                { extract
+                    [ include
+                        @ '**/*.{jsx,tsx,css}'
+                    [ exclude
+                        @ 'node_modules'
+                        @ '.git'
+                        @ '.next'

@@ -1,0 +1,4 @@
+module
+    kind react
+    :declare 
+        :module '@gympass/yoga'

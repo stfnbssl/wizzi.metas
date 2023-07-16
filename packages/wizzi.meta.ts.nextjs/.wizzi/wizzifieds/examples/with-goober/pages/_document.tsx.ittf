@@ -1,0 +1,49 @@
+module
+    kind react
+    import 
+        @ extractCss
+        from 'goober'
+    import NextDocument
+        @ DocumentContext
+        @ Head
+        @ Html
+        @ Main
+        @ NextScript
+        from 'next/document'
+    :type Props
+        :{ 
+            :p css
+                :string 
+    class Document
+        super NextDocument
+            :param 
+                :ref Props
+        m getInitialProps
+            static
+            async
+            { 
+                @ renderPage
+                :ref DocumentContext
+            const page
+                await 
+                    _ renderPage()
+            const css = extractCss()
+            return 
+                { 
+                    @ ...page
+                    @ css
+        m render
+            return 
+                < Html 
+                    < Head 
+                        < style 
+                            @ id {'_goober'}
+                                # And defined it in here
+                            @ dangerouslySetInnerHTML
+                                { 
+                                    @ __html ' ' + this.props.css
+                                # And defined it in here
+                    body 
+                        < Main 
+                        < NextScript 
+    export-default Document

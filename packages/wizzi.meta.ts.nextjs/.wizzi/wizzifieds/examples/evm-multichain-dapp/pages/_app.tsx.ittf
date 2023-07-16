@@ -1,0 +1,26 @@
+module
+    kind react
+    import '../styles/globals.css'
+    :import-type 
+        @ AppProps
+        from 'next/app'
+    import 
+        @ Web3ReactProvider
+        from '@web3-react/core'
+    function MyApp
+        { 
+            @ Component
+            @ pageProps
+            :ref AppProps
+        const getLibrary
+            => 
+                param provider
+                    :any 
+                return provider
+        return 
+            < React.Fragment
+                < Web3ReactProvider 
+                    @ getLibrary {getLibrary}
+                    < Component 
+                        @ {...pageProps}
+    export-default MyApp

@@ -1,0 +1,25 @@
+$group
+    
+    $if wzCtx.Build.webpack.useCodeSplitting
+        @ globalObject 'self'
+        $if wzCtx.Build.webpack.outputPath
+            @ path '${wzCtx.Build.webpack.outputPath}'
+        $else
+            $if wzCtx.Build.useExistingDevServer
+                @ path path.resolve(__dirname, '${wzCtx.Build.existingDevServer.path}', 'static', 'webpack')
+            $else
+                @ path path.resolve(__dirname, 'dist')
+        $if wzCtx.Build.webpack.publicPath
+            @ publicPath '${wzCtx.Build.webpack.publicPath}'
+        @ filename '[name].bundle.js'
+        @ chunkFilename '[id].[hash].chunk.js'
+    $else
+        @ path path.resolve(__dirname, '..', 'dist', 'scripts')
+        @ filename '${wzCtx.name}.js'
+    
+    $if wzCtx.Build.isLibrary
+        @ library '${wzCtx.Build.library.name}'
+        $if wzCtx.Build.library.target
+            @ libraryTarget 'var'
+        $else
+            @ libraryTarget '${wzCtx.Build.library.target}'

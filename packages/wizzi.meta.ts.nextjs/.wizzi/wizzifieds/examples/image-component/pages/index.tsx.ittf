@@ -1,0 +1,142 @@
+module
+    kind react
+    import styles from '../styles.module.css'
+    import Image from 'next/image'
+    import Link from 'next/link'
+    import ViewSource from '../components/view-source'
+    import vercel from '../public/vercel.png'
+    :import-type 
+        @ PropsWithChildren
+        from 'react'
+    const Code
+        => 
+            param props
+                :ref PropsWithChildren
+                    :param {}
+            code 
+                @ className {styles.inlineCode}
+                @ {...props}
+    const Index
+        => 
+            div 
+                @ className {styles.container}
+                < ViewSource 
+                    @ pathname "pages/index.tsx"
+                div 
+                    @ className {styles.card}
+                    h1 
+                        + Image Component with Next.js
+                    p 
+                        + This page demonstrates the usage of the
+                        + {' '}
+                        a 
+                            @ href "https://nextjs.org/docs/api-reference/next/image"
+                            + next/image
+                        + {' '}
+                        + component with live examples.
+                    p 
+                        + This component is designed to
+                        + {' '}
+                        a 
+                            @ href "https://nextjs.org/docs/basic-features/image-optimization"
+                            + automatically optimize
+                        + {' '}
+                        + images on-demand as the browser requests them.
+                    hr 
+                        @ className {styles.hr}
+                    h2 
+                        @ id "examples"
+                        + Examples
+                    p 
+                        + Try it the examples below (you may need to disable cache in dev tools to&lf;        see the effect if you already visited):
+                    ul 
+                        li 
+                            < Link 
+                                @ href "/responsive"
+                                + Responsive to viewport
+                        li 
+                            < Link 
+                                @ href "/fill"
+                                + Fill dimensions of parent element
+                        li 
+                            < Link 
+                                @ href "/placeholder"
+                                + Blur-up placeholder
+                        li 
+                            < Link 
+                                @ href "/shimmer"
+                                + Shimmer placeholder
+                        li 
+                            < Link 
+                                @ href "/color"
+                                + Color placeholder
+                        li 
+                            < Link 
+                                @ href "/background"
+                                + Text on background image
+                    hr 
+                        @ className {styles.hr}
+                    h2 
+                        @ id "internal"
+                        + Internal Image
+                    p 
+                        + The following is an example of a reference to an internal image from the
+                        + {' '}
+                        < Code 
+                            + public
+                        + directory.
+                    p 
+                        + This image is intentionally large so you have to scroll down to the next&lf;        image.
+                    < Image 
+                        @ alt "Vercel logo"
+                        @ src {vercel}
+                        @ width {1000}
+                        @ height {1000}
+                        @ style
+                            { 
+                                @ maxWidth '100%'
+                                @ height 'auto'
+                    hr 
+                        @ className {styles.hr}
+                    h2 
+                        @ id "external"
+                        + External Image
+                    p 
+                        + The following is an example of a reference to an external image at
+                        + {' '}
+                        < Code 
+                            + assets.vercel.com
+                        + .
+                    p 
+                        + External images must be configured in
+                        < Code 
+                            + next.config.js
+                        + using&lf;        the
+                        < Code 
+                            + remotePatterns
+                        + property.
+                    < Image 
+                        @ alt "Next.js logo"
+                        @ src "https://assets.vercel.com/image/upload/v1538361091/repositories/next-js/next-js-bg.png"
+                        @ width {1200}
+                        @ height {400}
+                        @ style
+                            { 
+                                @ maxWidth '100%'
+                                @ height 'auto'
+                    hr 
+                        @ className {styles.hr}
+                    h2 
+                        @ id "more"
+                        + Learn More
+                    p 
+                        + You can optionally configure a cloud provider, device sizes, and more!
+                    p 
+                        + Checkout the
+                        + {' '}
+                        a 
+                            @ href "https://nextjs.org/docs/basic-features/image-optimization"
+                            + Image Optimization documentation
+                        + {' '}
+                        + to learn more.
+    export-default Index

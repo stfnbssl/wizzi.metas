@@ -1,0 +1,30 @@
+$group
+    
+    $
+        var versions = {};
+        versions['@wizzi/meta.cloud'] = '0.0.1';
+        versions['@wizzi/meta.cloud@next'] = '0.0.1';
+        versions['@wizzi/meta.commons'] = '0.0.1';
+        versions['@wizzi/meta.commons@next'] = '0.0.1';
+        versions['@wizzi/meta.docs'] = '0.0.1';
+        versions['@wizzi/meta.docs@next'] = '0.0.1';
+        versions['@wizzi/meta.js'] = '0.0.1';
+        versions['@wizzi/meta.js@next'] = '0.0.1';
+        versions['@wizzi/meta.jsExpress'] = '0.0.1';
+        versions['@wizzi/meta.jsExpress@next'] = '0.0.1';
+        versions['@wizzi/meta.jsReact'] = '0.0.1';
+        versions['@wizzi/meta.jsReact@next'] = '0.0.1';
+        versions['@wizzi/meta.jsVanilla'] = '0.0.1';
+        versions['@wizzi/meta.jsVanilla@next'] = '0.0.1';
+        versions['@wizzi/meta.ts'] = '0.0.1';
+        versions['@wizzi/meta.ts@next'] = '0.0.1';
+        versions['@wizzi/meta.tsDb'] = '0.0.1';
+        versions['@wizzi/meta.tsDb@next'] = '0.0.1';
+        versions['@wizzi/meta.tsExpress'] = '0.0.1';
+        versions['@wizzi/meta.tsExpress@next'] = '0.0.1';
+        versions['@wizzi/meta.tsReact'] = '0.0.1';
+        versions['@wizzi/meta.tsReact@next'] = '0.0.1';
+        versions['@wizzi/meta.web'] = '0.0.1';
+        versions['@wizzi/meta.web@next'] = '0.0.1';
+        versions['@wizzi/meta.wizzi'] = '0.0.1';
+        versions['@wizzi/meta.wizzi@next'] = '0.0.1';

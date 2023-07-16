@@ -1,0 +1,170 @@
+module
+    kind react
+    import Link from 'next/link'
+    const Index
+        => 
+            div 
+                @ style
+                    { 
+                        @ maxWidth 700
+                        @ margin '0 auto'
+                h2 
+                    + Sentry Simple Example 🚨
+                p 
+                    + This example demonstrates how to record unhandled exceptions in your code&lf;      with Sentry. There are several test pages below that result in various&lf;      kinds of unhandled exceptions.
+                p 
+                    + It also demonstrates the performance monitoring the SDK is able to do:
+                    ol 
+                        li 
+                            + A front-end transaction is recorded for each pageload or navigation.
+                        li 
+                            + A backend transaction is recorded for each API or page route. (Note&lf;          that currently only API routes are traced on Vercel.)
+                        li 
+                            + Errors which occur during transactions are linked to those&lf;          transactions in Sentry and can be found in the [trace&lf;          navigator](https://docs.sentry.io/product/sentry-basics/tracing/trace-view/).
+                        li 
+                            + Manual performance instrumentation is demonstrated in the final&lf;          example below (throwing an error from an event handler).
+                p 
+                    strong 
+                        + Important:
+                    + exceptions in development mode take a&lf;      different path than in production. These tests should be run on a&lf;      production build (i.e. 'next build').
+                    + {' '}
+                    a 
+                        @ href "https://nextjs.org/docs/advanced-features/custom-error-page#customizing-the-error-page"
+                        + Read more
+                ol 
+                    li 
+                        + API route exceptions/transactions
+                    + Note that 1 and 2 are not expected to work if deployed to Vercel yet.
+                    ol 
+                        li 
+                            + API has a top-of-module Promise that rejects, but its result is not&lf;          awaited. Sentry should record Error('API Test 1').
+                            + {' '}
+                            a 
+                                @ href "/api/test1"
+                                @ target "_blank"
+                                + Open in a new tab
+                        li 
+                            + API has a top-of-module exception. Sentry should record Error('API&lf;          Test 2').
+                            + {' '}
+                            a 
+                                @ href "/api/test2"
+                                @ target "_blank"
+                                + Open in a new tab
+                        li 
+                            + API has has an exception in its request handler. Sentry should record&lf;          Error('API Test 3').
+                            + {' '}
+                            a 
+                                @ href "/api/test3"
+                                @ target "_blank"
+                                + Open in a new tab
+                        li 
+                            + API uses a try/catch to handle an exception and records it. Sentry&lf;          should record Error('API Test 4').
+                            + {' '}
+                            a 
+                                @ href "/api/test4"
+                                @ target "_blank"
+                                + Open in a new tab
+                    li 
+                        + SSR exceptions/transactions
+                    + Note that there are currently two known bugs with respect to SSR&lf;      transactions: they don't get recorded on Vercel, and ones that are&lf;      recorded and have an error are grouped in the Sentry UI by the error page&lf;      name rather than the requested page name.
+                    ol 
+                        li 
+                            + getServerSideProps throws an Error. This should cause _error.js to&lf;          render and record Error('SSR Test 1') in Sentry.
+                            + {' '}
+                            a 
+                                @ href "/ssr/test1"
+                                @ target "_blank"
+                                + Open in a new tab
+                            + {' '}
+                            + or
+                            < Link 
+                                @ href "/ssr/test1"
+                                + Perform client side navigation
+                        li 
+                            + getServerSideProps returns a Promise that rejects. This should cause&lf;          _error.js to render and record Error('SSR Test 2') in Sentry.
+                            + {' '}
+                            a 
+                                @ href "/ssr/test2"
+                                @ target "_blank"
+                                + Open in a new tab
+                        li 
+                            + getServerSideProps calls a Promise that rejects, but does not handle&lf;          the rejection or await its result (returning synchronously). Sentry&lf;          should record Error('SSR Test 3'), but
+                            strong 
+                                + will not
+                            + when&lf;          deployed to Vercel because the serverless function will already have&lf;          exited.
+                            + {' '}
+                            a 
+                                @ href "/ssr/test3"
+                                @ target "_blank"
+                                + Open in a new tab
+                        li 
+                            + getServerSideProps manually captures an exception from a try/catch.&lf;          This should record Error('SSR Test 4') in Sentry.
+                            + {' '}
+                            a 
+                                @ href "/ssr/test4"
+                                @ target "_blank"
+                                + Open in a new tab
+                    li 
+                        + Client exceptions
+                    ol 
+                        li 
+                            + There is a top-of-module Promise that rejects, but its result is not&lf;          awaited. Sentry should record Error('Client Test 1').
+                            + {' '}
+                            < Link 
+                                @ href "/client/test1"
+                                + Perform client side navigation
+                            + or
+                            + {' '}
+                            a 
+                                @ href "/client/test1"
+                                @ target "_blank"
+                                + Open in a new tab
+                        li 
+                            + There is a top-of-module exception. _error.js should render and record&lf;          ReferenceError('process is not defined') in Sentry.
+                            + {' '}
+                            < Link 
+                                @ href "/client/test2"
+                                + Perform client side navigation
+                            + or
+                            + {' '}
+                            a 
+                                @ href "/client/test2"
+                                @ target "_blank"
+                                + Open in a new tab
+                        li 
+                            + There is an exception during React lifecycle that is caught by&lf;          Next.js's React Error Boundary. In this case, when the component&lf;          mounts. This should cause _error.js to render and record Error('Client&lf;          Test 3') in Sentry.
+                            + {' '}
+                            < Link 
+                                @ href "/client/test3"
+                                + Perform client side navigation
+                            + or
+                            + {' '}
+                            a 
+                                @ href "/client/test3"
+                                @ target "_blank"
+                                + Open in a new tab
+                        li 
+                            + There is an unhandled Promise rejection during React lifecycle. In&lf;          this case, when the component mounts. Sentry should record&lf;          Error('Client Test 4').
+                            + {' '}
+                            < Link 
+                                @ href "/client/test4"
+                                + Perform client side navigation
+                            + or
+                            + {' '}
+                            a 
+                                @ href "/client/test4"
+                                @ target "_blank"
+                                + Open in a new tab
+                        li 
+                            + An Error is thrown from an event handler. Sentry should record&lf;          Error('Client Test 5'). (This page also demonstrates how to manually&lf;          instrument your code for performance monitoring.)
+                            + {' '}
+                            < Link 
+                                @ href "/client/test5"
+                                + Perform client side navigation
+                            + or
+                            + {' '}
+                            a 
+                                @ href "/client/test5"
+                                @ target "_blank"
+                                + Open in a new tab
+    export-default Index

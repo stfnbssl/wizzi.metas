@@ -1,0 +1,103 @@
+md
+    h1 
+        + Hello World example
+    p 
+        + This example shows how to use react context api in our app.
+    br 
+    p 
+        + It provides an example of using
+        code pages/_app.js
+        + to include the context api provider and then shows how both the
+        code pages/index.js
+        + and
+        code pages/about.js
+        + can both share the same data using the context api consumer.
+    br 
+    p 
+        + We start off by creating two contexts. One that actually never changes (
+        code CounterDispatchContext
+        + ) and one that changes more often (
+        code CounterStateContext
+        + ).
+    br 
+    p 
+        + The
+        code pages/index.js
+        + shows how to, from the home page, increment and decrement the context data by 1 (a hard code value in the context provider itself).
+    br 
+    p 
+        + The
+        code pages/about.js
+        + shows how to pass an increment value from the about page into the context provider itself.
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-context-api
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-context-api&project-name=with-context-api&repository-name=with-context-api
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-context-api with-context-api-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-context-api with-context-api-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-context-api with-context-api-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

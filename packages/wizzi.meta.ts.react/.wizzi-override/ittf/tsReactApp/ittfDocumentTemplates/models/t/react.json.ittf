@@ -1,0 +1,32 @@
+$group
+    useReactCreateApp false
+    { reactCreateApp
+    useReact true
+    { react
+        useV16 true
+        useV17 false
+        useMaterialUI true
+        { materialUI
+            useIcons true
+        useRedux false
+        { redux
+            useSaga true
+            { saga
+                [ see
+                    {
+                        url "https://github.com/piotrwitek/react-redux-typescript-realworld-app"
+                        title "React, Redux, TypeScript - RealWorld App"
+                    {
+                        url "https://github.com/piotrwitek/react-redux-typescript-guide"
+                        title "React & Redux in TypeScript - Complete Guide"
+        useRouter false
+        useHelmetAsync true
+        useSimpleCodeEditor false
+        useTextareaAutosize true
+        useVirtualized false
+        useSelect true
+        useRange true
+        useDate true
+        useSyntaxHighlighter true
+        useObjectEditor true
+    useHoistNonReactStatic true

@@ -1,0 +1,11 @@
+$group
+
+    => handleInputChange
+        param ev
+            :ref React.ChangeEvent
+                :param 
+                    :ref HTMLInputElement
+        log 'handleInputChange', ev.target.type, ev.target.checked, ev.target.value
+        _ this.setState
+            { 
+                @ [ev.target.name] (ev.target.type == 'checkbox' ? ev.target.checked : ev.target.value)

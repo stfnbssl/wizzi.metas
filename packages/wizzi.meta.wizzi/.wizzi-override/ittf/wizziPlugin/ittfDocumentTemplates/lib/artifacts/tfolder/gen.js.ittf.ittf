@@ -1,0 +1,83 @@
+$group
+	${'$'}params &md
+
+    $
+        var openPar = '(';
+        var call = '(&md)';
+
+	${'$'}
+        if (!md.rootElement) {
+            md.rootElement = md.schema;
+        }
+
+    +
+	${'$'}hook description
+    +
+    var util = require('util')
+    var path = require('path')
+    var async = require('async')
+	var verify = require('wizzi-utils').verify
+    var lineParser = require('wizzi-utils').helpers.lineParser
+    var errors = require('../../../../../errors')
+	${'$'}hook imports
+    +
+    var myname = '${'$'}{md.plugin}.artifacts.${'$'}{md.schema}.${'$'}{md.name}.gen.main'
+    +
+	var md
+        set module.exports
+            { 
+    ${'$'}if md.useStmNamespace
+        set md.stm
+            {
+    +
+    ${'$'}hook loads
+    +
+	md-gen-main${call}
+		${'$'}if md.checkSchema
+			if model.wzElement !== '${'$'}{md.rootElement}'
+				return
+                    _ callback
+                        _ error
+                            @ 'InvalidArgument'
+                            @ 'gen'
+                            @ 'Invalid model schema. Expected root element "${'$'}{md.rootElement}". Received: ' + model.wzElement
+                            @ model
+		try
+            ${'$'}if md.mainStart  
+                _ mainStart
+                    @ model
+                    @ ctx
+			${'$'}hook main
+		catch ex
+			return
+				_ callback
+					_ error
+						@ 'Exception'
+						@ 'gen'
+						@ 'An exception encountered during generation'
+                        @ model
+                        @ ex
+
+        function terminate_gen
+            param model
+            param ctx
+            param callback
+            if ctx.artifactGenerationErrors.length > 0
+                return
+                    _ callback(ctx.artifactGenerationErrors)
+            else
+                ${'$'}if md.mainFinish  
+                    _ mainFinish
+                        @ model
+                        @ ctx
+                return
+                    _ callback(null, ctx)
+	
+    ${'$'}if md.isAsync
+        +
+        async-md-gen-items${call}
+
+    ${'$'}hook
+
+	+
+    f_error${openPar} ${'$'}{md.plugin}/lib/artifacts/${'$'}{md.schema}/${'$'}{md.name}/gen/main )

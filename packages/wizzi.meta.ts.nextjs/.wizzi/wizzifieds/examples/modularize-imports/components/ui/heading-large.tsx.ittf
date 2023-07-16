@@ -1,0 +1,12 @@
+module
+    kind react
+    export 
+        function HeadingLarge
+            { 
+                @ children
+                :{ 
+                    :p children
+                        :ref React.ReactNode
+            return 
+                h1 
+                    + {children}

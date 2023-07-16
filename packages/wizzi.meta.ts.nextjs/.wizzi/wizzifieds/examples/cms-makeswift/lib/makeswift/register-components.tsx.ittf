@@ -1,0 +1,30 @@
+module
+    kind react
+    import 
+        @ Style
+        from '@makeswift/runtime/controls'
+    import 
+        @ ReactRuntime
+        from '@makeswift/runtime/react'
+        # Register your components here!
+    function HelloWorld
+        param props
+            :{ 
+                :p className
+                    :optional 
+                    :string 
+        return 
+            p 
+                @ {...props}
+                + Hello, world!
+        # Register your components here!
+    _ ReactRuntime.registerComponent
+        @ HelloWorld
+        { 
+            @ type 'hello-world'
+            @ label 'Hello, world!'
+            { props
+                @ className
+                    _ Style
+                        { 
+                            @ properties Style.All

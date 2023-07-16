@@ -1,0 +1,10 @@
+module
+    kind react
+    set module.exports =
+        { 
+            [ content
+                @ './components/**/*.{js,ts,jsx,tsx}'
+            { theme
+            @ plugins []
+        #
+            # * @type {import('tailwindcss').Config}

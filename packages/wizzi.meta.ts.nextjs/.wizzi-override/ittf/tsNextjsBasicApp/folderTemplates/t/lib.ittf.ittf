@@ -1,0 +1,10 @@
+$group
+        $
+            var items = [
+                "constants",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/lib/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include tsNextjsBasicApp/lib/${item}.ts

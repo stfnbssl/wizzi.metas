@@ -1,0 +1,26 @@
+$group
+
+    $if metaCtx.useReact
+        $file __dot__wizzi/t/v08/ts/react/component.tsx.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+            
+                ${'$'}include wz/v08/ts/react/component.tsx
+            
+        $file __dot__wizzi/t/v08/ts/react/function.tsx.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+            
+                ${'$'}include wz/v08/ts/react/function.tsx
+            
+        $file __dot__wizzi/t/v08/ts/react/t/misc.tsx.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params name, &md    
+            
+                ${'$'}include wz/v08/ts/react/t/misc.tsx
+            
+        $file __dot__wizzi/t/v08/ts/react/t/setPropType.ittf.ittf
+            ${'$'}{'$'}group
+            
+                ${'$'}include wz/v08/ts/react/t/setPropType.tsx   
+        

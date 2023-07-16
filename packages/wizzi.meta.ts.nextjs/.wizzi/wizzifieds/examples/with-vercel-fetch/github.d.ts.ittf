@@ -1,0 +1,22 @@
+module
+    kind react
+    export 
+        :type Repository
+            :intersect 
+                :{ 
+                    :p id
+                        :number 
+                    :p name
+                        :string 
+                    :p full_name
+                        :string 
+                    :p stargazers_count
+                        :number 
+                    :p private
+                        :boolean 
+                :ref Record
+                    :param string
+                    :param unknown
+        # For simplicity we are creating our own types here.
+        # If you want the full types check out:
+        # https://github.com/octokit/openapi-types.ts

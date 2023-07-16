@@ -1,0 +1,68 @@
+module
+    kind react
+    import Image from 'next/image'
+    import 
+        as React
+        from 'react'
+    import 
+        @ Button
+        @ Header
+        @ Modal
+        @ Icon
+        from 'semantic-ui-react'
+    export-default 
+        function Home
+            const [open, setOpen] = React.useState(false)
+            return 
+                div 
+                    @ className "centered"
+                    < Icon 
+                        @ size "massive"
+                        @ name "world"
+                    div 
+                        @ className "separator"
+                    < Modal 
+                        @ onClose
+                            => 
+                                _ setOpen(false)
+                        @ onOpen
+                            => 
+                                _ setOpen(true)
+                        @ open {open}
+                        @ trigger
+                            < Button 
+                                + Show Modal
+                        < Modal.Header 
+                            + Select a Photo
+                        < Modal.Content 
+                            @ image
+                            span 
+                                @ style
+                                    { 
+                                        @ marginRight 21
+                                < Image 
+                                    @ src "/image.png"
+                                    @ width {400}
+                                    @ height {266}
+                            < Modal.Description 
+                                < Header 
+                                    + Default Profile Image
+                                p 
+                                    + We've found the following gravatar image associated with your&lf;              e-mail address.
+                                p 
+                                    + Is it okay to use this photo?
+                        < Modal.Actions 
+                            < Button 
+                                @ color "black"
+                                @ onClick
+                                    => 
+                                        _ setOpen(false)
+                                + Nope
+                            < Button 
+                                @ content "Yep, that's me"
+                                @ labelPosition "right"
+                                @ icon "checkmark"
+                                @ onClick
+                                    => 
+                                        _ setOpen(false)
+                                @ positive

@@ -1,0 +1,31 @@
+$group
+    
+    $file __dot__wizzi/models/t/tsExpressWizziSite.json.ittf.ittf
+        ${'$'}{'$'}group
+
+            useSite true
+            { site
+                useIttfStatic false
+                { ittfStatic
+                $if metaCtx.tsExpressWizziSite.useDemoHome
+                    useDemoHome true
+                    { demoHome
+                $if metaCtx.useTsExpressFeatureWizzi
+                    $if metaCtx.tsExpressWizziSite.useDemoWizzi
+                        useDemoWizzi true
+                        { demoWizzi
+                    $if metaCtx.tsExpressWizziSite.useDemoWebpack
+                        useDemoWebpack true
+                        { demoWebpack
+                    $if metaCtx.tsExpressWizziSite.useAccount
+                        useAccount true
+                        { account
+                    $if metaCtx.tsExpressWizziSite.useAuthentication
+                        useAuthentication true
+                        { authentication
+                    $if metaCtx.tsExpressWizziSite.usePackiProductions
+                        usePackiProductions true
+                        { packiProductions
+                    $if metaCtx.tsExpressWizziSite.useWizziDocs
+                        useWizziDocs true
+                        { wizziDocs

@@ -1,0 +1,11 @@
+$group
+	$$ folder @types ext ts
+	$
+		var items = [
+			'remark-html.d',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/@types/${item}.ts.ittf.ittf
+			module
+				${'$'}include tsNextjsBlog/@types/${item}.ts

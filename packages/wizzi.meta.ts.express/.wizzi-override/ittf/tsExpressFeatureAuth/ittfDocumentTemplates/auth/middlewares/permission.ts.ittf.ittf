@@ -1,0 +1,51 @@
+$group
+
+    ${'$'}if wzCtx.Build.useAuthentication && wzCtx.Build.authentication.usePermissionFlag
+        import express from 'express'
+        import 
+            @ PermissionFlag
+            from '../types'
+        import debug from 'debug'
+        +
+        const log
+            :ref debug.IDebugger
+            = debug('app:common-permission-middleware')
+        +
+        class PermissionMiddleware
+            m permissionFlagRequired
+                param requiredPermissionFlag
+                    :ref PermissionFlag
+                return 
+                    => 
+                        param req
+                            :ref express.Request
+                        param res
+                            :ref express.Response
+                        param next
+                            :ref express.NextFunction
+                        try 
+                            const userPermissionFlags = parseInt(res.locals.jwt.permissionFlags)
+                            if userPermissionFlags & requiredPermissionFlag
+                                _ next()
+                            else
+                                _ res.status(403).send()
+                        catch e
+                            _ log(e)
+            m onlySameUserOrAdminCanDoThisAction
+                async
+                param req
+                    :ref express.Request
+                param res
+                    :ref express.Response
+                param next
+                    :ref express.NextFunction
+                const userPermissionFlags = parseInt(res.locals.jwt.permissionFlags)
+                if req.params && req.params.userId && req.params.userId === res.locals.jwt.userId
+                    return next()
+                else
+                    if userPermissionFlags & PermissionFlag.ADMIN_PERMISSION
+                        return next()
+                    else
+                        return res.status(403).send()
+        +
+        export-default new PermissionMiddleware()

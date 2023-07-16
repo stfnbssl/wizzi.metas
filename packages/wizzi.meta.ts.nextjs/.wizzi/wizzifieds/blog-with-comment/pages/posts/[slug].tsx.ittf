@@ -1,0 +1,111 @@
+module
+    kind react
+    :import-type 
+        @ InferGetStaticPropsType
+        from 'next'
+    import 
+        @ useRouter
+        from 'next/router'
+    import ErrorPage from 'next/error'
+    import Comment from '../../components/comment'
+    import Container from '../../components/container'
+    import distanceToNow from '../../lib/dateRelative'
+    import 
+        @ getAllPosts
+        @ getPostBySlug
+        from '../../lib/getPost'
+    import markdownToHtml from '../../lib/markdownToHtml'
+    import Head from 'next/head'
+    export-default 
+        function PostPage
+            { 
+                @ post
+                :ref InferGetStaticPropsType
+                    :param 
+                        :typeof getStaticProps
+            const router = useRouter()
+            if !router.isFallback && !post?.slug
+                return 
+                    < ErrorPage 
+                        @ statusCode {404}
+            return 
+                < Container 
+                    < Head 
+                        < title 
+                            + {post.title}
+                            + | My awesome blog
+                    { 
+                        iif router.isFallback
+                            then
+                                div 
+                                    + Loading…
+                            else
+                                div 
+                                    article 
+                                        header 
+                                            h1 
+                                                @ className "text-4xl font-bold"
+                                                + {post.title}
+                                            { 
+                                                iif post.excerpt
+                                                    then
+                                                        p 
+                                                            @ className "mt-2 text-xl"
+                                                            + {post.excerpt}
+                                                    else null
+                                            time 
+                                                @ className "flex mt-2 text-gray-400"
+                                                + {distanceToNow(Date(post.date))}
+                                        div 
+                                            @ className "prose mt-10"
+                                            @ dangerouslySetInnerHTML
+                                                { 
+                                                    @ __html post.content
+                                    < Comment 
+    :type Params
+        :{ 
+            :p params
+                :{ 
+                    :p slug
+                        :string 
+    export 
+        async-function getStaticProps
+            { 
+                @ params
+                :ref Params
+            const post
+                _ getPostBySlug
+                    @expr params.slug
+                    [ 
+                        @ 'slug'
+                        @ 'title'
+                        @ 'excerpt'
+                        @ 'date'
+                        @ 'content'
+            const content
+                await 
+                    _ markdownToHtml(post.content || '')
+            return 
+                { 
+                    { props
+                        { post
+                            @ ...post
+                            @ content
+    export 
+        async-function getStaticPaths
+            const posts
+                _ getAllPosts
+                    [ 
+                        @ 'slug'
+            return 
+                { 
+                    @ paths
+                        _ posts.map
+                            => 
+                                { 
+                                    @ slug
+                                return 
+                                    { 
+                                        { params
+                                            @ slug
+                    @ fallback false

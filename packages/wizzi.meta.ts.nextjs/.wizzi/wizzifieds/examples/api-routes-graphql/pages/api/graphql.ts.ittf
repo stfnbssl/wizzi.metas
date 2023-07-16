@@ -1,0 +1,43 @@
+module
+    kind react
+    import 
+        @ createYoga
+        @ createSchema
+        from 'graphql-yoga'
+    const typeDefs
+        `lit 
+            + &lf;
+            + &nbsp; type Query {&lf;
+            + &nbsp;   users: [User!]!&lf;
+            + &nbsp; }&lf;
+            + &nbsp; type User {&lf;
+            + &nbsp;   name: String&lf;
+            + &nbsp; }&lf;
+            + 
+            #
+                # GraphQL
+    const resolvers
+        { 
+            { Query
+                m users
+                    return 
+                        [ 
+                            { 
+                                @ name 'Nextjs'
+    const schema
+        _ createSchema
+            { 
+                @ typeDefs
+                @ resolvers
+    export 
+        const config
+            { 
+                { api
+                    @ bodyParser false
+                        # Disable body parsing (required for file uploads)
+    export-default 
+        _ createYoga
+            { 
+                @ schema
+                @ graphqlEndpoint '/api/graphql'
+                    # Needed to be defined explicitly because our endpoint lives at a different path other than `/graphql`

@@ -1,0 +1,13 @@
+$group
+    $params &md
+    
+    export
+        :type
+        @ ApiType
+        ${'$'}if wzCtx.Build.useExpress
+            @ MiddlewareType
+            @ ControllerType
+        ${'$'}if wzCtx.Build.useMongoDb || wzCtx.Build.useSequelize
+            @ ModelBuilderType
+        @ AppInitializerType
+        from './types'

@@ -1,0 +1,20 @@
+$group
+	${'$'}params name, throwIfUndefined:boolean|true
+
+	# process AST-node-property-collection ${'$'}{name} and append ittfNode(s) to `ret`
+	
+	if node.${'$'}{name}
+		if typeof node.${'$'}{name}.length === 'undefined'
+			throw new Error('Property node.${'$'}{name} must be an array')
+		foreach item in node.${'$'}{name}
+			set item.__parent
+				{
+					@ name '${'$'}{name}'
+					@ len node.${'$'}{name}.length
+			_ format
+				@ ret
+				@ item
+				@ options
+	${'$'}if throwIfUndefined
+		else
+			throw new Error('AST-node-property-collection ${'$'}{name} undefined: ' + JSON.stringify(node, null, 2))

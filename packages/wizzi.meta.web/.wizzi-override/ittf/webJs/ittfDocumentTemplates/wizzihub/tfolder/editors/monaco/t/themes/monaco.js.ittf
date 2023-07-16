@@ -1,0 +1,179 @@
+$group
+
+    $
+      var myName = 'MonacoTheme';
+      //
+    
+    iife_window( editors, ${myName})
+        const s1
+            =>
+                param color
+                _ color.substr(1)
+        const theme
+            =>
+                {
+                    @ ui
+                    @ syntax
+                param base
+                (
+                    {
+                        @ base
+                        @ inherit true
+                        [ rules
+                            {
+                                @ token ''
+                                @ foreground s1(syntax.text)
+                            {
+                                @ token 'invalid'
+                                @ foreground s1(syntax.invalid)
+                            {
+                                @ token 'emphasis'
+                                @ fontStyle 'italic'
+                            {
+                                @ token 'strong'
+                                @ fontStyle 'bold'
+                            {
+                                @ token 'variable'
+                                @ foreground s1(syntax.variable)
+                            {
+                                @ token 'variable.predefined'
+                                @ foreground s1(syntax.variable)
+                            {
+                                @ token 'constant'
+                                @ foreground s1(syntax.constant)
+                            {
+                                @ token 'comment'
+                                @ foreground s1(syntax.comment)
+                                @ fontStyle 'italic'
+                            {
+                                @ token 'number'
+                                @ foreground s1(syntax.number)
+                            {
+                                @ token 'number.hex'
+                                @ foreground s1(syntax.number)
+                            {
+                                @ token 'regexp'
+                                @ foreground s1(syntax.regexp)
+                            {
+                                @ token 'annotation'
+                                @ foreground s1(syntax.annotation)
+                            {
+                                @ token 'type'
+                                @ foreground s1(syntax.annotation)
+                            {
+                                @ token 'delimiter'
+                                @ foreground s1(syntax.text)
+                            {
+                                @ token 'delimiter.html'
+                                @ foreground s1(syntax.text)
+                            {
+                                @ token 'delimiter.xml'
+                                @ foreground s1(syntax.text)
+                            {
+                                @ token 'tag'
+                                @ foreground s1(syntax.tag)
+                            {
+                                @ token 'tag.id.jade'
+                                @ foreground s1(syntax.tag)
+                            {
+                                @ token 'tag.class.jade'
+                                @ foreground s1(syntax.tag)
+                            {
+                                @ token 'meta.scss'
+                                @ foreground s1(syntax.tag)
+                            {
+                                @ token 'metatag'
+                                @ foreground s1(syntax.tag)
+                            {
+                                @ token 'metatag.content.html'
+                                @ foreground s1(syntax.string)
+                            {
+                                @ token 'metatag.html'
+                                @ foreground s1(syntax.tag)
+                            {
+                                @ token 'metatag.xml'
+                                @ foreground s1(syntax.tag)
+                            {
+                                @ token 'metatag.php'
+                                @ fontStyle 'bold'
+                            {
+                                @ token 'key'
+                                @ foreground s1(syntax.property)
+                            {
+                                @ token 'string.key.json'
+                                @ foreground s1(syntax.property)
+                            {
+                                @ token 'string.value.json'
+                                @ foreground s1(syntax.string)
+                            {
+                                @ token 'attribute.name'
+                                @ foreground s1(syntax.constant)
+                            {
+                                @ token 'attribute.value'
+                                @ foreground s1(syntax.property)
+                            {
+                                @ token 'attribute.value.number'
+                                @ foreground s1(syntax.number)
+                            {
+                                @ token 'attribute.value.unit'
+                                @ foreground s1(syntax.string)
+                            {
+                                @ token 'attribute.value.html'
+                                @ foreground s1(syntax.string)
+                            {
+                                @ token 'attribute.value.xml'
+                                @ foreground s1(syntax.string)
+                            {
+                                @ token 'string'
+                                @ foreground s1(syntax.string)
+                            {
+                                @ token 'string.html'
+                                @ foreground s1(syntax.string)
+                            {
+                                @ token 'string.sql'
+                                @ foreground s1(syntax.string)
+                            {
+                                @ token 'string.yaml'
+                                @ foreground s1(syntax.string)
+                            {
+                                @ token 'keyword'
+                                @ foreground s1(syntax.keyword)
+                            {
+                                @ token 'keyword.json'
+                                @ foreground s1(syntax.keyword)
+                            {
+                                @ token 'keyword.flow'
+                                @ foreground s1(syntax.keyword)
+                            {
+                                @ token 'keyword.flow.scss'
+                                @ foreground s1(syntax.keyword)
+                            {
+                                @ token 'operator.scss'
+                                @ foreground s1(syntax.operator)
+                            {
+                                @ token 'operator.sql'
+                                @ foreground s1(syntax.operator)
+                            {
+                                @ token 'operator.swift'
+                                @ foreground s1(syntax.operator)
+                            {
+                                @ token 'predefined.sql'
+                                @ foreground s1(syntax.predefined)
+                        { colors
+                            @ 'editor.background' ui.background
+                            @ 'editor.foreground' ui.text
+                            @ 'editorIndentGuide.background' ui.indent.inactive
+                            @ 'editorIndentGuide.activeBackground' ui.indent.active
+                            @ 'editorOverviewRuler.border' ui.background
+
+        function ${myName}
+            param styleData
+            set styleData = styles.computeStyleData(styleData)
+            set this.darkColors = new editors.MonacoColorsDark(styleData)
+            set this.lightColors = new editors.MonacoColorsLight(styleData)
+        set ${myName}.prototype.light
+            function
+                return theme(this.lightColors, 'vs')
+        set ${myName}.prototype.dark
+            function
+                return theme(this.darkColors, 'vs-dark')

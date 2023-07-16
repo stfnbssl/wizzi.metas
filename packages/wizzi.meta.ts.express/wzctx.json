@@ -1,0 +1,145 @@
+{
+    "name": "wizzi.meta.ts.express",
+    "npmName": "",
+    "pluginBasename": "",
+    "version": "",
+    "description": "Wizzi meta plugin for creating wizzi typescript express server packages",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": "MIT",
+    "metaNamespace": "ts.express",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.css/index.js",
+                "./wizzi.plugin.html/index.js",
+                "./wizzi.plugin.ittf/index.js",
+                "./wizzi.plugin.js/index.js",
+                "./wizzi.plugin.json/index.js",
+                "./wizzi.plugin.md/index.js",
+                "./wizzi.plugin.text/index.js",
+                "./wizzi.plugin.wzjob/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "tsExpress",
+            "title": "tsExpress wizzi meta production"
+        },
+        {
+            "name": "tsExpressApp",
+            "title": "tsExpressApp wizzi meta production",
+            "isPackageMain": true
+        },
+        {
+            "name": "tsExpressData",
+            "title": "tsExpressData wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureAccount",
+            "title": "tsExpressFeatureAccount wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureAuth",
+            "title": "tsExpressFeatureAuth wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureBlog",
+            "title": "tsExpressFeatureBlog wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureConfig",
+            "title": "tsExpressFeatureConfig wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureCdn",
+            "title": "tsExpressFeatureCdn wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureFilesystem",
+            "title": "tsExpressFeatureFilesystem wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureGithub",
+            "title": "tsExpressFeatureGithub wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeaturePacki",
+            "title": "tsExpressFeaturePacki wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureProject",
+            "title": "tsExpressFeatureProject wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureRepo",
+            "title": "tsExpressFeatureRepo wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureUser",
+            "title": "tsExpressFeatureUser wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureWizzi",
+            "title": "tsExpressFeatureWizzi wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureWizziDocs",
+            "title": "tsExpressFeatureWizziDocs wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureWizziFs",
+            "title": "tsExpressFeatureWizziFs wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureWizziGist",
+            "title": "tsExpressFeatureWizziGist wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureWizziMeta",
+            "title": "tsExpressFeatureWizziMeta wizzi meta production"
+        },
+        {
+            "name": "tsExpressFeatureWizziProduction",
+            "title": "tsExpressFeatureWizziProduction wizzi meta production"
+        },
+        {
+            "name": "tsExpressIttf",
+            "title": "tsExpressIttf wizzi meta production"
+        },
+        {
+            "name": "tsExpressStyles",
+            "title": "tsExpressStyles wizzi meta production"
+        },
+        {
+            "name": "tsExpressTests",
+            "title": "tsExpressTests wizzi meta production"
+        },
+        {
+            "name": "tsExpressUtils",
+            "title": "tsExpressUtils wizzi meta production"
+        },
+        {
+            "name": "tsExpressWizziSite",
+            "title": "tsExpressWizziSite wizzi meta production"
+        }
+    ]
+}

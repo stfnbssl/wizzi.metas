@@ -1,0 +1,93 @@
+module
+    kind react
+    import 
+        as React
+        from 'react'
+    import Link from 'next/link'
+    import 
+        @ motion
+        from 'framer-motion'
+    import 
+        @ images
+        from '../constants'
+    const transition
+        { 
+            @ duration 1
+            [ ease
+                @ 0.43
+                @ 0.13
+                @ 0.23
+                @ 0.96
+    const imageVariants
+        { 
+            { exit
+                @ y '50%'
+                @ opacity 0
+                @ transition
+            { enter
+                @ y '0%'
+                @ opacity 1
+                @ transition
+    const backVariants
+        { 
+            { exit
+                @ x 100
+                @ opacity 0
+                @ transition
+            { enter
+                @ x 0
+                @ opacity 1
+                { transition
+                    @ delay 1
+                    @ ...transition
+    const SingleImage
+        => 
+            { 
+                @ index
+            < React.Fragment
+                < motion.div 
+                    @ className "single"
+                    @ initial "exit"
+                    @ animate "enter"
+                    @ exit "exit"
+                    < motion.img 
+                        @ variants {imageVariants}
+                        @ src
+                            `lit 
+                                + https://images.unsplash.com/
+                                @ images[index]
+                                + ?auto=format&fit=crop&w=1500
+                        @ alt "The Barbican"
+                    < motion.div 
+                        @ className "back"
+                        @ variants {backVariants}
+                        < Link 
+                            @ href "/"
+                            + ← Back
+                < style 
+                    { 
+                        `lit 
+                            + &lf;
+                            + &nbsp;       .single {&lf;
+                            + &nbsp;           overflow: hidden;&lf;
+                            + &nbsp;           height: 100vh;&lf;
+                            + &nbsp;       }&lf;
+                            + &lf;
+                            + &nbsp;       .single img {&lf;
+                            + &nbsp;           max-width: 100%;&lf;
+                            + &nbsp;           max-height: 100vh;&lf;
+                            + &nbsp;       }&lf;
+                            + &lf;
+                            + &nbsp;       .back {&lf;
+                            + &nbsp;           position: fixed;&lf;
+                            + &nbsp;           top: 50px;&lf;
+                            + &nbsp;           right: 50px;&lf;
+                            + &nbsp;           font-size: 54px;&lf;
+                            + &nbsp;           z-index: 1;&lf;
+                            + &nbsp;       }&lf;
+                            + &lf;
+                            + &nbsp;       .back a {&lf;
+                            + &nbsp;           text-decoration: none;&lf;
+                            + &nbsp;       }&lf;
+                            + 
+    export-default SingleImage

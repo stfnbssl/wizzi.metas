@@ -1,0 +1,27 @@
+$group
+    $params &schema
+
+    $
+        var md = {
+        };
+
+    wizziPlugin/lib/wizzi/models/mtree-preprocessor.js${'('} md )
+
+        function preprocessNode
+            param node
+            param state
+            ---
+            # write here your prepocessing code
+            ---
+            if node.n === 'ittf-panel'
+                set node.wzMTreeData
+                    {
+                        @ mTree state.mTree
+                foreach item in node.children
+                    if item.n === 'ittf'
+                        set node.wzMTreeData[item.n] = item
+                    else
+                        set node.wzMTreeData[item.n] = item.v
+                set node.children = []
+            else
+                return false

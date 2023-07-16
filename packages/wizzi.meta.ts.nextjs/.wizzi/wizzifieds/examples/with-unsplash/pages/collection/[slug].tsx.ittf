@@ -1,0 +1,28 @@
+module
+    kind react
+    import Head from 'next/head'
+    import Layout
+        @ siteTitle
+        from 'components/Layout'
+    import Gallery from 'components/Gallery'
+    import Collections from 'components/Collections'
+    import 
+        @ useRouter
+        from 'next/router'
+    const Collection
+        => 
+            const router = useRouter()
+            const collection_id
+                iif router.query.id
+                    then parseInt(router.query.id.toString())
+                    else null
+            return 
+                < Layout 
+                    < Head 
+                        < title 
+                            + {siteTitle}
+                    < Collections 
+                        @ id_collection {collection_id}
+                    < Gallery 
+                        @ id_collection {collection_id}
+    export-default Collection

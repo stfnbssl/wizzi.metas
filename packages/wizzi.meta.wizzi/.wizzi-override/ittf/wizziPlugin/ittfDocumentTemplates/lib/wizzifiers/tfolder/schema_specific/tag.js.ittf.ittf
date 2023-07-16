@@ -1,0 +1,7 @@
+﻿$group
+	${'$'}params name
+
+	# loog 't/tag.node.${'$'}{name}, value: ', node.${'$'}{name}, '
+	if typeof node.${'$'}{name} !== 'undefined'
+		set ret.tag = node.${'$'}{name}.toString()
+	# loog 't/tag ittf.ret', ret

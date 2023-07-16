@@ -1,0 +1,124 @@
+module
+    kind react
+    :import-type 
+        @ InferGetServerSidePropsType
+        from 'next'
+    import Image from 'next/image'
+    import 
+        @ getXataClient
+        from '../utils/xata.codegen'
+    import xatafly from '../public/xatafly.gif'
+    const pushDummyData
+        async=> 
+            const response
+                await 
+                    _ fetch('/api/write-links-to-xata')
+            if response.ok
+                _ window?.location?.reload?.()
+    const removeDummyItem
+        async=> 
+            param id
+                :string 
+            const 
+                { 
+                    @ status
+                =
+                    await 
+                        _ fetch
+                            @ '/api/clean-xata'
+                            { 
+                                @ method 'POST'
+                                { headers
+                                    @ 'Content-Type' 'application/json'
+                                @ body
+                                    _ JSON.stringify
+                                        { 
+                                            @ id
+            if status === 200
+                _ window?.location?.reload?.()
+    export-default 
+        function IndexPage
+            { 
+                @ links
+                :ref InferGetServerSidePropsType
+                    :param 
+                        :typeof getServerSideProps
+            return 
+                main 
+                    header 
+                        < Image 
+                            @ src {xatafly}
+                            @ alt {'Xata'}
+                            @ priority
+                        h1 
+                            + Next.js with
+                            span 
+                                @ aria-hidden
+                                + ‑
+                            + xata
+                    article 
+                        { 
+                            iif links.length
+                                then
+                                    ul 
+                                        { 
+                                            _ links.map
+                                                => 
+                                                    { 
+                                                        @ id
+                                                        @ title
+                                                        @ url
+                                                        @ description
+                                                    li 
+                                                        @ key {url}
+                                                        a 
+                                                            @ href {url}
+                                                            @ rel "noopener noreferrer"
+                                                            @ target "_blank"
+                                                            + {title}
+                                                        p 
+                                                            + {description}
+                                                        button 
+                                                            @ type "button"
+                                                            @ onClick
+                                                                => 
+                                                                    _ removeDummyItem(id)
+                                                            span 
+                                                                @ role "img"
+                                                                @ aria-label "delete item"
+                                                                + 🗑
+                                else
+                                    section 
+                                        h2 
+                                            + No records found.
+                                        strong 
+                                            + Create a `nextjs_with_xata_example` and push some useful links to&lf;              see them here.
+                                        button 
+                                            @ type "button"
+                                            @ onClick
+                                                => 
+                                                    _ pushDummyData()
+                                            + Push records to Xata
+                    footer 
+                        span 
+                            + Made by
+                            + {' '}
+                            a 
+                                @ href "https://xata.io"
+                                @ rel "noopener noreferrer"
+                                @ target "_blank"
+                                object 
+                                    @ data "/xatafly.svg"
+    export 
+        const getServerSideProps
+            async=> 
+                const xata
+                    await 
+                        _ getXataClient()
+                const links
+                    await 
+                        _ xata.db.nextjs_with_xata_example.getAll()
+                return 
+                    { 
+                        { props
+                            @ links

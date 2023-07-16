@@ -1,0 +1,53 @@
+﻿$group
+	kind jsfile
+
+	${'$'}include js/wz/core
+	${'$'}include js/wz/ace
+	${'$'}include js/editManager
+	${'$'}include js/modalManager
+	${'$'}include js/dataManager
+	${'$'}nclude js/clickListener
+
+	_ wz.contentLoaded
+		function
+			log '*** content loaded'
+
+			var editorImpl
+				new AceEditor
+					{
+						@ key 'ittf-editor'
+						@ editorElementId 'editorContainer'
+						@ width '1100px'
+						@ height '600px'
+						
+			var ctx
+				{
+					@ editorImpl editorImpl
+					@ editSaveUrl '/api/wizzi/ittf'
+					@ editSaveHttpMethod 'put'
+					@ modalsContainerId 'modalsContainer'
+			
+			set ctx.editManager
+				new EditManager
+					@ ctx
+					{
+						@ dataHashKey 'ittfhash'
+						@ dataContentKey 'ittfcontent'
+						@ dataPrettyKey 'ittfpretty'
+						@ dataTitleKey 'ittftitle'
+
+			set ctx.modalManager = new ModalManager(ctx)
+			set ctx.dataManager = new DataManager(ctx)
+			set ctx.clickHandler = ctx.editManager
+
+			_ setupClickListener
+				@ ctx
+				{
+					@ containerId 'mc-wrapper'
+					@ targetClass 'edit-ittf-content-button'
+					@ dataField
+						[
+							@ 'ittfhash'
+							@ 'ittfcontent'
+							@ 'ittfpretty'
+							@ 'ittftitle'

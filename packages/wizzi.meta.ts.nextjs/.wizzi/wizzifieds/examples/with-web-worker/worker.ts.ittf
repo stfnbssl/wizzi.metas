@@ -1,0 +1,11 @@
+module
+    kind react
+    import pi from './utils/pi'
+        # This is a module worker, so we can use imports (in the browser too!)
+    _ addEventListener
+        @ 'message'
+        => 
+            param event
+                :ref MessageEvent
+                    :param number
+            _ postMessage(pi(event.data))

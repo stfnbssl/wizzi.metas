@@ -1,0 +1,18 @@
+$group
+
+    ${'$'}if wzCtx.type == 'module'
+        import { dirname } from 'path'
+        import { fileURLToPath } from 'url'
+        const __dirname = dirname(fileURLToPath(import.meta.url))
+    
+    import path from 'path'
+    import express from 'express'
+    
+    export 
+        const StaticFilesMiddleware
+            => 
+                param app
+                success 'StaticFilesMiddleware. Folder served from ', path.resolve(__dirname,  '..', '..', 'static')
+                _ app.use('/static', express.static(path.resolve(__dirname, '..', '..', 'static')))
+                # simply browse ittfs when IttfStaticMiddleware is not used
+                # app.use('/ittf', express.static(path.resolve(__dirname, '..', '..', 'ittf')));

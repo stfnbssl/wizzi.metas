@@ -1,0 +1,45 @@
+module
+    kind react
+    import 
+        @ useEffect
+        @ useState
+        from 'react'
+    import Loading from '../components/Loading'
+    function useMounted
+        const [mounted, setMounted] = useState(false)
+        _ useEffect
+            => 
+                _ setMounted(true)
+            [ 
+        return mounted
+    export-default 
+        function HomePage
+            const isMounted = useMounted()
+            return 
+                main 
+                    section 
+                        h1 
+                            + This section is server-side rendered.
+                    { 
+                        iif isMounted
+                            then
+                                section 
+                                    h2 
+                                        + This section is
+                                        em 
+                                            + only
+                                        + client-side rendered.
+                            else
+                                < Loading 
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       section {&lf;
+                                + &nbsp;         align-items: center;&lf;
+                                + &nbsp;         display: flex;&lf;
+                                + &nbsp;         height: 50vh;&lf;
+                                + &nbsp;         justify-content: center;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;

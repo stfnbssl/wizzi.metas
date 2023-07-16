@@ -1,0 +1,21 @@
+$group
+
+    kind jsfile
+    ${'$'}{'$'}{'$'}
+        var development = true;
+    const path = require('path')
+    set module.exports
+        { 
+            @ wfjobName "${'$'}{'$'}{'$'}{'$'}{metaCtx.name}/job"
+            @ wfjobPath path.join(__dirname, '.wizzi', 'generate.wfjob.ittf')
+            @ destPath __dirname
+            [ plugins
+                ${'$'}{'$'}if metaCtx.wizziV08.useWizziConfig
+                    ${'$'}{'$'}foreach item in metaCtx.wizziV08.plugins
+                        @ "./wizzi.plugin.${'$'}{'$'}{item}/index.js" 
+            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+            [ schemas
+            { globalContext
+                @ wzConfigIsDevelopment true 
+                @ wzConfigIsPackageDeploy false
+                @ wzConfigIsDocumentation true 

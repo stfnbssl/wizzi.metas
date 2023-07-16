@@ -1,0 +1,16 @@
+$group
+    $if metaCtx.useDocumentsHtmlSlide
+        $include wzCtxModel
+        $file __dot__wizzi/documentsHtmlSlide/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include documentsHtmlSlide/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/documentsHtmlSlide/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include documentsHtmlSlide/tfolder/${item}.js

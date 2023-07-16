@@ -1,0 +1,63 @@
+module
+    kind react
+    import Head from 'next/head'
+    import 
+        @ useRouter
+        from 'next/router'
+    import Script from 'next/script'
+    import 
+        @ useEffect
+        from 'react'
+    import 
+        as gtag
+        from '../lib/gtag'
+    const App
+        => 
+            { 
+                @ Component
+                @ pageProps
+            const router = useRouter()
+            _ useEffect
+                => 
+                    const handleRouteChange
+                        => 
+                            param url
+                            _ gtag.pageview(url)
+                    _ router.events.on('routeChangeComplete', handleRouteChange)
+                    return 
+                        => 
+                            _ router.events.off('routeChangeComplete', handleRouteChange)
+                [ 
+                    @ router.events
+            return 
+                < React.Fragment
+                    < Head 
+                        script 
+                            @ dangerouslySetInnerHTML
+                                { 
+                                    @ __html
+                                        `lit 
+                                            + &lf;
+                                            + &nbsp;             window.dataLayer = window.dataLayer || [];&lf;
+                                            + &nbsp;             function gtag(){dataLayer.push(arguments);}&lf;
+                                            + &nbsp;             gtag('js', new Date());&lf;
+                                            + &lf;
+                                            + &nbsp;             gtag('config', '
+                                            @ gtag.GA_TRACKING_ID
+                                            + ', {&lf;
+                                            + &nbsp;               page_path: window.location.pathname,&lf;
+                                            + &nbsp;             });&lf;
+                                            + &nbsp;          &nbsp;
+                    { 
+                        # 
+                            # Global Site Tag (gtag.js) - Google Analytics
+                    < Script 
+                        @ strategy "afterInteractive"
+                        @ src
+                            `lit 
+                                + https://www.googletagmanager.com/gtag/js?id=
+                                @ gtag.GA_TRACKING_ID
+                                + 
+                    < Component 
+                        @ {...pageProps}
+    export-default App

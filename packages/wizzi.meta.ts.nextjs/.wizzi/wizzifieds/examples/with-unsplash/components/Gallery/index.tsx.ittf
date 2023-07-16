@@ -1,0 +1,64 @@
+module
+    kind react
+    import useSWR from 'swr'
+    import fetcher from 'libs/fetcher'
+    import styles from './Gallery.module.css'
+    import UImage from 'components/UImage'
+    :interface GalleryProps
+        :p id_collection
+            :optional 
+            :number 
+    const Gallery
+        => 
+            { 
+                @ id_collection
+                :ref GalleryProps
+            const 
+                { 
+                    @ data
+                    @ error
+                =
+                    _ useSWR
+                        op+ 
+                            + '/api/photo'
+                            ( 
+                                iif id_collection
+                                    then
+                                        `lit 
+                                            + /
+                                            @ id_collection
+                                            + 
+                                    else ''
+                        @ fetcher
+            if error
+                return 
+                    div 
+                        + failed to load
+            if !data
+                return 
+                    div 
+                        + loading...
+            return 
+                section 
+                    @ className {styles.gallery_container}
+                    { 
+                        _ data.map
+                            => 
+                                { 
+                                    @ id
+                                    @ urls
+                                    @ alt_description
+                                    @ description
+                                < UImage 
+                                    @ id {id}
+                                    @ urls {urls}
+                                    @ altDescription
+                                        iif alt_description
+                                            then alt_description
+                                            else description
+                                    @ key
+                                        `lit 
+                                            + 
+                                            @ id
+                                            + _uimage_component
+    export-default Gallery

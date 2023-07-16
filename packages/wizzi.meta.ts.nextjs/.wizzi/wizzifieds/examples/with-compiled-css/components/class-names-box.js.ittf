@@ -1,0 +1,32 @@
+module
+    kind react
+    import 
+        @ ClassNames
+        from '@compiled/react'
+    import 
+        @ error
+        from '../style/colors'
+    export 
+        const BoxStyles
+            => 
+                { 
+                    @ children
+                < ClassNames 
+                    { 
+                        => 
+                            { 
+                                @ css
+                            _ children
+                                { 
+                                    @ className
+                                        _` css
+                                            + &lf;
+                                            + &nbsp;         display: flex;&lf;
+                                            + &nbsp;         width: 100px;&lf;
+                                            + &nbsp;         height: 100px;&lf;
+                                            + &nbsp;         border: 1px solid&nbsp;
+                                            @ error
+                                            + ;&lf;
+                                            + &nbsp;         padding: 8px;&lf;
+                                            + &nbsp;         flex-direction: column;&lf;
+                                            + &nbsp;      &nbsp;

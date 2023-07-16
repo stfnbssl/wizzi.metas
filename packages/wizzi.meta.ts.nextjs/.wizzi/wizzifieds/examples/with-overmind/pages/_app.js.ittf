@@ -1,0 +1,54 @@
+module
+    kind react
+    import React from 'react'
+    import App from 'next/app'
+    import 
+        @ createOvermind
+        @ createOvermindSSR
+        @ rehydrate
+        from 'overmind'
+    import 
+        @ Provider
+        from 'overmind-react'
+    import 
+        @ config
+        from '../overmind'
+    class MyApp
+        super App
+        ctor 
+            param props
+            _ super(props)
+            const mutations = props.pageProps.mutations || []
+            if typeof window !== 'undefined'
+                set this.overmind = createOvermind(config)
+                    # On the client we just instantiate the Overmind instance and run
+                    # the "changePage" action
+                _ this.overmind.actions.changePage(mutations)
+            else
+                set this.overmind = createOvermindSSR(config)
+                    # On the server we rehydrate the mutations to an SSR instance of Overmind,
+                    # as we do not want to run any additional logic here
+                _ rehydrate(this.overmind.state, mutations)
+            # CLIENT: On initial route
+            # SERVER: On initial route
+            # CLIENT: After initial route, on page change
+            # SERVER: never
+        m componentDidUpdate
+            _ this.overmind.actions.changePage(this.props.pageProps.mutations || [])
+                # This runs whenever the client routes to a new page
+            # CLIENT: After initial route, on page change
+            # SERVER: never
+            # CLIENT: On every page change
+            # SERVER: On initial route
+        m render
+            const 
+                { 
+                    @ Component
+                = this.props
+            return 
+                < Provider 
+                    @ value {this.overmind}
+                    < Component 
+            # CLIENT: On every page change
+            # SERVER: On initial route
+    export-default MyApp

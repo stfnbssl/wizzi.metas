@@ -1,0 +1,6 @@
+{
+    params/boolean( isLocal )
+    params/boolean( isProduction )
+    params/string( baseUrl )
+    params/string( baseUrlLocal )
+    params/string( apiVersion )

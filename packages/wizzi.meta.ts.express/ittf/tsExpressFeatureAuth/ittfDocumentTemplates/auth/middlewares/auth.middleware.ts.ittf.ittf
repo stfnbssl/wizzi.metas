@@ -1,0 +1,40 @@
+$group
+    import express from 'express'
+    import userService from '../../user/api/user.service'
+    import 
+        as argon2
+        from 'argon2'
+    +
+    class AuthMiddleware
+        m verifyUserPassword
+            async
+            param req
+                :ref express.Request
+            param res
+                :ref express.Response
+            param next
+                :ref express.NextFunction
+            const user
+                :any 
+                =
+                    await 
+                        _ userService.getUserByEmailWithPassword(req.body.email)
+            if user
+                const passwordHash = user.password
+                if 
+                    test
+                        await 
+                            _ argon2.verify(passwordHash, req.body.password)
+                    set req.body =
+                        { 
+                            @ userId user._id
+                            @ email user.email
+                            ${'$'}if wzCtx.Build.useAuthentication && wzCtx.Build.authentication.usePermissionFlag
+                                @ permissionFlags user.permissionFlags
+                    return next()
+            _ res.status(400).send
+                { 
+                    [ errors
+                        @ 'Invalid email and/or password'
+    +
+    export-default new AuthMiddleware()

@@ -1,0 +1,6 @@
+{ 
+    { server-component
+        welcome "Willkommen"
+    { counter
+        increment "Zuwachs"
+        decrement "Dekrementieren"

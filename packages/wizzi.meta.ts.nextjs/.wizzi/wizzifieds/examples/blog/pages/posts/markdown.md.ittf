@@ -1,0 +1,155 @@
+md
+    hr 
+    h2 
+        + title: Markdown Examples
+        + date: 2021/3/19
+        + description: View examples of all possible Markdown options.
+        + tag: web development
+        + author: You
+    h1 
+        + Markdown Examples
+    h2 
+        + h2 Heading
+    h3 
+        + h3 Heading
+    h4 
+        + h4 Heading
+    h5 
+        + h5 Heading
+    h6 
+        + h6 Heading
+    h2 
+        + Emphasis
+    p 
+        b 
+            + This is bold text
+    br 
+    p 
+        em 
+            + This is italic text
+    br 
+    p 
+        del 
+            + Strikethrough
+    br 
+    h2 
+        + Blockquotes
+    quote 
+        p 
+            + Develop. Preview. Ship. – Vercel
+    h2 
+        + Lists
+    p 
+        + Unordered
+    br 
+    ul 
+        li 
+            + Lorem ipsum dolor sit amet
+        li 
+            + Consectetur adipiscing elit
+        li 
+            + Integer molestie lorem at massa
+    br 
+    p 
+        + Ordered
+    br 
+    ul 
+        ordered 
+        li 
+            + Lorem ipsum dolor sit amet
+        li 
+            + Consectetur adipiscing elit
+        li 
+            + Integer molestie lorem at massa
+    br 
+    h2 
+        + Code
+    p 
+        + Inline
+        code code
+    br 
+    code 
+        + export default function Nextra({ Component, pageProps }) {
+        + return (
+        + <>
+        + <Head>
+        + <link
+        + rel="alternate"
+        + type="application/rss+xml"
+        + title="RSS"
+        + href="/feed.xml"
+        + />
+        + <link
+        + rel="preload"
+        + href="/fonts/Inter-roman.latin.var.woff2"
+        + as="font"
+        + type="font/woff2"
+        + crossOrigin="anonymous"
+        + />
+        + </Head>
+        + <Component {...pageProps} />
+        + </>
+        + )
+        + }
+    br 
+    h2 
+        + Tables
+    table 
+        th 
+            b 
+                + Option
+        th 
+            b 
+                + Description
+        tr 
+            td 
+                + First
+            td 
+                + Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        tr 
+            td 
+                + Second
+            td 
+                + Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        tr 
+            td 
+                + Third
+            td 
+                + Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    h2 
+        + Links
+    ul 
+        li 
+            a 
+                href https://nextjs.org
+                title 
+                + Next.js
+        li 
+            a 
+                href https://nextra.vercel.app/
+                title 
+                + Nextra
+        li 
+            a 
+                href http://vercel.com
+                title 
+                + Vercel
+    br 
+    h3 
+        + Footnotes
+    ul 
+        li 
+            + Footnote [^1].
+        li 
+            + Footnote [^2].
+    br 
+    p 
+        + [^1]: Footnote
+        b 
+            + can have markup
+    br 
+    p 
+        + and multiple paragraphs.
+    br 
+    p 
+        + [^2]: Footnote text.

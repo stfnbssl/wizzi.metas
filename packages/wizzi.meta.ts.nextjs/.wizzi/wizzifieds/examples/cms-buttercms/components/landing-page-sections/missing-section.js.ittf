@@ -1,0 +1,21 @@
+module
+    kind react
+    export-default 
+        function MissingSection
+            { 
+                @ type
+                ... sectionData
+            _ console.log
+                `lit 
+                    + Missing section&nbsp;
+                    @ type
+                    + &nbsp;data&nbsp;
+                    @ sectionData
+                    + 
+            return 
+                div 
+                    h3 
+                        + Missing a template for
+                        + {type}
+                    p 
+                        + Check console for component details

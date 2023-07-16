@@ -1,0 +1,37 @@
+﻿$group
+
+	$$ eslint require npm install in source package (codecamps/<package>)
+
+	m flowExec
+		param options
+		param callback
+
+		var codePath = options.codePath
+		var codeArgs = options.args
+		var args = ['flow']
+		if codeArgs && codeArgs.length > 0
+			set args = args.concat(codeArgs)
+		_ this.spawnExec
+			{
+				@ command 'npx'
+				@ cwd path.dirname(codePath)
+				@ args args
+			@ callback
+
+	m flowExecToEventStream
+		param options
+		param res
+		param callback
+
+		var codePath = options.codePath
+		var codeArgs = options.args
+		var args = ['flow']
+		if codeArgs && codeArgs.length > 0
+			set args = args.concat(codeArgs)
+		_ this.spawnExecToEventStream
+			{
+				@ command 'npx'
+				@ cwd path.dirname(codePath)
+				@ args args
+			@ res
+			@ callback

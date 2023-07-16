@@ -1,0 +1,10 @@
+module
+    kind react
+    import Header from '../components/header'
+    export-default 
+        function IndexPage
+            return 
+                < React.Fragment
+                    < Header 
+                    h1 
+                        + Hello World!

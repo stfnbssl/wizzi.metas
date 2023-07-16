@@ -1,0 +1,42 @@
+module
+    kind react
+    import Head from 'next/head'
+    import 
+        @ basicStyles
+        @ otherStyles
+        @ someMoreBasicStyles
+        @ someCssAsObject
+        @ combinedAsArray
+        @ cxExample
+        @ keyframesExample
+        from '../shared/styles'
+    const Home
+        => 
+            < React.Fragment
+                < Head 
+                    < title 
+                        + Emotion using the vanilla version supporting SSR
+                div 
+                    h1 
+                        + Emotion Vanilla example
+                    div 
+                        @ className {basicStyles}
+                        + Basic styles using emotion
+                    div 
+                        @ className {otherStyles}
+                        + Some more styles using emotion
+                    div 
+                        @ className {someMoreBasicStyles}
+                        + Well why not here is some more
+                    div 
+                        @ className {someCssAsObject}
+                        + Object styles using emotion css
+                    div 
+                        @ className {combinedAsArray}
+                        + Array of styles using emotion css
+                    div 
+                        @ className {cxExample}
+                        + cx example from emotion
+                    div 
+                        @ className {keyframesExample}
+    export-default Home

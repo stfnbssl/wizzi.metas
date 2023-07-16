@@ -1,0 +1,11 @@
+{
+    [ parameters
+        params/use( pages
+        params/use( staticFiles
+            params/string( publicPath
+        params/use( cors
+            params/string( clientOrigins
+        params/use( webpackApp
+            params/array( items
+                params/string( name
+                params/boolean( writeToDisk

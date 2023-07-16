@@ -1,0 +1,73 @@
+$group
+    ${'$'}params &md
+
+    import NodeCache from 'node-cache'
+    import
+        @ ValidateResult
+        @ CRUDResult
+        from '../../types'
+    import
+        @ packiTypes
+        from '../../packi'
+    import
+        @ packiConfigPath
+        from '../../config/env'
+    import
+        @ wizziProds
+        @ wizziMaps
+        from '../../wizzi'
+    import
+        @ Get${'$'}{md.Name}Model
+        from '../mongo/${'$'}{md.mongoName}'
+    import
+        @ I${'$'}{md.Name}Model
+        @ PackiProductionObject
+        from '../types'
+    import
+        @ productionApi
+        from '../index'
+    import
+        @ mergePackiFiles        
+        from '../utils'
+    +
+    const myname = 'features.production.api.${'$'}{md.Name}'
+    +
+    const ${'$'}{md.name}Cache
+        new NodeCache
+            { 
+                @ stdTTL 120
+                @ checkperiod 60
+
+    export
+        async-function validate${'$'}{md.Name}
+            param owner
+                :string
+            param name
+                :string
+            :return
+                :ref Promise
+                    :param 
+                        :ref ValidateResult
+            const ${'$'}{md.Name} = Get${'$'}{md.Name}Model()
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        let query = { owner: owner, name: name }
+                        _ ${'$'}{md.Name}.find
+                            @ query
+                            =>
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                if result.length == 1
+                                    return 
+                                        _ resolve
+                                            {
+                                                @ isValid false
+                                                @ message '${'$'}{md.descr} already exists'
+                                _ resolve
+                                    {
+                                        @ isValid true

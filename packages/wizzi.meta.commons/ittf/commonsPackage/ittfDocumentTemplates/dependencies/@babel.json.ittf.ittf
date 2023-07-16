@@ -1,0 +1,79 @@
+$group
+
+    ${'$'}
+        var use_babel_cli = wzCtx.Build.useBabelNode || wzCtx.Build.useBabelParser;
+        
+        var use_babel_core = wzCtx.Build.useBabelParser;
+        
+        var use_babel_parser = (wzCtx.Build.useBabel && wzCtx.Build.babel.useParser)
+            || wzCtx.Build.useBabelParser;
+        
+        var use_babel_polyfill = wzCtx.Build.useBabel && wzCtx.Build.babel.useRegeneratorRuntime
+        
+        var use_babel_runtime = wzCtx.Build.useBabel 
+            && wzCtx.Build.babel.useRuntime
+        
+        var use_babel_preset_typescript = (wzCtx.Build.useBabel && (wzCtx.Build.useTypescript || wzCtx.Build.babel.useTypescript))
+            || wzCtx.Build.useBabelParserTypescript;
+        
+        var use_babel_preset_react = wzCtx.Build.useBabel && (wzCtx.Build.useReact || wzCtx.Build.babel.useReact)
+
+        var use_babel_preset_env = wzCtx.Build.useBabel 
+            || wzCtx.Build.useBabelNode 
+            || wzCtx.Build.useTypescript;
+        
+        var use_babel_plugin_proposal_class_properties = wzCtx.Build.useBabel 
+            || wzCtx.Build.useBabelParser;
+        
+        var use_babel_plugin_proposal_class_properties = wzCtx.Build.useBabel 
+            || wzCtx.Build.useBabelParser;
+        
+        var use_babel_plugin_proposal_object_rest_spread = wzCtx.Build.useBabel 
+            || wzCtx.Build.useBabelParser;
+        
+        var use_babel_plugin_proposal_decorators = wzCtx.Build.useBabelParser;
+        
+        var use_babel_plugin_transform_object_assign = wzCtx.Build.useBabel;
+
+        var use_babel_plugin_transform_runtime = wzCtx.Build.useBabel;
+
+    $*
+        @babel properties for "package.json" ittf documents.
+        The "ctx" context object (if present) is set by wizzi-cli/cmds/create.
+    *$
+
+	${'$'}if use_babel_cli
+		@babel/cli "^7.2.0"
+
+    ${'$'}if use_babel_core
+        @babel/core "^7.2.2"
+    
+    ${'$'}if use_babel_parser
+        @babel/parser "latest"
+
+	${'$'}if use_babel_plugin_proposal_decorators
+        @babel/plugin-proposal-decorators "latest"
+    
+	${'$'}if use_babel_polyfill
+        @babel/polyfill "^7.2.5"
+
+    ${'$'}if use_babel_preset_env
+        @babel/preset-env "^7.22.5"
+
+    ${'$'}if use_babel_preset_react
+        @babel/preset-react "^7.22.5"
+
+    ${'$'}if use_babel_preset_typescript
+        @babel/preset-typescript "^7.22.5"
+
+    ${'$'}if use_babel_plugin_proposal_class_properties
+        @babel/plugin-proposal-class-properties "latest"
+
+    ${'$'}if use_babel_plugin_proposal_object_rest_spread
+        @babel/plugin-proposal-object-rest-spread "latest"
+
+    ${'$'}if use_babel_plugin_transform_runtime
+        @babel/plugin-transform-runtime "^7.14.5"
+
+    ${'$'}if use_babel_runtime
+        @babel/runtime "^7.12.5"

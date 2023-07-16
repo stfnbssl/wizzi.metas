@@ -1,0 +1,19 @@
+module
+    kind react
+    import 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    import 
+        @ exitPreview
+        from '@prismicio/next'
+    export-default 
+        async-function exit
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            _ exitPreview
+                { 
+                    @ res
+                    @ req

@@ -1,0 +1,16 @@
+module
+    kind react
+    export 
+        const range
+            => 
+                param start
+                    :number 
+                param end
+                    :number 
+                let output = []
+                if typeof end === 'undefined'
+                    set end = start
+                    set start = 0
+                for let i = start; i < end;
+                    _ output.push(i)
+                return output

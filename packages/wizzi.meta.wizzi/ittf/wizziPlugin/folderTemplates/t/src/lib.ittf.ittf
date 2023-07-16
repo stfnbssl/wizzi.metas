@@ -1,0 +1,185 @@
+$group
+
+    $foreach schema in metaCtx.Schemas
+
+        $if !schema.hasBuiltinWizziModel
+            $file __dot__wizzi/lib/wizzi/schemas/${schema.name}.wfschema.ittf.ittf
+                wfschema ${schema.name}
+                    wfschema(&schema)
+
+            $file __dot__wizzi/lib/wizzi/models/${schema.name}-mtree-preprocessor.g.js.ittf.ittf
+                module
+                    kind es6
+                    mtree-preprocessor.js(&schema)
+
+        $file __dot__wizzi/lib/artifacts/${schema.name}/document/gen/main.js.ittf.ittf
+            module
+                kind es6
+                artifacts-gen-main(&schema)
+
+        $if schema.includes && schema.includes.length > 0
+            $file __dot__wizzi/lib/artifacts/${schema.name}/document/gen/included_writers.js.ittf.ittf
+                module
+                    kind es6
+                    artifacts-included-writers(&schema)
+
+            $file __dot__wizzi/lib/artifacts/${schema.name}/document/gen/t/includes.js.ittf.ittf
+                ${'$'}{'$'}group
+                    artifacts-includes(&schema)
+
+        $
+            var items = [
+                "utilNode",
+                "lineParser",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/lib/artifacts/utils/${item}.js.ittf.ittf
+                module
+                    ${'$'}include wizziPlugin/lib/artifacts/utils/${item}.js
+
+        $file __dot__wizzi/lib/artifacts/${schema.name}/extended/trans/main.js.ittf.ittf
+            module
+                kind es6
+                artifacts-trans-main(&schema)
+
+        $if schema.hasTextContents
+                
+                $file __dot__wizzi/lib/artifacts/${schema.name}/extended/trans/t/contents.js.ittf.ittf
+                    ${'$'}{'$'}group
+                        ${'$'}include wizziPlugin/lib/artifacts/trans/extended/contents.js
+                
+                $file __dot__wizzi/lib/artifacts/${schema.name}/extended/trans/t/comment.js.ittf.ittf
+                    ${'$'}{'$'}group
+                        ${'$'}include wizziPlugin/lib/artifacts/trans/extended/comment.js
+
+                $file __dot__wizzi/lib/artifacts/${schema.name}/extended/trans/t/biblio.js.ittf.ittf
+                    ${'$'}{'$'}group
+                        ${'$'}include wizziPlugin/lib/artifacts/trans/extended/biblio.js
+
+        $if schema.hasWizzifier
+                $file __dot__wizzi/lib/wizzifiers/${schema.name}/wizzifier.js.ittf.ittf
+                    module
+                        ${'${"$"}'}
+                            var schemaName = '${schema.name}';
+                        ${'$'}
+                            var parserImportCode = [
+                                $foreach line in schema.wizzifier.parserImportCode
+                                    "${line}",
+                            ]
+                            var parserInvokeCode = [
+                                $foreach line in schema.wizzifier.parserInvokeCode
+                                    "${line}",
+                            ]
+                            // schema.wizzifier.useFormatAstMethods ${schema.wizzifier.useFormatAstMethods}
+                            var useFormatAstMethods = ${schema.wizzifier.useFormatAstMethods ? 'true' : 'false'}
+                            var invokeCodeHasCallback = ${schema.wizzifier.invokeCodeHasCallback ? 'true' : 'false'}
+                        ${'$'}include wizziPlugin/lib/wizzifiers/wizzifier.js
+
+                $file __dot__wizzi/lib/wizzifiers/${schema.name}/cleanAST.js.ittf.ittf
+                    module
+                        ${'$'}include wizziPlugin/lib/wizzifiers/cleanAST.js
+
+                $
+                    var items = [
+                        "basewizzifier",
+                    ];
+
+                $foreach item in items
+                    $file __dot__wizzi/lib/wizzifiers/t/${item}.js.ittf.ittf
+                        ${'$'}{'$'}group
+                            ${'$'}include wizziPlugin/lib/wizzifiers/tfolder/${item}.js
+
+                $if schema.wizzifier.useFormatAstMethods
+                    $
+                        var items = [
+                            "f",
+                            "f_a",
+                            "f_a_in_tag",
+                            "f_a_temp",
+                            "format",
+                            "f_p",
+                            "f_p_tag",
+                            "f_p_temp",
+                            "get_text_from_1_children",
+                            "helper_functions",
+                            "name",
+                            "tag",
+                        ];
+
+                    $foreach item in items
+                        $file __dot__wizzi/lib/wizzifiers/${schema.name}/t/${item}.js.ittf.ittf
+                            ${'$'}{'$'}group
+                                ${'$'}include wizziPlugin/lib/wizzifiers/tfolder/schema_specific/${item}.js
+
+                $file __dot__wizzi/lib/wizzifiers/utils/lineParser.js.ittf.ittf
+                    module
+                        ${'$'}include wizziPlugin/lib/wizzifiers/utils/lineParser.js
+                
+                $file __dot__wizzi/lib/wizzifiers/utils/ittfWriter.js.ittf.ittf
+                    module
+                        ${'$'}include wizziPlugin/lib/wizzifiers/utils/ittfWriter.js
+
+                $file __dot__wizzi/lib/wizzifiers/utils/stringWriter.js.ittf.ittf
+                    module
+                        ${'$'}include wizziPlugin/lib/wizzifiers/utils/stringWriter.js
+
+                $file __dot__wizzi/lib/wizzifiers/utils/cloner.js.ittf.ittf
+                    module
+                        ${'$'}include wizziPlugin/lib/wizzifiers/utils/cloner.js
+
+                $
+                    var items = [
+                        "lineParser/parse",
+                        "lineParser/parseInterpolation",
+                    ];
+
+                $foreach item in items
+                    $file __dot__wizzi/lib/wizzifiers/utils/t/${item}.js.ittf.ittf
+                        ${'$'}{'$'}group
+                            ${'$'}include wizziPlugin/lib/wizzifiers/utils/tfolder/${item}.js
+
+                $file __dot__wizzi/lib/wizzifiers/errors.js.ittf.ittf
+                    module
+                        ${'$'}include wizziPlugin/lib/wizzifiers/errors.js
+
+
+
+    $
+        var items = [
+            "a_flag",
+            "a_tag",
+            "e_tag",
+            "a_true",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/lib/wizzi/schemas/t/${item}.wfschema.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziPlugin/lib/wizzi/schemas/tfolder/${item}.wfschema
+
+    $
+        var items = [
+            "_md_gen_items",
+            "async-md-gen-items",
+            "async-md",
+            "async-md-ctx",
+            "function",
+            "f_error",
+            "gen",
+            "md-gen-main",
+            "md-trans-main",
+            "statement",
+            "statements-writer",
+            "trans",
+            "xml-dump-attr",
+            "xml-dump-el-open",
+            "xml-dump-el-close",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/lib/artifacts/t/${item}.js.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziPlugin/lib/artifacts/tfolder/${item}.js
+
+

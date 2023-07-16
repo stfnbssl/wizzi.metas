@@ -1,0 +1,11 @@
+$group
+    
+    $if metaCtx.tsExpressWizziSite.useAuthentication
+        
+        $file __dot__wizzi/${pkgPath}src/site/controllers/auth.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressWizziSite/controllers/auth.ts
+        
+        $file __dot__wizzi/${pkgPath}src/site/views/auth/login.html.ittf.ittf
+            html
+                ${'$'}include tsExpressWizziSite/views/auth/login.html

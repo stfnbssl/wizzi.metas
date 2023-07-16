@@ -1,0 +1,8 @@
+module
+    kind react
+    export-default 
+        function Home
+            return 
+                div 
+                    h1 
+                        + Go to `pages/_app.js` and `pages/_document.js` to see how you can add&lf;        Google Tag Manager to your app

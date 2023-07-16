@@ -1,0 +1,10 @@
+module
+    kind react
+    import Nav from '../components/Nav'
+    const AboutPage
+        => 
+            < React.Fragment
+                < Nav 
+                p 
+                    + Hello, I'm the about page
+    export-default AboutPage

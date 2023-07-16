@@ -1,0 +1,41 @@
+module
+    kind react
+    :import-type 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+        # Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+    import 
+        @ createServer
+        from '@graphql-yoga/node'
+    import 
+        @ getBuiltMesh
+        from '../../.mesh'
+    async-function buildServer
+        const mesh
+            await 
+                _ getBuiltMesh()
+            # retrieve the mesh instance (with configured Envelop plugins)
+            # pass the Mesh instance to Yoga and configure GraphiQL
+        const server
+            _ createServer
+                { 
+                    @ plugins mesh.plugins
+                    { graphiql
+                        @ endpoint '/api/graphql'
+                        @ title 'GraphQL Gateway'
+            # pass the Mesh instance to Yoga and configure GraphiQL
+        return server
+    const server$ = buildServer()
+    export-default 
+        async-function apiHandler
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            return 
+                _ 
+                    @id server$
+                    ._ requestListener
+                        @ req
+                        @ res

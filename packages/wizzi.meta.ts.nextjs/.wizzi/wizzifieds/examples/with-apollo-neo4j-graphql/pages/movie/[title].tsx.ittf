@@ -1,0 +1,151 @@
+module
+    kind react
+    import Head from 'next/head'
+    import Link from 'next/link'
+    import 
+        @ useRouter
+        from 'next/router'
+    import 
+        @ gql
+        @ useQuery
+        from '@apollo/client'
+    import Header from '../../components/header'
+    import Footer from '../../components/footer'
+    :import-type 
+        @ Movies
+        from '../../types'
+    const GET_MOVIE
+        _` gql
+            + &lf;
+            + &nbsp; query GetMovie($movieTitle: String) {&lf;
+            + &nbsp;   movies(where: { title: $movieTitle }) {&lf;
+            + &nbsp;     title&lf;
+            + &nbsp;     tagline&lf;
+            + &nbsp;     released&lf;
+            + &nbsp;     actors {&lf;
+            + &nbsp;       name&lf;
+            + &nbsp;     }&lf;
+            + &nbsp;     directors {&lf;
+            + &nbsp;       name&lf;
+            + &nbsp;     }&lf;
+            + &nbsp;   }&lf;
+            + &nbsp; }&lf;
+            + 
+    export-default 
+        function Movie
+            const router = useRouter()
+            const 
+                { 
+                    @ title
+                = router.query
+            const 
+                { 
+                    @ loading
+                    @ error
+                    @ data
+                =
+                    _ useQuery
+                        :param 
+                            :{ 
+                                :p movies
+                                    :ref Movies
+                        @ GET_MOVIE
+                        { 
+                            { variables
+                                @ movieTitle title
+            if loading
+                return 'Loading...'
+            if error
+                return 
+                    `lit 
+                        + Error!&nbsp;
+                        @ error.message
+                        + 
+            return 
+                div 
+                    @ className "container"
+                    < Head 
+                        < title 
+                            + Next with Neo4j
+                        link 
+                            @ rel "icon"
+                            @ href "/favicon.ico"
+                    < Header 
+                        @ title {title}
+                    main 
+                        div 
+                            @ className "movie"
+                            div 
+                                @ className "info"
+                                h2 
+                                    + Information
+                                div 
+                                    strong 
+                                        + Tagline:
+                                    + {data.movies[0].tagline}
+                                div 
+                                    strong 
+                                        + Released:
+                                    + {data.movies[0].released}
+                            div 
+                                @ className "actors"
+                                h2 
+                                    + Actors
+                                { 
+                                    _ data.movies[0].actors.map
+                                        => 
+                                            param actor
+                                            div 
+                                                @ key {actor.name}
+                                                + {actor.name}
+                            div 
+                                @ className "directors"
+                                h2 
+                                    + Directors
+                                { 
+                                    _ data.movies[0].directors.map
+                                        => 
+                                            param director
+                                            div 
+                                                @ key {director.name}
+                                                + {director.name}
+                        div 
+                            @ className "back"
+                            < Link 
+                                @ href "/"
+                                @ legacyBehavior
+                                a 
+                                    + 🔙 Go Back
+                    < Footer 
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;         .container {&lf;
+                                + &nbsp;           width: 100vw;&lf;
+                                + &nbsp;           min-height: 100vh;&lf;
+                                + &nbsp;           padding: 0 0.5rem;&lf;
+                                + &nbsp;           display: flex;&lf;
+                                + &nbsp;           flex-direction: column;&lf;
+                                + &nbsp;           justify-content: center;&lf;
+                                + &nbsp;           align-items: center;&lf;
+                                + &nbsp;         }&lf;
+                                + &nbsp;         main {&lf;
+                                + &nbsp;           display: flex;&lf;
+                                + &nbsp;           width: 100%;&lf;
+                                + &nbsp;           justify-content: center;&lf;
+                                + &nbsp;           padding: 2rem 0;&lf;
+                                + &nbsp;           text-align: center;&lf;
+                                + &nbsp;           flex-direction: column;&lf;
+                                + &nbsp;         }&lf;
+                                + &nbsp;         .movie {&lf;
+                                + &nbsp;           margin-bottom: 2rem;&lf;
+                                + &nbsp;         }&lf;
+                                + &nbsp;         .back {&lf;
+                                + &nbsp;           padding: 1rem 0;&lf;
+                                + &nbsp;         }&lf;
+                                + &nbsp;         .back a {&lf;
+                                + &nbsp;           font-weight: bold;&lf;
+                                + &nbsp;         }&lf;
+                                + &nbsp;      &nbsp;

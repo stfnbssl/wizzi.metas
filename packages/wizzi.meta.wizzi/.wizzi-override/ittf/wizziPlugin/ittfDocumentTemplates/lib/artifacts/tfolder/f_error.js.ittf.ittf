@@ -1,0 +1,29 @@
+﻿$group
+	${'$'}params module
+
+	#
+		# params
+		#   string errorName 
+		#     # the error name or number
+		#   string method
+		#   string message
+		#     # optional
+		#   { model
+		#     # optional
+		#   { innerError
+		#     # optional
+	function error
+        param errorName
+        param method
+        param message
+        param model
+        param innerError
+		return
+            new errors.WizziPluginError
+                @ message
+                @ model
+                {
+                    @ errorName errorName
+                    @ method '${'$'}{module}.' + method
+                    @ sourcePath __filename
+                    @ inner innerError

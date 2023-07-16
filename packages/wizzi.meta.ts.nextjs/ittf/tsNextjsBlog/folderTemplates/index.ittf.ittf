@@ -1,0 +1,12 @@
+$group
+    $if metaCtx.useTsNextjsBlog
+        $include wzCtxModel
+		$include @types
+		$include components
+		$include interfaces
+		$include lib
+		$include pages
+		$include pages/posts
+		$include public/favicon
+        $include styles
+		$include _posts

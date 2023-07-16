@@ -1,0 +1,25 @@
+module
+    kind react
+    import Link from 'next/link'
+    import 
+        @ Person
+        from '../interfaces'
+    :type PersonProps
+        :{ 
+            :p person
+                :ref Person
+    export-default 
+        function PersonComponent
+            { 
+                @ person
+                :ref PersonProps
+            return 
+                li 
+                    < Link 
+                        @ href "/person/[id]"
+                        @ as
+                            `lit 
+                                + /person/
+                                @ person.id
+                                + 
+                        + {person.name}

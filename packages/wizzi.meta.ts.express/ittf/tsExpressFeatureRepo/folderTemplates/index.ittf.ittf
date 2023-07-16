@@ -1,0 +1,22 @@
+$group
+    $if metaCtx.useTsExpressFeatureRepo
+
+        $include wzCtxModel
+        
+        $file __dot__wizzi/t/v08/express/features/repo/apicalls.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include tsExpressFeatureRepo/apicalls.ts
+        
+        $file __dot__wizzi/t/v08/express/features/repo/types.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include tsExpressFeatureRepo/types.ts
+        
+        $file __dot__wizzi/t/v08/express/features/repo/index.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include tsExpressFeatureRepo/index.ts

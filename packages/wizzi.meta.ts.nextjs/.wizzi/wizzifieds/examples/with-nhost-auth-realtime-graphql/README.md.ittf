@@ -1,0 +1,172 @@
+md
+    h1 
+        + Auth &amp; Realtime GraphQL Example Using Next.js and Nhost
+    p 
+        + This example showcases Next.js as the frontend using
+        a 
+            href https://nhost.io/
+            title 
+            + Nhost
+        + as the backend.
+    br 
+    h2 
+        + Demo
+    h3 
+        a 
+            href https://nhost-nextjs-example.vercel.app/
+            title 
+            + https://nhost-nextjs-example.vercel.app/
+    h2 
+        + Deploy Your Own
+    p 
+        + Once you have created a Nhost project and have access to
+        a 
+            href #step-4-add-environment-variables
+            title 
+            + the environment variables you&#39;ll need
+        + , deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + :
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-nhost-auth-realtime-graphql&project-name=with-nhost-auth-realtime-graphql&repository-name=with-nhost-auth-realtime-graphql&env=NEXT_PUBLIC_GRAPHQL_URL,NEXT_PUBLIC_BACKEND_URL&envDescription=Enter%20your%20Nhost%20project%27s%20URLs
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-nhost-auth-realtime-graphql nhost-app
+        + # or
+        + yarn create next-app --example with-nhost-auth-realtime-graphql nhost-app
+        + # or
+        + pnpm create next-app --example with-nhost-auth-realtime-graphql nhost-app
+    br 
+    h2 
+        + Configuration
+    h3 
+        + Step 1. Create an account and a project on Nhost
+    p 
+        a 
+            href https://console.nhost.io
+            title 
+            + Create an account and project on Nhost
+        + .
+    br 
+    h3 
+        + Step 2. Create
+        code items
+        + database
+    p 
+        + Go to your project&#39;s Hasura console. Go to the
+        b 
+            + DATA
+        + tab in the top menu and click
+        b 
+            + SQL
+        + in the bottom left menu.
+    br 
+    p 
+        + Then copy the content from
+        code setup/data.sql
+        + in this example and paste it in the
+        b 
+            + Raw SQL
+        + form in the Hasura Console. Make sure
+        b 
+            + Track this
+        + is checked and click
+        b 
+            + Run!
+    br 
+    h3 
+        + Step 3. Add API metadata
+    p 
+        + Again, in the Hasura console, click on the
+        b 
+            + gearwheel
+        + (settings) in the top right menu. Click on
+        b 
+            + Import metadata
+        + and select the file
+        code setup/hasura-metadata.json
+        + in this repository.
+    br 
+    h3 
+        + Step 4. Add environment variables
+    p 
+        + Copy
+        code .env.local.example
+        + to
+        code .env.local
+        + and update the two URLs with your Nhost project URLs. You find the URLs in the Nhost console dashboard of your project.
+    br 
+    h3 
+        + Step 5. Run Next.js in development mode
+    code 
+        lang bash
+        + npm install
+        + npm run dev
+        + 
+        + # or
+        + 
+        + yarn install
+        + yarn dev
+    br 
+    p 
+        + Your app should be up and running on
+        a 
+            href http://localhost:3000
+            title 
+            + http://localhost:3000
+        + ! If it doesn&#39;t work, post on
+        a 
+            href https://github.com/vercel/next.js/discussions
+            title 
+            + GitHub discussions
+        + .
+    br 
+    h3 
+        + Step 6. Deploy on Vercel
+    p 
+        + You can deploy this app to the cloud with
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

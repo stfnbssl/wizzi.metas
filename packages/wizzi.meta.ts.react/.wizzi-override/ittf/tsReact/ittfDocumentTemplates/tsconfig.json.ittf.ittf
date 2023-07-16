@@ -1,0 +1,39 @@
+$group
+    $params &md
+    
+    { compilerOptions
+        target "es5"
+        [ lib
+            "dom"
+            "dom.iterable"
+            "esnext"
+            $hook lib
+        allowJs true
+        skipLibCheck true
+        esModuleInterop true
+        allowSyntheticDefaultImports true
+        strict true
+        forceConsistentCasingInFileNames true
+        noFallthroughCasesInSwitch true
+        $if wzCtx.Build.useExpress
+            module "commonjs"
+        $else
+            module "esnext"
+        moduleResolution "node"
+        resolveJsonModule true
+        isolatedModules true
+        $if wzCtx.Build.useReactCreateApp
+            noEmit true
+        $else
+            noEmit false
+        jsx "react-jsx"
+        [ typeRoots
+            "node_modules/@types"
+            "./src/types"
+            $hook typeRoots
+        $hook
+    [ include
+        "src"
+        $hook include
+    [ exclude
+        "src/**/*.spec.*"

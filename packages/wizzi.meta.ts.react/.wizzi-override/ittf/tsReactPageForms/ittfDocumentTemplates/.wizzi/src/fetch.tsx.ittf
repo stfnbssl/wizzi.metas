@@ -1,0 +1,29 @@
+module
+
+    import nullthrows from 'nullthrows'        
+
+    export
+        async-function getData
+            param path
+            const endpoint
+                `lit
+                    _ nullthrows(process.env.API_SERVER_URL)
+                    + /
+                    @ path
+            log 'Fetch.getData.endpoint', endpoint
+            const response
+                await 
+                    _ fetch(endpoint)
+            if !response.ok
+                throw 
+                    new Error
+                        `lit 
+                            + fetch.getData error
+                            + &nbsp;-&nbsp;
+                            @ response.status
+                            + &nbsp;-&nbsp;
+                            @ response.statusText
+            const result
+                await 
+                    _ response.json()
+            return result

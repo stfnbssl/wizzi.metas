@@ -1,0 +1,15 @@
+$group
+
+    $if metaCtx.tsReactApp.usePageForms
+        
+        $
+            var items = [
+                "App",
+                "index",
+                "ThemeProvider",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/src/${item}.tsx.ittf.ittf
+                module
+                    ${'$'}include tsReactApp/pageforms/${item}.tsx

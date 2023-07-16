@@ -1,0 +1,10 @@
+module
+    kind react
+    const Home
+        => 
+            div 
+                script 
+                    @ src "https://fake-script.com"
+                p 
+                    + Home
+    export-default Home

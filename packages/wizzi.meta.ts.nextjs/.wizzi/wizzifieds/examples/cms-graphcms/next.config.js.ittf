@@ -1,0 +1,9 @@
+module
+    kind react
+    set module.exports =
+        { 
+            { images
+                [ domains
+                    @ 'media.graphcms.com'
+        #
+            # * @type {import('next').NextConfig}

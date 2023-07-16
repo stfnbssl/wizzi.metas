@@ -1,0 +1,102 @@
+md
+    h1 
+        + Passport.js Example
+    p 
+        + This example show how to use
+        a 
+            href http://www.passportjs.org
+            title 
+            + Passport.js
+        + with Next.js. The example features cookie based authentication with username and password.
+    br 
+    p 
+        + The example shows how to do a login, signup and logout; and to get the user info using a hook with
+        a 
+            href https://swr.vercel.app
+            title 
+            + SWR
+        + .
+    br 
+    p 
+        + A database is not included. You can use any database you want and add it
+        a 
+            href lib/user.js
+            title 
+            + in this file
+        + .
+    br 
+    p 
+        + The login cookie is httpOnly, meaning it can only be accessed by the API, and it&#39;s encrypted using
+        a 
+            href https://hapi.dev/family/iron
+            title 
+            + @hapi/iron
+        + for more security.
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + :
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-passport&project-name=with-passport&repository-name=with-passport
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-passport with-passport-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-passport with-passport-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-passport with-passport-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

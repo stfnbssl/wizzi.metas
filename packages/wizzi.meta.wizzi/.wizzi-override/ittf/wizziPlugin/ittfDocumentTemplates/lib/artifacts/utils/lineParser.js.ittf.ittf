@@ -1,0 +1,61 @@
+$group
+    kind jsfile
+	+
+	var verify = require('wizzi-utils').verify
+	+
+	var md
+        set module.exports =
+            { 
+
+	#
+		# ignore quotes
+		# name = first not (blank or tab) char sequence
+		# value = all remaining chars after name + (blank or tab)
+		# example
+		#     "trip to the london bridge"
+		#     name() = "trip"
+		#     value() = "to the london bridge"
+	set md.parseNameValueRaw
+        function 
+            param text
+            param node
+            
+			var 
+                decl name = ''
+                decl value = ''
+            
+			if verify.isNotEmpty(text)
+                var 
+                    decl ch
+                    decl state = 0
+                    decl l = text.length
+                for var i = 0; i < l; i++
+                    set ch = text[i]
+                    if ch == ' ' || ch == '\t'
+                        if state == 0
+                            + ;
+                        elif state == 1
+                            set state = 2
+                        elif state == 2
+                            set value += ch
+                    else 
+                        if state == 0
+                            set name = ch
+                            set state = 1
+                        elif state == 1
+                            set name += ch
+                        elif state == 2
+                            set value += ch
+            return 
+                { 
+                    @ name
+                        function 
+                            return name
+                    @ value
+                        function 
+                            return value
+                    @ hasValue
+                        function 
+                            return value.length > 0
+    
+

@@ -1,0 +1,23 @@
+$group
+
+    ${'$'}if wzCtx.Build.useHelmet
+        import 
+            @ Application
+            from 'express'
+        import helmet from 'helmet'
+        import 
+            @ MiddlewareType
+            from '../features/app/types'
+        +
+        export 
+            const HelmetMiddleware
+                :ref MiddlewareType
+                =
+                    => 
+                        param app
+                            :ref Application
+                        _ app.use
+                            _ helmet
+                        success 'HelmetMiddleware installed'
+    ${'$'}else
+        # <--wizzi!file!exclude-->                

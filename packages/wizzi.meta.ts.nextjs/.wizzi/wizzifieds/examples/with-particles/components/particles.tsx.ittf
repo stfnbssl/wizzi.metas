@@ -1,0 +1,87 @@
+module
+    kind react
+    :import-type 
+        @ Container
+        @ Engine
+        @ ISourceOptions
+        from 'tsparticles-engine'
+    import Particles from 'react-tsparticles'
+    const ParticlesComponent
+        => 
+            const particlesInit
+                async=> 
+                    param engine
+                        :ref Engine
+            const particlesLoaded
+                async=> 
+                    param container
+                        :ref Container
+                # options variable is the particles configuration
+                # many configurations can be found here: https://particles.js.org
+                # other configurations can be found in the official CodePen collection here: https://codepen.io/collection/DPOage
+            const options
+                :ref ISourceOptions
+                =
+                    { 
+                        { fullScreen
+                            @ enable true
+                            @ zIndex -1
+                                # set this to false to use the particles like any other DOM element, with this true they act like a background
+                        @ fpsLimit 120
+                        { particles
+                            { number
+                                @ value 80
+                                { density
+                                    @ enable true
+                                    @ area 800
+                            { color
+                                [ value
+                                    @ '#2EB67D'
+                                    @ '#ECB22E'
+                                    @ '#E01E5B'
+                                    @ '#36C5F0'
+                            { shape
+                                @ type 'circle'
+                            { opacity
+                                @ value 1
+                            { size
+                                { value
+                                    @ min 1
+                                    @ max 8
+                            { links
+                                @ enable true
+                                @ distance 150
+                                @ color '#808080'
+                                @ opacity 0.4
+                                @ width 1
+                            { move
+                                @ enable true
+                                @ speed 5
+                                { outModes
+                                    @ default 'out'
+                        { interactivity
+                            { events
+                                { onHover
+                                    @ enable true
+                                    @ mode 'grab'
+                                { onClick
+                                    @ enable true
+                                    @ mode 'push'
+                            { modes
+                                { grab
+                                    @ distance 280
+                                    { links
+                                        @ opacity 1
+                                        @ color '#808080'
+                                { push
+                                    @ quantity 4
+                # options variable is the particles configuration
+                # many configurations can be found here: https://particles.js.org
+                # other configurations can be found in the official CodePen collection here: https://codepen.io/collection/DPOage
+            return 
+                < Particles 
+                    @ id "particles"
+                    @ init {particlesInit}
+                    @ loaded {particlesLoaded}
+                    @ options {options}
+    export-default ParticlesComponent

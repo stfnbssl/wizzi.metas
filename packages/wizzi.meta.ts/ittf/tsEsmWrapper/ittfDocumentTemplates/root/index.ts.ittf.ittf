@@ -1,0 +1,6 @@
+$group 
+    # esmWrapper.ts
+    import * as myModule from './myESMModule.js'; 
+        # Importa il modulo ESM desiderato
+    set module.exports = myModule; 
+        # Esporta il modulo in un modo compatibile con require

@@ -1,0 +1,109 @@
+module
+    kind react
+    import Link from 'next/link'
+    const Form
+        => 
+            { 
+                @ isLogin
+                @ errorMessage
+                @ onSubmit
+            form 
+                @ onSubmit {onSubmit}
+                label 
+                    span 
+                        + Username
+                    input 
+                        @ type "text"
+                        @ name "username"
+                        @ required
+                label 
+                    span 
+                        + Password
+                    input 
+                        @ type "password"
+                        @ name "password"
+                        @ required
+                { 
+                    && 
+                        + !isLogin
+                        label 
+                            span 
+                                + Repeat password
+                            input 
+                                @ type "password"
+                                @ name "rpassword"
+                                @ required
+                div 
+                    @ className "submit"
+                    { 
+                        iif isLogin
+                            then
+                                < React.Fragment
+                                    < Link 
+                                        @ href "/signup"
+                                        @ legacyBehavior
+                                        a 
+                                            + I don't have an account
+                                    button 
+                                        @ type "submit"
+                                        + Login
+                            else
+                                < React.Fragment
+                                    < Link 
+                                        @ href "/login"
+                                        @ legacyBehavior
+                                        a 
+                                            + I already have an account
+                                    button 
+                                        @ type "submit"
+                                        + Signup
+                { 
+                    && 
+                        + errorMessage
+                        p 
+                            @ className "error"
+                            + {errorMessage}
+                < style 
+                    @ jsx
+                    { 
+                        `lit 
+                            + &lf;
+                            + &nbsp;     form,&lf;
+                            + &nbsp;     label {&lf;
+                            + &nbsp;       display: flex;&lf;
+                            + &nbsp;       flex-flow: column;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     label > span {&lf;
+                            + &nbsp;       font-weight: 600;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     input {&lf;
+                            + &nbsp;       padding: 8px;&lf;
+                            + &nbsp;       margin: 0.3rem 0 1rem;&lf;
+                            + &nbsp;       border: 1px solid #ccc;&lf;
+                            + &nbsp;       border-radius: 4px;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     .submit {&lf;
+                            + &nbsp;       display: flex;&lf;
+                            + &nbsp;       justify-content: flex-end;&lf;
+                            + &nbsp;       align-items: center;&lf;
+                            + &nbsp;       justify-content: space-between;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     .submit > a {&lf;
+                            + &nbsp;       text-decoration: none;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     .submit > button {&lf;
+                            + &nbsp;       padding: 0.5rem 1rem;&lf;
+                            + &nbsp;       cursor: pointer;&lf;
+                            + &nbsp;       background: #fff;&lf;
+                            + &nbsp;       border: 1px solid #ccc;&lf;
+                            + &nbsp;       border-radius: 4px;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     .submit > button:hover {&lf;
+                            + &nbsp;       border-color: #888;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;     .error {&lf;
+                            + &nbsp;       color: brown;&lf;
+                            + &nbsp;       margin: 1rem 0 0;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;  &nbsp;
+    export-default Form

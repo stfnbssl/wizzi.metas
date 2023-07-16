@@ -1,0 +1,8 @@
+$group
+    $file __dot__wizzi/models/t/tsExpressFeaturePacki.json.ittf.ittf
+        ${'$'}{'$'}group
+
+            $if metaCtx.tsExpressFeaturePacki.usePackiProductions
+                usePackiProductions true
+                { packiProductions
+                    useCachedProductions false

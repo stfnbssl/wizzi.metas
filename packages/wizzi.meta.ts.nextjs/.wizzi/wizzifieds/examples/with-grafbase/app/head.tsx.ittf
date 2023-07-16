@@ -1,0 +1,8 @@
+module
+    kind react
+    const Head
+        => 
+            < React.Fragment
+                < title 
+                    + Grafbase + Next.js
+    export-default Head

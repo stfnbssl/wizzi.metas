@@ -1,0 +1,29 @@
+$group
+
+    $
+        var items = [
+            'a_cb',
+            'a_cb_throw',
+            'a_cb_no_throw',
+            'a_then',
+            'a_then_catch_reject',
+            'a_reject',
+            'catch_reject',
+            'event_emit',
+            'event_on',
+            'iife_window',
+            'param_array',
+            'param_callback',
+            'param_object',
+            'r_promise',
+            'r_promise_async',
+            'r_cb',
+            'r_reject',
+            'r_resolve',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/t/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webJs/tfolder/${item}.js
+

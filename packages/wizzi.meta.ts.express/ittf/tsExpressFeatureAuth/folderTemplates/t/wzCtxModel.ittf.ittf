@@ -1,0 +1,45 @@
+$group
+
+    $file __dot__wizzi/models/t/tsExpressFeatureAuth.json.ittf.ittf
+        ${'$'}{'$'}group
+                
+            $if metaCtx.tsExpressFeatureAuth.useLocalUserFromConfig
+                useLocalUserFromConfig true
+                { localUserFromConfig
+            $else
+                useAuthentication true
+                { authentication
+                    $if metaCtx.isProduction
+                        isProduction true
+                    $else
+                        isProduction false
+                    $if metaCtx.isLocal
+                        isLocal true
+                    $else
+                        isLocal false
+                    $if metaCtx.tsExpressFeatureAuth.usePermissionFlag
+                        usePermissionFlag true
+                    authRequired false
+                    userInfo false
+                    useLocal true
+                    { local
+                    useGithub true
+                    { github
+                        clientIdLocal "${'$'}{'$'}{stfnbssl_env.githubClientIdLocal}"
+                        clientSecretLocal "${'$'}{'$'}{stfnbssl_env.githubClientSecretLocal}"
+                        callbackURLLocal "${metaCtx.baseUrlLocal}/api/${metaCtx.apiVersion}/authenticate/github/callback"
+                        clientId "${'$'}{'$'}{stfnbssl_env.githubClientId}"
+                        clientSecret "${'$'}{'$'}{stfnbssl_env.githubClientSecret}"
+                        callbackURL "${metaCtx.baseUrl}/api/${metaCtx.apiVersion}/authenticate/github/callback"
+                    useGoogle true
+                    { google
+                        clientIdLocal "${'$'}{'$'}{stfnbssl_env.googleClientIdLocal}"
+                        clientSecretLocal "${'$'}{'$'}{stfnbssl_env.googleClientSecretLocal}"
+                        callbackURLLocal "${metaCtx.baseUrlLocal}/api/${metaCtx.apiVersion}/authenticate/google/callback"
+                        clientId "${'$'}{'$'}{stfnbssl_env.googleClientId}"
+                        clientSecret "${'$'}{'$'}{stfnbssl_env.googleClientSecret}"
+                        callbackURL "${metaCtx.baseUrl}/api/${metaCtx.apiVersion}/authenticate/google/callback"
+                $if metaCtx.tsExpressFeatureAuth.useJwt
+                    useJwt true
+                    { jwt
+

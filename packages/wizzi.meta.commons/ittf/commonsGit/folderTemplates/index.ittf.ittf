@@ -1,0 +1,7 @@
+$group
+    
+    $if metaCtx.useCommonsGit
+
+        $file __dot__wizzi/${pkgPath}root/__dot__gitignore.text.ittf.ittf
+            text
+                ${'$'}include commonsGit/gitignore-base.text

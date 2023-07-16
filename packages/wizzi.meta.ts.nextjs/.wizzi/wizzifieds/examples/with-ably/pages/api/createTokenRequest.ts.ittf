@@ -1,0 +1,23 @@
+module
+    kind react
+    import Ably from 'ably/promises'
+    :import-type 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    export-default 
+        async-function handler
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            const client = new Ably.Realtime(process.env.ABLY_API_KEY)
+            const tokenRequestData
+                await 
+                    _ client.auth.createTokenRequest
+                        { 
+                            @ clientId
+                                @expr req.query.clientId
+                                    :as 
+                                        :string 
+            _ res.status(200).json(tokenRequestData)

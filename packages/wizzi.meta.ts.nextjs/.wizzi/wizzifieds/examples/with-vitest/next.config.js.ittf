@@ -1,0 +1,8 @@
+module
+    kind react
+    const nextConfig
+        { 
+            @ reactStrictMode true
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

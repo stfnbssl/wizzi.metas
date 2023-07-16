@@ -1,0 +1,10 @@
+$group
+  $params name, kind|@@null, message|@@null
+  $if kind == 'required'
+    if !${name} || !_.isArray(${name})
+      throw new Error('The "${name}" parameter is required and must be an array. ${message}.')
+  $else
+    set ${name} =
+        || 
+            + ${name}
+            []

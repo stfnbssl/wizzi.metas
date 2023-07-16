@@ -1,0 +1,128 @@
+$group
+
+	iife
+		
+		if !window.wz
+			set window.wz = {}
+
+        if !window.wz.packi
+            set window.wz.packi
+                {
+                    @ apiUrl "${'$'}{wzCtx.App.baseUrl}/api/v1/packi"
+                    @ webUrl "${'$'}{wzCtx.App.baseUrl}"
+
+		set wz.initPacki
+			function
+                param options
+                set wz.packi
+                    _ Object.assign
+                        {
+                        @ wz.packi
+                        @ options
+
+		set wz.fileListToPacki
+			function
+				param fileList
+                param packiFiles
+                if !packiFiles
+                    set packiFiles = {}
+                foreach file in fileList
+                    if Array.isArray(file)
+                        _ wz.fileListToPacki
+                            @ file
+                            @ packiFiles
+                    else
+                        if file.path
+                            set packiFiles[file.path]
+                                { 
+                                    @ type file.type || 'CODE'
+                                    @ contents file.contents || ''
+                        else
+                            set packiFiles[file]
+                                { 
+                                    @ type file.type || 'CODE'
+                                    @ contents ''
+                return packiFiles
+
+		set wz.addFileToPacki
+			function
+				param packiFiles
+                param fileOrPath
+                param contents
+                if !packiFiles
+                    set packiFiles = {}
+                if fileOrPath
+                    if fileOrPath.path && fileOrPath.contents
+                        set packiFiles[fileOrPath.path]
+                            {
+                                @ type fileOrPath.type || 'CODE'
+                                @ contents fileOrPath.contents
+                    else
+                        set packiFiles[fileOrPath]
+                            {
+                                @ type 'CODE'
+                                @ contents contents
+                return packiFiles
+
+		set wz.removeFileFromPacki
+			function
+				param packiFiles
+                param fileOrPath
+                if !packiFiles
+                    return packiFiles
+                if fileOrPath
+                    if fileOrPath.path
+                        delete packiFiles[fileOrPath.path]
+                    else
+                        delete packiFiles[fileOrPath]
+                return packiFiles
+
+        set wz.uploadPackiItem
+            function
+				param owner
+                param name
+                param schema
+                param mainIttf
+				param packiFiles
+				param callback
+
+                _ fetch
+                    `lit 
+                        + 
+                        @ wz.packi.apiUrl
+                        + /
+                        @ 'proxy/packiitem'
+                    { 
+                        @ method 'POST'
+                        { headers
+                            @ Accept 'application/json'
+                            @ 'Content-Type' 'application/json'
+                        @ body 
+                            _ JSON.stringify
+                                {
+                                    @ owner
+                                    @ name
+                                    @ schema
+                                    @ mainIttf
+                                    @ packiFiles
+                    ._ then
+                        =>
+                            param response
+                            if response.ok
+                                return 
+                                    _ response.json
+                            else
+                                throw response.json()
+                    ._ then
+                        =>
+                            param json
+                            # loog 'uploadPackiItem.response', json
+                            _ callback
+                                @ null
+                                @ json
+                    ._ catch
+                        =>
+                            param err
+                            error 'uploadPackiItem.err', Object.keys(err)
+                            _ callback
+                                @ err

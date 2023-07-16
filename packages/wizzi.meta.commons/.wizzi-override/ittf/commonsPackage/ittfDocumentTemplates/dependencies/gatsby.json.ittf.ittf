@@ -1,0 +1,4 @@
+${'$'}group
+
+    ${'$'}if wzCtx.Build.useGatsby
+        gatsby "^2.32.3"

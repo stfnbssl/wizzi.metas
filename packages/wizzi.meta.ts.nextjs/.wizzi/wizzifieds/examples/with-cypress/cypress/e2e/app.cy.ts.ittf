@@ -1,0 +1,28 @@
+module
+    kind react
+    _ describe
+        @ 'Navigation'
+        => 
+            _ it
+                @ 'should navigate to the about page'
+                => 
+                    _ cy.visit('http://localhost:3000/')
+                        # Start from the index page
+                        # Find a link with an href attribute containing "about" and click it
+                    _ cy.get('a[href*="about"]').click()
+                        # Find a link with an href attribute containing "about" and click it
+                        # The new url should include "/about"
+                    _ cy.url().should('include', '/about')
+                        # The new url should include "/about"
+                        # The new page should contain an h1 with "About page"
+                    _ cy.get('h1').contains('About Page')
+                        # The new page should contain an h1 with "About page"
+        #
+            # eslint-disable
+        # Disable ESLint to prevent failing linting inside the Next.js repo.
+        # If you're using ESLint on your project, we recommend installing the ESLint Cypress plugin instead:
+        # https://github.com/cypress-io/eslint-plugin-cypress
+        # Cypress E2E Test
+        # Prevent TypeScript from reading file as legacy script
+    export 
+        # Prevent TypeScript from reading file as legacy script

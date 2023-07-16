@@ -1,0 +1,57 @@
+module
+    kind react
+    import 
+        @ useState
+        @ useEffect
+        from 'react'
+    const Home
+        => 
+            const [input, setInput] = useState('')
+            const [message, setMessage] = useState(null)
+            _ useEffect
+                => 
+                    const handleMessage
+                        => 
+                            param event
+                            param message
+                            _ setMessage(message)
+                    _ window.electron.message.on(handleMessage)
+                    return 
+                        => 
+                            _ window.electron.message.off(handleMessage)
+                [ 
+            const handleSubmit
+                => 
+                    param event
+                    _ event.preventDefault()
+                    _ window.electron.message.send(input)
+                    _ setMessage(null)
+            return 
+                div 
+                    h1 
+                        + Hello Electron!
+                    { 
+                        && 
+                            + message
+                            p 
+                                + {message}
+                    form 
+                        @ onSubmit {handleSubmit}
+                        input 
+                            @ type "text"
+                            @ value {input}
+                            @ onChange
+                                => 
+                                    param e
+                                    _ setInput(e.target.value)
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       h1 {&lf;
+                                + &nbsp;         color: red;&lf;
+                                + &nbsp;         font-size: 50px;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;
+    export-default Home

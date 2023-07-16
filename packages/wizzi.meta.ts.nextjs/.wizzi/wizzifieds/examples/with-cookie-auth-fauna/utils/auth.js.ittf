@@ -1,0 +1,44 @@
+module
+    kind react
+    import 
+        @ useEffect
+        from 'react'
+    import Router from 'next/router'
+    export 
+        const login
+            => 
+                { 
+                    @ email
+                _ Router.push('/profile')
+    export 
+        const logout
+            async=> 
+                await 
+                    _ fetch('/api/logout')
+                _ window.localStorage.setItem('logout', Date.now())
+                _ Router.push('/login')
+    export 
+        const withAuthSync
+            => 
+                param Component
+                const Wrapper
+                    => 
+                        param props
+                        const syncLogout
+                            => 
+                                param event
+                                if event.key === 'logout'
+                                    _ console.log('logged out from storage!')
+                                    _ Router.push('/login')
+                        _ useEffect
+                            => 
+                                _ window.addEventListener('storage', syncLogout)
+                                return 
+                                    => 
+                                        _ window.removeEventListener('storage', syncLogout)
+                                        _ window.localStorage.removeItem('logout')
+                            [ 
+                        return 
+                            < Component 
+                                @ {...props}
+                return Wrapper

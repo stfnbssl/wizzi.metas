@@ -1,0 +1,20 @@
+module
+    kind react
+    import 
+        @ parseISO
+        @ format
+        from 'date-fns'
+    :type Props
+        :{ 
+            :p dateString
+                :string 
+    export-default 
+        function Date
+            { 
+                @ dateString
+                :ref Props
+            const date = parseISO(dateString)
+            return 
+                time 
+                    @ dateTime {dateString}
+                    + {format(date, 'LLLL	d, yyyy')}

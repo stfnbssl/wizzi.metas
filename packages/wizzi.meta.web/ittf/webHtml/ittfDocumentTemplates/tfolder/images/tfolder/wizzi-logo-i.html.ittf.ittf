@@ -1,0 +1,22 @@
+$group
+	${'$'}params l:integer, &opt
+
+	polyline
+		stroke ${'$'}{opt.color}
+		fill ${'$'}{opt.color}
+		stroke-width 2
+		points ${'$'}{l} ${'$'}{opt.ybottom} 
+			\b ${'$'}{l+10} ${'$'}{opt.y1+80}
+			\b ${'$'}{l+40} ${'$'}{opt.y1+80} 
+			\b ${'$'}{l+50} ${'$'}{opt.ybottom} 
+
+	path
+		stroke ${'$'}{opt.color}
+		fill ${'$'}{opt.color}
+		stroke-width 2
+		d M${'$'}{l+30}, ${'$'}{opt.y1+20} 
+			\b C${'$'}{l+60},${'$'}{opt.y1+40} 
+			\b ${'$'}{l+0},${'$'}{opt.y1+60} 
+			\b ${'$'}{l+30}, ${'$'}{opt.y1+74}
+
+

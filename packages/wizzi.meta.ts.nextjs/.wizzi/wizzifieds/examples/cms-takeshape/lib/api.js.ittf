@@ -1,0 +1,167 @@
+module
+    kind react
+    const API_URL
+        `lit 
+            + https://api.takeshape.io/project/
+            @ process.env.TAKESHAPE_PROJECT_ID
+            + /graphql
+    const API_KEY = process.env.TAKESHAPE_API_KEY
+    async-function fetchAPI
+        param query
+        param 
+            @ variables
+            = 
+        const res
+            await 
+                _ fetch
+                    @ API_URL
+                    { 
+                        @ method 'POST'
+                        { headers
+                            @ 'Content-Type' 'application/json'
+                            @ Authorization
+                                `lit 
+                                    + Bearer&nbsp;
+                                    @ API_KEY
+                                    + 
+                        @ body
+                            _ JSON.stringify
+                                { 
+                                    @ query
+                                    @ variables
+        const json
+            await 
+                _ res.json()
+        if json.errors
+            _ console.error(json.errors)
+            throw new Error('Failed to fetch API')
+        return json.data
+    export 
+        async-function getPreviewPostBySlug
+            param slug
+            const data
+                await 
+                    _ fetchAPI
+                        `lit 
+                            + &lf;
+                            + &nbsp;   query PostBySlug($slug: String) {&lf;
+                            + &nbsp;     post: getPostList(filter: {term: {slug: $slug}}, size: 1, onlyEnabled: false) {&lf;
+                            + &nbsp;       items {&lf;
+                            + &nbsp;         slug&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }
+                        { 
+                            { variables
+                                @ slug
+            return (data?.post?.items || [])[0]
+    export 
+        async-function getAllPostsWithSlug
+            const data
+                await 
+                    _ fetchAPI
+                        `lit 
+                            + &lf;
+                            + &nbsp;   {&lf;
+                            + &nbsp;     allPosts: getPostList {&lf;
+                            + &nbsp;       items {&lf;
+                            + &nbsp;         slug&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }&lf;
+                            + &nbsp;&nbsp;
+            return data?.allPosts?.items
+    export 
+        async-function getAllPostsForHome
+            param preview
+            const data
+                await 
+                    _ fetchAPI
+                        `lit 
+                            + &lf;
+                            + &nbsp;   query AllPosts($onlyEnabled: Boolean) {&lf;
+                            + &nbsp;     allPosts: getPostList(sort: { field: "date", order: "desc" }, size: 20, onlyEnabled: $onlyEnabled) {&lf;
+                            + &nbsp;       items {&lf;
+                            + &nbsp;         slug&lf;
+                            + &nbsp;         title&lf;
+                            + &nbsp;         excerpt&lf;
+                            + &nbsp;         date&lf;
+                            + &nbsp;         coverImage {&lf;
+                            + &nbsp;           path&lf;
+                            + &nbsp;         }&lf;
+                            + &nbsp;         author {&lf;
+                            + &nbsp;           name&lf;
+                            + &nbsp;           picture {&lf;
+                            + &nbsp;             path&lf;
+                            + &nbsp;           }&lf;
+                            + &nbsp;         }&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }&lf;
+                            + &nbsp;&nbsp;
+                        { 
+                            { variables
+                                @ onlyEnabled !preview
+                                @ preview
+            return data?.allPosts?.items
+    export 
+        async-function getPostAndMorePosts
+            param slug
+            param preview
+            const data
+                await 
+                    _ fetchAPI
+                        `lit 
+                            + &lf;
+                            + &nbsp; query PostBySlug($slug: String, $onlyEnabled: Boolean) {&lf;
+                            + &nbsp;   post: getPostList(filter: { term: {slug: $slug}},&nbsp;
+                            iif preview
+                                then ''
+                                else 'where: { _status: { eq: "enabled" } },'
+                            + &nbsp;size: 1, onlyEnabled: $onlyEnabled) {&lf;
+                            + &nbsp;     items {&lf;
+                            + &nbsp;       title&lf;
+                            + &nbsp;       slug&lf;
+                            + &nbsp;       content&lf;
+                            + &nbsp;       date&lf;
+                            + &nbsp;       coverImage {&lf;
+                            + &nbsp;         path&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;       author {&lf;
+                            + &nbsp;         name&lf;
+                            + &nbsp;         picture {&lf;
+                            + &nbsp;           path&lf;
+                            + &nbsp;         }&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }&lf;
+                            + &nbsp;   morePosts: getPostList(&lf;
+                            + &nbsp;     filter: { bool: { must_not: { term: {slug: $slug}}}}, ,&nbsp;
+                            iif preview
+                                then ''
+                                else 'where: { _status: { eq: "enabled" } },'
+                            + &lf;
+                            + &nbsp;     sort: { field: "date", order: "desc" }, size: 2, onlyEnabled: $onlyEnabled) {&lf;
+                            + &nbsp;     items {&lf;
+                            + &nbsp;       title&lf;
+                            + &nbsp;       slug&lf;
+                            + &nbsp;       excerpt&lf;
+                            + &nbsp;       date&lf;
+                            + &nbsp;       coverImage {&lf;
+                            + &nbsp;         path&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;       author {&lf;
+                            + &nbsp;         name&lf;
+                            + &nbsp;         picture {&lf;
+                            + &nbsp;           path&lf;
+                            + &nbsp;         }&lf;
+                            + &nbsp;       }&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;   }&lf;
+                            + &nbsp; }&lf;
+                            + &nbsp;&nbsp;
+                        { 
+                            { variables
+                                @ slug
+                                @ onlyEnabled !preview
+            return data

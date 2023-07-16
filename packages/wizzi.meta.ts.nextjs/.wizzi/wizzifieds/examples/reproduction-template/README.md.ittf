@@ -1,0 +1,151 @@
+md
+    p 
+        + This is a
+        a 
+            href https://nextjs.org/
+            title 
+            + Next.js
+        + template to use when reporting a
+        a 
+            href https://github.com/vercel/next.js/issues
+            title 
+            + bug in the Next.js repository
+        + .
+    br 
+    h2 
+        + Getting Started
+    p 
+        + These are the steps you should follow when creating a bug report:
+    br 
+    ul 
+        li 
+            + Bug reports must be verified against the
+            code next@canary
+            + release. The canary version of Next.js ships daily and includes all features and fixes that have not been released to the stable version yet. Think of canary as a public beta. Some issues may already be fixed in the canary version, so please verify that your issue reproduces before opening a new issue. Issues not verified against
+            code next@canary
+            + will be closed after 30 days.
+        li 
+            + Make sure your issue is not a duplicate. Use the
+            a 
+                href https://github.com/vercel/next.js/issues
+                title 
+                + GitHub issue search
+            + to see if there is already an open issue that matches yours. If that is the case, upvoting the other issue&#39;s first comment is desireable as we often prioritize issues based on the number of votes they receive. Note: Adding a &quot;+1&quot; or &quot;same issue&quot; comment without adding more context about the issue should be avoided. If you only find closed related issues, you can link to them using the issue number and
+            code #
+            + , eg.:
+            code I found this related issue: #3000
+            + .
+        li 
+            + If you think the issue is not in Next.js, the best place to ask for help is our
+            a 
+                href https://nextjs.org/discord
+                title 
+                + Discord community
+            + or
+            a 
+                href https://github.com/vercel/next.js/discussions
+                title 
+                + GitHub discussions
+            + . Our community is welcoming and can often answer a project-related question faster than the Next.js core team.
+        li 
+            + Make the reproduction as minimal as possible. Try to exclude any code that does not help reproducing the issue. E.g. if you experience problems with Routing, including ESLint configurations or API routes aren&#39;t necessary. The less lines of code is to read through, the easier it is for the Next.js team to investigate. It may also help catching bugs in your codebase before publishing an issue.
+    br 
+    h2 
+        + How to use this template
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example reproduction-template reproduction-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example reproduction-template reproduction-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example reproduction-template reproduction-app
+    br 
+    h2 
+        + Learn More
+    p 
+        + To learn more about Next.js, take a look at the following resources:
+    br 
+    ul 
+        li 
+            a 
+                href https://nextjs.org/docs
+                title 
+                + Next.js Documentation
+            + - learn about Next.js features and API.
+        li 
+            a 
+                href https://nextjs.org/learn
+                title 
+                + Learn Next.js
+            + - an interactive Next.js tutorial.
+        li 
+            a 
+                href https://www.youtube.com/watch?v=cuoNzXFLitc
+                title 
+                + How to Contribute to Open Source (Next.js)
+            + - a video tutorial by Lee Robinson
+        li 
+            a 
+                href https://github.com/vercel/next.js/blob/canary/contributing.md#triaging
+                title 
+                + Triaging in the Next.js repository
+            + - how we work on issues
+        li 
+            a 
+                href https://codesandbox.io/s/github/vercel/next.js/tree/canary/examples/reproduction-template
+                title 
+                + CodeSandbox
+            + - Edit this repository on CodeSandbox
+    br 
+    p 
+        + You can check out
+        a 
+            href https://github.com/vercel/next.js/
+            title 
+            + the Next.js GitHub repository
+        + - your feedback and contributions are welcome!
+    br 
+    h2 
+        + Deployment
+    p 
+        + If your reproduction needs to be deployed, the easiest way is to use the
+        a 
+            href https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme
+            title 
+            + Vercel Platform
+        + from the creators of Next.js.
+    br 
+    p 
+        + Check out our
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Next.js deployment documentation
+        + for more details.

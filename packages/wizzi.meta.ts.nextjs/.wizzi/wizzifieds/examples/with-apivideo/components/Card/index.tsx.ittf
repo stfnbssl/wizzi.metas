@@ -1,0 +1,52 @@
+module
+    kind react
+    import React from 'react'
+    import Image from 'next/image'
+    import styles from './Card.module.css'
+    :interface ICardProps
+        :p content
+            :string 
+        :p url
+            :string 
+        :p method
+            :union 
+                :literal 'get'
+                :literal 'post'
+    const Card
+        :ref React.FC
+            :param 
+                :ref ICardProps
+        =
+            => 
+                { 
+                    @ content
+                    @ url
+                    @ method
+                :return
+                    :ref JSX.Element
+                a 
+                    @ className {styles.container}
+                    @ target "_blank"
+                    @ href {url}
+                    @ rel "noreferrer"
+                    div 
+                        @ className
+                            `lit 
+                                + 
+                                iif method === 'get'
+                                    then styles.get
+                                    else styles.post
+                                + 
+                        + {method.toUpperCase()}
+                    p 
+                        + {content}
+                    div 
+                        @ className {styles.image_container}
+                        < Image 
+                            @ src "/arrow.png"
+                            @ alt "Sketch arrow"
+                            @ width {20}
+                            @ height {20}
+                        p 
+                            + Try it out with our API!
+    export-default Card

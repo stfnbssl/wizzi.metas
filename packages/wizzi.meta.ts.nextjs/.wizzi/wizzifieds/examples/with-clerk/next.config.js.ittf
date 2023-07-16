@@ -1,0 +1,7 @@
+module
+    kind react
+    const nextConfig
+        { 
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

@@ -1,2 +1,2 @@
-# wizzi.metas
-Wizzi meta productions plugins
+# wizzi.cli
+Client library for wizzi

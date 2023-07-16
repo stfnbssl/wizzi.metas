@@ -1,0 +1,11 @@
+module
+    kind react
+    const withPWA
+        _ require('next-pwa')
+            { 
+                @ dest 'public'
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports =
+        _ withPWA
+            { 

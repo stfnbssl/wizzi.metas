@@ -1,0 +1,81 @@
+md
+    h1 
+        + Stomp example
+    p 
+        + This example show how to use
+        a 
+            href https://stomp.github.io/
+            title 
+            + STOMP
+        + inside a Next.js application.
+    br 
+    p 
+        + STOMP is a simple text-orientated messaging protocol. It defines an interoperable wire format so that any of the available STOMP clients can communicate with any STOMP message broker.
+    br 
+    p 
+        + Read more about
+        a 
+            href http://jmesnil.net/stomp-websocket/doc/
+            title 
+            + STOMP
+        + protocol.
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-stomp with-stomp-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-stomp with-stomp-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-stomp with-stomp-app
+    br 
+    p 
+        + You&#39;ll need to provide the STOMP url of your server before running the app. Open
+        a 
+            href .env
+            title 
+            code .env
+        + and update the
+        code NEXT_PUBLIC_STOMP_SERVER
+        + environment variable.
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

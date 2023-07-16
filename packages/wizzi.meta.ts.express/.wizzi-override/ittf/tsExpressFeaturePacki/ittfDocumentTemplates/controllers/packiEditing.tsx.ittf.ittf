@@ -1,0 +1,301 @@
+$group
+
+    $
+        var routeWebFragment = metaCtx.isLocal ? 'route' : 'route_web_secured';
+
+    ${'$'}
+        var ctrl = {
+            name: 'PackiEditing',
+            path: '/~~',
+            webSecured: wzCtx.App.isLocal == false,
+        }
+    
+    v08/ts/controller${'('} &ctrl )
+            
+        ${'$'}append imports
+            import ReactDOMServer
+                from 'react-dom/server'
+            import
+                @ config
+                from '../../config'
+            import
+                @ artifactApi
+                @ packageApi
+                @ metaApi
+                @ pluginApi
+                @ tFolderApi
+                from '../../packiProductions' 
+            import EditorDocument 
+                from '../../../pages/EditorDocument' 
+            import PackiItemList 
+                from '../components/PackiItemList' 
+            const myname = 'features/packi/controller/packiEditing'
+            +
+            function renderPackiEditor
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param packiItemObject
+                    :object
+                param loggedUser
+                    :object
+                param queryParams
+                    :object
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < EditorDocument 
+                                @ data {packiItemObject}
+                                @ queryParams {queryParams}
+                                @ loggedUser {loggedUser}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+        
+        v08/ts/${routeWebFragment}${'('} get, /:owner, this.getPackiItemList)
+        v08/ts/${routeWebFragment}${'('} get, /a/:owner/:name, this.getPackiArtifactProductionByUsername_Name)
+        v08/ts/${routeWebFragment}${'('} get, /a/:owner/:name/*, this.getPackiArtifactProductionByUsername_Name)
+        v08/ts/${routeWebFragment}${'('} get, /p/:owner/:name, this.getPackiPackageProductionByUsername_Name)
+        v08/ts/${routeWebFragment}${'('} get, /p/:owner/:name/*, this.getPackiPackageProductionByUsername_Name)
+        v08/ts/${routeWebFragment}${'('} get, /m/:owner/:name, this.getPackiMetaProductionByUsername_Name)
+        v08/ts/${routeWebFragment}${'('} get, /m/:owner/:name/*, this.getPackiMetaProductionByUsername_Name)
+        v08/ts/${routeWebFragment}${'('} get, /l/:owner/:name, this.getPackiPluginProductionByUsername_Name)
+        v08/ts/${routeWebFragment}${'('} get, /l/:owner/:name/*, this.getPackiPluginProductionByUsername_Name)
+        v08/ts/${routeWebFragment}${'('} get, /t/:owner/:name, this.getPackiTFolderByUsername_Name)
+        v08/ts/${routeWebFragment}${'('} get, /t/:owner/:name/*, this.getPackiTFolderByUsername_Name)
+        
+        ${'$'}append handlers
+            
+            v08/ts/handler${'('} getPackiItemList )
+                return
+                    _ response.redirect
+                        @ '/packi/productions/artifacts'
+            
+            v08/ts/handler${'('} getPackiArtifactProductionByUsername_Name )
+                # TODO
+                $$ llog myname + '.getPackiArtifactProductionByUsername_Name', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                $$ llog myname + '.getPackiArtifactProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                _ artifactApi.getArtifactProductionObject
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog myname + '.getPackiArtifactProductionByUsername_Name.result', result
+                            ${'$'}if wzCtx.App.isLocal
+                                const loggedUser
+                                    {
+                                        @ id 'local_' + config.userUserName
+                                        @ username config.userUserName
+                                        @ displayName config.userDisplayName
+                                        @ picture config.userAvatarUrl
+                            ${'$'}else
+                                const user = (request.session as any).user
+                                const loggedUser
+                                    {
+                                        @ id user._id
+                                        @ username user.username
+                                        @ displayName user.name
+                                        @ picture user.avatar_url
+                            _ renderPackiEditor
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    { packi
+                                        @ _id result._id
+                                        @ owner result.owner
+                                        @ name result.name
+                                        @ description result.description
+                                        @ mainIttf result.mainIttf
+                                        @ wizziSchema result.wizziSchema
+                                        @ packiFiles result.packiFiles
+                                        @ packiProduction 'artifact'
+                                @ loggedUser
+                                @ queryParams
+                    v08/ts/catch_fail${'('} getPackiArtifactProductionByUsername_Name )
+
+            v08/ts/handler${'('} getPackiPackageProductionByUsername_Name )
+                # TODO
+                $$ llog myname + '.getPackiPackageProductionByUsername_Name', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                $$ llog myname + '.getPackiPackageProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                _ packageApi.getPackageProductionObject
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog myname + '.getPackiPackageProductionByUsername_Name.result', Object.keys(result)
+                            ${'$'}if wzCtx.App.isLocal
+                                const loggedUser
+                                    {
+                                        @ id 'local_' + config.userUserName
+                                        @ username config.userUserName
+                                        @ displayName config.userDisplayName
+                                        @ picture config.userAvatarUrl
+                            ${'$'}else
+                                const user = (request.session as any).user
+                                const loggedUser
+                                    {
+                                        @ id user._id
+                                        @ username user.username
+                                        @ displayName user.name
+                                        @ picture user.avatar_url
+                            _ renderPackiEditor
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    { packi
+                                        @ _id result._id
+                                        @ owner result.owner
+                                        @ name result.name
+                                        @ description result.description
+                                        @ packiFiles result.packiFiles
+                                        @ packiProduction 'package'
+                                @ loggedUser
+                                @ queryParams
+                    v08/ts/catch_fail${'('} getPackiPackageProductionByUsername_Name )
+
+            v08/ts/handler${'('} getPackiMetaProductionByUsername_Name )
+                # TODO
+                $$ loog myname + '.getPackiMetaProductionByUsername_Name', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                $$ loog myname + '.getPackiMetaProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                _ metaApi.getMetaProductionObject
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog myname + '.getPackiMetaProductionByUsername_Name.result', result
+                            ${'$'}if wzCtx.App.isLocal
+                                const loggedUser
+                                    {
+                                        @ id 'local_' + config.userUserName
+                                        @ username config.userUserName
+                                        @ displayName config.userDisplayName
+                                        @ picture config.userAvatarUrl
+                            ${'$'}else
+                                const user = (request.session as any).user
+                                const loggedUser
+                                    {
+                                        @ id user._id
+                                        @ username user.username
+                                        @ displayName user.name
+                                        @ picture user.avatar_url
+                            _ renderPackiEditor
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    { packi
+                                        @ _id result._id
+                                        @ owner result.owner
+                                        @ name result.name
+                                        @ description result.description
+                                        @ packiFiles result.packiFiles
+                                        @ packiProduction 'meta'
+                                @ loggedUser
+                                @ queryParams
+                    v08/ts/catch_fail${'('} getPackiMetaProductionByUsername_Name )
+
+            v08/ts/handler${'('} getPackiPluginProductionByUsername_Name )
+                # TODO
+                $$ loog myname + '.getPackiPluginProductionByUsername_Name', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                $$ loog myname + '.getPackiPluginProductionByUsername_Name', parts[1], parts.slice(2).join('/')
+                _ pluginApi.getPluginProductionObject
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog myname + '.getPackiPluginProductionByUsername_Name.result', result
+                            ${'$'}if wzCtx.App.isLocal
+                                const loggedUser
+                                    {
+                                        @ id 'local_' + config.userUserName
+                                        @ username config.userUserName
+                                        @ displayName config.userDisplayName
+                                        @ picture config.userAvatarUrl
+                            ${'$'}else
+                                const user = (request.session as any).user
+                                const loggedUser
+                                    {
+                                        @ id user._id
+                                        @ username user.username
+                                        @ displayName user.name
+                                        @ picture user.avatar_url
+                            _ renderPackiEditor
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    { packi
+                                        @ _id result._id
+                                        @ owner result.owner
+                                        @ name result.name
+                                        @ description result.description
+                                        @ packiFiles result.packiFiles
+                                        @ packiProduction 'plugin'
+                                @ loggedUser
+                                @ queryParams
+                    v08/ts/catch_fail${'('} getPackiPluginProductionByUsername_Name )
+
+            v08/ts/handler${'('} getPackiTFolderByUsername_Name )
+                # TODO
+                $$ loog myname + '.getPackiTFolderByUsername_Name', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                $$ loog myname + '.getPackiTFolderByUsername_Name', parts[1], parts.slice(2).join('/')
+                _ tFolderApi.getTFolderObject
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            $$ loog myname + '.getPackiTFolderByUsername_Name.result', result
+                            ${'$'}if wzCtx.App.isLocal
+                                const loggedUser
+                                    {
+                                        @ id 'local_' + config.userUserName
+                                        @ username config.userUserName
+                                        @ displayName config.userDisplayName
+                                        @ picture config.userAvatarUrl
+                            ${'$'}else
+                                const user = (request.session as any).user
+                                const loggedUser
+                                    {
+                                        @ id user._id
+                                        @ username user.username
+                                        @ displayName user.name
+                                        @ picture user.avatar_url
+                            _ renderPackiEditor
+                                @ request
+                                @ response
+                                {
+                                    @ type 'success'
+                                    { packi
+                                        @ _id result._id
+                                        @ owner result.owner
+                                        @ name result.name
+                                        @ description result.description
+                                        @ packiFiles result.packiFiles
+                                        @ packiProduction 'tfolder'
+                                @ loggedUser
+                                @ queryParams
+                    v08/ts/catch_fail${'('} getPackiTFolderByUsername_Name )

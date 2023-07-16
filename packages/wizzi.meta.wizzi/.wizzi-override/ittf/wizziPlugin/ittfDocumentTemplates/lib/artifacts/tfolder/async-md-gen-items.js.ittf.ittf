@@ -1,0 +1,70 @@
+﻿$group
+    ${'$'}params &md
+
+    # ITTF Fragment lib/artifacts/tfolder/async-md-gen-items.js.ittf
+
+    set md.genItems
+        function
+            param items
+            param ctx
+            param options
+            param callback
+            if typeof callback == 'undefined'
+                set callback = options
+                set options = {}
+            var
+                decl opt = options || {}
+                decl from = opt.from || 0
+                decl indent = typeof opt.indent === 'undefined' ? true : opt.indent
+            if indent
+                _ ctx.indent()
+            var goitems = []
+            for var i = from; i < items.length; i++
+                _ goitems.push(items[i])
+            _ async.mapSeries
+                @ goitems
+                _ md.mapItem
+                    @ ctx
+                a_cb${'('} )
+                    if indent
+                        _ ctx.deindent()
+                    _ process.nextTick
+                        @ callback
+
+    set md.mapItem
+        function
+            param ctx
+            return
+                function
+                    param model
+                    param callback
+                    return
+                        _ md.genItem
+                            @ model
+                            @ ctx
+                            @ callback
+
+    set md.genItem
+        function
+            param model
+            param ctx
+            param callback
+            ${'$'}if md.useStmNamespace
+                var method = md.stm[model.wzElement]
+            ${'$'}else
+                var method = md[model.wzElement]
+            if method
+                return
+                    _ method
+                        @ model
+                        @ ctx
+                        @ callback
+            else
+                return
+                    _ callback
+                        _ error
+                            @ 'ArtifactGenerationError'
+                            @ 'genItem'
+                            @ myname + '. Unknown tag/element: ' + model.wzTag + '/' + model.wzElement
+                            @ model
+                            @ null

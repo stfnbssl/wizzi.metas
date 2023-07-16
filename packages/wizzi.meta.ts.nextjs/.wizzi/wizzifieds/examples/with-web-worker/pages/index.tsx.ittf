@@ -1,0 +1,42 @@
+module
+    kind react
+    import 
+        @ useEffect
+        @ useRef
+        @ useCallback
+        from 'react'
+    export-default 
+        function Index
+            const workerRef
+                _ useRef
+                    :param 
+                        :ref Worker
+            _ useEffect
+                => 
+                    set workerRef.current = new Worker(URL('../worker.ts', import.meta.url))
+                    set workerRef.current.onmessage =
+                        => 
+                            param event
+                                :ref MessageEvent
+                                    :param number
+                            _ alert
+                                `lit 
+                                    + WebWorker Response =>&nbsp;
+                                    @ event.data
+                                    + 
+                    return 
+                        => 
+                            _ workerRef.current?.terminate?.()
+                [ 
+            const handleWork
+                _ useCallback
+                    async=> 
+                        _ workerRef.current?.postMessage?.(100000)
+                    [ 
+            return 
+                < React.Fragment
+                    p 
+                        + Do work in a WebWorker!
+                    button 
+                        @ onClick {handleWork}
+                        + Calculate PI

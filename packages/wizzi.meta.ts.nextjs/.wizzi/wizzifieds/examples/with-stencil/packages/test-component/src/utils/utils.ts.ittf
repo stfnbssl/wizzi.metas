@@ -1,0 +1,32 @@
+module
+    kind react
+    export 
+        function format
+            param first
+                :string 
+            param middle
+                :string 
+            param last
+                :string 
+            :return
+                :string 
+            return 
+                op+ 
+                    op+ 
+                        + (first || '')
+                        ( 
+                            iif middle
+                                then
+                                    `lit 
+                                        + &nbsp;
+                                        @ middle
+                                        + 
+                                else ''
+                    ( 
+                        iif last
+                            then
+                                `lit 
+                                    + &nbsp;
+                                    @ last
+                                    + 
+                            else ''

@@ -1,0 +1,33 @@
+module
+    kind react
+    import 
+        @ parseISO
+        @ format
+        from 'date-fns'
+    import 
+        @ useEffect
+        @ useState
+        from 'react'
+        # dateString might be null for unpublished posts
+    export-default 
+        function DateComponent
+            { 
+                @ dateString
+            const [date, setDate]
+                _ useState
+                    iif dateString
+                        then parseISO(dateString)
+                        else null
+            _ useEffect
+                => 
+                    if !date
+                        _ setDate(new Date())
+                [ 
+                    @ date
+            return 
+                && 
+                    + date
+                    time 
+                        @ dateTime {date}
+                        + {format(date, 'LLLL d, yyyy')}
+        # dateString might be null for unpublished posts

@@ -1,0 +1,66 @@
+module
+    kind react
+    import 
+        @ FormEvent
+        @ useEffect
+        @ useState
+        from 'react'
+    import 
+        @ useMutation
+        @ useQuery
+        from '../convex/_generated/react'
+    export-default 
+        function App
+            const messages = useQuery('listMessages') || []
+            const [newMessageText, setNewMessageText] = useState('')
+            const sendMessage = useMutation('sendMessage')
+            const [name, setName] = useState('user')
+            _ useEffect
+                => 
+                    _ setName('User ' + Math.floor(Math.random() * 10000))
+                [ 
+            async-function handleSendMessage
+                param event
+                    :ref FormEvent
+                _ event.preventDefault()
+                _ setNewMessageText('')
+                await 
+                    _ sendMessage
+                        { 
+                            @ body newMessageText
+                            @ author name
+            return 
+                main 
+                    h1 
+                        + Convex Chat
+                    p 
+                        @ className "badge"
+                        span 
+                            + {name}
+                    ul 
+                        { 
+                            _ messages.map
+                                => 
+                                    param message
+                                    li 
+                                        @ key {message._id.toString()}
+                                        span 
+                                            + {message.author}
+                                            + :
+                                        span 
+                                            + {message.body}
+                                        span 
+                                            + {new Date(message._creationTime).toLocaleTimeString()}
+                    form 
+                        @ onSubmit {handleSendMessage}
+                        input 
+                            @ value {newMessageText}
+                            @ onChange
+                                => 
+                                    param event
+                                    _ setNewMessageText(event.target.value)
+                            @ placeholder "Write a message…"
+                        input 
+                            @ type "submit"
+                            @ value "Send"
+                            @ disabled {!newMessageText}

@@ -1,0 +1,38 @@
+module
+    kind react
+    :interface Person
+        :p name
+            :string 
+        :p born
+            :number 
+        :p movies
+            :ref Movies
+    :interface Movie
+        :p title
+            :string 
+        :p tagline
+            :string 
+        :p released
+            :number 
+        :p actors
+            :ref Actors
+        :p directors
+            :ref Directors
+    export 
+        :type Movies
+            :[ 
+                :ref Partial
+                    :param 
+                        :ref Movie
+    export 
+        :type Actors
+            :[ 
+                :ref Partial
+                    :param 
+                        :ref Person
+    export 
+        :type Directors
+            :[ 
+                :ref Partial
+                    :param 
+                        :ref Person

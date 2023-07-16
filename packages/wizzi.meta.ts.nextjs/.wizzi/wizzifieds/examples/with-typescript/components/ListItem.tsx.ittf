@@ -1,0 +1,27 @@
+module
+    kind react
+    import React from 'react'
+    import Link from 'next/link'
+    import 
+        @ User
+        from '../interfaces'
+    :type Props
+        :{ 
+            :p data
+                :ref User
+    const ListItem
+        => 
+            { 
+                @ data
+                :ref Props
+            < Link 
+                @ href "/users/[id]"
+                @ as
+                    `lit 
+                        + /users/
+                        @ data.id
+                        + 
+                + {data.id}
+                + :
+                + {data.name}
+    export-default ListItem

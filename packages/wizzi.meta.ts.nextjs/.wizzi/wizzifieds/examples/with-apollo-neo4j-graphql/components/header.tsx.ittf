@@ -1,0 +1,51 @@
+module
+    kind react
+    export-default 
+        function Header
+            { 
+                @ title
+                :{ 
+                    :p title
+                        :optional 
+                        :union 
+                            :string 
+                            :[ 
+                                :string 
+            return 
+                header 
+                    h1 
+                        @ className "title"
+                        { 
+                            iif title
+                                then
+                                    span 
+                                        + {title}
+                                else
+                                    span 
+                                        + Welcome to
+                                        a 
+                                            @ href "https://nextjs.org"
+                                            + Next.js with Neo4j!
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       .title a {&lf;
+                                + &nbsp;         color: #0070f3;&lf;
+                                + &nbsp;         text-decoration: none;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;       .title a:hover,&lf;
+                                + &nbsp;       .title a:focus,&lf;
+                                + &nbsp;       .title a:active {&lf;
+                                + &nbsp;         text-decoration: underline;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;       .title {&lf;
+                                + &nbsp;         font-size: 3rem;&lf;
+                                + &nbsp;         margin-bottom: 25px;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;       .title,&lf;
+                                + &nbsp;       .description {&lf;
+                                + &nbsp;         text-align: center;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;

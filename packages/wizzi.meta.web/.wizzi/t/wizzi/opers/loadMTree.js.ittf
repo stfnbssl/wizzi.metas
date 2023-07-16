@@ -1,0 +1,19 @@
+$group
+    function loadMTree
+        param ittfDocumentUri
+        param context
+        param plugins
+        param callback
+        +
+        if !callback
+            set callback = plugins
+            set plugins = null
+        +
+        _ createWizziFactory
+            {
+            @ plugins
+            a_cb( wf )
+                _ wf.loadMTree
+                    @ ittfDocumentUri
+                    @ context
+                    @ callback

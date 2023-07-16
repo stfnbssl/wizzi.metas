@@ -1,0 +1,418 @@
+md
+    h1 
+        + A statically generated blog example using Next.js and Prismic
+    p 
+        + This example showcases Next.js&#39;s
+        a 
+            href https://nextjs.org/docs/basic-features/pages
+            title 
+            + Static Generation
+        + feature using
+        a 
+            href https://prismic.io/
+            title 
+            + Prismic
+        + as the data source.
+    br 
+    h2 
+        + Demo
+    h3 
+        a 
+            href https://next-blog-prismic.vercel.app/
+            title 
+            + https://next-blog-prismic.vercel.app/
+    h2 
+        + Deploy your own
+    p 
+        + Once you have access to
+        a 
+            href #step-5-set-up-environment-variables
+            title 
+            + the environment variables you&#39;ll need
+        + , deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + :
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/cms-prismic&project-name=cms-prismic&repository-name=cms-prismic&env=PRISMIC_API_TOKEN,PRISMIC_REPOSITORY_NAME&envDescription=Required%20to%20connect%20the%20app%20with%20Prismic&envLink=https://vercel.link/cms-prismic-env
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h3 
+        + Related examples
+    ul 
+        li 
+            a 
+                href /examples/cms-wordpress
+                title 
+                + WordPress
+        li 
+            a 
+                href /examples/cms-datocms
+                title 
+                + DatoCMS
+        li 
+            a 
+                href /examples/cms-sanity
+                title 
+                + Sanity
+        li 
+            a 
+                href /examples/cms-takeshape
+                title 
+                + TakeShape
+        li 
+            a 
+                href /examples/cms-contentful
+                title 
+                + Contentful
+        li 
+            a 
+                href /examples/cms-strapi
+                title 
+                + Strapi
+        li 
+            a 
+                href /examples/cms-agilitycms
+                title 
+                + Agility CMS
+        li 
+            a 
+                href /examples/cms-cosmic
+                title 
+                + Cosmic
+        li 
+            a 
+                href /examples/cms-buttercms
+                title 
+                + ButterCMS
+        li 
+            a 
+                href /examples/cms-storyblok
+                title 
+                + Storyblok
+        li 
+            a 
+                href /examples/cms-kontent
+                title 
+                + Kontent
+        li 
+            a 
+                href /examples/cms-ghost
+                title 
+                + Ghost
+        li 
+            a 
+                href /examples/cms-umbraco-heartcore
+                title 
+                + Umbraco Heartcore
+        li 
+            a 
+                href /examples/blog-starter
+                title 
+                + Blog Starter
+        li 
+            a 
+                href /examples/cms-builder-io
+                title 
+                + Builder.io
+        li 
+            a 
+                href /examples/cms-dotcms
+                title 
+                + DotCMS
+        li 
+            a 
+                href /examples/cms-enterspeed
+                title 
+                + Enterspeed
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example cms-prismic cms-prismic-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example cms-prismic cms-prismic-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example cms-prismic cms-prismic-app
+    br 
+    h2 
+        + Configuration
+    h3 
+        + Step 1. Create an account and repository on Prismic
+    p 
+        + First, create a Prismic account and repository with the following command:
+    br 
+    code 
+        lang sh
+        + npx @slicemachine/init
+    br 
+    p 
+        + This command will:
+    br 
+    ul 
+        ordered 
+        li 
+            + Ask you to log in to Prismic or create an account.
+        li 
+            + Create a new Prismic repository with premade Author and Post content models.
+        li 
+            + Connect the Prismic repository to your app.
+    br 
+    p 
+        b 
+            + Optional
+        + : To see the premade content models, start the
+        a 
+            href https://prismic.io/docs/technologies/slice-machine
+            title 
+            + Slice Machine
+        + app.
+    br 
+    code 
+        lang sh
+        + npm run slicemachine
+    br 
+    p 
+        + Slice Machine should be available on
+        a 
+            href http://localhost:9999
+            title
+            + http://localhost:9999
+        + once started.
+    br 
+    h3 
+        + Step 2. Populate Content
+    p 
+        + Go to the
+        a 
+            href https://prismic.io/dashboard
+            title 
+            + Prismic dashboard
+        + and select your Prismic repository.
+    br 
+    p 
+        + Once in, click on
+        b 
+            + Create new
+        + and select the
+        b 
+            + Author
+        + type:
+    br 
+    ul 
+        li 
+            + You just need
+            b 
+                + 1 author document
+            + .
+        li 
+            + Use dummy data for the text.
+        li 
+            + For the image, you can download one from
+            a 
+                href https://unsplash.com/
+                title 
+                + Unsplash
+            + .
+    br 
+    p 
+        + Save and publish the document.
+    br 
+    p 
+        + Next, go back to the documents list, click on
+        b 
+            + Create new
+        + and select the
+        b 
+            + Post
+        + type:
+    br 
+    ul 
+        li 
+            + We recommend creating at least
+            b 
+                + 2 Post documents
+            + .
+        li 
+            + Use dummy data for the text.
+        li 
+            + You can use the Text and Image Slices to create content.
+        li 
+            + For images, you can download them from
+            a 
+                href https://unsplash.com/
+                title 
+                + Unsplash
+            + .
+        li 
+            + Pick the
+            b 
+                + author
+            + you created earlier.
+    br 
+    p 
+        b 
+            + Important:
+        + For each document, you need to click
+        b 
+            + Publish
+        + after saving. If not, the document will be in the draft state.
+    br 
+    h3 
+        + Step 3. Run Next.js in development mode
+    code 
+        lang bash
+        + npm run dev
+        + 
+        + # or
+        + 
+        + yarn dev
+    br 
+    p 
+        + Your blog should be up and running on
+        a 
+            href http://localhost:3000
+            title 
+            + http://localhost:3000
+        + ! If it doesn&#39;t work, post on
+        a 
+            href https://github.com/vercel/next.js/discussions
+            title 
+            + GitHub discussions
+        + .
+    br 
+    h3 
+        + Step 4. Try preview mode
+    p 
+        + On your repository page, go to
+        b 
+            + Settings
+        + , click on
+        b 
+            + Previews
+        + , and then
+        b 
+            + Create a New Preview
+        + . Fill the form like so for development previews:
+    br 
+    ul 
+        li 
+            b 
+                + Site Name
+            + : may be anything, like &quot;Development&quot;
+        li 
+            b 
+                + Domain of Your Application
+            + :
+            code http://localhost:3000
+        li 
+            b 
+                + Link Resolver
+            + :
+            code /api/preview
+    br 
+    p 
+        + Once saved, go to one of the posts you created and:
+    br 
+    ul 
+        li 
+            b 
+                + Update the title
+            + . For example, you can add
+            code [Draft]
+            + in front of the title.
+        li 
+            + Click
+            b 
+                + Save
+            + , but
+            b 
+                + DO NOT
+            + click
+            b 
+                + Publish
+            + . By doing this, the post will be in draft state.
+        li 
+            + Right next to the
+            b 
+                + Publish
+            + button, you should see the
+            b 
+                + Preview
+            + button, displayed with an eye icon. Click on it!
+    br 
+    p 
+        + You should now be able to see the updated title. To exit preview mode, click on the &quot;x&quot; icon in the purple Prismic toolbar in the bottom left corner of the page.
+    br 
+    h3 
+        + Step 5. Deploy on Vercel
+    p 
+        + You can deploy this app to the cloud with
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h4 
+        + Deploy Your Local Project
+    p 
+        + To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + import to Vercel
+        + .
+    br 
+    h4 
+        + Deploy from Our Template
+    p 
+        + Alternatively, you can deploy using our template by clicking on the Deploy button below.
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/cms-prismic&project-name=cms-prismic
+            title 
+            img 
+                href https://vercel.com/button
+                title 

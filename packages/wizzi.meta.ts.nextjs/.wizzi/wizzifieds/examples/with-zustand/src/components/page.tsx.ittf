@@ -1,0 +1,28 @@
+module
+    kind react
+    import useInterval from '../lib/useInterval'
+    import Clock from './clock'
+    import Counter from './counter'
+    import Nav from './nav'
+    import 
+        @ useStore
+        from '../lib/store'
+    export-default 
+        function Page
+            const tick
+                _ useStore
+                    => 
+                        param store
+                        +
+                            @expr store.tick
+                # Tick the time every second
+            _ useInterval
+                => 
+                    _ tick(Date.now(), true)
+                @ 1000
+                # Tick the time every second
+            return 
+                < React.Fragment
+                    < Nav 
+                    < Clock 
+                    < Counter 

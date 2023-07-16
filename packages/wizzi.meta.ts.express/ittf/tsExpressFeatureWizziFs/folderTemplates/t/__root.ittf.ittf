@@ -1,0 +1,12 @@
+$group
+	$$ folder __root ext ts
+	$
+		var items = [
+			'index',
+			'types',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/src/features/wizziFs/${item}.ts.ittf.ittf
+			module
+				${'$'}include tsExpressFeatureWizziFs/__root/${item}.ts

@@ -1,0 +1,40 @@
+module
+    kind react
+    import passport from 'passport'
+    import LocalStrategy from 'passport-local'
+    import 
+        @ findUserByUsername
+        @ validatePassword
+        from './db'
+    _ passport.serializeUser
+        function 
+            param user
+            param done
+            _ done(null, user.username)
+                # serialize the username into session
+    _ passport.deserializeUser
+        function 
+            param req
+            param id
+            param done
+            const user = findUserByUsername(req, id)
+                # deserialize the username back into user object
+            _ done(null, user)
+    _ passport.use
+        new LocalStrategy
+            { 
+                @ passReqToCallback true
+            => 
+                param req
+                param username
+                param password
+                param done
+                const user = findUserByUsername(req, username)
+                    # Here you lookup the user in your DB and compare the password/hashed password
+                    # Security-wise, if you hashed the password earlier, you must verify it
+                    # if (!user || await argon2.verify(user.password, password))
+                if !user || !validatePassword(user, password)
+                    _ done(null, null)
+                else
+                    _ done(null, user)
+    export-default passport

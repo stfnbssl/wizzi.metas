@@ -1,0 +1,42 @@
+﻿$group
+
+	$$ eslint require npm install in linted package (codecamps/<package>)
+	$$ eslint has a dependency on prettier
+
+	m eslintExec
+		param options
+		param callback
+
+		var filePath = options.filePath
+		var packagePath = options.packagePath
+		var folder = options.folder
+		var codeArgs = options.args
+		var args = [folder]
+		if codeArgs && codeArgs.length > 0
+			set args = args.concat(codeArgs)
+		_ this.spawnExec
+			{
+				@ command '"./node_modules/.bin/eslint"'
+				@ cwd packagePath
+				@ args args
+			@ callback
+
+	m eslintExecToEventStream
+		param options
+		param res
+		param callback
+
+		var filePath = options.filePath
+		var packagePath = options.packagePath
+		var folder = options.folder
+		var codeArgs = options.args
+		var args = [folder]
+		if codeArgs && codeArgs.length > 0
+			set args = args.concat(codeArgs)
+		_ this.spawnExecToEventStream
+			{
+				@ command '"./node_modules/.bin/eslint"'
+				@ cwd packagePath
+				@ args args
+			@ res
+			@ callback

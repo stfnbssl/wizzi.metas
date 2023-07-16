@@ -1,0 +1,9 @@
+$group
+    
+    $if metaCtx.useWizziJobs
+
+        $file __dot__wizzi/t/wfjobs.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params name, &jobCtx, ext|@@null
+        
+                ${'$'}include wizziJobs/tfolder/commons.wfjob

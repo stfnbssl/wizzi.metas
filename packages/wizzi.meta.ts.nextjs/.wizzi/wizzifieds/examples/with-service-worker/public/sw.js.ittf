@@ -1,0 +1,7 @@
+module
+    kind react
+    _ self.addEventListener
+        @ 'install'
+        function 
+            param event
+            _ console.log('Hello world from the Service Worker 🤙')

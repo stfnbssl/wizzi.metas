@@ -1,0 +1,15 @@
+module
+    kind react
+    import 
+        @ Theme
+        from '@twilio-paste/core/theme'
+    function MyApp
+        { 
+            @ Component
+            @ pageProps
+        return 
+            < Theme.Provider 
+                @ theme "default"
+                < Component 
+                    @ {...pageProps}
+    export-default MyApp

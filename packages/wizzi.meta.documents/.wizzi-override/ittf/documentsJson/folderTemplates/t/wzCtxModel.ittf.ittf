@@ -1,0 +1,5 @@
+$group
+    $file __dot__wizzi/models/t/documentsJson.json.ittf.ittf
+        ${'$'}{'$'}group
+            useXxx true
+            { xxx

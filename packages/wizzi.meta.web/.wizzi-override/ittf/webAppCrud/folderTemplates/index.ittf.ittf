@@ -1,0 +1,53 @@
+$group
+    
+    $if metaCtx.useWebAppCrud
+
+        $file __dot__wizzi/${pkgPath}src/appCrud${metaCtx.webAppCrud.Name}.html.ittf.ittf
+            html
+                ${'$'}include webAppCrud/html/index.html
+
+        $
+            var items = [
+                'main',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/t/html/appCrud/${item}.html.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include webAppCrud/html/tfolder/${item}.html
+
+        $file __dot__wizzi/${pkgPath}src/css/appCrud${metaCtx.webAppCrud.Name}.css.ittf.ittf
+            css
+                ${'$'}include webAppCrud/css/index.css
+
+        $
+            var items = [
+                'main',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/css/t/appCrud/${item}.css.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include webAppCrud/css/tfolder/${item}.css
+
+
+
+        $file __dot__wizzi/${pkgPath}src/js/appCrud${metaCtx.webAppCrud.Name}.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include webAppCrud/js/index.js
+
+        $
+            var items = [
+                'app',
+                'controller',
+                'model',
+                'store',
+                'template',
+                'view',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/js/t/appCrud/${item}.js.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include webAppCrud/js/tfolder/${item}.js

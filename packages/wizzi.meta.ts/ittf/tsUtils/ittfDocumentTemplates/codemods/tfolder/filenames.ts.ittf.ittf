@@ -1,0 +1,31 @@
+$group
+
+	m copyChangeWizziSchema
+		param fromFolder
+        param toFolder
+        param oldWizziSchema
+        param newWizziSchema
+        param callback
+
+        # loog 'copyChangeWizziSchema',
+            \b 'from', fromFolder,
+            \b 'to', toFolder,
+
+        var result1
+            _ file.getFiles
+                @ fromFolder
+                {
+                    @ extension 'ittf'
+                    @ documentContent true
+                    @ deep true
+        # loog 'result1', result1
+        foreach item in result1
+            var parts = item.file.split('.')
+            if parts[parts.length -1] == 'ittf' && parts[parts.length -2] == oldWizziSchema
+                var newItemFile = parts.slice(0, -2).join('.') + '.'+ newWizziSchema + '.ittf'
+                # loog 'new item.file', newItemFile
+                _ file.write
+                    _ path.join
+                        @ toFolder
+                        @ newItemFile
+                    @ item.content

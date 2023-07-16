@@ -1,0 +1,13 @@
+module
+    kind react
+    :declare 
+        :module global
+            :interface Window
+                :p Stripe
+                    :=> 
+                        :ref stripe.Stripe
+                        param apiKey
+                            :string 
+        # Flag as module for TypeScript
+    export 
+        # Flag as module for TypeScript

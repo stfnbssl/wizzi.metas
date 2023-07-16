@@ -1,0 +1,9 @@
+$group
+    $if metaCtx.useJsCLI
+        $include wzCtxModel
+        $include generate
+        $include wizzi.config
+        $include wizzi.config.override
+        $include models
+        $include root
+        $include src

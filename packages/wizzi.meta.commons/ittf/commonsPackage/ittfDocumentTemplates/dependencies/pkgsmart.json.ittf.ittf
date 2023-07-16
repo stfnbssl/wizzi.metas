@@ -1,0 +1,45 @@
+${'$'}group
+	${'$'}params section
+
+	${'$'}if section === 'devDependencies'
+		
+		${'$'}if app.pkgSmart.eslint
+			eslint "^4.8.0"
+			eslint-config-prettier "^2.3.0"
+			eslint-config-standard "^10.2.1"
+			eslint-config-standard-react "^5.0.0"
+			eslint-plugin-babel "^4.1.2"
+			eslint-plugin-import "^2.7.0"
+			eslint-plugin-node "^5.2.0"
+			eslint-plugin-prettier "^2.1.2"
+			eslint-plugin-promise "^3.5.0"
+			eslint-plugin-react "^7.4.0"
+			eslint-plugin-standard "^3.0.1"
+
+		${'$'}if app.pkgSmart.test
+			chai "^3.5.0"
+			chai-as-promised "^6.0.0"
+			${'$'}if app.useReact
+				chai-enzyme "^0.8.0"
+				enzyme "^2.3.0"
+			istanbul "1.1.0-alpha.1"
+			mocha "^3.5.3"
+			sinon ^3.3.0"
+			sinon-chai "^2.14.0"
+
+		${'$'}if app.pkgSmart.doc
+			docdown "^0.7.2"
+			documentation "^5.3.2"
+			documentation-markdown-api-theme "^1.0.2"
+			gitbook-cli "^2.3.2"
+		
+		child-process-promise "^2.2.1"		${'$'}${'$'} Simple wrapper around the child_process module that makes use of promises
+		codecov "^3.0.2"		
+		cross-env "^5.1.0"			${'$'}${'$'} Run scripts that set and use environment variables across platforms
+		husky "^0.14.3"				${'$'}${'$'} Git hooks for Node.js, manage your hooks from your package.json. https://githooks.com/
+		jsdom "^11.10.0"			${'$'}${'$'} jsdom is a pure-JavaScript implementation of many web standards, notably the WHATWG DOM and HTML Standards, for use with Node.js
+		prettier "latest"
+		rimraf "^2.6.2"
+		xmlhttprequest "^1.8.0"     ${'$'}${'$'} node-XMLHttpRequest is a wrapper for the built-in http client to emulate the browser XMLHttpRequest object.
+		ws "^3.2.0"					${'$'}${'$'} ws is a simple to use, blazing fast, and thoroughly tested WebSocket client and server implementation.
+		

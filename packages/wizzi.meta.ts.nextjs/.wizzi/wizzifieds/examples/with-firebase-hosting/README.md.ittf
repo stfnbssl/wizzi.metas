@@ -1,0 +1,250 @@
+md
+    h1 
+        + with Firebase Hosting example
+    p 
+        + The goal is to host the Next.js app on Firebase Cloud Functions with Firebase Hosting rewrite rules so our app is served from our Firebase Hosting URL. Each individual
+        code page
+        + bundle is served in a new call to the Cloud Function which performs the initial server render.
+    br 
+    p 
+        + If you are having issues, feel free to tag @jthegedus in the
+        a 
+            href https://github.com/vercel/next.js/issues/new
+            title 
+            + issue you create on the next.js repo
+    br 
+    html <details>
+<summary><b>Make sure that firebase is set up and you have the projectID</b></summary>
+    ul 
+        li 
+            + Install Firebase Tools:
+            code npm i -g firebase-tools
+        li 
+            + Create a project through the
+            a 
+                href https://console.firebase.google.com/
+                title 
+                + firebase web console
+        li 
+            + Login to the Firebase CLI tool with
+            code firebase login
+        li 
+            + Grab the
+            b 
+                + projectID
+            + from
+            a 
+                href https://firebase.google.com/docs/cli#admin-commands
+                title 
+                code firebase projects:list
+            + or the web consoles URL:
+            code https://console.firebase.google.com/project/&lt;projectID&gt;
+            html </details>
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-firebase-hosting with-firebase-hosting-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-firebase-hosting with-firebase-hosting-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-firebase-hosting with-firebase-hosting-app
+    br 
+    p 
+        b 
+            + Important:
+        + Update
+        code .firebaserc
+        + and add your firebase project ID.
+    br 
+    p 
+        + To run Firebase locally for testing:
+    br 
+    code 
+        lang bash
+        + npm run serve
+        + # or
+        + yarn serve
+    br 
+    p 
+        + To deploy it to the cloud with Firebase:
+    br 
+    code 
+        lang bash
+        + npm run deploy
+        + # or
+        + yarn deploy
+    br 
+    h2 
+        + TypeScript
+    p 
+        + To use TypeScript, simply follow
+        a 
+            href https://nextjs.org/learn/excel/typescript/setup
+            title 
+            + TypeScript setup
+        + as normal (package.json scripts are already set).
+    br 
+    p 
+        + i.e:
+        code npm install --save-dev typescript @types/react @types/node
+    br 
+    p 
+        + Then you can create components and pages in
+        code .tsx
+        + or
+        code .ts
+    br 
+    p 
+        b 
+            + Only
+            code src/next.config.js
+            + and
+            code firebaseFunctions.js
+            + must remain in
+            code *.js
+            + format.
+    br 
+    h2 
+        + Good to know
+    ul 
+        li 
+            a 
+                href firebase.json:#L7
+                title 
+                code firebase.json
+            + outlines the catchall rewrite rule for our Cloud Function.
+        li 
+            + The empty
+            code public/.gitignore
+            + file is to ensure
+            code public/
+            + dir exists as it is required for Firebase Hosting. It is
+            a 
+                href firebase.json:#L4
+                title 
+                + configured
+            + (by
+            a 
+                href https://firebase.google.com/docs/hosting/full-config#ignore
+                title 
+                + default
+            + ) that dotfiles (
+            code public/.*
+            + ) are ignored from being publicly served.
+        li 
+            + The Cloud Function is named
+            code nextjsFunc
+            + (changeable in
+            a 
+                href firebaseFunctions.js#L16
+                title 
+                + firebaseFunctions.js
+            + and
+            a 
+                href firebase.json#L8
+                title 
+                + firebase.json
+            + ).
+        li 
+            code public/*
+            + files are statically served through
+            a 
+                href https://firebase.google.com/docs/hosting/full-config#public
+                title 
+                + Firebase hosting
+            + , not through
+            a 
+                href https://nextjs.org/docs/basic-features/static-file-serving
+                title 
+                + NextJs server
+            + .
+    br 
+    h4 
+        + Customization
+    p 
+        + Next App is in
+        code src/
+        + directory.
+    br 
+    p 
+        + The crucial files for the setup:
+    br 
+    ul 
+        li 
+            code .firebaserc
+        li 
+            code firebase.json
+        li 
+            code firebaseFunctions.js
+        li 
+            code src/next.config.js
+        li 
+            + In
+            code package.json
+            + :
+            code firebase-*
+            + packages,
+            code main
+            + property defining the entry point as
+            code firebaseFunctions.js
+    br 
+    h2 
+        + References
+    ul 
+        li 
+            a 
+                href https://github.com/geovanisouza92/serverless-firebase
+                title 
+                + geovanisouza92/serverless-firebase
+            + repo
+        li 
+            a 
+                href https://github.com/jthegedus/firebase-functions-next-example
+                title 
+                + jthegedus/firebase-functions-next-example
+            + repo
+        li 
+            a 
+                href https://medium.com/@jthegedus/next-js-on-cloud-functions-for-firebase-with-firebase-hosting-7911465298f2
+                title 
+                + this medium article
+        li 
+            a 
+                href https://youtu.be/LOeioOKUKI8
+                title 
+                + Crash Course: Node.js apps on Firebase Hosting
+        li 
+            a 
+                href https://firebase.google.com/docs/cli
+                title 
+                + Official documentation
+            + .

@@ -1,0 +1,70 @@
+module
+    kind react
+    import useSWR from 'swr'
+    const fetcher
+        => 
+            param query
+                :string 
+            _ fetch
+                @ '/api/graphql'
+                { 
+                    @ method 'POST'
+                    { headers
+                        @ 'Content-type' 'application/json'
+                    @ body
+                        _ JSON.stringify
+                            { 
+                                @ query
+                ._ then
+                    => 
+                        param res
+                        _ res.json()
+                ._ then
+                    => 
+                        param json
+                        +
+                            @expr json.data
+    :type Data
+        :{ 
+            :p users
+                :[ 
+                    :{ 
+                        :p name
+                            :string 
+    export-default 
+        function Index
+            const 
+                { 
+                    @ data
+                    @ error
+                    @ isLoading
+                =
+                    _ useSWR
+                        :param 
+                            :ref Data
+                        @ '{ users { name } }'
+                        @ fetcher
+            if error
+                return 
+                    div 
+                        + Failed to load
+            if isLoading
+                return 
+                    div 
+                        + Loading...
+            if !data
+                return null
+            const 
+                { 
+                    @ users
+                = data
+            return 
+                div 
+                    { 
+                        _ users.map
+                            => 
+                                param user
+                                param index
+                                div 
+                                    @ key {index}
+                                    + {user.name}

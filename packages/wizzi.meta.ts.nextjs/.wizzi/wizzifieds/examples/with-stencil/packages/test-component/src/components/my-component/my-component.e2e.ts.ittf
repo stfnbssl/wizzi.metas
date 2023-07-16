@@ -1,0 +1,55 @@
+module
+    kind react
+    import 
+        @ newE2EPage
+        from '@stencil/core/testing'
+    _ describe
+        @ 'my-component'
+        => 
+            _ it
+                @ 'renders'
+                async=> 
+                    const page
+                        await 
+                            _ newE2EPage()
+                    await 
+                        _ page.setContent('<my-component></my-component>')
+                    const element
+                        await 
+                            _ page.find('my-component')
+                    _ expect(element).toHaveClass('hydrated')
+            _ it
+                @ 'renders changes to the name data'
+                async=> 
+                    const page
+                        await 
+                            _ newE2EPage()
+                    await 
+                        _ page.setContent('<my-component></my-component>')
+                    const component
+                        await 
+                            _ page.find('my-component')
+                    const element
+                        await 
+                            _ page.find('my-component >>> div')
+                    _ expect(element.textContent).toEqual
+                        `lit 
+                            + Hello, World! I'm&nbsp;
+                    _ component.setProperty('first', 'James')
+                    await 
+                        _ page.waitForChanges()
+                    _ expect(element.textContent).toEqual
+                        `lit 
+                            + Hello, World! I'm James
+                    _ component.setProperty('last', 'Quincy')
+                    await 
+                        _ page.waitForChanges()
+                    _ expect(element.textContent).toEqual
+                        `lit 
+                            + Hello, World! I'm James Quincy
+                    _ component.setProperty('middle', 'Earl')
+                    await 
+                        _ page.waitForChanges()
+                    _ expect(element.textContent).toEqual
+                        `lit 
+                            + Hello, World! I'm James Earl Quincy

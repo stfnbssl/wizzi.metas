@@ -1,0 +1,33 @@
+$group
+
+    # taken from https://github.com/wwan5803/react-modal-resizable-draggable/blob/master/src/Resize.js
+    
+    const ResizerRoot
+        _ styled.div
+            => 
+                param props
+                (
+                    { 
+                        @ position 'absolute'
+                        @ right '0'
+                        @ bottom '0'
+                        @ cursor 'se-resize'
+                        @ margin '5px'
+                        @ borderBottom 'solid 2px #333'
+                        @ borderRight 'solid 2px #333'
+
+    react Resizer
+        
+        m handleMouseDown
+            param e
+            _ this.props.updateStateResizing(true)
+        
+        m render
+            const style
+                { 
+                    @ width 16
+                    @ height 16
+            return 
+                < ResizerRoot 
+                    @ style {style}
+                    @ onMouseDown {this.handleMouseDown.bind(this)}

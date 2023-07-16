@@ -1,0 +1,125 @@
+$group
+    import 
+        @ useRouter
+        from 'next/router'
+    import ErrorPage from 'next/error'
+    import Container from '../../components/container'
+    import PostBody from '../../components/post-body'
+    import Header from '../../components/header'
+    import PostHeader from '../../components/post-header'
+    import Layout from '../../components/layout'
+    import 
+        @ getPostBySlug
+        @ getAllPosts
+        from '../../lib/api'
+    import PostTitle from '../../components/post-title'
+    import Head from 'next/head'
+    import 
+        @ CMS_NAME
+        from '../../lib/constants'
+    import markdownToHtml from '../../lib/markdownToHtml'
+    :import-type PostType from '../../interfaces/post'
+    :type Props
+        :{ 
+            :p post
+                :ref PostType
+            :p morePosts
+                :[ 
+                    :ref PostType
+            :p preview
+                :optional 
+                :boolean 
+    export-default 
+        function Post
+            { 
+                @ post
+                @ morePosts
+                @ preview
+                :ref Props
+            const router = useRouter()
+            const title
+                `lit 
+                    + 
+                    @ post.title
+                    + &nbsp;| Next.js Blog Example with&nbsp;
+                    @ CMS_NAME
+                    + 
+            if !router.isFallback && !post?.slug
+                return 
+                    < ErrorPage 
+                        @ statusCode {404}
+            return 
+                < Layout 
+                    @ preview {preview}
+                    < Container 
+                        < Header 
+                        { 
+                            iif router.isFallback
+                                then
+                                    < PostTitle 
+                                        + Loading…
+                                else
+                                    <
+                                        article 
+                                            @ className "mb-32"
+                                            < Head 
+                                                < title 
+                                                    + {title}
+                                                meta 
+                                                    @ property "og:image"
+                                                    @ content {post.ogImage.url}
+                                            < PostHeader 
+                                                @ title {post.title}
+                                                @ coverImage {post.coverImage}
+                                                @ date {post.date}
+                                                @ author {post.author}
+                                            < PostBody 
+                                                @ content {post.content}
+    :type Params
+        :{ 
+            :p params
+                :{ 
+                    :p slug
+                        :string 
+    export 
+        async-function getStaticProps
+            { 
+                @ params
+                :ref Params
+            const post
+                _ getPostBySlug
+                    @expr params.slug
+                    [ 
+                        @ 'title'
+                        @ 'date'
+                        @ 'slug'
+                        @ 'author'
+                        @ 'content'
+                        @ 'ogImage'
+                        @ 'coverImage'
+            const content
+                await 
+                    _ markdownToHtml(post.content || '')
+            return 
+                { 
+                    { props
+                        { post
+                            @ ...post
+                            @ content
+    export 
+        async-function getStaticPaths
+            const posts
+                _ getAllPosts
+                    [ 
+                        @ 'slug'
+            return 
+                { 
+                    @ paths
+                        _ posts.map
+                            => 
+                                param post
+                                return 
+                                    { 
+                                        { params
+                                            @ slug post.slug
+                    @ fallback false

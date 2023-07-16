@@ -1,0 +1,18 @@
+$group
+    $if metaCtx.useWizziMeta
+        $*
+        $include __generate
+        $include __wizzi.config
+        $include __wizzi.override.config
+        *$
+        $include root
+        $include models
+        $include examples
+        $include ittf
+        $*
+        $include src/features
+        $include src/ittf
+        $include tfolder/js/commons
+        $include tfolder/wfjobs
+        $include tfolder/v08/index
+        *$

@@ -1,0 +1,142 @@
+module
+    kind react
+    import React from 'react'
+    export 
+        :interface ButtonProps
+            :p primary
+                :optional 
+                :boolean 
+                #
+                    # *
+                    # * Is this the principal call to action on the page?
+                    # 
+                #
+                    # *
+                    # * What background color to use
+                    # 
+            :p backgroundColor
+                :optional 
+                :string 
+                #
+                    # *
+                    # * What background color to use
+                    # 
+                #
+                    # *
+                    # * How large should the button be?
+                    # 
+            :p size
+                :optional 
+                :union 
+                    :literal 'small'
+                    :literal 'medium'
+                    :literal 'large'
+                #
+                    # *
+                    # * How large should the button be?
+                    # 
+                #
+                    # *
+                    # * Button contents
+                    # 
+            :p label
+                :string 
+                #
+                    # *
+                    # * Button contents
+                    # 
+                #
+                    # *
+                    # * Optional click handler
+                    # 
+            :p onClick
+                :optional 
+                :=> 
+                    :void 
+                #
+                    # *
+                    # * Optional click handler
+                    # 
+        #
+            # *
+            # * Primary UI component for user interaction
+            # 
+    export 
+        const Button
+            :ref React.FC
+                :param 
+                    :ref ButtonProps
+            =
+                => 
+                    { 
+                        @ primary
+                            = false
+                        @ size
+                            = 'medium'
+                        @ backgroundColor
+                        @ label
+                        ... props
+                    const mode
+                        iif primary
+                            then 'storybook-button--primary'
+                            else 'storybook-button--secondary'
+                    return 
+                        < React.Fragment
+                            button 
+                                @ type "button"
+                                @ className
+                                    [ 
+                                        @ 'storybook-button'
+                                        `lit 
+                                            + storybook-button--
+                                            @ size
+                                            + 
+                                        @ mode
+                                        ._ join
+                                            @ ' '
+                                @ style
+                                    { 
+                                        @ backgroundColor
+                                @ {...props}
+                                + {label}
+                            < style 
+                                @ jsx
+                                { 
+                                    `lit 
+                                        + &lf;
+                                        + &nbsp;       .storybook-button {&lf;
+                                        + &nbsp;         font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial,&lf;
+                                        + &nbsp;           sans-serif;&lf;
+                                        + &nbsp;         font-weight: 700;&lf;
+                                        + &nbsp;         border: 0;&lf;
+                                        + &nbsp;         border-radius: 3em;&lf;
+                                        + &nbsp;         cursor: pointer;&lf;
+                                        + &nbsp;         display: inline-block;&lf;
+                                        + &nbsp;         line-height: 1;&lf;
+                                        + &nbsp;       }&lf;
+                                        + &nbsp;       .storybook-button--primary {&lf;
+                                        + &nbsp;         color: white;&lf;
+                                        + &nbsp;         background-color: #1ea7fd;&lf;
+                                        + &nbsp;       }&lf;
+                                        + &nbsp;       .storybook-button--secondary {&lf;
+                                        + &nbsp;         color: #333;&lf;
+                                        + &nbsp;         background-color: transparent;&lf;
+                                        + &nbsp;         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;&lf;
+                                        + &nbsp;       }&lf;
+                                        + &nbsp;       .storybook-button--small {&lf;
+                                        + &nbsp;         font-size: 12px;&lf;
+                                        + &nbsp;         padding: 10px 16px;&lf;
+                                        + &nbsp;       }&lf;
+                                        + &nbsp;       .storybook-button--medium {&lf;
+                                        + &nbsp;         font-size: 14px;&lf;
+                                        + &nbsp;         padding: 11px 20px;&lf;
+                                        + &nbsp;       }&lf;
+                                        + &nbsp;       .storybook-button--large {&lf;
+                                        + &nbsp;         font-size: 16px;&lf;
+                                        + &nbsp;         padding: 12px 24px;&lf;
+                                        + &nbsp;       }&lf;
+                                        + &nbsp;    &nbsp;
+        #
+            # *
+            # * Primary UI component for user interaction
+            # 

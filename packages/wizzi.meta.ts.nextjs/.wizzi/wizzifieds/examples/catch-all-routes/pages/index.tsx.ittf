@@ -1,0 +1,10 @@
+module
+    kind react
+    import Header from '../components/header'
+    const Home
+        => 
+            < React.Fragment
+                < Header 
+                h1 
+                    + Hello World!
+    export-default Home

@@ -1,0 +1,63 @@
+module
+    kind react
+    :import-type 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+        # This API route authenticates a Stytch magic link.
+    import 
+        @ Session
+        from 'next-iron-session'
+    import withSession from '../../lib/withSession'
+    import loadStytch from '../../lib/loadStytch'
+    :type NextIronRequest
+        :intersect 
+            :ref NextApiRequest
+            :{ 
+                :p session
+                    :ref Session
+    :type Data
+        :{ 
+            :p errorString
+                :string 
+    export 
+        async-function handler
+            param req
+                :ref NextIronRequest
+            param res
+                :ref NextApiResponse
+                    :param 
+                        :ref Data
+            if req.method === 'GET'
+                const client = loadStytch()
+                const 
+                    { 
+                        @ token
+                    = req.query
+                try 
+                    const resp
+                        await 
+                            _ client.magicLinks.authenticate
+                                + token
+                                    :as 
+                                        :string 
+                        # Set session
+                    _ req.session.destroy()
+                        # Set session
+                    _ req.session.set
+                        @ 'user'
+                        { 
+                            @ id resp.user_id
+                        # Save additional user data here
+                    await 
+                        _ req.session.save()
+                        # Save additional user data here
+                    _ res.redirect('/profile')
+                catch error
+                    const errorString = JSON.stringify(error)
+                    _ console.log(error)
+                    _ res.status(400).json
+                        { 
+                            @ errorString
+            else
+    export-default withSession(handler)

@@ -1,0 +1,50 @@
+$group
+    function fileInfoByPath
+        param filePath
+        param baseFolder
+        if typeof baseFolder === 'undefined'
+            set baseFolder = path.dirname(filePath)
+        set filePath = normalize(filePath)
+        var basename = path.basename(filePath)
+        var dirname = path.dirname(filePath)
+        var relFolder
+            iif path.dirname(filePath).length > baseFolder.length
+                then path.dirname(filePath).substr(baseFolder.length + 1)
+                else ''
+        var fileUri
+            _ filePath.substr
+        var ss = basename.split('.')
+        if ss[ss.length-1] === 'ittf'
+            var name = ss.slice(0, ss.length-2).join('.')
+            var schema = ss[ss.length-2]
+            var mime = DEFAULT_MIME[schema] || schema
+            return
+                {
+                    @ name name
+                    @ basename basename
+                    @ isIttfDocument true
+                    @ isFragment filePath.indexOf('/t/') > -1
+                    @ schema schema
+                    @ mime mime
+                    @ relFolder relFolder
+                    @ fullPath filePath
+                    @ destBasename name + '.' + mime
+                    @ destRelPath
+                        iif relFolder.length > 0
+                            then relFolder + '/' + name + '.' + mime
+                            else name + '.' + mime
+        else
+            return
+                {
+                    @ name ss.slice(0, ss.length-1).join('.')
+                    @ basename basename
+                    @ isIttfDocument false
+                    @ schema null
+                    @ mime ss[ss.length-1]
+                    @ relFolder relFolder
+                    @ fullPath filePath
+                    @ destBasename basename
+                    @ destRelPath
+                        iif relFolder.length > 0
+                            then relFolder + '/' + basename
+                            else basename

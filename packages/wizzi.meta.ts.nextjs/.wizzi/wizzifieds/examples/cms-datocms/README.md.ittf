@@ -1,0 +1,602 @@
+md
+    h1 
+        + A statically generated blog example using Next.js and DatoCMS
+    p 
+        + This example showcases Next.js&#39;s
+        a 
+            href https://nextjs.org/docs/basic-features/pages
+            title 
+            + Static Generation
+        + feature using
+        a 
+            href https://www.datocms.com/
+            title 
+            + DatoCMS
+        + as the data source.
+    br 
+    h2 
+        + Demo
+    p 
+        a 
+            href https://next-blog-datocms.vercel.app/
+            title 
+            + https://next-blog-datocms.vercel.app/
+    br 
+    h3 
+        + Related examples
+    ul 
+        li 
+            a 
+                href /examples/cms-wordpress
+                title 
+                + WordPress
+        li 
+            a 
+                href /examples/cms-sanity
+                title 
+                + Sanity
+        li 
+            a 
+                href /examples/cms-takeshape
+                title 
+                + TakeShape
+        li 
+            a 
+                href /examples/cms-prismic
+                title 
+                + Prismic
+        li 
+            a 
+                href /examples/cms-contentful
+                title 
+                + Contentful
+        li 
+            a 
+                href /examples/cms-strapi
+                title 
+                + Strapi
+        li 
+            a 
+                href /examples/cms-agilitycms
+                title 
+                + Agility CMS
+        li 
+            a 
+                href /examples/cms-cosmic
+                title 
+                + Cosmic
+        li 
+            a 
+                href /examples/cms-buttercms
+                title 
+                + ButterCMS
+        li 
+            a 
+                href /examples/cms-storyblok
+                title 
+                + Storyblok
+        li 
+            a 
+                href /examples/cms-graphcms
+                title 
+                + GraphCMS
+        li 
+            a 
+                href /examples/cms-kontent
+                title 
+                + Kontent
+        li 
+            a 
+                href /examples/cms-ghost
+                title 
+                + Ghost
+        li 
+            a 
+                href /examples/cms-umbraco-heartcore
+                title 
+                + Umbraco Heartcore
+        li 
+            a 
+                href /examples/blog-starter
+                title 
+                + Blog Starter
+        li 
+            a 
+                href /examples/cms-builder-io
+                title 
+                + Builder.io
+        li 
+            a 
+                href /examples/cms-dotcms
+                title 
+                + DotCMS
+        li 
+            a 
+                href /examples/cms-enterspeed
+                title 
+                + Enterspeed
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Once you have access to
+        a 
+            href #step-5-set-up-environment-variables
+            title 
+            + the environment variables you&#39;ll need
+        + , deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + :
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/cms-datocms&project-name=cms-datocms&repository-name=cms-datocms&env=DATOCMS_API_TOKEN,DATOCMS_PREVIEW_SECRET&envDescription=Required%20to%20connect%20the%20app%20with%20DatoCMS&envLink=https://vercel.link/cms-datocms-env
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example cms-datocms cms-datocms-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example cms-datocms cms-datocms-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example cms-datocms cms-datocms-app
+    br 
+    h2 
+        + Configuration
+    h3 
+        + Step 1. Create an account and a project on DatoCMS
+    p 
+        + First,
+        a 
+            href https://datocms.com
+            title 
+            + create an account on DatoCMS
+        + .
+    br 
+    p 
+        + After creating an account, create a
+        b 
+            + new project
+        + from the dashboard. You can select a
+        b 
+            + Blank Project
+        + .
+    br 
+    h3 
+        + Step 2. Create an
+        code Author
+        + model
+    p 
+        + From the project setting page, create a new
+        b 
+            + Model
+        + .
+    br 
+    ul 
+        li 
+            + The name should be
+            code Author
+            + .
+    br 
+    p 
+        + Next, add these fields (you don&#39;t have to modify the settings):
+    br 
+    ul 
+        li 
+            code Name
+            + -
+            b 
+                + Text
+            + field (
+            b 
+                + Single-line String
+            + )
+        li 
+            code Picture
+            + -
+            b 
+                + Media
+            + field (
+            b 
+                + Single asset
+            + )
+    br 
+    h3 
+        + Step 3. Create a
+        code Post
+        + model
+    p 
+        + From the project setting page, create a new
+        b 
+            + Model
+        + :
+    br 
+    ul 
+        li 
+            + The name should be
+            code Post
+            + .
+        li 
+            b 
+                + Important:
+            + From the &quot;Additional Settings&quot; tab, turn on
+            b 
+                + Enable draft/published system.
+            + This lets you preview the content.
+    br 
+    p 
+        + Next, add these fields (you don&#39;t have to modify the settings unless specified):
+    br 
+    ul 
+        li 
+            code Title
+            + -
+            b 
+                + Text
+            + field (
+            b 
+                + Single-line String
+            + )
+        li 
+            code Content
+            + -
+            b 
+                + Text
+            + field (
+            b 
+                + Multiple-paragraph Text
+            + )
+        li 
+            code Excerpt
+            + -
+            b 
+                + Text
+            + field (
+            b 
+                + Single-line String
+            + )
+        li 
+            code Cover Image
+            + -
+            b 
+                + Media
+            + field (
+            b 
+                + Single asset
+            + )
+        li 
+            code Date
+            + -
+            b 
+                + Date and time
+            + field (
+            b 
+                + Date
+            + )
+        li 
+            code Author
+            + -
+            b 
+                + Links
+            + field (
+            b 
+                + Single link
+            + ) , and from the &quot;Validations&quot; tab under &quot;Accept only specified model&quot;, select
+            b 
+                + Author
+            + .
+        li 
+            code Slug
+            + -
+            b 
+                + SEO
+            + field (
+            b 
+                + Slug
+            + ), and from the &quot;Validations&quot; tab under &quot;Reference field&quot; select
+            b 
+                + Title
+            + .
+    br 
+    h3 
+        + Step 4. Populate Content
+    p 
+        + From the
+        b 
+            + Content
+        + menu at the top, select
+        b 
+            + Author
+        + and create a new record.
+    br 
+    ul 
+        li 
+            + You just need
+            b 
+                + 1 Author record
+            + .
+        li 
+            + Use dummy data for the text.
+        li 
+            + For the image, you can download one from
+            a 
+                href https://unsplash.com/
+                title 
+                + Unsplash
+            + .
+    br 
+    p 
+        + Next, select
+        b 
+            + Post
+        + and create a new record.
+    br 
+    ul 
+        li 
+            + We recommend creating at least
+            b 
+                + 2 Post records
+            + .
+        li 
+            + Use dummy data for the text.
+        li 
+            + You can write markdown for the
+            b 
+                + Content
+            + field.
+        li 
+            + For the images, you can download ones from
+            a 
+                href https://unsplash.com/
+                title 
+                + Unsplash
+            + .
+        li 
+            + Pick the
+            b 
+                + Author
+            + you created earlier.
+    br 
+    p 
+        b 
+            + Important:
+        + For each post record, you need to click
+        b 
+            + Publish
+        + after saving. If not, the post will be in the draft state.
+    br 
+    h3 
+        + Step 5. Set up environment variables
+    p 
+        + Go to the
+        b 
+            + Settings
+        + menu at the top and click
+        b 
+            + API tokens
+        + .
+    br 
+    p 
+        + Then click
+        b 
+            + Read-only API token
+        + and copy the token.
+    br 
+    p 
+        + Next, copy the
+        code .env.local.example
+        + file in this directory to
+        code .env.local
+        + (which will be ignored by Git):
+    br 
+    code 
+        lang bash
+        + cp .env.local.example .env.local
+    br 
+    p 
+        + Then set each variable on
+        code .env.local
+        + :
+    br 
+    ul 
+        li 
+            code DATOCMS_API_TOKEN
+            + should be the API token you just copied.
+        li 
+            code DATOCMS_PREVIEW_SECRET
+            + can be any random string (but avoid spaces), like
+            code MY_SECRET
+            + - this is used for
+            a 
+                href https://nextjs.org/docs/advanced-features/preview-mode
+                title 
+                + the Preview Mode
+            + .
+    br 
+    p 
+        + Your
+        code .env.local
+        + file should look like this:
+    br 
+    code 
+        lang bash
+        + DATOCMS_API_TOKEN=...
+        + DATOCMS_PREVIEW_SECRET=...
+    br 
+    h3 
+        + Step 6. Run Next.js in development mode
+    code 
+        lang bash
+        + npm install
+        + npm run dev
+        + 
+        + # or
+        + 
+        + yarn install
+        + yarn dev
+    br 
+    p 
+        + Your blog should be up and running on
+        a 
+            href http://localhost:3000
+            title 
+            + http://localhost:3000
+        + ! If it doesn&#39;t work, post on
+        a 
+            href https://github.com/vercel/next.js/discussions
+            title 
+            + GitHub discussions
+        + .
+    br 
+    h3 
+        + Step 7. Try preview mode
+    p 
+        + On DatoCMS, go to one of the posts you&#39;ve created and:
+    br 
+    ul 
+        li 
+            b 
+                + Update the title
+            + . For example, you can add
+            code [Draft]
+            + in front of the title.
+        li 
+            + Click
+            b 
+                + Save
+            + , but
+            b 
+                + DO NOT
+            + click
+            b 
+                + Publish
+            + . By doing this, the post will be in the draft state.
+    br 
+    p 
+        + (If it doesn&#39;t become draft, you need to go to the model settings for
+        code Post
+        + , go to
+        b 
+            + Additional Settings
+        + , and turn on
+        b 
+            + Enable draft/published system
+        + .)
+    br 
+    p 
+        + Now, if you go to the post page on localhost, you won&#39;t see the updated title. However, if you use the
+        b 
+            + Preview Mode
+        + , you&#39;ll be able to see the change (
+        a 
+            href https://nextjs.org/docs/advanced-features/preview-mode
+            title 
+            + Documentation
+        + ).
+    br 
+    p 
+        + To enable the Preview Mode, go to this URL:
+    br 
+    code 
+        + http://localhost:3000/api/preview?secret=<secret>&slug=<slug>
+    br 
+    ul 
+        li 
+            code &lt;secret&gt;
+            + should be the string you entered for
+            code DATOCMS_PREVIEW_SECRET
+            + .
+        li 
+            code &lt;slug&gt;
+            + should be the post&#39;s
+            code slug
+            + attribute (you can check on DatoCMS).
+    br 
+    p 
+        + You should now be able to see the updated title. To exit the preview mode, you can click
+        b 
+            + Click here to exit preview mode
+        + at the top.
+    br 
+    h3 
+        + Step 8. Deploy on Vercel
+    p 
+        + You can deploy this app to the cloud with
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h4 
+        + Deploy Your Local Project
+    p 
+        + To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + import to Vercel
+        + .
+    br 
+    p 
+        b 
+            + Important
+        + : When you import your project on Vercel, make sure to click on
+        b 
+            + Environment Variables
+        + and set them to match your
+        code .env.local
+        + file.
+    br 
+    h4 
+        + Deploy from Our Template
+    p 
+        + Alternatively, you can deploy using our template by clicking on the Deploy button below.
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/cms-datocms&project-name=cms-datocms&repository-name=cms-datocms&env=DATOCMS_API_TOKEN,DATOCMS_PREVIEW_SECRET&envDescription=Required%20to%20connect%20the%20app%20with%20DatoCMS&envLink=https://vercel.link/cms-datocms-env
+            title 
+            img 
+                href https://vercel.com/button
+                title 

@@ -1,0 +1,22 @@
+module
+    kind react
+    import createImageUrlBuilder from '@sanity/image-url'
+    import 
+        @ definePreview
+        from 'next-sanity/preview'
+    import 
+        @ sanityConfig
+        from './config'
+    export 
+        const imageBuilder = createImageUrlBuilder(sanityConfig)
+    export 
+        const urlForImage
+            => 
+                param source
+                _ imageBuilder.image(source).auto('format').fit('max')
+    export 
+        const usePreview
+            _ definePreview
+                { 
+                    @ projectId sanityConfig.projectId
+                    @ dataset sanityConfig.dataset

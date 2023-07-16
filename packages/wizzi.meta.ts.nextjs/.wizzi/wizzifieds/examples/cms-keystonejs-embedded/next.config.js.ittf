@@ -1,0 +1,7 @@
+module
+    kind react
+    const 
+        { 
+            @ withKeystone
+        = require('@keystone-next/keystone/next')
+    set module.exports = withKeystone()

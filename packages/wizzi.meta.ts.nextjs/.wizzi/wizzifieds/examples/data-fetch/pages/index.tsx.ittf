@@ -1,0 +1,39 @@
+module
+    kind react
+    import Link from 'next/link'
+    :import-type 
+        @ InferGetStaticPropsType
+        from 'next'
+    :import-type 
+        @ Repository
+        from '../types/github'
+    export 
+        async-function getStaticProps
+            const res
+                await 
+                    _ fetch('https://api.github.com/repos/vercel/next.js')
+            const data
+                :ref Repository
+                =
+                    await 
+                        _ res.json()
+            return 
+                { 
+                    { props
+                        @ stars data.stargazers_count
+    export-default 
+        function IndexPage
+            { 
+                @ stars
+                :ref InferGetStaticPropsType
+                    :param 
+                        :typeof getStaticProps
+            return 
+                < React.Fragment
+                    p 
+                        + Next.js has
+                        + {stars}
+                        + ⭐️
+                    < Link 
+                        @ href "/preact-stars"
+                        + How about preact?

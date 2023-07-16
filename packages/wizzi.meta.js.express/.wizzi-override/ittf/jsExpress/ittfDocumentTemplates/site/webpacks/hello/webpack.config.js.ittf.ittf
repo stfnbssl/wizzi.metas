@@ -1,0 +1,32 @@
+$group
+
+    ${'$'}if wzCtx.type == 'module'
+        import { dirname } from 'path'
+        import { fileURLToPath } from 'url'
+        const __dirname = dirname(fileURLToPath(import.meta.url))
+    
+    import path from 'path'
+    export
+        const config
+            { 
+                @ mode "development"
+                @ entry 
+                    _ path.resolve
+                        @ __dirname
+                        @ './src/index.js'
+                { module
+				    [ rules
+                        {	
+                            @ test /\.(js)$/
+                            @ exclude /node_modules/
+                            [ use
+                                @ 'babel-loader'
+                { output
+                    @ path
+                        _ path.resolve
+                            @ __dirname
+                            @ 'static'
+                    @ filename 'bundle.js'
+                    @ publicPath '/webpacks/hello'
+                @ devtool 'cheap-module-source-map'
+

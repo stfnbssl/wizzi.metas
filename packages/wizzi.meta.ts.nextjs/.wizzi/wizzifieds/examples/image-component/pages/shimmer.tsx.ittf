@@ -1,0 +1,70 @@
+module
+    kind react
+    import Image from 'next/image'
+    import ViewSource from '../components/view-source'
+    const shimmer
+        => 
+            param w
+                :number 
+            param h
+                :number 
+            `lit 
+                + &lf;
+                + <svg width="
+                @ w
+                + " height="
+                @ h
+                + " version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">&lf;
+                + &nbsp; <defs>&lf;
+                + &nbsp;   <linearGradient id="g">&lf;
+                + &nbsp;     <stop stop-color="#333" offset="20%" />&lf;
+                + &nbsp;     <stop stop-color="#222" offset="50%" />&lf;
+                + &nbsp;     <stop stop-color="#333" offset="70%" />&lf;
+                + &nbsp;   </linearGradient>&lf;
+                + &nbsp; </defs>&lf;
+                + &nbsp; <rect width="
+                @ w
+                + " height="
+                @ h
+                + " fill="#333" />&lf;
+                + &nbsp; <rect id="r" width="
+                @ w
+                + " height="
+                @ h
+                + " fill="url(#g)" />&lf;
+                + &nbsp; <animate xlink:href="#r" attributeName="x" from="-
+                @ w
+                + " to="
+                @ w
+                + " dur="1s" repeatCount="indefinite"  />&lf;
+                + </svg>
+    const toBase64
+        => 
+            param str
+                :string 
+            iif typeof window === 'undefined'
+                then Buffer.from(str).toString('base64')
+                else window.btoa(str)
+    const Shimmer
+        => 
+            div 
+                < ViewSource 
+                    @ pathname "pages/shimmer.tsx"
+                h1 
+                    + Image Component With Shimmer Data URL
+                < Image 
+                    @ alt "Mountains"
+                    @ src "/mountains.jpg"
+                    @ placeholder "blur"
+                    @ blurDataURL
+                        `lit 
+                            + data:image/svg+xml;base64,
+                            _ toBase64(shimmer(700, 475))
+                            + 
+                    @ width {700}
+                    @ height {475}
+                    @ style
+                        { 
+                            @ maxWidth '100%'
+                            @ height 'auto'
+    export-default Shimmer

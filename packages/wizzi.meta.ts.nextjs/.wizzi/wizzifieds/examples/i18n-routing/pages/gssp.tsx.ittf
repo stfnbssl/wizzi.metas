@@ -1,0 +1,74 @@
+module
+    kind react
+    :import-type 
+        @ GetServerSideProps
+        @ InferGetServerSidePropsType
+        from 'next'
+    import Link from 'next/link'
+    import 
+        @ useRouter
+        from 'next/router'
+    import LocaleSwitcher from '../components/locale-switcher'
+    :type GsspPageProps
+        :ref InferGetServerSidePropsType
+            :param 
+                :typeof getServerSideProps
+    export-default 
+        function GsspPage
+            param props
+                :ref GsspPageProps
+            const router = useRouter()
+            const 
+                { 
+                    @ defaultLocale
+                = router
+            return 
+                div 
+                    h1 
+                        + getServerSideProps page
+                    p 
+                        + Current locale:
+                        + {props.locale}
+                    p 
+                        + Default locale:
+                        + {defaultLocale}
+                    p 
+                        + Configured locales:
+                        + {JSON.stringify(props.locales)}
+                    < LocaleSwitcher 
+                    < Link 
+                        @ href "/gsp"
+                        + To getStaticProps page
+                    br 
+                    < Link 
+                        @ href "/gsp/first"
+                        + To dynamic getStaticProps page
+                    br 
+                    < Link 
+                        @ href "/"
+                        + To index page
+                    br 
+    :type Props
+        :{ 
+            :p locale
+                :optional 
+                :string 
+            :p locales
+                :optional 
+                :[ 
+                    :string 
+    export 
+        const getServerSideProps
+            :ref GetServerSideProps
+                :param 
+                    :ref Props
+            =
+                async=> 
+                    { 
+                        @ locale
+                        @ locales
+                    return 
+                        { 
+                            { props
+                                @ locale
+                                @ locales

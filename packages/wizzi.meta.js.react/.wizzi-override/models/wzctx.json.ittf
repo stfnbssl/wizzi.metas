@@ -1,0 +1,37 @@
+{
+    $include versions
+    name "wizzi.meta.js.react"
+    npmName "@wizzi/meta.jsReact"
+    pluginBasename ""
+    version '${versions['@wizzi/meta.jsReact@next']}'
+    description "wizzi.meta.js.react"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    { license
+        name "MIT"
+        copy "copy 2023"
+    metaNamespace "jsReact"
+    { Build
+        useConfig true
+        { config
+        isWizziMeta true
+        { wizziMeta
+            [ plugins
+                "./wizzi.plugin.ittf/index.js"
+            pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+            { globalContext
+                wzConfigIsDevelopment true
+                wzConfigIsPackageDeploy false
+        useWizziJsonFactory true
+        { utils
+            useStringifySafe true
+    [ Productions
+        {
+            name "jsReactWebpackGetStartedApp"
+            title "jsReactWebpackGetStartedApp wizzi meta production"
+        {
+            name "jsReactUtils"
+            title "jsReactUtils wizzi meta production"

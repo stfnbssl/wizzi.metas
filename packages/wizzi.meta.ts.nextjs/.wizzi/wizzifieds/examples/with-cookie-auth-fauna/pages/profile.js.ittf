@@ -1,0 +1,64 @@
+module
+    kind react
+    import 
+        @ useEffect
+        from 'react'
+    import 
+        @ useRouter
+        from 'next/router'
+    import useSWR from 'swr'
+    import 
+        @ withAuthSync
+        from '../utils/auth'
+    import Layout from '../components/layout'
+    const fetcher
+        => 
+            param url
+            _ fetch(url).then
+                => 
+                    param res
+                    if res.status >= 300
+                        throw new Error('API Client error')
+                    return res.json()
+    const Profile
+        => 
+            const router = useRouter()
+            const 
+                { 
+                    @ data user
+                    @ error
+                = useSWR('/api/profile', fetcher)
+            _ useEffect
+                => 
+                    if error
+                        _ router.push('/')
+                [ 
+                    @ error
+                    @ router
+            return 
+                < Layout 
+                    { 
+                        iif error
+                            then
+                                h1 
+                                    + An error has occurred:
+                                    + {error.message}
+                            else
+                                iif user
+                                    then
+                                        h1 
+                                            + Your user id is
+                                            + {user.userId}
+                                    else
+                                        h1 
+                                            + Loading...
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       h1 {&lf;
+                                + &nbsp;         margin-bottom: 0;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;
+    export-default withAuthSync(Profile)

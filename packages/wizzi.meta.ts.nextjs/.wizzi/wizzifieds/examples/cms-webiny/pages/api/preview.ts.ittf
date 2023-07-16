@@ -1,0 +1,44 @@
+module
+    kind react
+    import 
+        @ getPostBySlug
+        from '../../lib/api'
+    export-default 
+        async-function preview
+            param req
+            param res
+            if req.query.secret !== process.env.PREVIEW_API_SECRET || !req.query.slug
+                return 
+                    _ res.status(401).json
+                        { 
+                            @ message 'Invalid token'
+            const 
+                { 
+                    @ post
+                =
+                    await 
+                        _ getPostBySlug(req.query.slug, true)
+                # Fetch the headless CMS to check if the provided `slug` exists
+                # If the slug doesn't exist prevent preview mode from being enabled
+            if !post
+                return 
+                    _ res.status(401).json
+                        { 
+                            @ message 'Invalid slug'
+            _ res.setDraftMode
+                { 
+                    @ enable true
+                # Enable Draft Mode by setting the cookie
+                # Redirect to the path from the fetched post
+                # We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
+            _ res.writeHead
+                @ 307
+                { 
+                    @ Location
+                        `lit 
+                            + /posts/
+                            @ post.data.slug
+                            + 
+                # Redirect to the path from the fetched post
+                # We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
+            _ res.end()

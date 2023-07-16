@@ -1,0 +1,12 @@
+	$$ folder pages ext tsx
+	$
+		var items = [
+			'index',
+			'_app',
+			'_document',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/pages/${item}.tsx.ittf.ittf
+			module
+				${'$'}include tsNextjsBlog/pages/${item}.tsx

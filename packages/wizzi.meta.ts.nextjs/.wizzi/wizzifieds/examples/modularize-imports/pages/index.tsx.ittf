@@ -1,0 +1,18 @@
+module
+    kind react
+    import 
+        @ LeftHalf
+        @ RightHalf
+        from '../components/halves'
+        # @ts-ignore
+        # @ts-ignore
+    import 
+        @ HeadingLarge
+        from '../components/ui'
+        # @ts-ignore
+    export-default 
+        function Index
+            return 
+                < HeadingLarge 
+                    < LeftHalf 
+                    < RightHalf 

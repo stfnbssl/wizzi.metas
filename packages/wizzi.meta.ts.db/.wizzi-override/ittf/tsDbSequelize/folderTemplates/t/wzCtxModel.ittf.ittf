@@ -1,0 +1,12 @@
+$group
+    $file __dot__wizzi/models/t/tsDbSequelize.json.ittf.ittf
+        ${'$'}{'$'}group
+            
+            useSequelize true
+            { sequelize
+                databaseUrl "${'$'}{'$'}{stfnbssl_env.sequelizeDbUrl}"
+                $if metaCtx.tsDbSequelize.usePostgres
+                    dialect "postgres"
+                    usePostgres true
+                    { postgres
+

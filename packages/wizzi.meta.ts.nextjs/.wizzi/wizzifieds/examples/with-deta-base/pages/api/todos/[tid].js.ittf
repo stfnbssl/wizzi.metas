@@ -1,0 +1,34 @@
+module
+    kind react
+    import 
+        @ Deta
+        from 'deta'
+    const deta = Deta(process.env.DETA_PROJECT_KEY)
+    const base = deta.Base('todos')
+    const handler
+        async=> 
+            param req
+            param res
+            let 
+                { 
+                    @ body
+                    @ method
+                    { query
+                        @ tid
+                = req
+            let respBody
+                { 
+            if method === 'PUT'
+                set body = JSON.parse(body)
+                set respBody =
+                    await 
+                        _ base.put(body)
+                set res.statusCode = 200
+            else
+                if method === 'DELETE'
+                    set respBody =
+                        await 
+                            _ base.delete(tid)
+                    set res.statusCode = 200
+            _ res.json(respBody)
+    export-default handler

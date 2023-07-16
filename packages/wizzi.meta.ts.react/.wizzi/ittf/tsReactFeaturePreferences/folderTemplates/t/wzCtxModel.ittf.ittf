@@ -1,0 +1,6 @@
+$group
+    $file __dot__wizzi/models/t/tsReactFeaturePreferences.json.ittf.ittf
+        ${'$'}{'$'}group
+            { preferences
+                @ configKey
+                [ items

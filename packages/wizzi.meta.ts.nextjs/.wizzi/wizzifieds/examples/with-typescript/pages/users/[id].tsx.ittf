@@ -1,0 +1,109 @@
+module
+    kind react
+    import 
+        @ GetStaticProps
+        @ GetStaticPaths
+        from 'next'
+    import 
+        @ User
+        from '../../interfaces'
+    import 
+        @ sampleUserData
+        from '../../utils/sample-data'
+    import Layout from '../../components/Layout'
+    import ListDetail from '../../components/ListDetail'
+    :type Props
+        :{ 
+            :p item
+                :optional 
+                :ref User
+            :p errors
+                :optional 
+                :string 
+    const StaticPropsDetail
+        => 
+            { 
+                @ item
+                @ errors
+                :ref Props
+            if errors
+                return 
+                    < Layout 
+                        @ title "Error | Next.js + TypeScript Example"
+                        p 
+                            span 
+                                @ style
+                                    { 
+                                        @ color 'red'
+                                + Error:
+                            + {errors}
+            return 
+                < Layout 
+                    @ title
+                        `lit 
+                            + 
+                            iif item
+                                then item.name
+                                else 'User Detail'
+                            + &nbsp;| Next.js + TypeScript Example
+                    { 
+                        && 
+                            + item
+                            < ListDetail 
+                                @ item {item}
+    export-default StaticPropsDetail
+    export 
+        const getStaticPaths
+            :ref GetStaticPaths
+            =
+                async=> 
+                    const paths
+                        _ sampleUserData.map
+                            => 
+                                param user
+                                (
+                                    { 
+                                        { params
+                                            @ id user.id.toString()
+                        # Get the paths we want to pre-render based on users
+                        # We'll pre-render only these paths at build time.
+                        # { fallback: false } means other routes should 404.
+                    return 
+                        { 
+                            @ paths
+                            @ fallback false
+                        # We'll pre-render only these paths at build time.
+                        # { fallback: false } means other routes should 404.
+        # This function gets called at build time on server-side.
+        # It won't be called on client-side, so you can even do
+        # direct database queries.
+    export 
+        const getStaticProps
+            :ref GetStaticProps
+            =
+                async=> 
+                    { 
+                        @ params
+                    try 
+                        const id = params?.id
+                        const item
+                            _ sampleUserData.find
+                                => 
+                                    param data
+                                    set data.id === Number(id)
+                            # By returning { props: item }, the StaticPropsDetail component
+                            # will receive `item` as a prop at build time
+                        return 
+                            { 
+                                { props
+                                    @ item
+                            # By returning { props: item }, the StaticPropsDetail component
+                            # will receive `item` as a prop at build time
+                    catch err
+                        return 
+                            { 
+                                { props
+                                    @ errors err.message
+        # This function gets called at build time on server-side.
+        # It won't be called on client-side, so you can even do
+        # direct database queries.

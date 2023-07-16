@@ -1,0 +1,80 @@
+module
+    kind react
+    import 
+        @ useState
+        @ useEffect
+        @ createContext
+        @ useContext
+        from 'react'
+    import 
+        @ createFirebaseApp
+        from '../firebase/clientApp'
+    import 
+        @ getAuth
+        @ onAuthStateChanged
+        from 'firebase/auth'
+    export 
+        const UserContext = createContext()
+    export-default 
+        function UserContextComp
+            { 
+                @ children
+            const [user, setUser] = useState(null)
+            const [loadingUser, setLoadingUser] = useState(true)
+                # Helpful, to update the UI accordingly.
+            _ useEffect
+                => 
+                    const app = createFirebaseApp()
+                        # Listen authenticated user
+                    const auth = getAuth(app)
+                    const unsubscriber
+                        _ onAuthStateChanged
+                            @ auth
+                            async=> 
+                                param user
+                                try 
+                                    if user
+                                        const 
+                                            { 
+                                                @ uid
+                                                @ displayName
+                                                @ email
+                                                @ photoURL
+                                            = user
+                                            # User is signed in.
+                                            # You could also look for the user doc in your Firestore (if you have one):
+                                            # const userDoc = await firebase.firestore().doc(`users/${uid}`).get()
+                                        _ setUser
+                                            { 
+                                                @ uid
+                                                @ displayName
+                                                @ email
+                                                @ photoURL
+                                            # You could also look for the user doc in your Firestore (if you have one):
+                                            # const userDoc = await firebase.firestore().doc(`users/${uid}`).get()
+                                    else
+                                        _ setUser(null)
+                                catch error
+                                finally 
+                                    _ setLoadingUser(false)
+                        # Unsubscribe auth listener on unmount
+                    return 
+                        => 
+                            _ unsubscriber()
+                        # Unsubscribe auth listener on unmount
+                [ 
+                # Helpful, to update the UI accordingly.
+            return 
+                < UserContext.Provider 
+                    @ value
+                        { 
+                            @ user
+                            @ setUser
+                            @ loadingUser
+                    + {children}
+        # Custom hook that shorthands the context!
+    export 
+        const useUser
+            => 
+                _ useContext(UserContext)
+        # Custom hook that shorthands the context!

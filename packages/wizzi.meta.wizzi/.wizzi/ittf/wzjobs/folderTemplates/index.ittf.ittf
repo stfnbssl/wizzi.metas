@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useWzjobs
+        $file __dot__wizzi/wzjobs/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include wzjobs/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/wzjobs/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include wzjobs/tfolder/${item}.js

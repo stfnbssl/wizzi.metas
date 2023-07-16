@@ -1,0 +1,15 @@
+module
+    kind react
+    :type AuthorType
+        :{ 
+            :p firstName
+                :string 
+            :p lastName
+                :string 
+            :p name
+                :string 
+            :p avatar
+                :{ 
+                    :p url
+                        :string 
+    export-default AuthorType

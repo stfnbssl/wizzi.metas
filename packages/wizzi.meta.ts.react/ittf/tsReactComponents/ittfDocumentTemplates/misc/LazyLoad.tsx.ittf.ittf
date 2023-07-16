@@ -1,0 +1,83 @@
+$group
+    import 
+        as React
+        from 'react'
+    +
+    :type Props
+        :< T
+        :{ 
+            :p load
+                :=> 
+                    :ref Promise
+                        :param 
+                            :{ 
+                                :p default
+                                    :ref T
+            :p children
+                :=> 
+                    :any 
+                    param props
+                        :union 
+                            :{ 
+                                :p loaded
+                                    :literal false
+                                :p data
+                                    :null 
+                            :{ 
+                                :p loaded
+                                    :literal true
+                                :p data
+                                    :ref T
+    +
+    :type State
+        :< T
+        :{ 
+            :p data
+                :union 
+                    :ref T
+                    :null 
+    +
+    export-default 
+        class LazyLoad
+            :< T
+            super React.Component
+                :param 
+                    :ref Props
+                        :param 
+                            :ref T
+                :param 
+                    :ref State
+                        :param 
+                            :ref T
+            p state
+                :ref State
+                    :param 
+                        :ref T
+                { 
+                    @ data null
+            m componentDidMount
+                _ this._load()
+            p _load
+                async=> 
+                    let data
+                        :any 
+                        =
+                            await 
+                                _ this.props.load()
+                    if data.__esModule
+                        set data = data.default
+                    _ this.setState
+                        { 
+                            @ data
+            m render
+                return 
+                    _ this.props.children
+                        iif this.state.data
+                            then
+                                { 
+                                    @ loaded true
+                                    @ data this.state.data
+                            else
+                                { 
+                                    @ loaded false
+                                    @ data null

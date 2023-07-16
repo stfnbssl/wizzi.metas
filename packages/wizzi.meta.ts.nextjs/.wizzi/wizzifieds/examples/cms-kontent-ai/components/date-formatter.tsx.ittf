@@ -1,0 +1,25 @@
+module
+    kind react
+    import 
+        @ parseISO
+        @ format
+        from 'date-fns'
+    :type DateFormatterProps
+        :{ 
+            :p dateString
+                :union 
+                    :string 
+                    :null 
+    export-default 
+        function DateFormatter
+            { 
+                @ dateString
+                :ref DateFormatterProps
+            if dateString === null
+                return 
+                    < React.Fragment
+            const date = parseISO(dateString)
+            return 
+                time 
+                    @ dateTime {dateString}
+                    + {format(date, 'LLLL	d, yyyy')}

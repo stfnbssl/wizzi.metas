@@ -1,0 +1,5 @@
+module
+    kind react
+    export 
+        @ TypeA
+        from './package-1'

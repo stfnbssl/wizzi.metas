@@ -1,0 +1,101 @@
+$group
+   
+	var util = require('util')
+	var async = require('async')
+    var stringify = require('json-stringify-safe')
+    
+    var verify = require('wizzi-utils').verify
+	var lineParser = require('../utils/lineParser')
+	var file = require('wizzi-utils').file
+    var cloner = require('../utils/cloner')
+    var ittfwriter = require("../utils/ittfwriter")
+
+	${'$'}hook imports
+
+    var verbose = false
+    function log
+        param label
+        param obj
+        param force
+        if (verbose || force)
+            _ console.log
+                @ label
+                _ util.inspect
+                    @ obj
+                    { 
+                        @ depth null
+	
+    var md
+        set module.exports
+            { 
+
+	set md.getCodeAST
+        function 
+            param tobeWizzified            
+			param options
+            param callback
+			if typeof callback === 'undefined'
+				set callback = options
+				set options = {}
+			set options = options || {}
+            set options.input = tobeWizzified
+            set options.stack = []
+    		_ parseInternal
+                @ tobeWizzified            
+				@ options
+                @ callback
+    
+	set md.getWizziTree
+        function 
+            param input
+            param options
+            param callback
+            set options = (options || {})
+            if typeof (options.verbose) !== 'undefined'
+                set verbose = options.verbose
+            var startTime = Date.now()
+			# loog 'startTime', startTime
+            _ wizzify
+                @ input
+                @ options
+                a_cb${'('} syntax )
+					if options.syntaxOutFile
+						_ parseInternal
+							@ input
+							@ options
+							a_cb${'('} syntax )
+								_ file.write
+									@ options.syntaxOutFile
+									_ stringify
+										@ syntax
+										@ null
+										@ 2
+                    
+                    # loog 'Parsed in ' + Date.now() - startTime + ' ms'
+                    _ callback(null, syntax)
+    
+	set md.getWizziIttf
+        function 
+            param input
+            param options
+            param callback
+            _ md.getWizziTree
+                @ input
+                @ options
+                a_cb${'('} result )
+					_ md.getWizzifierIncludes
+						@ options
+						a_cb${'('})
+							set result = cloner(result, options)
+							_ callback
+								@ null
+								_ ittfwriter.stringify(result, options)
+
+	# ovveridable
+	set md.getWizzifierIncludes
+		function
+			param options
+			param callback
+			r_cb${'('})
+
+	${'$'}hook

@@ -1,0 +1,65 @@
+module
+    kind react
+    import React from 'react'
+    import Link from 'next/link'
+    const Header
+        :ref React.FC
+        =
+            => 
+                return 
+                    nav 
+                        div 
+                            @ className "left"
+                            < Link 
+                                @ href "/"
+                                @ legacyBehavior
+                                a 
+                                    + Blog
+                            < Link 
+                                @ href "/drafts"
+                                @ legacyBehavior
+                                a 
+                                    + Drafts
+                        div 
+                            @ className "right"
+                            < Link 
+                                @ href "/create"
+                                @ legacyBehavior
+                                a 
+                                    + + New draft
+                        < style 
+                            @ jsx
+                            { 
+                                `lit 
+                                    + &lf;
+                                    + &nbsp;       nav {&lf;
+                                    + &nbsp;         display: flex;&lf;
+                                    + &nbsp;         padding: 2rem;&lf;
+                                    + &nbsp;         align-items: center;&lf;
+                                    + &nbsp;       }&lf;
+                                    + &lf;
+                                    + &nbsp;       .bold {&lf;
+                                    + &nbsp;         font-weight: bold;&lf;
+                                    + &nbsp;       }&lf;
+                                    + &lf;
+                                    + &nbsp;       a {&lf;
+                                    + &nbsp;         text-decoration: none;&lf;
+                                    + &nbsp;         color: #000;&lf;
+                                    + &nbsp;         display: inline-block;&lf;
+                                    + &nbsp;       }&lf;
+                                    + &lf;
+                                    + &nbsp;       a + a {&lf;
+                                    + &nbsp;         margin-left: 1rem;&lf;
+                                    + &nbsp;       }&lf;
+                                    + &lf;
+                                    + &nbsp;       .right {&lf;
+                                    + &nbsp;         margin-left: auto;&lf;
+                                    + &nbsp;       }&lf;
+                                    + &lf;
+                                    + &nbsp;       .right a {&lf;
+                                    + &nbsp;         border: 2px solid black;&lf;
+                                    + &nbsp;         padding: 0.5rem 1rem;&lf;
+                                    + &nbsp;         border-radius: 3px;&lf;
+                                    + &nbsp;       }&lf;
+                                    + &nbsp;    &nbsp;
+    export-default Header

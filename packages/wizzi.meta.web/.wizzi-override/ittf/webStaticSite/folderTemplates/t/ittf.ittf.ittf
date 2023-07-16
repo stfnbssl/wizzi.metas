@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "index",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/ittf/${item}.html.ittf.ittf
+            html
+                ${'$'}include webStaticSite/ittf/${item}.html

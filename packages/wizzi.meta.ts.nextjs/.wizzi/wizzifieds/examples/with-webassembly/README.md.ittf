@@ -1,0 +1,85 @@
+md
+    h1 
+        + WebAssembly example
+    p 
+        + This example shows how to import WebAssembly files (
+        code .wasm
+        + ) and use them inside of a React component that is server rendered. So the WebAssembly code is executed on the server too. In the case of this example we&#39;re showing Rust compiled to WebAssembly.
+    br 
+    h2 
+        + Preview
+    p 
+        + Preview the example live on
+        a 
+            href http://stackblitz.com/
+            title 
+            + StackBlitz
+        + :
+    br 
+    p 
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-webassembly
+            title 
+            img 
+                href https://developer.stackblitz.com/img/open_in_stackblitz.svg
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-webassembly with-webassembly-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-webassembly with-webassembly-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-webassembly with-webassembly-app
+    br 
+    p 
+        + This example uses Rust compiled to wasm, the wasm file is included in the example, but to compile your own Rust code you&#39;ll have to
+        a 
+            href https://www.rust-lang.org/learn/get-started
+            title 
+            + install
+        + Rust.
+    br 
+    p 
+        + To compile
+        code src/add.rs
+        + to
+        code add.wasm
+        + run:
+    br 
+    code 
+        lang bash
+        + npm run build-rust
+        + # or
+        + yarn build-rust
+        + # or
+        + pnpm build-rust

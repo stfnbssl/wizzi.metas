@@ -1,0 +1,46 @@
+$group
+    
+    const 
+        { 
+            @ DefaultAzureCredential
+        = require("@azure/identity")
+    const 
+        { 
+            @ SecretClient
+        = require("@azure/keyvault-secrets")
+    const getSecret
+        async=> 
+            param secretName
+            param keyVaultName
+            if !secretName || !keyVaultName
+                throw Error("getSecret: Required params missing")
+            const credential = new DefaultAzureCredential()
+                # Build the URL to reach your key vault
+            const url
+                `lit 
+                    + https://
+                    @ keyVaultName
+                    + .vault.azure.net
+                # Build the URL to reach your key vault
+            try 
+                const client = new SecretClient(url, credential)
+                    # Create client to connect to service
+                const latestSecret
+                    await 
+                        _ client.getSecret(secretName)
+                    # Get secret Obj
+                _ console.log
+                    `lit 
+                        + Secret (
+                        @ secretName
+                        + =
+                        @ latestSecret.value
+                        + )
+                return latestSecret.value
+                    # Return value
+            catch ex
+                error ex
+                throw ex
+    set module.exports =
+        { 
+            @ getSecret

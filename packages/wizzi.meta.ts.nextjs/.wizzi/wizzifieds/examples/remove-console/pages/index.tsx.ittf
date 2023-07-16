@@ -1,0 +1,10 @@
+module
+    kind react
+    export-default 
+        function Index
+            return 
+                div 
+                    p 
+                        + The console should be empty.
+    _ console.log('log from index.js')
+    _ console.error('error log from index.js')

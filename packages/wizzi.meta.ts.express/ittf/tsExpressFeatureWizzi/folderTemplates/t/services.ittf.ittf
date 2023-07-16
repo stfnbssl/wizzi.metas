@@ -1,0 +1,27 @@
+$group
+
+    $if metaCtx.tsExpressFeatureWizzi.useWizziServices
+        
+        $file __dot__wizzi/t/v08/express/services/wizzi/config.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include tsExpressFeatureWizzi/services/wizzi/config.ts
+        
+        $file __dot__wizzi/t/v08/express/services/wizzi/wizzifile.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include tsExpressFeatureWizzi/services/wizzi/wizzifile.ts
+        
+        $file __dot__wizzi/t/v08/express/services/wizzi/index.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include tsExpressFeatureWizzi/services/wizzi/index.ts
+        
+        $file __dot__wizzi/t/v08/express/services/wizzi/types.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include tsExpressFeatureWizzi/services/wizzi/types.ts

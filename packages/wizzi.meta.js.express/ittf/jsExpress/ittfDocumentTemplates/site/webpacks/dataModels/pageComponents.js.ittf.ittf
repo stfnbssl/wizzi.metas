@@ -1,0 +1,138 @@
+$group
+
+    $
+        var openParen = '(';
+
+    ${'$'}
+        var schema = md.schema;
+
+    import
+        @ get${'$'}{schema.Name}List
+        @ create${'$'}{schema.Name}
+        @ get${'$'}{schema.Name}ById
+        @ update${'$'}{schema.Name}
+        @ delete${'$'}{schema.Name}
+        from './api.js'
+    import
+        @ createPage
+        from '../../common/page.js'
+    import
+        @ createList
+        from '../../common/lists.js'
+    import
+        @ createForm
+        from '../../common/forms.js'
+    +
+    var formMethods = null
+    var listMethods = null
+    +
+    ${'$'}hook defs
+    +
+    export
+        function mount${'$'}{schema.Name}Page
+            param elementId
+            param props
+            _ createPage
+                @ ${'$'}{schema.name}PageDef
+                @ elementId
+                @ props
+    +
+    export
+        function mount${'$'}{schema.Name}Form
+            param elementId
+            param props
+            
+            set ${'$'}{schema.name}FormDef.onStart
+                =>
+                    param methods
+                    set formMethods = methods
+
+            set ${'$'}{schema.name}FormDef.onAdd
+                =>
+                    param formData
+                    $$ loog 'pageComponent ${'$'}{schema.name}', 'form onSubmit', 'formData', formData
+                    apiCall${openParen} create${'$'}{schema.Name}, formData )
+                        if listMethods && listMethods.onDoneAddItem
+                            _ listMethods.onDoneAddItem
+                                @ data.${'$'}{schema.name}
+                        if formMethods && formMethods.onDoneAddItem
+                            _ formMethods.onDoneAddItem
+                                @ data.${'$'}{schema.name}
+            
+            set ${'$'}{schema.name}FormDef.onCancel
+                =>
+                    $$ loog 'pageComponent ${'$'}{schema.name}', 'form onCancel'
+
+            set ${'$'}{schema.name}FormDef.onConfirmUpdate
+                =>
+                    param formData
+                    $$ loog 'pageComponent ${'$'}{schema.name}', 'form onConfirmUpdate', 'formData', formData
+                    apiCall${openParen} update${'$'}{schema.Name}, formData._id, formData )
+                        $$ loog 'listMethods && listMethods.onDoneUpdate', listMethods && listMethods.onDoneUpdateItem
+                        if listMethods && listMethods.onDoneUpdateItem
+                            _ listMethods.onDoneUpdateItem
+                                @ formData
+                        $$ loog 'formMethods && formMethods.onDoneUpdate', formMethods && formMethods.onDoneUpdateItem
+                        if formMethods && formMethods.onDoneUpdateItem
+                            _ formMethods.onDoneUpdateItem
+                                @ formData
+            
+            set ${'$'}{schema.name}FormDef.onConfirmDelete
+                =>
+                    param formData
+                    $$ loog 'pageComponent ${'$'}{schema.name}', 'form onConfirmDelete', 'formData', formData
+                    apiCall${openParen} delete${'$'}{schema.Name}, formData._id )
+                        if listMethods && listMethods.onDoneDeleteItem
+                            _ listMethods.onDoneDeleteItem
+                                @ formData._id
+                        if formMethods && formMethods.onDoneUpdateItem
+                            _ formMethods.onDoneDeleteItem
+                                @ formData._id
+
+            _ createForm
+                @ ${'$'}{schema.name}FormDef
+                @ elementId
+                @ props
+    +
+    export
+        function mount${'$'}{schema.Name}List
+            param elementId
+            param props
+
+            set ${'$'}{schema.name}ListDef.onStart
+                =>
+                    param methods
+                    set listMethods = methods
+
+            set ${'$'}{schema.name}ListDef.onSelectItem
+                =>
+                    param item
+                    $$ loog 'pageComponent ${'$'}{schema.name}', 'list onSelectItem', item
+                    apiCall${openParen} get${'$'}{schema.Name}ById, item._id ) 
+                        _ formMethods.setUpdateItem
+                            @ data.${'$'}{schema.name}
+            
+            set ${'$'}{schema.name}ListDef.onDeleteItem
+                =>
+                    param item
+                    $$ loog 'pageComponent ${'$'}{schema.name}', 'list onDeleteItem', item
+                    apiCall${openParen} get${'$'}{schema.Name}ById, item._id ) 
+                        _ formMethods.setDeleteItem
+                            @ data.${'$'}{schema.name}
+            _ startList
+                @ elementId
+                @ props
+
+    function startList    
+        param elementId
+        param props             
+        apiCall${openParen} get${'$'}{schema.Name}List ) 
+            _ createList
+                {
+                    @ def ${'$'}{schema.name}ListDef
+                    $$ @ data ${'$'}{schema.name}ListData
+                    @ data
+                        {
+                            @ items data.${'$'}{schema.collectionName}
+                @ elementId
+                @ props

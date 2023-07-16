@@ -1,0 +1,33 @@
+$group
+    import 
+        as authTypes
+        from './types'
+    import
+        @ ControllerType
+        from '../app/types'
+    import
+        @ ApiV1AuthenticateController
+        from './controllers/apiv1authenticate'
+    import AuthMiddleware from './middlewares/auth.middleware'
+    import JwtMiddleware from './middlewares/jwt.middleware'
+    ${'$'}if wzCtx.Build.useAuthentication && wzCtx.Build.authentication.usePermissionFlag
+        import PermissionMiddleware from './middlewares/permission'
+    +
+    const authControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ApiV1AuthenticateController()
+    +
+    const authMiddlewares
+        {
+            @ AuthMiddleware
+            @ JwtMiddleware
+            ${'$'}if wzCtx.Build.useAuthentication && wzCtx.Build.authentication.usePermissionFlag
+                @ PermissionMiddleware
+
+    export
+        @ authTypes
+        @ authControllers
+        @ authMiddlewares

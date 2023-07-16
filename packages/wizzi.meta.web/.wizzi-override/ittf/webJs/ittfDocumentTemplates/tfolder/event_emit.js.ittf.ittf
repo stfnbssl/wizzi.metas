@@ -1,0 +1,7 @@
+﻿$group
+	${'$'}params name
+
+	_ glEventHub.emit
+		@ '${'$'}{name}'
+		{
+			${'$'}hook

@@ -1,0 +1,17 @@
+module
+    kind react
+    import StoreProvider from '@/lib/StoreProvider'
+    :import-type 
+        @ AppProps
+        from 'next/app'
+    export-default 
+        function App
+            { 
+                @ Component
+                @ pageProps
+                :ref AppProps
+            return 
+                < StoreProvider 
+                    @ {...pageProps.initialZustandState}
+                    < Component 
+                        @ {...pageProps}

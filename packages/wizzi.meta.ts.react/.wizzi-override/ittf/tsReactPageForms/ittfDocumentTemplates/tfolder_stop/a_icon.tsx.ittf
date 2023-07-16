@@ -1,0 +1,9 @@
+$group
+    $params label, href, bg|success
+    a 
+        class button p-s radius-m bg-${bg} color-white border-s font-m font-w-xxl
+        href ${href}
+        div
+            @ className flex-row
+            $hook
+            + &nbsp;${label}&nbsp;

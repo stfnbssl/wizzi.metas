@@ -1,0 +1,15 @@
+md
+    p 
+        + Glamorous has been deprecated in favor of Emotion. Please see
+        a 
+            href https://github.com/paypal/glamorous/issues/419
+            title
+            + https://github.com/paypal/glamorous/issues/419
+        + for more information.
+    br 
+    p 
+        + You can find the Next.js example for Emotion here:
+        a 
+            href https://github.com/vercel/next.js/tree/canary/examples/with-emotion
+            title
+            + https://github.com/vercel/next.js/tree/canary/examples/with-emotion

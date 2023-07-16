@@ -1,0 +1,56 @@
+module
+    kind react
+    import passport from 'passport'
+    import nextConnect from 'next-connect'
+    import 
+        @ localStrategy
+        from '../../lib/password-local'
+    import 
+        @ setLoginSession
+        from '../../lib/auth'
+    const authenticate
+        => 
+            param method
+            param req
+            param res
+            new Promise
+                => 
+                    param resolve
+                    param reject
+                    _ passport.authenticate
+                        @ method
+                        { 
+                            @ session false
+                        => 
+                            param error
+                            param token
+                            if error
+                                _ reject(error)
+                            else
+                                _ resolve(token)
+                        (
+                            @ req
+                            @ res
+    _ passport.use(localStrategy)
+    export-default 
+        _ nextConnect().use(passport.initialize()).post
+            async=> 
+                param req
+                param res
+                try 
+                    const user
+                        await 
+                            _ authenticate('local', req, res)
+                        # session is the payload to save in the token, it may contain basic info about the user
+                    const session
+                        { 
+                            @ ...user
+                        # session is the payload to save in the token, it may contain basic info about the user
+                    await 
+                        _ setLoginSession(res, session)
+                    _ res.status(200).send
+                        { 
+                            @ done true
+                catch error
+                    _ console.error(error)
+                    _ res.status(401).send(error.message)

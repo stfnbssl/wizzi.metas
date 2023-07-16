@@ -1,0 +1,17 @@
+module
+    kind react
+    export-default 
+        async-function exit
+            param _
+            param res
+            _ res.setDraftMode
+                { 
+                    @ enable false
+                # Exit Draft Mode by removing the cookie
+                # Redirect the user back to the index page.
+            _ res.writeHead
+                @ 307
+                { 
+                    @ Location '/'
+                # Redirect the user back to the index page.
+            _ res.end()

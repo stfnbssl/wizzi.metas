@@ -1,0 +1,319 @@
+$group
+    $if wzCtx.Build.useBabel || wzCtx.Build.useWebpack
+        $if wzCtx.Build.useVExpo
+            @babel/cli "^7.12.16"
+            @babel/core "^7.12.16"
+        $else
+            @babel/cli "^7.14.5"
+            @babel/core "^7.13.10"
+        $if wzCtx.Build.useVExpo
+            @babel/plugin-proposal-class-properties "^7.12.13"
+            @babel/plugin-syntax-dynamic-import "^7.8.3"
+            @babel/plugin-transform-modules-commonjs "^7.12.13"
+        $if wzCtx.Build.babel.useExtra
+            @babel/plugin-proposal-class-properties "^7.12.1"
+            @babel/plugin-proposal-export-namespace-from "^7.12.1"
+            @babel/plugin-proposal-object-rest-spread "^7.12.1"
+            @babel/plugin-proposal-throw-expressions "^7.12.1"
+            @babel/plugin-syntax-dynamic-import "^7.8.3"
+            @babel/polyfill "^7.12.1"
+        $if wzCtx.Build.useVExpo
+            @babel/preset-env "^7.12.16"
+        $else
+            @babel/preset-env "^7.13.12"
+        $if wzCtx.Build.useReact && !!wzCtx.Build.useReactCreateApp == false
+            @babel/preset-react "^7.12.13"
+    $if wzCtx.Build.useTypescript
+        $if wzCtx.Build.useWebpack || wzCtx.Build.useWebpackApp
+            $if wzCtx.Build.useVExpo
+                @babel/preset-typescript "^7.12.16"
+            $else
+                @babel/preset-typescript "^7.13.0"
+    $if wzCtx.Build.useStorybook
+        @storybook/addon-actions "^6.2.8"
+        @storybook/addon-essentials "^6.2.8"
+        @storybook/addon-links "^6.2.8"
+        @storybook/addon-docs "^6.2.8"
+        @storybook/react "^6.2.8"
+    $if wzCtx.Build.useTypescript
+        $if wzCtx.Build.useExpress && wzCtx.Build.useCompression
+            @types/compression "^1.7.0"
+        $if wzCtx.Build.useExpress && wzCtx.Build.useFlash
+            @types/connect-flash "^0.0.37"
+        $if wzCtx.Build.useMongoDb
+        $if wzCtx.Build.useExpress && wzCtx.Build.useCors
+            @types/cors "^2.8.10"
+        $if wzCtx.Build.useExpress
+            @types/express "^4.16.1"
+        $if wzCtx.Build.utils.useEscapeHtml
+            @types/escape-html "^1.0.1"
+        $if wzCtx.Build.utils.useGitUrlParse
+            @types/git-url-parse "^9.0.0"
+        $if wzCtx.Build.useExpress && wzCtx.Build.express.useHelmet
+            @types/helmet "^4.0.0"
+        $if wzCtx.Build.useJest
+            @types/jest "^26.0.15"
+        $if wzCtx.Build.utils.useJsCookie
+            @types/js-cookie "^2.2.0"
+        $if wzCtx.Build.isClientServer || wzCtx.Build.isServer || wzCtx.Build.usePages
+            @types/jsesc "latest"
+        $if wzCtx.Build.utils.useJsonToAst
+            @types/json-to-ast "^2.1.1"
+        $if wzCtx.Build.utils.useStringifySafe
+            @types/json-stringify-safe "^5.0.0"
+        $if wzCtx.Build.useExpress
+            $if wzCtx.Build.useJwt
+                @types/express-jwt "^6.0.1"
+            $if wzCtx.Build.useSession
+                @types/express-session "^1.15.12"
+        $if wzCtx.Build.useExpress
+            $if wzCtx.Build.express.useErrors
+                @types/http-errors "^1.8.2"
+        $if wzCtx.Build.utils.useLodash
+            @types/lodash "^4.14.185"
+        $if wzCtx.Build.useMarked
+            $if wzCtx.Build.useVExpo
+                @types/marked "^1.2.2"
+            $else
+                @types/marked "^2.0.2"
+        $if wzCtx.Build.useMongoDb
+        $if wzCtx.Build.useExpress && wzCtx.Build.useLogger
+            $if wzCtx.Build.logger.useMorgan
+                @types/morgan "^1.9.3"
+        @types/node "^17.0.43"
+        $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
+            @types/node-fetch "^2"
+        $if wzCtx.Build.utils.useParseUrl
+            @types/parseurl "^1.3.1"
+        $if (wzCtx.Build.styles && wzCtx.Build.styles.usePalx) || wzCtx.Build.useStorybook
+            @types/palx "^1.0.1"
+        $if wzCtx.Build.usePrettier
+            @types/prettier "^2.0.0"
+        $if wzCtx.Build.usePrismjs
+            @types/prismjs "^1.9.0"
+        $if wzCtx.Build.utils.useQueryString
+            @types/query-string "^5.1.0"
+        $if wzCtx.Build.useReact
+            $if wzCtx.Build.useTypescript
+                $if wzCtx.Build.react.useV16
+                    @types/react "^16.8.2"
+                    @types/react-dom "^16.8.0"
+                $if wzCtx.Build.react.useV17
+                    @types/react "^17.0.3"
+                    @types/react-dom "^17.0.3"
+                $else
+                    $if wzCtx.Build.useVite || wzCtx.Build.useNextjs
+                        @types/react "^18.0.12"
+                        @types/react-dom "^18.0.5"
+                    $else
+                        @types/react "^17.0.6"
+                        @types/react-dom "^17.0.6"
+                $if wzCtx.Build.react.useDate
+                    @types/react-datepicker "^3.1.8"
+                $if wzCtx.Build.react.useRedux
+                    @types/react-redux "^7.0.1"
+                $if wzCtx.Build.react.useRouter
+                    @types/react-router-dom "^4.3.1"
+                $if wzCtx.Build.react.useSelect
+                    @types/react-select "^4.0.15"
+                $if wzCtx.Build.react.useSyntaxHighlighter
+                    @types/react-syntax-highlighter "^13.5.1"
+                $if wzCtx.Build.react.useTextareaAutosize
+                    @types/react-textarea-autosize "^4.3.3"
+                $if wzCtx.Build.react.useVirtualized
+                    @types/react-virtualized "^9.18.12"
+        $if wzCtx.Build.useRegeneratorRuntime
+            @types/regenerator-runtime "^0.13.0"
+        $if wzCtx.Build.utils.useSanitizeHtml
+            @types/sanitize-html "^1.18.2"
+        $if wzCtx.Build.useStyledComponents
+            @types/styled-components "^5.1.7"
+        $if wzCtx.Build.useStyledSystem
+            @types/styled-system "^5.1.11"
+            @types/styled-system__theme-get "^5.0.1"
+        $if wzCtx.Build.useStorybook
+            @types/storybook__react "^5.2.1"
+        $if wzCtx.Build.useWebpack || wzCtx.Build.useWebpackApp
+            $if wzCtx.Build.useVExpo
+            $else
+                @types/webpack "^5.28.0"
+                @types/webpack-dev-middleware "^4.1.2"
+        $if wzCtx.Build.useLint
+            @typescript-eslint/parser "^5.33.0"
+            @typescript-eslint/eslint-plugin "^5.33.0"
+    $if wzCtx.Build.useVite
+        $if wzCtx.Build.useReact
+            @vitejs/plugin-react "^2.1.0"
+    $if (wzCtx.Build.isWizziPlugin && wzCtx.Build.useWizziV08) || wzCtx.Build.useWizziFactory
+        @wizzi/factory "latest"
+        @wizzi/utils "latest"
+    $if wzCtx.Build.useLint
+        babel-eslint "^8.2.3"
+    $if wzCtx.Build.useTest && wzCtx.Build.test.useJest
+        babel-jest "^23.4.2"
+    $if wzCtx.Build.useBabel || wzCtx.Build.useWebpack
+        babel-loader "^8.2.2"
+    $if wzCtx.Build.useBabel || wzCtx.Build.useWebpack
+        babel-plugin-add-module-exports "^1.0.4"
+    $if wzCtx.Build.isClientServer
+        babel-plugin-file-loader "latest"
+    $if (wzCtx.Build.useBabel || wzCtx.Build.useWebpack) && wzCtx.Build.utils.useLodash
+        babel-plugin-lodash "^3.3.4"
+    $if wzCtx.Build.useBabel
+        $if wzCtx.Build.useWebpack
+            $if wzCtx.Build.webpack.useCodeSplitting
+                babel-plugin-webpack-chunkname "^1.2.0"
+    $if wzCtx.Build.usePrismjs
+        babel-plugin-prismjs "^2.0.1"
+    $if wzCtx.Build.useExpress && wzCtx.Build.useTypescript
+        copyfiles "^2.4.1"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useCopy
+            copy-webpack-plugin "^4.5.1"
+    $if (wzCtx.Build.useWebpack && wzCtx.Build.webpack.useCss) || wzCtx.Build.useWebpackApp
+        css-loader "^5.0.1"
+        $if wzCtx.Build.useTypescript
+            css-modules-typescript-loader "^4.0.1"
+    $if wzCtx.Build.isWizziPlugin
+        del "^7.0.0"
+    $if wzCtx.Build.useEnvCmd
+        env-cmd "^10.1.0"
+    $if wzCtx.Build.useTest && wzCtx.Build.test.useEnzime
+        enzyme "^3.3.0"
+        enzyme-adapter-react-16 "^1.1.1"
+    $if wzCtx.Build.useLint
+        eslint "^8.21.0"
+        $if wzCtx.Build.useJavascript
+            $if wzCtx.Build.lint.useAirbnb
+                eslint-config-airbnb "^18.2.1"
+            $if wzCtx.Build.useTest && wzCtx.Build.test.useJest
+                eslint-config-jest-enzyme "^6.0.2"
+            $if wzCtx.Build.usePrettier
+                eslint-config-prettier "^8.2.0"
+        eslint-config-standard "^17.0.0"
+        $if wzCtx.Build.useBabel
+            eslint-plugin-babel "^5.3.1"
+        eslint-plugin-import "^2.26.0"
+        $if wzCtx.Build.useTest && wzCtx.Build.test.useJest
+            eslint-plugin-jest "^21.18.0"
+        $if wzCtx.Build.useJavascript
+            eslint-plugin-jsx-a11y "^6.4.1"
+        eslint-plugin-n "^15.2.4"
+        $if wzCtx.Build.usePrettier
+            eslint-plugin-prettier "^4.2.1"
+        eslint-plugin-promise "^6.0.0"
+        $if wzCtx.Build.useReact
+            eslint-plugin-react "^7.23.2"
+            $if wzCtx.Build.react.useRedux
+                eslint-plugin-react-redux "^3.3.2"
+        eslint-plugin-standard "^5.0.0"
+    $if wzCtx.Build.isWizziPlugin
+        expect.js "^0.3.1"
+    $if wzCtx.Build.useWebpack || wzCtx.Build.useWebpackApp
+        file-loader "^6.2.0"
+    $if wzCtx.Build.useHighlight
+        highlight.js "10.6.0"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useHtml
+            html-loader "^2.0.0"
+            html-webpack-plugin "^5.1.0"
+    $if wzCtx.Build.useHusky
+        husky "^1.1.2"
+    $if wzCtx.Build.useTest && wzCtx.Build.test.useJest
+        jest "^23.4.2"
+    $if wzCtx.Build.useLint
+        lint-staged "^7.3.0"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useMiniCssExtract
+            mini-css-extract-plugin "^1.3.5"
+    $if wzCtx.Build.isWizziPlugin
+        mocha "^10.1.0"
+    $if wzCtx.Build.useNetlify
+        netlify-lambda "^0.4.0"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useSass
+            node-sass "5.0.0"
+    $if wzCtx.Build.useExpress || (wzCtx.Build.isClient && wzCtx.Build.useExistingDevServer)
+        nodemon "^2.0.19"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useOptimizeCss
+            optimize-css-assets-webpack-plugin "^4.0.0"
+    $if wzCtx.Build.useTailwindcss
+        postcss "^8.1.13"
+        postcss-cli "^8.3.1"
+    $if wzCtx.Build.usePrettier
+        prettier "^2.2.1"
+    $if wzCtx.Build.useReact  && !!wzCtx.Build.useReactCreateApp == false
+        prop-types "^15.7.2"
+    $if wzCtx.Build.useStorybook
+        react-docgen-typescript "^1.22.0"
+    $if wzCtx.Build.useReact && wzCtx.Build.react.useHotReload
+        react-hot-loader "latest"
+    $if wzCtx.Build.useExpress && wzCtx.Build.useTypescript && !wzCtx.Build.utils.useRimRaf
+        rimraf "^3.0.2"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useSass
+            sass-loader "10.1.1"
+        $if wzCtx.Build.webpack.useCss
+            style-loader "^2.0.0"
+    $if wzCtx.Build.useTailwindcss
+        tailwindcss "^2.0.4"
+    $if wzCtx.Build.useWebpack || wzCtx.Build.useWebpackApp
+        $if wzCtx.Build.useTypescript
+            ts-loader "^8.1.0"
+    $if wzCtx.Build.useTypescript
+        $if wzCtx.Build.useVite || wzCtx.Build.useNextjs
+            typescript "^4.7.3"
+        $else
+            ts-node "^10.8.1"
+            ts-node-dev "^1.1.6"
+            typescript "^4.2.3"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useUglifyJS
+            uglifyjs-webpack-plugin "^1.2.5"
+    $if wzCtx.Build.useVite
+        vite "^3.1.0"
+    $if wzCtx.Build.useVue
+        vue "^2.5.22"
+        vue-loader "^15.6.0"
+        vue-style-loader "^4.1.2"
+        vue-template-compiler "^2.5.22"
+        $if wzCtx.Build.vue.useVuex
+            vuex "^3.1.0"
+        $if wzCtx.Build.vue.useVueRouter
+            vue-router "^3.0.2"
+        $if wzCtx.Build.vue.useVuetify
+            vuetify "^1.4.3"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useYaml
+            yamljs "latest"
+        $if wzCtx.Build.useVExpo
+            webpack "^4.29.0"
+            webpack-cli "^3.2.1"
+            webpack-dev-middleware "^3.5.1"
+            webpack-stats-plugin "^0.2.1"
+            worker-plugin "^3.0.0"
+        $else
+            webpack "^5.28.0"
+            webpack-cli "^4.5.0"
+    $if wzCtx.Build.useWebpackApp
+        webpack-dev-middleware "4.1.0"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useDevServer
+            webpack-dev-server "^4.10.0"
+        $if wzCtx.Build.webpack.useMerge
+            webpack-merge "^4.1.3"
+        $if wzCtx.Build.webpack.useStatsWriter
+            webpack-stats-plugin "^1.0.3"
+        $if wzCtx.Build.webpack.useVisualizer
+            webpack-visualizer-plugin "^0.1.11"
+    $if wzCtx.Build.isWizziPlugin
+        $if wzCtx.Build.useWizziV08
+        $else
+            wizzi "^0.7.35"
+            wizzi-core "latest"
+            wizzi-js "latest"
+            wizzi-web "latest"
+    $if wzCtx.Build.useWebpack
+        $if wzCtx.Build.webpack.useWorker
+            worker-plugin "^5.0.0"

@@ -1,0 +1,11 @@
+$group
+    ${'$'}params position, title|@@null
+    {
+        ${'$'}if title != null
+            kind "titled-list"
+        ${'$'}else
+            kind "list"
+        position "${'$'}{position}"
+        ${'$'}if title != null
+            title "${'$'}{title}"
+        ${'$'}hook

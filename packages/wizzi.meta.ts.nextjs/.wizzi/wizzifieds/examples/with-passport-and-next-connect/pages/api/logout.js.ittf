@@ -1,0 +1,12 @@
+module
+    kind react
+    import nextConnect from 'next-connect'
+    import auth from '../../middleware/auth'
+    const handler = nextConnect()
+    _ handler.use(auth).get
+        => 
+            param req
+            param res
+            _ req.logOut()
+            _ res.status(204).end()
+    export-default handler

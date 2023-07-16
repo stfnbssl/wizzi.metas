@@ -1,0 +1,11 @@
+$group
+    kind es6
+    set module.exports =
+        { 
+            [ content
+                @ "./src/**/*.{html,js}"
+                @ "./public/*.html"
+                @ "./dist/*.html"
+            { theme
+                { extend
+            @ plugins []

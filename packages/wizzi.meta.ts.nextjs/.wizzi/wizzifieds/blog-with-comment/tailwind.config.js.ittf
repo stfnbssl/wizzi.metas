@@ -1,0 +1,16 @@
+module
+    kind react
+    set module.exports =
+        { 
+            @ mode 'jit'
+            [ content
+                @ './pages/**/*.{js,ts,jsx,tsx}'
+                @ './components/**/*.{js,ts,jsx,tsx}'
+            { variants
+                { extend
+                    [ opacity
+                        @ 'disabled'
+            [ plugins
+                @ require('@tailwindcss/typography')
+        #
+            # * @type {import('tailwindcss').Config}

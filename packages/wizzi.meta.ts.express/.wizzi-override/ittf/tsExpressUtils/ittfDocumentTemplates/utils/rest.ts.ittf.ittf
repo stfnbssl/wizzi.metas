@@ -1,0 +1,96 @@
+$group
+
+    import 
+        @ Request
+        @ Response
+        from 'express'
+    import 
+        @ verify
+        from 'wizzi-utils'
+    import
+        @ sendFailure
+        from './sendResponse'
+
+    export 
+        const restParamsCheck
+            => 
+                param request
+                    :ref Request
+                return new ParamsCheck(request)
+
+	class ParamsCheck
+        p request 
+            :ref Request
+            :private
+        p errors
+            :[
+                :string
+            :public
+		ctor
+			param request
+                :ref Request
+			set this.request = request
+			set this.errors = []
+
+		m notUndefined
+			param qb
+                :string
+			param name
+                :string
+			var value = this.optional(qb, name)
+			if verify.isUndefined(value)
+				_ this.error
+					@ 'Parameter: "' + name + '" must have a value.'
+			return value
+
+		m notEmpty
+			param qb
+                :string
+			param name
+                :string
+			var value = this.optional(qb, name)
+			if verify.isEmpty(value)
+				_ this.error
+					@ 'String parameter: "' + name + '" must have a value.'
+			return value
+
+		m notEmptyBody
+			var value = this.optionalBody()
+			if verify.isEmpty(value)
+				_ this.error
+					@ 'The body must be not empty.'
+			return value
+
+		m optional
+			param qb
+                :string
+			param name
+                :string
+			var value
+			if qb === 'query'
+				set value = this.request.query[name]
+			elif qb === 'params'
+				set value = this.request.params[name]
+			else
+				set value = this.request.body[name]
+			return value
+
+		m optionalBody
+			return this.request.body
+
+		m error
+			param message
+                :string
+			_ this.errors.push(message)
+
+        m hasErrors
+            return this.errors.length > 0
+        
+        m sendErrors
+            param response
+                :ref Response
+            _ sendFailure
+                @ response
+                {
+                    @ err  this.errors
+                @ 501

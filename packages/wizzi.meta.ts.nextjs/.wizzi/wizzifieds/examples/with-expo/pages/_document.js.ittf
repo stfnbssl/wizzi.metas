@@ -1,0 +1,6 @@
+module
+    kind react
+    export 
+        @ default
+        from '@expo/next-adapter/document'
+        # @generated: @expo/next-adapter@2.1.5

@@ -1,0 +1,19 @@
+$group
+    ${'$'}params text|@@null, options|@@null
+    {
+        text "${'$'}{text}"
+        br true
+        ${'$'}if options != null
+            ${'$'} var aoptions = options.split(';')
+
+            ${'$'}foreach opt in aoptions
+                ${'$'} var ss = opt.split(':');
+
+                ${'$'}if ss[0] == 'bold'
+                    ${'$'}{ss[0]} true
+                ${'$'}if ss[0] == 'color'
+                    color "${'$'}{ss[1]}"
+                ${'$'}if ss[0] == 'style'
+                    style "${'$'}{ss[1]}"
+
+        ${'$'}hook

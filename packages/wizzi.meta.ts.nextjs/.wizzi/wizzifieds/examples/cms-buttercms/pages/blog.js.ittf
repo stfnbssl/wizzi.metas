@@ -1,0 +1,81 @@
+module
+    kind react
+    import Link from 'next/link'
+    import camelcaseKeys from 'camelcase-keys'
+    import PostsList from '@/components/blog/posts-list'
+    import 
+        @ getPostsData
+        @ getCategories
+        from '@/lib/api'
+    import CategoriesWidget from '@/components/blog/categories-widget'
+    import SearchWidget from '@/components/blog/search-widget'
+    export-default 
+        function Blog
+            { 
+                @ posts
+                @ categories
+            return 
+                < React.Fragment
+                    section 
+                        @ id "blog-roll"
+                        @ className "blog-roll-nav"
+                        div 
+                            @ className "container"
+                            div 
+                                @ className "row justify-content-center"
+                                div 
+                                    @ className "col-12"
+                                    div 
+                                        @ className "section-title text-center"
+                                        h2 
+                                            + All Blog Posts
+                                        ul 
+                                            @ className "breadcrumb-nav"
+                                            li 
+                                                < Link 
+                                                    @ href "/"
+                                                    + Home
+                                            li 
+                                                + All blog posts
+                    section 
+                        @ className "blog-posts"
+                        div 
+                            @ className "container"
+                            div 
+                                @ className "row justify-content-center"
+                                < PostsList 
+                                    @ posts {posts}
+                                aside 
+                                    @ className "col-12 col-lg-4"
+                                    < SearchWidget 
+                                    < CategoriesWidget 
+                                        @ categories {categories}
+    export 
+        async-function getStaticProps
+            const butterToken = process.env.NEXT_PUBLIC_BUTTER_CMS_API_KEY
+            if butterToken
+                try 
+                    const blogPosts
+                        await 
+                            _ getPostsData()
+                            . posts
+                    const categories
+                        await 
+                            _ getCategories()
+                    return 
+                        { 
+                            { props
+                                @ posts camelcaseKeys(blogPosts)
+                                @ categories
+                catch e
+                    _ console.log('Could not get posts', e)
+                    return 
+                        { 
+                            { props
+                                @ posts []
+                                @ categories []
+            return 
+                { 
+                    { props
+                        @ posts []
+                        @ categories []

@@ -1,0 +1,31 @@
+module
+    kind react
+    import 
+        @ client
+        from './client'
+    const pokemonQuery
+        `lit 
+            + &lf;
+            + &nbsp; query firstTwentyPokemons($name: String!) {&lf;
+            + &nbsp;   pokemon(name: $name) {&lf;
+            + &nbsp;     name&lf;
+            + &nbsp;     image&lf;
+            + &nbsp;   }&lf;
+            + &nbsp; }&lf;
+            + 
+    export 
+        const getPokemon
+            async=> 
+                param name
+                const 
+                    { 
+                        { data
+                            @ pokemon
+                    =
+                        await 
+                            _ client.query
+                                @ pokemonQuery
+                                { 
+                                    @ name
+                                ._ toPromise
+                return pokemon

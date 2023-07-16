@@ -1,0 +1,94 @@
+$group
+    ${'$'}params &md
+    
+    ${'$'} var baseDir = wzCtx.Build.useNetlify ? '..' : '.'
+
+    ${'$'}if md.isGetApp
+        $$ AppInitializerType already in appImports
+        import 
+            @ ApiType
+            @ ControllerType
+            @ MiddlewareType
+            from '${'$'}{baseDir}/features/app/types'
+    ${'$'}else
+        import 
+            @ ApiType
+            @ ControllerType
+            @ AppInitializerType
+            @ MiddlewareType
+            from '${'$'}{baseDir}/features/app/types'
+    
+    import 
+        @ config
+        from '${'$'}{baseDir}/features/config/index'
+    
+    import 
+        @ ModelBuilderType
+        from '${'$'}{baseDir}/features/app'
+
+    ${'$'}if wzCtx.Build.useFilesystem
+        import filesystemStart from '${'$'}{baseDir}/services/filesystem'
+    
+    ${'$'}if wzCtx.Build.useMongoDb
+        import { mongodbStart } from '${'$'}{baseDir}/services/mongodb'
+    
+    ${'$'}if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useRunner
+        import wizziStart from '${'$'}{baseDir}/services/wizzi'
+
+    ${'$'}if wzCtx.Build.useAuthorization
+        $$ For now auth needs MongoDb
+        ${'$'}if wzCtx.Build.useMongoDb
+            import 
+                @ authorizationControllers
+                ${'$'}if wzCtx.Build.useMongoDb
+                    @ authorizationModelBuilders
+                from './features/auth/index'
+    
+    ${'$'}if wzCtx.Build.useAccount
+        import 
+            @ accountControllers
+            @ accountModelBuilders
+            from './features/account/index'
+    
+    ${'$'}if wzCtx.Build.useBlog
+        import 
+            @ blogControllers
+            @ blogModelBuilders
+            from './features/blog/index'
+    
+    ${'$'}if wzCtx.Build.useSite
+        import 
+            @ siteControllers
+            from './site/index'
+    
+    ${'$'}if wzCtx.Build.useWizzi
+        ${'$'}if wzCtx.Build.wizzi.useControllers
+            import 
+                @ wizziControllers
+                from './features/wizzi/index'
+
+    ${'$'}if wzCtx.Build.useWizziIttf
+        import 
+            @ ittfApi
+            from './features/ittf/index'
+    
+    ${'$'}if wzCtx.Build.features && wzCtx.Build.features.length > 0
+        ${'$'}foreach feature in wzCtx.Build.features
+            ${'$'}if feature.hasControllers || feature.useMongoDb
+                import 
+                    ${'$'}if feature.hasControllers
+                        @ ${'$'}{feature.name}Controllers
+                    ${'$'}if feature.useMongoDb
+                        @ ${'$'}{feature.name}ModelBuilders
+                    from './features/${'$'}{feature.name}/index'
+    
+    import 
+        @ appMiddlewaresPre
+        @ appMiddlewaresPost
+        ${'$'}if wzCtx.Build.useAuthentication
+            @ apiSecured
+        from '${'$'}{baseDir}/middlewares/index'
+    
+    ${'$'}if !md.isGetApp
+        ${'$'}if !wzCtx.Build.useNetlify
+            import App from './App'

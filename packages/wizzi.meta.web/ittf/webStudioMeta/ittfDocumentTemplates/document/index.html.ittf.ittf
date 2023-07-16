@@ -1,0 +1,177 @@
+$group
+
+	${'$'}
+        var opt = {
+		    title: 'ITTF explorer',
+        }
+        var ca = 'm-s color-header font-x font-w-s';
+        var ca2 = 'color-header font-x font-w-s';
+        var folderUri = ""
+
+    html/layouts/site${'('} &opt )
+
+        ${'$'}append head-styles-2
+		    css /ittf/meta/html/styles.css.ittf
+
+        nav
+			class tn-bar
+            nav
+                class tn-breadcrumbs
+                . breadcrumb
+                    ${'$'}foreach bc in ds.breadCrumbs
+                        a ${'$'}{bc.name}
+                            ${'$'}if bc.isLast
+                                class active
+                                href #
+                                ${'$'} folderUri = bc.uri
+                            ${'$'}else
+                                href ${'$'}{bc.uri}
+                    a
+                        + Edit
+                        href ${'$'}{folderUri}
+        
+		# mc-wrapper
+			class mc-wrapper-layout
+
+			. mc-frame
+
+				. mc-sidebar-left
+
+					ul
+						li
+							a ${'$'}{ds.primaryUri}
+								href #${'$'}{ds.primaryUri}
+								class mc-item-link
+						${'$'}foreach f in ds.fragments
+							li
+								a /${'$'}{f.relUri}
+									href #${'$'}{f.uri}
+									class mc-item-link
+
+						${'$'}foreach r in ds.ittfReferences
+							li
+								a Ref: /${'$'}{r.relUri}
+									href #${'$'}{r.documentState.primaryPath}
+									class mc-item-link
+							${'$'}foreach f in r.documentState.fragments
+								li
+									a /${'$'}{f.relUri}
+										href #${'$'}{f.uri}
+										class mc-item-link
+
+				. mc-content
+
+					. mc-pane
+						. code-panel
+							@ id ${'$'}{ds.primaryUri}
+							. modal-view-container
+								h4 ${'$'}{ds.primaryUri} (primary)
+									class d-h2
+								. code-edit-button
+									span edit
+										class edit-ittf-content-button
+										@ data-ittfcontent ${'$'}{ds.id}_ittf
+										@ data-ittfpretty ${'$'}{ds.id}_pretty
+										@ data-ittftitle ${'$'}{ds.primaryUri}
+										@ data-ittfhash ${'$'}{ds.primaryHash}
+									textarea
+										style display:none;
+										id ${'$'}{ds.id}_ittf
+										+ ${'$'}{ds.primaryIttf.content}
+								pre
+									id ${'$'}{ds.id}_pretty
+									class prettyprint
+									+ ${'$'}{ds.primaryIttf.pretty}
+
+					${'$'}foreach f in ds.fragments
+						. mc-pane
+							. code-panel
+								@ id ${'$'}{f.uri}
+								. modal-view-container
+									h4 /${'$'}{f.relUri}
+										class d-h2
+									. code-edit-button
+										span edit
+											class edit-ittf-content-button
+											@ data-ittfcontent ${'$'}{f.id}_ittf
+											@ data-ittfpretty ${'$'}{f.id}_pretty
+											@ data-ittftitle /${'$'}{f.relUri}
+											@ data-ittfhash ${'$'}{f.hash}
+										textarea
+											style display:none;
+											id ${'$'}{f.id}_ittf
+											+ ${'$'}{f.ittfContent}
+									pre
+										id ${'$'}{f.id}_pretty
+										class prettyprint
+										+ ${'$'}{f.ittfPretty}
+					
+					${'$'}foreach r in ds.ittfReferences
+						. mc-pane
+							. code-panel
+								@ id ${'$'}{r.documentState.primaryPath}
+								. modal-view-container
+									h4 ${'$'}{r.documentState.primaryUri}
+										class d-h2
+									. code-edit-button
+										span edit
+											class edit-ittf-content-button
+											@ data-ittfcontent ${'$'}{r.documentState.id}_ittf
+											@ data-ittfpretty ${'$'}{r.documentState.id}_pretty
+											@ data-ittftitle ${'$'}{r.documentState.primaryUri}
+											@ data-ittfhash ${'$'}{r.documentState.primaryHash}
+										textarea
+											style display:none;
+											id ${'$'}{r.documentState.id}_ittf
+											+ ${'$'}{r.documentState.primaryIttf.content}
+									pre
+										id ${'$'}{r.documentState.id}_pretty
+										class prettyprint
+										+ ${'$'}{r.documentState.primaryIttf.pretty}
+						
+						${'$'}foreach f in r.documentState.fragments
+							. mc-pane
+								. code-panel
+									@ id ${'$'}{f.uri}
+									. modal-view-container
+										h4 /${'$'}{f.relUri}
+											class d-h2
+										. code-edit-button
+											span edit
+												class edit-ittf-content-button
+												@ data-ittfcontent ${'$'}{f.id}_ittf
+												@ data-ittfpretty ${'$'}{f.id}_pretty
+												@ data-ittftitle /${'$'}{f.relUri}
+												@ data-ittfhash ${'$'}{f.hash}
+											textarea
+												style display:none;
+												id ${'$'}{f.id}_ittf
+												+ ${'$'}{f.ittfContent}
+										pre
+											id ${'$'}{f.id}_pretty
+											class prettyprint
+											+ ${'$'}{f.ittfPretty}
+
+		# ittf-editor-form
+			style display:none;
+			class editor-form
+			# ittf-editor-title
+				class editor-title
+			. editor-content
+				. editor-panel
+					# editorContainer
+				. editor-buttons
+					# ittf-editor-save
+						class editor-button
+						+ Save
+					# ittf-editor-save-refresh
+						class editor-button
+						+ Save & Refresh
+					# ittf-editor-cancel
+						class editor-button
+						+ Cancel
+		js /static/lib/ace/src-noconflict/ace.js
+		js /ittf/meta/html/main.js.ittf
+
+
+

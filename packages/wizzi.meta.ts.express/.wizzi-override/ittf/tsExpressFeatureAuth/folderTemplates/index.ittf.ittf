@@ -1,0 +1,6 @@
+$group
+    
+    $if metaCtx.useTsExpressFeatureAuth
+        
+        $include wzCtxModel
+        $include auth

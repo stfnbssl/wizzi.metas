@@ -1,0 +1,7 @@
+$group
+    $if metaCtx.useWebIttfSite
+        $include wzCtxModel
+
+        $file __dot__wizzi/ittf/site/index.html.ittf.ittf
+            html
+                ${'$'}include webIttfSite/index.html

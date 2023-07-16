@@ -1,0 +1,20 @@
+module
+    kind react
+    import markdownStyles from './markdown-styles.module.css'
+    :type PostBodyProps
+        :{ 
+            :p content
+                :string 
+    export-default 
+        function PostBody
+            { 
+                @ content
+                :ref PostBodyProps
+            return 
+                div 
+                    @ className "max-w-2xl mx-auto"
+                    div 
+                        @ className {markdownStyles['markdown']}
+                        @ dangerouslySetInnerHTML
+                            { 
+                                @ __html content

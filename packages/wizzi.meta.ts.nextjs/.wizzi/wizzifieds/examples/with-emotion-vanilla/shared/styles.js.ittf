@@ -1,0 +1,120 @@
+module
+    kind react
+    import 
+        @ css
+        @ cx
+        @ keyframes
+        @ injectGlobal
+        from '@emotion/css'
+    _` injectGlobal
+        + &lf;
+        + &nbsp; * {&lf;
+        + &nbsp;   box-sizing: border-box;&lf;
+        + &nbsp; }&lf;
+        + &nbsp; body {&lf;
+        + &nbsp;   background: #DFCFBE;&lf;
+        + &nbsp;   font-family: Helvetica, sans-serif;&lf;
+        + &nbsp; }&lf;
+        + 
+    const basicStyles
+        _` css
+            + &lf;
+            + &nbsp; background-color: white;&lf;
+            + &nbsp; color: cornflowerblue;&lf;
+            + &nbsp; border: 1px solid lightgreen;&lf;
+            + &nbsp; border-right: none;&lf;
+            + &nbsp; border-bottom: none;&lf;
+            + &nbsp; box-shadow: 5px 5px 0 0 lightgreen, 10px 10px 0 0 lightyellow;&lf;
+            + &nbsp; transition: all 0.1s linear;&lf;
+            + &nbsp; margin: 3rem 0;&lf;
+            + &nbsp; padding: 1rem 0.5rem;&lf;
+            + 
+    const otherStyles
+        _` css
+            + &lf;
+            + &nbsp; background-color: red;&lf;
+            + &nbsp; padding: 10px;&lf;
+            + &nbsp; margin-bottom: 10px;&lf;
+            + 
+    const someMoreBasicStyles
+        _` css
+            + &lf;
+            + &nbsp; background-color: green;&lf;
+            + &nbsp; color: white;&lf;
+            + &nbsp; margin-bottom: 10px;&lf;
+            + &nbsp; padding: 10px;&lf;
+            + 
+    const someCssAsObject
+        _ css
+            { 
+                @ background 'orange'
+                @ color 'white'
+                @ padding '10px'
+                @ marginBottom '10px'
+    const combinedAsArray
+        _ css
+            [ 
+                @ someMoreBasicStyles
+                @ someCssAsObject
+    const cls1
+        _` css
+            + &lf;
+            + &nbsp; font-size: 20px;&lf;
+            + &nbsp; padding: 5px;&lf;
+            + &nbsp; background: green;&lf;
+            + &nbsp; color: orange;&lf;
+            + 
+    const cls2
+        _` css
+            + &lf;
+            + &nbsp; font-size: 20px;&lf;
+            + &nbsp; padding: 15px;&lf;
+            + &nbsp; background: blue;&lf;
+            + &nbsp; color: white;&lf;
+            + 
+    const cxExample = cx(cls1, cls2)
+    const bounce
+        _` keyframes
+            + &lf;
+            + &nbsp; from, 20%, 53%, 80%, to {&lf;
+            + &nbsp;   transform: translate3d(0,0,0);&lf;
+            + &nbsp; }&lf;
+            + &lf;
+            + &nbsp; 40%, 43% {&lf;
+            + &nbsp;   transform: translate3d(0, -30px, 0);&lf;
+            + &nbsp; }&lf;
+            + &lf;
+            + &nbsp; 70% {&lf;
+            + &nbsp;   transform: translate3d(0, -15px, 0);&lf;
+            + &nbsp; }&lf;
+            + &lf;
+            + &nbsp; 90% {&lf;
+            + &nbsp;   transform: translate3d(0,-4px,0);&lf;
+            + &nbsp; }&lf;
+            + 
+    const keyframesExample
+        _ css
+            [ 
+                @ bounce
+                _ css
+                    { 
+                        @ marginTop '50px'
+                        @ width '20px'
+                        @ height '20px'
+                        @ background 'black'
+                        @ borderRadius '50%'
+                        @ padding '20px'
+                        @ animation
+                            `lit 
+                                + 
+                                @ bounce
+                                + &nbsp;1s ease infinite
+                        @ transformOrigin 'center'
+    export 
+        @ combinedAsArray
+        @ cxExample
+        @ keyframesExample
+        @ someCssAsObject
+        @ someMoreBasicStyles
+        @ otherStyles
+        @ basicStyles

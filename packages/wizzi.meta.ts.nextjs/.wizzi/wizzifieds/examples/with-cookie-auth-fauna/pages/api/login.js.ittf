@@ -1,0 +1,38 @@
+module
+    kind react
+    import 
+        @ query
+            as q
+        from 'faunadb'
+    import 
+        @ serverClient
+        @ serializeFaunaCookie
+        from '../../utils/fauna-auth'
+    export-default 
+        async-function login
+            param req
+            param res
+            const 
+                { 
+                    @ email
+                    @ password
+                =
+                    await 
+                        @expr req.body
+            try 
+                if !email || !password
+                    throw new Error('Email and password must be provided.')
+                const loginRes
+                    await 
+                        _ serverClient.query
+                            _ q.Login
+                                _ q.Match(q.Index('users_by_email'), email)
+                                { 
+                                    @ password
+                if !loginRes.secret
+                    throw new Error('No secret present in login query response.')
+                const cookieSerialized = serializeFaunaCookie(loginRes.secret)
+                _ res.setHeader('Set-Cookie', cookieSerialized)
+                _ res.status(200).end()
+            catch error
+                _ res.status(400).send(error.message)

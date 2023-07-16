@@ -1,0 +1,114 @@
+md
+    h1 
+        + Why did you render
+    p 
+        + This is a simple example of how to use
+        a 
+            href https://github.com/welldone-software/why-did-you-render
+            title 
+            + why-did-you-render
+        + within a Next.js app.
+    br 
+    p 
+        + We are essentially extending webpack config to allow the monkey patched
+        code React
+        + version of WDYR in development mode and adding to our application
+        + by importing
+        code wdyr.ts
+        + at the top of Next.js
+        code _app.tsx
+        + .
+    br 
+    p 
+        + By default, all pure components will be tracked, but you can add
+        + 
+        code Component.whyDidYouRender = true
+        + to regular function components in case you need.
+    br 
+    p 
+        + In this example, the header component will rerender despite the state staying the same.
+    br 
+    p 
+        + You can see
+        code why-did-you-render
+        + console logs about this redundant re-render in the developer console.
+    br 
+    p 
+        + When using Typescript, call the file
+        code wdyr.ts
+        + instead and add the following line to the top of the file to import the package&#39;s types:
+    br 
+    code 
+        + /// <reference types="@welldone-software/why-did-you-render" />
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-why-did-you-render
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-why-did-you-render&project-name=with-why-did-you-render&repository-name=with-why-did-you-render
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-why-did-you-render with-why-did-you-render-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-why-did-you-render with-why-did-you-render-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-why-did-you-render with-why-did-you-render-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

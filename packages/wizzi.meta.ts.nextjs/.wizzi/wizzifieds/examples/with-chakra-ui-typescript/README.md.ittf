@@ -1,0 +1,10 @@
+md
+    h2 
+        + Deprecated
+    p 
+        + The main
+        a 
+            href ../with-chakra-ui
+            title 
+            code with-chakra-ui
+        + example has been refactored to use TypeScript, so this example is deprecated.

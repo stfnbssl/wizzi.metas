@@ -1,0 +1,15 @@
+md
+    h1 
+        + With Firebase Authentication
+    p 
+        + Check out the
+        a 
+            href https://github.com/gladly-team/next-firebase-auth
+            title 
+            + next-firebase-auth
+        + package and their
+        a 
+            href https://github.com/gladly-team/next-firebase-auth/tree/main/example
+            title 
+            + official example
+        + for a powerful implementation of Firebase authentication.

@@ -1,0 +1,60 @@
+md
+    h1 
+        + next-offline example
+    p 
+        + This example demonstrates how to use the
+        a 
+            href https://github.com/hanford/next-offline
+            title 
+            + next-offline plugin
+        + It includes manifest.json to install app via chrome
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example next-offline next-offline-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example next-offline next-offline-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example next-offline next-offline-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

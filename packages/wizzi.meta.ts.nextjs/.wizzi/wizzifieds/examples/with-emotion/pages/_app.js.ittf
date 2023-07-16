@@ -1,0 +1,15 @@
+module
+    kind react
+    import 
+        @ globalStyles
+        from '../shared/styles'
+    const App
+        => 
+            { 
+                @ Component
+                @ pageProps
+            < React.Fragment
+                + {globalStyles}
+                < Component 
+                    @ {...pageProps}
+    export-default App

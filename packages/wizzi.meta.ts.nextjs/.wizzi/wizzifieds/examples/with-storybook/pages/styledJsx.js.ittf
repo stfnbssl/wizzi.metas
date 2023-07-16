@@ -1,0 +1,39 @@
+module
+    kind react
+    import 
+        @ Links
+        from 'components/Links'
+    import Head from 'next/head'
+    export-default 
+        function StyledJsx
+            return 
+                div 
+                    < Head 
+                        < title 
+                            + Styled JSX
+                        link 
+                            @ rel "icon"
+                            @ href "/favicon.ico"
+                    < Links 
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       .main {&lf;
+                                + &nbsp;         padding: 4rem 0;&lf;
+                                + &nbsp;         flex: 1;&lf;
+                                + &nbsp;         display: flex;&lf;
+                                + &nbsp;         flex-direction: column;&lf;
+                                + &nbsp;         justify-content: center;&lf;
+                                + &nbsp;         align-items: center;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .main span {&lf;
+                                + &nbsp;         color: blue;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;
+                    main 
+                        @ className "main"
+                        span 
+                            + This is styled using Styled JSX

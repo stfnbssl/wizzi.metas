@@ -1,0 +1,361 @@
+$group
+
+	#
+		# dependencies
+		# . js/wz/core.js.ittf
+		# . js/wz/contextMenu.js.ittf
+		# params
+		#   { item
+		#     string name
+		#     boolean isFolder
+		#     boolean expanded
+		#     date loadedAt
+		#     [ children
+		#   { treeView
+		#     func emit
+		#     func populate
+		#     func handleContextMenu
+		#     func rename
+	class TreeNode
+		ctor
+			param item
+			param treeView
+			set this.item = item
+			set this.treeView = treeView
+			set this.parent = null
+			set this.rendered = false
+			set this.children = []
+			if item.children && item.children.length > 0
+				foreach child in item.children
+					_ this.addItem
+						@ child
+
+		m getRoot
+			return this.parent ? this.parent.getRoot() : this
+
+		m getTreeview
+			return this.getRoot().treeView
+
+		m addItem
+			param item
+			var node = new TreeNode(item)
+			set node.parent = this
+			_ this.children.push
+				@ node
+			if this.rendered
+				var childLeaf = node.render()
+				if !this.childrenEl
+					set this.childrenEl = document.createElement('div')
+					_ this.childrenEl.setAttribute('class', 'tree-child-leaves')
+					_ this.el.appendChild(this.childrenEl)
+				_ this.childrenEl.appendChild(childLeaf)
+			return node
+
+		m replace
+			param populatedItem
+			# populatedItem is the same object of item (the parent has not been changed)
+			set this.item = populatedItem
+			set this.rendered = false
+			foreach child in populatedItem.children
+				_ this.addItem
+					@ child
+			var oldEl = this.el
+			var newEl
+				_ this.render
+			$$ loog 'replace', newEl, this.el
+			_ oldEl.parentNode.replaceChild(newEl, oldEl)
+		
+		m render
+			set this.rendered = true
+			var item = this.item
+            
+			set this.el = document.createElement('div')
+            _ this.el.setAttribute('class', 'tree-node')
+			
+			set this.contentEl = document.createElement('div')
+            _ this.contentEl.setAttribute('class', 'tree-node-content')
+            
+            var itemEl
+				_ this.getItemEl
+					@ item
+
+            _ this.contentEl.appendChild(itemEl)
+            _ this.el.appendChild(this.contentEl)
+			if this.children.length > 0
+                set this.childrenEl = document.createElement('div')
+                _ this.childrenEl.setAttribute('class', 'tree-child-leaves')
+                foreach child in this.children
+                    var childLeaf = child.render()
+                    _ this.childrenEl.appendChild(childLeaf)
+                if !item.expanded
+                    _ this.childrenEl.classList.add('hidden')
+                _ this.el.appendChild(this.childrenEl)
+
+			var clickThis
+				=>
+					param event
+					# loog 'clickThis', 'expanded', this.item.expanded, 'needs populate',  this.children.length == 0 && !this.item.loadedAt && this.item.isFolder
+					var selectThis
+						=>
+							if this.item.isFolder
+								if this.item.expanded 
+									_ this.collapse(this.childrenEl)
+								else
+									_ this.expand(this.childrenEl)
+							else
+								if this.getTreeview().selectedItemEl
+									_ wz.removeClass
+										@ this.getTreeview().selectedItemEl
+										@ 'selected'
+								_ wz.addClass
+									@ itemEl
+									@ 'selected'
+								set this.getTreeview().selectedItemEl = itemEl
+							_ this.getTreeview().selectTreeNode
+								@ this
+					if this.children.length == 0 && !this.item.loadedAt && this.item.isFolder
+						_ this.getTreeview().populate
+							@ this
+					_ selectThis
+			
+			_ wz.click
+				@ this.contentEl
+				@ clickThis
+
+			var contextmenu
+				=>
+					param event
+					_ wz.addClass
+						@ this.contentEl
+						@ 'tree-node-context-menu-on'
+					_ this.getTreeview().handleContextMenu
+						{
+							@ target event
+							@ treeNode this
+							@ data this.item
+
+			_ wz.contextmenu
+				@ this.contentEl
+				@ contextmenu
+
+			return this.el
+
+		m expand
+			param skipEmit
+			_ svg['folder-opened']
+				@ this.svg
+			# loog 'expand', this.children.length
+			if this.children.length > 0
+				var childrenEl = this.el.querySelector('.tree-child-leaves')
+				_ childrenEl.classList.remove('hidden')
+			set this.item.expanded = true
+			if skipEmit
+				return 
+			_ this.getTreeview().emit
+				@ 'expand'
+				{ 
+					@ treeNode this
+
+		m collapse
+			param skipEmit
+			_ svg['folder-closed']
+				@ this.svg
+			# loog 'collapse', this.children.length
+			if this.children.length > 0
+				var childrenEl = this.el.querySelector('.tree-child-leaves')
+				_ childrenEl.classList.add('hidden')
+			set this.item.expanded = false
+			if skipEmit
+				return 
+			_ this.getTreeview().emit
+				@ 'collapse'
+				{ 
+					@ treeNode this
+
+		m renameStart
+			# loog 'renameStart', this
+			
+			if !this.input
+				set this.input = document.createElement('input')
+				_ this.input.setAttribute('style', 'margin: 1px 4px;')
+				_ wz.value
+					@ this.input
+					@ this.item.name
+				_ this.input.setSelectionRange(0, this.input.value.length)
+			
+			_ this.text.parentNode.replaceChild
+				@ this.input
+				@ this.text
+
+			var editOnInputKeyPress
+				=>
+					param event
+					$$ loog 'keypress', event.keyCode
+					if event.keyCode == 13
+						_ editOnDocumentClick
+							{
+								@ target null
+
+			var editOnDocumentClick
+				=>
+					param event
+					if event.target != this.input
+						_ wz.unkeypress
+							@ document
+							@ editOnInputKeyPress
+						_ wz.unclick
+							@ document
+							@ editOnDocumentClick
+						_ this.renameFinish
+			
+			_ window.setTimeout
+				=>
+					_ wz.keypress
+						@ this.input
+						@ editOnInputKeyPress
+					_ wz.click
+						@ document
+						@ editOnDocumentClick
+					_ this.input.focus()
+				@ 100
+
+		m renameFinish
+			var newName
+				_ wz.value
+					@ this.input
+			# loog 'renameFinish', newName, this.item.name
+			if newName !== this.item.name
+				_ this.getTreeview().rename
+					@ this
+					@ newName
+					a_cb_throw${'('} result )
+						_ itemUtils.rename
+							@ this.item
+							@ newName
+						set this.text.textContent = newName
+						_ this.input.parentNode.replaceChild
+							@ this.text
+							@ this.input
+						_ this.getTreeview().emit
+							@ 'select'
+							@ this
+							@ event
+			else
+				_ this.getTreeview().emit
+					@ 'select'
+					@ this
+					@ event
+
+		m copyCutStart
+			param oper
+			# loog 'copyCutStart', oper, this
+			_ wz.addClass
+				@ this.el
+				@ oper === 'copy' ? 'copying' : 'cutting'
+
+		m copyCutFinish
+			# loog 'copyCutFinish', this
+			_ wz.removeClass
+				@ this.el
+				@ 'copying'
+			_ wz.removeClass
+				@ this.el
+				@ 'cutting'
+
+		m remove
+			_ wz.node.remove
+				@ this
+			_ this.el.parentNode.removeChild(this.el)
+
+		m getItemEl
+			param item
+			var kind
+			$$ loog 'getItemEl', item
+			if item.isFolder
+				set kind = item.expanded ? 'folder-opened' : 'folder-closed'
+			else
+				set kind = isImage(item.mime) ? 'image' : 'document'
+			var itemEl = document.createElement('div')
+			set itemEl.className = 'icon-item-group'
+			var itemTextEl = document.createElement('span')
+			set itemTextEl.className = 'item-name'
+			set itemTextEl.textContent = item.name
+			set this.svg = svg.getSvg()
+			_ itemEl.appendChild
+				_ svg[kind]
+					@ this.svg
+			_ itemEl.appendChild(itemTextEl)
+			set this.text = itemTextEl
+			return itemEl
+
+	var svg
+		{
+			@ 'folder-closed'
+				function
+					param svgEl
+					while svgEl.firstChild
+						_ svgEl.removeChild(svgEl.firstChild)
+					var pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path")
+					_ pathEl.setAttribute('d', "M7.25,4 L7.5,4 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L7.25,4 Z M6.75,4 L5,4 L7,2 L7,3.5 L6.5,4 L6.75,4 Z M1,4 L15,4 L15,14 L1,14 L1,4 Z M7.5,3 L7.5,4 L14,4 L14,3 L7.5,3 Z")
+					_ svgEl.appendChild(pathEl)
+					return svgEl
+			
+			@ 'folder-opened'
+				function
+					param svgEl
+					while svgEl.firstChild
+						_ svgEl.removeChild(svgEl.firstChild)
+					var gEl = document.createElementNS("http://www.w3.org/2000/svg", "g")
+					var pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path")
+					_ pathEl.setAttribute('d', "M7.5,5 L2,5 L2,13 L7.75,13 L14,13 L14,4 L15,4 L15,14 L1,14 L1,4 L6.5,4 L5.5,5 L7.5,5 L7.5,4.5 L7.5,5 Z M14,4 L14,3 L7.5,3 L7.5,3.5 L7.5,3 L7,3.5 L7,2 L15,2 L15,4 L14,4 Z M6.5,4 L5,4 L7,2 L7,3.5 L6.5,4 Z")
+					var polyEl = document.createElementNS("http://www.w3.org/2000/svg", "polygon")
+					_ polyEl.setAttribute('points', "0 7 13 7 14 14 1 14")
+					_ gEl.appendChild(pathEl)
+					_ gEl.appendChild(polyEl)
+					_ svgEl.appendChild(gEl)
+					return svgEl
+			
+			@ 'document'
+				function
+					param svgEl
+					while svgEl.firstChild
+						_ svgEl.removeChild(svgEl.firstChild)
+					var pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path")
+					_ pathEl.setAttribute('d', "M3,2 L13,2 L13,14 L3,14 L3,2 Z M9,2 L13,6 L13,2 L9,2 Z M9,6 L9,2 L8,2 L8,7 L13,7 L13,6 L9,6 Z")
+					_ svgEl.appendChild(pathEl)
+					return svgEl
+			
+			@ 'image'
+				function
+					param svgEl
+					while svgEl.firstChild
+						_ svgEl.removeChild(svgEl.firstChild)
+					var gEl = document.createElementNS("http://www.w3.org/2000/svg", "g")
+					var circleEl = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+					_ circleEl.setAttribute('cx', "5")
+					_ circleEl.setAttribute('cy', "5")
+					_ circleEl.setAttribute('r', "1")
+					var polyEl = document.createElementNS("http://www.w3.org/2000/svg", "polygon")
+					_ polyEl.setAttribute('points', "5.71428571 8.41176471 8 11.2352941 10.8571429 7 14 13 2 13")
+					var pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path")
+					_ pathEl.setAttribute('d', "M3,3 L3,13 L13,13 L13,3 L3,3 Z M3,2 L13,2 C13.5522847,2 14,2.44771525 14,3 L14,13 C14,13.5522847 13.5522847,14 13,14 L3,14 C2.44771525,14 2,13.5522847 2,13 L2,3 C2,2.44771525 2.44771525,2 3,2 Z")
+					_ gEl.appendChild(circleEl)
+					_ gEl.appendChild(polyEl)
+					_ gEl.appendChild(pathEl)
+					_ svgEl.appendChild(gEl)
+					return svgEl
+
+			@ getSvg
+				function
+					var svgEl = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+					_ svgEl.setAttribute('class', 'fl-icon')
+					_ svgEl.setAttribute('viewBox', '0 0 16 16')
+					return svgEl
+
+	function isImage
+		param mime
+		return /\.(bmp|jpg|jpeg|png|gif|svg)$/.test(mime)
+
+
+
+

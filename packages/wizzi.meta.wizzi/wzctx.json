@@ -1,0 +1,58 @@
+{
+    "name": "wizzi.meta.wizzi",
+    "npmName": "@wizzi/meta.wizzi",
+    "pluginBasename": "",
+    "version": "0.0.1",
+    "description": "wizzi.meta.wizzi",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": {
+        "name": "MIT",
+        "copy": "copy 2023"
+    },
+    "metaNamespace": "wizzi",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.ittf/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "wizziJobs",
+            "title": "wizziJobs wizzi meta production"
+        },
+        {
+            "name": "wizziFactory",
+            "title": "wizziFactory wizzi meta production"
+        },
+        {
+            "name": "wizziPlugin",
+            "title": "wizziPlugin wizzi meta production",
+            "isPackageMain": true
+        },
+        {
+            "name": "wizziMeta",
+            "title": "wizziMeta wizzi meta production",
+            "isPackageMain": true
+        }
+    ]
+}

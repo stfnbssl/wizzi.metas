@@ -1,0 +1,17 @@
+$group
+
+    $
+        var usePacki = metaCtx.useFeatures && metaCtx.features.usePacki;
+        usePacki = usePacki || metaCtx.useFeatures && metaCtx.features.useWizzi;
+        usePacki = usePacki || metaCtx.useMonacoEditor;
+
+    $if usePacki
+        $file __dot__wizzi/${pkgPath}src/features/packi/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/packi/types.ts
+        $file __dot__wizzi/${pkgPath}src/features/packi/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/packi/index.ts
+
+        
+

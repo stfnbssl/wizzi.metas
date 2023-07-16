@@ -1,0 +1,18 @@
+$group
+    $if metaCtx.useWebJs
+        $include wzCtxModel
+        $* Sample file templates
+        $file __dot__wizzi/webJs/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include webJs/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/webJs/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include webJs/tfolder/${item}.js
+        *$

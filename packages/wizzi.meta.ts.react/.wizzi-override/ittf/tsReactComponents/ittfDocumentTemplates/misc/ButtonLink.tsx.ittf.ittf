@@ -1,0 +1,86 @@
+$group
+    import classnames from 'classnames'
+    import 
+        as React
+        from 'react'
+    $*
+    ${'$'}if wzCtx.Build.useAnalytics
+        import Analytics from '../../utils/Analytics'
+    import 
+        @ getClassNames
+        @ ButtonCommonProps
+        from './Button'
+    +
+    export
+        :type ButtonLinkProps
+            :intersect 
+                :ref ButtonCommonProps
+                :{ 
+                    :p href
+                        :optional 
+                        :string 
+                    :p target
+                        :optional 
+                        :string 
+                    :p onClick
+                        :optional 
+                        :=> 
+                            :void 
+                            param event
+                                :ref React.MouseEvent
+                                    :param 
+                                        :ref HTMLAnchorElement
+                    :p children
+                        :ref React.ReactNode
+                    :p className
+                        :optional 
+                        :string 
+    +
+    export
+        function ButtonLink
+            { 
+                @ variant
+                @ icon
+                @ large
+                @ disabled
+                @ loading
+                @ className
+                ... rest
+                :ref ButtonLinkProps
+            const onClick
+                => 
+                    ${'$'}if wzCtx.Build.useAnalytics
+                        _ Analytics.getInstance().logEvent
+                            @ 'CLICKED_LINK'
+                            { 
+                                @ target rest.href
+                            @ 'previewQueue'
+            return 
+                a 
+                    @ className
+                        _ classnames
+                            _ getClassNames
+                                { 
+                                    @ variant
+                                    @ icon
+                                    @ large
+                                    @ disabled
+                                    @ loading
+                            @ className
+                    @ onClick {onClick}
+                    @ style
+                        iif icon
+                            then
+                                { 
+                                    @ backgroundImage
+                                        `lit 
+                                            + url(
+                                            @ icon
+                                            + )
+                            else
+                                { 
+                    @ {...rest}
+
+    +
+    export-default ButtonLink
+    *$

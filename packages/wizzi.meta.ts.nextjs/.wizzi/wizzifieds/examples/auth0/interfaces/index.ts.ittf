@@ -1,0 +1,19 @@
+module
+    kind react
+    export 
+        :type User
+            :{ 
+                :p email
+                    :string 
+                :p email_verified
+                    :boolean 
+                :p name
+                    :string 
+                :p nickname
+                    :string 
+                :p picture
+                    :string 
+                :p sub
+                    :string 
+                :p updated_at
+                    :string 

@@ -1,0 +1,15 @@
+module
+    kind react
+    import 
+        @ AppProps
+        from 'next/app'
+    import '../styles/index.css'
+    function MyApp
+        { 
+            @ Component
+            @ pageProps
+            :ref AppProps
+        return 
+            < Component 
+                @ {...pageProps}
+    export-default MyApp

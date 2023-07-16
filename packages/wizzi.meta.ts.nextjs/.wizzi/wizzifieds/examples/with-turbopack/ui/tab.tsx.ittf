@@ -1,0 +1,38 @@
+module
+    kind react
+    directive 
+    :import-type 
+        @ Item
+        from '#/ui/tab-group'
+    import clsx from 'clsx'
+    import Link from 'next/link'
+    import 
+        @ useSelectedLayoutSegment
+        from 'next/navigation'
+    export 
+        const Tab
+            => 
+                { 
+                    @ path
+                    @ item
+                    :{ 
+                        :p path
+                            :string 
+                        :p item
+                            :ref Item
+                const segment = useSelectedLayoutSegment()
+                const href
+                    iif item.slug
+                        then path + '/' + item.slug
+                        else path
+                const isActive = (!item.slug && segment === null) || segment === item.segment || segment === item.slug
+                return 
+                    < Link 
+                        @ href {href}
+                        @ className
+                            _ clsx
+                                @ 'rounded-lg px-3 py-1 text-sm font-medium'
+                                { 
+                                    @ 'bg-gray-700 text-gray-100 hover:bg-gray-500 hover:text-white' !isActive
+                                    @ 'bg-vercel-blue text-white' isActive
+                        + {item.text}

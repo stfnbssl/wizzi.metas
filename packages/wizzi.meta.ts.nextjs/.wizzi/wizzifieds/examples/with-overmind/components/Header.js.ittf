@@ -1,0 +1,23 @@
+module
+    kind react
+    import Link from 'next/link'
+    import React from 'react'
+    import 
+        @ useOvermind
+        from '../overmind'
+    function Header
+        const 
+            { 
+                @ state
+            = useOvermind()
+        return 
+            div 
+                h1 
+                    + {state.page}
+                < Link 
+                    @ href "/"
+                    + Home page
+                < Link 
+                    @ href "/about"
+                    + About Page
+    export-default Header

@@ -1,0 +1,7 @@
+module
+    kind react
+    export-default 
+        function handler
+            param req
+            param res
+            return res.send(req.query.word)

@@ -1,0 +1,64 @@
+module
+    kind react
+    import 
+        @ useEffect
+        from 'react'
+    import 
+        @ useRouter
+        from 'next/router'
+    import Link from 'next/link'
+    import 
+        @ gql
+        @ useQuery
+        from '@apollo/client'
+    const ViewerQuery
+        _` gql
+            + &lf;
+            + &nbsp; query ViewerQuery {&lf;
+            + &nbsp;   viewer {&lf;
+            + &nbsp;     id&lf;
+            + &nbsp;     email&lf;
+            + &nbsp;   }&lf;
+            + &nbsp; }&lf;
+            + 
+    const Index
+        => 
+            const router = useRouter()
+            const 
+                { 
+                    @ data
+                    @ loading
+                    @ error
+                = useQuery(ViewerQuery)
+            const viewer = data?.viewer
+            const shouldRedirect = !(loading || error || viewer)
+            _ useEffect
+                => 
+                    if shouldRedirect
+                        _ router.push('/signin')
+                [ 
+                    @ shouldRedirect
+            if error
+                return 
+                    p 
+                        + {error.message}
+            if viewer
+                return 
+                    div 
+                        + You're signed in as
+                        + {viewer.email}
+                        + . Go to
+                        + {' '}
+                        < Link 
+                            @ href "/about"
+                            + about
+                        + page or
+                        + {' '}
+                        < Link 
+                            @ href "/signout"
+                            + signout
+                        + .
+            return 
+                p 
+                    + Loading...
+    export-default Index

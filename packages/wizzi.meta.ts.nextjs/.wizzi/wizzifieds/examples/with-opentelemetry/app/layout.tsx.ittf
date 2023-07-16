@@ -1,0 +1,14 @@
+module
+    kind react
+    export-default 
+        function Layout
+            { 
+                @ children
+            return 
+                html 
+                    head 
+                        < title 
+                            + Next.js with OpenTelemetry
+                    body 
+                        main 
+                            + {children}

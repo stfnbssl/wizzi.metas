@@ -1,0 +1,70 @@
+module
+    kind react
+    import Iron from '@hapi/iron'
+    import 
+        @ parse
+        @ serialize
+        from 'cookie'
+    export 
+        const COOKIE_NAME = 'session_token'
+    const TOKEN_SECRET
+        :! 
+            @expr process.env.SESSION_TOKEN_SECRET
+    export 
+        async-function createCookieForSession
+            param user
+                :ref User
+            const maxAge = 60 * 60 * 8
+                # Make login session valid for 8 hours
+            const expires = new Date()
+            _ expires.setSeconds(expires.getSeconds() + maxAge)
+            const sessionData
+                :ref SessionData
+                =
+                    { 
+                        @ user
+                        @ expiresAt expires.toString()
+            const sessionToken
+                await 
+                    _ Iron.seal(sessionData, TOKEN_SECRET, Iron.defaults)
+            const cookie
+                _ serialize
+                    @ COOKIE_NAME
+                    @ sessionToken
+                    { 
+                        @ maxAge
+                        @ expires
+                        @ httpOnly true
+                        @ secure process.env.NODE_ENV === 'production'
+                        @ path '/'
+                        @ sameSite 'lax'
+            return cookie
+    export 
+        async-function getSessionFromCookie
+            param cookie
+                :union 
+                    :string 
+                    :undefined 
+            const cookies = parse(cookie ?? '')
+            const sessionToken = cookies[COOKIE_NAME]
+            if !sessionToken
+                return undefined
+            const sessionData
+                :ref SessionData
+                =
+                    await 
+                        _ Iron.unseal(sessionToken, TOKEN_SECRET, Iron.defaults)
+            return sessionData
+    export 
+        :interface SessionData
+            :p user
+                :ref User
+            :p expiresAt
+                :string 
+    export 
+        :interface User
+            :p userId
+                :string 
+            :p email
+                :optional 
+                :string 

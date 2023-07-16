@@ -1,0 +1,66 @@
+module
+    kind react
+    import Avatar from './avatar'
+    import Date from './date'
+    import CoverImage from './cover-image'
+    import Link from 'next/link'
+    import 
+        @ AuthorType
+        @ ImgixType
+        from 'interfaces'
+    :type PostPreviewProps
+        :{ 
+            :p title
+                :string 
+            :p coverImage
+                :ref ImgixType
+            :p date
+                :string 
+            :p excerpt
+                :string 
+            :p author
+                :ref AuthorType
+            :p slug
+                :string 
+    const PostPreview
+        => 
+            param props
+                :ref PostPreviewProps
+            const 
+                { 
+                    @ title
+                    @ coverImage
+                    @ date
+                    @ excerpt
+                    @ author
+                    @ slug
+                = props
+            return 
+                div 
+                    div 
+                        @ className "mb-5"
+                        < CoverImage 
+                            @ slug {slug}
+                            @ title {title}
+                            @ url {coverImage.imgix_url}
+                    h3 
+                        @ className "text-3xl mb-3 leading-snug"
+                        < Link 
+                            @ href
+                                `lit 
+                                    + /posts/
+                                    @ slug
+                                    + 
+                            @ className "hover:underline"
+                            + {title}
+                    div 
+                        @ className "text-lg mb-4"
+                        < Date 
+                            @ dateString {date}
+                    p 
+                        @ className "text-lg leading-relaxed mb-4"
+                        + {excerpt}
+                    < Avatar 
+                        @ name {author.title}
+                        @ picture {author.metadata.picture.imgix_url}
+    export-default PostPreview

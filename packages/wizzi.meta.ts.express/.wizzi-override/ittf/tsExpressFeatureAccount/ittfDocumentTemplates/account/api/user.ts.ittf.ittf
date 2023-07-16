@@ -1,0 +1,188 @@
+$group
+
+    import
+        @ GetUserModel
+        from '../mongo/user'
+    import
+        @ IUserModel
+        @ SignupData
+        @ ValidateUserNotUsedResult
+        @ CreateUserResult
+        from '../types'
+    const myname = 'features.account.api.user'
+    +
+    export
+        async-function validateUsername
+            param chosenUsername
+                :string
+            const User = GetUserModel()
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        let query = { username: chosenUsername }
+                        _ User.find
+                            @ query
+                            =>
+                                param err
+                                param result
+                                $$ loog myname, 'validateUsername', 'User.find', 'error', err
+                                if err
+                                    return reject(err)
+                                if result.length == 1
+                                    return 
+                                        _ resolve
+                                            {
+                                                @ isValid false
+                                                @ message 'username already in use'
+                                _ resolve
+                                    {
+                                        @ isValid true
+    +
+    export
+        async-function getUserByEmail
+            param email    
+                :string
+            const User = GetUserModel()
+            var query
+                { 
+                    { email
+                        @ $exists true
+                        @ $eq email
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ User.find
+                            @ query
+                            function 
+                                param err
+                                param result
+                                if err
+                                    error myname, 'getUserByEmail', 'User.find', 'error', err
+                                    return reject(err)
+                                if result.length == 1
+                                    return
+                                        _ resolve
+                                            {
+                                                @ found true
+                                                @ user result[0]._doc
+                                return 
+                                    _ resolve
+                                        { 
+                                            @ found false
+    +
+    export
+        async-function validateUserNotUsed
+            param chosenUsername
+                :string
+            param email
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :ref ValidateUserNotUsedResult
+            const User = GetUserModel()
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        let query
+                            { 
+                                { username
+                                    @ $exists true
+                                    @ $eq chosenUsername
+                        _ User.find
+                            @ query
+                            function 
+                                param err
+                                param result
+                                if err
+                                    error myname, 'validateUserNotUsed', 'User.find', 'error', err
+                                    return reject(err)
+                                if result.length == 1
+                                    return 
+                                        _ resolve
+                                            { 
+                                                @ isValid false
+                                                @ message 'username already in use'
+                                let query
+                                    { 
+                                        { email
+                                            @ $exists true
+                                            @ $eq email
+                                _ User.find
+                                    @ query
+                                    function 
+                                        param err
+                                        param result
+                                        if err
+                                            error myname, 'validateUserNotUsed', 'User.find', 'error', err
+                                            return reject(err)
+                                        if result.length == 1
+                                            return 
+                                                _ resolve
+                                                    { 
+                                                        @ isValid false
+                                                        @ message 'email already in use'
+                                        _ resolve
+                                            { 
+                                                @ isValid true
+    +
+    export
+        async-function createUserFromSignup
+            param signupData
+                :ref SignupData
+            :return
+                :ref Promise
+                    :param
+                        :ref CreateUserResult
+            const User = GetUserModel()
+            $$ loog myname, 'createUserFromSignup', 'signupData', signupData
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ validateUserNotUsed(signupData.wizziUserName, signupData.email).then
+                            => 
+                                param result
+                                    :ref ValidateUserNotUsedResult
+                                $$ loog myname, 'createUserFromSignup', 'validateUserNotUsed', result
+                                if result.isValid
+                                    const newUser
+                                        new User
+                                            { 
+                                                @ username signupData.wizziUserName
+                                                @ email signupData.email
+                                                @ openid_provider signupData.openidProvider
+                                                @ name signupData.name
+                                                @ avatar_url signupData.avatarUrl
+                                                @ created_at new Date()
+                                                @ updated_at new Date()
+                                                @ last_access_at new Date()
+                                    _ newUser.save
+                                        function 
+                                            param err
+                                            param doc
+                                            if err
+                                                error myname, 'createUserFromSignup', 'newUser.save', newUser, 'error', err
+                                                return reject(err)
+                                            return 
+                                                _ resolve
+                                                    { 
+                                                        @ created true
+                                                        @ user doc._doc
+                                                        @ message 'user created'
+                                else
+                                    _ resolve
+                                        { 
+                                            @ created false
+                                            @ message result.message
+                            ._ catch
+                                => 
+                                    param err
+                                    _ reject(err)

@@ -1,0 +1,7 @@
+module
+    kind react
+    export-default 
+        function Home
+            return null
+        #
+            # * Add your relevant code here for the issue to reproduce

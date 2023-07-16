@@ -1,0 +1,166 @@
+md
+    h1 
+        + A statically generated landing page with Next.js and Makeswift
+    p 
+        + This example showcases how you can use
+        a 
+            href https://www.makeswift.com/
+            title 
+            + Makeswift
+        + to visually build statically generated pages in Next.js.
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + :
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/cms-makeswift&project-name=cms-makeswift&repository-name=cms-makeswift
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + Demo
+    h3 
+        a 
+            href https://nextjs-makeswift-example.vercel.app/
+            title 
+            + https://nextjs-makeswift-example.vercel.app/
+    h2 
+        + How to use
+    ul 
+        ordered 
+        loose 
+        li 
+            + Download the example:
+            br 
+            + Execute
+            a 
+                href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+                title 
+                code create-next-app
+            + with
+            a 
+                href https://docs.npmjs.com/cli/init
+                title 
+                + npm
+            + ,
+            a 
+                href https://yarnpkg.com/lang/en/docs/cli/create/
+                title 
+                + Yarn
+            + , or
+            a 
+                href https://pnpm.io
+                title 
+                + pnpm
+            + to bootstrap the example:
+            br 
+            code 
+                lang bash
+                + npx create-next-app --example cms-makeswift cms-makeswift-app
+                + # or
+                + yarn create next-app --example cms-makeswift cms-makeswift-app
+                + # or
+                + pnpm create next-app --example cms-makeswift cms-makeswift-app
+        li 
+            + Install dependencies:
+            br 
+            code 
+                lang bash
+                + yarn install
+                + # or
+                + npm install
+                + # or
+                + pnpm install
+        li 
+            + Rename the
+            code .env.local.example
+            + file to
+            code .env.local
+            + and include your Makeswift site&#39;s API key:
+            br 
+            code 
+                lang diff
+                + -- MAKESWIFT_API_HOST=
+                + -- MAKESWIFT_SITE_API_KEY=
+                + ++ MAKESWIFT_API_HOST=https://api.makeswift.com
+                + ++ MAKESWIFT_SITE_API_KEY=<YOUR_MAKESWIFT_SITE_API_KEY>
+        li 
+            + Run the local dev script:
+            br 
+            code 
+                lang bash
+                + yarn dev
+                + # or
+                + npm run dev
+            br 
+            + Your host should be up and running on
+            a 
+                href http://localhost:3000
+                title
+                + http://localhost:3000
+            + .
+        li 
+            + Finally, go to your Makeswift site settings and add
+            a 
+                href http://localhost:3000/makeswift
+                title
+                + http://localhost:3000/makeswift
+            + as the host URL and you&#39;re all set!
+    br 
+    h2 
+        + Deploy it
+    p 
+        + When you&#39;re ready to go live, deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ). All you&#39;ll need to do is update your host inside of Makeswift to your Vercel deployment.
+    br 
+    h2 
+        + Next steps
+    p 
+        + With Makeswift, you can give your marketing team custom building blocks to create high quality Next.js pages.
+    br 
+    p 
+        + To learn more about Makeswift, take a look at the following resources:
+    br 
+    ul 
+        li 
+            a 
+                href https://www.makeswift.com/
+                title 
+                + Makeswift Website
+        li 
+            a 
+                href https://www.makeswift.com/docs/
+                title 
+                + Makeswift Documentation
+        li 
+            a 
+                href https://discord.gg/dGNdF3Uzfz
+                title 
+                + Makeswift Discord Community
+    br 
+    p 
+        + You can check out
+        a 
+            href https://github.com/makeswift/makeswift
+            title 
+            + the Makeswift GitHub repository
+        + - your feedback and contributions are welcome!

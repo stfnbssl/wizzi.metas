@@ -1,0 +1,9 @@
+﻿$group
+	${'$'}params name
+
+	_ glEventHub.on
+		@ '${'$'}{name}'
+		=>
+			param data
+			# loog 'on ${'$'}{name}', data
+			${'$'}hook

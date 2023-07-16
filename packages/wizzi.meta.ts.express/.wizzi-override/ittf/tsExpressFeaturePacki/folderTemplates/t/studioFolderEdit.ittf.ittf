@@ -1,0 +1,23 @@
+$group
+
+    $if metaCtx.tsExpressFeaturePacki.usePackiStudioFolderEdit
+        
+        $file __dot__wizzi/${pkgPath}src/features/packiStudioFolderEdit/index.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/studioFolderEdit/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/packiStudioFolderEdit/types.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/studioFolderEdit/types.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/packiStudioFolderEdit/controllers/localedit.tsx.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/studioFolderEdit/controllers/localedit.tsx
+
+        $file __dot__wizzi/${pkgPath}src/features/packiStudioFolderEdit/controllers/apiv1local.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/studioFolderEdit/controllers/apiv1local.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/packiStudioFolderEdit/api/studioFolderEdit.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeaturePacki/studioFolderEdit/api/studioFolderEdit.ts

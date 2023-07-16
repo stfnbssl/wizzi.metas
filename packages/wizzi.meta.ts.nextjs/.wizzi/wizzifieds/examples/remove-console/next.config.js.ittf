@@ -1,0 +1,17 @@
+module
+    kind react
+    const nextConfig
+        { 
+            { compiler
+                { removeConsole
+                    [ exclude
+                        @ 'error'
+                    # Remove `console.*` output except `console.error`
+                    # Uncomment this to suppress all logs.
+                    # removeConsole: true,
+        # @ts-check
+        #
+            # *
+            # * @type {import('next').NextConfig}
+            # *
+    set module.exports = nextConfig

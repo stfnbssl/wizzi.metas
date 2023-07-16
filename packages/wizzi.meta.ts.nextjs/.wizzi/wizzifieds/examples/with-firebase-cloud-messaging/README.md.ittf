@@ -1,0 +1,74 @@
+md
+    h1 
+        + With Firebase Cloud Messaging example
+    p 
+        + To demo how to implement firebase cloud messaging to send web push notification in next.js.
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-firebase-cloud-messaging with-firebase-cloud-messaging-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-firebase-cloud-messaging with-firebase-cloud-messaging-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-firebase-cloud-messaging with-firebase-cloud-messaging-app
+    br 
+    h2 
+        + Set your send id
+    p 
+        + set your
+        code messagingSenderId
+        + in
+        code public/firebase-messaging-sw.js
+        + and
+        code utils/webPush.js
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h2 
+        + How to send a notification
+    p 
+        a 
+            href https://firebase.google.com/docs/cloud-messaging/js/first-message
+            title
+            + https://firebase.google.com/docs/cloud-messaging/js/first-message
+        + ,

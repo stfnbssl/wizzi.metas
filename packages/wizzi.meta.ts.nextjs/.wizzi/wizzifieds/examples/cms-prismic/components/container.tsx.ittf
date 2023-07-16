@@ -1,0 +1,15 @@
+module
+    kind react
+    :type ContainerProps
+        :{ 
+            :p children
+                :ref React.ReactNode
+    export-default 
+        function Container
+            { 
+                @ children
+                :ref ContainerProps
+            return 
+                div 
+                    @ className "container mx-auto px-5"
+                    + {children}

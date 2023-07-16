@@ -1,0 +1,12 @@
+module
+    kind react
+    export 
+        const resolvers
+            { 
+                { Query
+                    m viewer
+                        return 
+                            { 
+                                @ id 1
+                                @ name 'John Smith'
+                                @ status 'cached'

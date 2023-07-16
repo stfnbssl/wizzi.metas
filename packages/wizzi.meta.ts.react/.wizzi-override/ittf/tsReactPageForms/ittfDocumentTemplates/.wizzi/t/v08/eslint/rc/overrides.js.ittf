@@ -1,0 +1,24 @@
+$group
+    {
+        [ files
+            $if wzCtx.Build.useTypescript
+                @ '*.ts'
+                @ '*.tsx'
+                @ '*.d.ts'
+        { parserOptions
+            $if wzCtx.Build.useTypescript
+                @ project './tsconfig.json'
+        { rules
+            [ '@typescript-eslint/naming-convention'
+                @ 'warn'
+                {
+                    @ selector 'typeLike'
+                    [ format
+                        @ 'PascalCase'
+                {
+                    @ selector 'enumMember'
+                    [ format
+                        @ 'UPPER_CASE'
+            @ 'no-unused-expressions' 'off'
+            $if wzCtx.Build.useTypescript
+                @ '@typescript-eslint/no-unused-expressions' 'warn'

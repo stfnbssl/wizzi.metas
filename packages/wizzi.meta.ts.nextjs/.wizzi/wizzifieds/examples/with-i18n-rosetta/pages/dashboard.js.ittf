@@ -1,0 +1,43 @@
+module
+    kind react
+    import 
+        @ useEffect
+        from 'react'
+    import Head from 'next/head'
+    import useI18n from '../hooks/use-i18n'
+    import Title from '../components/title'
+    import 
+        @ contentLanguageMap
+        from '../lib/i18n'
+    import EN from '../locales/en.json'
+    import DE from '../locales/de.json'
+    const Dashboard
+        => 
+            const i18n = useI18n()
+            _ useEffect
+                => 
+                    _ i18n.locale('en', EN)
+                        # eslint-disable-next-line react-hooks/exhaustive-deps
+                [ 
+            return 
+                div 
+                    < Head 
+                        meta 
+                            @ httpEquiv "content-language"
+                            @ content {contentLanguageMap[i18n.activeLocale]}
+                    < Title 
+                        @ username "Peter"
+                    h2 
+                        + {i18n.t('intro.text')}
+                    h3 
+                        + {i18n.t('dashboard.description')}
+                    div 
+                        + Current locale:
+                        + {i18n.activeLocale}
+                    a 
+                        @ href "#"
+                        @ onClick
+                            => 
+                                _ i18n.locale('de', DE)
+                        + Change language client-side to 'de'
+    export-default Dashboard

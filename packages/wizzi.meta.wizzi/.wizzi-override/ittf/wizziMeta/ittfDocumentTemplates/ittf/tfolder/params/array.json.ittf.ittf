@@ -1,0 +1,8 @@
+$group
+    ${'$'}params name
+    { 
+        name ${'$'}{name}
+        type "array"
+        ${'$'}append extend
+        { item
+            ${'$'}hook

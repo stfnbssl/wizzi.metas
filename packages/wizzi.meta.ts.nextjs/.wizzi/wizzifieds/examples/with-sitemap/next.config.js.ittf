@@ -1,0 +1,14 @@
+module
+    kind react
+    set module.exports =
+        { 
+            @ webpack
+                => 
+                    param config
+                    { 
+                        @ isServer
+                    if isServer
+                        _ require('./scripts/generate-sitemap')
+                    return config
+        #
+            # * @type {import('next').NextConfig}

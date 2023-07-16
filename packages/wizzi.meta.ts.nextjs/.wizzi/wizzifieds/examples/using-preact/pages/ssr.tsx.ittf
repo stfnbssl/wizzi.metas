@@ -1,0 +1,22 @@
+module
+    kind react
+    import 
+        @ InferGetServerSidePropsType
+        from 'next'
+    export 
+        function getServerSideProps
+            return 
+                { 
+                    { props
+                        @ framework 'preact'
+    export-default 
+        function SSRPage
+            { 
+                @ framework
+                :ref InferGetServerSidePropsType
+                    :param 
+                        :typeof getServerSideProps
+            return 
+                div 
+                    + {framework}
+                    + ssr example

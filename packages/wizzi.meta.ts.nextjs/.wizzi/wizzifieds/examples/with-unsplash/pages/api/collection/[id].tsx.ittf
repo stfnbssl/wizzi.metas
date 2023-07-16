@@ -1,0 +1,41 @@
+module
+    kind react
+    import 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    import Unsplash
+        @ toJson
+        from 'unsplash-js'
+    export-default 
+        function getCollection
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            const 
+                { 
+                    { query
+                        @ id
+                = req
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        const u
+                            new Unsplash
+                                { 
+                                    @ accessKey process.env.UNSPLASH_ACCESS_KEY
+                        _ u.collections.getCollection(parseInt(id.toString())).then(toJson).then
+                            => 
+                                param json
+                                _ res.setHeader('Cache-Control', 'max-age=180000')
+                                _ res.status(200).json
+                                    [ 
+                                        @ json
+                                _ resolve()
+                            ._ catch
+                                => 
+                                    param error
+                                    _ res.status(405).json(error)
+                                    _ resolve()

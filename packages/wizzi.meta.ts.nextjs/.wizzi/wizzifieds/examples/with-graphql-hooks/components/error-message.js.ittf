@@ -1,0 +1,21 @@
+module
+    kind react
+    export-default 
+        function ErrorMessage
+            { 
+                @ message
+            return 
+                aside 
+                    + {message}
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       aside {&lf;
+                                + &nbsp;         padding: 1.5em;&lf;
+                                + &nbsp;         font-size: 14px;&lf;
+                                + &nbsp;         color: white;&lf;
+                                + &nbsp;         background-color: red;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;

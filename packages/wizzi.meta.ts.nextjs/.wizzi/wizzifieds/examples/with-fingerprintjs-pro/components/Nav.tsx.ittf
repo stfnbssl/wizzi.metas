@@ -1,0 +1,74 @@
+module
+    kind react
+    import 
+        @ PropsWithChildren
+        from 'react'
+    import 
+        @ useRouter
+        from 'next/router'
+    import Link from 'next/link'
+    import 
+        @ RouterProps
+        from './types'
+    const CustomLink
+        :ref React.FC
+            :param 
+                :ref PropsWithChildren
+                    :param 
+                        :{ 
+                            :p to
+                                :string 
+        =
+            => 
+                { 
+                    @ to
+                    @ children
+                const router = useRouter()
+                const 
+                    { 
+                        @ pathname
+                    = router
+                const 
+                    { 
+                        @ cacheStrategy
+                    =
+                        @expr router.query
+                            :as 
+                                :ref RouterProps
+                const linkPathname
+                    `lit 
+                        + /
+                        @ to
+                        + /[cacheStrategy]
+                const className
+                    `lit 
+                        + nav-link
+                        iif pathname === linkPathname
+                            then ' active'
+                            else ''
+                        + 
+                return 
+                    div 
+                        < Link 
+                            @ href
+                                { 
+                                    @ pathname linkPathname
+                                    { query
+                                        @ cacheStrategy
+                            @ scroll {false}
+                            @ className {className}
+                            + {children}
+    export 
+        const Nav
+            :ref React.FC
+            =
+                => 
+                    return 
+                        nav 
+                            @ className "nav"
+                            < CustomLink 
+                                @ to "home"
+                                + Home
+                            < CustomLink 
+                                @ to "signin"
+                                + Sign in

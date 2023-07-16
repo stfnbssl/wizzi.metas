@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useTsMongo
+        $file __dot__wizzi/tsMongo/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tsMongo/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/tsMongo/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include tsMongo/tfolder/${item}.js

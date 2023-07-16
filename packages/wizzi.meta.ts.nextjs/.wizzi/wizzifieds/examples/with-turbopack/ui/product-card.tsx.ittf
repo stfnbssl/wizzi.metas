@@ -1,0 +1,102 @@
+module
+    kind react
+    import 
+        @ Product
+        from '#/app/api/products/product'
+    import 
+        @ ProductBestSeller
+        from '#/ui/product-best-seller'
+    import 
+        @ ProductEstimatedArrival
+        from '#/ui/product-estimated-arrival'
+    import 
+        @ ProductLowStockWarning
+        from '#/ui/product-low-stock-warning'
+    import 
+        @ ProductPrice
+        from '#/ui/product-price'
+    import 
+        @ ProductRating
+        from '#/ui/product-rating'
+    import 
+        @ ProductUsedPrice
+        from '#/ui/product-used-price'
+    import 
+        @ dinero
+        :type DineroSnapshot
+        from 'dinero.js'
+    import Image from 'next/image'
+    import Link from 'next/link'
+    export 
+        const ProductCard
+            => 
+                { 
+                    @ product
+                    @ href
+                    :{ 
+                        :p product
+                            :ref Product
+                        :p href
+                            :string 
+                const price
+                    _ dinero
+                        @expr product.price
+                            :as 
+                                :ref DineroSnapshot
+                                    :param number
+                return 
+                    < Link 
+                        @ href {href}
+                        @ className "group block"
+                        div 
+                            @ className "space-y-2"
+                            div 
+                                @ className "relative"
+                                { 
+                                    iif product.isBestSeller
+                                        then
+                                            div 
+                                                @ className "absolute top-2 left-2 z-10 flex"
+                                                < ProductBestSeller 
+                                        else null
+                                < Image 
+                                    @ src
+                                        `lit 
+                                            + /
+                                            @ product.image
+                                            + 
+                                    @ width {400}
+                                    @ height {400}
+                                    @ className "rounded-xl grayscale group-hover:opacity-80"
+                                    @ alt {product.name}
+                                    @ placeholder "blur"
+                                    @ blurDataURL {product.imageBlur}
+                            div 
+                                @ className "truncate text-sm font-medium text-white group-hover:text-vercel-cyan"
+                                + {product.name}
+                            { 
+                                iif product.rating
+                                    then
+                                        < ProductRating 
+                                            @ rating {product.rating}
+                                    else null
+                            < ProductPrice 
+                                @ price {price}
+                                @ discount {product.discount}
+                            { 
+                                # 
+                                    # <ProductSplitPayments price={price} />
+                            { 
+                                iif product.usedPrice
+                                    then
+                                        < ProductUsedPrice 
+                                            @ usedPrice {product.usedPrice}
+                                    else null
+                            < ProductEstimatedArrival 
+                                @ leadTime {product.leadTime}
+                            { 
+                                iif product.stock <= 1
+                                    then
+                                        < ProductLowStockWarning 
+                                            @ stock {product.stock}
+                                    else null

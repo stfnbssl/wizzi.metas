@@ -1,0 +1,182 @@
+md
+    h1 
+        + With env From next.config.js
+    p 
+        + This example demonstrates setting parameters that will be used by your application and set at build time (not run time).
+        + More specifically, what that means, is that environmental variables are programmed into the special configuration file
+        code next.config.js
+        + and then
+        + returned to your react components when the program is built with
+        code next build
+        + .
+    br 
+    p 
+        + As the build process (
+        code next build
+        + ) is proceeding,
+        code next.config.js
+        + is processed and passed in as a parameter is the variable
+        code phase
+        + .
+        + 
+        code phase
+        + can have the values
+        code PHASE_DEVELOPMENT_SERVER
+        + or
+        code PHASE_PRODUCTION_BUILD
+        + (as defined in
+        code next\constants
+        + ). Based on the variable
+        + 
+        code phase
+        + , different environmental variables can be set for use in your react app. That is, if you reference
+        code process.env.RESTURL_SPEAKERS
+        + 
+        + in your react app, whatever is returned by
+        code next.config.js
+        + as the variable
+        code env
+        + , (or
+        code env.RESTURL_SPEAKERS
+        + ) will be accessible in your
+        + app as
+        code process.env.RESTURL_SPEAKERS
+        + .
+    br 
+    p 
+        + View the docs on
+        a 
+            href https://nextjs.org/docs/api-reference/next.config.js/introduction
+            title 
+            code next.config.js
+        + for more information.
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-env-from-next-config-js
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-env-from-next-config-js&project-name=with-env-from-next-config-js&repository-name=with-env-from-next-config-js
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-env-from-next-config-js with-env-from-next-config-js-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-env-from-next-config-js with-env-from-next-config-js-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-env-from-next-config-js with-env-from-next-config-js-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    quote 
+        h2 
+            + Special note
+        p 
+            code next build
+            + does a hard coded variable substitution into your JavaScript before the final bundle is created. This means
+            + that if you change your environmental variables outside of your running app, such as in windows with
+            code set
+            + or linux with
+            code setenv
+            + 
+            + those changes will not be reflected in your running application until a build happens again (with
+            code next build
+            + ).
+    h2 
+        + Discussion regarding this example
+    p 
+        + This example is not meant to be a reference standard for how to do development, staging and
+        + production builds with Next. This is just one possible scenario that could be used if you want the
+        + following behavior while you are doing development.
+    br 
+    ul 
+        li 
+            + When your run
+            code next dev
+            + or
+            code npm run dev
+            + , you will always use the environmental variables assigned when
+            code isDev
+            + is true in the example.
+        li 
+            + When you run
+            code next build
+            + then
+            code next start
+            + , assuming you set externally the environmental variable STAGING to anything but 1, you will get the results assuming
+            code isProd
+            + is true.
+        li 
+            + When your run
+            code next build
+            + or
+            code npm run build
+            + in production, if the environmental variable
+            code STAGING
+            + is set to
+            code 1
+            + ,
+            code isStaging
+            + will be set and you will get those values returned.
+    br 
+    p 
+        + You can read more about this feature in this blog post
+        html <a href="https://vercel.com/blog/next5-1" target="_blank">
+        + Next.js 5.1: Faster Page Resolution, Environment Config and More
+        html </a>
+        + (under Environment Config).

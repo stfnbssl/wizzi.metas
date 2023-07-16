@@ -1,0 +1,90 @@
+module
+    kind react
+    import useSWR from 'swr'
+    import fetcher from 'libs/fetcher'
+    import Link from 'next/link'
+    import styles from './Collections.module.css'
+    :interface CollectionProps
+        :p id_collection
+            :optional 
+            :number 
+    const Collections
+        => 
+            { 
+                @ id_collection
+                :ref CollectionProps
+            const 
+                { 
+                    @ data
+                    @ error
+                =
+                    _ useSWR
+                        op+ 
+                            + '/api/collection'
+                            ( 
+                                iif id_collection
+                                    then
+                                        `lit 
+                                            + /
+                                            @ id_collection
+                                            + 
+                                    else ''
+                        @ fetcher
+            if error
+                return 
+                    div 
+                        + failed to load
+            if !data
+                return 
+                    div 
+                        + loading...
+            return 
+                div 
+                    @ className {styles.chips}
+                    { 
+                        _ data.map
+                            => 
+                                { 
+                                    @ id
+                                    @ title
+                                    @ slug
+                                iif id_collection
+                                    then
+                                        < Link 
+                                            @ href "/"
+                                            @ key
+                                                `lit 
+                                                    + collection_
+                                                    @ slug
+                                                    + 
+                                            @ className {styles.chip}
+                                            + {title}
+                                            < Link 
+                                                @ href "/"
+                                                @ legacyBehavior
+                                                button 
+                                                    @ type "button"
+                                                    @ className {styles.chip_remove}
+                                                    @ aria-label "Return to home"
+                                    else
+                                        < Link 
+                                            @ href
+                                                { 
+                                                    @ pathname '/collection/[slug]'
+                                                    { query
+                                                        @ id
+                                            @ as
+                                                `lit 
+                                                    + /collection/
+                                                    @ slug
+                                                    + ?id=
+                                                    @ id
+                                                    + 
+                                            @ key
+                                                `lit 
+                                                    + collection_
+                                                    @ slug
+                                                    + 
+                                            @ className {styles.chip}
+                                            + {title}
+    export-default Collections

@@ -1,0 +1,25 @@
+module
+    kind react
+    import PropTypes from 'prop-types'
+    const ErrorMessage
+        => 
+            { 
+                @ message
+            aside 
+                + {message}
+                < style 
+                    @ jsx
+                    { 
+                        `lit 
+                            + &lf;
+                            + &nbsp;     aside {&lf;
+                            + &nbsp;       padding: 1.5em;&lf;
+                            + &nbsp;       font-size: 14px;&lf;
+                            + &nbsp;       color: white;&lf;
+                            + &nbsp;       background-color: red;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;  &nbsp;
+    set ErrorMessage.propTypes =
+        { 
+            @ message PropTypes.string.isRequired
+    export-default ErrorMessage

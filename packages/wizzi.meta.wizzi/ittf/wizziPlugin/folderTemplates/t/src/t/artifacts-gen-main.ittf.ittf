@@ -1,0 +1,121 @@
+$group
+    $params &schema
+    
+    ${'$'}{'$'}
+        var md = {
+            plugin: '${metaCtx.name}',
+            name: 'document',
+            schema: '${schema.name}',
+            rootElement: '${schema.rootElement}',
+            checkSchema: true,
+            isAsync: true,
+        };
+
+    gen${"${'('}"} &md )
+
+        ${'$'}{'$'}append imports
+            $if schema.includes && schema.includes.length > 0
+                var included_writers = require('./included_writers')
+            $if metaCtx.wizzi_plugin_type == 'prettify'
+                var pretty = require('wizzi-utils').pretty
+                ${'$'}{'$'}${'$'}{'$'} var highlightCode = require('./highlightCode')
+
+        ${'$'}{'$'}append main
+            _ md.${schema.name}
+                @ model
+                @ ctx
+                a_cb${"${'('}"} )
+                    if ctx.artifactGenerationErrors.length > 0
+                        r_cb_err${"${'('}"} ctx.artifactGenerationErrors )
+                    else
+                        # generation OK
+                        r_cb${"${'('}"} ctx )
+
+        async-md${"${'('}"} ${schema.name} )
+            _ ctx.w('<${schema.name}>')
+            _ md.genItems
+                $if schema.plugin_type == 'syntax_structure'
+                    @ model.nodes
+                $else
+                    @ model.items
+                @ ctx
+                {
+                    @ indent true
+                a_cb${"${'('}"})
+                    _ ctx.w('</${schema.name}>')
+                    r_cb${"${'('}"})
+
+        $if schema.name == 'svg'
+            ${'$'}include wizziplugin/lib/artifacts/gen/svg.js       
+
+
+        $if schema.includes && schema.includes.length > 0
+            ${'$'}{'$'}include includes
+
+        $*
+        $if schema.plugin_type == 'prettify'
+            ${'$'}{'$'}include v08/wizzi/plugin/artifacts/types/prettify/artifact-gen-main.js
+
+        $if schema.plugin_type == 'syntax_structure'
+            ${'$'}{'$'}include v08/wizzi/plugin/artifacts/types/syntax_structure/artifact-gen-main.js
+        *$
+
+        
+        $if metaCtx.usePackageVersion && schema.writeGenInfo
+            function main_init
+                param model
+                param ctx
+                
+                # loog myname, 'ctx.values', ctx.values
+                if (!!ctx.values.noGeneratorComments) == false
+                    _ ctx.w('${schema.multiLineCommentBegin}')
+                    _ ctx.w('    artifact generator: ' + __filename)
+                    _ ctx.w('    package: ${metaCtx.Package.name}@${'${"$"}'}{versions['${metaCtx.Package.name}@next']}')
+                    _ ctx.w('    primary source IttfDocument: ' + model.wzSourceFilepath('f1'))
+                    ${'${"$"}'}if wzConfigIsPackageDeploy == false
+                        _ ctx.w('    utc time: ' + new Date().toUTCString())
+                    _ ctx.w('${schema.multiLineCommentEnd}')
+        
+        $if schema.plugin_type == 'syntax_structure'
+
+            var noattrs
+                [
+                    @ 'wzTag'
+                    @ 'wzName'
+                    @ 'wzElement'
+                    @ 'wzParent'
+                    @ 'wzSourceLineInfo'
+                    @ '___exportName'
+
+            function isAttrValue
+                param a
+                param v
+                if noattrs.indexOf(a) > -1
+                    return false
+                if v == null || verify.isArray(v) || verify.isObject(v) || verify.isFunction(v)
+                    return false
+                return true
+
+            function getAttrs
+                param e
+                
+                var retval = []
+                for var a in e
+                    if isAttrValue(a, e[a])
+                        _ retval.push({ name: verify.replaceAll(a, '_', '-'), value: e[a] })
+                    elif a.substr(0, 3) === 'ng-'
+                        _ retval.push({ name: a, value: e[a] })
+                    elif a.substr(0, 5) === 'data-'
+                        _ retval.push({ name: a, value: e[a] })
+                    elif a.substr(0, 5) === 'aria-'
+                        _ retval.push({ name: a, value: e[a] })
+
+                if e.attributes
+                    foreach a in e.attributes
+                        var p = lineParser.parseNameValueRaw(a.wzName, a)
+                        if p.hasValue()
+                            _ retval.push({ name: p.name(), value: p.value() })
+                        else
+                            _ retval.push({ name: p.name() })
+                
+                return retval

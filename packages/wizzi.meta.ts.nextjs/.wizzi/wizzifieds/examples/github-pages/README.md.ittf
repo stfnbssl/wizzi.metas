@@ -1,0 +1,97 @@
+md
+    h1 
+        + Deploying to GitHub Pages
+    p 
+        + This example supports deloying a statically exported Next.js application to GitHub Pages.
+    br 
+    p 
+        + The
+        code out
+        + directory should not be ignored by version control.
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example github-pages nextjs-github-pages
+        + # or
+        + yarn create next-app --example github-pages nextjs-github-pages
+        + # or
+        + pnpm create next-app --example github-pages nextjs-github-pages
+    br 
+    h3 
+        + Deploy to GitHub Pages
+    ul 
+        ordered 
+        li 
+            + Create a new public GitHub repository.
+        li 
+            + Edit
+            code next.config.js
+            + to match your GitHub repository name.
+        li 
+            + Push the starter code to the
+            code main
+            + branch.
+        li 
+            + Run the
+            code deploy
+            + script (e.g.
+            code npm run deploy
+            + ) to create the
+            code gh-pages
+            + branch.
+        li 
+            + On GitHub, go to
+            b 
+                + Settings
+            + &gt;
+            b 
+                + Pages
+            + &gt;
+            b 
+                + Branch
+            + , and choose
+            code gh-pages
+            + as the branch with the
+            code /root
+            + folder. Hit
+            b 
+                + Save
+            + .
+        li 
+            + Make a change.
+        li 
+            + Run the
+            code deploy
+            + script again to push the changes to GitHub Pages.
+    br 
+    p 
+        + Congratulations! You should have a URL like:
+    br 
+    code 
+        lang bash
+        + https://<github-user-name>.github.io/<github-project-name>/

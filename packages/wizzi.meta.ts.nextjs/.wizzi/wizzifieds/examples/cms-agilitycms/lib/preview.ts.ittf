@@ -1,0 +1,145 @@
+module
+    kind react
+    import crypto from 'crypto'
+    import 
+        @ getClient
+        from './api'
+    import 
+        @ CMS_LANG
+        @ CMS_CHANNEL
+        from './constants'
+        # Generates a preview key to compare against
+    export 
+        function generatePreviewKey
+            const str
+                `lit 
+                    + -1_
+                    @ process.env.AGILITY_CMS_SECURITY_KEY
+                    + _Preview
+                # the string we want to encode
+                # build our byte array
+            let data = []
+                # build our byte array
+            for var i = 0; i < str.length; ++i
+                _ data.push(str.charCodeAt(i))
+                _ data.push(0)
+                # convert byte array to buffer
+            const strBuffer = Buffer.from(data)
+                # convert byte array to buffer
+                # encode it!
+            const previewKey = crypto.createHash('sha512').update(strBuffer).digest('base64')
+                # encode it!
+            return previewKey
+        # Generates a preview key to compare against
+        # Checks that the requested page exists, if not return a 401
+    export 
+        async-function validateSlugForPreview
+            { 
+                @ slug
+                @ contentID
+            if 
+                test
+                    === 
+                        + slug
+                        `lit 
+                            + /
+                return 
+                    { 
+                        @ error false
+                        @ message null
+                        @ slug
+                            `lit 
+                                + /
+            const client = getClient(true)
+                # this is a standard page
+            const sitemapFlat
+                await 
+                    _ client.getSitemapFlat
+                        { 
+                            @ channelName CMS_CHANNEL
+                            @ languageCode CMS_LANG
+                # this is a standard page
+            let sitemapNode = null
+            if !contentID
+                set sitemapNode = sitemapFlat[slug]
+                    # For standard pages
+            else
+                _ console.log(contentID)
+                    # For dynamic pages - need to adjust the actual slug
+                set slug =
+                    _ Object.keys(sitemapFlat).find
+                        => 
+                            param key
+                            const node = sitemapFlat[key]
+                            if node.contentID === contentID
+                                return node
+                            return false
+                    # For dynamic pages - need to adjust the actual slug
+                set sitemapNode = sitemapFlat[slug]
+            if !sitemapNode
+                return 
+                    { 
+                        @ error true
+                        @ message
+                            `lit 
+                                + Invalid page. '
+                                @ slug
+                                + ' was not found in the sitemap. Are you trying to preview a Dynamic Page Item? If so, ensure you have your List Preview Page, Item Preview Page, and Item Preview Query String Parameter set (contentid) .
+                        @ slug null
+            return 
+                { 
+                    @ error false
+                    @ message null
+                    @ slug sitemapNode.path
+        # Checks that the requested page exists, if not return a 401
+        # Validates whether the incoming preview request is valid
+    export 
+        async-function validatePreview
+            { 
+                @ agilityPreviewKey
+                @ slug
+                @ contentID
+            if !agilityPreviewKey
+                return 
+                    { 
+                        @ error true
+                        @ message
+                            `lit 
+                                + Missing agilitypreviewkey.
+            if 
+                test
+                    _ agilityPreviewKey.includes
+                        `lit 
+                            + &nbsp;
+                set agilityPreviewKey =
+                    _ agilityPreviewKey.split
+                        `lit 
+                            + &nbsp;
+                        ._ join
+                            `lit 
+                                + +
+            const correctPreviewKey = generatePreviewKey()
+                # compare the preview key being used
+            if agilityPreviewKey !== correctPreviewKey
+                return 
+                    { 
+                        @ error true
+                        @ message
+                            `lit 
+                                + Invalid agilitypreviewkey.
+                            # message: `Invalid agilitypreviewkey. Incoming key is=${agilityPreviewKey} compared to=${correctPreviewKey}...`
+            const validateSlugResponse
+                await 
+                    _ validateSlugForPreview
+                        { 
+                            @ slug
+                            @ contentID
+            if validateSlugResponse.error
+                return validateSlugResponse
+            return 
+                { 
+                    @ error false
+                    @ message null
+                    @ slug validateSlugResponse.slug
+                # return success
+        # Validates whether the incoming preview request is valid

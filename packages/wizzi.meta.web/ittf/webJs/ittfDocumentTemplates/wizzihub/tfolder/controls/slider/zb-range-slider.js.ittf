@@ -1,0 +1,170 @@
+$group
+    $
+      var myName = 'RangeSlider'; 
+      //
+
+    # from https://codepen.io/zebresel/pen/xGLYOM
+    
+    iife_window( controls, ${myName} )
+
+        const ${myName}
+            function 
+                param id
+                var self = this
+                var 
+                    decl startX = 0
+                    decl x = 0
+                    # retrieve touch button
+                var slider = document.getElementById(id)
+                    # retrieve touch button
+                var touchLeft = slider.querySelector('.slider-touch-left')
+                var touchRight = slider.querySelector('.slider-touch-right')
+                var lineSpan = slider.querySelector('.slider-line span')
+                    # get some properties
+                var min = parseFloat(slider.getAttribute('se-min'))
+                    # get some properties
+                var max = parseFloat(slider.getAttribute('se-max'))
+                    # retrieve default values
+                var defaultMinValue = min
+                    # retrieve default values
+                if slider.hasAttribute('se-min-value')
+                    set defaultMinValue = parseFloat(slider.getAttribute('se-min-value'))
+                var defaultMaxValue = max
+                if slider.hasAttribute('se-max-value')
+                    set defaultMaxValue = parseFloat(slider.getAttribute('se-max-value'))
+                if defaultMinValue < min
+                    set defaultMinValue = min
+                if defaultMaxValue > max
+                    set defaultMaxValue = max
+                if defaultMinValue > defaultMaxValue
+                    set defaultMinValue = defaultMaxValue
+                var step = 0
+                if slider.getAttribute('se-step')
+                    set step = Math.abs(parseFloat(slider.getAttribute('se-step')))
+                var normalizeFact = 26
+                    # normalize flag
+                set self.slider = slider
+                set self.reset =
+                    function 
+                        set touchLeft.style.left = '0px'
+                        set touchRight.style.left = (slider.offsetWidth - touchLeft.offsetWidth) + 'px'
+                        set lineSpan.style.marginLeft = '0px'
+                        set lineSpan.style.width = (slider.offsetWidth - touchLeft.offsetWidth) + 'px'
+                        set startX = 0
+                        set x = 0
+                set self.setMinValue =
+                    function 
+                        param minValue
+                        var ratio = ((minValue - min) / (max - min))
+                        set touchLeft.style.left = Math.ceil(ratio * (slider.offsetWidth - (touchLeft.offsetWidth + normalizeFact))) + 'px'
+                        set lineSpan.style.marginLeft = touchLeft.offsetLeft + 'px'
+                        set lineSpan.style.width = (touchRight.offsetLeft - touchLeft.offsetLeft) + 'px'
+                        _ slider.setAttribute('se-min-value', minValue)
+                set self.setMaxValue =
+                    function 
+                        param maxValue
+                        var ratio = ((maxValue - min) / (max - min))
+                        set touchRight.style.left = Math.ceil(ratio * (slider.offsetWidth - (touchLeft.offsetWidth + normalizeFact)) + normalizeFact) + 'px'
+                        set lineSpan.style.marginLeft = touchLeft.offsetLeft + 'px'
+                        set lineSpan.style.width = (touchRight.offsetLeft - touchLeft.offsetLeft) + 'px'
+                        _ slider.setAttribute('se-max-value', maxValue)
+                    # initial reset
+                _ self.reset()
+                    # initial reset
+                    # usefull values, min, max, normalize fact is the width of both touch buttons
+                var maxX = slider.offsetWidth - touchRight.offsetWidth
+                    # usefull values, min, max, normalize fact is the width of both touch buttons
+                var selectedTouch = null
+                var initialValue = (lineSpan.offsetWidth - normalizeFact)
+                    # set defualt values
+                _ self.setMinValue(defaultMinValue)
+                    # set defualt values
+                _ self.setMaxValue(defaultMaxValue)
+                    # setup touch/click events
+                function onStart
+                    param event
+                    _ event.preventDefault()
+                        # Prevent default dragging of selected content
+                    var eventTouch = event
+                    if event.touches
+                        set eventTouch = event.touches[0]
+                    if this === touchLeft
+                        set x = touchLeft.offsetLeft
+                    else
+                        set x = touchRight.offsetLeft
+                    set startX = eventTouch.pageX - x
+                    set selectedTouch = this
+                    _ document.addEventListener('mousemove', onMove)
+                    _ document.addEventListener('mouseup', onStop)
+                    _ document.addEventListener('touchmove', onMove)
+                    _ document.addEventListener('touchend', onStop)
+                    # setup touch/click events
+                function onMove
+                    param event
+                    var eventTouch = event
+                    if event.touches
+                        set eventTouch = event.touches[0]
+                    set x = eventTouch.pageX - startX
+                    if selectedTouch === touchLeft
+                        if x > (touchRight.offsetLeft - selectedTouch.offsetWidth + 10)
+                            set x = (touchRight.offsetLeft - selectedTouch.offsetWidth + 10)
+                        else
+                            if x < 0
+                                set x = 0
+                        set selectedTouch.style.left = x + 'px'
+                    else
+                        if selectedTouch === touchRight
+                            if x < (touchLeft.offsetLeft + touchLeft.offsetWidth - 10)
+                                set x = (touchLeft.offsetLeft + touchLeft.offsetWidth - 10)
+                            else
+                                if x > maxX
+                                    set x = maxX
+                            set selectedTouch.style.left = x + 'px'
+                    set lineSpan.style.marginLeft = touchLeft.offsetLeft + 'px'
+                        # update line span
+                    set lineSpan.style.width = (touchRight.offsetLeft - touchLeft.offsetLeft) + 'px'
+                        # write new value
+                    _ calculateValue()
+                        # write new value
+                        # call on change
+                    if slider.getAttribute('on-change')
+                        var fn = new Function('min, max', slider.getAttribute('on-change'))
+                        _ fn(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'))
+                    if self.onChange
+                        _ self.onChange(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'))
+                function onStop
+                    param event
+                    _ document.removeEventListener('mousemove', onMove)
+                    _ document.removeEventListener('mouseup', onStop)
+                    _ document.removeEventListener('touchmove', onMove)
+                    _ document.removeEventListener('touchend', onStop)
+                    set selectedTouch = null
+                        # write new value
+                    _ calculateValue()
+                        # write new value
+                        # call did changed
+                    if slider.getAttribute('did-changed')
+                        var fn = new Function('min, max', slider.getAttribute('did-changed'))
+                        _ fn(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'))
+                    if self.didChanged
+                        _ self.didChanged(slider.getAttribute('se-min-value'), slider.getAttribute('se-max-value'))
+                function calculateValue
+                    var newValue = (lineSpan.offsetWidth - normalizeFact) / initialValue
+                    var minValue = lineSpan.offsetLeft / initialValue
+                    var maxValue = minValue + newValue
+                    var minValue = minValue * (max - min) + min
+                    var maxValue = maxValue * (max - min) + min
+                    _ console.log(step)
+                    if step !== 0
+                        var multi = Math.floor((minValue / step))
+                        set minValue = step * multi
+                        set multi = Math.floor((maxValue / step))
+                        set maxValue = step * multi
+                    _ slider.setAttribute('se-min-value', minValue)
+                    _ slider.setAttribute('se-max-value', maxValue)
+                    # link events
+                _ touchLeft.addEventListener('mousedown', onStart)
+                    # link events
+                _ touchRight.addEventListener('mousedown', onStart)
+                _ touchLeft.addEventListener('touchstart', onStart)
+                _ touchRight.addEventListener('touchstart', onStart)

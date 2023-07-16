@@ -1,0 +1,295 @@
+$group
+    
+    $if wzCtx.Build.useBabel
+        $if wzCtx.Build.babel.useParser
+            @babel/parser "^7.12.16"
+        $if wzCtx.Build.useRegeneratorRuntime
+            @babel/polyfill "^7.12.1"
+        $if wzCtx.Build.babel.useRuntime
+            @babel/runtime "^7.12.5"
+    $if wzCtx.Build.useExpoStyles
+        @expo/styleguide "^2.1.4"
+    $if wzCtx.Build.useReact && wzCtx.Build.useStyledSystem
+        @styled-system/theme-get "^5.1.2"
+    
+    $if wzCtx.Build.useReact
+        $if wzCtx.Build.react.useMaterialUI
+            $if wzCtx.Build.react.materialUI.usePickers
+                @date-io/date-fns "^1.3.6"
+            $if wzCtx.Build.react.useV16
+                @material-ui/core "^4.11.2"
+            $else
+                @material-ui/core "^4.11.3"
+            $if wzCtx.Build.react.materialUI.useIcons
+                $if wzCtx.Build.react.useV16
+                    @material-ui/icons "^4.11.2"
+                $else
+                    @material-ui/icons "^4.11.2"
+            $if wzCtx.Build.react.materialUI.useLab
+                @material-ui/lab "^4.0.0-alpha.14"
+            $if wzCtx.Build.react.materialUI.usePickers
+                @material-ui/pickers "^3.0.0"
+            @material-ui/styles "^4.11.2"
+    
+    $if wzCtx.Build.useAphrodite
+        aphrodite "^2.4.0"
+    $if wzCtx.Build.useTailwindcss
+        autoprefixer "^10.0.2"
+    $if wzCtx.Build.utils.useAxios
+        axios "^0.21.1"
+    $if wzCtx.Build.useExpress
+        $if wzCtx.Build.useNetlify
+            aws-serverless-express "^3.2.0"
+    $if wzCtx.Build.useExpress
+        body-parser "^1.18.3"
+    $if wzCtx.Build.useBootstrap
+        bootstrap "^4.1.3"
+    
+    $if wzCtx.Build.useReact && !!wzCtx.Build.useReactCreateApp == false
+        classnames "^2.2.6"
+    $if wzCtx.Build.useExpress && wzCtx.Build.useFlash
+        connect-flash "^0.1.1"
+    $if wzCtx.Build.useMongoDb
+        connect-mongo "^4.4.1"
+    $if wzCtx.Build.useReact && wzCtx.Build.react.useRouter && wzCtx.Build.react.useRedux
+        connected-react-router "^6.9.1"
+    $if wzCtx.Build.useExpress
+        $if wzCtx.Build.useCompression
+            compression "^1.7.2"
+        $if wzCtx.Build.useCookie
+            cookie "^0.4.1"
+    $if wzCtx.Build.useVExpo
+        core-js "^3.6.5"
+    $if wzCtx.Build.useExpress && wzCtx.Build.useCors
+        cors "^2.8.4"
+    $if wzCtx.Build.useCrypto
+        crypto "^1.0.1"
+    
+    $if wzCtx.Build.utils.useDateFns || wzCtx.Build.useReact && wzCtx.Build.react.useDate
+        date-fns "^2.0.0"
+    $elif wzCtx.Build.useReact
+        $if wzCtx.Build.react.useMaterialUI
+            $if wzCtx.Build.react.materialUI.usePickers
+                date-fns "2.0.0"
+    $if wzCtx.Build.useDomHelpers
+        dom-helpers "^3.4.0"
+    
+    $if wzCtx.Build.useConfig && wzCtx.Build.config.useEnvalid
+        dotenv "8.2.0"
+    $if wzCtx.Build.useReact
+        $if wzCtx.Build.react.useDraftJs
+            draft-js "^0.10.5"
+    $if wzCtx.Build.useConfig && wzCtx.Build.config.useEnvalid
+        envalid "^7.0.0"
+    $if wzCtx.Build.utils.useEs6Error
+        es6-error "^4.1.1"
+    $if wzCtx.Build.utils.useEscapeHtml
+        escape-html "^1.0.3"
+    $if wzCtx.Build.utils.useEscapeRegexp
+        escape-string-regexp "^4.0.0"
+    $if wzCtx.Build.useExpress
+        express "^4.16.3"
+        $if wzCtx.Build.useJwt
+            express-jwt "^6.0.0"
+        $if wzCtx.Build.useAuthentication || wzCtx.Build.useAuthorization
+            express-openid-connect "^2.2.1"
+        $if wzCtx.Build.useSession
+            express-session "^1.17.1"
+    
+    $if wzCtx.Build.utils.useFetchPonyfill
+        fetch-ponyfill "^7.1.0"
+    $if wzCtx.Build.useReact
+        $if wzCtx.Build.react.useFormik
+            formik "^1.5.7"
+    
+    $group
+        $if wzCtx.Build.useGatsby
+            gatsby "^2.32.3"
+    $if wzCtx.Build.utils.useGitUrlParse
+        git-url-parse "^11.4.4"
+    $if wzCtx.Build.useGraphql
+        graphql "^15.5.0"
+        graphql-request "^3.4.0"
+    
+    $if wzCtx.Build.useReact
+        $if wzCtx.Build.useHoistNonReactStatic
+            hoist-non-react-statics "^3.3.2"
+    $if wzCtx.Build.useExpress
+        $if wzCtx.Build.express.useErrors
+            http-errors "^2.0.0"
+    
+    $if wzCtx.Build.useFetch
+        isomorphic-fetch "^2.2.1"
+    $if wzCtx.Build.useGithub
+        isomorphic-git "^1.8.1"
+    $if wzCtx.Build.useIsomorphicUnfetch
+        isomorphic-unfetch "^3.0.0"
+    
+    $if wzCtx.Build.utils.useJsCookie
+        js-cookie "^2.2.1"
+    $if wzCtx.Build.isClientServer || wzCtx.Build.isServer
+        jsesc "^2.5.2"
+    $if wzCtx.Build.utils.useStringifySafe
+        json-stringify-safe "^5.0.1"
+    $if wzCtx.Build.utils.useJsonToAst
+        json-to-ast "^2.1.0"
+    $if wzCtx.Build.useJwt
+        jsonwebtoken "^8.5.1"
+    $if wzCtx.Build.useAuthorization
+        jwks-rsa "^1.4.0"
+    
+    $if wzCtx.Build.useMarked
+        $if wzCtx.Build.useVExpo
+            marked "^2.0.0"
+        $else
+            marked "^2.0.3"
+    $if wzCtx.Build.useMonacoEditor
+        $if wzCtx.Build.useVExpo
+            monaco-editor "^0.18.1"
+        $else
+            monaco-editor "^0.23.0"
+    $if wzCtx.Build.useMoment
+        moment "^2.24.0"
+    $if wzCtx.Build.useMongoDb
+        mongoose "^5.4.2"
+    $if wzCtx.Build.useExpress && wzCtx.Build.useLogger
+        $if wzCtx.Build.logger.useMorgan
+            morgan "^1.10.0"
+    
+    $if wzCtx.Build.utils.useNanoId
+        nanoid "^3.1.22"
+    $if wzCtx.Build.useGithub
+        node-fetch "^2.6.1"
+    $if wzCtx.Build.utils.useNullThrows
+        nullthrows "^1.1.1"
+    
+    $if wzCtx.Build.styles.usePalx || wzCtx.Build.useStorybook
+        palx '^1.0.3'
+    $if wzCtx.Build.utils.useParseUrl
+        parseurl "^1.3.3"
+    $if wzCtx.Build.useExpress
+        $if wzCtx.Build.useAuthentication
+            passport "^0.4.1"
+            $if wzCtx.Build.authentication.useGithub
+                passport-github2 "^0.1.12"
+            $if wzCtx.Build.authentication.useLocal
+                passport-local "^1.0.0"
+    $if wzCtx.Build.usePrismjs
+        prismjs "^1.21.0"
+    $if wzCtx.Build.useTailwindcss
+        postcss "^8.1.13"
+        postcss-cli "^8.3.1"
+    
+    $if wzCtx.Build.utils.useQueryString
+        query-string "^7.0.0"
+    
+    $group
+        $if wzCtx.Build.useReact
+            $if wzCtx.Build.react.useV16
+                react "^16.8.1"
+                react-dom "^16.8.1"
+            $if wzCtx.Build.react.useV17
+                react "^17.0.1"
+                react-dom "^17.0.1"
+            $else
+                react "^17.0.2"
+                react-dom "^17.0.2"
+            $if wzCtx.Build.react.useDate
+                react-datepicker "^4.1.1"
+            $if wzCtx.Build.react.useFontawesome
+                react-fontawesome "^1.6.1"
+            $if wzCtx.Build.react.useHelmetAsync
+                react-helmet-async "^1.0.9"
+            $if wzCtx.Build.react.usePerfectScrollbar
+                react-perfect-scrollbar "^1.4.4"
+            $if wzCtx.Build.react.useRange
+                react-range "^1.8.9"
+            $if wzCtx.Build.react.useRedux
+                react-redux "^7.2.2"
+                $if wzCtx.Build.react.redux.useFirestore
+                    react-redux-firebase "^2.2.6"
+            $if wzCtx.Build.react.useRouter
+                react-router-dom "^5.2.0"
+            $if wzCtx.Build.useReactCreateApp
+                react-scripts "^4.0.3"
+            $if wzCtx.Build.react.useSelect
+                react-select "^4.3.0"
+            $if wzCtx.Build.react.useSimpleCodeEditor
+                react-simple-code-editor "^0.11.0"
+            $if wzCtx.Build.react.useSyntaxHighlighter
+                react-syntax-highlighter "^15.4.3"
+            $if wzCtx.Build.react.useTextareaAutosize
+                react-textarea-autosize "^8.3.2"
+            $if wzCtx.Build.react.transition
+                react-transition-group "^2.4.0"
+            $if wzCtx.Build.react.useVirtualized
+                react-virtualized "^9.22.3"
+            $if wzCtx.Build.react.useRecompose_stopped_25_06_2022
+                recompose "^0.30.0"
+        $if wzCtx.Build.useGatsby
+            react "^16.13.1"
+            react-dom "^16.13.1"
+    
+    $group
+        $if wzCtx.Build.useReact
+            $if wzCtx.Build.react.useRedux
+                redux "^4.0.5"
+                $if wzCtx.Build.react.redux.useAuth
+                    redux-auth-wrapper "^2.1.0"
+                $if wzCtx.Build.react.redux.useFirestore
+                    redux-firestore "^0.8.0"
+                $if wzCtx.Build.react.redux.useForm
+                    redux-form "^8.2.0"
+            $if wzCtx.Build.react.useRedux
+                $if wzCtx.Build.react.redux.useThunk
+                    redux-thunk "^2.3.0"
+                $if wzCtx.Build.react.redux.useSaga
+                    redux-saga "^1.1.3"
+    $if wzCtx.Build.useReact_stopped_25_06_2022
+        recompose "^0.30.0"
+    $if wzCtx.Build.useRegeneratorRuntime
+        regenerator-runtime "^0.13.7"
+    
+    $if wzCtx.Build.utils.useSanitizeHtml
+        sanitize-html "^2.3.3"
+    $if wzCtx.Build.useExpress
+        $if wzCtx.Build.useNetlify
+            serverless-http "^1.6.0"
+    $if wzCtx.Build.useSocketIO
+        socket.io-client "^2.2.0"
+    $if wzCtx.Build.useReact && wzCtx.Build.useStyledComponents
+        styled-components "^5.2.1"
+    $if wzCtx.Build.useReact && wzCtx.Build.useStyledSystem
+        styled-system "^5.1.5"
+    
+    $if wzCtx.Build.useTailwindcss
+        tailwindcss "^2.0.4"
+    $if wzCtx.Build.useTypescript
+        tslib "^2.2.0"
+        tsconfig-paths "^3.9.0"
+    $if wzCtx.Build.useReact
+        $if wzCtx.Build.react.useRedux
+            $if wzCtx.Build.react.redux.useSaga
+                typesafe-actions "^5.1.0"
+    $if wzCtx.Build.useTypescript
+        typescript "^4.2.3"
+    
+    $if wzCtx.Build.useUnderscore
+        underscore "^1.9.1"
+    
+    $if wzCtx.Build.useValidateJs
+        validate.js "^0.12.0"
+    $if wzCtx.Build.useVue
+        vue "^2.5.17"
+        vue-server-renderer "^2.5.17"
+    
+    $if wzCtx.Build.utils.useWebVitals
+        web-vitals "^1.0.1"
+    $if wzCtx.Build.useWizzi
+        wizzi "^0.7.24"
+        wizzi.proto "^0.0.1"
+        wizzi-tools "^0.7.4"
+        wizzi-utils "^0.7.16"
+    
+    $if wzCtx.Build.useYup
+        yup "^0.27.0"

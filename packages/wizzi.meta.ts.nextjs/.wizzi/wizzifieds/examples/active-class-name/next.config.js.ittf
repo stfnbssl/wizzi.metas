@@ -1,0 +1,13 @@
+module
+    kind react
+    set module.exports =
+        { 
+            m rewrites
+                async
+                return 
+                    [ 
+                        { 
+                            @ source '/blog'
+                            @ destination '/news'
+        #
+            # * @type {import('next').NextConfig}

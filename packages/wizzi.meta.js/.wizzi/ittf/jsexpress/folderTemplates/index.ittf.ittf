@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useJsexpress
+        $file __dot__wizzi/jsexpress/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsexpress/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/jsexpress/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include jsexpress/tfolder/${item}.js

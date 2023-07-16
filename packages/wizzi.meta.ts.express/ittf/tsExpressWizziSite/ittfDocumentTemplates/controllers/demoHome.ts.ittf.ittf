@@ -1,0 +1,29 @@
+$group
+
+    ${'$'}
+        var ctrl = {
+            name: 'DemoHome',
+            path: '/demo/home',
+            kind: 'site'
+        }
+
+    v08/ts/controller${'('} &ctrl )
+        
+        _ this.router.get
+            `lit 
+                + /
+            @ this.home
+
+        ${'$'}append handlers
+
+            v08/ts/handler${'('} home )
+                $$ loog 'Demo Home controller. Received request'
+                ${'$'}if wzCtx.Build.useWizzi
+                    _ response.render
+                        @ 'demoHome/index.html.ittf'
+                        {
+                            @ title 'Hello demo home'
+                ${'$'}else
+                    _ sendHtml
+                        @ response
+                        @ '<html><head><title>Hello demo home</title></head><body><h1>Hello world</h1></body></html>'

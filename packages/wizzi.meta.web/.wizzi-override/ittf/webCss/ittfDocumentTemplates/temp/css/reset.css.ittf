@@ -1,0 +1,40 @@
+﻿$group
+
+	< html
+        + body
+        + div
+        + span
+        + h1
+        + h2
+        + h3
+        + p
+        + a
+        + em
+        + i
+        + b
+        + small
+        + strong
+        + input
+        + footer
+        + header
+        + menu
+        + section
+        + figure
+        + ul
+        + li
+        font-size 100%
+        vertical-align baseline
+    
+	< article
+        + aside
+        + footer
+        + header
+        + menu
+        + section
+        + figure
+        display block
+
+	< *
+        box-sizing border-box
+        margin 0
+        padding 0

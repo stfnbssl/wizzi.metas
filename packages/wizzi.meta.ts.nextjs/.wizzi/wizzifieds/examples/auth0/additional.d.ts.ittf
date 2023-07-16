@@ -1,0 +1,8 @@
+module
+    kind react
+    export 
+    :declare 
+        :module global
+            :interface Window
+                :p __user
+                    :any 

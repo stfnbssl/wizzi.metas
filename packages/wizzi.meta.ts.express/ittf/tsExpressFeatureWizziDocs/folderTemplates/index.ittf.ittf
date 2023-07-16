@@ -1,0 +1,20 @@
+$group
+    
+    $if metaCtx.useTsExpressFeatureWizziDocs
+        $include wzCtxModel
+
+        $file __dot__wizzi/${pkgPath}src/features/docs/index.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureWizziDocs/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/docs/types.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureWizziDocs/types.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/docs/api/cheatsheet.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureWizziDocs/api/cheatsheet.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/docs/controllers/apiv1cheatsheet.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressFeatureWizziDocs/controllers/apiv1cheatsheet.ts

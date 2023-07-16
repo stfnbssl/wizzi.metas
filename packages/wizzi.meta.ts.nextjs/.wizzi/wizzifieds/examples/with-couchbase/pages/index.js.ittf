@@ -1,0 +1,99 @@
+module
+    kind react
+    import Head from 'next/head'
+    import styles from '../styles/Home.module.css'
+    import 
+        @ connectToDatabase
+        from '../util/couchbase'
+    export-default 
+        function Home
+            { 
+                @ isConnected
+            return 
+                div 
+                    @ className {styles.container}
+                    < Head 
+                        < title 
+                            + Create Next App
+                        link 
+                            @ rel "icon"
+                            @ href "/favicon.ico"
+                    main 
+                        @ className {styles.main}
+                        h1 
+                            @ className {styles.title}
+                            + Welcome to
+                            a 
+                                @ href "https://nextjs.org"
+                                + Next.js with Couchbase!
+                        { 
+                            iif isConnected
+                                then
+                                    h2 
+                                        @ className
+                                            `lit 
+                                                + 
+                                                @ styles.subtitle
+                                                + &nbsp;
+                                                @ styles.green
+                                                + 
+                                        + You are connected to Couchbase
+                                else
+                                    < React.Fragment
+                                        h2 
+                                            @ className
+                                                `lit 
+                                                    + 
+                                                    @ styles.subtitle
+                                                    + &nbsp;
+                                                    @ styles.red
+                                                    + 
+                                            + You are NOT connected to Couchbase. Try refreshing the page, and&lf;              if this error persists check the
+                                            code 
+                                                + README.md
+                                            + for&lf;              instructions.
+                                        em 
+                                            @ className {styles.center}
+                                            + Note: if the database was recently started, you might have to&lf;              re-start the app (in dev mode) or re-deploy to your serverless&lf;              environment for changes to take effect.
+                        p 
+                            @ className {styles.description}
+                            + Get started by editing
+                            + {' '}
+                            code 
+                                @ className {styles.code}
+                                + pages/index.js
+                    footer 
+                        @ className {styles.footer}
+                        a 
+                            @ href "https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+                            @ target "_blank"
+                            @ rel "noopener noreferrer"
+                            + Powered by
+                            + {' '}
+                            img 
+                                @ src "/vercel.svg"
+                                @ alt "Vercel Logo"
+                                @ className {styles.logo}
+    export 
+        async-function getServerSideProps
+            param context
+            let connection
+                await 
+                    _ connectToDatabase()
+            const 
+                { 
+                    @ collection
+                = connection
+                # Check connection with a KV GET operation for a key that doesnt exist
+            let isConnected = false
+                # Check connection with a KV GET operation for a key that doesnt exist
+            try 
+                await 
+                    _ collection.get('testingConnectionKey')
+            catch err
+                if err.message === 'document not found'
+                    set isConnected = true
+            return 
+                { 
+                    { props
+                        @ isConnected

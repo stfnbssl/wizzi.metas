@@ -1,0 +1,101 @@
+﻿$group
+
+	set md.parseInterpolation
+        function 
+            param text
+            param node
+            param handlebar
+            param ng
+            if ! (verify.isString(text))
+                return 
+                    { 
+                        @ tokens
+                            [ 
+                        @ join
+                            function 
+                                return ''
+            var openMacro = ng ? '[' : '{'
+            var closeMacro = ng ? ']' : '}'
+            var 
+                decl ch
+                decl l = text.length
+                decl state = 0
+                decl tokens
+                    [ 
+                decl token
+                    { 
+                        @ kind 0
+                        @ text ''
+            for var i = 0; i < l; i++
+                set ch = text[i]
+                if ch == openMacro
+                    if state === 0
+                        set state = 1
+                    elif state === 1
+                        if token.text.length > 0
+                            _ tokens.push(token)
+                        set token =
+                            { 
+                                @ kind 1
+                                @ text ''
+                        set state = 2
+                    elif state === 2
+                        set token.text += ch
+                    elif state === 11
+                        set token.text += closeMacro
+                        set state = 2
+                elif ch == closeMacro
+                    if state === 0
+                        set token.text += ch
+                    elif state === 1
+                        set token.text += openMacro
+                        set state = 0
+                    elif state === 2
+                        set state = 11
+                    elif state === 11
+                        if token.text.length > 0
+                            _ tokens.push(token)
+                        set token =
+                            { 
+                                @ kind 0
+                                @ text ''
+                        set state = 0
+                else 
+                    if state === 1
+                        set token.text += openMacro
+                        set state = 0
+                    elif state === 11
+                        set token.text += closeMacro
+                        set state = 2
+                    set token.text += ch
+            if state === 1
+                set token.text += openMacro
+                set state = 0
+            elif state === 11
+                set token.text += closeMacro
+                set state = 2
+            if token.text.length > 0
+                _ tokens.push(token)
+            return 
+                { 
+                    @ tokens tokens
+                    @ length tokens.length
+                    @ join
+                        function 
+                            var 
+                                decl token
+                                decl t
+                                    [ 
+                            for var i = 0; i < this.tokens.length; i++
+                                set token = this.tokens[i]
+                                if t.length > 0
+                                    _ t.push(' + ')
+                                if token.kind === 0
+                                    _ t.push('"' + escapename(token.text) + '"')
+                                else 
+                                    if handlebar
+                                        _ t.push('"{{ ' + escapename(token.text) + '}}"')
+                                    else 
+                                        _ t.push
+                                            @ token.text
+                            return t.join('')

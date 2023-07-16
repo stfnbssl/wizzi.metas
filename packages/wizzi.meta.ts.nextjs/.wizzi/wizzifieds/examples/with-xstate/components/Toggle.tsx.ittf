@@ -1,0 +1,25 @@
+module
+    kind react
+    import 
+        @ useMachine
+        from '@xstate/react'
+    import 
+        @ toggleMachine
+        from '../machines/toggle'
+    export-default 
+        function Toggle
+            const [current, send] = useMachine(toggleMachine)
+            return 
+                div 
+                    h2 
+                        + Toogle status:
+                        span 
+                            { 
+                                iif current.matches('active')
+                                    then 'On'
+                                    else 'Off'
+                    button 
+                        @ onClick
+                            => 
+                                _ send('TOGGLE')
+                        + Toggle

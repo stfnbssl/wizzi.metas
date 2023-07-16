@@ -1,0 +1,23 @@
+module
+    kind react
+    export 
+        const ProductLowStockWarning
+            => 
+                { 
+                    @ stock
+                    :{ 
+                        :p stock
+                            :number 
+                if stock > 3
+                    return null
+                if stock === 0
+                    return 
+                        div 
+                            @ className "text-sm text-vercel-cyan"
+                            + Out of stock
+                return 
+                    div 
+                        @ className "text-sm text-vercel-cyan"
+                        + Only
+                        + {stock}
+                        + left in stock

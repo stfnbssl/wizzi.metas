@@ -1,0 +1,21 @@
+module
+    kind react
+    import styles from './Button.module.css'
+    :type ButtonProps
+        :{ 
+            :p onClick
+                :ref React.MouseEventHandler
+            :p children
+                :ref React.ReactNode
+    export-default 
+        function Button
+            { 
+                @ children
+                ... props
+                :ref ButtonProps
+            return 
+                button 
+                    @ type "button"
+                    @ className {styles.btn}
+                    @ {...props}
+                    + {children}

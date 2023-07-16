@@ -1,0 +1,42 @@
+module
+    kind react
+    import 
+        @ PropsWithChildren
+        from 'react'
+    import 
+        @ CacheLocation
+        @ FpjsProvider
+        @ LoadOptions
+        from '@fingerprintjs/fingerprintjs-pro-react'
+    const fpjsPublicApiKey
+        @expr process.env.NEXT_PUBLIC_FPJS_PUBLIC_API_KEY
+            :as 
+                :string 
+    export 
+        const WithoutCache
+            :ref React.FC
+                :param 
+                    :ref PropsWithChildren
+            =
+                => 
+                    { 
+                        @ children
+                    const loadOptions
+                        :ref LoadOptions
+                        =
+                            { 
+                                @ apiKey fpjsPublicApiKey
+                    return 
+                        < FpjsProvider 
+                            @ loadOptions {loadOptions}
+                            @ cacheLocation {CacheLocation.NoCache}
+                            div 
+                                @ className "App"
+                                header 
+                                    @ className "header"
+                                    h2 
+                                        + Solution without cache
+                                    div 
+                                        @ className "subheader"
+                                        + New API call made on every component render
+                                + {children}

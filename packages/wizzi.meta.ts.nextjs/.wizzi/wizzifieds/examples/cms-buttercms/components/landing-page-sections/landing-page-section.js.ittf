@@ -1,0 +1,64 @@
+module
+    kind react
+    import dynamic from 'next/dynamic'
+    import camelcaseKeys from 'camelcase-keys'
+    import Preloader from '@/components/preloader'
+    import MissingSection from './missing-section'
+    export-default 
+        function LandingPageSection
+            { 
+                @ type
+                @ sectionData
+            const sectionsComponentPaths
+                => 
+                    (
+                        { 
+                            @ hero
+                                _ dynamic
+                                    => 
+                                        _ import
+                                            @ '@/components/landing-page-sections/hero'
+                                            ._ catch
+                                                => 
+                                                    => 
+                                                        + MissingSection
+                                    { 
+                                        @ loading Preloader
+                            @ two_column_with_image
+                                _ dynamic
+                                    => 
+                                        _ import
+                                            @ '@/components/landing-page-sections/two-column-with-image'
+                                            ._ catch
+                                                => 
+                                                    => 
+                                                        + MissingSection
+                                    { 
+                                        @ loading Preloader
+                            @ features
+                                _ dynamic
+                                    => 
+                                        _ import
+                                            @ '@/components/landing-page-sections/features'
+                                            ._ catch
+                                                => 
+                                                    => 
+                                                        + MissingSection
+                                    { 
+                                        @ loading Preloader
+                            @ testimonials
+                                _ dynamic
+                                    => 
+                                        _ import
+                                            @ '@/components/landing-page-sections/testimonials'
+                                            ._ catch
+                                                => 
+                                                    => 
+                                                        + MissingSection
+                                    { 
+                                        @ loading Preloader
+            const SectionComponent = sectionsComponentPaths()[type] || MissingSection
+            return 
+                < SectionComponent 
+                    @ type {type}
+                    @ {...camelcaseKeys(sectionData)}

@@ -1,0 +1,8 @@
+module
+    :type Author
+        :{ 
+            :p name
+                :string 
+            :p picture
+                :string 
+    export-default Author

@@ -1,0 +1,20 @@
+module
+    kind react
+    const nextConfig
+        { 
+            m rewrites
+                async
+                const baseUrl = process.env.NEXT_PUBLIC_DOTCMS_HOST
+                return 
+                    [ 
+                        { 
+                            @ source '/images/:slug*'
+                            @ destination
+                                `lit 
+                                    + 
+                                    @ baseUrl
+                                    + /images/:slug*
+            @ reactStrictMode true
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

@@ -1,0 +1,33 @@
+module
+    kind react
+    import '../styles/globals.css'
+    import Footer from '../components/Footer'
+    import Head from 'next/head'
+    import 
+        @ Montserrat
+        from 'next/font/google'
+    const montserrat
+        _ Montserrat
+            { 
+                [ subsets
+                    @ 'latin'
+                @ variable '--font-montserrat'
+    export-default 
+        function MyApp
+            { 
+                @ Component
+                @ pageProps
+            return 
+                < React.Fragment
+                    < Head 
+                        < title 
+                            + The Coffee House
+                    main 
+                        @ className
+                            `lit 
+                                + 
+                                @ montserrat.variable
+                                + &nbsp;font-sans
+                        < Component 
+                            @ {...pageProps}
+                        < Footer 

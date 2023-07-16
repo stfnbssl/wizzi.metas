@@ -1,0 +1,187 @@
+$group
+
+    ${'$'}
+        var ctrl = {
+            name: 'Productions',
+            path: '/api/v1/productions'
+        }
+    
+    v08/ts/controller${'('} &ctrl )
+        ${'$'}append imports
+            import
+                @ wizziTypes
+                @ wizziProds
+                @ WizziFactory
+                from '../../wizzi'
+            import
+                @ artifactApi
+                from '../../packiProductions'
+            import
+                @ PackiFiles
+                from '../types'
+            const myname = 'features/packi/controllers/productions'
+        
+        _ this.router.post(`/mtree/:id`, this.mTree)
+        _ this.router.post(`/mtreescript/:id`, this.mTreeBuildupScript)
+        _ this.router.post(`/artifact/:id`, this.generateArtifact)
+        _ this.router.post(`/transform/:id/:transformer`, this.transformModel)
+        _ this.router.post(`/job`, this.executeJob)
+        _ this.router.post(`/wizzify`, this.wizzify)
+        
+        ${'$'}append handlers
+            v08/ts/handler${'('} mTree )
+                const id = request.params.id
+                const req_files
+                    :ref PackiFiles
+                    = request.body
+                $$ loog myname, 'mTree.received files', Object.keys(req_files)
+                _ artifactApi.prepareGenerationFromWizziJson
+                    @ req_files
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ wizziProds.mTree
+                                @ id
+                                @ result.packiFiles
+                                @ result.context
+                                ._ then
+                                    =>
+                                        param value
+                                            :any
+                                        $$ loog myname, 'mTree.result', value
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ mTreeIttf value
+                                v08/ts/catch_fail${'('} features.packi.controllers.productions.mTree )
+
+            v08/ts/handler${'('} mTreeBuildupScript )
+                const id = request.params.id
+                const req_files
+                    :ref PackiFiles
+                    = request.body
+                $$ loog myname, 'mTreeBuildupScript.received files', Object.keys(req_files)
+                _ artifactApi.prepareGenerationFromWizziJson
+                    @ req_files
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ wizziProds.mTreeBuildupScript
+                                @ id
+                                @ result.packiFiles
+                                @ result.context
+                                ._ then
+                                    =>
+                                        param value
+                                        $$ loog myname, 'mTreeBuildupScript.result', value
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ mTreeBuildupScript value
+                                v08/ts/catch_fail${'('} features.packi.controllers.productions.mTreeBuildupScript )
+            
+            v08/ts/handler${'('} generateArtifact )
+                const id = request.params.id
+                const req_files
+                    :ref PackiFiles
+                    = request.body
+                $$ loog myname, 'generateArtifact.received files', Object.keys(req_files)
+                _ artifactApi.prepareGenerationFromWizziJson
+                    @ req_files
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ wizziProds.generateArtifact
+                                @ id
+                                @ result.packiFiles
+                                @ result.context
+                                ._ then
+                                    =>
+                                        param value
+                                        $$ loog myname, 'generateArtifact.result', value
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ generatedArtifact value
+                                v08/ts/catch_fail${'('} features.packi.controllers.production.generateArtifact )
+                    v08/ts/catch_fail${'('} features.packi.controllers.production.prepareGenerationPackiFiles )
+            
+            v08/ts/handler${'('} transformModel )
+                const id = request.params.id
+                const transformer = request.params.transformer
+                const req_files
+                    :ref PackiFiles
+                    = request.body
+                $$ loog myname, 'transformModel.received files', Object.keys(req_files)
+                _ artifactApi.prepareGenerationFromWizziJson
+                    @ req_files
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ wizziProds.loadAndTransformModel
+                                @ id
+                                @ result.packiFiles
+                                @ result.context
+                                {
+                                    @ transformer transformer
+                                ._ then
+                                    =>
+                                        param value
+                                        $$ loog 'generateArtifact.result', value
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ transformedModel value.transformResult
+                                v08/ts/catch_fail${'('} features.packi.controllers.production.transformModel )
+
+            v08/ts/handler${'('} executeJob )
+                const req_files
+                    :ref PackiFiles
+                    = request.body
+                $$ loog 'ProductionsController.executeJob.received files', Object.keys(req_files)
+                _ artifactApi.prepareGenerationFromWizziJson
+                    @ req_files
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ wizziProds.executeJobs
+                                @ result.packiFiles
+                                @ result.context
+                                ._ then
+                                    async=>
+                                        param fsJson
+                                        const files
+                                            await
+                                                _ WizziFactory.extractGeneratedFiles(fsJson)
+                                        $$ loog 'features.packi.controllers.production.executeJob.generatedArtifacts', Object.keys(files)
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ generatedArtifacts files
+                                v08/ts/catch_fail${'('} features.packi.controllers.production.executeJob )
+            
+            v08/ts/handler${'('} wizzify )
+                const id = request.params.id
+                const files
+                    :ref PackiFiles
+                    = request.body
+                $$ loog 'wizzify.received files', Object.keys(files)
+                _ wizziProds.wizzify(files).then
+                    async=>
+                        param ittfResult
+                            :ref PackiFiles
+                        $$ loog 'features.packi.controllers.production.wizzify.ittfResult', ittfResult
+                        _ sendSuccess
+                            @ response
+                            {
+                                @ packiResult ittfResult
+                    ._ catch
+                        =>
+                            param err
+                            $$ loog 'features.packi.controllers.production.wizzify.err', err
+                            _ sendFailure(response, err, 501)

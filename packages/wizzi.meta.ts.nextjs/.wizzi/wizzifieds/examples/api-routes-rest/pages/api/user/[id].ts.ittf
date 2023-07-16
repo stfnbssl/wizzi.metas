@@ -1,0 +1,68 @@
+module
+    kind react
+    :import-type 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    :import-type 
+        @ User
+        from '../../../interfaces'
+    export-default 
+        function userHandler
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+                    :param 
+                        :ref User
+            const 
+                { 
+                    @ query
+                    @ method
+                = req
+            const id
+                _ parseInt
+                    @expr query.id
+                        :as 
+                            :string 
+                    @ 10
+            const name
+                @expr query.name
+                    :as 
+                        :string 
+            switch method
+                case 'GET'
+                    _ res.status(200).json
+                        { 
+                            @ id
+                            @ name
+                                `lit 
+                                    + User&nbsp;
+                                    @ id
+                                    + 
+                        # Get data from your database
+                    break 
+                case 'PUT'
+                    _ res.status(200).json
+                        { 
+                            @ id
+                            @ name
+                                || 
+                                    + name
+                                    `lit 
+                                        + User&nbsp;
+                                        @ id
+                                        + 
+                        # Update or create data in your database
+                    break 
+                default 
+                    _ res.setHeader
+                        @ 'Allow'
+                        [ 
+                            @ 'GET'
+                            @ 'PUT'
+                    _ res.status(405).end
+                        `lit 
+                            + Method&nbsp;
+                            @ method
+                            + &nbsp;Not Allowed

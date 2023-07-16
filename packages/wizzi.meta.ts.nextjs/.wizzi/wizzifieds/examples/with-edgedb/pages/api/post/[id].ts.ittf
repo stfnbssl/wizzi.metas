@@ -1,0 +1,79 @@
+module
+    kind react
+    :import-type 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    import 
+        @ client
+        @ e
+        from '../../../client'
+        # PATCH /api/post/:id
+    async-function updatePost
+        param postId
+            :string 
+        param data
+            :{ 
+                :p title
+                    :optional 
+                    :string 
+                :p content
+                    :optional 
+                    :string 
+        return 
+            await 
+                _ e.update
+                    @expr e.Post
+                    => 
+                        param post
+                        (
+                            { 
+                                @ filter e.op(post.id, '=', e.uuid(postId))
+                                { set
+                                    @ title data.title
+                                    @ content data.content
+                    ._ run
+                        @ client
+        # PATCH /api/post/:id
+        # DELETE /api/post/:id
+    async-function deletePost
+        param postId
+            :string 
+        return 
+            await 
+                _ e.delete
+                    @expr e.Post
+                    => 
+                        param post
+                        (
+                            { 
+                                @ filter e.op(post.id, '=', e.uuid(postId))
+                    ._ run
+                        @ client
+        # DELETE /api/post/:id
+    export-default 
+        async-function handle
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            const postId
+                @expr req.query.id
+                    :as 
+                        :string 
+            if req.method === 'DELETE'
+                _ res.json
+                    await 
+                        _ deletePost(postId)
+            else
+                if req.method === 'PATCH'
+                    _ res.json
+                        await 
+                            _ updatePost(postId, req.body)
+                else
+                    throw 
+                        new Error
+                            `lit 
+                                + The HTTP&nbsp;
+                                @ req.method
+                                + &nbsp;method is not supported at this route.

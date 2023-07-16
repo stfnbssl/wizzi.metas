@@ -1,0 +1,94 @@
+﻿$group
+
+	#
+		# params
+		# { props
+		#   string key
+		#   string elementId
+		#   string theme
+		#   string language
+		#   boolean readOnly
+	class EditorControl
+		ctor
+			param props
+			set this.props = props
+			set this.key = props.key
+			set this.elementId = props.elementId
+			set this.theme = props.theme || 'github'
+			set this.language = props.language || 'js'
+			set this.isSettingValue = false
+
+		m initialize
+			if this.editor
+				return
+			
+			set this.editor
+				new AceEditor
+					{
+						@ key this.key
+						@ editorElementId this.elementId
+                        @ width '100%'
+                        @ height '100%'
+			
+			_ this.editor.initialize
+			
+			_ this.editor.setMime
+				@ this.language
+			
+			_ this.editor.setTheme
+				@ this.theme
+
+			if this.props.readOnly
+				_ this.editor.readOnly
+					@ true
+			
+			_ this.editor.on
+				@ 'change'
+				=>
+					param value
+					if this.isSettingValue == false
+						$$ loog 'editvaluechanged', this.key, value
+						event_emit${'('} editvaluechanged
+							@ key this.key
+							@ value value
+							@ defer true
+			
+			event_on${'('} seteditvalue
+				var key = data.key
+				var value = data.value
+				$$ loog 'seteditvalue', key, value
+				if key === this.key
+					set this.isSettingValue = true
+					_ this.value
+						@ value
+					set this.isSettingValue = false
+
+			# loog 'EditorControl initialized'
+
+		m theme
+			param value
+			if typeof value === 'undefined'
+				return this.theme
+			else
+				_ this.editor.setTheme
+					@ value
+				set this.theme = value
+
+		m language
+			param value
+			if typeof value === 'undefined'
+				return this.language
+			else
+				_ this.editor.setMime
+					@ value
+				set this.language = value
+
+		m value
+			param value
+			if this.editor
+				if typeof value === 'undefined'
+					return
+						_ this.editor.getValue
+				else
+					_ this.editor.setValue
+						@ value

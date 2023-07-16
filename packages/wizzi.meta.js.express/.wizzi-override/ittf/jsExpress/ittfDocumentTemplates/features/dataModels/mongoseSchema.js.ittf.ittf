@@ -1,0 +1,51 @@
+$group
+
+    ${'$'}
+        var schema = md.schema;
+
+    # see https://mongoosejs.com/docs/schematypes.html
+
+    import mongoose from "mongoose"
+    
+    const ${'$'}{schema.Name}
+        new mongoose.Schema
+            { 
+                ${'$'}foreach field in schema.fields
+                    ${'$'}if field.type != 'oid'
+                        { ${'$'}{field.name}
+                            ${'$'}if field.type == 'string'
+                                @ type String
+                            ${'$'}elif field.type == 'number' || field.type == 'integer' || field.float == 'integer'
+                                @ type Number
+                            ${'$'}elif field.type == 'date'
+                                @ type Date
+                            ${'$'}elif field.type == 'buffer'
+                                @ type Buffer
+                            ${'$'}elif field.type == 'boolean'
+                                @ type Boolean
+                            ${'$'}elif field.type == 'mixed'
+                                @ type Mixed
+                            ${'$'}elif field.type == 'id'
+                                @ type ObjectId
+                            ${'$'}elif field.type == 'array'
+                                @ type Array
+                            ${'$'}elif field.type == 'decimal'
+                                @ type Decimal128
+                            ${'$'}elif field.type == 'map'
+                                @ type Map
+                            ${'$'}elif field.type == 'schema'
+                                @ type Schema                            
+            { 
+                @ collection '${'$'}{schema.collectionName}'
+
+    let ${'$'}{schema.name}Model = null
+    export
+        function Get${'$'}{schema.Name}Model
+            return ${'$'}{schema.name}Model
+    
+    export
+        const ${'$'}{schema.Name}ModelBuilder
+            { 
+                @ buildModel
+                    => 
+                        set ${'$'}{schema.name}Model = mongoose.model('${'$'}{schema.Name}', ${'$'}{schema.Name})

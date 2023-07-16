@@ -1,0 +1,15 @@
+module
+    kind react
+    set module.exports =
+        { 
+            m webpack
+                param config
+                param options
+                _ config.module.rules.push
+                    { 
+                        @ test /\.ya?ml$/
+                        @ type 'json'
+                        @ use 'yaml-loader'
+                return config
+        #
+            # * @type {import('next').NextConfig}

@@ -1,0 +1,166 @@
+$group
+
+    function resolveContexts
+        param contextItems
+            :[
+                :ref MetaContext
+        const promises: Promise<any>[] = []
+        if contextItems && contextItems.length > 0
+            _ contextItems.map
+                =>
+                    param contextItem
+                    _ promises.push
+                        new Promise
+                            =>
+                                param resolve
+                                param reject
+                                _ resolveContext
+                                    @ contextItem
+                                    ._ then
+                                        =>
+                                            param context
+                                            $$ loog myname + 'resolveContext.resolved', contextItem.name, context
+                                            _ resolve
+                                                {
+                                                    @ name contextItem.name
+                                                    @ value context
+                                    ._ catch
+                                        =>
+                                            param err
+                                            _ reject
+                                                @ err
+        $$ loog myname + '.resolveContexts.promises', promises.length
+        return 
+            new Promise
+                =>
+                    param resolve
+                    param reject
+                    _ Promise.all
+                        @ promises
+                        ._ then
+                            =>
+                                param items
+                                $$ loog myname + '.resolveContexts.all.items', items
+                                const context: any = {}
+                                _ items.map
+                                    =>
+                                        param value
+                                            :any
+                                        set context[value.name] = value.value
+                                _ resolve
+                                    @ context
+                        ._ catch
+                            =>
+                                param err
+                                $$ loog myname + '.resolveContexts.all.err', err
+                                _ reject(err)
+
+    function resolveContext
+        param contextItem
+            :ref MetaContext
+
+        if contextItem.type == 'json-packiFiles'
+            return 
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ wizziProds.generateArtifact
+                            @ contextItem.sourcePath as string
+                            @ contextItem.sourceFiles as packiTypes.PackiFiles
+                            ._ then
+                                =>
+                                    param value
+                                        :any
+                                    $$ loog myname + '.resolveContext', contextItem.type, 'sourcePath', contextItem.sourcePath, value
+                                    _ resolve(value)
+                            ._ catch
+                                =>
+                                    param err
+                                    _ reject(err)
+
+        elif contextItem.type == 'json-fsIttf'
+            return 
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ wizziProds.generateArtifactFs
+                            _ path.join
+                                @ config.ittfPath
+                                @ contextItem.sourcePath as string
+                            ._ then
+                                =>
+                                    param value
+                                        :any
+                                    $$ loog myname + '.resolveContext', contextItem.type, 'sourcePath', contextItem.sourcePath, value
+                                    _ resolve(value)
+                            ._ catch
+                                =>
+                                    param err
+                                    error myname + '.resolveContext', contextItem.type, 'err', err
+                                    _ reject(err)
+        
+        elif contextItem.type == 'json-fsFile'
+            return 
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        const json
+                            _ file.readJSON
+                                @ contextItem.sourcePath as string
+                        _ resolve(json)
+        
+        elif contextItem.type == 'json-value'
+            return 
+                new Promise
+                    =>
+                        param resolve
+                        _ resolve(contextItem.value)
+        
+        elif contextItem.type == 'wizziModel-packiFiles'
+            return 
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ wizziProds.loadModel
+                            @ contextItem.sourcePath as string
+                            @ contextItem.sourceFiles as packiTypes.PackiFiles
+                            ._ then
+                                =>
+                                    param value
+                                        :any
+                                    $$ loog myname + '.resolveContext', 'sourcePath', contextItem.sourcePath, value
+                                    _ resolve(value)
+                            ._ catch
+                                =>
+                                    param err
+                                        :any
+                                    _ reject(err)
+        
+        elif contextItem.type == 'wizziModel-fsIttf'
+            return 
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ wizziProds.loadModelFs
+                            _ path.join
+                                @ config.ittfPath
+                                @ contextItem.sourcePath as string
+                            {
+                            ._ then
+                                =>
+                                    param value
+                                        :any
+                                    $$ loog myname + '.resolveContext', contextItem.type, 'sourcePath', contextItem.sourcePath, value
+                                    _ resolve(value)
+                            ._ catch
+                                =>
+                                    param err
+                                        :any
+                                    _ reject(err)
+        else
+            throw new Error('Invalid contextItem type: ' + contextItem.type)

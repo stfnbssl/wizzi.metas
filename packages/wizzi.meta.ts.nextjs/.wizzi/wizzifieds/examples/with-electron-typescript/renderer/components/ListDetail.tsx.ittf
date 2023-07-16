@@ -1,0 +1,25 @@
+module
+    kind react
+    import 
+        as React
+        from 'react'
+    import 
+        @ User
+        from '../interfaces'
+    :type ListDetailProps
+        :{ 
+            :p item
+                :ref User
+    const ListDetail
+        => 
+            { 
+                @ item user
+                :ref ListDetailProps
+            div 
+                h1 
+                    + Detail for
+                    + {user.name}
+                p 
+                    + ID:
+                    + {user.id}
+    export-default ListDetail

@@ -1,0 +1,38 @@
+module
+    kind react
+    :import-type 
+        @ SearchState
+        from 'react-instantsearch-core'
+    import qs from 'qs'
+    export 
+        const createURL
+            => 
+                param state
+                    :ref SearchState
+                `lit 
+                    + ?
+                    _ qs.stringify(state)
+                    + 
+    export 
+        const pathToSearchState
+            => 
+                param path
+                    :string 
+                iif path.includes('?')
+                    then qs.parse(path.substring(path.indexOf('?') + 1))
+                    else
+                        { 
+    export 
+        const searchStateToURL
+            => 
+                param searchState
+                    :ref SearchState
+                iif searchState
+                    then
+                        `lit 
+                            + 
+                            @ window.location.pathname
+                            + ?
+                            _ qs.stringify(searchState)
+                            + 
+                    else ''

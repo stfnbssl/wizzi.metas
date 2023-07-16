@@ -1,0 +1,30 @@
+module
+    kind react
+    :import-type 
+        @ NextPage
+        from 'next'
+    import Link from 'next/link'
+    const Home
+        :ref NextPage
+        =
+            => 
+                return 
+                    div 
+                        h1 
+                            + Index
+                        p 
+                            < Link 
+                                @ href "/about"
+                                @ passHref
+                                + Go to about page (will redirect)
+                        p 
+                            < Link 
+                                @ href "/another"
+                                @ passHref
+                                + Go to another page (will rewrite)
+                        p 
+                            < Link 
+                                @ href "/about2"
+                                @ passHref
+                                + Go to about 2 page (no redirect or rewrite)
+    export-default Home

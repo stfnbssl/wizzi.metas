@@ -1,0 +1,27 @@
+$group
+
+    $
+        var items = [
+            "imports.ts",
+            "start.ts",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/t/index/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsExpressApp/tfolder/index/${item}
+
+    $
+        var items = [
+            "appImports.ts",
+            "startImports.ts",
+            "startServices.ts",
+            "getInitValues.ts",
+            "initializeApp.ts",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/t/app/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsExpressApp/tfolder/app/${item}
+

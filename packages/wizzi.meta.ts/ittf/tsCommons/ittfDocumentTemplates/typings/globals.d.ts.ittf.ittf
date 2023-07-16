@@ -1,0 +1,36 @@
+$group
+
+    :declare 
+        :interface Window
+            :p __REDUX_DEVTOOLS_EXTENSION__
+                :any 
+            :p __REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+                :any 
+        # typings/globals.d.ts
+    :declare 
+        :interface NodeModule
+            :p hot
+                :optional 
+                :{ 
+                    :p accept
+                        :=> 
+                            :void 
+                            param path
+                                :string 
+                            param callback
+                                :=> 
+                                    :void 
+    :declare 
+        :interface System
+            :m import
+                :< T
+                :ref Promise
+                    :param 
+                        :ref T
+                param module
+                    :string 
+    :declare 
+        var System
+            :ref System
+        # declare const process: any;
+        # declare const require: any;

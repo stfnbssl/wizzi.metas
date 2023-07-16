@@ -1,0 +1,215 @@
+module
+    kind react
+    const fs = require('fs')
+        # This script sets up the database to be used for this example application.
+        # Look at the code to see what is behind the magic
+    const readline = require('readline')
+    const request = require('request')
+    const 
+        { 
+            @ Client
+            @ query Q
+        = require('faunadb')
+    const streamToPromise = require('stream-to-promise')
+    const 
+        { 
+            @ resolveDbDomain
+        = require('../lib/constants')
+    const MakeLatestEntriesIndex
+        => 
+            _ Q.CreateIndex
+                { 
+                    @ name 'latestEntries'
+                    @ source Q.Collection('GuestbookEntry')
+                    [ values
+                        { 
+                            [ field
+                                @ 'data'
+                                @ 'createdAt'
+                            @ reverse true
+                        { 
+                            @ field 'ref'
+    const MakeListLatestEntriesUdf
+        => 
+            _ Q.Update
+                _ Q.Function('listLatestEntries')
+                { 
+                    @ body
+                        _ Q.Query
+                            _ Q.Lambda
+                                [ 
+                                    @ 'size'
+                                    @ 'after'
+                                    @ 'before'
+                                _ Q.Let
+                                    { 
+                                        @ match Q.Match(Q.Index('latestEntries'))
+                                        @ page
+                                            _ Q.If
+                                                _ Q.Equals(Q.Var('before'), null)
+                                                _ Q.If
+                                                    _ Q.Equals(Q.Var('after'), null)
+                                                    _ Q.Paginate
+                                                        _ Q.Var('match')
+                                                        { 
+                                                            @ size Q.Var('size')
+                                                    _ Q.Paginate
+                                                        _ Q.Var('match')
+                                                        { 
+                                                            @ size Q.Var('size')
+                                                            @ after Q.Var('after')
+                                                _ Q.Paginate
+                                                    _ Q.Var('match')
+                                                    { 
+                                                        @ size Q.Var('size')
+                                                        @ before Q.Var('before')
+                                    _ Q.Map
+                                        _ Q.Var('page')
+                                        _ Q.Lambda
+                                            [ 
+                                                @ '_'
+                                                @ 'ref'
+                                            _ Q.Get(Q.Var('ref'))
+                        # https://docs.fauna.com/fauna/current/api/graphql/functions?lang=javascript#paginated
+    const MakeGuestbookRole
+        => 
+            _ Q.CreateRole
+                { 
+                    @ name 'GuestbookRole'
+                    [ privileges
+                        { 
+                            @ resource Q.Collection('GuestbookEntry')
+                            { actions
+                                @ read true
+                                @ write true
+                                @ create true
+                        { 
+                            @ resource Q.Index('latestEntries')
+                            { actions
+                                @ read true
+                        { 
+                            @ resource Q.Function('listLatestEntries')
+                            { actions
+                                @ call true
+    const MakeGuestbookKey
+        => 
+            _ Q.CreateKey
+                { 
+                    @ role Q.Role('GuestbookRole')
+    const isDatabasePrepared
+        => 
+            { 
+                @ client
+            _ client.query(Q.Exists(Q.Index('latestEntries')))
+    const resolveAdminKey
+        => 
+            if process.env.FAUNA_ADMIN_KEY
+                return Promise.resolve(process.env.FAUNA_ADMIN_KEY)
+            const rl
+                _ readline.createInterface
+                    { 
+                        @ input process.stdin
+                        @ output process.stdout
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ rl.question
+                            @ 'Please provide the Fauna admin key:\n'
+                            => 
+                                param res
+                                _ rl.close()
+                                if !res
+                                    return reject(Error('You need to provide a key, closing. Try again'))
+                                _ resolve(res)
+    const importSchema
+        => 
+            param adminKey
+            let domain = resolveDbDomain().replace('db', 'graphql')
+            return 
+                _ streamToPromise
+                    _ fs.createReadStream('./schema.gql').pipe
+                        _ request.post
+                            { 
+                                @ model 'merge'
+                                @ uri
+                                    `lit 
+                                        + https://
+                                        @ domain
+                                        + /import
+                                { headers
+                                    @ Authorization
+                                        `lit 
+                                            + Bearer&nbsp;
+                                            @ adminKey
+                                            + 
+                    ._ then
+                        @ String
+    const findImportError
+        => 
+            param msg
+            switch true
+                case msg.startsWith('Invalid database secret')
+                    return 'The secret you have provided is not valid, closing. Try again'
+                case !msg.includes('success')
+                    return msg
+                default 
+                    return null
+    const main
+        async=> 
+            const adminKey
+                await 
+                    _ resolveAdminKey()
+            const client
+                new Client
+                    { 
+                        @ secret adminKey
+                        @ domain resolveDbDomain()
+            if 
+                test
+                    await 
+                        _ isDatabasePrepared
+                            { 
+                                @ client
+                return console.info('Fauna resources have already been prepared. ' + 'If you want to install it once again, please, create a fresh database and re-run the script with the other key')
+            const importMsg
+                await 
+                    _ importSchema(adminKey)
+            const importErrorMsg = findImportError(importMsg)
+            if importErrorMsg
+                return Promise.reject(Error(importErrorMsg))
+            _ console.log('- Successfully imported schema')
+            for 
+                left
+                    const Make
+                of
+                    [ 
+                        @ MakeLatestEntriesIndex
+                        @ MakeListLatestEntriesUdf
+                        @ MakeGuestbookRole
+                await 
+                    _ client.query(Make())
+            _ console.log('- Created Fauna resources')
+            if process.env.FAUNA_ADMIN_KEY
+                return 
+                    # Assume it's a Vercel environment, no need for .env.local file
+            const 
+                { 
+                    @ secret
+                =
+                    await 
+                        _ client.query(MakeGuestbookKey())
+            await 
+                _ fs.promises.writeFile
+                    @ '.env.local'
+                    `lit 
+                        + FAUNA_CLIENT_SECRET=
+                        @ secret
+                        + \n
+            _ console.log('- Created .env.local file with secret')
+    _ main().catch
+        => 
+            param err
+            _ console.error(err)
+            _ process.exit(1)

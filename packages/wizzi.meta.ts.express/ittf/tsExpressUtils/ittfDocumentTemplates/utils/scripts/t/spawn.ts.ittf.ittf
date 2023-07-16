@@ -1,0 +1,100 @@
+$group
+    async-function spawnExec
+        param options
+            :ref ScriptOptions
+        var response = options.__response
+        if response
+            _ response.writeHead
+                @ 200
+                {
+                    @ "Content-Type" "text/event-stream"
+                    @ "Cache-control" "no-cache"
+        var
+            decl temp
+            decl str = ""
+            decl stdout = []
+            decl responseEnded = false
+            decl sentCallback = false
+        r_promise()
+            try
+                var spw
+                    _ cp.spawn
+                        @ options.command
+                        @ options.args
+                        {
+                            @ cwd options.cwd
+                            { env
+                            @ argv0 undefined
+                            @ stdio undefined
+                            @ detached false
+                            @ shell options.shell || true
+                            @ windowsVerbatimArguments false
+                            @ windowsHide false
+                _ spw.stdout.on
+                    @ 'data'
+                    function
+                        param data
+                        set temp = data.toString()
+                        log temp
+                        _ stdout.push(temp)
+                        if response && !responseEnded
+                            set str += temp
+                            var lines = str.split("\n")
+                            for var i=0; i<lines.length; i++
+                                if i == lines.length - 1
+                                    set str = lines[i]
+                                else
+                                    # Note: The double-newline is *required*
+                                    _ response.write('data: ' + lines[i] + "\n\n")
+                _ spw.on
+                    @ 'close'
+                    function
+                        param code
+                        log "close", code
+                        if response && !responseEnded
+                            _ response.write('data: ***___CLOSE___***\n\n')
+                            _ response.end(str)
+                            set responseEnded = true
+                        if sentCallback == false
+                            set sentCallback = true
+                            r_resolve()
+                                {
+                                    @ error false
+                                    @ stdout stdout
+                _ spw.stderr.on
+                    @ 'data'
+                    function
+                        param data
+                        set temp = data.toString()
+                        log "stderr:", temp
+                        if response && !responseEnded
+                            set str += temp
+                            var lines = str.split("\n")
+                            for var i=0; i<lines.length; i++
+                                if i == lines.length - 1
+                                    set str = lines[i]
+                                else
+                                    # Note: The double-newline is *required*
+                                    # TODO _ response.end('stderr: ' + temp)
+                                    _ response.write('data: ' + lines[i] + "\n\n")
+                            _ response.write('data: ***___CLOSE___***\n\n')
+                            _ response.end(str)
+                            set responseEnded = true
+                        if sentCallback == false
+                            set sentCallback = true
+                            r_resolve()
+                                {
+                                    @ error true
+                                    @ stderr temp
+            catch ex
+                r_reject()
+                    @ ex
+    async-function spawnExecToEventStream
+        param options
+            :ref ScriptOptions
+        param response
+            :any
+        set options.__response = response
+        return
+            _ spawnExec
+                @ options

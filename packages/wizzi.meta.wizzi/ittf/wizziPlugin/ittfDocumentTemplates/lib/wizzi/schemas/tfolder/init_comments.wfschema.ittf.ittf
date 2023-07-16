@@ -1,0 +1,20 @@
+$group
+
+	m initComments
+		param comments
+		var ret = []
+		foreach item in comments
+			if item.comments && item.comments.length
+				var title = item.wzName
+				foreach c in item.comments
+					_ ret.push
+						{
+							@ title title
+							@ content c.wzName
+					set title = null
+			else
+				_ ret.push
+					{
+						@ title null
+						@ content item.wzName
+		return ret

@@ -1,0 +1,61 @@
+module
+    kind react
+    :import-type 
+        @ User
+        from '../interfaces'
+    import useSwr from 'swr'
+    import Link from 'next/link'
+    const fetcher
+        => 
+            param url
+                :string 
+            _ fetch(url).then
+                => 
+                    param res
+                    _ res.json()
+    export-default 
+        function Index
+            const 
+                { 
+                    @ data
+                    @ error
+                    @ isLoading
+                =
+                    _ useSwr
+                        :param 
+                            :[ 
+                                :ref User
+                        @ '/api/users'
+                        @ fetcher
+            if error
+                return 
+                    div 
+                        + Failed to load users
+            if isLoading
+                return 
+                    div 
+                        + Loading...
+            if !data
+                return null
+            return 
+                ul 
+                    { 
+                        _ data.map
+                            => 
+                                param user
+                                li 
+                                    @ key {user.id}
+                                    < Link 
+                                        @ href "/user/[id]"
+                                        @ as
+                                            `lit 
+                                                + /user/
+                                                @ user.id
+                                                + 
+                                        { 
+                                            ?? 
+                                                + user.name
+                                                `lit 
+                                                    + User&nbsp;
+                                                    @ user.id
+                                                    + 

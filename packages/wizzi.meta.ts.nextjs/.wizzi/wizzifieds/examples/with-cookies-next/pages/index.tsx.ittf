@@ -1,0 +1,51 @@
+module
+    kind react
+    import React from 'react'
+    import 
+        @ setCookie
+        @ getCookies
+        @ getCookie
+        @ deleteCookie
+        @ hasCookie
+        from 'cookies-next'
+    const Home
+        => 
+            const handleSetCookie
+                => 
+                    _ setCookie('client-cookie', 'mock client value')
+            const handleCheckCookie
+                => 
+                    _ console.log(hasCookie('client-cookie'))
+            const handleGetCookie
+                => 
+                    _ console.log(getCookie('client-cookie'))
+            const handleGetCookies
+                => 
+                    _ console.log(getCookies())
+            const handleDeleteCookies
+                => 
+                    _ deleteCookie('client-cookie')
+            return 
+                div 
+                    h1 
+                        + Next Cookies
+                    button 
+                        @ onClick {handleSetCookie}
+                        + Set Cookie
+                    br 
+                    button 
+                        @ onClick {handleCheckCookie}
+                        + Check Cookie
+                    br 
+                    button 
+                        @ onClick {handleGetCookie}
+                        + Get Cookie
+                    br 
+                    button 
+                        @ onClick {handleGetCookies}
+                        + Get All Cookies
+                    br 
+                    button 
+                        @ onClick {handleDeleteCookies}
+                        + Remove Cookies
+    export-default Home

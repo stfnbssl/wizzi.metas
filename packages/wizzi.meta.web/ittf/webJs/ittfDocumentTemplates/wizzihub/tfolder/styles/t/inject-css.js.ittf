@@ -1,0 +1,48 @@
+$group
+
+    $
+      var myName = 'InjectCss';
+      //
+
+    iife_window( styles, ${myName}, increment)
+
+      set ${myName}.addLink
+        function
+          param href
+          var head = document.head || document.getElementsByTagName('head')[0]
+          var link = document.createElement('link')
+          set link.rel = "stylesheet"
+          set link.href = href
+          set link.type = "text/css"
+          _ head.appendChild(link)
+    
+      set ${myName}.addText
+        function
+          param cssObj
+          var head = document.head || document.getElementsByTagName('head')[0]
+          var style = document.createElement('style')
+          set style.type = 'text/css'
+          var aCss = []
+          for var krule in cssObj
+              var ruleObj = cssObj[krule]
+              var aRule = []
+              for var kstyle in ruleObj
+                  if typeof ruleObj[kstyle] === 'object'
+                      var aRule2 = [] 
+                      for var kstyle2 in ruleObj[kstyle]
+                          _ aRule2.push
+                              @ kstyle2 + ': ' + ruleObj[kstyle][kstyle2]
+                      _ aRule.push
+                          @ kstyle + ' { ' + aRule2.join(';\n') + ' } '
+                  else
+                      _ aRule.push
+                          @ kstyle + ': ' + ruleObj[kstyle]
+              _ aCss.push
+                  @ krule + ' { ' + aRule.join(';\n') + ' } '
+          var css = aCss.join('\n')
+          # IE8 and below.
+          if style.styleSheet
+              set style.styleSheet.cssText = css
+          else
+              _ style.appendChild(document.createTextNode(css))
+          _ head.appendChild(style)    

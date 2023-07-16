@@ -1,0 +1,46 @@
+$group
+
+	var _svg_attrs = "accentHeight accumulate additive alignmentBaseline allowReorder alphabetic" + 
+		\b " amplitude arabicForm ascent attributeName attributeType autoReverse azimuth" + 
+		\b " baseFrequency baseProfile baselineShift bbox begin bias by calcMode capHeight" + 
+		\b " clip clipPath clipPathUnits clipRule colorInterpolation" + 
+		\b " colorInterpolationFilters colorProfile colorRendering contentScriptType" + 
+		\b " contentStyleType cursor cx cy d decelerate descent diffuseConstant direction" + 
+		\b " display divisor dominantBaseline dur dx dy edgeMode elevation enableBackground" + 
+		\b " end exponent externalResourcesRequired fill fillOpacity fillRule @filter" + 
+		\b " filterRes filterUnits floodColor floodOpacity focusable fontFamily fontSize" + 
+		\b " fontSizeAdjust fontStretch fontStyle fontVariant fontWeight format from fx fy" + 
+		\b " g1 g2 glyphName glyphOrientationHorizontal glyphOrientationVertical glyphRef "+ 
+		\b " gradientTransform gradientUnits hanging horizAdvX horizOriginX ideographic" + 
+		\b " imageRendering in in2 intercept k k1 k2 k3 k4 kernelMatrix kernelUnitLength" + 
+		\b " kerning keyPoints keySplines keyTimes lengthAdjust letterSpacing lightingColor" + 
+		\b " limitingConeAngle local markerEnd markerHeight markerMid markerStart" + 
+		\b " markerUnits markerWidth mask maskContentUnits maskUnits mathematical mode" + 
+		\b " numOctaves offset opacity operator order orient orientation origin overflow" + 
+		\b " overlinePosition overlineThickness paintOrder panose1 pathLength" + 
+		\b " patternContentUnits patternTransform patternUnits pointerEvents points" + 
+		\b " pointsAtX pointsAtY pointsAtZ preserveAlpha preserveAspectRatio primitiveUnits" + 
+		\b " r radius refX refY renderingIntent repeatCount repeatDur requiredExtensions" + 
+		\b " requiredFeatures restart result rotate rx ry scale seed shapeRendering slope" + 
+		\b " spacing specularConstant specularExponent speed spreadMethod startOffset" + 
+		\b " stdDeviation stemh stemv stitchTiles stopColor stopOpacity" + 
+		\b " strikethroughPosition strikethroughThickness string stroke strokeDasharray" + 
+		\b " strokeDashoffset strokeLinecap strokeLinejoin strokeMiterlimit strokeOpacity" + 
+		\b " strokeWidth surfaceScale systemLanguage tableValues targetX targetY textAnchor" + 
+		\b " textDecoration textLength textRendering to transform u1 u2 underlinePosition" + 
+		\b " underlineThickness unicode unicodeBidi unicodeRange unitsPerEm vAlphabetic" + 
+		\b " vHanging vIdeographic vMathematical values vectorEffect version vertAdvY" + 
+		\b " vertOriginX vertOriginY viewBox viewTarget visibility widths wordSpacing" + 
+		\b " writingMode x x1 x2 xChannelSelector xHeight xlinkActuate xlinkArcrole" + 
+		\b " xlinkHref xlinkRole xlinkShow xlinkTitle xlinkType xmlns xmlnsXlink xmlBase" + 
+		\b " xmlLang xmlSpace y y1 y2 yChannelSelector z zoomAndPan";
+
+	var svg_supported_attrs = _svg_attrs.split(' ')
+	var temp = [], s
+	var svg_supported_attrs_map = {}
+	foreach a in svg_supported_attrs
+		set s = a.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+		if a !== s
+			_ temp.push(s)
+			set svg_supported_attrs_map[s] = a
+	set svg_supported_attrs = svg_supported_attrs.concat(temp)

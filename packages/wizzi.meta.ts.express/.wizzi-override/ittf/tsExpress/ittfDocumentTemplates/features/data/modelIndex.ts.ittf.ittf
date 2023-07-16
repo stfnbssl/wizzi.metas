@@ -1,0 +1,39 @@
+$group
+
+    ${'$'}
+        var schema = md.schema;
+
+    import 
+        @ ModelBuilderType
+        @ ControllerType
+        from '../app/types'
+    
+    import
+        @ ${'$'}{schema.Name}ModelBuilder
+        @ Get${'$'}{schema.Name}Model
+        from './mongo/${'$'}{schema.name}'
+        
+    import
+        @ ${'$'}{schema.Name}Controller
+        from './controllers/${'$'}{schema.name}'
+    
+    const ${'$'}{md.schema.name}Models
+        { 
+            @ Get${'$'}{schema.Name}Model
+    
+    const ${'$'}{md.schema.name}ModelBuilders
+        :[ 
+            :ref ModelBuilderType
+        [ 
+            @ ${'$'}{schema.Name}ModelBuilder
+    
+    const ${'$'}{md.schema.name}Controllers
+        :[ 
+            :ref ControllerType
+        [ 
+            @ new ${'$'}{schema.Name}Controller()
+    
+    export
+        @ ${'$'}{md.schema.name}Models
+        @ ${'$'}{md.schema.name}ModelBuilders
+        @ ${'$'}{md.schema.name}Controllers

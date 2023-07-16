@@ -1,0 +1,26 @@
+$group
+    export
+        const promisify
+            =>
+                param f
+                param self
+                return
+                    function
+                        param ...args
+                        return
+                            new Promise
+                                =>
+                                    param resolve
+                                    param reject
+                                    function callback
+                                        param err
+                                        param result
+                                        if err
+                                            _ reject(err)
+                                        else
+                                            _ resolve(result)
+                                    _ args.push(callback)
+                                        # aggiunge la nostra callback custom alla fine degli argomenti
+                                    _ f.call(self || this, ...args)
+                                        # chiama la funzione originale
+                            # ritorna una funzione wrapper

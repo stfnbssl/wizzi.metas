@@ -1,0 +1,46 @@
+$group
+    ${'$'}
+        var name = 'wizziCdn';
+    
+    import
+        @ ModelBuilderType
+        @ ControllerType
+        from '../app/types'
+    import
+        as ${'$'}{name}Types
+        from './types'
+    import
+        @ WizziCdnResourceModelBuilder
+        @ GetWizziCdnResourceModel
+        from './mongo/resource'
+    import
+        @ ApiV1WizziCdnResourceController
+        from './controllers/apiv1resource'
+    import
+        as resourceApi
+        from './api/resource'
+    +
+    const ${'$'}{name}ModelGetters
+        {
+            @ GetWizziCdnResourceModel
+    +
+    const ${'$'}{name}ModelBuilders
+        :[
+            :ref ModelBuilderType
+        =
+            [
+                @ WizziCdnResourceModelBuilder
+    +
+    const ${'$'}{name}Controllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ApiV1WizziCdnResourceController()
+    +
+    export
+        @ ${'$'}{name}Types
+        @ ${'$'}{name}ModelGetters
+        @ ${'$'}{name}ModelBuilders
+        @ ${'$'}{name}Controllers
+        @ resourceApi

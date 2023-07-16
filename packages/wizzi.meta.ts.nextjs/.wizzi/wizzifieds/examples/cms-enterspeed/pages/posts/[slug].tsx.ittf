@@ -1,0 +1,127 @@
+module
+    kind react
+    import 
+        @ useRouter
+        from 'next/router'
+    import ErrorPage from 'next/error'
+    import Container from '../../components/container'
+    import PostBody from '../../components/post-body'
+    import Header from '../../components/header'
+    import PostHeader from '../../components/post-header'
+    import SectionSeparator from '../../components/section-separator'
+    import Layout from '../../components/layout'
+    import 
+        @ getByUrl
+        @ getByHandle
+        from '../../lib/api'
+    import PostTitle from '../../components/post-title'
+    import Head from 'next/head'
+    import 
+        @ EXAMPLE_TOOL_NAME
+        from '../../lib/constants'
+    import Tags from '../../components/tags'
+    import PostType from '../../types/postType'
+    :type Props
+        :{ 
+            :p post
+                :ref PostType
+            :p preview
+                :boolean 
+    export-default 
+        function Post
+            { 
+                @ post
+                @ preview
+                :ref Props
+            const router = useRouter()
+            if !router.isFallback && !post?.url
+                return 
+                    < ErrorPage 
+                        @ statusCode {404}
+            return 
+                < Layout 
+                    @ preview {preview}
+                    < Container 
+                        < Header 
+                        { 
+                            iif router.isFallback
+                                then
+                                    < PostTitle 
+                                        + Loading…
+                                else
+                                    < React.Fragment
+                                        article 
+                                            < Head 
+                                                < title 
+                                                    + {post.title}
+                                                    + | Next.js Blog Example with
+                                                    + {EXAMPLE_TOOL_NAME}
+                                                meta 
+                                                    @ property "og:image"
+                                                    @ content {post.featuredImage}
+                                            < PostHeader 
+                                                @ title {post.title}
+                                                @ coverImage {post.featuredImage}
+                                                @ date {post.date}
+                                                @ author {post.author}
+                                                @ categories {post.categories}
+                                            < PostBody 
+                                                @ content {post.content}
+                                            footer 
+                                                { 
+                                                    && 
+                                                        + post.tags?.length > 0
+                                                        < Tags 
+                                                            @ tags {post.tags}
+                                        < SectionSeparator 
+    export 
+        async-function getStaticPaths
+            { 
+                @ preview
+                :{ 
+                    :p preview
+                        :boolean 
+            const data
+                await 
+                    _ getByHandle('blogList', preview)
+            return 
+                { 
+                    @ paths
+                        _ data.blogListItems.map
+                            => 
+                                param post
+                                (
+                                    { 
+                                        { params
+                                            @ slug post.url.replace(/^\/|\/$/g, '')
+                                            # Remove starting and ending slash from url
+                    @ fallback false
+    :type Params
+        :{ 
+            :p slug
+                :string 
+    export 
+        async-function getStaticProps
+            { 
+                @ params
+                @ preview
+                :{ 
+                    :p params
+                        :ref Params
+                    :p preview
+                        :boolean 
+            const data
+                await 
+                    _ getByUrl
+                        _ encodeURIComponent
+                            `lit 
+                                + /
+                                @ params.slug
+                                + 
+                        @ preview
+                # Adding starting slash to the URL again
+            return 
+                { 
+                    { props
+                        @ post data
+                        @ preview preview || null

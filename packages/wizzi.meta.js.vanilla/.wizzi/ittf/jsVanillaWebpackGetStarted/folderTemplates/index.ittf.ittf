@@ -1,0 +1,16 @@
+$group
+    $if metaCtx.useJsVanillaWebpackGetStarted
+        $include wzCtxModel
+        $file __dot__wizzi/jsVanillaWebpackGetStarted/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsVanillaWebpackGetStarted/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/jsVanillaWebpackGetStarted/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include jsVanillaWebpackGetStarted/tfolder/${item}.js

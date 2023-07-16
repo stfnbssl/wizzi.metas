@@ -1,0 +1,46 @@
+module
+    kind react
+    import 
+        @ useRouter
+        from 'next/router'
+    import Link from 'next/link'
+    import styles from '../../styles.module.css'
+    import Code from '../../components/Code'
+    export-default 
+        function News
+            const 
+                { 
+                    @ asPath
+                    @ route
+                    @ query
+                = useRouter()
+            return 
+                div 
+                    @ className {styles.container}
+                    div 
+                        @ className {styles.card}
+                        h1 
+                            + Path:
+                            + {asPath}
+                        hr 
+                            @ className {styles.hr}
+                        p 
+                            + This page was rendered by
+                            < Code 
+                                { 
+                                    `lit 
+                                        + pages
+                                        @ route
+                                        + .tsx
+                            + .
+                        p 
+                            + The query
+                            < Code 
+                                + slug
+                            + for this page is:
+                            + {' '}
+                            < Code 
+                                + {JSON.stringify(query.slug)}
+                        < Link 
+                            @ href "/"
+                            + ← Back home

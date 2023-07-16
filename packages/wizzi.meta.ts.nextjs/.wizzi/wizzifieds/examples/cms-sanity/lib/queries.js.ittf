@@ -1,0 +1,57 @@
+module
+    kind react
+    const postFields
+        `lit 
+            + &lf;
+            + &nbsp; _id,&lf;
+            + &nbsp; name,&lf;
+            + &nbsp; title,&lf;
+            + &nbsp; date,&lf;
+            + &nbsp; excerpt,&lf;
+            + &nbsp; coverImage,&lf;
+            + &nbsp; "slug": slug.current,&lf;
+            + &nbsp; "author": author->{name, picture},&lf;
+            + 
+    export 
+        const indexQuery
+            `lit 
+                + &lf;
+                + *[_type == "post"] | order(date desc, _updatedAt desc) {&lf;
+                + &nbsp;&nbsp;
+                @ postFields
+                + &lf;
+                + }
+    export 
+        const postQuery
+            `lit 
+                + &lf;
+                + {&lf;
+                + &nbsp; "post": *[_type == "post" && slug.current == $slug] | order(_updatedAt desc) [0] {&lf;
+                + &nbsp;   content,&lf;
+                + &nbsp;  &nbsp;
+                @ postFields
+                + &lf;
+                + &nbsp; },&lf;
+                + &nbsp; "morePosts": *[_type == "post" && slug.current != $slug] | order(date desc, _updatedAt desc) [0...2] {&lf;
+                + &nbsp;   content,&lf;
+                + &nbsp;  &nbsp;
+                @ postFields
+                + &lf;
+                + &nbsp; }&lf;
+                + }
+    export 
+        const postSlugsQuery
+            `lit 
+                + &lf;
+                + *[_type == "post" && defined(slug.current)][].slug.current&lf;
+                + 
+    export 
+        const postBySlugQuery
+            `lit 
+                + &lf;
+                + *[_type == "post" && slug.current == $slug][0] {&lf;
+                + &nbsp;&nbsp;
+                @ postFields
+                + &lf;
+                + }&lf;
+                + 

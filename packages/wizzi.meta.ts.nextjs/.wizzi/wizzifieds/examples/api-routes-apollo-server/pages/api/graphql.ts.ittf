@@ -1,0 +1,59 @@
+module
+    kind react
+    import 
+        @ ApolloServer
+        from '@apollo/server'
+    import 
+        @ startServerAndCreateNextHandler
+        from '@as-integrations/next'
+    import 
+        @ makeExecutableSchema
+        from '@graphql-tools/schema'
+    import 
+        @ gql
+        from 'graphql-tag'
+    const typeDefs
+        _` gql
+            + &lf;
+            + &nbsp; type Query {&lf;
+            + &nbsp;   users: [User!]!&lf;
+            + &nbsp;   user(username: String): User&lf;
+            + &nbsp; }&lf;
+            + &nbsp; type User {&lf;
+            + &nbsp;   name: String&lf;
+            + &nbsp;   username: String&lf;
+            + &nbsp; }&lf;
+            + 
+    const users
+        [ 
+            { 
+                @ name 'Leeroy Jenkins'
+                @ username 'leeroy'
+            { 
+                @ name 'Foo Bar'
+                @ username 'foobar'
+    const resolvers
+        { 
+            { Query
+                m users
+                    return users
+                m user
+                    param parent
+                    { 
+                        @ username
+                    return 
+                        _ users.find
+                            => 
+                                param user
+                                set user.username === username
+    export 
+        const schema
+            _ makeExecutableSchema
+                { 
+                    @ typeDefs
+                    @ resolvers
+    const server
+        new ApolloServer
+            { 
+                @ schema
+    export-default startServerAndCreateNextHandler(server)

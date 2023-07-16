@@ -1,0 +1,23 @@
+$group
+    $if false
+        : FunctionalTests
+            : name Run Functional tests
+            : runs-on windows-latest
+            : timeout-minutes ${'$'}{wzCtx.Build.azure.timeoutMinutesShort}
+            : needs Deploy
+            : steps
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${"${'$'}"}{{ env.NODE_VERSION }}
+                : uses actions/setup-node@v1
+                : with
+                    : node-version ${"${'$'}"}{{ env.NODE_VERSION }}
+
+            # Run functional tests
+            - name: Run Functional Tests
+                : continue-on-error false
+                : run |
+                    cd Application
+                    npm install
+                    cd ../Tests
+                    npm install
+                    gulp functionaltest --webAppUrl https://${"${'$'}"}{{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/

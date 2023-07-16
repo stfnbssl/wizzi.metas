@@ -1,0 +1,73 @@
+$group
+    +
+    import
+        @ Document
+        from "mongoose"
+    +
+    export
+        :type IUser
+            :{
+                :p username
+                    :string
+                :p email
+                    :string
+                :p name
+                    :string
+                :p avatar_url
+                    :string
+                :p openid_provider
+                    :string
+                :p created_at
+                    :ref Date
+                :p updated_at
+                    :ref Date
+                :p last_access_at
+                    :ref Date
+    +
+    :type IUser_doc
+        :{
+            :p _doc
+                :ref IUser
+    +
+    export
+        :interface IUserModel
+            :extends IUser
+            :extends IUser_doc
+            :extends Document
+
+    +
+    export
+        :type SignupData
+            :{
+                :p name
+                    :string
+                :p email
+                    :string
+                :p avatarUrl
+                    :string
+                :p openidProvider
+                    :string                    
+                :p wizziUserName
+                    :string
+    +
+    export
+        :type ValidateUserNotUsedResult
+            :{
+                :p isValid
+                    :boolean
+                :p message
+                    :string
+                    :optional
+    +
+    export
+        :type CreateUserResult
+            :{
+                :p created
+                    :boolean
+                :p user
+                    :ref IUser
+                    :optional
+                :p message
+                    :string
+                    :optional
+

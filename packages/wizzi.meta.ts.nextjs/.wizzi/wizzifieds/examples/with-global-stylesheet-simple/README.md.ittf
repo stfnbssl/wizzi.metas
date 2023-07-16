@@ -1,0 +1,10 @@
+md
+    h1 
+        + Global Stylesheet simple example
+    p 
+        + This example has been deprecated. Please use
+        a 
+            href ../next-css
+            title 
+            + examples/next-css
+        + instead.

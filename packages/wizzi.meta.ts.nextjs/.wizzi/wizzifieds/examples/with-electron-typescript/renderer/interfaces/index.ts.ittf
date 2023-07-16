@@ -1,0 +1,25 @@
+module
+    kind react
+    import 
+        @ IpcRenderer
+        from 'electron'
+        # You can include shared interfaces/types in a separate file
+        # and then use them in any component by importing them. For
+        # example, to import the interface below do:
+        # 
+        # import User from 'path/to/interfaces';
+        # eslint-disable-next-line @typescript-eslint/no-unused-vars
+    :declare 
+        :module global
+            :module NodeJS
+                :interface Global
+                    :p ipcRenderer
+                        :ref IpcRenderer
+                # eslint-disable-next-line @typescript-eslint/no-namespace
+    export 
+        :type User
+            :{ 
+                :p id
+                    :number 
+                :p name
+                    :string 

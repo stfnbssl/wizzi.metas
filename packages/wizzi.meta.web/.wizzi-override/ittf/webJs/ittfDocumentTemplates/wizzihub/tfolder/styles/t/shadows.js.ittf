@@ -1,0 +1,17 @@
+$group
+
+    $
+      var myName = 'Shadows';
+      //
+    
+    iife_window( styles, ${myName})
+
+      const ${myName}
+          {
+              @ popover 'var(theme-shadows-popover)'
+              @ small 'var(theme-shadows-small)'
+              @ medium 'var(theme-shadows-medium)'
+              @ large 'var(theme-shadows-large)'
+              @ input 'var(theme-shadows-input)'
+              @ button 'var(theme-shadows-button)'
+              @ test 'var(theme-shadows-small)'

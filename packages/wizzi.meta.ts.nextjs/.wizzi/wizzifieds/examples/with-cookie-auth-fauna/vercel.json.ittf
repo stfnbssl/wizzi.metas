@@ -1,0 +1,4 @@
+{ 
+    { build
+        { env
+            FAUNA_SERVER_KEY "@fauna-secret-key"

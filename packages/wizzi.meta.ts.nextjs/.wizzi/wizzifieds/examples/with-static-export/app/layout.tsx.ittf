@@ -1,0 +1,14 @@
+module
+    kind react
+    export-default 
+        function RootLayout
+            { 
+                @ children
+                :{ 
+                    :p children
+                        :ref React.ReactNode
+            return 
+                html 
+                    @ lang "en"
+                    body 
+                        + {children}

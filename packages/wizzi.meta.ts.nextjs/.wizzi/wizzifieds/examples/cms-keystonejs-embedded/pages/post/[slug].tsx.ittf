@@ -1,0 +1,73 @@
+module
+    kind react
+    import Link from 'next/link'
+    import 
+        @ lists
+        from '.keystone/api'
+    export-default 
+        function Home
+            { 
+                @ post
+            return 
+                div 
+                    main 
+                        @ style
+                            { 
+                                @ margin '3rem'
+                        div 
+                            < Link 
+                                @ href "/"
+                                + ← back home
+                        h1 
+                            + {post.title}
+                        p 
+                            + {post.content}
+    export 
+        async-function getStaticPaths
+            const posts
+                await 
+                    _ lists.Post.findMany
+                        { 
+                            @ query
+                                `lit 
+                                    + slug
+            const paths
+                _ posts.map
+                    => 
+                        param post
+                        +
+                            @expr post.slug
+                    ._ filter
+                        => 
+                            param slug
+                            :return
+                                :predicate slug
+                                    :string 
+                            + !!slug
+                    ._ map
+                        => 
+                            param slug
+                            `lit 
+                                + /post/
+                                @ slug
+                                + 
+            return 
+                { 
+                    @ paths
+                    @ fallback false
+    export 
+        async-function getStaticProps
+            { 
+                { params
+                    @ slug
+            const [post]
+                await 
+                    _ lists.Post.findMany
+                        { 
+                            { where
+                                @ slug
+                            @ query 'id title content'
+            return 
+                { 
+                    { props
+                        @ post

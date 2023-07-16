@@ -1,0 +1,25 @@
+module
+    kind react
+    import styles from './login.module.css'
+    export 
+        const Login
+            => 
+                main 
+                    @ className {styles.login}
+                    h1 
+                        @ className {styles.title}
+                        + My Example App
+                    form 
+                        @ method "POST"
+                        @ action "/api/login"
+                        label 
+                            @ htmlFor "email"
+                            + Email
+                        input 
+                            @ id "email"
+                            @ type "email"
+                            @ name "email"
+                            @ required
+                        button 
+                            @ type "submit"
+                            + Log in / Sign up

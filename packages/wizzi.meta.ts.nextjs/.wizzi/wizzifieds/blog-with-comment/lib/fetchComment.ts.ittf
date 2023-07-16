@@ -1,0 +1,45 @@
+module
+    kind react
+    :import-type 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    :import-type 
+        @ Comment
+        from '../interfaces'
+    import redis from './redis'
+    import clearUrl from './clearUrl'
+    export-default 
+        async-function fetchComment
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            const url = clearUrl(req.headers.referer)
+            if !redis
+                return 
+                    _ res.status(500).json
+                        { 
+                            @ message 'Failed to connect to redis.'
+            try 
+                const rawComments
+                    await 
+                        _ redis.lrange(url, 0, -1)
+                    # get data
+                    # string data to object
+                const comments
+                    _ rawComments.map
+                        => 
+                            param c
+                            const comment
+                                :ref Comment
+                                = JSON.parse(c)
+                            delete comment.user.email
+                            return comment
+                    # string data to object
+                return res.status(200).json(comments)
+            catch _
+                return 
+                    _ res.status(400).json
+                        { 
+                            @ message 'Unexpected error occurred.'

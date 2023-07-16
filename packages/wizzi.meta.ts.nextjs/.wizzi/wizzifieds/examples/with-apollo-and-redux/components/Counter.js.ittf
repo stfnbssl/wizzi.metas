@@ -1,0 +1,61 @@
+module
+    kind react
+    import 
+        @ useSelector
+        @ useDispatch
+        from 'react-redux'
+    const useCounter
+        => 
+            const count
+                _ useSelector
+                    => 
+                        param state
+                        +
+                            @expr state.count
+            const dispatch = useDispatch()
+            const increment
+                => 
+                    _ dispatch
+                        { 
+                            @ type 'INCREMENT'
+            const decrement
+                => 
+                    _ dispatch
+                        { 
+                            @ type 'DECREMENT'
+            const reset
+                => 
+                    _ dispatch
+                        { 
+                            @ type 'RESET'
+            return 
+                { 
+                    @ count
+                    @ increment
+                    @ decrement
+                    @ reset
+    const Counter
+        => 
+            const 
+                { 
+                    @ count
+                    @ increment
+                    @ decrement
+                    @ reset
+                = useCounter()
+            return 
+                div 
+                    h1 
+                        + Count:
+                        span 
+                            + {count}
+                    button 
+                        @ onClick {increment}
+                        + +1
+                    button 
+                        @ onClick {decrement}
+                        + -1
+                    button 
+                        @ onClick {reset}
+                        + Reset
+    export-default Counter

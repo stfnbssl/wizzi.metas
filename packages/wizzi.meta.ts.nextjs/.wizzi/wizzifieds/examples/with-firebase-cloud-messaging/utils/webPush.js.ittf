@@ -1,0 +1,38 @@
+module
+    kind react
+    import 'firebase/messaging'
+    import firebase from 'firebase/app'
+    import localforage from 'localforage'
+    const firebaseCloudMessaging
+        { 
+            @ tokenInlocalforage
+                async=> 
+                    return localforage.getItem('fcm_token')
+            @ init
+                async-function 
+                    _ firebase.initializeApp
+                        { 
+                            @ apiKey 'YOUR-API-KEY'
+                            @ projectId 'YOUR-PROJECT-ID'
+                            @ messagingSenderId 'YOUR-SENDER-ID'
+                            @ appId 'YOUR-APP-ID'
+                    try 
+                        if 
+                            test
+                                !== 
+                                    await 
+                                        _ this.tokenInlocalforage()
+                                    + null
+                            return false
+                        const messaging = firebase.messaging()
+                        await 
+                            _ Notification.requestPermission()
+                        const token
+                            await 
+                                _ messaging.getToken()
+                        _ localforage.setItem('fcm_token', token)
+                        _ console.log('fcm_token', token)
+                    catch error
+                        _ console.error(error)
+    export 
+        @ firebaseCloudMessaging

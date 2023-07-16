@@ -1,0 +1,183 @@
+$group
+    $
+        var srcPath = metaCtx.useCloudAzure ? 'Build/src' : 'src';
+        var ittfPath = metaCtx.useCloudAzure ? 'Build/ittf' : 'ittf';
+        var publicPath = metaCtx.useCloudAzure ? 'Build/public' : 'public';
+        var preDeployPath = metaCtx.useCloudAzure ? 'Build/predeploy' : 'predeploy';
+        var rootPath = metaCtx.useCloudAzure ? 'Build' : '';
+        var testsPath = metaCtx.useCloudAzure ? 'Tests' : 'tests';
+        var armTemplatesPath = metaCtx.useCloudAzure ? 'armTemplates' : '';
+        var githubPath = metaCtx.useCloudAzure ? '.github' : '';
+
+    $file __dot__wizzi/generate.wfjob.ittf.ittf
+        wfjob ${'$'}{metaCtx.name}/job
+            ---
+        	${'$'}{'$'}
+                var jobCtx = {
+        		    ittf_models_folder: path.join(__dirname, 'models'),
+                    ittf_src_folder: path.join(__dirname, 'src'),
+                    ittf_src_t_images: path.join(__dirname, 'src', 't', 'images'),
+                    ittf_src_t_models: path.join(__dirname, 'src', 't', 'models'),
+        		    ittf_root_folder: path.join(__dirname, 'root'),
+                    ittf_tests_folder: path.join(__dirname, 'Tests'),
+                    ittf_public_folder: path.join(__dirname, 'public'),
+                    ittf_ittf_folder: path.join(__dirname, 'ittf'),
+                    $if metaCtx.useCloudAzure || metaCtx.useCloudHeroku
+                        ittf_predeploy_folder: path.join(__dirname, 'predeploy'),
+                    $if metaCtx.useCloudAzure
+                        ittf_armTemplates_folder: path.join(__dirname, 'armTemplates'),
+                        ittf_github_folder: path.join(__dirname, '.github'),
+        		    dest_folder: path.join(__dirname, '..'),
+                    job_model: 'wzCtx'
+                }
+            ---
+            model ${'$'}{'$'}{jobCtx.job_model}
+                schema json
+                src ${'$'}{'$'}{jobCtx.ittf_models_folder}/wzctx.json.ittf
+            ---
+            line ittf-models
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_models_folder}
+                wfjobs${'$'}{'('}any_json, &jobCtx)
+            ---
+        	line ittf-root
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_root_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${rootPath}
+        
+        		wfjobs${'$'}{'('}any_js, &jobCtx)
+                wfjobs${'$'}{'('}any_ts, &jobCtx)
+                wfjobs${'$'}{'('}any_tsx, &jobCtx)
+                wfjobs${'$'}{'('}any_json, &jobCtx)
+                wfjobs${'$'}{'('}any_xml, &jobCtx)
+                wfjobs${'$'}{'('}any_md, &jobCtx)
+                $if metaCtx.useCommonsEnv
+                    wfjobs${'$'}{'('}.env, &jobCtx)
+                $if metaCtx.useCloudAzure
+                    wfjobs${'$'}{'('}www, &jobCtx)
+                wfjobs${'$'}{'('}.gitignore, &jobCtx)
+                $if metaCtx.useCommonsEslint
+                    wfjobs${'$'}{'('}.eslintrc, &jobCtx)
+                    wfjobs${'$'}{'('}.eslintignore, &jobCtx)
+                $if metaCtx.useCommonsPrettier
+                    wfjobs${'$'}{'('}.prettierrc, &jobCtx)
+                    wfjobs${'$'}{'('}.prettierignore, &jobCtx)
+                $if metaCtx.useCloudAzure
+                    wfjobs${'$'}{'('}.azure_deployment, &jobCtx)
+                $if metaCtx.useCloudHeroku
+                    wfjobs${'$'}{'('}Procfile, &jobCtx)
+        	---
+            line ittf-src
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_folder}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}
+        
+                wfjobs${'$'}{'('}any_js, &jobCtx)
+                wfjobs${'$'}{'('}any_ts, &jobCtx)
+                wfjobs${'$'}{'('}any_tsx, &jobCtx)
+                wfjobs${'$'}{'('}any_css, &jobCtx)
+                wfjobs${'$'}{'('}any_json, &jobCtx)
+                wfjobs${'$'}{'('}any_md, &jobCtx)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, js)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, d.ts)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, html)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, html.ittf)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, css)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, css.ittf)
+                wfjobs${'$'}{'('}any_plain_image, &jobCtx)
+
+        	---
+            line ittf-src-images
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_t_images}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}/t/images
+                wfjobs${'$'}{'('}any_plain, &jobCtx, ittf)
+
+        	---
+            line ittf-src-models
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_t_models}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}/t/models
+                wfjobs${'$'}{'('}any_plain, &jobCtx, ittf)
+
+            ---
+            line ittf-tests
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_tests_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${testsPath}
+        
+                wfjobs${'$'}{'('}any_js, &jobCtx)
+                wfjobs${'$'}{'('}any_ts, &jobCtx)
+                wfjobs${'$'}{'('}any_tsx, &jobCtx)
+                wfjobs${'$'}{'('}any_css, &jobCtx)
+                wfjobs${'$'}{'('}any_json, &jobCtx)
+                wfjobs${'$'}{'('}any_md, &jobCtx)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, js)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, d.ts)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, html)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, html.ittf)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, css)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, css.ittf)
+                wfjobs${'$'}{'('}any_plain_image, &jobCtx)
+        	
+            ---
+            line ittf-public
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_public_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${publicPath}
+        
+                wfjobs${'$'}{'('}any_js, &jobCtx)
+                wfjobs${'$'}{'('}any_html, &jobCtx)
+                wfjobs${'$'}{'('}any_css, &jobCtx)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, html)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, css)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, js)
+                wfjobs${'$'}{'('}any_plain_image, &jobCtx)
+        	---
+            line ittf-ittf
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_ittf_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${ittfPath}
+        
+                wfjobs${'$'}{'('}any_plain, &jobCtx, ittf)
+                wfjobs${'$'}{'('}any_plain_image, &jobCtx)
+            
+            $if metaCtx.useCloudAzure
+                ---
+                line ittf-armTemplates
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_armTemplates_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${armTemplatesPath}
+                
+                    wfjobs${'$'}{'('}any_json, &jobCtx)
+                    wfjobs${'$'}{'('}any_js, &jobCtx)
+                ---
+                line ittf-github
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_github_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${githubPath}
+                
+                    wfjobs${'$'}{'('}any_json, &jobCtx)
+                    wfjobs${'$'}{'('}any_js, &jobCtx)
+                    wfjobs${'$'}{'('}any_yaml, &jobCtx)
+            
+            $if metaCtx.useCloudAzure || metaCtx.useCloudHeroku
+                ---
+                line ittf-predeploy
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_predeploy_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${preDeployPath}
+                
+                    wfjobs${'$'}{'('}any_json, &jobCtx)
+                    wfjobs${'$'}{'('}any_js, &jobCtx)
+                    wfjobs${'$'}{'('}any_yaml, &jobCtx)
+                    wfjobs${'$'}{'('}.gitignore, &jobCtx)
+            ---
+            
+            production
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}
+                line-ref ittf-models
+                line-ref ittf-root
+                ${'$'}{'$'}if false
+                    line-ref ittf-public
+        		line-ref ittf-src
+                $if metaCtx.useTsExpressWizziSite
+                    line-ref ittf-src-images
+                    $if metaCtx.tsExpressWizziSite.useWizziDocs
+                        line-ref ittf-src-models
+                line-ref ittf-ittf
+                line-ref ittf-tests
+                $if metaCtx.useCloudAzure
+                    line-ref ittf-armTemplates
+                    line-ref ittf-github
+                $if metaCtx.useCloudAzure || metaCtx.useCloudHeroku
+                    line-ref ittf-predeploy

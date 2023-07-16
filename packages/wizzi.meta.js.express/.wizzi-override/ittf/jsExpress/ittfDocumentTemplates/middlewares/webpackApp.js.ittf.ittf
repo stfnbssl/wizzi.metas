@@ -1,0 +1,47 @@
+$group
+
+    ${'$'}if wzCtx.type == 'module'
+        import { dirname } from 'path'
+        import { fileURLToPath } from 'url'
+        const __dirname = dirname(fileURLToPath(import.meta.url))
+    
+    import { createRequire } from 'module'
+    const require = createRequire(import.meta.url)
+    import path from 'path'
+    import express from 'express'
+    ${'$'}if wzCtx.Build.useWebpackApp
+        ${'$'}foreach item in wzCtx.Build.webpackApp.items
+            import
+                @ config
+                    as config_${'$'}{item.name}
+                from '../site/webpacks/${'$'}{item.name}/webpack.config.js'
+
+        ${'$'}foreach item in wzCtx.Build.webpackApp.items
+            info 'WebpackAppMiddleware config_${'$'}{item.name}', config_${'$'}{item.name}
+    
+    export 
+        const WebpackAppMiddleware
+            => 
+                param app
+                ${'$'}if wzCtx.Build.useWebpackApp
+                    let webpack = null
+                    let webpackDevMiddleware = null
+                    ${'$'}foreach item in wzCtx.Build.webpackApp.items
+                        if process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test'
+                            _ app.use
+                                @ '/webpacks/${'$'}{item.name}/dist'
+                                $$ _ express.static(path.resolve(__dirname, '..', '..', 'pack', 'dist')))
+                                _ express.static(config_${'$'}{item.name}.output.publicPath)
+                        else
+                            if !webpack
+                                set webpack = require('webpack')
+                            if !webpackDevMiddleware
+                                set webpackDevMiddleware = require('webpack-dev-middleware')
+                            const compiler = webpack(config_${'$'}{item.name})
+                            _ app.use
+                                _ webpackDevMiddleware
+                                    @ compiler
+                                    { 
+                                        @ writeToDisk !!${'$'}{item.writeToDisk}
+                                        @ publicPath config_${'$'}{item.name}.output.publicPath
+                            success 'WebpackAppMiddleware.pack ${'$'}{item.name} on path', config_${'$'}{item.name}.output.publicPath, 'writeToDisk',  !!${'$'}{item.writeToDisk}                                       

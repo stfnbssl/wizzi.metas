@@ -1,0 +1,11 @@
+module
+    kind react
+    const nextConfig
+        { 
+            @ reactStrictMode true
+            { experimental
+                @ appDir true
+                @ runtime 'experimental-edge'
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

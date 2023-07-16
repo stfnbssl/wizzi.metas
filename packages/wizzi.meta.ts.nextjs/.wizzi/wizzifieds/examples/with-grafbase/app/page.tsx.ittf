@@ -1,0 +1,11 @@
+module
+    kind react
+    const Page
+        async=> 
+            return 
+                < React.Fragment
+                    h1 
+                        + Next.js 13 + Grafbase
+                    p 
+                        + Once you've added some posts using the GraphQL Playground, you can&lf;        explore each post by clicking the link in the nav.
+    export-default Page

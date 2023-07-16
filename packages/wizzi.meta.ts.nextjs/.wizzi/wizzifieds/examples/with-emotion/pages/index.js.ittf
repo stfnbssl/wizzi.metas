@@ -1,0 +1,22 @@
+module
+    kind react
+    import 
+        @ Animated
+        @ Basic
+        @ bounce
+        @ Combined
+        from '../shared/styles'
+    const Home
+        => 
+            div 
+                < Basic 
+                    + Cool Styles
+                < Combined 
+                    + With
+                    code 
+                        + :hover
+                    + .
+                < Animated 
+                    @ animation {bounce}
+                    + Let's bounce.
+    export-default Home

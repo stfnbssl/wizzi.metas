@@ -1,0 +1,182 @@
+module
+    kind react
+    import 
+        as React
+        from 'react'
+    import Link from 'next/link'
+    import 
+        @ motion
+        from 'framer-motion'
+    import 
+        @ images
+        from '../constants'
+    const transition
+        { 
+            @ duration 0.5
+            [ ease
+                @ 0.43
+                @ 0.13
+                @ 0.23
+                @ 0.96
+    const thumbnailVariants
+        { 
+            { initial
+                @ scale 0.9
+                @ opacity 0
+            { enter
+                @ scale 1
+                @ opacity 1
+                @ transition
+            { exit
+                @ scale 0.5
+                @ opacity 0
+                { transition
+                    @ duration 1.5
+                    @ ...transition
+    const frameVariants
+        { 
+            { hover
+                @ scale 0.95
+    const imageVariants
+        { 
+            { hover
+                @ scale 1.1
+    const Thumbnail
+        => 
+            { 
+                @ id
+                @ i
+            < React.Fragment
+                < motion.div 
+                    @ className "thumbnail"
+                    @ variants {thumbnailVariants}
+                    < motion.div 
+                        @ className "frame"
+                        @ whileHover "hover"
+                        @ variants {frameVariants}
+                        @ transition {transition}
+                        < Link 
+                            @ href "/image/[index]"
+                            @ as
+                                `lit 
+                                    + /image/
+                                    @ i
+                                    + 
+                            @ scroll {false}
+                            @ legacyBehavior
+                            < motion.img 
+                                @ src
+                                    `lit 
+                                        + https://images.unsplash.com/
+                                        @ id
+                                        + ?auto=format&fit=crop&w=1500
+                                @ alt "The Barbican"
+                                @ variants {imageVariants}
+                                @ transition {transition}
+                < style 
+                    { 
+                        `lit 
+                            + &lf;
+                            + &nbsp;           .thumbnail {&lf;
+                            + &nbsp;               flex: 1 0 33%;&lf;
+                            + &nbsp;               margin: 10px;&lf;
+                            + &nbsp;               display: flex;&lf;
+                            + &nbsp;               justify-content: center;&lf;
+                            + &nbsp;               align-items: center;&lf;
+                            + &nbsp;               cursor: pointer;&lf;
+                            + &nbsp;           }&lf;
+                            + &lf;
+                            + &nbsp;           .frame {&lf;
+                            + &nbsp;               overflow: hidden;&lf;
+                            + &nbsp;           }&lf;
+                            + &lf;
+                            + &nbsp;           .thumbnail img {&lf;
+                            + &nbsp;               width: 100%;&lf;
+                            + &nbsp;               height: 100%;&lf;
+                            + &nbsp;           }&lf;
+                            + &nbsp;      &nbsp;
+    const Gallery
+        => 
+            < React.Fragment
+                h1 
+                    + Motion
+                div 
+                    @ className "gallery"
+                    < motion.div 
+                        @ className "thumbnails"
+                        @ initial "initial"
+                        @ animate "enter"
+                        @ exit "exit"
+                        @ variants
+                            { 
+                                { exit
+                                    { transition
+                                        @ staggerChildren 0.1
+                        { 
+                            _ images.map
+                                => 
+                                    param id
+                                    param i
+                                    < Thumbnail 
+                                        @ key {id}
+                                        @ id {id}
+                                        @ i {i}
+                < style 
+                    { 
+                        `lit 
+                            + &lf;
+                            + &nbsp;       h1 {&lf;
+                            + &nbsp;           font-size: 100px;&lf;
+                            + &nbsp;           text-align: center;&lf;
+                            + &nbsp;           position: fixed;&lf;
+                            + &nbsp;           bottom: -100px;&lf;
+                            + &nbsp;           z-index: 1;&lf;
+                            + &nbsp;           color: #f9fbf8;&lf;
+                            + &nbsp;           left: 50%;&lf;
+                            + &nbsp;           transform: translateX(-50%);&lf;
+                            + &nbsp;           pointer-events: none;&lf;
+                            + &nbsp;       }&lf;
+                            + &lf;
+                            + &nbsp;       .gallery {&lf;
+                            + &nbsp;           padding: 40px;&lf;
+                            + &nbsp;           margin: 0 auto;&lf;
+                            + &nbsp;           width: 100%;&lf;
+                            + &nbsp;           max-width: 1200px;&lf;
+                            + &nbsp;           position: relative;&lf;
+                            + &nbsp;       }&lf;
+                            + &lf;
+                            + &nbsp;       .thumbnails {&lf;
+                            + &nbsp;           display: flex;&lf;
+                            + &nbsp;           flex-wrap: wrap;&lf;
+                            + &nbsp;           flex-direction: row;&lf;
+                            + &nbsp;           justify-content: space-between;&lf;
+                            + &nbsp;       }&lf;
+                            + &lf;
+                            + &nbsp;        @media screen and (min-width: 600px) {&lf;
+                            + &nbsp;          h1 {&lf;
+                            + &nbsp;            font-size: 140px;&lf;
+                            + &nbsp;            bottom: -130px;&lf;
+                            + &nbsp;          }&lf;
+                            + &nbsp;        }&lf;
+                            + &lf;
+                            + &nbsp;        @media screen and (min-width: 800px) {&lf;
+                            + &nbsp;          h1 {&lf;
+                            + &nbsp;            font-size: 180px;&lf;
+                            + &nbsp;            bottom: -170px;&lf;
+                            + &nbsp;          }&lf;
+                            + &nbsp;        }&lf;
+                            + &lf;
+                            + &nbsp;        @media screen and (min-width: 1000px) {&lf;
+                            + &nbsp;          h1 {&lf;
+                            + &nbsp;            font-size: 220px;&lf;
+                            + &nbsp;            bottom: -200px;&lf;
+                            + &nbsp;          }&lf;
+                            + &nbsp;        }&lf;
+                            + &nbsp;        @media screen and (min-width: 1200px) {&lf;
+                            + &nbsp;          h1 {&lf;
+                            + &nbsp;            font-size: 280px;&lf;
+                            + &nbsp;            bottom: -260px;&lf;
+                            + &nbsp;          }&lf;
+                            + &nbsp;        }&lf;
+                            + &nbsp;      &nbsp;
+    export-default Gallery

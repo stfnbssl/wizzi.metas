@@ -1,0 +1,50 @@
+{
+    "name": "wizzi.meta.js",
+    "npnName": "@wizzi/meta.js",
+    "pluginBasename": "",
+    "version": "0.0.1",
+    "description": "Wizzi meta plugin for creating wizzi js packages",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": "Mit",
+    "metaNamespace": "js",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.ittf/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "jsCLI",
+            "title": "jsCLI wizzi meta production",
+            "isPackageMain": true
+        },
+        {
+            "name": "jsCommons",
+            "title": "jsCommons wizzi meta production"
+        },
+        {
+            "name": "jsUtils",
+            "title": "jsUtils wizzi meta production"
+        }
+    ]
+}

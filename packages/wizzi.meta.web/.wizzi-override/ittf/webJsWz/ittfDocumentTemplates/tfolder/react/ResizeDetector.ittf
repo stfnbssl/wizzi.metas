@@ -1,0 +1,72 @@
+$group
+
+    const ResizeDetector_container_style
+        { 
+            @ display 'flex'
+            @ flex 1
+            @ flexDirection 'column'
+            @ minWidth 0
+            @ minHeight 0
+            @ position 'relative'
+    
+    const ResizeDetector_phantom_style
+        { 
+            @ display 'block'
+            @ position 'absolute'
+            @ left 0
+            @ top 0
+            @ pointerEvents 'none'
+            @ opacity 0
+    
+    const ResizeDetector_horizontal_style
+        _ Object.assign
+            {
+            @ ResizeDetector_phantom_style
+            {
+                @ height 1
+                @ width '100%'
+    
+    const ResizeDetector_vertical_style
+        _ Object.assign
+            {
+            @ ResizeDetector_phantom_style
+            { 
+                @ height '100%'
+                @ width 1
+
+    react ResizeDetector
+        ctor
+            set this._horizontal = React.createRef()
+            set this._vertical = React.createRef()
+
+        did-mount
+            const horiz = this._horizontal.current
+            const verti = this._vertical.current
+            # loog 'horiz', horiz, this._horizontal.current
+            _ horiz.contentWindow.addEventListener('resize', this._handleResize)
+            _ verti.contentWindow.addEventListener('resize', this._handleResize)
+
+        will-unmount
+            const horiz = this._horizontal.current
+            const verti = this._vertical.current
+            _ horiz.contentWindow.removeEventListener('resize', this._handleResize)
+            _ verti.contentWindow.removeEventListener('resize', this._handleResize)
+            
+        => _handleResize
+            _ this.props.onResize()
+        
+        m render
+            #
+                # pointer-events: none is not working properly on EDGE, 
+                # so we render 2 iframes to detect resize instead of one iframe covering the entire editor
+            return
+                div
+                    @ style {ResizeDetector_container_style}
+                    {
+                    iframe
+                        @ ref {this._horizontal}
+                        @ style {ResizeDetector_horizontal_style}
+                    iframe
+                        @ ref {this._vertical}
+                        @ style {ResizeDetector_vertical_style}
+                    + {this.props.children}

@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useCommonsPrettier
+        $file __dot__wizzi/commonsPrettier/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include commonsPrettier/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/commonsPrettier/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include commonsPrettier/tfolder/${item}.js

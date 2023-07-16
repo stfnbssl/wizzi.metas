@@ -1,0 +1,18 @@
+$group
+    ${'$'}params fileName, rect|@@null
+    
+    {
+        kind "image"
+
+        ${'$'} var ss = rect.split(' ')
+
+        { position
+            isObject true
+            y "${'$'}{ss[0]}"
+            x "${'$'}{ss[1]}"
+            h "${'$'}{ss[2]}"
+            w "${'$'}{ss[3]}"
+        
+        path "${'$'}{bebaImageFolder}/${'$'}{fileName}"
+        
+        ${'$'}hook

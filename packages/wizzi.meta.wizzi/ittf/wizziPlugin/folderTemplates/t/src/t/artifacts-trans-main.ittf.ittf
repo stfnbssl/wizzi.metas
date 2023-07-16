@@ -1,0 +1,66 @@
+$group
+    $params &schema
+
+    ${'$'}{'$'}
+        var md = {
+            plugin: '${metaCtx.name}',
+            name: 'extended',
+            schema: '${schema.name}',
+            rootElement: '${schema.rootElement}',
+            checkSchema: true
+        };
+
+    trans${"${'('}"} &md )
+        
+        ${'$'}{'$'}append main
+
+            set transformedModel
+                {
+            foreach item in model.items
+                _ doitem
+                    @ item
+                    @ transformedModel
+            _ callback
+                @ null
+                @ transformedModel
+
+    function doitem
+        param parent
+        param resultObj
+        var f = functors[parent.wzElement]
+        if f
+            _ f
+                @ parent
+                @ resultObj
+
+    var functors = {}
+
+    $if schema.hasNamespaces
+
+        set functors.namespace
+            function
+                param parent
+                param resultObj
+                set resultObj.ns = parent.wzName
+                $$ loog 'functors.namespace'
+                foreach child in parent.items
+                    if child.wzElement == "author"
+                        set resultObj.ns_author = child.wzName
+                    else
+                        _ doitem
+                            @ child
+                            @ resultObj
+                set resultObj.ns = 'global'
+                set resultObj.ns_author = 'global'
+
+        set functors.getQualified
+            function
+                param ns
+                param name
+                return name.indexOf('.') > -1 ? name : (ns || 'global') + '.' + name      
+
+    $if schema.hasTextContents
+        ${'$'}{'$'}include comment
+        ${'$'}{'$'}include contents
+        ${'$'}{'$'}include biblio
+

@@ -1,0 +1,27 @@
+$group
+    function loadWizziModelAndSaveToJson
+        param ittfDocumentUri
+        param context
+        param outputFolder
+        param plugins
+        param callback
+        +
+        if !callback
+            set callback = plugins
+            set plugins = null
+        +
+        var fi = fileInfoByPath(ittfDocumentUri)
+        _ loadWizziModel
+            @ ittfDocumentUri
+            @ context
+            @ plugins
+            a_cb( model )
+                _ file.write
+                    _ path.join
+                        @ outputFolder
+                        @ fi.basename + '.json'
+                    _ stringify
+                        @ model.toJson()
+                        @ null
+                        @ 4
+                r_cb( )

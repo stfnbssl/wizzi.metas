@@ -1,0 +1,13 @@
+module
+    kind react
+    const doAsyncWork
+        => 
+            _ Promise.reject(Error('API Test 1'))
+    _ doAsyncWork()
+    export-default 
+        function handler
+            param req
+            param res
+            _ res.status(200).json
+                { 
+                    @ name 'John Doe'

@@ -1,0 +1,59 @@
+module
+    kind react
+    import 
+        @ GetStaticPropsContext
+        from 'next'
+    import 
+        @ log
+        from 'next-axiom'
+    import useSWR from 'swr'
+    export 
+        const getStaticProps
+            async=> 
+                param ctx
+                    :ref GetStaticPropsContext
+                _ log.info
+                    @ 'Hello from SSR'
+                    { 
+                        @ ctx
+                return 
+                    { 
+                        { props
+    const fetcher
+        async=> 
+            param args
+                :[ 
+                    :any 
+            _ log.info
+                @ 'Hello from SWR'
+                { 
+                    @ args
+            const res
+                await 
+                    _ fetch.apply
+                        @ null
+                        [ 
+                            @ ...args
+            return 
+                await 
+                    _ res.json()
+    const Home
+        => 
+            const 
+                { 
+                    @ data
+                    @ error
+                = useSWR('/api/hello', fetcher)
+            if error
+                return 
+                    div 
+                        + Failed to load
+            if !data
+                return 
+                    div 
+                        + Loading...
+            return 
+                div 
+                    h1 
+                        + {data.name}
+    export-default Home

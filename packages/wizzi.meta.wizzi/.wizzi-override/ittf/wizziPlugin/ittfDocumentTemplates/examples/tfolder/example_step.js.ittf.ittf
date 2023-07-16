@@ -1,0 +1,47 @@
+﻿$group
+	${'$'}params &md
+	kind jsfile
+
+	# imports available to every examples
+	import path
+    import fs
+	import util
+	import async
+	import wizzi
+	var stringify = require('json-stringify-safe')
+	var inspect = require('object-inspect')
+	var mtree = require('wizzi-mtree')
+	var wizziUtils = require('wizzi-utils')
+	var verify = wizziUtils.verify
+	var vfile = wizziUtils.vfile
+    var mocks = wizziUtils.mocks
+    var errors = wizziUtils.exampleErrors
+	var fsfile = vfile()
+	${'$'}${'$'} Let the mixer append other imports
+	${'$'}hook imports
+
+	${'$'}${'$'} Declare vars that the mixer can set or not,
+	${'$'}${'$'} so that in any case the API methods can use them
+	${'$'}${'$'} avoiding a variable not declared exception.
+	var mTreeBuildupContext = {}
+	var artifactContext = {}
+	var globalContext = {}
+
+	var ${'$'}{md.name}
+		function
+			param step_callback
+			_ heading1
+				@ '${'$'}{md.description}'
+			
+			${'$'}${'$'} The example main content will be appended here
+			${'$'}hook
+
+	set ${'$'}{md.name}.__name = 'Level ${'$'}{md.level} - ${'$'}{md.name}'
+	
+	example_helpers${'('})
+    example_prints${'('} ${'$'}{md.name}, ${'$'}{md.level}, ${'$'}{md.step} )
+
+	set module.exports = ${'$'}{md.name}
+
+	if typeof require != 'undefined' && require.main === module
+		_ ${'$'}{md.name}

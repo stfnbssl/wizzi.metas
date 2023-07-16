@@ -1,0 +1,22 @@
+$group
+
+    $
+        var items = [
+            'use',
+            'boolean',
+            'integer',
+            'string',
+            'object',
+            'array',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/ittf/t/params/${item}.ittf.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziMeta/ittf/tfolder/params/${item}.json
+
+    $foreach prod in metaCtx.Productions
+        folderTemplates(&prod)
+
+    $foreach prod in metaCtx.Productions
+        ittfDocumentTemplates(&prod)

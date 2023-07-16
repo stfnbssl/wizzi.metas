@@ -1,0 +1,14 @@
+module
+    kind react
+    import 
+        @ NextPage
+        from 'next'
+    export 
+        const AboutPage
+            :ref NextPage
+            =
+                => 
+                    return 
+                        h1 
+                            + About
+    export-default AboutPage

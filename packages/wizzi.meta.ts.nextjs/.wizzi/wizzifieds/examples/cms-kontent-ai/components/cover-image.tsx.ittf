@@ -1,0 +1,51 @@
+module
+    kind react
+    import cn from 'classnames'
+    import Image from './image'
+    import Link from 'next/link'
+    :type CoverImageProps
+        :{ 
+            :p title
+                :string 
+            :p src
+                :string 
+            :p slug
+                :optional 
+                :string 
+    export-default 
+        function CoverImage
+            { 
+                @ title
+                @ src
+                @ slug
+                :ref CoverImageProps
+            const image
+                < Image 
+                    @ width {2000}
+                    @ height {1000}
+                    @ alt
+                        `lit 
+                            + Cover Image for&nbsp;
+                            @ title
+                            + 
+                    @ src {src}
+                    @ className
+                        _ cn
+                            @ 'shadow-small'
+                            { 
+                                @ 'hover:shadow-medium transition-shadow duration-200' slug
+            return 
+                div 
+                    @ className "sm:mx-0"
+                    { 
+                        iif slug
+                            then
+                                < Link 
+                                    @ href
+                                        `lit 
+                                            + /posts/
+                                            @ slug
+                                            + 
+                                    @ aria-label {title}
+                                    + {image}
+                            else image

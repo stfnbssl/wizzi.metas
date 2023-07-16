@@ -1,0 +1,8 @@
+module
+    kind react
+    export-default 
+        function Header
+            return 
+                div 
+                    h2 
+                        + The Company

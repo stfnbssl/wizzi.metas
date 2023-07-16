@@ -1,0 +1,43 @@
+module
+    kind react
+    export 
+        :interface ImageProps
+            :p id
+                :number 
+            :p height
+                :string 
+            :p width
+                :string 
+            :p public_id
+                :string 
+            :p format
+                :string 
+            :p blurDataUrl
+                :optional 
+                :string 
+        #
+            # eslint-disable no-unused-vars
+    export 
+        :interface SharedModalProps
+            :p index
+                :number 
+            :p images
+                :optional 
+                :[ 
+                    :ref ImageProps
+            :p currentPhoto
+                :optional 
+                :ref ImageProps
+            :p changePhotoId
+                :=> 
+                    :void 
+                    param newVal
+                        :number 
+            :p closeModal
+                :=> 
+                    :void 
+            :p navigation
+                :boolean 
+            :p direction
+                :optional 
+                :number 

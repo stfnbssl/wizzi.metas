@@ -1,0 +1,12 @@
+module
+    kind react
+    function work
+        throw new Error('API Test 3')
+    export-default 
+        function handler
+            param req
+            param res
+            _ work()
+            _ res.status(200).json
+                { 
+                    @ name 'John Doe'

@@ -1,0 +1,184 @@
+$group
+    ${'$'}
+      var myName = 'Template';
+      //
+
+    iife_window${'('} app, ${'$'}{myName})
+
+        function select_option
+            param __html
+            param ctx
+            $$ loog 'select_option', ctx.value, ctx.label
+            _ __html.push('<option')
+            _ __html.push(' value="' + ctx.value + '"')
+            if ctx.selected
+                _ __html.push(' selected="selected"')
+            _ __html.push('>')
+            _ __html.push(ctx.label)
+            _ __html.push('</option>')   
+
+        html_f tmplSelect
+            div
+                class {{ ctx.class }}
+                select {{ ctx.options }}
+                    name {{ ctx.id }}
+                    id {{ ctx.id }}
+                    class {{ ctx.id }}
+
+        html_f tmpl${metaCtx.webAppCrud.Name}List
+            tr
+                @ data-id {{ctx.id}}
+                @ class ${metaCtx.webAppCrud.name}-tr-item
+                td
+                    + {{ctx.id}}
+                $foreach field in metaCtx.webAppCrud.fields
+                    td
+                        @ class ${metaCtx.webAppCrud.name}-item-name
+                        a {{ ctx.${field.name} }}
+                td
+                    button
+                        @ data-id {{"delete"}}
+                        + del
+            ${'$'}*
+            li 
+                @ data-id {{ctx.id}}
+                @ class ${metaCtx.webAppCrud.name}-item
+                div
+                    @ class ${metaCtx.webAppCrud.name}-item-name
+                    a {{ ctx.code }} / {{ ctx.value }} 
+                        ${'$'}${'$'} @ href #
+                    a delete
+                        ${'$'}${'$'} @ href #
+            *${'$'}
+
+        html_f tmpl${metaCtx.webAppCrud.Name}Item
+          div
+            h2 {{ ctx.categoria }}
+            $foreach field in metaCtx.webAppCrud.fields
+                div
+                    + {{ ctx.${field.name} }}
+        
+
+        function ${'$'}{myName}
+
+        set ${'$'}{myName}.prototype.show${metaCtx.webAppCrud.Name}SelectCategoria
+            function 
+                param data
+                $$ loog "${'$'}{myName}.prototype.show${metaCtx.webAppCrud.Name}SelectCategoria", data
+                var options = []
+                var aOptions = []
+                _ select_option
+                    @ aOptions
+                    {
+                      @ label "Annulla"
+                      @ value '0'
+                _ options.push
+                    _ aOptions.join('')
+                for const k of Object.keys(data)
+                    var aOptions = []
+                    _ select_option
+                        @ aOptions
+                        {
+                          @ label data[k]
+                          @ value k
+                    _ options.push
+                        _ aOptions.join('')
+                var view = []
+                _ view.push
+                  _ tmplSelect
+                    {
+                      @ id '${metaCtx.webAppCrud.name}-select-categoria'
+                      @ class '${metaCtx.webAppCrud.name}-select'
+                      @ options options.join('\n')
+                $$ loog "${'$'}{myName}.prototype.show${metaCtx.webAppCrud.Name}SelectCategoria", view.join('\n')
+                return view.join('\n')
+        
+        set ${'$'}{myName}.prototype.show${metaCtx.webAppCrud.Name}List
+            function 
+                param data
+                info "${'$'}{myName}.prototype.show${metaCtx.webAppCrud.Name}List, data", data
+                var view = []
+                _ view.push
+                    @ "<thead><tr>"
+                _ view.push
+                    @ "<th>id</th>"
+                $foreach field in metaCtx.webAppCrud.fields
+                    _ view.push
+                        @ "<th>${field.name}</th>"
+                _ view.push
+                    @ "<th></th>"
+                _ view.push
+                    @ "</tr></thead><tbody>"
+                _ data.map
+                    =>
+                        param item
+                        _ view.push
+                            _ tmpl${metaCtx.webAppCrud.Name}List
+                                @ item
+                _ view.push
+                    @ "</tbody>"
+                return view.join('\n')
+
+        set ${'$'}{myName}.prototype.show${metaCtx.webAppCrud.Name}Item
+            function 
+                param data
+                var view = []
+                _ view.push
+                  _ tmpl${metaCtx.webAppCrud.Name}Item
+                    @ data
+                return view.join('\n')
+
+        set ${'$'}{myName}.prototype.create${metaCtx.webAppCrud.Name}ItemForm
+            function 
+                return
+                    {
+                        @ id "create-${metaCtx.webAppCrud.name}-item-form"
+                        @ title "Create ${metaCtx.webAppCrud.Name}"
+                        @ class ""
+                        [ controls
+                            $foreach field in metaCtx.webAppCrud.fields
+                                {
+                                    @ id "${field.name}"
+                                    @ label "${field.name}"
+                                    @ type "text"
+                                    @ required true
+
+        set ${'$'}{myName}.prototype.update${metaCtx.webAppCrud.Name}ItemForm
+            function 
+                return
+                    {
+                        @ id "update-${metaCtx.webAppCrud.name}-item-form"
+                        @ title "Update ${metaCtx.webAppCrud.Name}"
+                        @ class ""
+                        [ controls
+                            {
+                                @ id "id"
+                                @ label "id"
+                                @ type "text"
+                                @ required true                                                            
+                            $foreach field in metaCtx.webAppCrud.fields
+                                {
+                                    @ id "${field.name}"
+                                    @ label "${field.name}"
+                                    @ type "text"
+                                    @ required true
+
+        set ${'$'}{myName}.prototype.delete${metaCtx.webAppCrud.Name}ItemForm
+            function 
+                return
+                    {
+                        @ id "delete-${metaCtx.webAppCrud.name}-item-form"
+                        @ title "Delete ${metaCtx.webAppCrud.Name}"
+                        @ class ""
+                        [ controls
+                            {
+                                @ id "id"
+                                @ label "id"
+                                @ type "text"
+                                @ required true                                                            
+                            $foreach field in metaCtx.webAppCrud.fields
+                                {
+                                    @ id "${field.name}"
+                                    @ label "${field.name}"
+                                    @ type "text"
+                                    @ required true

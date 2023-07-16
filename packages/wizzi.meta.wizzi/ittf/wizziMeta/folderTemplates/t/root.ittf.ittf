@@ -1,0 +1,31 @@
+$group
+    
+    $file __dot__wizzi/root/readme.md.ittf.ittf
+        md
+            ${'$'}include wizziMeta/root/readme.md
+
+    $file __dot__wizzi/root/__dot__gitignore.text.ittf.ittf
+        text
+            ${'$'}include wizziMeta/root/gitignore.text
+
+    $file __dot__wizzi/root/license.text.ittf.ittf
+        text
+            ${'$'}include wizziMeta/root/license.text
+
+    $file __dot__wizzi/root/errors.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wizziMeta/root/errors.js
+
+    $file __dot__wizzi/root/index.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include wizziMeta/root/index.js
+
+    $file __dot__wizzi/root/t/meta-production.js.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wizziMeta/root/tfolder/meta-production.js
+    
+    $file __dot__wizzi/root/t/meta-production-starter.js.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include wizziMeta/root/tfolder/meta-production-starter.js

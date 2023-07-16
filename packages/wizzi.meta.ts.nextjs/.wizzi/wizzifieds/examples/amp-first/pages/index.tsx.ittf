@@ -1,0 +1,312 @@
+module
+    kind react
+    import 
+        @ NextPage
+        @ GetServerSideProps
+        from 'next'
+    import Layout from '../components/Layout'
+    import AmpState from '../components/amp/AmpState'
+    import AmpScript from '../components/amp/AmpScript'
+    import 
+        @ AmpIncludeAmpList
+        @ AmpIncludeAmpCarousel
+        from '../components/amp/AmpCustomElement'
+    export 
+        const config
+            { 
+                @ amp true
+    :type HomeProps
+        :{ 
+            :p host
+                :string 
+    const Home
+        :ref NextPage
+            :param 
+                :ref HomeProps
+        =
+            => 
+                param props
+                < React.Fragment
+                    < Layout 
+                        @ title "Welcome to AMP"
+                        @ description "Learn how to build an AMP First with Next.js."
+                        main 
+                            h1 
+                                @ className "title"
+                                + Welcome to AMP ⚡
+                            p 
+                                @ className "description"
+                                + To get started, edit
+                                code 
+                                    + pages/index.js
+                                + and save to reload.
+                            section 
+                                @ className "hero"
+                                a 
+                                    @ href "https://nextjs.org/learn/basics/getting-started"
+                                    h3 
+                                        + Getting Started →
+                                    p 
+                                        + Learn more about Next
+                                a 
+                                    @ href "https://nextjs.org/docs/advanced-features/amp-support/introduction"
+                                    h3 
+                                        + AMP Support in Next.js →
+                                    p 
+                                        + Learn how to build AMP sites with Next.js
+                                a 
+                                    @ href "https://amp.dev/documentation/components/?format=websites"
+                                    h3 
+                                        + AMP Components →
+                                    p 
+                                        + See which components are available.
+                            section 
+                                h3 
+                                    + Using AMP Components
+                                p 
+                                    + You can import AMP components using
+                                    code 
+                                        + next/head
+                                    + . Checkout
+                                    + {' '}
+                                    code 
+                                        + components/amp/AmpCustomElement
+                                    + for a simple way to&lf;            import AMP components. Once the component is imported, you can use&lf;            it like any other HTML element.
+                                < AmpIncludeAmpCarousel 
+                                < amp-carousel 
+                                    @ type "slides"
+                                    @ width "800"
+                                    @ height "300"
+                                    @ layout "responsive"
+                                    < amp-img 
+                                        @ src "https://unsplash.it/800/300?id=123"
+                                        @ layout "fill"
+                                        @ alt "demo image"
+                                    < amp-img 
+                                        @ src "https://unsplash.it/800/300?id=124"
+                                        @ layout "fill"
+                                        @ alt "demo image"
+                                    < amp-img 
+                                        @ src "https://unsplash.it/800/300?id=125"
+                                        @ layout "fill"
+                                        @ alt "demo image"
+                            section 
+                                h3 
+                                    + amp-bind & amp-state
+                                p 
+                                    + It's no problem to use
+                                    code 
+                                        + amp-bind
+                                    + and
+                                    + {' '}
+                                    code 
+                                        + amp-state
+                                    + with Next.js. There are two things to be&lf;            aware of:
+                                    ol 
+                                        li 
+                                            + The
+                                            code 
+                                                + [...]
+                                            + binding syntax
+                                            + {' '}
+                                            code 
+                                                + [text]="myStateVariable"
+                                            + is not supported in JSX.&lf;                Use
+                                            code 
+                                                + data-amp-bind-text="myStateVariable"
+                                            + instead.
+                                        li 
+                                            + Initializing
+                                            code 
+                                                + amp-state
+                                            + via JSON string is not&lf;                supported in JSX:
+                                            pre 
+                                                { 
+                                                    `lit 
+                                                        + <amp-state id="myState">&lf;
+                                                        + &nbsp; <script type="application/json">&lf;
+                                                        + &nbsp;   {&lf;
+                                                        + &nbsp;     "message": "Hello World"&lf;
+                                                        + &nbsp;   }&lf;
+                                                        + &nbsp; </script>&lf;
+                                                        + </amp-state>
+                                            + Instead you need to use
+                                            code 
+                                                + dangerouslySetInnerHTML
+                                            + to&lf;                initialize the string. can use the
+                                            + {' '}
+                                            code 
+                                                + /components/amp/AmpState.js
+                                            + component to see how it&lf;                works. The same approach works for
+                                            code 
+                                                + amp-access
+                                            + and
+                                            + {' '}
+                                            code 
+                                                + amp-consent
+                                            + as well
+                                    + Demo:
+                                < AmpState 
+                                    @ id "myState"
+                                    < React.Fragment
+                                        { 
+                                            { 
+                                                @ message 'Hello World'
+                                button 
+                                    @ on "tap:AMP.setState({
+           greeting: myState.message
+         })"
+                                    + Click
+                                span 
+                                    @ data-amp-bind-text "greeting"
+                            section 
+                                h3 
+                                    + amp-list & amp-mustache
+                                p 
+                                    + Mustache templates conflict with JSX and it's template literals need&lf;            to be escaped. A simple approach is to escape them via back ticks:
+                                    + {' '}
+                                    code 
+                                        + src={`{{imageUrl}}`}
+                                    + .
+                                < AmpIncludeAmpList 
+                                < amp-list 
+                                    @ src "https://amp.dev/documentation/examples/api/photo-stream"
+                                    @ layout "fixed-height"
+                                    @ height "64"
+                                    @ binding "no"
+                                    < template 
+                                        @ type "amp-mustache"
+                                        < amp-img 
+                                            @ src
+                                                `lit 
+                                                    + {{imageUrl}}
+                                            @ width "64"
+                                            @ height "64"
+                                            @ alt "demo image"
+                            section 
+                                h3 
+                                    + amp-script
+                                p 
+                                    + Checkout the
+                                    + {' '}
+                                    a 
+                                        @ href "https://amp.dev/documentation/components/amp-script/"
+                                        + amp-script
+                                    + {' '}
+                                    + helper here:
+                                    code 
+                                        + components/amp/AmpScript.js
+                                    + for embedding&lf;            custom JavaScript.
+                                < AmpScript 
+                                    @ layout "container"
+                                    @ src
+                                        `lit 
+                                            + 
+                                            @ props.host
+                                            + /static/amp-script/hello.js
+                                    button 
+                                        + Hello amp-script!
+                                p 
+                                    + The helper also supports embedding inline scripts. Good to know:&lf;            Next.js uses
+                                    + {' '}
+                                    a 
+                                        @ href "https://github.com/ampproject/amp-toolbox/tree/master/packages/optimizer"
+                                        + AMP Optimizer
+                                    + {' '}
+                                    + under the hood, which automatically adds the needed script hashes&lf;            for
+                                    + {' '}
+                                    a 
+                                        @ href "https://amp.dev/documentation/components/amp-script/#load-javascript-from-a-local-element"
+                                        + inline amp-scripts
+                                    + .
+                                < AmpScript 
+                                    @ id "hello-world"
+                                    @ layout "fixed-height"
+                                    @ height "64"
+                                    @ script "
+              const btn = document.querySelector('button');
+              btn.addEventListener('click', () => {
+                document.body.textContent = 'Hello World!'
+              })"
+                                    button 
+                                        + Hello amp-script!
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;     code,&lf;
+                                + &nbsp;     pre {&lf;
+                                + &nbsp;       font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,&lf;
+                                + &nbsp;         Courier, monospace;&lf;
+                                + &nbsp;       background: #f2f2f2;&lf;
+                                + &nbsp;       padding: 2px 3px;&lf;
+                                + &nbsp;       font-size: 13px;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;     main {&lf;
+                                + &nbsp;       margin: 0 auto;&lf;
+                                + &nbsp;       max-width: 800px;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;     main > * + * {&lf;
+                                + &nbsp;       margin: 4rem 0.5rem;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;     .title {&lf;
+                                + &nbsp;       text-align: center;&lf;
+                                + &nbsp;       padding-top: 4rem;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;     .hero {&lf;
+                                + &nbsp;       display: grid;&lf;
+                                + &nbsp;       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));&lf;
+                                + &nbsp;       grid-gap: 1rem;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;     .hero > a {&lf;
+                                + &nbsp;       display: block;&lf;
+                                + &nbsp;       padding: 1rem;&lf;
+                                + &nbsp;       text-align: left;&lf;
+                                + &nbsp;       text-decoration: none;&lf;
+                                + &nbsp;       background-color: #005af0;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;     .hero h3 {&lf;
+                                + &nbsp;       margin: 0;&lf;
+                                + &nbsp;       color: #067df7;&lf;
+                                + &nbsp;       color: #fff;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;     .hero p {&lf;
+                                + &nbsp;       margin: 0;&lf;
+                                + &nbsp;       color: #fff;&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;  &nbsp;
+        # amp-script requires absolute URLs, so we create a property `host` which we can use to calculate the script URL.
+    export 
+        const getServerSideProps
+            :ref GetServerSideProps
+            =
+                async=> 
+                    { 
+                        @ req
+                    const getProtocol
+                        => 
+                            param req
+                                :any 
+                            if req.connection.encrypted
+                                return 'https'
+                            const forwardedProto = req.headers['x-forwarded-proto']
+                            if forwardedProto
+                                return forwardedProto.split(/\s*,\s*/)[0]
+                            return 'http'
+                        # WARNING: This is a generally unsafe application unless you're deploying to a managed platform like Vercel.
+                        # Be sure your load balancer is configured to not allow spoofed host headers.
+                    return 
+                        { 
+                            { props
+                                @ host
+                                    `lit 
+                                        + 
+                                        _ getProtocol(req)
+                                        + ://
+                                        @ req.headers.host
+                                        + 
+                        # WARNING: This is a generally unsafe application unless you're deploying to a managed platform like Vercel.
+                        # Be sure your load balancer is configured to not allow spoofed host headers.
+        # amp-script requires absolute URLs, so we create a property `host` which we can use to calculate the script URL.
+    export-default Home

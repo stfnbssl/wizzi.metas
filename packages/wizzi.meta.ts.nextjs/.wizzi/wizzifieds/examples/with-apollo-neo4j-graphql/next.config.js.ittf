@@ -1,0 +1,21 @@
+module
+    kind react
+    const nextConfig
+        { 
+            @ reactStrictMode true
+            @ webpack
+                => 
+                    param config
+                    set config.experiments =
+                        { 
+                            @ ...config.experiments
+                            @ topLevelAwait true
+                        # this will override the experiments
+                        # this will just update topLevelAwait property of config.experiments
+                        # config.experiments.topLevelAwait = true
+                    return config
+                        # this will just update topLevelAwait property of config.experiments
+                        # config.experiments.topLevelAwait = true
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

@@ -1,0 +1,92 @@
+module
+    kind react
+    import Head from 'next/head'
+    import ErrorPage from 'next/error'
+    import 
+        @ useRouter
+        from 'next/router'
+    import Layout from '../components/layout'
+    import Container from '../components/container'
+    import 
+        @ CMS_NAME
+        from '../lib/constants'
+    import 
+        @ getAgilityPaths
+        @ getAgilityPageProps
+        from '../lib/api'
+    import usePreviewRedirect from '../lib/use-preview-redirect'
+    import CMSPageTemplate from '../lib/components/page-template'
+    export-default 
+        function Slug
+            { 
+                @ sitemapNode
+                @ page
+                @ pageTemplateName
+                @ languageCode
+                @ channelName
+                @ preview
+            _ usePreviewRedirect()
+            const router = useRouter()
+            if !router.isFallback && !page
+                return 
+                    < ErrorPage 
+                        @ statusCode {404}
+            return 
+                < React.Fragment
+                    < Layout 
+                        @ preview {preview}
+                        < Head 
+                            < title 
+                                { 
+                                    `lit 
+                                        + Next.js Blog Example with&nbsp;
+                                        @ CMS_NAME
+                                        + 
+                        < Container 
+                            { 
+                                iif router.isFallback
+                                    then
+                                        h1 
+                                            + Loading...
+                                    else
+                                        < CMSPageTemplate 
+                                            @ sitemapNode {sitemapNode}
+                                            @ page {page}
+                                            @ pageTemplateName {pageTemplateName}
+                                            @ languageCode {languageCode}
+                                            @ channelName {channelName}
+                                            @ preview {preview}
+    export 
+        async-function getStaticProps
+            { 
+                @ params
+                @ preview
+                    = false
+            const props
+                await 
+                    _ getAgilityPageProps
+                        { 
+                            @ params
+                            @ preview
+            if !props
+                return 
+                    { 
+                        { props
+            return 
+                { 
+                    { props
+                        @ sitemapNode props.sitemapNode
+                        @ page props.page
+                        @ pageTemplateName props.pageTemplateName
+                        @ languageCode props.languageCode
+                        @ channelName props.channelName
+                        @ preview
+    export 
+        async-function getStaticPaths
+            const paths
+                await 
+                    _ getAgilityPaths()
+            return 
+                { 
+                    @ paths
+                    @ fallback true

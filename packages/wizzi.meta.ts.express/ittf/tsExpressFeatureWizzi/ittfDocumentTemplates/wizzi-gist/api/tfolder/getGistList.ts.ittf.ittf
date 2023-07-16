@@ -1,0 +1,26 @@
+$group
+
+    async-function getGistList
+        param kind
+            :ref GistKind
+        r_promise${'('})
+			# loog 'wizziGist.api.getGistList.kind', kind
+			_ gistFs.getGistFiles
+				@ kind
+				a_then${'('} result )
+					var dummy = ''
+					if isGistKind(kind)
+                        r_resolve${'('})
+                            {
+                                @ message 'Got ' + kind + ' files' 
+                                { data
+                                    @ gists result.data.gists
+                                    @ fragments result.data.fragments
+                                    @ contexts result.data.contexts
+					else
+                        r_resolve${'('})
+                            {
+                                @ message "Got snippet files"
+							    { data
+                                    @ snippets result.data.items
+                catch_reject${'('} wizziGist.getGistList.gistFs.getGistFiles )

@@ -1,0 +1,22 @@
+$group
+
+	$
+		var items = [
+			'card',
+			'line',
+			'fonts',
+			'palette',
+			'paras',
+			'pos',
+			'position-ex',
+			'position-object',
+			'position',
+			'rect',
+			'styles',
+			'title',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/documents/ppt/t/${item}.ppt.ittf.ittf
+			${'$'}{'$'}group
+				${'$'}include documentsPpt/tfolder/${item}.ppt

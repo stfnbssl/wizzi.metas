@@ -1,0 +1,17 @@
+module
+    kind react
+    import Link from 'next/link'
+    import Layout from '../components/Layout'
+    const AboutPage
+        => 
+            < Layout 
+                @ title "About | Next.js + TypeScript Example"
+                h1 
+                    + About
+                p 
+                    + This is the about page
+                p 
+                    < Link 
+                        @ href "/"
+                        + Go home
+    export-default AboutPage

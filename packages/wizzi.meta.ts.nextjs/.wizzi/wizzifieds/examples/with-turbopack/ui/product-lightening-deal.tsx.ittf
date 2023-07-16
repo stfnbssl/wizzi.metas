@@ -1,0 +1,46 @@
+module
+    kind react
+    import 
+        @ ProductDeal
+        from '#/ui/product-deal'
+    import 
+        @ add
+        @ formatDistanceToNow
+        from 'date-fns'
+    import 
+        :type Dinero
+        from 'dinero.js'
+    export 
+        const ProductLighteningDeal
+            => 
+                { 
+                    @ price
+                    @ discount
+                    :{ 
+                        :p price
+                            :ref Dinero
+                                :param number
+                        :p discount
+                            :{ 
+                                :p amount
+                                    :ref Dinero
+                                        :param number
+                                :p expires
+                                    :optional 
+                                    :number 
+                const date
+                    _ add
+                        new Date
+                        { 
+                            @ days discount.expires
+                return 
+                    < React.Fragment
+                        div 
+                            @ className "flex"
+                            div 
+                                @ className "rounded bg-gray-600 px-1.5 text-xs font-medium leading-5 text-white"
+                                + Expires in
+                                + {formatDistanceToNow(date)}
+                        < ProductDeal 
+                            @ price {price}
+                            @ discount {discount}

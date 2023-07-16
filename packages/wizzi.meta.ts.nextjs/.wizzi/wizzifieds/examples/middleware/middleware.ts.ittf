@@ -1,0 +1,21 @@
+module
+    kind react
+    import 
+        @ NextRequest
+        @ NextResponse
+        from 'next/server'
+    export 
+        function middleware
+            param request
+                :ref NextRequest
+            if request.nextUrl.pathname === '/about'
+                return NextResponse.redirect(URL('/redirected', request.url))
+            if request.nextUrl.pathname === '/another'
+                return NextResponse.rewrite(URL('/rewrite', request.url))
+            return NextResponse.next()
+    export 
+        const config
+            { 
+                [ matcher
+                    @ '/about/:path*'
+                    @ '/another/:path*'

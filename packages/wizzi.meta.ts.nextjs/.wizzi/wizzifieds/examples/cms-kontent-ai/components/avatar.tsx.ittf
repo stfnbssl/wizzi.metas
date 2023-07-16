@@ -1,0 +1,28 @@
+module
+    kind react
+    import Image from './image'
+    :type AvatarProps
+        :{ 
+            :p name
+                :string 
+            :p picture
+                :string 
+    export-default 
+        function Avatar
+            { 
+                @ name
+                @ picture
+                :ref AvatarProps
+            return 
+                div 
+                    @ className "flex items-center"
+                    div 
+                        @ className "w-12 h-12 relative mr-4"
+                        < Image 
+                            @ src {picture}
+                            @ layout "fill"
+                            @ className "rounded-full"
+                            @ alt {name}
+                    div 
+                        @ className "text-xl font-bold"
+                        + {name}

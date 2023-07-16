@@ -1,0 +1,103 @@
+$group
+    $params &schema
+
+    ${'$'}{'$'}
+        var md = {
+            name: '${schema.name}',
+            artifact: '${schema.artifact}',
+        };
+    
+    wizziplugin/examples/plugin${"${'('}"} &md )
+
+        ${'$'}{'$'}append plugins
+            [ items
+                @ './${metaCtx.name}/index.js'
+                @ './wizzi.plugin.json/index.js'
+                $if metaCtx.useWizziV08
+                    $foreach include in schema.includes
+                        @ '@wizzi/plugin.${include.name}'
+                $else
+                    $foreach include in schema.includes
+                        $if include.name == "js"
+                            @ 'wizzi-js'
+                        $elif include.name == "json"
+                            @ 'wizzi-core'
+                        $elif include.name == "css"
+                            @ 'wizzi-web'
+            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ getWzCtx         
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '.wizzi-override'
+                @ 'models'
+            a_cb_no_throw${"${'('}"} wzCtx )
+                if err
+                    error err
+                    return
+                _ executeGenerateModules
+                    [
+                        @ moduleName
+                    @ wzCtx
+                    a_cb_no_throw${"${'('}"} result )
+                        if err
+                            error '${schema.name}/${schema.artifact}.examples.executeGenerateModules.err', err
+                            error '${schema.name}/${schema.artifact}.examples.executeGenerateModules.err.toString()', err.toString()
+                            if err.inner
+                                error '${schema.name}/${schema.artifact}.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        else
+                            $$ loog '${schema.name}.examples.executeGenerateModules.result', result
+
+        function executeGenerateModules
+            param modules
+            param wzCtx
+            param callback
+
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+
+                    $$ loog '${schema.name}/${schema.artifact}.example.executeGenerateModules.module: ' + module
+            
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.${schema.name}.ittf'
+                    
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ '${schema.name}'
+                            @ module + '-${schema.artifact}.g.${schema.outmime}'
+                    
+                    _ loadWizziModel
+                        @ ittfDocumentUri
+                        {
+                            @ wzCtx wzCtx
+                        a_cb${"${'('}"} wizziModel )
+                            if wizziModel.toJson
+                                _ file.write
+                                    @ outputPath + '.json'
+                                    _ stringify
+                                        _ wizziModel.toJson
+                                        @ null
+                                        @ 4
+                            _ loadModelAndGenerateArtifact
+                                @ ittfDocumentUri
+                                {
+                                    @ wzCtx wzCtx
+                                @ '${schema.name}/${schema.artifact}'
+                                a_cb${"${'('}"} artifactText )
+                                    $$ loog '${schema.name}/${schema.artifact}.example.executeGenerateModules.outputPath: ' + outputPath
+                                    _ file.write
+                                        @ outputPath
+                                        @ artifactText
+                                    r_cb${"${'('}"} artifactText )
+                @ callback

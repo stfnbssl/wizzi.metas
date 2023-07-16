@@ -1,0 +1,21 @@
+module
+    kind react
+    import 
+        @ Component
+        from 'react'
+        #
+            # eslint-disable
+    import 
+        @ RendererProvider
+        from 'react-fela'
+    import getFelaRenderer from './getFelaRenderer'
+    const fallbackRenderer = getFelaRenderer()
+    export-default 
+        class FelaProvider
+            super Component
+            m render
+                const renderer = this.props.renderer || fallbackRenderer
+                return 
+                    < RendererProvider 
+                        @ renderer {renderer}
+                        + {this.props.children}

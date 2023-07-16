@@ -1,0 +1,15 @@
+module
+    kind react
+    :import-type 
+        @ AppProps
+        from 'next/app'
+    import '../app.css'
+    export-default 
+        function App
+            { 
+                @ Component
+                @ pageProps
+                :ref AppProps
+            return 
+                < Component 
+                    @ {...pageProps}

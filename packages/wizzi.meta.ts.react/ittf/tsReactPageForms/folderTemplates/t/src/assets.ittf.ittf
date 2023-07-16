@@ -1,0 +1,24 @@
+$group
+    
+    $
+        var items = [
+            'AddDocumentIcon',
+            'AddIcon',
+            'DeleteIcon',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/assets/pageforms/${item}.tsx.ittf.ittf
+            module
+                ${'$'}include tsReactPageForms/assets/${item}.tsx
+
+
+    $
+        var items = [
+            'dark-light-icon',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/assets/pageforms/t/${item}.tsx.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsReactPageForms/assets/tfolder/${item}.tsx

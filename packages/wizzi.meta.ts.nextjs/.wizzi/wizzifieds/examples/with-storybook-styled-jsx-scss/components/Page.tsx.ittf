@@ -1,0 +1,212 @@
+module
+    kind react
+    import React from 'react'
+    import Link from 'next/link'
+    import 
+        @ Header
+        from './Header'
+    export 
+        :interface PageProps
+            :p user
+                :optional 
+                :{ 
+            :p onLogin
+                :=> 
+                    :void 
+            :p onLogout
+                :=> 
+                    :void 
+            :p onCreateAccount
+                :=> 
+                    :void 
+    export 
+        const Page
+            :ref React.FC
+                :param 
+                    :ref PageProps
+            =
+                => 
+                    { 
+                        @ user
+                        @ onLogin
+                        @ onLogout
+                        @ onCreateAccount
+                    < React.Fragment
+                        article 
+                            < Header 
+                                @ user {user}
+                                @ onLogin {onLogin}
+                                @ onLogout {onLogout}
+                                @ onCreateAccount {onCreateAccount}
+                            section 
+                                h2 
+                                    + Example app with Storybook setup for SCSS in Styled-jsx
+                                p 
+                                    + This example shows Styled-jsx (with SCSS) working for components&lf;          rendered both inside and outside of Storybook.
+                                p 
+                                    + This example combines the following other examples:
+                                ul 
+                                    li 
+                                        < Link 
+                                            @ href "https://github.com/vercel/next.js/tree/canary/examples/with-storybook"
+                                            @ legacyBehavior
+                                            a 
+                                                + with-storybook
+                                    li 
+                                        < Link 
+                                            @ href "https://github.com/next.js/tree/canary/examples/with-styled-jsx-scss"
+                                            @ legacyBehavior
+                                            a 
+                                                + with-styled-jsx-scss
+                                    li 
+                                        < Link 
+                                            @ href "https://github.com/next.js/tree/canary/examples/with-styled-jsx-scss"
+                                            @ legacyBehavior
+                                            a 
+                                                + with-typescript
+                                p 
+                                    + Additionally, the Storybook demo components are moved into the&lf;          components directory and their css is refactored into component level&lf;          Styled JSX + SCSS.
+                                p 
+                                    + Story files live in their own directory and refer to the components&lf;          within /components.
+                                p 
+                                    + The /styles directory contains styles, both global and for the&lf;          index.js file.
+                                p 
+                                    + You might also want to check out the
+                                    + {' '}
+                                    < Link 
+                                        @ href "https://github.com/vercel/styled-jsx#styles-outside-of-components"
+                                        @ legacyBehavior
+                                        a 
+                                            + Styled JSX documentation
+                                p 
+                                    strong 
+                                        i 
+                                            + Improvements welcome!
+                            section 
+                                h2 
+                                    + Pages in Storybook
+                                p 
+                                    i 
+                                        + (From the storybook demo setup)
+                                p 
+                                    + We recommend building UIs with a
+                                    + {' '}
+                                    a 
+                                        @ href "https://componentdriven.org"
+                                        @ target "_blank"
+                                        @ rel "noopener noreferrer"
+                                        strong 
+                                            + component-driven
+                                    + {' '}
+                                    + process starting with atomic components and ending with pages.
+                                p 
+                                    + Render pages with mock data. This makes it easy to build and review&lf;          page states without needing to navigate to them in your app. Here are&lf;          some handy patterns for managing page data in Storybook:
+                                ul 
+                                    li 
+                                        + Use a higher-level connected component. Storybook helps you compose&lf;            such data from the "args" of child component stories
+                                    li 
+                                        + Assemble data in the page component from your services. You can mock&lf;            these services out using Storybook.
+                                p 
+                                    + Get a guided tutorial on component-driven development at
+                                    + {' '}
+                                    a 
+                                        @ href "https://www.learnstorybook.com"
+                                        @ target "_blank"
+                                        @ rel "noopener noreferrer"
+                                        + Learn Storybook
+                                    + . Read more in the
+                                    + {' '}
+                                    a 
+                                        @ href "https://storybook.js.org/docs"
+                                        @ target "_blank"
+                                        @ rel "noopener noreferrer"
+                                        + docs
+                                    + .
+                                div 
+                                    @ className "tip-wrapper"
+                                    span 
+                                        @ className "tip"
+                                        + Tip
+                                    + Adjust the width of the canvas with&lf;          the
+                                    + {' '}
+                                    svg 
+                                        @ width "10"
+                                        @ height "10"
+                                        @ viewBox "0 0 12 12"
+                                        @ xmlns "http://www.w3.org/2000/svg"
+                                        g 
+                                            @ fill "none"
+                                            @ fillRule "evenodd"
+                                            path 
+                                                @ d "M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z"
+                                                @ id "a"
+                                                @ fill "#999"
+                                    + Viewports addon in the toolbar (when viewed in Storybook)
+                        < style 
+                            @ jsx
+                            { 
+                                `lit 
+                                    + &lf;
+                                    + &nbsp;     section {&lf;
+                                    + &nbsp;       font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial,&lf;
+                                    + &nbsp;         sans-serif;&lf;
+                                    + &nbsp;       font-size: 14px;&lf;
+                                    + &nbsp;       line-height: 24px;&lf;
+                                    + &nbsp;       padding: 48px 20px;&lf;
+                                    + &nbsp;       margin: 0 auto;&lf;
+                                    + &nbsp;       color: #333;&lf;
+                                    + &nbsp;     }&lf;
+                                    + &nbsp;     h2 {&lf;
+                                    + &nbsp;       font-weight: 900;&lf;
+                                    + &nbsp;       font-size: 32px;&lf;
+                                    + &nbsp;       line-height: 1;&lf;
+                                    + &nbsp;       margin: 0 0 4px;&lf;
+                                    + &nbsp;       display: inline-block;&lf;
+                                    + &nbsp;       vertical-align: top;&lf;
+                                    + &nbsp;     }&lf;
+                                    + &nbsp;     p {&lf;
+                                    + &nbsp;       margin: 1em 0;&lf;
+                                    + &nbsp;     }&lf;
+                                    + &nbsp;     a {&lf;
+                                    + &nbsp;       text-decoration: none;&lf;
+                                    + &nbsp;       color: #1ea7fd;&lf;
+                                    + &nbsp;     }&lf;
+                                    + &nbsp;     ul {&lf;
+                                    + &nbsp;       padding-left: 30px;&lf;
+                                    + &nbsp;       margin: 1em 0;&lf;
+                                    + &nbsp;     }&lf;
+                                    + &nbsp;     li {&lf;
+                                    + &nbsp;       margin-bottom: 8px;&lf;
+                                    + &nbsp;     }&lf;
+                                    + &nbsp;     .tip {&lf;
+                                    + &nbsp;       display: inline-block;&lf;
+                                    + &nbsp;       border-radius: 1em;&lf;
+                                    + &nbsp;       font-size: 11px;&lf;
+                                    + &nbsp;       line-height: 12px;&lf;
+                                    + &nbsp;       font-weight: 700;&lf;
+                                    + &nbsp;       background: #e7fdd8;&lf;
+                                    + &nbsp;       color: #66bf3c;&lf;
+                                    + &nbsp;       padding: 4px 12px;&lf;
+                                    + &nbsp;       margin-right: 10px;&lf;
+                                    + &nbsp;       vertical-align: top;&lf;
+                                    + &nbsp;     }&lf;
+                                    + &nbsp;     .tip-wrapper {&lf;
+                                    + &nbsp;       font-size: 13px;&lf;
+                                    + &nbsp;       line-height: 20px;&lf;
+                                    + &nbsp;       margin-top: 40px;&lf;
+                                    + &nbsp;       margin-bottom: 40px;&lf;
+                                    + &lf;
+                                    + &nbsp;       svg {&lf;
+                                    + &nbsp;         display: inline-block;&lf;
+                                    + &nbsp;         height: 12px;&lf;
+                                    + &nbsp;         width: 12px;&lf;
+                                    + &nbsp;         margin-right: 4px;&lf;
+                                    + &nbsp;         vertical-align: top;&lf;
+                                    + &nbsp;         margin-top: 3px;&lf;
+                                    + &lf;
+                                    + &nbsp;         path {&lf;
+                                    + &nbsp;           fill: #1ea7fd;&lf;
+                                    + &nbsp;         }&lf;
+                                    + &nbsp;       }&lf;
+                                    + &nbsp;     }&lf;
+                                    + &nbsp;  &nbsp;

@@ -1,0 +1,28 @@
+$group
+
+    { maggio23
+        [ slides
+            slide${'('} 4 guide.jpg
+                image${'('} thin-left, 4 guide.jpg
+            slide${'('} 10 news.png
+                image${'('} thin-left, 10 news.png
+            slide${'('} 4 guide affina ricerca.jpg
+                image${'('} thin-left, 4 guide affina ricerca.jpg
+            slide${'('} 5 pediatra.jpg
+                image${'('} thin-left, 5 pediatra.jpg
+            slide${'('} 6 alimentazione.jpg
+                image${'('} thin-left, 6 alimentazione.jpg
+            slide${'('} 7 dettaglio ricetta 1.jpg
+                image${'('} thin-left, 7 dettaglio ricetta 1.jpg
+            slide${'('} 6 elenco ricette.jpg
+                image${'('} thin-left, 6 elenco ricette.jpg
+            slide${'('} 5 giochi e movimento.jpg
+                image${'('} thin-left, 5 giochi e movimento.jpg
+            slide${'('} 7 dettaglio ricetta 2.jpg
+                image${'('} thin-left, 7 dettaglio ricetta 2.jpg
+            slide${'('} 9 cosa fare.jpg
+                image${'('} thin-left, 9 cosa fare.jpg
+            slide${'('} 8 attività.jpg
+                image${'('} thin-left, 8 attività.jpg
+            slide${'('} 8 attività dettaglio.jpg
+                image${'('} thin-left, 8 attività dettaglio.jpg    

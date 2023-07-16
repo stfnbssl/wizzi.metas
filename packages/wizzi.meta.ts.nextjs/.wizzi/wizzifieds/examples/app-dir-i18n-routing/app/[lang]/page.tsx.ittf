@@ -1,0 +1,35 @@
+module
+    kind react
+    import 
+        @ getDictionary
+        from '../../get-dictionary'
+    import 
+        @ Locale
+        from '../../i18n-config'
+    import Counter from './components/counter'
+    import LocaleSwitcher from './components/locale-switcher'
+    export-default 
+        async-function IndexPage
+            { 
+                { params
+                    @ lang
+                :{ 
+                    :p params
+                        :{ 
+                            :p lang
+                                :ref Locale
+            const dictionary
+                await 
+                    _ getDictionary(lang)
+            return 
+                div 
+                    < LocaleSwitcher 
+                    p 
+                        + Current locale:
+                        + {lang}
+                    p 
+                        + This text is rendered on the server:
+                        + {' '}
+                        + {dictionary['server-component'].welcome}
+                    < Counter 
+                        @ dictionary {dictionary.counter}

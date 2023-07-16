@@ -1,0 +1,69 @@
+module
+    kind react
+    import 
+        @ useState
+        from 'react'
+    import ClientOnlyPortal from './ClientOnlyPortal'
+    export-default 
+        function Modal
+            const [open, setOpen] = useState()
+            return 
+                < React.Fragment
+                    button 
+                        @ type "button"
+                        @ onClick
+                            => 
+                                _ setOpen(true)
+                        + Open Modal
+                    { 
+                        && 
+                            + open
+                            < ClientOnlyPortal 
+                                @ selector "#modal"
+                                div 
+                                    @ className "backdrop"
+                                    div 
+                                        @ className "modal"
+                                        p 
+                                            + This modal is rendered using
+                                            + {' '}
+                                            a 
+                                                @ href "https://react.dev/reference/react-dom/createPortal"
+                                                @ target "_blank"
+                                                @ rel "noopener noreferrer"
+                                                + portals
+                                            + .
+                                        button 
+                                            @ type "button"
+                                            @ onClick
+                                                => 
+                                                    _ setOpen(false)
+                                            + Close Modal
+                                    < style 
+                                        @ jsx
+                                        { 
+                                            `lit 
+                                                + &lf;
+                                                + &nbsp;             :global(body) {&lf;
+                                                + &nbsp;               overflow: hidden;&lf;
+                                                + &nbsp;             }&lf;
+                                                + &lf;
+                                                + &nbsp;             .backdrop {&lf;
+                                                + &nbsp;               position: fixed;&lf;
+                                                + &nbsp;               background-color: rgba(0, 0, 0, 0.7);&lf;
+                                                + &nbsp;               top: 0;&lf;
+                                                + &nbsp;               right: 0;&lf;
+                                                + &nbsp;               bottom: 0;&lf;
+                                                + &nbsp;               left: 0;&lf;
+                                                + &nbsp;             }&lf;
+                                                + &lf;
+                                                + &nbsp;             .modal {&lf;
+                                                + &nbsp;               background-color: white;&lf;
+                                                + &nbsp;               position: absolute;&lf;
+                                                + &nbsp;               top: 10%;&lf;
+                                                + &nbsp;               right: 10%;&lf;
+                                                + &nbsp;               bottom: 10%;&lf;
+                                                + &nbsp;               left: 10%;&lf;
+                                                + &nbsp;               padding: 1em;&lf;
+                                                + &nbsp;             }&lf;
+                                                + &nbsp;          &nbsp;

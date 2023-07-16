@@ -1,0 +1,39 @@
+module
+    kind react
+    import 
+        @ ApolloServer
+        from '@apollo/server'
+    import 
+        @ startServerAndCreateNextHandler
+        from '@as-integrations/next'
+    import 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    import 
+        @ schema
+        from '../../apollo/schema'
+    :type ExampleContext
+        :{ 
+            :p req
+                :ref NextApiRequest
+            :p res
+                :ref NextApiResponse
+    const apolloServer
+        new ApolloServer
+            :param 
+                :ref ExampleContext
+            { 
+                @ schema
+    export-default 
+        _ startServerAndCreateNextHandler
+            @ apolloServer
+            { 
+                @ context
+                    async=> 
+                        param req
+                        param res
+                        (
+                            { 
+                                @ req
+                                @ res

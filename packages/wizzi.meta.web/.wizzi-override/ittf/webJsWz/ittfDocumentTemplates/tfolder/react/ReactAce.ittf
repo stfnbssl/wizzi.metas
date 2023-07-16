@@ -1,0 +1,139 @@
+$group
+
+	var ReactAceEditor_mimemap
+		{
+			@ js 'javascript'
+	
+    var ReactAceEditor_defaults
+		{
+			@ key 'ace'
+			@ editorElementId 'aceEditor'
+			@ mode 'text'
+			@ theme 'monokai'
+			@ fontSize '11pt'
+            @ showPrintMargin false
+            @ minLines 10
+            @ maxLines 25
+    
+    react ReactAce
+        
+        ctor
+        
+        did-mount
+            const node = ReactDOM.findDOMNode(this.refs.root)
+            set this.editor = ace.edit(node)
+            _ this.setFontSize(this.props.fontSize || ReactAceEditor_defaults.fontSize)
+            _ this.setMinLines(this.props.minLines || ReactAceEditor_defaults.minLines)
+            _ this.setMaxLines(this.props.maxLines || ReactAceEditor_defaults.maxLines)
+            _ this.setMode(this.props.mode || ReactAceEditor_defaults.mode)
+            _ this.setTheme(this.props.theme || ReactAceEditor_defaults.theme)
+            _ this.setShowPrintMargin(this.props.showPrintMargin || ReactAceEditor_defaults.showPrintMargin)
+            _ this.setValue(this.props.value || '')
+			_ this.editor.getSession().on
+				@ 'change'
+				=>
+                    if this.props.onChange
+                        _ this.props.onChange
+                            _ this.getValue()
+
+        did-update
+            if this.props.theme != prevProps.theme
+                _ this.setTheme
+                    @ this.props.theme
+            if this.props.mode != prevProps.mode
+                _ this.setMode
+                    @ this.props.mode
+            if this.props.mime != prevProps.mime
+                _ this.setMime
+                    @ this.props.mime
+            if this.props.minLines != prevProps.minLines
+                _ this.setMinLines
+                    @ this.props.minLines
+            if this.props.maxLines != prevProps.maxLines
+                _ this.setMaxLines
+                    @ this.props.maxLines
+            if this.props.showPrintMargin != prevProps.showPrintMargin
+                _ this.setShowPrintMargin
+                    @ this.props.showPrintMargin
+            if this.props.value != prevProps.value
+                _ this.setValue
+                    @ this.props.value
+            if this.props.readOnly != prevProps.readOnly
+                _ this.readOnly
+                    @ this.props.readOnly
+
+		m getValue
+			if this.editor
+				return this.editor.getValue()
+
+		m setValue
+			param value
+            $$ loog 'ReactAce.setValue', value
+            if this.editor            
+			    _ this.editor.setValue(value == null ? '' : value, 1)
+			
+		m setMime
+			param value
+            if this.editor
+                _ this.setMode
+                    @ ReactAceEditor_mimemap[value] || value
+
+		m setMode
+			param value
+			if this.editor
+				_ this.editor.getSession().setMode
+					@ "ace/mode/" + value
+
+		m setTheme
+			param value
+			if this.editor
+				_ this.editor.setTheme
+					@ "ace/theme/" + value
+
+		m setMinLines
+			param value
+            if this.editor
+                _ this.editor.setOptions
+                    { 
+                        @ minLines value
+            
+		m setMaxLines
+			param value
+            if this.editor            
+                _ this.editor.setOptions
+                    { 
+                        @ maxLines value
+
+		m setFontSize
+			param value
+            if this.editor            
+                _ this.editor.setOptions
+                    {
+                        @ fontSize value
+
+		m setShowPrintMargin
+			param value
+            if this.editor
+                _ this.editor.setShowPrintMargin
+                    @ value
+
+		m readOnly
+			param value
+            if this.editor            
+                if typeof value === 'undefined'
+                    return 
+                        _ this.editor.getReadOnly()
+                else
+                    _ this.editor.setReadOnly(value)
+
+        render
+            const style
+                { 
+                    $$ @ fontSize '14px !important'
+                    @ border '1px solid lightgray'
+                    @ width this.props.width || '100%' 
+                    @ height this.props.height || '100%' 
+            return 
+                div 
+                    @ ref "root"
+                    @ style {style}

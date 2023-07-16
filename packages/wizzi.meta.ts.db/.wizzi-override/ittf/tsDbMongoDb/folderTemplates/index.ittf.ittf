@@ -1,0 +1,9 @@
+$group
+    $if metaCtx.useTsDbMongoDb
+
+        $file __dot__wizzi/${pkgPath}src/services/mongodb.ts.ittf.ittf
+            module
+                ${'$'}include tsDbMongoDb/services/mongodb.ts
+
+        $include tfolder/v08/index
+        $include wzCtxModel

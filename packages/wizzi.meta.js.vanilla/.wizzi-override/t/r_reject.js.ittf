@@ -1,0 +1,7 @@
+$group
+    $params result|@@null
+    return
+        _ reject
+            $if result !== null
+                @ ${result}
+            $hook

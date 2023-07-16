@@ -1,0 +1,36 @@
+module
+    kind react
+    import 
+        @ query
+            as q
+        from 'faunadb'
+    import cookie from 'cookie'
+    import 
+        @ faunaClient
+        @ FAUNA_SECRET_COOKIE
+        from '../../utils/fauna-auth'
+    export-default 
+        async-function logout
+            param req
+            param res
+            const cookies = cookie.parse(req.headers.cookie ?? '')
+            const faunaSecret = cookies[FAUNA_SECRET_COOKIE]
+            if !faunaSecret
+                return res.status(200).end()
+            await 
+                _ faunaClient(faunaSecret).query(q.Logout(false))
+                # Invalidate secret (ie. logout from Fauna).
+                # Clear cookie.
+            const cookieSerialized
+                _ cookie.serialize
+                    @ FAUNA_SECRET_COOKIE
+                    @ ''
+                    { 
+                        @ sameSite 'lax'
+                        @ secure process.env.NODE_ENV === 'production'
+                        @ maxAge -1
+                        @ httpOnly true
+                        @ path '/'
+                # Clear cookie.
+            _ res.setHeader('Set-Cookie', cookieSerialized)
+            _ res.status(200).end()

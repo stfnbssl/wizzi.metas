@@ -1,0 +1,22 @@
+module
+    kind react
+    const typeDefs
+        `lit 
+            + &lf;
+            + &nbsp; type User {&lf;
+            + &nbsp;   id: ID!&lf;
+            + &nbsp;   name: String!&lf;
+            + &nbsp;   status: String!&lf;
+            + &nbsp; }&lf;
+            + &lf;
+            + &nbsp; type Query {&lf;
+            + &nbsp;   viewer: User!&lf;
+            + &nbsp; }&lf;
+            + &lf;
+            + &nbsp; type Mutation {&lf;
+            + &nbsp;   updateName(name: String!): User!&lf;
+            + &nbsp; }&lf;
+            + 
+            #
+                # GraphQL
+    export-default typeDefs

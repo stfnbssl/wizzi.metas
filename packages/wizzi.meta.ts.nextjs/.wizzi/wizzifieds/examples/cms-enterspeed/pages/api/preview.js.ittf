@@ -1,0 +1,20 @@
+module
+    kind react
+    export-default 
+        async-function preview
+            param req
+            param res
+            if req.query.secret === undefined || null
+                return 
+                    _ res.status(401).json
+                        { 
+                            @ message 'No token provided'
+            if req.query.secret !== process.env.ENTERSPEED_PREVIEW_SECRET
+                return 
+                    _ res.status(401).json
+                        { 
+                            @ message 'Invalid token'
+            _ res.setDraftMode
+                { 
+                    @ enable true
+            _ res.redirect('/')

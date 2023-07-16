@@ -1,0 +1,41 @@
+module
+    kind react
+    import 
+        @ useMachine
+        from '@xstate/react'
+    import 
+        @ counterMachine
+        from '../machines/counter'
+    export-default 
+        function Counter
+            { 
+                @ counter
+                    =
+                        { 
+            const [current, send]
+                _ useMachine
+                    @ counterMachine
+                    { 
+                        { context
+                            @ count 999
+            return 
+                section 
+                    h2 
+                        + Count:
+                        span 
+                            + {current.context.count}
+                    button 
+                        @ onClick
+                            => 
+                                _ send('DEC')
+                        + -1
+                    button 
+                        @ onClick
+                            => 
+                                _ send('INC')
+                        + +1
+                    button 
+                        @ onClick
+                            => 
+                                _ send('RESET')
+                        + Reset

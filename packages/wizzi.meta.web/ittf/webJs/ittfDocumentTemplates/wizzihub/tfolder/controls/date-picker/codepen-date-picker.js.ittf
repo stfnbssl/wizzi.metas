@@ -1,0 +1,189 @@
+$group
+    $
+      var myName = 'CodepenDatePicker'; 
+      //
+
+    # from https://codepen.io/tomuzarowski/pen/xxZOEGV
+    
+    iife_window( controls, ${myName} )
+        function triggerChange
+            param el
+            var event = document.createEvent("HTMLEvents")
+            _ event.initEvent("change", true, false)
+            _ el.dispatchEvent(event)
+        class ${myName}
+            ctor 
+                param inputSelector
+                set this.input = document.querySelector(inputSelector)
+                set this.form = this.input.parentElement
+                set this.popupContainer = null
+                set this.monthContainer = null
+                set this.tableContainer = null
+                set this.table = document.createElement("table")
+                set this.months =
+                    [ 
+                        @ 'January'
+                        @ 'February'
+                        @ 'March'
+                        @ 'April'
+                        @ 'May'
+                        @ 'June'
+                        @ 'July'
+                        @ 'August'
+                        @ 'September'
+                        @ 'October'
+                        @ 'November'
+                        @ 'December'
+                set this.selectedMonth = new Date().getMonth()
+                set this.selectedYear = new Date().getFullYear()
+                _ this.buildCalendar()
+                _ this.setMainEventListener()
+            m buildCalendar
+                set this.popupContainer = document.createElement("div")
+                _ this.popupContainer.classList.add("calendar-popup")
+                _ this.form.appendChild(this.popupContainer)
+                set this.monthContainer = document.createElement("div")
+                _ this.monthContainer.classList.add("month-and-year")
+                set this.monthContainer.innerHTML =
+                    `lit 
+                        + <h4>
+                        _ this.getMonth()
+                        + &nbsp;
+                        _ this.getYear()
+                        + </h4>
+                _ this.popupContainer.appendChild(this.monthContainer)
+                _ this.createButtons()
+                _ this.populateTable(this.selectedMonth, this.selectedYear)
+            m createButtons
+                const prev = document.createElement("button")
+                _ prev.classList.add('button', 'prev')
+                set prev.innerHTML = "<i class='fas fa-chevron-left'></i>"
+                const next = document.createElement("button")
+                _ next.classList.add('button', 'next')
+                set next.innerHTML = "<i class='fas fa-chevron-right'></i>"
+                _ prev.addEventListener
+                    @ "click"
+                    => 
+                        param e
+                        _ e.preventDefault()
+                        _ this.updateMonth(this.selectedMonth - 1)
+                _ next.addEventListener
+                    @ "click"
+                    => 
+                        param e
+                        _ e.preventDefault()
+                        _ this.updateMonth(this.selectedMonth + 1)
+                _ this.popupContainer.appendChild(prev)
+                _ this.popupContainer.appendChild(next)
+            m populateTable
+                param month
+                param year
+                set this.table.innerHTML = ""
+                const namesRow = document.createElement("tr")
+                const days
+                  [ 
+                      @ "Mon"
+                      @ "Tue"
+                      @ "Wed"
+                      @ "Thu"
+                      @ "Fri"
+                      @ "Sat"
+                      @ "Sun"
+                _ days.forEach
+                    => 
+                        param name
+                        const th = document.createElement("th")
+                        set th.innerHTML = name
+                        _ namesRow.appendChild(th)
+                _ this.table.appendChild(namesRow)
+                const tempDate = new Date(year, month, 1)
+                let firstMonthDay = tempDate.getDay()
+                set firstMonthDay =
+                    iif firstMonthDay === 0
+                        then 7
+                        else tempDate.getDay()
+                const daysInMonth = this.getDaysInMonth(month, year)
+                const j = daysInMonth + firstMonthDay - 1
+                let tr = document.createElement("tr")
+                if firstMonthDay - 1 !== 0
+                    set tr = document.createElement("tr")
+                    _ this.table.appendChild(tr)
+                for let i = 0; i < firstMonthDay - 1; i++
+                    const td = document.createElement("td")
+                    set td.innerHTML = ""
+                    _ tr.appendChild(td)
+                for let i = firstMonthDay - 1; i < j; i++
+                    if i % 7 === 0
+                        set tr = document.createElement("tr")
+                        _ this.table.appendChild(tr)
+                    const td = document.createElement("td")
+                    set td.innerText = i - firstMonthDay + 2
+                    set td.dayNr = i - firstMonthDay + 2
+                    _ td.classList.add("day")
+                    _ td.addEventListener
+                        @ "click"
+                        => 
+                            param e
+                            const selectedDay = e.target.innerHTML
+                            _ this.fillInput(selectedDay)
+                            _ this.hideCalendar()
+                    _ tr.appendChild(td)
+                _ this.popupContainer.appendChild(this.table)
+            m fillInput
+                param day
+                set day =
+                    iif day < 10
+                        then "0" + day
+                        else day
+                let month = null
+                set month =
+                    iif this.selectedMonth < 9
+                        then "0" + (this.selectedMonth + 1)
+                        else this.selectedMonth + 1
+                set this.input.value =
+                    `lit 
+                        + 
+                        @ day
+                        + .
+                        @ month
+                        + .
+                        @ this.selectedYear
+                        + 
+                _ triggerChange                        
+                  @ this.input
+            m updateMonth
+                param month
+                set this.selectedMonth = month
+                if this.selectedMonth < 0
+                    set this.selectedYear--
+                    set this.selectedMonth = 11
+                else
+                    if this.selectedMonth > 11
+                        set this.selectedYear++
+                        set this.selectedMonth = 0
+                set this.monthContainer.innerHTML =
+                    `lit 
+                        + <h4>
+                        @ this.months[this.selectedMonth]
+                        + &nbsp;
+                        @ this.selectedYear
+                        + </h4>
+                _ this.populateTable(this.selectedMonth, this.selectedYear)
+            m getMonth
+                return this.months[this.selectedMonth]
+            m getYear
+                return this.selectedYear
+            m getDaysInMonth
+                param month
+                param year
+                return new Date(year, month + 1, 0).getDate()
+            m hideCalendar
+                _ this.form.classList.remove("open")
+            m setMainEventListener
+                _ this.input.addEventListener
+                    @ "click"
+                    => 
+                        param e
+                        _ this.form.classList.toggle("open")
+                        if !this.form.classList.contains("open")
+                            _ this.hideCalendar()

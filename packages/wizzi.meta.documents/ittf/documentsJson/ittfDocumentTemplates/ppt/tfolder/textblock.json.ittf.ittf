@@ -1,0 +1,23 @@
+$group
+    ${'$'}params position, title|@@null, rect|@@null
+    {
+        ${'$'}if title != null
+            kind "titled-textblock"
+        ${'$'}else
+            kind "textblock"
+        ${'$'}if position == 'rect'
+            ${'$'} var ss = rect.split(' ')
+            ${'$'}
+                _.log${'('}"################ textblock.rect", rect, ss)
+            { position
+                isObject true
+                y "${'$'}{ss[0]}"
+                x "${'$'}{ss[1]}"
+                h "${'$'}{ss[2]}"
+                w "${'$'}{ss[3]}"
+        ${'$'}else
+            position "${'$'}{position}"
+        ${'$'}if title != null
+            title "${'$'}{title}"
+        ${'$'}hook
+

@@ -1,0 +1,10 @@
+$group
+  $params name, kind|@@null, message|@@null
+  $if kind == 'required'
+    if !${name} || !_.isObject(${name})
+      throw new Error('The "${name}" parameter is required and must be an object. ${message}.')
+  $else
+    set ${name} =
+        || 
+            + ${name}
+            {

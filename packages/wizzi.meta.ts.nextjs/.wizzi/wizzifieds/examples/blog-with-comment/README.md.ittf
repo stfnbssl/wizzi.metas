@@ -1,0 +1,181 @@
+md
+    h1 
+        + Blog with Comment
+    p 
+        + This project adds commenting functionality to
+        a 
+            href https://github.com/vercel/next.js/tree/canary/examples/blog
+            title 
+            + Next.js blog application
+        + using Upstash and Auth0.
+    br 
+    p 
+        + The comment box requires Auth0 authentication for users to add new comments. A user can delete their own comment. Also admin user can delete any comment.
+    br 
+    p 
+        + Comments are stored in Serverless Redis (
+        a 
+            href http://upstash.com/
+            title 
+            + Upstash
+        + ).
+    br 
+    h3 
+        + Demo
+    p 
+        a 
+            href https://blog-with-comment.vercel.app/
+            title 
+            + https://blog-with-comment.vercel.app/
+    br 
+    h2 
+        code 1
+        + Project set up
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + 
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + or
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + to bootstrap the
+        + example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example blog-with-comment blog-with-comment-app
+    br 
+    h2 
+        code 2
+        + Set up environment variables
+    p 
+        + Copy the
+        code .env.local.example
+        + file in this directory to
+        code .env.local
+        + (which will be ignored by Git):
+    br 
+    code 
+        lang bash
+        + cp .env.local.example .env.local
+    br 
+    h2 
+        code 3
+        + Configuring Upstash
+    p 
+        + Go to the
+        a 
+            href https://console.upstash.com/
+            title 
+            + Upstash Console
+        + and create a new database
+    br 
+    h4 
+        + Upstash environment
+    ul 
+        li 
+            code REDIS_URL
+            + : Find the URL in the database details page in Upstash Console clicking on
+            b 
+                + Redis Connect
+            + button.
+    br 
+    h2 
+        code 4
+        + Configuring Auth0
+    ul 
+        ordered 
+        li 
+            + Go to the
+            a 
+                href https://manage.auth0.com/
+                title 
+                + Auth0 dashboard
+            + and create a new application of type
+            b 
+                + Single Page Web
+                + Applications
+            + .
+        li 
+            + Go to the settings page of the application
+        li 
+            + Configure the following settings:
+            ul 
+                li 
+                    b 
+                        + Allowed Callback URLs
+                    + : Should be set to
+                    code http://localhost:3000/
+                    + when testing locally or typically
+                    + to
+                    code https://myapp.com/
+                    + when deploying your application.
+                li 
+                    b 
+                        + Allowed Logout URLs
+                    + : Should be set to
+                    code http://localhost:3000/
+                    + when testing locally or typically
+                    + to
+                    code https://myapp.com/
+                    + when deploying your application.
+                li 
+                    b 
+                        + Allowed Web Origins
+                    + : Should be set to
+                    code http://localhost:3000
+                    + when testing locally or typically
+                    + to
+                    code https://myapp.com/
+                    + when deploying your application.
+        li 
+            + Save the settings.
+    br 
+    h4 
+        + Auth0 environment
+    ul 
+        li 
+            code NEXT_PUBLIC_AUTH0_DOMAIN
+            + : Can be found in the Auth0 dashboard under
+            code settings
+            + .
+        li 
+            code NEXT_PUBLIC_AUTH0_CLIENT_ID
+            + : Can be found in the Auth0 dashboard under
+            code settings
+            + .
+        li 
+            code NEXT_PUBLIC_AUTH0_ADMIN_EMAIL
+            + : This is the email of the admin user which you use while signing in Auth0. Admin is able to delete any comment.
+    br 
+    h2 
+        + Deploy Your Local Project
+    p 
+        + To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket
+        + and
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=upstash-roadmap
+            title 
+            + import to Vercel
+        + .
+    br 
+    p 
+        b 
+            + Important
+        + : When you import your project on Vercel, make sure to click on
+        b 
+            + Environment Variables
+        + and set them to
+        + match your
+        code .env.local
+        + file.

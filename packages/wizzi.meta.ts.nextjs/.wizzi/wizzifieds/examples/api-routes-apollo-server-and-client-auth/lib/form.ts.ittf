@@ -1,0 +1,13 @@
+module
+    kind react
+    export 
+        function getErrorMessage
+            param error
+            if error.graphQLErrors
+                for 
+                    left
+                        const graphQLError
+                    of error.graphQLErrors
+                    if graphQLError.extensions && graphQLError.extensions.code === 'BAD_USER_INPUT'
+                        return graphQLError.message
+            return error.message

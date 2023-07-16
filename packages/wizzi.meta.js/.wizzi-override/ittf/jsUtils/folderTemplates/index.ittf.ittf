@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useJsUtils
+        $include wzCtxModel
+        
+        $*
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/jsUtils/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include jsUtils/tfolder/${item}.js
+        *$

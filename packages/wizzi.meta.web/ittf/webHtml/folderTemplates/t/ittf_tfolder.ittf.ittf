@@ -1,0 +1,50 @@
+$group
+
+    $if metaCtx.useWebHtml
+
+        $file __dot__wizzi/${pkgPath}ittf/index.html.ittf.ittf
+            html
+                ${'$'}include webHtml/index.html
+
+        $
+            var items = [
+                "a",
+                "j",
+                "s",
+                "js_wz",
+                "css_wz",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}ittf/t/${item}.html.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include webHtml/tfolder/${item}.html
+            
+
+        $file __dot__wizzi/${pkgPath}ittf/t/html/images/logo.html.ittf.ittf
+            svg
+                ${'$'}include webHtml/tfolder/images/wizzi-logo.html
+
+        $
+            var items = [
+                "wizzi-logo-i",
+                "wizzi-logo-z",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}ittf/t/html/images/t/${item}.html.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include webHtml/tfolder/images/tfolder/${item}.html
+
+        $
+            var items = [
+                "site",
+                "site-styles",
+                "site-scripts",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}ittf/t/html/layouts/${item}.html.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include webHtml/tfolder/layouts/${item}.html
+        

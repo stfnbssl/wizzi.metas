@@ -1,0 +1,32 @@
+module
+    kind react
+    import React from 'react'
+    import styles from '../styles/Home.module.css'
+    import Image from 'next/image'
+    import lockup from '/public/powered-by-stytch.svg'
+    :type Props
+        :{ 
+            :p children
+                :union 
+                    :ref React.ReactElement
+                    :[ 
+                        :ref React.ReactElement
+    const StytchContainer
+        => 
+            param props
+                :ref Props
+            const 
+                { 
+                    @ children
+                = props
+            return 
+                div 
+                    @ className {styles.container}
+                    div 
+                        + {children}
+                    < Image 
+                        @ alt "Powered by Stytch"
+                        @ height {15}
+                        @ src {lockup}
+                        @ width {150}
+    export-default StytchContainer

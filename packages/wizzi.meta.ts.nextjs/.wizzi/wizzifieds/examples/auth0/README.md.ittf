@@ -1,0 +1,220 @@
+md
+    h1 
+        + Next.js and Auth0 Example
+    p 
+        + This example shows how you can use
+        code @auth0/nextjs-auth
+        + to easily add authentication support to your Next.js application. It tries to cover a few topics:
+    br 
+    ul 
+        li 
+            + Signing in
+        li 
+            + Signing out
+        li 
+            + Loading the user on the server side and adding it as part of SSR (
+            a 
+                href pages/advanced/ssr-profile.tsx
+                title 
+                code pages/advanced/ssr-profile.tsx
+            + )
+        li 
+            + Loading the user on the client side and using fast/cached SSR pages (
+            a 
+                href pages/index.tsx
+                title 
+                code pages/index.tsx
+            + )
+        li 
+            + Loading the user on the client side and checking authentication CSR pages (
+            a 
+                href pages/profile.tsx
+                title 
+                code pages/profile.tsx
+            + )
+        li 
+            + Loading the user on the client side by accessing API (Serverless function) CSR pages (
+            a 
+                href pages/advanced/api-profile.tsx
+                title 
+                code pages/advanced/api-profile.tsx
+            + )
+        li 
+            + Creates route handlers under the hood that perform different parts of the authentication flow (
+            a 
+                href pages/auth/[...auth0].tsx
+                title 
+                code pages/auth/[...auth0].tsx
+            + )
+    br 
+    p 
+        + Read more:
+        a 
+            href https://auth0.com/blog/ultimate-guide-nextjs-authentication-auth0/
+            title 
+            + https://auth0.com/blog/ultimate-guide-nextjs-authentication-auth0/
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example auth0 auth0-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example auth0 auth0-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example auth0 auth0-app
+    br 
+    h2 
+        + Configuring Auth0
+    ul 
+        ordered 
+        li 
+            + Go to the
+            a 
+                href https://manage.auth0.com/
+                title 
+                + Auth0 dashboard
+            + and create a new application of type
+            em 
+                + Regular Web Applications
+            + and make sure to configure the following
+        li 
+            + Go to the settings page of the application
+        li 
+            + Configure the following settings:
+    br 
+    ul 
+        li 
+            em 
+                + Allowed Callback URLs
+            + : Should be set to
+            code http://localhost:3000/api/auth/callback
+            + when testing locally or typically to
+            code https://myapp.com/api/auth/callback
+            + when deploying your application.
+        li 
+            em 
+                + Allowed Logout URLs
+            + : Should be set to
+            code http://localhost:3000/
+            + when testing locally or typically to
+            code https://myapp.com/
+            + when deploying your application.
+    br 
+    ul 
+        ordered 
+        li 
+            + Save the settings
+    br 
+    h3 
+        + Set up environment variables
+    p 
+        + To connect the app with Auth0, you&#39;ll need to add the settings from your Auth0 application as environment variables
+    br 
+    p 
+        + Copy the
+        code .env.local.example
+        + file in this directory to
+        code .env.local
+        + (which will be ignored by Git):
+    br 
+    code 
+        lang bash
+        + cp .env.local.example .env.local
+    br 
+    p 
+        + Then, open
+        code .env.local
+        + and add the missing environment variables:
+    br 
+    ul 
+        li 
+            code AUTH0_ISSUER_BASE_URL
+            + - Can be found in the Auth0 dashboard under
+            code settings
+            + . (Should be prefixed with
+            code https://
+            + )
+        li 
+            code AUTH0_CLIENT_ID
+            + - Can be found in the Auth0 dashboard under
+            code settings
+            + .
+        li 
+            code AUTH0_CLIENT_SECRET
+            + - Can be found in the Auth0 dashboard under
+            code settings
+            + .
+        li 
+            code AUTH0_BASE_URL
+            + - The base url of the application.
+        li 
+            code AUTH0_SECRET
+            + - Has to be at least 32 characters. You can use
+            a 
+                href https://generate-secret.vercel.app/32
+                title 
+                + this generator
+            + to generate a value.
+    br 
+    h2 
+        + Deploy on Vercel
+    p 
+        + You can deploy this app to the cloud with
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h3 
+        + Deploy Your Local Project
+    p 
+        + To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + import to Vercel
+        + .
+    br 
+    p 
+        b 
+            + Important
+        + : When you import your project on Vercel, make sure to click on
+        b 
+            + Environment Variables
+        + and set them to match your
+        code .env.local
+        + file.

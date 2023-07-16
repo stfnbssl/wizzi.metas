@@ -1,0 +1,283 @@
+md
+    h1 
+        + A statically generated blog example using Next.js and Builder.io
+    p 
+        + This example showcases Next.js&#39;s
+        a 
+            href https://nextjs.org/docs/basic-features/pages
+            title 
+            + Static Generation
+        + feature using
+        a 
+            href https://builder.io/
+            title 
+            + Builder.io
+        + as the data source.
+    br 
+    h2 
+        + Demo
+    p 
+        a 
+            href https://cms-builder-io.vercel.app/
+            title 
+            + https://cms-builder-io.vercel.app/
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example cms-builder-io cms-builder-io-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example cms-builder-io cms-builder-io-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example cms-builder-io cms-builder-io-app
+    br 
+    h2 
+        + Configuration
+    h3 
+        + Step 1 Install the Builder.io cli
+    code 
+        + npm install @builder.io/cli -g
+    br 
+    h3 
+        + Step 2 Generate a space
+    p 
+        a 
+            href https://builder.io/signup
+            title 
+            + Signup for Builder.io
+        + , then go to your
+        a 
+            href https://builder.io/account/organization?root=true
+            title 
+            + organization settings page
+        + , create a private key and copy it and supply it for
+        code [private-key]
+        + below. For
+        code [space-name]
+        + create a name for your space, such as &quot;Blog&quot;
+    br 
+    code 
+        + cd cms-builder-io-app
+        + builder create -k [private-key] -n [space-name] -d
+    br 
+    p 
+        + This command when done it&#39;ll print your new space&#39;s public api key, copy it and add as the value for
+        code NEXT_PUBLIC_BUILDER_API_KEY
+        + into the .env files (
+        code .env.production
+        + and
+        code .env.development
+        + )
+    br 
+    code 
+        + BUILDER_PUBLIC_KEY=...
+    br 
+    h3 
+        + Step 3 Run Next.js in development mode
+    code 
+        lang bash
+        + npm install
+        + npm run dev
+        + 
+        + # or
+        + 
+        + yarn install
+        + yarn dev
+    br 
+    p 
+        + Your blog should be up and running on
+        a 
+            href http://localhost:3000
+            title 
+            + http://localhost:3000
+        + ! If it doesn&#39;t work, you can post on
+        a 
+            href https://github.com/vercel/next.js/discussions
+            title 
+            + GitHub discussions
+        + .
+    br 
+    h3 
+        + Step 4 Try preview mode
+    p 
+        + To try preview mode at any time while editing in Builder.io press
+        code view current draft
+        + , if you changed the secret defined in
+        a 
+            href ./lib/constants.js
+            title 
+            + constants.js
+        + you&#39;ll need to also change it in your
+        code Post
+        + 
+        a 
+            href https://builder.io/models
+            title 
+            + model settings
+        + .
+    br 
+    p 
+        + To exit the preview mode, you can click
+        b 
+            + Click here to exit preview mode
+        + at the top.
+    br 
+    h3 
+        + Step 5 Deploy on Vercel
+    p 
+        + You can deploy this app to the cloud with
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h4 
+        + Deploy Your Local Project
+    p 
+        + To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + import to Vercel
+        + .
+    br 
+    p 
+        b 
+            + Important
+        + : When you import your project on Vercel, make sure to click on
+        b 
+            + Environment Variables
+        + and set them to match your
+        code .env.local
+        + file.
+    br 
+    h4 
+        + Deploy from Our Template
+    p 
+        + Alternatively, you can deploy using our template by clicking on the Deploy button below.
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/cms-builder-io&project-name=cms-builder-io&repository-name=cms-builder-io&env=BUILDER_PUBLIC_KEY&envDescription=Required%20to%20connect%20the%20app%20with%20Builder.io&envLink=https://www.builder.io/c/docs/custom-react-components#api-key
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h3 
+        + Related examples
+    ul 
+        li 
+            a 
+                href /examples/cms-wordpress
+                title 
+                + WordPress
+        li 
+            a 
+                href /examples/cms-datocms
+                title 
+                + DatoCMS
+        li 
+            a 
+                href /examples/cms-sanity
+                title 
+                + Sanity
+        li 
+            a 
+                href /examples/cms-takeshape
+                title 
+                + TakeShape
+        li 
+            a 
+                href /examples/cms-prismic
+                title 
+                + Prismic
+        li 
+            a 
+                href /examples/cms-contentful
+                title 
+                + Contentful
+        li 
+            a 
+                href /examples/cms-agilitycms
+                title 
+                + Agility CMS
+        li 
+            a 
+                href /examples/cms-cosmic
+                title 
+                + Cosmic
+        li 
+            a 
+                href /examples/cms-strapi
+                title 
+                + Strapi
+        li 
+            a 
+                href /examples/cms-buttercms
+                title 
+                + ButterCMS
+        li 
+            a 
+                href /examples/cms-graphcms
+                title 
+                + GraphCMS
+        li 
+            a 
+                href /examples/cms-kontent
+                title 
+                + Kontent
+        li 
+            a 
+                href /examples/cms-ghost
+                title 
+                + Ghost
+        li 
+            a 
+                href /examples/blog-starter
+                title 
+                + Blog Starter
+        li 
+            a 
+                href /examples/cms-dotcms
+                title 
+                + DotCMS
+        li 
+            a 
+                href /examples/cms-enterspeed
+                title 
+                + Enterspeed

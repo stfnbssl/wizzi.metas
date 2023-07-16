@@ -1,0 +1,210 @@
+$group
+    
+    import 
+        @ StyleSheet
+        @ css
+        from 'aphrodite'
+    import 
+        as React
+        from 'react'
+    +
+    :type Props
+        :{ 
+            :p inverted
+                :optional 
+                :boolean 
+            :p direction
+                :union 
+                    :literal 'horizontal'
+                    :literal 'vertical'
+            :p children
+                :optional 
+                :ref React.ReactNode
+            :p className
+                :optional 
+                :string 
+    +
+    :type State
+        :{ 
+            :p resizing
+                :boolean 
+            :p initialPosition
+                :union 
+                    :{ 
+                        :p pageX
+                            :number 
+                        :p pageY
+                            :number 
+                    :null 
+            :p initialWidth
+                :number 
+            :p initialHeight
+                :number 
+    +
+    export-default 
+        class ResizablePane
+            super React.PureComponent
+                :param 
+                    :ref Props
+                :param 
+                    :ref State
+            p state
+                :ref State
+                { 
+                    @ resizing false
+                    @ initialPosition null
+                    @ initialWidth 0
+                    @ initialHeight 0
+            m componentDidMount
+                _ document.addEventListener('mouseup', this._handleMouseUp)
+                    # @ts-ignore
+                    # @ts-ignore
+                _ document.addEventListener('mousemove', this._handleMouseMove)
+                    # @ts-ignore
+            m componentWillUnmount
+                _ document.removeEventListener('mouseup', this._handleMouseUp)
+                    # @ts-ignore
+                    # @ts-ignore
+                _ document.removeEventListener('mousemove', this._handleMouseMove)
+                    # @ts-ignore
+            => _handleMouseDown
+                param e
+                    :ref React.MouseEvent
+                        :param 
+                            :ref HTMLDivElement
+                if !this._pane.current
+                    return 
+                const style = getComputedStyle(this._pane.current)
+                _ this.setState
+                    { 
+                        @ resizing true
+                        { initialPosition
+                            @ pageX e.pageX
+                            @ pageY e.pageY
+                        @ initialWidth parseFloat(style.width || '0')
+                        @ initialHeight parseFloat(style.height || '0')
+            => _handleMouseUp
+                param e
+                    :ref React.MouseEvent
+                        :param 
+                            :ref HTMLDivElement
+                if this.state.resizing
+                    _ e.preventDefault()
+                    _ this.setState
+                        { 
+                            @ resizing false
+                            @ initialPosition null
+                            @ initialWidth 0
+                            @ initialHeight 0
+            => _handleMouseMove
+                param e
+                    :ref React.MouseEvent
+                        :param 
+                            :ref HTMLDivElement
+                const 
+                    { 
+                        @ direction
+                        @ inverted
+                    = this.props
+                const 
+                    { 
+                        @ resizing
+                        @ initialPosition
+                        @ initialWidth
+                        @ initialHeight
+                    = this.state
+                if resizing && initialPosition
+                    _ e.preventDefault()
+                    let style
+                    if direction === 'horizontal'
+                        const delta = e.pageX - initialPosition.pageX
+                        set style =
+                            `lit 
+                                + width:&nbsp;
+                                op+ 
+                                    + initialWidth
+                                    ( 
+                                        iif inverted
+                                            then -delta
+                                            else delta
+                                + px !important;
+                    else
+                        const delta = initialPosition.pageY - e.pageY
+                        set style =
+                            `lit 
+                                + height:&nbsp;
+                                op+ 
+                                    + initialHeight
+                                    ( 
+                                        iif inverted
+                                            then -delta
+                                            else delta
+                                + px !important
+                    _ this._pane.current?.setAttribute?.('style', style)
+            p _pane
+                _ React.createRef
+                    :param 
+                        :ref HTMLDivElement
+            m render
+                const 
+                    { 
+                        @ direction
+                        @ inverted
+                        @ className
+                        @ children
+                    = this.props
+                return 
+                    div 
+                        @ ref {this._pane}
+                        @ className
+                            `lit 
+                                + 
+                                _ css(styles.container)
+                                + &nbsp;
+                                @ className ?? ''
+                                + 
+                        + {children}
+                        div 
+                            @ className
+                                _ css
+                                    @expr styles.handle
+                                    iif direction === 'horizontal'
+                                        then styles.horizontal
+                                        else styles.vertical
+                                    iif direction === 'horizontal'
+                                        then
+                                            iif inverted
+                                                then styles.horizontalInverted
+                                                else styles.horizontalNormal
+                                        else
+                                            iif inverted
+                                                then styles.verticalInverted
+                                                else styles.verticalNormal
+                            @ onMouseDown {this._handleMouseDown}
+                            @ onMouseUp {this._handleMouseUp}
+    const styles
+        _ StyleSheet.create
+            { 
+                { container
+                    @ position 'relative'
+                { handle
+                    @ position 'absolute'
+                    @ zIndex 1
+                { horizontal
+                    @ top 0
+                    @ bottom 0
+                    @ width 12
+                    @ cursor 'col-resize'
+                { vertical
+                    @ left 0
+                    @ right 0
+                    @ height 12
+                    @ cursor 'row-resize'
+                { horizontalNormal
+                    @ right -12
+                { horizontalInverted
+                    @ left -12
+                { verticalNormal
+                    @ top -12
+                { verticalInverted
+                    @ bottom -12

@@ -1,0 +1,16 @@
+{
+    [ parameters
+        params/use( wizziCdn
+        params/use( wizziGist
+        params/use( wizziMeta
+        params/use( wizziPackage
+        params/use( wizziFs
+        params/use( wizziServices
+        
+        params/use( packi 
+            $$ ???
+        params/use( packiBrowse 
+            $$ ???
+        params/string( pluginsBaseFolder
+        params/array( plugins
+            param/string( pluginName

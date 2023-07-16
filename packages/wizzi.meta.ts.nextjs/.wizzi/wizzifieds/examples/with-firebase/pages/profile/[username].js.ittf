@@ -1,0 +1,54 @@
+module
+    kind react
+    import Head from 'next/head'
+    import 
+        @ getProfileData
+        from '../../fetchData/getProfileData'
+    export-default 
+        function SSRPage
+            { 
+                @ data
+            const 
+                { 
+                    @ username
+                    @ profile
+                = data
+            return 
+                div 
+                    @ className "container"
+                    < Head 
+                        < title 
+                            + Next.js w/ Firebase Client-Side
+                        link 
+                            @ rel "icon"
+                            @ href "/favicon.ico"
+                    main 
+                        h1 
+                            @ className "title"
+                            + Next.js w/ Firebase Server-Side
+                        h2 
+                            + {username}
+                        p 
+                            + {profile.message}
+    export 
+        const getServerSideProps
+            async=> 
+                { 
+                    @ params
+                const 
+                    { 
+                        @ username
+                    = params
+                const profile
+                    await 
+                        _ getProfileData(username)
+                if !profile
+                    return 
+                        { 
+                            @ notFound true
+                return 
+                    { 
+                        { props
+                            { data
+                                @ username
+                                @ profile

@@ -1,0 +1,822 @@
+md
+    h1 
+        + A statically generated blog example using Next.js and Contentful
+    p 
+        + This example showcases Next.js&#39;s
+        a 
+            href https://nextjs.org/docs/basic-features/pages
+            title 
+            + Static Generation
+        + feature using
+        a 
+            href https://www.contentful.com/
+            title 
+            + Contentful
+        + as the data source.
+    br 
+    h2 
+        + Demo
+    h3 
+        a 
+            href https://next-blog-contentful.vercel.app/
+            title 
+            + https://next-blog-contentful.vercel.app/
+    h2 
+        + Deploy your own
+    p 
+        + Using the Deploy Button below, you&#39;ll deploy the Next.js project as well as connect it to your Contentful space using the Vercel Contentful Integration.
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fcms-contentful&project-name=nextjs-contentful-blog&repository-name=nextjs-contentful-blog&demo-title=Next.js+Blog&demo-description=Static+blog+with+multiple+authors+using+Preview+Mode&demo-url=https%3A%2F%2Fnext-blog-contentful.vercel.app%2F&demo-image=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Fv1625705016%2Ffront%2Fexamples%2FCleanShot_2021-07-07_at_19.43.15_2x.png&integration-ids=oac_aZtAZpDfT1lX3zrnWy7KT9VA&env=CONTENTFUL_PREVIEW_SECRET&envDescription=Any%20URL%20friendly%20value%20to%20secure%20Preview%20Mode
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h3 
+        + Related examples
+    ul 
+        li 
+            a 
+                href /examples/cms-wordpress
+                title 
+                + WordPress
+        li 
+            a 
+                href /examples/cms-datocms
+                title 
+                + DatoCMS
+        li 
+            a 
+                href /examples/cms-sanity
+                title 
+                + Sanity
+        li 
+            a 
+                href /examples/cms-takeshape
+                title 
+                + TakeShape
+        li 
+            a 
+                href /examples/cms-prismic
+                title 
+                + Prismic
+        li 
+            a 
+                href /examples/cms-strapi
+                title 
+                + Strapi
+        li 
+            a 
+                href /examples/cms-agilitycms
+                title 
+                + Agility CMS
+        li 
+            a 
+                href /examples/cms-cosmic
+                title 
+                + Cosmic
+        li 
+            a 
+                href /examples/cms-buttercms
+                title 
+                + ButterCMS
+        li 
+            a 
+                href /examples/cms-storyblok
+                title 
+                + Storyblok
+        li 
+            a 
+                href /examples/cms-graphcms
+                title 
+                + GraphCMS
+        li 
+            a 
+                href /examples/cms-kontent
+                title 
+                + Kontent
+        li 
+            a 
+                href /examples/cms-ghost
+                title 
+                + Ghost
+        li 
+            a 
+                href /examples/cms-umbraco-heartcore
+                title 
+                + Umbraco Heartcore
+        li 
+            a 
+                href /examples/blog-starter
+                title 
+                + Blog Starter
+        li 
+            a 
+                href /examples/cms-builder-io
+                title 
+                + Builder.io
+        li 
+            a 
+                href /examples/cms-dotcms
+                title 
+                + DotCMS
+        li 
+            a 
+                href /examples/cms-enterspeed
+                title 
+                + Enterspeed
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example cms-contentful cms-contentful-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example cms-contentful cms-contentful-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example cms-contentful cms-contentful-app
+    br 
+    h2 
+        + Configuration
+    h3 
+        + Step 1. Create an account and a space on Contentful
+    p 
+        + First,
+        a 
+            href https://www.contentful.com/sign-up/
+            title 
+            + create an account on Contentful
+        + .
+    br 
+    p 
+        + After creating an account, create a new empty
+        b 
+            + space
+        + from the
+        a 
+            href https://app.contentful.com/
+            title 
+            + dashboard
+        + and assign to it any name of your liking.
+    br 
+    h3 
+        + Step 2. Create a content model
+    p 
+        + The
+        a 
+            href https://www.contentful.com/developers/docs/concepts/data-model/
+            title 
+            + content model
+        + defines the data structures of your application/websites. The structures are flexible and you can tailor them to your needs.
+    br 
+    p 
+        + For this example you need to create a content model that defines an author and a post content type.
+        b 
+            + You can create these two by running a script or by doing it manually
+        + to familiarize yourself with the Contentful user interface.
+    br 
+    h4 
+        + Run a script to create the content model
+    p 
+        + This project includes a setup script which you can use to set up the content model expected by the source code.
+    br 
+    p 
+        + In your Contentful dashboard go to
+        b 
+            + Settings &gt; General Settings
+        + and copy the
+        b 
+            + Space ID
+        + .
+    br 
+    p 
+        + Next, go to
+        b 
+            + Settings &gt; API &gt; Content management tokens
+        + and create a new token by clicking
+        b 
+            + Generate personal token
+        + . This token has the same access rights as the logged in user.
+        b 
+            + Do not share it publicly
+        + , you will only use it to set up your space and can delete it afterwards.
+    br 
+    p 
+        + With the space ID and management access token at hand run the following command:
+    br 
+    code 
+        + npx cross-env CONTENTFUL_SPACE_ID=YOUR_SPACE_ID CONTENTFUL_MANAGEMENT_TOKEN=XXX npm run setup
+    br 
+    p 
+        + This command will create the needed content structures and set up your Contentful space ready to use. The output should look as follows:
+    br 
+    code 
+        + > cms-contentful@1.0.0 setup /Users/stefan.judis/Projects/next.js/examples/cms-contentful
+        + > node ./contentful/setup.js $CONTENTFUL_SPACE_ID $CONTENTFUL_MANAGEMENT_TOKEN
+        + 
+        + ┌──────────────────────────────────────────────────┐
+        + │ The following entities are going to be imported: │
+        + ├─────────────────────────────────┬────────────────┤
+        + │ Content Types                   │ 2              │
+        + ├─────────────────────────────────┼────────────────┤
+        + │ Editor Interfaces               │ 2              │
+        + ├─────────────────────────────────┼────────────────┤
+        + │ Locales                         │ 1              │
+        + ├─────────────────────────────────┼────────────────┤
+        + │ Webhooks                        │ 0              │
+        + ├─────────────────────────────────┼────────────────┤
+        + │ Entries                         │ 0              │
+        + ├─────────────────────────────────┼────────────────┤
+        + │ Assets                          │ 0              │
+        + └─────────────────────────────────┴────────────────┘
+        + ✔ Validating content-file
+        + ✔ Initialize client (1s)
+        + ✔ Checking if destination space already has any content and retrieving it (2s)
+        + ✔ Apply transformations to source data (1s)
+        + ✔ Push content to destination space
+        + ✔ Connecting to space (1s)
+        + ...
+        + ...
+        + ...
+    br 
+    h4 
+        + Create the content model manually
+    h5 
+        + Create an
+        code Author
+        + content type
+    p 
+        + From your contentful space, go to
+        b 
+            + Content model
+        + and add a new content type:
+    br 
+    ul 
+        li 
+            + Give it the
+            b 
+                + Name
+            + 
+            code Author
+            + , the
+            b 
+                + Api Identifier
+            + should be
+            code author
+    br 
+    p 
+        + Once the content model is saved, add these fields (you don&#39;t have to modify the settings unless specified):
+    br 
+    ul 
+        li 
+            code name
+            + -
+            b 
+                + Text
+            + field (type
+            b 
+                + short text
+            + ).
+            b 
+                + Field ID
+            + should be set to
+            code name
+        li 
+            code picture
+            + -
+            b 
+                + Media
+            + field (type
+            b 
+                + one file
+            + ).
+            b 
+                + Field ID
+            + should be set to
+            code picture
+    br 
+    p 
+        + Save the content type and continue.
+    br 
+    h5 
+        + Create a
+        code post
+        + type
+    p 
+        + From your contentful space, go to
+        b 
+            + Content model
+        + and add another content type:
+    br 
+    ul 
+        li 
+            + Give it the
+            b 
+                + Name
+            + 
+            code Post
+            + , the
+            b 
+                + Api Identifier
+            + should be
+            code post
+    br 
+    p 
+        + Next, add these fields (you don&#39;t have to modify the settings unless specified):
+    br 
+    ul 
+        li 
+            code title
+            + -
+            b 
+                + Text
+            + field (type
+            b 
+                + short text
+            + )
+        li 
+            code content
+            + -
+            b 
+                + Rich text
+            + field
+        li 
+            code excerpt
+            + -
+            b 
+                + Text
+            + field (type
+            b 
+                + Long text, full-text search
+            + )
+        li 
+            code coverImage
+            + -
+            b 
+                + Media
+            + field (type
+            b 
+                + one file
+            + )
+        li 
+            code date
+            + -
+            b 
+                + Date and time
+            + field
+        li 
+            code slug
+            + -
+            b 
+                + Text
+            + field. You can optionally go to the settings of this field, and under
+            b 
+                + Appearance
+            + , select
+            b 
+                + Slug
+            + to display it as a slug of the
+            code title
+            + field.
+        li 
+            code author
+            + -
+            b 
+                + Reference
+            + field (type
+            b 
+                + one reference
+            + )
+    br 
+    p 
+        + Save the content type and continue.
+    br 
+    h3 
+        + Step 3. Validate your content model
+    p 
+        + After setting up the content model (either manually or by running
+        code npm run setup
+        + or
+        code yarn setup
+        + ), it should look as follows.
+    br 
+    p 
+        b 
+            + Content model overview
+    br 
+    p 
+        img 
+            href ./docs/content-model-overview.png
+            title 
+    br 
+    h3 
+        + Step 4. Populate Content
+    p 
+        + Go to the
+        b 
+            + Content
+        + section in your space, then click on
+        b 
+            + Add entry
+        + and select the
+        b 
+            + Author
+        + content type:
+    br 
+    ul 
+        li 
+            + You just need
+            b 
+                + 1 author entry
+            + .
+        li 
+            + Use dummy data for the text.
+        li 
+            + For the image, you can download one from
+            a 
+                href https://unsplash.com/
+                title 
+                + Unsplash
+            + .
+    br 
+    p 
+        + Next, create another entry with the content type
+        b 
+            + Post
+        + :
+    br 
+    ul 
+        li 
+            + We recommend creating at least
+            b 
+                + 2 post entries
+            + .
+        li 
+            + Use dummy data for the text.
+        li 
+            + For images, you can download them from
+            a 
+                href https://unsplash.com/
+                title 
+                + Unsplash
+            + .
+        li 
+            + Pick the
+            b 
+                + author
+            + you created earlier.
+    br 
+    p 
+        b 
+            + Important:
+        + For each entry and asset, you need to click on
+        b 
+            + Publish
+        + . If not, the entry will be in draft state.
+    br 
+    p 
+        img 
+            href ./docs/content-entry-publish.png
+            title 
+    br 
+    h3 
+        + Step 5. Set up environment variables
+    p 
+        + From your contentful space, go to
+        b 
+            + Settings &gt; API keys
+        + . There will be an example Content delivery / preview token - you can use these API keys. (You may also create a new key.)
+    br 
+    p 
+        + Next, copy the
+        code .env.local.example
+        + file in this directory to
+        code .env.local
+        + (which will be ignored by Git):
+    br 
+    code 
+        lang bash
+        + cp .env.local.example .env.local
+    br 
+    p 
+        + Then set each variable on
+        code .env.local
+        + :
+    br 
+    ul 
+        li 
+            code CONTENTFUL_SPACE_ID
+            + should be the
+            b 
+                + Space ID
+            + field of your API Key
+        li 
+            code CONTENTFUL_ACCESS_TOKEN
+            + should be the
+            b 
+                a 
+                    href https://www.contentful.com/developers/docs/references/content-delivery-api/
+                    title 
+                    + Content Delivery API
+                + - access token
+            + field of your API key
+        li 
+            code CONTENTFUL_PREVIEW_ACCESS_TOKEN
+            + should be the
+            b 
+                a 
+                    href https://www.contentful.com/developers/docs/references/content-preview-api/
+                    title 
+                    + Content Preview API
+                + - access token
+            + field of your API key
+        li 
+            code CONTENTFUL_PREVIEW_SECRET
+            + should be any value you want. It must be URL friendly as the dashboard will send it as a query parameter to enable preview mode
+        li 
+            ul 
+                li 
+                    code CONTENTFUL_REVALIDATE_SECRET
+                    + should be any value you want. This will be the value you pass in as a secret header from the Contentful Webhook settings to use
+                    b 
+                        a 
+                            href https://vercel.com/docs/concepts/next.js/incremental-static-regeneration#on-demand-revalidation
+                            title 
+                            + On-Demand Revalidation
+    br 
+    p 
+        + Your
+        code .env.local
+        + file should look like this:
+    br 
+    code 
+        lang bash
+        + CONTENTFUL_SPACE_ID=...
+        + CONTENTFUL_ACCESS_TOKEN=...
+        + CONTENTFUL_PREVIEW_ACCESS_TOKEN=...
+        + CONTENTFUL_PREVIEW_SECRET=...
+        + CONTENTFUL_REVALIDATE_SECRET=...
+    br 
+    h3 
+        + Step 6. Run Next.js in development mode
+    code 
+        lang bash
+        + npm install
+        + npm run dev
+        + 
+        + # or
+        + 
+        + yarn install
+        + yarn dev
+    br 
+    p 
+        + Your blog should be up and running on
+        a 
+            href http://localhost:3000
+            title 
+            + http://localhost:3000
+        + ! If it doesn&#39;t work, post on
+        a 
+            href https://github.com/vercel/next.js/discussions
+            title 
+            + GitHub discussions
+        + .
+    br 
+    h3 
+        + Step 7. Try preview mode
+    p 
+        + In your Contentful space, go to
+        b 
+            + Settings &gt; Content preview
+        + and add a new content preview for development.
+    br 
+    p 
+        + The
+        b 
+            + Name
+        + field may be anything, like
+        code Development
+        + . Then, under
+        b 
+            + Content preview URLs
+        + , check
+        b 
+            + Post
+        + and set its value to:
+    br 
+    code 
+        + http://localhost:3000/api/preview?secret=<CONTENTFUL_PREVIEW_SECRET>&slug={entry.fields.slug}
+    br 
+    p 
+        + Replace
+        code &lt;CONTENTFUL_PREVIEW_SECRET&gt;
+        + with its respective value in
+        code .env.local
+        + .
+    br 
+    p 
+        img 
+            href ./docs/content-preview-setup.png
+            title 
+    br 
+    p 
+        + Once saved, go to one of the posts you&#39;ve created and:
+    br 
+    ul 
+        li 
+            b 
+                + Update the title
+            + . For example, you can add
+            code [Draft]
+            + in front of the title.
+        li 
+            + The state of the post will switch to
+            b 
+                + CHANGED
+            + automatically.
+            b 
+                + Do not
+            + publish it. By doing this, the post will be in draft state.
+        li 
+            + In the sidebar, you will see the
+            b 
+                + Open preview
+            + button. Click on it!
+    br 
+    p 
+        img 
+            href ./docs/content-entry-preview.png
+            title 
+    br 
+    p 
+        + You will now be able to see the updated title. To exit preview mode, you can click on
+        b 
+            + Click here to exit preview mode
+        + at the top of the page.
+    br 
+    h3 
+        + Step 8. Deploy on Vercel
+    p 
+        + You can deploy this app to the cloud with
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h4 
+        + Deploy Your Local Project
+    p 
+        + To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + import to Vercel
+        + .
+    br 
+    p 
+        b 
+            + Important
+        + : When you import your project on Vercel, make sure to click on
+        b 
+            + Environment Variables
+        + and set them to match your
+        code .env.local
+        + file.
+    br 
+    h4 
+        + Deploy from Our Template
+    p 
+        + Alternatively, you can deploy using our template by clicking on the Deploy button below.
+    br 
+    p 
+        + This will deploy the Next.js project as well as connect it to your Contentful space using the Vercel Contentful Integration. If you are using Preview Mode, make sure to add
+        code CONTENTFUL_PREVIEW_SECRET
+        + as an
+        a 
+            href https://vercel.com/docs/environment-variables
+            title 
+            + Environment Variable
+        + as well.
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fcms-contentful&project-name=nextjs-contentful-blog&repository-name=nextjs-contentful-blog&demo-title=Next.js+Blog&demo-description=Static+blog+with+multiple+authors+using+Preview+Mode&demo-url=https%3A%2F%2Fnext-blog-contentful.vercel.app%2F&demo-image=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Fv1625705016%2Ffront%2Fexamples%2FCleanShot_2021-07-07_at_19.43.15_2x.png&integration-ids=oac_aZtAZpDfT1lX3zrnWy7KT9VA&env=CONTENTFUL_PREVIEW_SECRET,CONTENTFUL_REVALIDATE_SECRET&envDescription=Any%20URL%20friendly%20value%20to%20secure%20Your%20App
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h3 
+        + Step 9. Try using On-Demand Revalidation
+    p 
+        + In your Contentful space, go to
+        b 
+            + Settings &gt; Webhooks
+        + and add a new webhook:
+    br 
+    ul 
+        loose 
+        li 
+            b 
+                + Give the webhook a name
+        li 
+            b 
+                + Activate:
+            + Check the activate checkbox to ensure the webhook is marked as active
+        li 
+            b 
+                + Specify the POST URL:
+            + Using the URL from your Vercel deployment in step 8, add the path
+            code /api/revalidate
+            + at the end, so it would look something like:
+            br 
+            code 
+                + https://<YOUR_VERCEL_DEPLOYMENT_URL>/api/revalidate
+            br 
+            + Replace
+            code &lt;YOUR_VERCEL_DEPLOYMENT_URL&gt;
+            + with your own deployment URL as noted in the Vercel dashboard.
+        li 
+            b 
+                + Specify Triggers:
+            + You can choose to trigger for all events or specific events only, such as the Publishing and Unpublishing of Entries and Assets, as shown below.
+            br 
+            img 
+                href ./docs/content-webhook-url.png
+                title 
+        li 
+            b 
+                + Specify Secret Header:
+            + Add a secret header named
+            code x-vercel-reval-key
+            + and enter the value of the
+            + 
+            code CONTENTFUL_REVALIDATE_SECRET
+            + from before.
+            br 
+            img 
+                href ./docs/content-secret-header.png
+                title 
+        li 
+            b 
+                + Set Content type:
+            + Set content type to
+            code application/json
+            + in the dropdown.
+            br 
+            img 
+                href ./docs/content-content-type.png
+                title 
+        li 
+            b 
+                + Edit post:
+            + Now, try editing the title of one of your blog posts in Contentful and click Publish. You should see the changed reflected in the website you just deployed, all without triggering a build! Behind the scenes a call was made to the revalidate api that triggers a revalidation of both the landing page and the specific post that was changed.
+            br 
+            img 
+                href ./docs/content-publish-changes.png
+                title 
+        li 
+            b 
+                + Verify:
+            + You can verify if your request was made successfully by checking the webhook request log on Contentful and checking for a successful 200 status code, or by having your functions tab open on Vercel when committing the change (log drains may also be used). If you are experiencing issues with the api call, ensure you have correctly entered in the value for environment variable
+            code CONTENTFUL_REVALIDATE_SECRET
+            + within your Vercel deployment.
+            br 
+            img 
+                href ./docs/content-successful-request.png
+                title 

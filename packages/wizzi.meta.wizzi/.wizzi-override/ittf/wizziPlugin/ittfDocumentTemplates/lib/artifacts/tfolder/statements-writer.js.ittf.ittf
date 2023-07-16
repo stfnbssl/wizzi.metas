@@ -1,0 +1,80 @@
+﻿$group
+	${'$'}params name
+
+	var util = require('util')
+	var verify = require('wizzi-utils').verify
+	var node = require('wizzi-utils').node
+    var errors = require('wizzi-utils').errors
+	${'$'}hook imports
+	+
+	var myname = '${'$'}{name}';
+	var md = module.exports = {};
+	+
+	function hasStatements
+		param model
+		return countStatements(model) > 0 
+	
+	function countStatements
+		param model
+        var count = 0
+        foreach item in model.statements
+            if item.wzElement != 'comment' && item.wzElement != 'commentmultiline'
+                set count++
+		return count
+
+	function writeComments
+		param model
+        param ctx
+        var temp = []
+        foreach item in model.statements
+            if item.wzElement == 'comment'
+                _ __writeComments
+                    @ item
+                    @ ctx
+                    @ false
+            elif item.wzElement == 'commentmultiline'
+                _ __writeComments
+                    @ item
+                    @ ctx
+                    @ true
+            else
+                _ temp.push(item)
+        set model.statements = temp
+        return model
+
+	function __writeComments
+		param model
+        param ctx
+        param multi
+        # loog '__writeComments-model', model
+        if multi || model.statements.length > 0
+            _ ctx.w('/**')
+            _ ctx.indent
+            if verify.isNotEmpty(model.wzName)
+                _ ctx.w(model.wzName)
+            foreach item in model.statements
+                _ __writeCommentLine
+                    @ item
+                    @ ctx
+        else
+            _ ctx.w('// ' + model.wzName)
+        if multi || model.statements.length > 0
+            _ ctx.deindent
+            _ ctx.w('*/')
+
+    function __writeCommentLine            
+		param model
+        param ctx
+        _ ctx.w('// ' + model.wzName)
+        if model.statements.length > 0
+            _ ctx.indent
+            foreach item in model.statements
+                _ __writeCommentLine
+                    @ item
+                    @ ctx
+            _ ctx.deindent
+
+    set md.loadStatementWriters
+		function
+			param mainWriter
+			${'$'}hook

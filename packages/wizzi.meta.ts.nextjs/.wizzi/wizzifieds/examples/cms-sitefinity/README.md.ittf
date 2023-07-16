@@ -1,0 +1,284 @@
+md
+    h1 
+        + A statically generated blog example using Next.js and Sitefinity CMS
+    p 
+        + This is the existing
+        a 
+            href https://github.com/vercel/next.js/tree/canary/examples/cms-sitefinity
+            title 
+            + cms-sitefinity
+        + plus TypeScript.
+        + This example showcases
+        a 
+            href https://nextjs.org/docs/basic-features/pages
+            title 
+            + Next.js&#39;s Static Generation feature
+        + using Sitefinity CMS as the data source.
+    br 
+    h2 
+        + Demo
+    p 
+        a 
+            href https://next-cms-sitefinity.vercel.app/
+            title 
+            + https://next-cms-sitefinity.vercel.app/
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/cms-sitefinity
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/cms-sitefinity&project-name=cms-sitefinity&repository-name=cms-sitefinity
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h3 
+        + Related examples
+    ul 
+        li 
+            a 
+                href /examples/cms-wordpress
+                title 
+                + WordPress
+        li 
+            a 
+                href /examples/cms-datocms
+                title 
+                + DatoCMS
+        li 
+            a 
+                href /examples/cms-sanity
+                title 
+                + Sanity
+        li 
+            a 
+                href /examples/cms-takeshape
+                title 
+                + TakeShape
+        li 
+            a 
+                href /examples/cms-prismic
+                title 
+                + Prismic
+        li 
+            a 
+                href /examples/cms-contentful
+                title 
+                + Contentful
+        li 
+            a 
+                href /examples/cms-strapi
+                title 
+                + Strapi
+        li 
+            a 
+                href /examples/cms-agilitycms
+                title 
+                + Agility CMS
+        li 
+            a 
+                href /examples/cms-cosmic
+                title 
+                + Cosmic
+        li 
+            a 
+                href /examples/cms-buttercms
+                title 
+                + ButterCMS
+        li 
+            a 
+                href /examples/cms-storyblok
+                title 
+                + Storyblok
+        li 
+            a 
+                href /examples/cms-graphcms
+                title 
+                + GraphCMS
+        li 
+            a 
+                href /examples/cms-kontent
+                title 
+                + Kontent
+        li 
+            a 
+                href /examples/cms-umbraco-heartcore
+                title 
+                + Umbraco Heartcore
+        li 
+            a 
+                href /examples/cms-builder-io
+                title 
+                + Builder.io
+        li 
+            a 
+                href /examples/cms-tina/
+                title 
+                + TinaCMS
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example cms-sitefinity cms-sitefinity-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example cms-sitefinity cms-sitefinity-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example cms-sitefinity cms-sitefinity-app
+    br 
+    h2 
+        + Configuration
+    h3 
+        + Step 1. Setup the CMS locally (version &gt;=14.27922)
+    p 
+        + First,
+        a 
+            href https://www.progress.com/documentation/sitefinity-cms/install-sitefinity
+            title 
+            + install
+        + and run the CMS Locally.
+    br 
+    h3 
+        + Step 2. Import the ready to use dynamic module &#39;Posts&#39;
+    p 
+        + For the purpose of this demo a ready to use dynamic module was build containing two types - &#39;Post&#39; and &#39;Author&#39;.
+    br 
+    p 
+        + In order to install it:
+    br 
+    ul 
+        ordered 
+        li 
+            + Open the CMS Administration under (/Sitefinity)
+        li 
+            + Open the Export/Import screen under (/Sitefinity/Administration/Packaging)
+        li 
+            + Click on Import Zip file and import the file from the
+            a 
+                href ./sitefinity/SitefinityExport.zip
+                title 
+                + sitefinity folder
+    br 
+    h3 
+        + Step 3. Enable the web service
+    p 
+        + By default the web services are not allowed for anonymous users, so the yhave to be enabled.
+    br 
+    p 
+        + Go to /sitefinity/Administration/WebServices and edit the &#39;Default&#39; web service to allow it to be accessible by &#39;Everyone&#39;
+    br 
+    h3 
+        + Step 4. Install the GraphQL package
+    ul 
+        ordered 
+        li 
+            + Add the
+            a 
+                href https://www.progress.com/documentation/sitefinity-cms/sitefinity-cms-nuget-packages-repository
+                title 
+                + Sitefinity CMS nugget source
+        li 
+            + Install the
+            a 
+                href https://nuget.sitefinity.com/#/package/Progress.Sitefinity.GraphQL
+                title 
+                + Progress.Sitefinity.GraphQL
+            + package (enable prerelease filter).
+    br 
+    h3 
+        + Step 5. Set up environment variables
+    p 
+        + Copy the
+        code .env.local.example
+        + file in this directory to
+        code .env.local
+        + (which will be ignored by Git):
+    br 
+    code 
+        lang bash
+        + cp .env.local.example .env.local
+    br 
+    p 
+        + Then set each variable on
+        code .env.local
+    br 
+    ul 
+        li 
+            code SF_API_URL
+            + - This is the url of the &#39;Default&#39; web service that we configured earlier. E.g.
+            a 
+                href http://locahost/api/default/
+                title
+                + http://locahost/api/default/
+        li 
+            code SF_URL
+            + - This is the URL of the CMS itself. E.g.
+            a 
+                href http://localhost/
+                title
+                + http://localhost/
+    br 
+    h3 
+        + Step 6. Run Next.js in development mode
+    code 
+        lang bash
+        + npm install
+        + npm run dev
+        + 
+        + # or
+        + 
+        + yarn
+        + yarn dev
+    br 
+    p 
+        + Your blog should be up and running on
+        a 
+            href http://localhost:3000
+            title 
+            + http://localhost:3000
+        + ! If it doesn&#39;t work, post on
+        a 
+            href https://github.com/vercel/next.js/discussions
+            title 
+            + GitHub discussions
+        + .

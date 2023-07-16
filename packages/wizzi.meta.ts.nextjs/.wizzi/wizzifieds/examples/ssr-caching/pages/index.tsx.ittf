@@ -1,0 +1,36 @@
+module
+    kind react
+    import 
+        @ GetServerSideProps
+        @ InferGetServerSidePropsType
+        from 'next'
+    export-default 
+        function Index
+            { 
+                @ time
+                :ref InferGetServerSidePropsType
+                    :param 
+                        :typeof getServerSideProps
+            return 
+                main 
+                    h1 
+                        + SSR Caching with Next.js
+                    time 
+                        @ dateTime {time}
+                        + {time}
+    export 
+        const getServerSideProps
+            :ref GetServerSideProps
+                :param 
+                    :{ 
+                        :p time
+                            :string 
+            =
+                async=> 
+                    { 
+                        @ res
+                    _ res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59')
+                    return 
+                        { 
+                            { props
+                                @ time new Date().toISOString()

@@ -1,0 +1,45 @@
+md
+    hr 
+    h2 
+        + type: page
+        + title: Photos
+        + date: 2021-03-18
+    h1 
+        + Photos
+    p 
+        + Here&#39;s some of my photography.
+    br 
+    p 
+        + import Image from &#39;next/image&#39;
+    br 
+    p 
+        html <Image
+  src="/images/photo2.jpg"
+  alt="Photo"
+  width={1125}
+  height={750}
+  priority
+  className="next-image"
+/>
+        + 
+        + 
+        a 
+            href https://unsplash.com/photos/WeYamle9fDM
+            title 
+            + Unsplash ↗
+    br 
+    p 
+        html <Image
+  src="/images/photo.jpg"
+  alt="Photo"
+  width={1125}
+  height={750}
+  priority
+  className="next-image"
+/>
+        + 
+        + 
+        a 
+            href https://unsplash.com/photos/ndN00KmbJ1c
+            title 
+            + Unsplash ↗

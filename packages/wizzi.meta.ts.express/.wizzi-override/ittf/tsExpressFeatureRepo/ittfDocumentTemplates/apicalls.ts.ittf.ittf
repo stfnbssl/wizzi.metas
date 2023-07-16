@@ -1,0 +1,50 @@
+$group
+
+    import fetch from 'node-fetch'
+    +
+    export 
+        async-function getRepositories
+            param accessToken
+                :string 
+            :return
+                :ref Promise
+                    :param any
+            return 
+                _ fetch
+                    `lit 
+                        + https://api.github.com/user/repos
+                    _ getOptions(accessToken)
+                    ._ then
+                        => 
+                            param response
+                            _ response.json()
+                    ._ then
+                        => 
+                            param responseData
+                            $$ loog 'getRepositories.responseData', responseData
+                            return responseData
+    +
+    function getOptions
+        param accessToken
+            :string 
+        return 
+            { 
+                @ method 'GET'
+                @ headers headers(accessToken)
+    +
+    function postOptions
+        param accessToken
+            :string 
+        return 
+            { 
+                @ method 'POST'
+                @ headers headers(accessToken)
+    +
+    function headers
+        param accessToken
+            :string 
+        return 
+            { 
+                @ 'Accept' 'application/vnd.github.v3+json'
+                @ 'Content-Type' 'application/json'
+                @ 'Authorization' 'token ' + accessToken

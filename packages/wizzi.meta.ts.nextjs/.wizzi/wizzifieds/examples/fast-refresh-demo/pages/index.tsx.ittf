@@ -1,0 +1,78 @@
+module
+    kind react
+    import 
+        @ useCallback
+        @ useEffect
+        @ useState
+        from 'react'
+    import Button from '../components/Button'
+    import ClickCount from '../components/ClickCount'
+    import styles from '../styles/home.module.css'
+    function throwError
+        _ console.log
+            _ document.body()
+                # The function body() is not defined
+                # @ts-ignore
+    export-default 
+        function Home
+            const [count, setCount] = useState(0)
+            const increment
+                _ useCallback
+                    => 
+                        _ setCount
+                            => 
+                                param v
+                                set v + 1
+                    [ 
+                        @ setCount
+            _ useEffect
+                => 
+                    const r
+                        _ setInterval
+                            => 
+                                _ increment()
+                            @ 1000
+                    return 
+                        => 
+                            _ clearInterval(r)
+                [ 
+                    @ increment
+            return 
+                main 
+                    @ className {styles.main}
+                    h1 
+                        + Fast Refresh Demo
+                    p 
+                        + Fast Refresh is a Next.js feature that gives you instantaneous feedback&lf;        on edits made to your React components, without ever losing component&lf;        state.
+                    hr 
+                        @ className {styles.hr}
+                    div 
+                        p 
+                            + Auto incrementing value. The counter won't reset after edits or if&lf;          there are errors.
+                        p 
+                            + Current value:
+                            + {count}
+                    hr 
+                        @ className {styles.hr}
+                    div 
+                        p 
+                            + Component with state.
+                        < ClickCount 
+                    hr 
+                        @ className {styles.hr}
+                    div 
+                        p 
+                            + The button below will throw 2 errors. You'll see the error overlay to&lf;          let you know about the errors but it won't break the page or reset&lf;          your state.
+                        < Button 
+                            @ onClick
+                                => 
+                                    param e
+                                    _ setTimeout
+                                        => 
+                                            +
+                                                @expr document.parentNode
+                                        @ 0
+                                    _ throwError()
+                            + Throw an Error
+                    hr 
+                        @ className {styles.hr}

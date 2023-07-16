@@ -1,0 +1,116 @@
+$group
+
+    ${'$'}if wzCtx.Build.useAuthorization
+        import 
+            @ Response
+            @ Application
+            from 'express'
+        import jwt from 'express-jwt'
+        import jwksRsa from 'jwks-rsa'
+        import 
+            @ config
+            from '../features/config/index'
+        +
+        export 
+            const checkJwt
+                _ jwt
+                    { 
+                        # Dynamically provide a signing key based on the kid in the header and the singing keys
+                        # provided by the JWKS endpoint.
+                        @ secret
+                            _ jwksRsa.expressJwtSecret
+                                { 
+                                    @ cache true
+                                    @ rateLimit true
+                                    @ jwksRequestsPerMinute 5
+                                    @ jwksUri
+                                        `lit 
+                                            + https://
+                                            @ config.auth0Domain
+                                            + /.well-known/jwks.json
+                        # Validate the audience and the issuer.
+                        @ audience config.auth0PackiApiId
+                        @ issuer
+                            `lit 
+                                + https://
+                                @ config.auth0Domain
+                                + /
+                        [ algorithms
+                            @ 'RS256'
+        
+        export 
+            const checkScopes
+                => 
+                    param scopes
+                        :[ 
+                            :string 
+                    _ jwtAuthz(scopes)
+        
+        export 
+            const AuthorizationMiddleware
+                => 
+                    param app
+                        :ref Application
+                    _ app.use(checkJwt)
+                    success 'AuthorizationMiddleware installed'
+        
+        const jwtAuthz
+            => 
+                param expectedScopes
+                    :[ 
+                        :string 
+                param options
+                    :any 
+                    :optional 
+                if !Array.isArray(expectedScopes)
+                    throw new Error('Parameter expectedScopes must be an array of strings representing the scopes for the endpoint(s)')
+                return 
+                    => 
+                        param request
+                            :ref Request
+                        param response
+                            :ref Response
+                        param next
+                            :ref Function
+                        const error
+                            => 
+                                param response
+                                    :ref Response
+                                const err_message = 'Insufficient scope'
+                                if options && options.failWithError
+                                    return 
+                                        _ next
+                                            { 
+                                                @ statusCode 403
+                                                @ error 'Forbidden'
+                                                @ message err_message
+                                _ response.append
+                                    @ 'WWW-Authenticate'
+                                    `lit 
+                                        + Bearer scope="
+                                        _ expectedScopes.join(' ')
+                                        + ", error="
+                                        @ err_message
+                                        + "
+                                _ response.status(403).send(err_message)
+                        if expectedScopes.length === 0
+                            return 
+                                _ next
+                        const ruser = ((request as any).user as any)
+                        if !ruser || typeof ruser.scope !== 'string'
+                            return error(response)
+                        const scopes = ruser.scope.split(' ')
+                        const allowed
+                            _ expectedScopes.some
+                                => 
+                                    param scope
+                                        :any
+                                    _ scopes.includes(scope)
+                        return 
+                            iif allowed
+                                then
+                                    _ next
+                                else error(response)
+    ${'$'}else
+        # <--wizzi!file!exclude-->                
+

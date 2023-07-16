@@ -1,0 +1,24 @@
+module
+    kind react
+    export-default 
+        async-function getUser
+            param token
+                :string 
+            const response
+                await 
+                    _ fetch
+                        `lit 
+                            + https://
+                            @ process.env.NEXT_PUBLIC_AUTH0_DOMAIN
+                            + /userinfo
+                        { 
+                            { headers
+                                @ Authorization
+                                    `lit 
+                                        + Bearer&nbsp;
+                                        @ token
+                                        + 
+                                @ 'Content-Type' 'application/json'
+            return 
+                await 
+                    _ response.json()

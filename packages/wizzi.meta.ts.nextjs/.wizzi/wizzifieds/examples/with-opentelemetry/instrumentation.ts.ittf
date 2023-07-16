@@ -1,0 +1,8 @@
+module
+    kind react
+    import 
+        @ registerOTel
+        from '@vercel/otel'
+    export 
+        function register
+            _ registerOTel('next-app')

@@ -1,0 +1,14 @@
+$group
+    $file __dot__wizzi/models/t/tsDbMongoDb.json.ittf.ittf
+        ${'$'}{'$'}group
+
+            useMongoDb true
+            { mongoDb
+                host "mongodb+srv"
+                user "yanez"
+                password "${'$'}{'$'}{stfnbssl_env.mongoDbPsw}"
+                dbPath "@cluster0.idlk7.mongodb.net"
+                dbName "wizzi"
+                { options
+                    useNewUrlParser true
+                    useUnifiedTopology true

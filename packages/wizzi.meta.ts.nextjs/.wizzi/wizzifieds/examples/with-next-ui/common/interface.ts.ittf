@@ -1,0 +1,16 @@
+module
+    kind react
+    export 
+        :interface SvgProp
+            :p fill
+                :optional 
+                :string 
+            :p size
+                :optional 
+                :number 
+            :p height
+                :optional 
+                :number 
+            :p width
+                :optional 
+                :number 

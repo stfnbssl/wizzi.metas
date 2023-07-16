@@ -1,0 +1,50 @@
+module
+    kind react
+    import imagemin from 'imagemin'
+    import imageminJpegtran from 'imagemin-jpegtran'
+    :import-type 
+        @ ImageProps
+        from './types'
+    const cache
+        new Map
+            :param 
+                :ref ImageProps
+            :param string
+    export-default 
+        async-function getBase64ImageUrl
+            param image
+                :ref ImageProps
+            :return
+                :ref Promise
+                    :param string
+            let url = cache.get(image)
+            if url
+                return url
+            const response
+                await 
+                    _ fetch
+                        `lit 
+                            + https://res.cloudinary.com/
+                            @ process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+                            + /image/upload/f_jpg,w_8,q_70/
+                            @ image.public_id
+                            + .
+                            @ image.format
+                            + 
+            const buffer
+                await 
+                    _ response.arrayBuffer()
+            const minified
+                await 
+                    _ imagemin.buffer
+                        _ Buffer.from(buffer)
+                        { 
+                            [ plugins
+                                @ imageminJpegtran()
+            set url =
+                `lit 
+                    + data:image/jpeg;base64,
+                    _ Buffer.from(minified).toString('base64')
+                    + 
+            _ cache.set(image, url)
+            return url

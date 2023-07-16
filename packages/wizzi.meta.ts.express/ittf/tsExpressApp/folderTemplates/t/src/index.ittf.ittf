@@ -1,0 +1,15 @@
+$group
+
+    $
+        var items = [
+            "App.ts",
+            "httpException.ts",
+            "index.ts",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/${item}.ittf.ittf
+            module
+                ${'$'}include tsExpressApp/${item}
+
+    

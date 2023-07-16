@@ -1,0 +1,125 @@
+$group
+    # import mongooseService from '../../common/services/mongoose.service'
+    import 
+        @ GetUserModel
+        from '../models/user.mongodb'
+    import
+        @ nanoid 
+        from 'nanoid'
+    import debug from 'debug'
+    import 
+        @ userTypes
+        from '../index'
+    import 
+        @ authTypes
+        from '../../auth'
+    +
+    const log
+        :ref debug.IDebugger
+        = debug('feature.user.api:user.dao.mongodb')
+    +
+    class UsersDao
+        
+        ctor 
+            _ log('Created new instance of UsersDao')
+        
+        m addUser
+            async
+            param userFields
+                :ref userTypes.CreateUserDto
+            const User 
+                _ GetUserModel
+            const userId = nanoid()
+            const user
+                new User
+                    { 
+                        @ _id userId
+                        @ ...userFields
+                        @ permissionFlags authTypes.PermissionFlag.FREE_PERMISSION
+            await 
+                _ user.save()
+            return userId
+        
+        m getUserByEmail
+            async
+            param email
+                :string
+            const User 
+                _ GetUserModel
+            return 
+                _ User.findOne
+                    { 
+                        @ email
+                    ._ exec
+        
+        m getUserByEmailWithPassword
+            async
+            param email
+                :string 
+            const User 
+                _ GetUserModel
+            return 
+                _ User.findOne
+                    { 
+                        @ email
+                    ._ select
+                        @ '_id email permissionFlags +password'
+                    ._ exec
+        
+        m removeUserById
+            async
+            param userId
+                :string 
+            const User 
+                _ GetUserModel
+            return 
+                _ User.deleteOne
+                    { 
+                        @ _id userId
+                    ._ exec
+        
+        m getUserById
+            async
+            param userId
+                :string 
+            const User 
+                _ GetUserModel
+            return 
+                _ User.findOne
+                    { 
+                        @ _id userId
+                    ._ populate
+                        @ 'User'
+                    ._ exec
+        
+        m getUsers
+            async
+            param limit = 25
+            param page = 0
+            const User 
+                _ GetUserModel
+            return User.find().limit(limit).skip(limit * page).exec()
+        
+        m updateUserById
+            async
+            param userId
+                :string 
+            param userFields
+                :union 
+                    :ref userTypes.PatchUserDto
+                    :ref userTypes.PutUserDto
+            const User 
+                _ GetUserModel
+            const existingUser
+                await 
+                    _ User.findOneAndUpdate
+                        { 
+                            @ _id userId
+                        { 
+                            @ $set userFields
+                        { 
+                            @ new true
+                        ._ exec
+            return existingUser
+    +
+    export-default new UsersDao()

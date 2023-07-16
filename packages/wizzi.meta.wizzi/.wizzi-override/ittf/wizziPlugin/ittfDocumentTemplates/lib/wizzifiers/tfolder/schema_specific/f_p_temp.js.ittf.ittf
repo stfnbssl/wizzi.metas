@@ -1,0 +1,39 @@
+﻿$group
+	${'$'}params name, throwIfUndefined:boolean|true
+
+	# process AST-node-property ${'$'}{name} and set it in a var
+
+	var p_${'$'}{name} = null
+
+	if node.${'$'}{name}
+		
+		set p_${'$'}{name} 
+			{
+				@ textified null
+				@ isText false
+				[ children
+
+		if !node.${'$'}{name}.kind
+			throw 'Node ${'$'}{name} has no kind: ' + JSON.stringify(node, null, 2)
+		
+		_ format
+			@ p_${'$'}{name} 
+			@ node.${'$'}{name}
+			@ options
+
+		if p_${'$'}{name}.children.length == 1 
+
+			if isTextualNode(p_${'$'}{name}.children[0]) == false
+				set p_${'$'}{name}.tag = p_${'$'}{name}.children[0].tag
+				set p_${'$'}{name}.name = p_${'$'}{name}.children[0].name
+				set p_${'$'}{name}.source = p_${'$'}{name}.children[0].source
+				set p_${'$'}{name}.children = p_${'$'}{name}.children[0].children
+			else
+				set p_${'$'}{name}.tag = p_${'$'}{name}.children[0].tag
+				set p_${'$'}{name}.name = getNodeText(p_${'$'}{name}.children[0])
+				set p_${'$'}{name}.textified = p_${'$'}{name}.name
+				set p_${'$'}{name}.children = []
+	
+	${'$'}if throwIfUndefined
+		else
+			throw new Error('AST-node-property ${'$'}{name} undefined: ' + JSON.stringify(node, null, 2))

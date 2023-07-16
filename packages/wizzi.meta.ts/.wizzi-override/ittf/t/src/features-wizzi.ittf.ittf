@@ -1,0 +1,57 @@
+$group
+
+    $if metaCtx.useFeatures && metaCtx.features.useWizzi
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizzi/index.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizzi/factory.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi/factory.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizzi/maps.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi/maps.ts
+
+        $file __dot__wizzi/${pkgPath}src/features/wizzi/productions.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi/productions.ts
+
+        $
+            var items = [
+                "executeJob",
+                "metaGenerate",
+                "generateFolderArtifacts",
+                "generateArtifact",
+                "generateWizziModelTypes",
+                "loadModel",
+                "inferAndLoadContext",
+                "mTreeBuildupScript",
+                "mTree",
+                "scanIttfDocument",
+                "transformModel",
+                "wizzify",
+                "wizzifyV08",
+                "getCodeAST",
+                "getCodeASTV08",
+                "loadSiteJsonModel",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/features/wizzi/t/productions/${item}.ts.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include wz/v08/ts/express/features/wizzi/t/productions/${item}.ts
+            
+        $file __dot__wizzi/${pkgPath}src/features/wizzi/types.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi/types.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/wizzi/api/context.ts.ittf.ittf
+            module
+                ${'$'}include wz/v08/ts/express/features/wizzi/api/context.ts
+        
+        $if metaCtx.useExpress
+            $file __dot__wizzi/${pkgPath}src/features/wizzi/controllers/production.ts.ittf.ittf
+                module
+                    ${'$'}include wz/v08/ts/express/features/wizzi/controllers/production.ts  

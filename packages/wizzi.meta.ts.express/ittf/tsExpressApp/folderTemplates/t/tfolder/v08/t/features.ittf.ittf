@@ -1,0 +1,73 @@
+$group
+    $if false
+        $file __dot__wizzi/t/v08/express/features/packi/index.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include wz/v08/ts/express/features/packi/index.ts
+        $file __dot__wizzi/t/v08/express/features/packi/types.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include wz/v08/ts/express/features/packi/types.ts
+        $file __dot__wizzi/t/v08/express/features/packi/controllers/productions.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+                
+                ${'$'}include wz/v08/ts/express/features/packi/controllers/productions.ts
+    $*
+    $file __dot__wizzi/t/v08/express/features/packi/controllers/github.ts.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}{'$'}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/controllers/github.ts
+    $file __dot__wizzi/t/v08/express/features/packi/controllers/templates.ts.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}{'$'}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/controllers/templates.ts
+    $file __dot__wizzi/t/v08/express/features/packi/mongo/packi.ts.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}{'$'}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/mongo/packi.ts
+    
+    $file __dot__wizzi/t/v08/express/features/packi/mongo/user.ts.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}{'$'}params &md
+            
+            ${'$'}include wz/v08/ts/express/features/packi/mongo/user.ts
+    *$
+    $if false
+        $file __dot__wizzi/t/v08/express/features/t/authHandler.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params name
+            
+                ${'$'}include wz/v08/ts/tfolder/authHandler.ts
+        $file __dot__wizzi/t/v08/express/features/t/catch_reject.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params method
+            
+                ${'$'}include wz/v08/ts/tfolder/catch_reject.ts
+        $file __dot__wizzi/t/v08/express/features/t/catch_fail.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params method
+            
+                ${'$'}include wz/v08/ts/tfolder/catch_fail.ts
+        $file __dot__wizzi/t/v08/express/features/t/controller.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &ctrl
+                wz/v08/ts/tfolder/controller.ts${'('}3)
+        $file __dot__wizzi/t/v08/express/features/t/handler.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params name
+            
+                ${'$'}include wz/v08/ts/tfolder/handler.ts
+            
+        
+        $file __dot__wizzi/t/v08/express/features/wizzi/controllers/t/productions/resolveContexts.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
+            
+                ${'$'}include wz/v08/ts/express/features/wizzi/controllers/t/productions/resolveContexts.ts
+            

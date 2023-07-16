@@ -1,0 +1,69 @@
+$group
+    import UserDao from './user.dao'
+    import 
+        @ userTypes
+        from '../index'
+    +
+    class UsersService
+        
+        m create
+            async
+            param resource
+                :ref userTypes.CreateUserDto
+            return UserDao.addUser(resource)
+        
+        m deleteById
+            async
+            param id
+                :string 
+            return UserDao.removeUserById(id)
+        
+        m list
+            async
+            param limit
+                :number 
+            param page
+                :number 
+            return UserDao.getUsers(limit, page)
+        
+        m patchById
+            async
+            param id
+                :string 
+            param resource
+                :ref userTypes.PatchUserDto
+            :return
+                :ref Promise
+                    :param any
+            return UserDao.updateUserById(id, resource)
+        
+        m putById
+            async
+            param id
+                :string 
+            param resource
+                :ref userTypes.PutUserDto
+            :return
+                :ref Promise
+                    :param any
+            return UserDao.updateUserById(id, resource)
+        
+        m readById
+            async
+            param id
+                :string 
+            return UserDao.getUserById(id)
+        
+        m getUserByEmail
+            async
+            param email
+                :string 
+            return UserDao.getUserByEmail(email)
+        
+        m getUserByEmailWithPassword
+            async
+            param email
+                :string 
+            return UserDao.getUserByEmailWithPassword(email)
+    +
+    export-default new UsersService()

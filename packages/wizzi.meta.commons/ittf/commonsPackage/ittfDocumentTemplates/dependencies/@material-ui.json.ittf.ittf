@@ -1,0 +1,39 @@
+$group
+
+    $*
+        @material-ui properties for "package.json" ittf documents.
+        The "ctx" context object (if present) is set by wizzi-cli/cmds/create.
+    *$
+
+    ${'$'}if wzCtx.Build.useReact
+        ${'$'}if wzCtx.Build.react.useMaterialUI
+            ${'$'}if wzCtx.Build.react.materialUI.usePickers
+                @date-io/date-fns "^1.3.6"
+            ${'$'}if wzCtx.Build.react.useV16
+                $$ @material-ui/core "^3.9.4"
+                @material-ui/core "^4.11.2"
+            ${'$'}else
+                @material-ui/core "^4.11.3"
+            ${'$'}if wzCtx.Build.react.materialUI.useIcons
+                ${'$'}if wzCtx.Build.react.useV16
+                    $$ @material-ui/icons "^3.0.0"
+                    @material-ui/icons "^4.11.2"
+                ${'$'}else
+                    @material-ui/icons "^4.11.2"
+            ${'$'}if wzCtx.Build.react.materialUI.useLab
+                @material-ui/lab "^4.0.0-alpha.14"
+            ${'$'}if wzCtx.Build.react.materialUI.usePickers
+                @material-ui/pickers "^3.0.0"
+            @material-ui/styles "^4.11.2"
+
+        ${'$'}if wzCtx.Build.react.useMui
+            ${'$'}if wzCtx.Build.react.mui.useBase
+                @mui/base "latest"
+            ${'$'}if wzCtx.Build.react.mui.useIcons
+                @mui/icons-material "latest"
+            ${'$'}if wzCtx.Build.react.mui.useJoy
+                @mui/joy "latest"
+            ${'$'}if wzCtx.Build.react.mui.useMaterial
+                @mui/material "latest"
+            ${'$'}if wzCtx.Build.react.mui.useSystem
+                @mui/system "latest"

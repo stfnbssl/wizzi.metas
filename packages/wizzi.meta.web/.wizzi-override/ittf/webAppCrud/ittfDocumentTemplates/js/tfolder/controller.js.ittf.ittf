@@ -1,0 +1,257 @@
+$group
+    ${'$'}
+      var myName = 'Controller';
+      //
+
+    iife_window${'('} app, ${'$'}{myName})
+        function ${'$'}{myName}
+            param model
+            param view
+            var self = this
+            set self.model = model
+            set self.view = view
+            set self.active${metaCtx.webAppCrud.Name}Item = null
+            set self.${metaCtx.webAppCrud.name}SearchTerm = ''
+            ${'$'}*
+                GUIDAS
+            *${'$'}
+            _ self.view.bind
+                @ '${metaCtx.webAppCrud.name}ViewSearchChange'
+                function 
+                    param data
+                    ${'$'}${'$'} _ alert('${metaCtx.webAppCrud.name}ViewSearchChange:' + data.value)
+                    _ self.change${metaCtx.webAppCrud.Name}SearchTerm
+                      @ data.value
+
+            _ self.view.bind
+                @ '${metaCtx.webAppCrud.name}AddItemClick'
+                function 
+                    param element
+                    ${'$'}${'$'} _ alert('${metaCtx.webAppCrud.name}AddItemClick')
+                    _ self.showCreate${metaCtx.webAppCrud.Name}
+
+            _ self.view.bind
+                @ 'onView${metaCtx.webAppCrud.Name}Item'
+                function 
+                    param command
+                    param data
+                    $$ loog '${'$'}{myName}.onView${metaCtx.webAppCrud.Name}Item, command', command, "data", data
+                    if command == "update"
+                        _ self.showUpdate${metaCtx.webAppCrud.Name}
+                            @ data
+                    if command == "delete"
+                        _ self.showDelete${metaCtx.webAppCrud.Name}
+                            @ data
+                    ${'$'}*
+                    _ self.show${metaCtx.webAppCrud.Name}Item
+                      @ data
+                    *${'$'}
+
+
+        set ${'$'}{myName}.prototype.initialize
+            function 
+                param locationHash
+                set this.${metaCtx.webAppCrud.name}SearchTerm
+                  _ this.model.get${metaCtx.webAppCrud.Name}Value
+                    @ 'searchTerm'
+                    @ ''
+                set this.${metaCtx.webAppCrud.name}Categoria
+                  _ this.model.get${metaCtx.webAppCrud.Name}Value
+                    @ 'categoria'
+                    @ ''
+                _ this.view.render
+                  @ 'set${metaCtx.webAppCrud.Name}SearchTerm'
+                  @ this.${metaCtx.webAppCrud.name}SearchTerm
+                _ this.model.getTabelle
+                  =>
+                    param tabelle
+                    $$ loog "${'$'}{myName}.prototype.initialize", tabelle
+                    _ this.view.render
+                      @ 'set${metaCtx.webAppCrud.Name}Selects'
+                      @ tabelle
+                    _ this.view.bind
+                        @ '${metaCtx.webAppCrud.name}SelectCategoriaChange'
+                        =>
+                            param data
+                            _ this.change${metaCtx.webAppCrud.Name}Categoria
+                              @ data.value
+                    _ this.view.render
+                      @ 'set${metaCtx.webAppCrud.Name}SelectCategoria'
+                      @ this.${metaCtx.webAppCrud.name}Categoria
+                _ this.setView
+                  @ locationHash
+        
+        ${'$'}*
+            ROUTE
+        *${'$'}
+        set ${'$'}{myName}.prototype.setView =
+            function 
+                param locationHash
+                var route = locationHash.split('/')[1]
+                var page = route || ''
+                $$ loog '${'$'}{myName}.setView', 'route', route, 'page', page
+                _ this._updateRouteFilterState(page)
+
+        set ${'$'}{myName}.prototype._updateRouteFilterState =
+            function 
+                param currentPage
+                set this._activeRoute = currentPage
+                if currentPage === ''
+                    set this._activeRoute = currentPage = '${metaCtx.webAppCrud.name}'
+                
+                if this._activeRoute == '${metaCtx.webAppCrud.name}'
+                  _ this.view.render
+                    @ 'show${metaCtx.webAppCrud.Name}View'
+                  
+                  _ this._filter${metaCtx.webAppCrud.Name}
+                
+                if this._activeRoute == 'other'
+                  _ this.view.render
+                    @ 'showOtherView'
+                
+                _ this.view.render('setFilter', currentPage)
+            #
+                # 
+                # Simply updates the filter nav's selected states
+                # 
+
+
+        set ${'$'}{myName}.prototype.change${metaCtx.webAppCrud.Name}SearchTerm
+            function 
+                param value
+                $$ loog '${'$'}{myName}.change${metaCtx.webAppCrud.Name}SearchTerm', value
+                set this.${metaCtx.webAppCrud.name}SearchTerm = value
+                _ this.model.set${metaCtx.webAppCrud.Name}Value
+                  @ 'searchTerm'
+                  @ value
+                _ this._filter${metaCtx.webAppCrud.Name}
+
+        set ${'$'}{myName}.prototype.change${metaCtx.webAppCrud.Name}Categoria
+            function 
+                param value
+                $$ loog '${'$'}{myName}.change${metaCtx.webAppCrud.Name}Categoria', value
+                set this.${metaCtx.webAppCrud.name}Categoria = value
+                _ this.model.set${metaCtx.webAppCrud.Name}Value
+                  @ 'categoria'
+                  @ value
+                _ this._filter${metaCtx.webAppCrud.Name}
+
+        set ${'$'}{myName}.prototype._filter${metaCtx.webAppCrud.Name} =
+            function 
+                $$ loog '${'$'}{myName}._filter${metaCtx.webAppCrud.Name}'
+                _ this.show${metaCtx.webAppCrud.Name}List
+
+        set ${'$'}{myName}.prototype.show${metaCtx.webAppCrud.Name}List
+            function 
+                $$ loog '${'$'}{myName}.show${metaCtx.webAppCrud.Name}List'
+                _ this.model.get${metaCtx.webAppCrud.Name}
+                    @ this.${metaCtx.webAppCrud.name}SearchTerm
+                    @ this.${metaCtx.webAppCrud.name}Categoria
+                    =>
+                        param items
+                        $$ loog "${'$'}{myName}.show${metaCtx.webAppCrud.Name}List, items", items
+                        set this.active${metaCtx.webAppCrud.Name}Items = items
+                        _ this.view.render('show${metaCtx.webAppCrud.Name}List', items)
+
+        set ${'$'}{myName}.prototype.show${metaCtx.webAppCrud.Name}Item
+            function
+                param id 
+                $$ loog '${'$'}{myName}.show${metaCtx.webAppCrud.Name}Item'
+                _ this.model.get${metaCtx.webAppCrud.Name}Item
+                    @ id
+                    =>
+                        param item
+                        set this.active${metaCtx.webAppCrud.Name}Item = item
+                        _ this.view.render('show${metaCtx.webAppCrud.Name}Item', item)
+                        if item.kind == 'video'
+                          if item.videoKind == 'youtube'
+                            _ youTubePlayerChangeVideoId
+                              @ item.videoId
+                              @ item.time
+
+        set ${'$'}{myName}.prototype.showCreate${metaCtx.webAppCrud.Name}
+            function 
+                param title
+                _ this.view.bind
+                    @ 'create${metaCtx.webAppCrud.Name}Item'
+                    =>
+                        param originalValues
+                        param formValues
+                        # todo 
+                        info "${'$'}{myName}.create${metaCtx.webAppCrud.Name}.result.formValues", formValues
+                        _ this.model.create${metaCtx.webAppCrud.Name}Item
+                            @ formValues
+                            =>
+                                param result
+                                _ alert
+                                    _ JSON.stringify
+                                    @ result
+                                    @ null
+                                    @ 2
+                _ this.view.render
+                    @ 'create${metaCtx.webAppCrud.Name}Item'
+                    {
+                        @ __kind this._activeRoute
+
+
+        set ${'$'}{myName}.prototype.showUpdate${metaCtx.webAppCrud.Name}
+            function 
+                param id
+                info "${'$'}{myName}.showUpdate${metaCtx.webAppCrud.Name}.id", id
+                _ this.view.bind
+                    @ 'update${metaCtx.webAppCrud.Name}Item'
+                    =>
+                        param originalValues
+                        param formValues
+                        # todo 
+                        info "${'$'}{myName}.update${metaCtx.webAppCrud.Name}.result.formValues", formValues
+                        _ this.model.update${metaCtx.webAppCrud.Name}Item
+                            @ formValues
+                            =>
+                                param result
+                                _ alert
+                                    _ JSON.stringify
+                                    @ result
+                                    @ null
+                                    @ 2
+                _ this.model.get${metaCtx.webAppCrud.Name}Item
+                    @ id
+                    =>
+                        param item
+                        set this.active${metaCtx.webAppCrud.Name}Item = item
+                        _ this.view.render
+                            @ 'update${metaCtx.webAppCrud.Name}Item'
+                            {
+                                @ __kind this._activeRoute
+                                @ originalValues item
+
+        set ${'$'}{myName}.prototype.showDelete${metaCtx.webAppCrud.Name}
+            function 
+                param id
+                info "${'$'}{myName}.showDelete${metaCtx.webAppCrud.Name}.id", id
+                _ this.view.bind
+                    @ 'delete${metaCtx.webAppCrud.Name}Item'
+                    =>
+                        param originalValues
+                        param formValues
+                        # todo 
+                        info "${'$'}{myName}.update${metaCtx.webAppCrudd.Name}.result.formValues", formValues
+                        _ this.model.delete${metaCtx.webAppCrud.Name}Item
+                            @ formValues
+                            =>
+                                param result
+                                _ alert
+                                    _ JSON.stringify
+                                    @ result
+                                    @ null
+                                    @ 2
+                _ this.model.get${metaCtx.webAppCrud.Name}Item
+                    @ id
+                    =>
+                        param item
+                        set this.active${metaCtx.webAppCrud.Name}Item = item
+                        _ this.view.render
+                            @ 'delete${metaCtx.webAppCrud.Name}Item'
+                            {
+                                @ __kind this._activeRoute
+                                @ originalValues item

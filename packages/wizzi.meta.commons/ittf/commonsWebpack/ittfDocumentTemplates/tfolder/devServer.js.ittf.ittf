@@ -1,0 +1,8 @@
+$group
+    ---
+	${'$'}if wzCtx.Build.webpack.useDevServer
+        @ open true
+        ${'$'}if wzCtx.Build.webpack.devServer.static
+            @ static ${'$'}{wzCtx.Build.webpack.devServer.static}
+        ${'$'}if wzCtx.Build.webpack.useHotReplacement || ( wzCtx.Build.useReact && wzCtx.Build.react.useHotReload )
+            @ hot true

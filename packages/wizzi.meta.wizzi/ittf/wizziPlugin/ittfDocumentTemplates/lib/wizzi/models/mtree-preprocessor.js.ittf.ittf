@@ -1,0 +1,109 @@
+$group
+    $params &md
+
+    var verify = require('wizzi-utils').verify
+    $hook imports
+    ---
+    set module.exports
+		function
+			param mTree
+			param context
+
+			var state
+                {
+                    @ mTree mTree
+                    @ parent null
+			foreach item in mTree.nodes[0].children
+				_ traverse(item, state)
+
+			return mTree
+    ---
+	function traverse
+		param node
+		param state
+		if preprocessNode(node, state)
+			return
+		var saveParent = state.parent
+		foreach item in node.children
+			_ traverse(item, state)
+		set state.parent = saveParent 
+	---
+    $hook
+	---
+    function childNameIsOneOf
+		param node
+		param names
+		foreach child in node.children
+			foreach name in names
+				if child.n === name
+					return true
+		return false
+	---
+    function descendentNameIsOneOf
+		param node
+		param names
+		var found
+		foreach child in node.children
+			foreach name in names
+				if child.n == name
+					return true
+			set found
+				_ descendentNameIsOneOf
+					@ child
+					@ names
+			if found
+				return true
+		return false
+
+	---
+    function extractRemove
+		param node
+		param n
+		var ret
+		var children = node.children
+		set node.children = []
+		foreach item in children
+			if item.n === n
+			else
+				_ node.children.push
+					@ item
+
+	---
+    function wrapChilds
+		param node
+		param newN
+		
+    	_ copyNodeAttrsDeep
+			@ node
+			@ newN
+		
+		var children = node.children
+		set newN.parent = node.parent
+		set node.children = [ newN ]
+		foreach item in children
+			_ newN.children.push
+				@ item
+
+    ---
+	function copyNodeAttrsDeep
+		param nfrom
+		param nto
+		
+		_ copyNodeAttrs
+			@ nfrom
+			@ nto
+		
+		foreach item in nto.children
+			_ copyNodeAttrsDeep
+				@ nfrom
+				@ item
+	---
+    function copyNodeAttrs
+		param nfrom
+		param nto
+		set nto.r = nfrom.r
+		set nto.c = nfrom.c
+		set nto.s = nfrom.s
+		set nto.u = nfrom.u
+		if typeof nto.children === 'undefined'
+			set nto.children = []

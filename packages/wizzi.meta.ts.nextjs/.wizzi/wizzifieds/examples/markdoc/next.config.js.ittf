@@ -1,0 +1,13 @@
+module
+    kind react
+    const withMarkdoc = require('@markdoc/next.js')
+    set module.exports =
+        _ withMarkdoc()
+            { 
+                [ pageExtensions
+                    @ 'js'
+                    @ 'jsx'
+                    @ 'ts'
+                    @ 'tsx'
+                    @ 'md'
+                    @ 'mdoc'

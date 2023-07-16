@@ -1,0 +1,81 @@
+module
+    kind react
+    import 
+        @ lazy
+        from 'react'
+    import 
+        @ PreviewSuspense
+        from 'next-sanity/preview'
+    import 
+        @ postQuery
+        @ postSlugsQuery
+        from '../../lib/queries'
+    import 
+        @ getClient
+        @ overlayDrafts
+        @ sanityClient
+        from '../../lib/sanity.server'
+    import Post from '../../components/post'
+    const PostPreview
+        _ lazy
+            => 
+                _ import
+                    @ '../../components/post-preview'
+    export-default 
+        function PostPage
+            { 
+                @ preview
+                @ data
+            if preview
+                return 
+                    < PreviewSuspense 
+                        @ fallback "Loading..."
+                        < PostPreview 
+                            @ data {data}
+            return 
+                < Post 
+                    @ data {data}
+    export 
+        async-function getStaticProps
+            { 
+                @ params
+                @ preview
+                    = false
+            const 
+                { 
+                    @ post
+                    @ morePosts
+                =
+                    await 
+                        _ getClient(preview).fetch
+                            @ postQuery
+                            { 
+                                @ slug params.slug
+            return 
+                { 
+                    { props
+                        @ preview
+                        { data
+                            @ post
+                            @ morePosts overlayDrafts(morePosts)
+                    @ revalidate
+                        iif process.env.SANITY_REVALIDATE_SECRET
+                            then undefined
+                            else 60
+                        # If webhooks isn't setup then attempt to re-generate in 1 minute intervals
+    export 
+        async-function getStaticPaths
+            const paths
+                await 
+                    _ sanityClient.fetch(postSlugsQuery)
+            return 
+                { 
+                    @ paths
+                        _ paths.map
+                            => 
+                                param slug
+                                (
+                                    { 
+                                        { params
+                                            @ slug
+                    @ fallback true

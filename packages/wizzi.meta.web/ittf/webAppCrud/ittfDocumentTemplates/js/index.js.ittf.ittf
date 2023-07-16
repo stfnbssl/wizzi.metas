@@ -1,0 +1,8 @@
+$group
+    ${'$'}include appCrud/store
+    ${'$'}include appCrud/model
+    ${'$'}include appCrud/template
+    ${'$'}include appCrud/view
+    ${'$'}include appCrud/controller
+    ${'$'}include appCrud/app
+    

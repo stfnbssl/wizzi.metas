@@ -1,0 +1,12 @@
+module
+    kind react
+    set module.exports =
+        { 
+            { images
+                [ remotePatterns
+                    { 
+                        @ hostname 'cdn.sanity.io'
+                    { 
+                        @ hostname 'source.unsplash.com'
+        #
+            # * @type {import('next').NextConfig}

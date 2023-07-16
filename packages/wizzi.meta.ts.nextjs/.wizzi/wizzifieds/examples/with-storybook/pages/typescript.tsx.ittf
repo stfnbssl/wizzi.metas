@@ -1,0 +1,19 @@
+module
+    kind react
+    import 
+        @ Links
+        from 'components/Links'
+    import Head from 'next/head'
+    export-default 
+        function Typescript
+            return 
+                div 
+                    < Head 
+                        < title 
+                            + Typescript
+                        link 
+                            @ rel "icon"
+                            @ href "/favicon.ico"
+                    < Links 
+                    main 
+                        + This is a page using typescript

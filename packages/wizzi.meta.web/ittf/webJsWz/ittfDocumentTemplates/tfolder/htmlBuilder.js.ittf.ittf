@@ -1,0 +1,268 @@
+$group
+
+    function wzNodeRemove
+        param item
+		if !item.parent
+			throw new Error('wzNodeRemove. Missing item.parent of:' + item.tag + ',' + item.id)
+        var nodes = item.parent.elements
+        set item.parent.elements = []
+        foreach child in nodes
+            if child !== item
+                _ item.parent.elements.push(child)
+
+    function wzNodeReplace
+        param item
+		param newNode
+		if !item.parent
+			throw new Error('wzNodeReplace. Missing item.parent of:' + item.tag + ',' + item.id)
+        var nodes = item.parent.elements
+        set item.parent.elements = []
+        foreach child in nodes
+            if child !== item
+                _ item.parent.elements.push(child)
+			else
+				_ item.parent.elements.push(newNode)
+
+	class wzHtmlNode
+		ctor
+			param tag
+            param attrs
+			param textContent
+			if typeof textContent !== 'undefined'
+				set this.textContent = textContent
+			else
+				set this.tag = tag
+				set this.id = tag
+				set this.parent = null
+				set this.attributes = {}
+				set this.elements = []
+				if attrs
+					for var k in attrs
+						if attrs.hasOwnProperty(k)
+							if k === 'id'
+								set this.id = attrs[k]
+							if k === '_text'
+								_ this.text(attrs[k])
+							else
+								set this.attributes[k] = attrs[k]
+					
+		m add
+			param tag
+			param attrs
+			if tag.tag
+				set tag.parent = this
+				_ this.elements.push
+					@ tag
+				return tag
+			else
+				var node = new wzHtmlNode(tag, attrs)
+				set node.parent = this
+				_ this.elements.push
+					@ node
+				return node
+
+		m set
+			param name
+			param value
+			set this.attributes[name] = value
+			return this
+
+		m text
+			param content
+			var node = new wzHtmlNode(null, null, content)
+			_ this.elements.push
+				@ node
+			return this
+
+		m textReplace
+			param content
+			var done = false
+			foreach item in this.elements
+				if !done && typeof item.textContent !== 'undefined' 
+					set item.textContent = content
+					set done = true
+			if !done
+				_ this.text(content)
+			return this
+		
+		m get
+			param elementId
+			param attributeId
+			if this.id === elementId
+				if typeof attributeId !== 'undefined'
+					return this.attributes[attributeId]
+				else
+					return this
+			else
+				if this.elements
+					var found
+					foreach item in this.elements
+						set found = item.get(elementId, attributeId)
+						if found
+							return found
+				return null
+
+		m wrap
+			param tag
+			param attrs
+			
+			var wrapper = new wzHtmlNode(tag, attrs)
+			_ wzNodeReplace(this, wrapper)
+			_ wrapper.add
+				@ this
+			return wrapper
+
+		m unwrap
+			# unwrap means : replace the parent with this
+			_ wzNodeReplace(this.parent, this)
+
+		m remove
+			# unwrap means : replace the parent with this
+			_ wzNodeRemove(this)
+
+		m toHtml
+			param indent
+			set indent = indent || 0
+			if typeof this.textContent !== 'undefined' 
+				return this.textContent
+			else
+				var ret = [ new Array(indent).join(' ') ]
+				_ ret.push
+					@ '<' + this.tag
+				foreach name in Object.keys(this.attributes)
+					if i > 0
+						_ ret.push
+							@ '\n' + new Array(indent+2).join(' ')
+					var value = this.attributes[name]
+					if typeof value === 'undefined'
+						_ ret.push
+							@ ' ' + name
+					else
+						_ ret.push
+							@ ' ' + name + '="' + value + '"'
+				_ ret.push
+					@ '>'
+				foreach node in this.elements
+					_ ret.push
+						_ node.toHtml
+							@ indent + 1
+				_ ret.push
+					@ '</' + this.tag + '>'
+				_ ret.push('\n')
+				return ret.join('')
+
+	class wzHtmlBuilder
+		ctor
+			param options
+			set options = options || {}
+			set this.elementId = options.id
+			set this.elements = []
+			set this.current = null
+
+		m prettyResult
+			param elementId
+			set this.prettyResultId = elementId
+
+		m add
+			param tag
+			param attrs
+			var node
+			if this.current
+				set node = this.current.add(tag, attrs)
+			else
+				set node = new wzHtmlNode(tag, attrs)
+				set node.parent = this
+				_ this.elements.push
+					@ node
+			set this.current = node
+			_ this.update
+			return node
+
+		m addTop
+			param tag
+			param attrs
+			set this.current = null
+			return
+				_ this.add(tag, attrs)
+
+		m set
+			param attributeName
+			param attributeValue
+			_ this.current.set(attributeName, attributeValue)
+			_ this.update
+			return this
+
+		m text
+			param content
+			_ this.current.text
+				@ content
+			_ this.update
+			return this
+
+		m textReplace
+			param content
+			_ this.current.textReplace
+				@ content
+			_ this.update
+			return this
+
+		m toHtml
+			var ret = []
+			foreach item in this.elements
+				_ ret.push
+					_ item.toHtml
+			return ret.join('\n')
+
+		m select
+			param id
+			var found
+			foreach item in this.elements
+				set found
+					_ item.get
+						@ id
+				# loog 'select.item', id, item.id, found
+				if found
+					break
+			# loog 'select', id, found
+			if !found
+				return false
+			set this.current = found
+			return true
+
+		m wrap
+			param id
+			param wrapperTag
+			param wrapperId
+			var found = this.select(id)
+			if !found
+				throw new Error("wzHtmlBuilder can't wrap id=" + id + ". Not found.")
+			set this.current
+				_ this.current.wrap(wrapperTag, wrapperId)
+			_ this.update
+
+		m unwrap
+			param id
+			# unwrap means : replace the parent of id with id
+			var found = this.select(id)
+			if !found
+				throw new Error("wzHtmlBuilder can't unwrap id=" + id + ". Not found.")
+			set this.current
+				_ this.current.unwrap()
+			_ this.update
+
+		m remove
+			param id
+			var found = this.select(id)
+			if !found
+                return
+            _ this.current.remove
+		
+        m update
+			if this.elementId
+				_ wz.html
+					_ wz.element('#' + this.elementId)
+					_ this.toHtml
+			if this.prettyResultId
+				_ wz.htmlEscaped
+					_ wz.element('#' + this.prettyResultId)
+					_ this.toHtml

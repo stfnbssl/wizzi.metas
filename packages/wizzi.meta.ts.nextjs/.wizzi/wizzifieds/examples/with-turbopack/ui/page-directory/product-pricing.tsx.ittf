@@ -1,0 +1,70 @@
+module
+    kind react
+    import 
+        :type IProduct
+        from '#/lib/page-directory/get-products'
+    import 
+        @ ProductEstimatedArrival
+        from '#/ui/product-estimated-arrival'
+    import 
+        @ ProductLowStockWarning
+        from '#/ui/product-low-stock-warning'
+    import 
+        @ ProductPrice
+        from '#/ui/product-price'
+    import 
+        @ ProductSplitPayments
+        from '#/ui/product-split-payments'
+    import 
+        @ ProductUsedPrice
+        from '#/ui/product-used-price'
+    import 
+        @ dinero
+        :type DineroSnapshot
+        from 'dinero.js'
+    export 
+        function ProductPricing
+            { 
+                @ product
+                :{ 
+                    :p product
+                        :ref IProduct
+            const price
+                _ dinero
+                    @expr product.price
+                        :as 
+                            :ref DineroSnapshot
+                                :param number
+            return 
+                div 
+                    @ className "space-y-4 rounded-lg bg-gray-900 p-3"
+                    < ProductPrice 
+                        @ price {price}
+                        @ discount {product.discount}
+                    < ProductSplitPayments 
+                        @ price {price}
+                    { 
+                        iif product.usedPrice
+                            then
+                                < ProductUsedPrice 
+                                    @ usedPrice {product.usedPrice}
+                            else null
+                    < ProductEstimatedArrival 
+                        @ leadTime {product.leadTime}
+                        @ hasDeliveryTime
+                    { 
+                        iif product.stock <= 1
+                            then
+                                < ProductLowStockWarning 
+                                    @ stock {product.stock}
+                            else null
+                    button 
+                        @ onClick
+                            => 
+                                _ console.log
+                                    `lit 
+                                        + 
+                                        @ product.name
+                                        + &nbsp;added to cart!
+                        @ className "relative w-full items-center space-x-2 rounded-lg bg-vercel-blue px-3 py-1  text-sm font-medium text-white hover:bg-vercel-blue/90 disabled:text-white/70"
+                        + Add to Cart

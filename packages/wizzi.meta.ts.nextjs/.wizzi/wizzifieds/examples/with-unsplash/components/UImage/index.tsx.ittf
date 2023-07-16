@@ -1,0 +1,31 @@
+module
+    kind react
+    import styles from './UImage.module.css'
+    import UIcon from 'components/UIcon'
+    const Uimage
+        => 
+            { 
+                @ id
+                @ urls
+                @ altDescription
+            return 
+                div 
+                    @ key
+                        `lit 
+                            + uimg_container_
+                            @ id
+                            + 
+                    img 
+                        @ className {styles.img}
+                        @ src {urls.small}
+                        @ alt {altDescription}
+                    div 
+                        @ className {styles.actions}
+                        < UIcon 
+                            @ url
+                                `lit 
+                                    + /api/photo/download/
+                                    @ id
+                                    + 
+                            @ name "download"
+    export-default Uimage

@@ -1,0 +1,17 @@
+$group
+    var DEFAULT_MIME
+        {
+            @ css 'css'
+            @ graphql 'graphql'
+            @ html 'html'
+            @ ittf 'ittf'
+            @ js 'js'
+            @ json 'json'
+            @ md 'md'
+            @ scss 'scss'
+            @ text 'text'
+            @ ts 'ts'
+            @ vtt 'vtt'
+            @ vue 'vue'
+            @ xml 'xml'
+            @ yaml 'yaml'

@@ -1,0 +1,25 @@
+module
+    kind react
+    import dynamic from 'next/dynamic'
+    const TinaProvider
+        _ dynamic
+            => 
+                _ import
+                    @ './TinaProvider'
+            { 
+                @ ssr false
+    import 
+        @ TinaEditProvider
+        from 'tinacms/dist/edit-state'
+    const DynamicTina
+        => 
+            { 
+                @ children
+            return 
+                < React.Fragment
+                    < TinaEditProvider 
+                        @ editMode
+                            < TinaProvider 
+                                + {children}
+                        + {children}
+    export-default DynamicTina

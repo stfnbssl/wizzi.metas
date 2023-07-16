@@ -1,0 +1,131 @@
+module
+    kind react
+    import 
+        @ useMutation
+        @ useQuery
+        from '@apollo/client'
+    import 
+        @ graphql
+        from 'lib/gql'
+    import Link from 'next/link'
+    import 
+        @ useState
+        from 'react'
+    import 
+        @ initializeApollo
+        from '../lib/apollo'
+    const updateNameDocument
+        _ graphql
+            `lit 
+                + &lf;
+                + &nbsp; mutation UpdateName($name: String!) {&lf;
+                + &nbsp;   updateName(name: $name) {&lf;
+                + &nbsp;     id&lf;
+                + &nbsp;     name&lf;
+                + &nbsp;     status&lf;
+                + &nbsp;   }&lf;
+                + &nbsp; }&lf;
+                + 
+                #
+                    # GraphQL
+    const viewerDocument
+        _ graphql
+            `lit 
+                + &lf;
+                + &nbsp; query Viewer {&lf;
+                + &nbsp;   viewer {&lf;
+                + &nbsp;     id&lf;
+                + &nbsp;     name&lf;
+                + &nbsp;     status&lf;
+                + &nbsp;   }&lf;
+                + &nbsp; }&lf;
+                + 
+                #
+                    # GraphQL
+    const Index
+        => 
+            const 
+                { 
+                    @ data
+                = useQuery(viewerDocument)
+            const [newName, setNewName] = useState('')
+            const [updateNameMutation] = useMutation(updateNameDocument)
+            const onChangeName
+                => 
+                    _ updateNameMutation
+                        { 
+                            { variables
+                                @ name newName
+                            @ update
+                                => 
+                                    param cache
+                                    param mutationResult
+                                    const 
+                                        { 
+                                            @ data
+                                        = mutationResult
+                                    if !data
+                                        return 
+                                    const result
+                                        _ cache.readQuery
+                                            { 
+                                                @ query viewerDocument
+                                        # Cancel updating name in cache if no data is returned from mutation.
+                                        # Read the data from our cache for this query.
+                                    const newViewer
+                                        iif result
+                                            then
+                                                { 
+                                                    @ ...result.viewer
+                                            else null
+                                        # Add our comment from the mutation to the end.
+                                        # Write our data back to the cache.
+                                    if newViewer
+                                        set newViewer.name = data.updateName.name
+                                        _ cache.writeQuery
+                                            { 
+                                                @ query viewerDocument
+                                                { data
+                                                    @ viewer newViewer
+                                # Follow apollo suggestion to update cache
+                                # https://www.apollographql.com/docs/angular/features/cache-updates/#update
+            const viewer = data.viewer
+            return 
+                iif viewer
+                    then
+                        div 
+                            + You're signed in as
+                            + {viewer.name}
+                            + and you're
+                            + {viewer.status}
+                            + . Go to the
+                            + {' '}
+                            < Link 
+                                @ href "/about"
+                                + about
+                            + page.
+                            div 
+                                input 
+                                    @ type "text"
+                                    @ placeholder "your new name..."
+                                    @ onChange
+                                        => 
+                                            param e
+                                            _ setNewName(e.target.value)
+                                input 
+                                    @ type "button"
+                                    @ value "change"
+                                    @ onClick {onChangeName}
+                    else null
+    export 
+        async-function getStaticProps
+            const apolloClient = initializeApollo()
+            await 
+                _ apolloClient.query
+                    { 
+                        @ query viewerDocument
+            return 
+                { 
+                    { props
+                        @ initialApolloState apolloClient.cache.extract()
+    export-default Index

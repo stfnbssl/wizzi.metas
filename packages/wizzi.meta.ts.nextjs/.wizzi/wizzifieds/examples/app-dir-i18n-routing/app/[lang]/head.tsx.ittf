@@ -1,0 +1,16 @@
+module
+    kind react
+    export-default 
+        function Head
+            return 
+                < React.Fragment
+                    < title 
+                        { 
+                            `lit 
+                                + i18n within app directory - Vercel Examples
+                    meta 
+                        @ name "description"
+                        @ content "How to do i18n in Next.js 13 within app directory"
+                    link 
+                        @ rel "icon"
+                        @ href "/favicon.ico"

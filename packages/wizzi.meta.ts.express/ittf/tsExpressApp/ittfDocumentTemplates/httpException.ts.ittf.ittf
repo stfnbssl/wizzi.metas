@@ -1,0 +1,22 @@
+$group
+    $
+        var call = '(&md)';
+
+    class HttpException
+        extends Error
+        ctor
+            param status
+                :number
+            param message
+                :string
+            base message
+            set this.status = status
+            set this.message = message
+        p status
+            :number
+        p message
+            :string
+
+
+ 
+    export default HttpException

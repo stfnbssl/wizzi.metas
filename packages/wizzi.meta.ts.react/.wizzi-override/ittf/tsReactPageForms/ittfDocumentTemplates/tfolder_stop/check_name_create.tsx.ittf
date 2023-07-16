@@ -1,0 +1,48 @@
+$group
+    $params prod 
+    
+    $
+        var Prod = _.capitalize(prod);
+        var prefix = 
+            prod == 'tFolder' ? 'tf' 
+            : prod == 'meta' ? 'mp' 
+            : prod == 'package' ? 'pp' 
+            : prod == 'plugin' ? 'pl' 
+            : 'ap';
+
+    m _checkAvalible${Prod}Name
+        async
+        const
+            {
+                @ owner
+            = this.props.data
+        const ${prefix}_checked = this.state.${prefix}_name
+        const endpoint
+            `lit
+                _ nullthrows(process.env.API_SERVER_URL)
+                + /production/artifact/checkname/
+                @ encodeURIComponent(owner)
+                + /
+                @ encodeURIComponent(${prefix}_checked)
+        log 'Create${Prod}._checkAvalible${Prod}Name.endpoint', endpoint
+        const response
+            await 
+                _ fetch(endpoint)
+        if !response.ok
+            throw 
+                new Error
+                    `lit 
+                        + checkAvalible${Prod}Name error
+                        + &nbsp;-&nbsp;
+                        @ response.status
+                        + &nbsp;-&nbsp;
+                        @ response.statusText
+        const result
+            await 
+                _ response.json()
+        log 'Create${Prod}._checkAvalible${Prod}Name.result', result
+        _ this.setState
+            {
+                @ ${prefix}_name_available result.isValid
+                @ ${prefix}_name_checked ${prefix}_checked
+    

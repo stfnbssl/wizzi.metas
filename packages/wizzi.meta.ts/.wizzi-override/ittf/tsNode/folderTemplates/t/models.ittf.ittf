@@ -1,0 +1,272 @@
+$group
+
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            ${'$'}{'$'}include v08/env/vars
+            ---
+            ${'$'}include cli/v08/wzctx-info.json
+            ---
+            { App
+                name "${metaCtx.App.name}"
+                kind "${metaCtx.App.kind}"
+            ---
+            { Build
+                $if metaCtx.App.kind == 'NodeCLI'
+                    isCLI true
+                $if metaCtx.useFeatures
+                    [ features
+                        $if metaCtx.features.useGithub
+                            {
+                                name "github"
+                                hasControllers false
+                                useMongoDb false
+                        $if metaCtx.features.usePacki
+                            {
+                                name "packi"
+                                hasControllers false
+                                useMongoDb false
+                        $if metaCtx.features.useWizziProduction
+                            {
+                                name "production"
+                                fileName "wizzi-production"
+                                hasControllers false
+                                useMongoDb true
+                        $if metaCtx.features.useWizziCdn
+                            {
+                                name "cdn"
+                                fileName "wizzi-cdn"
+                                hasControllers false
+                                useMongoDb true
+                    $if metaCtx.features.useGithub
+                        useFeatureGithub true
+                        { featureGithub
+                            accessToken "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"
+                    $if metaCtx.features.usePacki
+                        useFeaturePacki true
+                        { featurePacki
+                    $if metaCtx.features.useWizziProduction
+                        useWizziProduction true
+                        { wizziProduction
+                            useCachedProductions false
+                    ---
+                $if metaCtx.useFeatures && metaCtx.features.useConfig
+                    ${'$'}{'$'}include config.json
+                    ---
+                ${'$'}{'$'}include code.json
+                ---
+                ${'$'}{'$'}include test.json
+                ---
+                ${'$'}{'$'}include wizzi.json
+                ---
+                ${'$'}{'$'}include utils.json
+                $if metaCtx.useMongoDb || metaCtx.usePostgres || metaCtx.useSequelize
+                    ---
+                    ${'$'}{'$'}include db.json
+                $if metaCtx.useAuthentication
+                    ---
+                    ${'$'}{'$'}include auth.json
+                $if metaCtx.useData
+                    ---
+                    ${'$'}{'$'}include data.json
+
+    $file __dot__wizzi/models/t/code.json.ittf.ittf
+        ${'$'}{'$'}group
+        
+            useTypescript true
+            { typescript
+                ${'$'}${'$'} for webpack client
+                useBabelLoader true
+                useTsxFiles false
+                
+            $if metaCtx.usePrettier
+                usePrettier true
+                { prettier
+        
+            $if metaCtx.usePrismjs
+                usePrismjs true
+                { prismjs
+                    [ modes
+        
+            $if metaCtx.useLint
+                useLint true
+                { lint
+    
+    $if metaCtx.useFeatures && metaCtx.features.useConfig
+        $file __dot__wizzi/models/t/config.json.ittf.ittf
+            ${'$'}{'$'}group
+                useConfig true
+                { config
+                    $$ $if metaCtx.useEnvalid
+                    useEnvalid true
+                    { envalid
+        
+    $file __dot__wizzi/models/t/test.json.ittf.ittf
+        ${'$'}{'$'}group
+                
+            useJest false
+            { jest
+        
+    $file __dot__wizzi/models/t/utils.json.ittf.ittf
+        ${'$'}{'$'}group
+                
+            { utils
+                useRimRaf true
+                useMinimist true
+                useAxios false
+                useEscapeRegexp false
+                useEscapeHtml false
+                useNullThrows false
+                useLodash false
+                useStringifySafe false
+                useParseUrl false
+                useEs6Error false
+                useJsCookie false
+                useQueryString false
+                useSanitizeHtml false
+                useDateFns false
+                useFetchPonyfill false
+                useNanoId false
+                $if metaCtx.features && metaCtx.features.useWizziProduction
+                    useNodeCache true
+                useGitUrlParse false
+                useJsonToAst false
+    
+    $file __dot__wizzi/models/t/wizzi.json.ittf.ittf
+        ${'$'}{'$'}group
+                
+            $if metaCtx.useWizzi || (metaCtx.useFeatures && metaCtx.features.useWizzi)
+                useWizzi true
+                { wizzi
+                    isDev true
+                    $if metaCtx.useWizziV08
+                        useV08 true
+                        { v08
+                            [ plugins
+                                $foreach item in metaCtx.wizziV08.plugins
+                                    "${item}"
+
+                    [ plugins
+                        $if metaCtx.useAzure || metaCtx.useHeroku
+                            "wizzi-core"
+                            "wizzi-js" 
+                            "wizzi-web" 
+                        $else
+                            $if metaCtx.useWizziV08
+                                $foreach item in metaCtx.wizziV08.plugins
+                                    "./wizzi.plugin.${item}/index.js" 
+                                $*
+                                "./wizzi.plugin.ts/index.js" 
+                                "./wizzi.plugin.json/index.js" 
+                                "./wizzi.plugin.yaml/index.js" 
+                                "./wizzi.plugin.ittf/index.js" 
+                                "./wizzi.plugin.xml/index.js" 
+                                "./wizzi.plugin.text/index.js" 
+                                "./wizzi.plugin.md/index.js" 
+                                "./wizzi.plugin.html/index.js" 
+                                "./wizzi.plugin.css/index.js" 
+                                "./wizzi.plugin.svg/index.js" 
+                                "./wizzi.plugin.wzjob/index.js" 
+                                *$
+                            $else
+                                "./wizzi-core/index.js" 
+                                "./wizzi-js/index.js" 
+                                "./wizzi-web/index.js" 
+                                "./wizzi-meta/index.js" 
+                    $if metaCtx.useWizziV08
+                        pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+                    $else
+                        pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.v07/packages"
+                    { globalContext
+                        wzConfigIsDevelopment true
+                        wzConfigIsPackageDeploy false
+                    useRunner false
+
+            $if metaCtx.useWizziDocs
+                useWizziDocs true
+                { wizziDocs
+            
+            $if metaCtx.usePacki
+                usePacki true
+                { packi
+                    useAdmin false
+            
+            $if metaCtx.usePackiBrowse
+                usePackiBrowse true
+                { packiBrowse
+
+            $if metaCtx.useIttfStatic
+                useIttfStatic true
+                { ittfStatic
+        
+            $if metaCtx.useWizziViewEngine
+                useWizziViewEngine true
+                { wizziViewEngine
+
+            $if metaCtx.useWizziJsonFactory
+                useWizziJsonFactory true
+                { wizziJsonFactory
+
+    $if metaCtx.useMongoDb || metaCtx.usePostgres || metaCtx.useSequelize
+        $file __dot__wizzi/models/t/db.json.ittf.ittf
+            ${'$'}{'$'}group
+
+                $if metaCtx.useMongoDb
+                    useMongoDb true
+                    { mongoDb
+                        host "mongodb+srv"
+                        user "yanez"
+                        password "${'$'}{'$'}{stfnbssl_env.mongoDbPsw}"
+                        dbPath "@cluster0.idlk7.mongodb.net"
+                        dbName "wizzi"
+                        { options
+                            useNewUrlParser true
+                            useUnifiedTopology true
+                
+                $if metaCtx.useSequelize
+                    useSequelize true
+                    { sequelize
+                        databaseUrl "${'$'}{'$'}{stfnbssl_env.sequelizeDbUrl}"
+                        $if metaCtx.sequelize.usePostgres
+                            dialect "postgres"
+                            usePostgres true
+                            { postgres
+
+    $if metaCtx.useAuthentication
+        $file __dot__wizzi/models/t/auth.json.ittf.ittf
+            ${'$'}{'$'}group
+                useAuthentication true
+                { authentication
+                    $if metaCtx.isProduction
+                        isProduction true
+                    $else
+                        isProduction false
+                    $if metaCtx.isLocal
+                        isLocal true
+                    $else
+                        isLocal false
+                    authRequired false
+                    userInfo false
+                    useLocal true
+                    { local
+                    useGithub true
+                    { github
+                        clientIdLocal "${'$'}{'$'}{stfnbssl_env.githubClientIdLocal}"
+                        clientSecretLocal "${'$'}{'$'}{stfnbssl_env.githubClientSecretLocal}"
+                        callbackURLLocal "${metaCtx.baseUrlLocal}/api/${metaCtx.apiVersion}/authenticate/github/callback"
+                        clientId "${'$'}{'$'}{stfnbssl_env.githubClientId}"
+                        clientSecret "${'$'}{'$'}{stfnbssl_env.githubClientSecret}"
+                        callbackURL "${metaCtx.baseUrl}/api/${metaCtx.apiVersion}/authenticate/github/callback"
+                    useGoogle true
+                    { google
+                        clientIdLocal "${'$'}{'$'}{stfnbssl_env.googleClientIdLocal}"
+                        clientSecretLocal "${'$'}{'$'}{stfnbssl_env.googleClientSecretLocal}"
+                        callbackURLLocal "${metaCtx.baseUrlLocal}/api/${metaCtx.apiVersion}/authenticate/google/callback"
+                        clientId "${'$'}{'$'}{stfnbssl_env.googleClientId}"
+                        clientSecret "${'$'}{'$'}{stfnbssl_env.googleClientSecret}"
+                        callbackURL "${metaCtx.baseUrl}/api/${metaCtx.apiVersion}/authenticate/google/callback"
+
+    $if metaCtx.useData
+        $file __dot__wizzi/models/t/data.json.ittf.ittf
+            ${'$'}{'$'}group
+                useData true
+                { data

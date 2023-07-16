@@ -1,0 +1,18 @@
+$group
+    ${'$'}params position, fileName, title|@@null
+    
+    {
+        ${'$'}if title != null
+            kind "titled-image"
+        ${'$'}else
+            kind "image"
+        
+        position "${'$'}{position}"
+        
+        path "${'$'}{bebaImageFolder}/${'$'}{fileName}"
+        
+        ${'$'}if title != null
+            title "${'$'}{title}"
+        
+        ${'$'}hook
+

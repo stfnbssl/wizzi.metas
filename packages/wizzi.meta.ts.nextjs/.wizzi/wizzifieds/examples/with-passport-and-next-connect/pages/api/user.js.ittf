@@ -1,0 +1,75 @@
+module
+    kind react
+    import nextConnect from 'next-connect'
+    import auth from '../../middleware/auth'
+    import 
+        @ deleteUser
+        @ createUser
+        @ updateUserByUsername
+        from '../../lib/db'
+    const handler = nextConnect()
+    _ handler.use(auth).get
+        => 
+            param req
+            param res
+            _ res.json
+                { 
+                    @ user req.user
+                # You do not generally want to return the whole user object
+                # because it may contain sensitive field such as !!password!! Only return what needed
+                # const { name, username, favoriteColor } = req.user
+                # res.json({ user: { name, username, favoriteColor } })
+        ._ post
+            => 
+                param req
+                param res
+                const 
+                    { 
+                        @ username
+                        @ password
+                        @ name
+                    = req.body
+                _ createUser
+                    @ req
+                    { 
+                        @ username
+                        @ password
+                        @ name
+                _ res.status(200).json
+                    { 
+                        @ success true
+                        @ message 'created new user'
+        ._ use
+            => 
+                param req
+                param res
+                param next
+                if !req.user
+                    _ res.status(401).send('unauthenticated')
+                else
+                    _ next()
+        ._ put
+            => 
+                param req
+                param res
+                const 
+                    { 
+                        @ name
+                    = req.body
+                const user
+                    _ updateUserByUsername
+                        @ req
+                        @expr req.user.username
+                        { 
+                            @ name
+                _ res.json
+                    { 
+                        @ user
+        ._ delete
+            => 
+                param req
+                param res
+                _ deleteUser(req)
+                _ req.logOut()
+                _ res.status(204).end()
+    export-default handler

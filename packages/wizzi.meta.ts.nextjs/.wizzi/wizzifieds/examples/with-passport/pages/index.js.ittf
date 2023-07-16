@@ -1,0 +1,44 @@
+module
+    kind react
+    import 
+        @ useUser
+        from '../lib/hooks'
+    import Layout from '../components/layout'
+    const Home
+        => 
+            const user = useUser()
+            return 
+                < Layout 
+                    h1 
+                        + Passport.js Example
+                    p 
+                        + Steps to test the example:
+                    ol 
+                        li 
+                            + Click Login and enter a username and password.
+                        li 
+                            + You'll be redirected to Home. Click on Profile, notice how your&lf;          session is being used through a token stored in a cookie.
+                        li 
+                            + Click Logout and try to go to Profile again. You'll get redirected to&lf;          Login.
+                    { 
+                        && 
+                            + user
+                            < React.Fragment
+                                p 
+                                    + Currently logged in as:
+                                pre 
+                                    + {JSON.stringify(user, null, 2)}
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       li {&lf;
+                                + &nbsp;         margin-bottom: 0.5rem;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;       pre {&lf;
+                                + &nbsp;         white-space: pre-wrap;&lf;
+                                + &nbsp;         word-wrap: break-word;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;
+    export-default Home

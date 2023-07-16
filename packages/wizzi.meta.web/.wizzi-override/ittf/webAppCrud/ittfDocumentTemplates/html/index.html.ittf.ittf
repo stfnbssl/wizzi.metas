@@ -1,0 +1,50 @@
+$group
+    
+    head 
+        meta 
+            charset utf-8
+        @title Media works
+        css css/index.css
+        css css/appCrud${metaCtx.webAppCrud.Name}.css
+    style
+    body
+        ${'$'}include html/appCrud/main
+        # tblContent
+        button
+            + start db
+            class start-db
+        script
+            set window.__filename = 'browser'
+        js js/index.js
+        js js/appCrud${metaCtx.webAppCrud.Name}.js
+        script
+            var $startDb = qs('.start-db')
+            _ $on
+                @ $startDb
+                @ 'click'
+                function
+                    param event
+                    _ StartDb
+            
+            function StartDb
+                var databaseName = "mydatabase"
+                var tableName = "mytable"
+                set db = new db.LocalStorageDb(databaseName, localStorage)
+                $$ loog 'StartDb db', db
+                _ $("#tblContent > tbody").html("")
+                if db.tableExists(tableName)
+                    var result = db.queryAll("mytable")
+                    _ $.each
+                        @ result
+                        function 
+                            param index
+                            param value
+                            var vCode = value.code
+                            var vTitle = value.title
+                            var vAuthor = value.author
+                            var vYear = value.year
+                            var vCopies = value.copies
+                            var rowContent = '<tr><td>' + vCode + '</td><td>' + vTitle + '</td><td>' + vAuthor + '</td><td>' + vYear + '</td><td>' + vCopies + '</td><td><a href="#" onclick="rowDelete(this); return false;">Delete</a></tr>'
+                            _ $("#tblContent tbody").append(rowContent)
+
+

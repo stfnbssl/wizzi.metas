@@ -1,0 +1,425 @@
+$group
+
+	${'$'}include polyfill.js
+	
+	iife
+		var wz = window.wz = {}
+
+		var rclass = /[\n\t\r]/g
+		var rnotwhite = (/\S+/g)
+
+		${'$'}include eventTarget.js
+		${'$'}include global.js
+		${'$'}include events.js
+		${'$'}include verify.js
+
+		set wz.element
+			function
+				param element
+				if typeof element === 'string'
+					var e = document.querySelector(element)
+					if !e
+						try
+							set e = document.querySelector("#" + element)
+						catch ex
+							return null
+					return e
+				else
+					return element
+
+		set wz.hide
+			function
+				param element
+				var e = wz.element(element)
+				set e.style.display = 'none'
+
+		set wz.show
+			function
+				param element
+				var e = wz.element(element)
+				set e.style.display = 'block'
+
+		set wz.hasClass
+			function
+				param element
+				param selector
+				var e = wz.element(element)
+				if (" " + e.className + " ").replace(rclass, " ").indexOf(" " + selector + " ") > -1
+					return true
+				return false
+
+		set wz.addClass
+			function
+				param element
+				param value
+                param options
+
+				var e = wz.element(element)
+				var classes, cur, finalValue
+
+                if options && options.removeOnClass
+                    var elements = document.getElementsByClassName(options.removeOnClass)
+                    _ Array.from(elements).forEach
+                        function
+                            param element
+                            _ wz.removeClass(element, value)
+
+				if value && typeof value === "string"
+
+					set classes = ( value || "" ).match( rnotwhite ) || []
+					if !e.className && classes.length === 1
+						set e.className = value
+				
+					else
+				
+						set cur = " " + e.className + " "
+				
+						foreach clazz in classes
+							if cur.indexOf( " " + clazz + " " ) < 0
+								set cur += clazz + " "
+				
+						set finalValue = cur.trim()
+						if e.className !== finalValue
+							set e.className = finalValue
+
+		set wz.removeClass
+			function
+				param element
+				param value
+
+				var e = wz.element(element)
+				var classes, cur, finalValue
+
+				if value && typeof value === "string"
+
+					set classes = ( value || "" ).match( rnotwhite ) || []
+
+					set cur = e.className ? ( " " + e.className + " " ).replace( rclass, " " ) : ""
+
+					foreach clazz in classes
+						while cur.indexOf( " " + clazz + " " ) >= 0 
+							set cur = cur.replace( " " + clazz + " ", " " )
+
+					set finalValue = cur.trim()
+					if e.className !== finalValue
+						set e.className = finalValue
+
+		set wz.toggleClass
+			function
+				param element
+				param value
+                
+				if wz.hasClass(element, value)
+					_ wz.removeClass(element, value)
+				else
+					_ wz.addClass(element, value)
+
+		set wz.attribute
+			function
+				param element
+				param name
+				param value
+				var e = wz.element(element)
+				if typeof value === 'undefined'
+					return e.getAttribute(name)
+				else
+					_ e.setAttribute(name, value)
+
+		set wz.style
+			function
+				param element
+				param name
+				param value
+				var e = wz.element(element)
+				if typeof value === 'undefined'
+					return e.style[name]
+				else
+					set e.style[name] = value
+
+		set wz.text
+			function
+				param element
+				param value
+				var e = wz.element(element)
+				if typeof value === 'undefined'
+					return e.textContent
+				elif e.textContent !== value
+					set e.textContent = value
+
+		set wz.html
+			function
+				param element
+				param html
+				var saveElementForLog = element
+				if typeof element === "string"
+					set element = wz.element(element)
+				if !element
+					error 'Error, element', saveElementForLog
+					throw new Error('In wz.html the element parameter must be an html element or the id of an html element. Received: ' + saveElementForLog)
+				if typeof html === 'undefined'
+					return element.innerHTML
+				else
+					set element.innerHTML = html
+
+		set wz.htmlEscaped
+			function
+				param element
+				param html
+				_ wz.html
+					@ element
+					_ wz.escapeHtml(html)
+
+		set wz.replaceChildren
+			function
+				param element
+				param nodes
+				var saveElementForLog = element
+				if typeof element === "string"
+					set element = wz.element(element)
+				if !element
+					# loog 'element', saveElementForLog
+					throw new Error('In wz.replaceChildren the element parameter must be an html element or the id of an html element. Received: ' + saveElementForLog)
+				set element.innerHTML = ''
+				if nodes.length
+					foreach node in nodes
+						_ element.appendChild( node )
+				else
+					_ element.appendChild( nodes )
+
+		set wz.value
+			function
+				param element
+				param value
+				var saveElementForLog = element
+				if typeof element === "string"
+					set element = wz.element(element)
+				if !element
+					error 'element', saveElementForLog
+					throw new Error('In wz.value the element parameter must be an html element or the id of an html element. Received: ' + saveElementForLog)
+				if typeof value === 'undefined'
+					return element.value
+				elif element.value !== value
+					set element.value = value
+			
+		set wz.val = wz.value
+
+		set wz.click
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.addEvent
+					@ wz.element(element)
+					@ 'click'
+					@ handler
+					@ useCapture
+
+		set wz.clickClass
+			function
+				param classname
+				param handler
+				param useCapture
+                var elements = document.getElementsByClassName(classname)
+                _ Array.from(elements).forEach
+                    function
+                        param element
+                        _ wz.click
+                            @ element
+                            @ handler
+                            @ useCapture
+			
+		set wz.unclick
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.removeEvent
+					@ wz.element(element)
+					@ 'click'
+					@ handler
+					@ useCapture
+
+		set wz.blur
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.addEvent
+					@ wz.element(element)
+					@ 'blur'
+					@ handler
+					@ useCapture
+
+		set wz.unblur
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.removeEvent
+					@ wz.element(element)
+					@ 'blur'
+					@ handler
+					@ useCapture
+
+		set wz.change
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.addEvent
+					@ wz.element(element)
+					@ 'change'
+					@ handler
+					@ useCapture
+
+		set wz.unchange
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.removeEvent
+					@ wz.element(element)
+					@ 'change'
+					@ handler
+					@ useCapture
+
+		set wz.contextmenu
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.addEvent
+					@ wz.element(element)
+					@ 'contextmenu'
+					@ handler
+					@ useCapture
+
+		set wz.uncontextmenu
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.removeEvent
+					@ wz.element(element)
+					@ 'contextmenu'
+					@ handler
+					@ useCapture
+
+		set wz.keypress
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.addEvent
+					@ wz.element(element)
+					@ 'keypress'
+					@ handler
+					@ useCapture
+
+		set wz.unkeypress
+			function
+				param element
+				param handler
+				param useCapture
+				_ window.removeEvent
+					@ wz.element(element)
+					@ 'keypress'
+					@ handler
+					@ useCapture
+
+		set wz.contentLoaded
+			function
+				param fn
+				# from Diego Perini https://raw.githubusercontent.com/dperini/ContentLoaded/master/src/contentloaded.js
+				var 
+					decl done = false
+					decl top = true
+					decl doc = window.document
+					decl root = doc.documentElement
+					decl modern = doc.addEventListener
+					decl add = modern ? 'addEventListener' : 'attachEvent'
+					decl rem = modern ? 'removeEventListener' : 'detachEvent'
+					decl pre = modern ? '' : 'on'
+					decl init
+						function 
+							param e
+							if (e.type == 'readystatechange') && (doc.readyState != 'complete')
+								return 
+							_ (e.type == 'load' ? window : doc)[rem]
+								@ pre + e.type
+								@ init
+								@ false
+							if !(done) && (done = true)
+								_ fn.call(window, (e.type || e))
+					decl poll
+						function 
+							try 
+								_ root.doScroll('left')
+							catch e
+								_ setTimeout(poll, 50)
+								return 
+							_ init('poll')
+				
+				if doc.readyState == 'complete'
+					_ fn.call(window, 'lazy')
+				else 
+					if !(modern) && root.doScroll
+						try 
+							set top = !(window.frameElement)
+						catch e
+						if top
+							_ poll()
+					_ doc[add]
+						@ pre + 'DOMContentLoaded'
+						@ init
+						@ false
+					_ doc[add]
+						@ pre + 'readystatechange'
+						@ init
+						@ false
+					_ window[add]
+						@ pre + 'load'
+						@ init
+						@ false
+		
+		set wz.loaded = wz.contentLoaded
+
+		var entityMap
+			{ 
+				@ '&' '&amp;'
+				@ '<' '&lt;'
+				@ '>' '&gt;'
+				@ '"' '&quot;'
+				@ "'" '&#39;'
+				@ '/' '&#x2F;'
+				@ '`' '&#x60;'
+				@ '=' '&#x3D;'
+		
+		set wz.escapeHtml
+            function escapeHtml
+                param string
+                return 
+                    _ String(string).replace
+                        @ /[&<>"'`=\/]/g
+                        function fromEntityMap
+                            param s
+                            return entityMap[s]
+		
+		set wz.unescapeHtml
+			function
+				param string
+				return 
+					_ wz.replace
+						_ wz.replace
+							_ wz.replace
+								@ string
+								@ '&lt;'
+								@ '<'
+							@ '&gt;'
+							@ '>'
+						@ '&amp;'
+						@ '&'
+
+		(
+
+

@@ -1,0 +1,51 @@
+$group
+
+    import 
+        @ FileDef
+        from 'wizzi-utils'
+    import 
+        @ packiTypes
+        from '../packi'
+    +
+    export 
+        :type FsDbResult
+            :{ 
+                :p writtenCount
+                    :optional 
+                    :number 
+                :p deletedCount
+                    :optional 
+                    :number 
+    +
+    export 
+        :type FsDb
+            :{ 
+                :p getPackiTemplatesList
+                    :=> 
+                        :ref Promise
+                            :param 
+                                :[ 
+                                    :string 
+                :p getPackiTemplate
+                    :=> 
+                        :ref Promise
+                            :param 
+                                :[ 
+                                    :ref FileDef
+                        param name
+                            :string 
+                :p getStarterTemplate
+                    :=> 
+                        :ref Promise
+                            :param 
+                                :[ 
+                                    :ref FileDef
+                :p savePackiTemplate
+                    :=> 
+                        :ref Promise
+                            :param 
+                                :ref FsDbResult
+                        param id
+                            :string 
+                        param files
+                            :ref packiTypes.PackiFiles

@@ -1,0 +1,102 @@
+module
+    kind react
+    import 
+        @ css
+        @ Global
+        @ keyframes
+        from '@emotion/react'
+    import styled from '@emotion/styled'
+    export 
+        const globalStyles
+            < Global 
+                @ styles
+                    _` css
+                        + &lf;
+                        + &nbsp;     html,&lf;
+                        + &nbsp;     body {&lf;
+                        + &nbsp;       padding: 3rem 1rem;&lf;
+                        + &nbsp;       margin: 0;&lf;
+                        + &nbsp;       background: papayawhip;&lf;
+                        + &nbsp;       min-height: 100%;&lf;
+                        + &nbsp;       font-family: Helvetica, Arial, sans-serif;&lf;
+                        + &nbsp;       font-size: 24px;&lf;
+                        + &nbsp;     }&lf;
+                        + &nbsp;  &nbsp;
+    export 
+        const basicStyles
+            _` css
+                + &lf;
+                + &nbsp; background-color: white;&lf;
+                + &nbsp; color: cornflowerblue;&lf;
+                + &nbsp; border: 1px solid lightgreen;&lf;
+                + &nbsp; border-right: none;&lf;
+                + &nbsp; border-bottom: none;&lf;
+                + &nbsp; box-shadow: 5px 5px 0 0 lightgreen, 10px 10px 0 0 lightyellow;&lf;
+                + &nbsp; transition: all 0.1s linear;&lf;
+                + &nbsp; margin: 3rem 0;&lf;
+                + &nbsp; padding: 1rem 0.5rem;&lf;
+                + 
+    export 
+        const hoverStyles
+            _` css
+                + &lf;
+                + &nbsp; &:hover {&lf;
+                + &nbsp;   color: white;&lf;
+                + &nbsp;   background-color: lightgray;&lf;
+                + &nbsp;   border-color: aqua;&lf;
+                + &nbsp;   box-shadow: -15px -15px 0 0 aqua, -30px -30px 0 0 cornflowerblue;&lf;
+                + &nbsp; }&lf;
+                + 
+    export 
+        const bounce
+            _` keyframes
+                + &lf;
+                + &nbsp; from {&lf;
+                + &nbsp;   transform: scale(1.01);&lf;
+                + &nbsp; }&lf;
+                + &nbsp; to {&lf;
+                + &nbsp;   transform: scale(0.99);&lf;
+                + &nbsp; }&lf;
+                + 
+    export 
+        const Basic
+            _` styled.div
+                + &lf;
+                + &nbsp;&nbsp;
+                @ basicStyles
+                + ;&lf;
+                + 
+    export 
+        const Combined
+            _` styled.div
+                + &lf;
+                + &nbsp;&nbsp;
+                @ basicStyles
+                + ;&lf;
+                + &nbsp;&nbsp;
+                @ hoverStyles
+                + ;&lf;
+                + &nbsp; & code {&lf;
+                + &nbsp;   background-color: linen;&lf;
+                + &nbsp; }&lf;
+                + 
+    export 
+        const Animated
+            _` styled.div
+                + &lf;
+                + &nbsp;&nbsp;
+                @ basicStyles
+                + ;&lf;
+                + &nbsp;&nbsp;
+                @ hoverStyles
+                + ;&lf;
+                + &nbsp; & code {&lf;
+                + &nbsp;   background-color: linen;&lf;
+                + &nbsp; }&lf;
+                + &nbsp; animation:&nbsp;
+                => 
+                    { 
+                        @ animation
+                    + animation
+                + &nbsp;0.2s infinite ease-in-out alternate;&lf;
+                + 

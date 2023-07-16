@@ -1,0 +1,23 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}root/bin/www.js.ittf.ittf
+        module
+            kind es6
+        	${'$'}include cloudAzure/bin/www.js.ittf.ittf
+    
+    $file __dot__wizzi/${pkgPath}root/__dot__deployment.text.ittf.ittf
+        text
+            ${'$'}include cloudAzure/deployment.text
+
+    $file __dot__wizzi/${pkgPath}root/Web.config.xml.ittf.ittf
+        xml
+            ${'$'}include cloudAzure/config/Web.config.xml
+    
+    $file __dot__wizzi/${pkgPath}root/Web.Debug.config.xml.ittf.ittf
+        xml
+            ${'$'}include cloudAzure/config/Web.Debug.config.xml
+    
+    $file __dot__wizzi/${pkgPath}root/server.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include cloudAzure/rootServer.js

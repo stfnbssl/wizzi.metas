@@ -1,0 +1,70 @@
+$group
+
+    $foreach schema in metaCtx.Schemas
+
+        $file __dot__wizzi/examples/${schema.name}_document.js.ittf.ittf
+            module
+                kind es6
+                example-plugin-document(&schema)
+
+        $file __dot__wizzi/examples/${schema.name}_extended.js.ittf.ittf
+            module
+                kind es6
+                example-plugin-extended(&schema)
+
+        $file __dot__wizzi/examples/ittf/first.${schema.name}.ittf.ittf.ittf
+            example-ittf(&schema)  
+
+        $if schema.artifacts && schema.artifacts.length > 0
+            $foreach artifact in schema.artifacts
+                $file __dot__wizzi/examples/${schema.name}_${artifact.name}.js.ittf.ittf
+                    $ schema.artifact = artifact.name
+                    $ schema.outmime = artifact.outmime
+                    module
+                        kind es6
+                        example-plugin-artifact(&schema)
+
+        $if schema.transformers && schema.transformers.length > 0
+            $foreach transformer in schema.transformers
+                $file __dot__wizzi/examples/${schema.name}_${transformer.name}.js.ittf.ittf
+                    $ schema.transformer = transformer.name
+                    $ schema.outmime = transformer.outmime
+                    module
+                        kind es6
+                        example-plugin-transformer(&schema)
+
+        $if schema.hasWizzifier
+            
+            $file __dot__wizzi/examples/${schema.name}_wizzify.js.ittf.ittf
+                module
+                    example-plugin-wizzify(&schema)
+            
+            $file __dot__wizzi/examples/${schema.name}_getCodeAST.js.ittf.ittf
+                module
+                    example-plugin-getCodeAST(&schema)
+
+            $file __dot__wizzi/examples/data/first.${schema.name}.text.ittf.ittf
+                text
+                    example-data(&schema)
+
+    $
+        var items = [
+            "example_helpers",
+            "example_prints",
+            "example_step",
+            "exec_examples",
+            "exec_levels",
+            "exec_steps",
+            "jsonLoadModelAndGenerateArtifact",
+            "loadModel_with_config",
+            "loadModel_with_config",
+            "loadModel",
+            "loadModelAndGenerateArtifact_with_config",
+            "loadModelAndGenerateArtifact",
+            "loadMTree",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/examples/t/${item}.js.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziPlugin/examples/tfolder/${item}.js

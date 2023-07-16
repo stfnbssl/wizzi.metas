@@ -1,0 +1,22 @@
+module
+    kind react
+    import 
+        @ gql
+        from '@apollo/client'
+    export-default 
+        _` gql
+            + &lf;
+            + &nbsp; type Movie {&lf;
+            + &nbsp;   title: String&lf;
+            + &nbsp;   tagline: String&lf;
+            + &nbsp;   released: Int&lf;
+            + &nbsp;   actors: [Person!]! @relationship(type: "ACTED_IN", direction: IN)&lf;
+            + &nbsp;   directors: [Person!]! @relationship(type: "DIRECTED", direction: IN)&lf;
+            + &nbsp; }&lf;
+            + &lf;
+            + &nbsp; type Person {&lf;
+            + &nbsp;   name: String&lf;
+            + &nbsp;   born: Int&lf;
+            + &nbsp;   movies: [Movie!]! @relationship(type: "ACTED_IN", direction: OUT)&lf;
+            + &nbsp; }&lf;
+            + 

@@ -1,0 +1,38 @@
+module
+    kind react
+    import 
+        @ BaseEditor
+        from 'slate'
+    import 
+        @ ReactEditor
+        from 'slate-react'
+    import 
+        @ HistoryEditor
+        from 'slate-history'
+    :type CustomElement
+        :{ 
+            :p type
+                :optional 
+                :literal 'paragraph'
+            :p children
+                :[ 
+                    :ref CustomText
+    :type CustomText
+        :{ 
+            :p text
+                :string 
+            :p bold
+                :optional 
+                :literal true
+    :declare 
+        :module 'slate'
+            :interface CustomTypes
+                :p Editor
+                    :intersect 
+                        :ref BaseEditor
+                        :ref ReactEditor
+                        :ref HistoryEditor
+                :p Element
+                    :ref CustomElement
+                :p Text
+                    :ref CustomText

@@ -1,0 +1,20 @@
+	$$ folder public/favicon ext xml
+	$
+		var items = [
+			'browserconfig',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/public/favicon/${item}.xml.ittf.ittf
+			browserconfig
+				${'$'}include tsNextjsBlog/public/favicon/${item}.xml
+	$$ folder public/favicon ext svg
+	$
+		var items = [
+			'safari-pinned-tab',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/public/favicon/${item}.svg.ittf.ittf
+			svg 
+				${'$'}include tsNextjsBlog/public/favicon/${item}.svg

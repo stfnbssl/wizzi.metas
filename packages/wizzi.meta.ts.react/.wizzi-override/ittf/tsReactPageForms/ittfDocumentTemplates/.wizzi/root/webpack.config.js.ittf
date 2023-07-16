@@ -1,0 +1,26 @@
+module
+    kind es6
+    v08/webpack/imports(&jobCtx)
+    set module.exports
+        {
+            @ mode
+                iif process.env.NODE_ENV === 'production'
+                    then 'production'
+                    else 'development'
+            @ devtool
+                iif process.env.NODE_ENV === 'production'
+                    then 'source-map'
+                    else 'cheap-module-source-map'
+            [ entry
+                v08/webpack/entry(&jobCtx)
+            { module
+                [ rules
+                    v08/webpack/module.rules(&jobCtx)
+            { resolve
+                v08/webpack/resolve(&jobCtx)
+            { output
+                v08/webpack/output(&jobCtx)
+            [ plugins
+                v08/webpack/plugins(&jobCtx)
+            { devServer
+                v08/webpack/devServer(&jobCtx)

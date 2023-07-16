@@ -1,0 +1,25 @@
+module
+    kind react
+    import 
+        @ useRouter
+        from 'next/router'
+    import Modal from 'react-modal'
+    import Post from '../components/Post'
+    import Grid from '../components/Grid'
+    _ Modal.setAppElement('#__next')
+    const Index
+        => 
+            const router = useRouter()
+            return 
+                < React.Fragment
+                    < Modal 
+                        @ isOpen {!!router.query.postId}
+                        @ onRequestClose
+                            => 
+                                _ router.push('/')
+                        @ contentLabel "Post modal"
+                        < Post 
+                            @ id {router.query.postId}
+                            @ pathname {router.pathname}
+                    < Grid 
+    export-default Index

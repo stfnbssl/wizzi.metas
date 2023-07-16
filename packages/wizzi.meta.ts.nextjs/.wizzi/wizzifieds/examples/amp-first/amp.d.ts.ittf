@@ -1,0 +1,200 @@
+module
+    kind react
+    :declare 
+        :module JSX
+            :interface AmpImg
+                :p alt
+                    :optional 
+                    :string 
+                :p src
+                    :optional 
+                    :string 
+                :p width
+                    :optional 
+                    :string 
+                :p height
+                    :optional 
+                    :string 
+                :p layout
+                    :optional 
+                    :string 
+            :interface AmpInstallServiceWorker
+                :p src
+                    :string 
+                :p 'data-iframe-src'
+                    :string 
+                :p layout
+                    :string 
+            :interface AmpState
+                :p id
+                    :optional 
+                    :string 
+                :p children
+                    :optional 
+                    :any 
+                :p src
+                    :optional 
+                    :string 
+            :interface AmpScript
+                :p id
+                    :optional 
+                    :string 
+                :p children
+                    :optional 
+                    :any 
+                :p layout
+                    :optional 
+                    :string 
+                :p width
+                    :optional 
+                    :string 
+                :p height
+                    :optional 
+                    :string 
+                :p script
+                    :optional 
+                    :any 
+                :p src
+                    :optional 
+                    :string 
+            :interface AmpCarousel
+                :p children
+                    :ref React.ReactNode
+                :p layout
+                    :optional 
+                    :union 
+                        :literal 'fill'
+                        :literal 'fixed'
+                        :literal 'fixed-height'
+                        :literal 'flex-item'
+                        :literal 'intrinsic'
+                        :literal 'nodisplay'
+                        :literal 'responsive'
+                :p width
+                    :string 
+                :p height
+                    :string 
+                :p type
+                    :union 
+                        :literal 'slides'
+                        :literal 'carousel'
+                :p role
+                    :optional 
+                    :union 
+                        :literal 'region'
+                        :literal 'list'
+                        :literal 'listitem'
+                :p controls
+                    :optional 
+                    :literal ''
+                :p loop
+                    :optional 
+                    :literal ''
+                :p autoplay
+                    :optional 
+                    :literal ''
+                :p delay
+                    :optional 
+                    :string 
+                :p id
+                    :optional 
+                    :string 
+            :interface AmpList
+                :p layout
+                    :optional 
+                    :union 
+                        :literal 'fill'
+                        :literal 'fixed'
+                        :literal 'fixed-height'
+                        :literal 'flex-item'
+                        :literal 'nodisplay'
+                        :literal 'responsive'
+                :p temlate
+                    :optional 
+                    :string 
+                :p width
+                    :optional 
+                    :string 
+                :p height
+                    :optional 
+                    :string 
+                :p credentials
+                    :optional 
+                    :union 
+                        :literal 'omit'
+                        :literal 'include'
+                :p children
+                    :ref React.ReactNode
+                :p src
+                    :optional 
+                    :string 
+                :p binding
+                    :optional 
+                    :string 
+            :interface IntrinsicElements
+                :p 'amp-img'
+                    :ref AmpImg
+                :p 'amp-install-serviceworker'
+                    :ref AmpInstallServiceWorker
+                :p 'amp-state'
+                    :ref AmpState
+                :p 'amp-script'
+                    :ref AmpScript
+                :p 'amp-carousel'
+                    :ref AmpCarousel
+                :p 'amp-list'
+                    :ref AmpList
+        # Allow AMP elements to be a property on JSX.IntrinsicElements
+        # Only the intrinsic elements defined here will be accepted, and only with the attributes defined here
+        # Only the intrinsic elements defined here will be accepted, attributes don't matter
+        # declare namespace JSX {
+        # interface IntrinsicElements {
+        # 'amp-img': any
+        # 'amp-install-serviceworker': any
+        # 'amp-state': any
+        # 'amp-script': any
+        # 'amp-carousel': any
+        # 'amp-list': any
+        # }
+        # }
+        # All intrinsic elements will be accepted
+        # declare namespace JSX {
+        # interface IntrinsicElements {
+        # [elemName: string]: any
+        # }
+        # }
+        # Allow custom AMP attributes on HTML elements
+    :declare 
+        :module React
+            :interface ScriptHTMLAttributes
+                :p target
+                    :optional 
+                    :string 
+            :interface HTMLAttributes
+                :p submitting
+                    :optional 
+                    :string 
+                :p type
+                    :optional 
+                    :string 
+                :p on
+                    :optional 
+                    :string 
+        # Only the intrinsic elements defined here will be accepted, attributes don't matter
+        # declare namespace JSX {
+        # interface IntrinsicElements {
+        # 'amp-img': any
+        # 'amp-install-serviceworker': any
+        # 'amp-state': any
+        # 'amp-script': any
+        # 'amp-carousel': any
+        # 'amp-list': any
+        # }
+        # }
+        # All intrinsic elements will be accepted
+        # declare namespace JSX {
+        # interface IntrinsicElements {
+        # [elemName: string]: any
+        # }
+        # }
+        # Allow custom AMP attributes on HTML elements

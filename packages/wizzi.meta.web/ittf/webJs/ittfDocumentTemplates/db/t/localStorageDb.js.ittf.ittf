@@ -1,0 +1,720 @@
+$group
+    ${'$'}
+      var myName = 'LocalStorageDb';
+      //
+    
+    #
+        # from https://github.com/knadh/localStorageDB
+        #
+        #   by Kailash Nadh (http://nadh.in)
+        #
+        #   modified by Stefano Bassoli
+        #
+    iife_window${'('} db, ${'$'}{myName})
+        function ${'$'}{myName}
+            param db_name
+            param engine
+            var 
+                decl db_prefix = 'db_'
+                decl db_id = db_prefix + db_name
+                decl db_new = false
+                decl db = null
+                    # this flag determines whether a new database was created during an object initialisation
+            var storage
+            try 
+                set storage =
+                    ( 
+                        iif engine === sessionStorage
+                            then sessionStorage
+                            else localStorage
+            catch e
+                set storage = engine
+                    # ie8 hack
+            set db = storage[db_id]
+                # if the database doesn't exist, create it
+            set db = db && JSON.parse(db)
+            if !(db && db.tables && db.data)
+                if !validateName(db_name)
+                    _ error("The name '" + db_name + "' contains invalid characters")
+                else
+                    set db =
+                        { 
+                            { tables
+                            { data
+                    _ commit()
+                    set db_new = true
+                    info "db created", db_name
+            info "db ", db
+            function drop
+                if storage.hasOwnProperty(db_id)
+                    delete storage[db_id]
+                set db = null
+                # ______________________ private methods
+                # _________ database functions
+                # drop the database
+            function getItem
+                param key
+                try 
+                    return storage.storage[key]
+                catch e
+                    return null
+            function replace
+                param data
+                _ setItem(db_id, data)
+            function setItem
+                param key
+                param value
+                try 
+                    _ storage.setItem(key, value)
+                    return true
+                catch e
+                    return false
+                # number of tables in the database
+            function tableCount
+                var count = 0
+                for var table in db.tables
+                    if db.tables.hasOwnProperty(table)
+                        set count++
+                return count
+                # number of tables in the database
+                # _________ table functions
+                # returns all fields in a table.
+            function tableFields
+                param table_name
+                return db.tables[table_name].fields
+                # _________ table functions
+                # returns all fields in a table.
+                # check whether a table exists
+            function tableExists
+                param table_name
+                return 
+                    iif db.tables[table_name]
+                        then true
+                        else false
+                # check whether a table exists
+                # check whether a table exists, and if not, throw an error
+            function tableExistsWarn
+                param table_name
+                if !tableExists(table_name)
+                    _ error("The table '" + table_name + "' does not exist")
+                # check whether a table exists, and if not, throw an error
+                # check whether a table column exists
+            function columnExists
+                param table_name
+                param field_name
+                var exists = false
+                var table_fields = db.tables[table_name].fields
+                for var field in table_fields
+                    if table_fields[field] === field_name
+                        set exists = true
+                        break 
+                return exists
+                # check whether a table column exists
+                # create a table
+            function createTable
+                param table_name
+                param fields
+                set db.tables[table_name] =
+                    { 
+                        @ fields
+                        @ auto_increment 1
+                set db.data[table_name] =
+                    { 
+                info "created table, fields", fields, "db", db
+                # create a table
+                # drop a table
+            function dropTable
+                param table_name
+                delete db.tables[table_name]
+                delete db.data[table_name]
+                # drop a table
+                # empty a table
+            function truncate
+                param table_name
+                set db.tables[table_name].auto_increment = 1
+                set db.data[table_name] =
+                    { 
+                # empty a table
+                # alter a table
+            function alterTable
+                param table_name
+                param new_fields
+                param default_values
+                set db.tables[table_name].fields = db.tables[table_name].fields.concat(new_fields)
+                    # insert default values in existing table
+                if typeof default_values !== "undefined"
+                    for var ID in db.data[table_name]
+                        if !db.data[table_name].hasOwnProperty(ID)
+                            continue 
+                        for var field in new_fields
+                            if typeof default_values === "object"
+                                set db.data[table_name][ID][new_fields[field]] = default_values[new_fields[field]]
+                            else
+                                set db.data[table_name][ID][new_fields[field]] = default_values
+                        # loop through all the records in the table
+                # alter a table
+                # number of rows in a table
+            function rowCount
+                param table_name
+                var count = 0
+                for var ID in db.data[table_name]
+                    if db.data[table_name].hasOwnProperty(ID)
+                        set count++
+                return count
+                # number of rows in a table
+                # insert a new row
+            function insert
+                param table_name
+                param data
+                set data.ID = db.tables[table_name].auto_increment
+                set db.data[table_name][db.tables[table_name].auto_increment] = data
+                set db.tables[table_name].auto_increment++
+                return data.ID
+                # insert a new row
+                # select rows, given a list of IDs of rows in a table
+            function select
+                param table_name
+                param ids
+                param start
+                param limit
+                param sort
+                param distinct
+                var 
+                    decl ID = null
+                    decl results = []
+                    decl row = null
+                foreach id in ids
+                    set ID = id
+                    set row = db.data[table_name][ID]
+                    _ results.push(clone(row))
+                    # there are sorting params
+                if sort && sort instanceof Array
+                    for ; i < sort.length; i++
+                        _ results.sort
+                            _ sort_results
+                                @expr sort[i][0]
+                                iif sort[i].length > 1
+                                    then sort[i][1]
+                                    else null
+                if distinct && distinct instanceof Array
+                    for var j = 0; j < distinct.length; j++
+                        var 
+                            decl seen
+                                { 
+                            decl d = distinct[j]
+                        for ; i < results.length; i++
+                            if results[i] === undefined
+                                continue 
+                            if results[i].hasOwnProperty(d) && seen.hasOwnProperty(results[i][d])
+                                delete results[i]
+                            else
+                                set seen[results[i][d]] = 1
+                        # can't use .filter(ie8)
+                    var new_results = []
+                        # can't use .filter(ie8)
+                    for ; i < results.length; i++
+                        if results[i] !== undefined
+                            _ new_results.push(results[i])
+                    set results = new_results
+                set start =
+                    iif start && typeof start === "number"
+                        then start
+                        else null
+                    # limit and offset
+                set limit =
+                    iif limit && typeof limit === "number"
+                        then limit
+                        else null
+                if start && limit
+                    set results = results.slice(start, start + limit)
+                else
+                    if start
+                        set results = results.slice(start)
+                    else
+                        if limit
+                            set results = results.slice(start, limit)
+                return results
+                # select rows, given a list of IDs of rows in a table
+                # sort a result set
+            function sort_results
+                param field
+                param order
+                return 
+                    function 
+                        param x
+                        param y
+                        var 
+                            decl v1
+                                iif typeof x[field] === "string"
+                                    then x[field].toLowerCase()
+                                    else x[field]
+                            decl v2
+                                iif typeof y[field] === "string"
+                                    then y[field].toLowerCase()
+                                    else y[field]
+                            # case insensitive comparison for string values
+                        if order === "DESC"
+                            return 
+                                iif v1 === v2
+                                    then 0
+                                    else
+                                        ( 
+                                            iif v1 < v2
+                                                then 1
+                                                else -1
+                        else
+                            return 
+                                iif v1 === v2
+                                    then 0
+                                    else
+                                        ( 
+                                            iif v1 > v2
+                                                then 1
+                                                else -1
+                # sort a result set
+                # select rows in a table by field-value pairs, returns the IDs of matches
+            function queryByValues
+                param table_name
+                param data
+                var 
+                    decl result_ids = []
+                    decl exists = false
+                    decl row = null
+                    # loop through all the records in the table, looking for matches
+                for  var ID in db.data[table_name]
+                    if !db.data[table_name].hasOwnProperty(ID)
+                        continue 
+                    set row = db.data[table_name][ID]
+                    set exists = true
+                    for var field in data
+                        if !data.hasOwnProperty(field)
+                            continue 
+                        if typeof data[field] === 'string'
+                            if row[field] === null || row[field].toString().toLowerCase() !== data[field].toString().toLowerCase()
+                                set exists = false
+                                break 
+                        else
+                            if row[field] !== data[field]
+                                set exists = false
+                                break 
+                    if exists
+                        _ result_ids.push(ID)
+                    # loop through all the records in the table, looking for matches
+                return result_ids
+                # select rows in a table by field-value pairs, returns the IDs of matches
+                # select rows in a table by a function, returns the IDs of matches
+            function queryByFunction
+                param table_name
+                param query_function
+                var 
+                    decl result_ids = []
+                    decl exists = false
+                    decl row = null
+                    # loop through all the records in the table, looking for matches
+                for var ID in db.data[table_name]
+                    if !db.data[table_name].hasOwnProperty(ID)
+                        continue 
+                    set row = db.data[table_name][ID]
+                    if query_function(clone(row)) === true
+                        _ result_ids.push(ID)
+                    # loop through all the records in the table, looking for matches
+                return result_ids
+                # select rows in a table by a function, returns the IDs of matches
+                # return all the IDs in a table
+            function getIDs
+                param table_name
+                var result_ids = []
+                for var ID in db.data[table_name]
+                    if db.data[table_name].hasOwnProperty(ID)
+                        _ result_ids.push(ID)
+                return result_ids
+                # return all the IDs in a table
+                # delete rows, given a list of their IDs in a table
+            function deleteRows
+                param table_name
+                param ids
+                for var i = 0; i < ids.length; i++
+                    if db.data[table_name].hasOwnProperty(ids[i])
+                        delete db.data[table_name][ids[i]]
+                return ids.length
+                # delete rows, given a list of their IDs in a table
+                # update rows
+            function update
+                param table_name
+                param ids
+                param update_function
+                var 
+                    decl ID = ''
+                    decl num = 0
+                for var i = 0; i < ids.length; i++
+                    set ID = ids[i]
+                    var updated_data = update_function(clone(db.data[table_name][ID]))
+                    if updated_data
+                        delete updated_data['ID']
+                            # no updates possible to ID
+                        var new_data = db.data[table_name][ID]
+                            # no updates possible to ID
+                            # merge updated data with existing data
+                        for var field in updated_data
+                            if updated_data.hasOwnProperty(field)
+                                set new_data[field] = updated_data[field]
+                            # merge updated data with existing data
+                        set db.data[table_name][ID] = validFields(table_name, new_data)
+                        set num++
+                return num
+                # update rows
+                # commit the database to localStorage
+            function commit
+                try 
+                    _ storage.setItem(db_id, JSON.stringify(db))
+                    return true
+                catch e
+                    return false
+                # commit the database to localStorage
+                # serialize the database
+            function serialize
+                return JSON.stringify(db)
+                # serialize the database
+                # throw an error
+            function error
+                param msg
+                throw new Error(msg)
+                # throw an error
+                # clone an object
+            function clone
+                param obj
+                var new_obj
+                    { 
+                for var key in obj
+                    if obj.hasOwnProperty(key)
+                        set new_obj[key] = obj[key]
+                return new_obj
+                # clone an object
+                # validate db, table, field names (alpha-numeric only)
+            function validateName
+                param name
+                return 
+                    iif name.toString().match(/[^a-z_0-9]/ig)
+                        then false
+                        else true
+                # validate db, table, field names (alpha-numeric only)
+                # given a data list, only retain valid fields in a table
+            function validFields
+                param table_name
+                param data
+                var 
+                    decl field = ''
+                    decl new_data
+                        { 
+                for field in data
+                    var index = db.tables[table_name].fields.indexOf(field)
+                    if index === -1
+                        _ error("Invalid query parameter: " + field)
+                    set new_data[field] = data[field]
+                return new_data
+                # given a data list, only retain valid fields in a table
+                # given a data list, populate with valid field names of a table
+            function validateData
+                param table_name
+                param data
+                var 
+                    decl field = ''
+                    decl new_data
+                        { 
+                for var i = 0; i < db.tables[table_name].fields.length; i++
+                    set field = db.tables[table_name].fields[i]
+                    set new_data[field] =
+                        iif (data[field] === null || data[field] === undefined)
+                            then null
+                            else data[field]
+                return new_data
+                # given a data list, populate with valid field names of a table
+                # ______________________ public methods
+            return 
+                { 
+                    @ commit
+                        function 
+                            return commit()
+                        # commit the database to localStorage
+                    @ isNew
+                        function 
+                            return db_new
+                        # is this instance a newly created database?
+                    @ drop
+                        function 
+                            _ drop()
+                        # delete the database
+                    @ getItem
+                        function 
+                            param key
+                            return getItem(key)
+                    @ replace
+                        function 
+                            param data
+                            _ replace(data)
+                    @ serialize
+                        function 
+                            return serialize()
+                        # serialize the database
+                    @ tableExists
+                        function 
+                            param table_name
+                            return tableExists(table_name)
+                        # check whether a table exists
+                    @ tableFields
+                        function 
+                            param table_name
+                            return tableFields(table_name)
+                        # list of keys in a table
+                    @ tableCount
+                        function 
+                            return tableCount()
+                        # number of tables in the database
+                    @ columnExists
+                        function 
+                            param table_name
+                            param field_name
+                            return columnExists(table_name, field_name)
+                    @ createTable
+                        function 
+                            param table_name
+                            param fields
+                            var result = false
+                            if !validateName(table_name)
+                                _ error("The database name '" + table_name + "' contains invalid characters.")
+                            else
+                                if this.tableExists(table_name)
+                                    _ error("The table name '" + table_name + "' already exists.")
+                                else
+                                    var is_valid = true
+                                        # make sure field names are valid
+                                    foreach field in fields
+                                        if !validateName(field)
+                                            set is_valid = false
+                                            break 
+                                    if is_valid
+                                        var fields_literal
+                                            { 
+                                            # cannot use indexOf due to <IE9 incompatibility
+                                            # de-duplicate the field list
+                                        foreach field in fields
+                                            set fields_literal[field] = true
+                                        delete fields_literal['ID']
+                                            # ID is a reserved field name
+                                        set fields =
+                                            [ 
+                                                @ 'ID'
+                                            # ID is a reserved field name
+                                        for var field in fields_literal
+                                            if fields_literal.hasOwnProperty(field)
+                                                _ fields.push(field)
+                                        _ createTable(table_name, fields)
+                                        set result = true
+                                    else
+                                        _ error("One or more field names in the table definition contains invalid characters")
+                            return result
+                        # create a table
+                    @ createTableWithData
+                        function 
+                            param table_name
+                            param data
+                            if typeof data !== 'object' || !data.length || data.length < 1
+                                _ error("Data supplied isn't in object form. Example: [{k:v,k:v},{k:v,k:v} ..]")
+                            var fields = Object.keys(data[0])
+                                # create the table
+                            if this.createTable(table_name, fields)
+                                _ this.commit()
+                                    # populate
+                                for var i = 0; i < data.length; i++
+                                    if !insert(table_name, data[i])
+                                        _ error("Failed to insert record: [" + JSON.stringify(data[i]) + "]")
+                                    # populate
+                                _ this.commit()
+                            return true
+                        # Create a table using array of Objects @ [{k:v,k:v},{k:v,k:v},etc]
+                    @ dropTable
+                        function 
+                            param table_name
+                            _ tableExistsWarn(table_name)
+                            _ dropTable(table_name)
+                        # drop a table
+                    @ truncate
+                        function 
+                            param table_name
+                            _ tableExistsWarn(table_name)
+                            _ truncate(table_name)
+                        # empty a table
+                    @ alterTable
+                        function 
+                            param table_name
+                            param new_fields
+                            param default_values
+                            var result = false
+                            if !validateName(table_name)
+                                _ error("The database name '" + table_name + "' contains invalid characters")
+                            else
+                                if typeof new_fields === "object"
+                                    var is_valid = true
+                                        # make sure field names are valid
+                                    foreach field in new_fields
+                                        if !validateName(field)
+                                            set is_valid = false
+                                            break 
+                                    if is_valid
+                                        var fields_literal
+                                            { 
+                                            # cannot use indexOf due to <IE9 incompatibility
+                                            # de-duplicate the field list
+                                        foreach field in new_fields
+                                            set fields_literal[field] = true
+                                        delete fields_literal['ID']
+                                            # ID is a reserved field name
+                                        set new_fields = []
+                                            # ID is a reserved field name
+                                        for var field in fields_literal
+                                            if fields_literal.hasOwnProperty(field)
+                                                _ new_fields.push(field)
+                                        _ alterTable(table_name, new_fields, default_values)
+                                        set result = true
+                                    else
+                                        _ error("One or more field names in the table definition contains invalid characters")
+                                else
+                                    if typeof new_fields === "string"
+                                        if validateName(new_fields)
+                                            var new_fields_array = []
+                                            _ new_fields_array.push(new_fields)
+                                            _ alterTable(table_name, new_fields_array, default_values)
+                                            set result = true
+                                        else
+                                            _ error("One or more field names in the table definition contains invalid characters")
+                            return result
+                        # alter a table
+                    @ rowCount
+                        function 
+                            param table_name
+                            _ tableExistsWarn(table_name)
+                            return rowCount(table_name)
+                        # number of rows in a table
+                    @ insert
+                        function 
+                            param table_name
+                            param data
+                            _ tableExistsWarn(table_name)
+                            return insert(table_name, validateData(table_name, data))
+                        # insert a row
+                    @ insertOrUpdate
+                        function 
+                            param table_name
+                            param query
+                            param data
+                            _ tableExistsWarn(table_name)
+                            var result_ids = []
+                            if !query
+                                set result_ids = getIDs(table_name)
+                                    # there is no query. applies to all records
+                            else
+                                if typeof query === 'object'
+                                    set result_ids = queryByValues(table_name, validFields(table_name, query))
+                                        # the query has key-value pairs provided
+                                else
+                                    if typeof query === 'function'
+                                        set result_ids = queryByFunction(table_name, query)
+                                            # the query has a conditional map function provided
+                            if result_ids.length === 0
+                                return insert(table_name, validateData(table_name, data))
+                            else
+                                var ids = []
+                                _ update
+                                    @ table_name
+                                    @ result_ids
+                                    function 
+                                        param o
+                                        _ ids.push(o.ID)
+                                        return data
+                                return ids
+                        # insert or update based on a given condition
+                    @ update
+                        function 
+                            param table_name
+                            param query
+                            param update_function
+                            _ tableExistsWarn(table_name)
+                            var result_ids = []
+                            if !query
+                                set result_ids = getIDs(table_name)
+                                    # there is no query. applies to all records
+                            else
+                                if typeof query === 'object'
+                                    set result_ids = queryByValues(table_name, validFields(table_name, query))
+                                        # the query has key-value pairs provided
+                                else
+                                    if typeof query === 'function'
+                                        set result_ids = queryByFunction(table_name, query)
+                                            # the query has a conditional map function provided
+                            return update(table_name, result_ids, update_function)
+                        # update rows
+                    @ query
+                        function 
+                            param table_name
+                            param query
+                            param limit
+                            param start
+                            param sort
+                            param distinct
+                            _ tableExistsWarn(table_name)
+                            var result_ids = []
+                            if !query
+                                set result_ids = getIDs(table_name, limit, start)
+                                    # no conditions given, return all records
+                            else
+                                if typeof query === 'object'
+                                    set result_ids = queryByValues(table_name, validFields(table_name, query), limit, start)
+                                        # the query has key-value pairs provided
+                                else
+                                    if typeof query === 'function'
+                                        set result_ids = queryByFunction(table_name, query, limit, start)
+                                            # the query has a conditional map function provided
+                            return select(table_name, result_ids, start, limit, sort, distinct)
+                        # select rows
+                    @ queryAll
+                        function 
+                            param table_name
+                            param params
+                            if !params
+                                return this.query(table_name)
+                            else
+                                return 
+                                    _ this.query
+                                        @ table_name
+                                        iif params.hasOwnProperty('query')
+                                            then params.query
+                                            else null
+                                        iif params.hasOwnProperty('limit')
+                                            then params.limit
+                                            else null
+                                        iif params.hasOwnProperty('start')
+                                            then params.start
+                                            else null
+                                        iif params.hasOwnProperty('sort')
+                                            then params.sort
+                                            else null
+                                        iif params.hasOwnProperty('distinct')
+                                            then params.distinct
+                                            else null
+                        # alias for query() that takes a dict of params instead of positional arrguments
+                    @ deleteRows
+                        function 
+                            param table_name
+                            param query
+                            _ tableExistsWarn(table_name)
+                            var result_ids = []
+                            if !query
+                                set result_ids = getIDs(table_name)
+                            else
+                                if typeof query === 'object'
+                                    set result_ids = queryByValues(table_name, validFields(table_name, query))
+                                else
+                                    if typeof query === 'function'
+                                        set result_ids = queryByFunction(table_name, query)
+                            return deleteRows(table_name, result_ids)
+                        # delete rows

@@ -1,0 +1,11 @@
+$group
+	$$ folder styles ext plain
+	$
+		var items = [
+			'index.css',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/styles/${item}.plain.ittf.ittf
+			plain
+				${'$'}include tsNextjsBlog/styles/${item}.plain

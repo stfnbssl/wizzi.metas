@@ -1,0 +1,21 @@
+$group
+    
+    async-md${'('} rect )
+        _ ctx.write('<rect ')
+        _ ctx.write('x=' + model.x + ', ')
+        _ ctx.write('y=' + model.y + ', ')
+        _ ctx.write('width=' + model.width + ', ')
+        _ ctx.write('height=' + model.height)
+        if model.nodes && model.nodes.length > 0
+            _ ctx.write('>')
+            _ md.genItems
+                @ model.nodes
+                @ ctx
+                {
+                    @ indent true
+                a_cb${'('})
+                    _ ctx.w('</rect>')
+                    r_cb${'('})
+        else
+            _ ctx.w(' />')
+            r_cb${'('})

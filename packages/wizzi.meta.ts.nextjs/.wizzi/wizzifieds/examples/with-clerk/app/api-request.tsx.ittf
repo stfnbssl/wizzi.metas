@@ -1,0 +1,92 @@
+module
+    kind react
+    directive 
+    import 
+        @ SignedIn
+        @ SignedOut
+        from '@clerk/nextjs'
+    import 
+        @ useEffect
+        @ useState
+        from 'react'
+    import styles from '../styles/Home.module.css'
+    import '../styles/prism.css'
+    :declare 
+        :module global
+            :interface Window
+                :p Prism
+                    :any 
+    const apiSample
+        `lit 
+            + import { auth } from "@clerk/nextjs";&lf;
+            + import { NextResponse } from "next/server";&lf;
+            + &lf;
+            + export async function GET(request: Request) {&lf;
+            + &nbsp; const { userId, sessionId } = auth()&lf;
+            + &nbsp; if(!sessionId) {&lf;
+            + &nbsp;   return NextResponse.json({ id: null }, { status: 401 })&lf;
+            + &nbsp; }&lf;
+            + &nbsp; return NextResponse.json({ id: userId }, { status: 200 })&lf;
+            + }
+    export 
+        const APIRequest
+            => 
+                _ useEffect
+                    => 
+                        if window.Prism
+                            _ window.Prism.highlightAll()
+                const [response, setResponse] = useState('// Click above to run the request')
+                const makeRequest
+                    async=> 
+                        _ setResponse('// Loading...')
+                        try 
+                            const res
+                                await 
+                                    _ fetch('/api/getAuthenticatedUserId')
+                            const body
+                                await 
+                                    _ res.json()
+                            _ setResponse(JSON.stringify(body, null, '  '))
+                        catch e
+                            _ setResponse('// There was an error with the request. Please contact support@clerk.dev')
+                return 
+                    div 
+                        @ className {styles.backend}
+                        h2 
+                            + API request example
+                        div 
+                            @ className {styles.card}
+                            button 
+                                @ rel "noreferrer"
+                                @ className {styles.cardContent}
+                                @ onClick
+                                    => 
+                                        _ makeRequest()
+                                img 
+                                    @ src "/icons/server.svg"
+                                div 
+                                    h3 
+                                        + fetch('/api/getAuthenticatedUserId')
+                                    p 
+                                        + Retrieve the user ID of the signed in user, or null if there is no&lf;              user
+                                div 
+                                    @ className {styles.arrow}
+                                    img 
+                                        @ src "/icons/download.svg"
+                        h4 
+                            + Response
+                            em 
+                                < SignedIn 
+                                    + You are signed in, so the request will return your user ID
+                                < SignedOut 
+                                    + You are signed out, so the request will return null
+                        pre 
+                            code 
+                                @ className "language-js"
+                                + {response}
+                        h4 
+                            + app/api/getAuthenticatedUserId/route.ts
+                        pre 
+                            code 
+                                @ className "language-js"
+                                + {apiSample}

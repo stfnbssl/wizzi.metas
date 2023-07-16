@@ -1,0 +1,54 @@
+module
+    kind react
+    import 
+        as couchbase
+        from 'couchbase'
+    const COUCHBASE_USER = process.env.COUCHBASE_USER
+    const COUCHBASE_PASSWORD = process.env.COUCHBASE_PASSWORD
+    const COUCHBASE_ENDPOINT = process.env.COUCHBASE_ENDPOINT || 'localhost'
+    const COUCHBASE_BUCKET = process.env.COUCHBASE_BUCKET || 'travel-sample'
+    let IS_CLOUD_INSTANCE = process.env.IS_CLOUD_INSTANCE || 'false'
+    if !COUCHBASE_USER
+        throw new Error('Please define the COUCHBASE_USER environment variable inside .env.local')
+    if !COUCHBASE_PASSWORD
+        throw new Error('Please define the COUCHBASE_PASSWORD environment variable inside .env.local')
+    let cached = global.couchbase
+        #
+            # *
+            # * Global is used here to maintain a cached connection across hot reloads
+            # * in development. This prevents connections growing exponentially
+            # * during API Route usage.
+            # 
+    if !cached
+        set global.couchbase =
+            { 
+                @ conn null
+    async-function createCouchbaseCluster
+        if cached.conn
+            return cached.conn
+        set cached.conn =
+            await 
+                _ couchbase.connect
+                    op+ 
+                        + 'couchbase://' + COUCHBASE_ENDPOINT
+                        ( 
+                            iif IS_CLOUD_INSTANCE === 'true'
+                                then '?ssl=no_verify&console_log_level=5'
+                                else ''
+                    { 
+                        @ username COUCHBASE_USER
+                        @ password COUCHBASE_PASSWORD
+        return cached.conn
+    export 
+        async-function connectToDatabase
+            const cluster
+                await 
+                    _ createCouchbaseCluster()
+            const bucket = cluster.bucket(COUCHBASE_BUCKET)
+            const collection = bucket.defaultCollection()
+            let dbConnection
+                { 
+                    @ cluster
+                    @ bucket
+                    @ collection
+            return dbConnection

@@ -1,0 +1,43 @@
+module
+    kind react
+    import 
+        @ useState
+        @ useEffect
+        from 'react'
+    const MyLuckNo
+        => 
+            const [randomNumber, setRandomNumber] = useState(null)
+            const recalculate
+                => 
+                    _ setRandomNumber(Math.ceil(Math.random() * 100))
+            _ useEffect
+                => 
+                    _ recalculate()
+                [ 
+            const message
+                do 
+                    if randomNumber < 30
+                        literal 'Do not give up. Try again.'
+                    else
+                        if randomNumber < 60
+                            literal 'You are a lucky guy'
+                        else
+                            literal 'You are soooo lucky!'
+            if randomNumber === null
+                return 
+                    p 
+                        + Please wait..
+            return 
+                div 
+                    h3 
+                        + Your Lucky number is: "
+                        + {randomNumber}
+                        + "
+                    p 
+                        + {message}
+                    button 
+                        @ onClick
+                            => 
+                                _ recalculate()
+                        + Try Again
+    export-default MyLuckNo

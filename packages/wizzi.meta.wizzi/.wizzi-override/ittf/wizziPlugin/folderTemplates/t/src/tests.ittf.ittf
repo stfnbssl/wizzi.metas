@@ -1,0 +1,8 @@
+$group
+
+    $foreach schema in metaCtx.Schemas
+
+        $file __dot__wizzi/tests/${schema.name}.js.ittf.ittf
+            module
+                kind es6
+                # TODO

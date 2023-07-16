@@ -1,0 +1,10 @@
+	$$ folder pages/posts ext tsx
+	$
+		var items = [
+			'[slug]',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/pages/posts/${item}.tsx.ittf.ittf
+			module
+				${'$'}include tsNextjsBlog/pages/posts/${item}.tsx

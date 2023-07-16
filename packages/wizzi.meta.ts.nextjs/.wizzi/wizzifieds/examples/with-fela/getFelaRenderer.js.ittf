@@ -1,0 +1,13 @@
+module
+    kind react
+    import 
+        @ createRenderer
+        from 'fela'
+    import webPreset from 'fela-preset-web'
+    export-default 
+        function getRenderer
+            return 
+                _ createRenderer
+                    { 
+                        [ plugins
+                            @ ...webPreset

@@ -1,0 +1,48 @@
+$group
+    useGraphql true
+    { graphql
+        excludePolyfill true
+    useMongoDb false
+    { mongoDb
+        user "yanez"
+        password "x5csosPN5YAsrl4Z"
+        dbPath "@cluster0.idlk7.mongodb.net"
+        dbName "wizzi"
+        [ schemas
+            {
+                name "user"
+                Name "User"
+                controllerName "User"
+                controllerPath "user"
+                [ fields
+                    {
+                        name '_id'
+                        type 'oid'
+                    {
+                        name 'username'
+                        type 'string'
+                        unique true
+                    {
+                        name 'email'
+                        unique true
+                    {
+                        name 'firstName'
+                        type 'string'
+                    {
+                        name 'lastName'
+                        type 'string'
+                    {
+                        name 'nickname'
+                        type 'string'
+                    {
+                        name 'createdAt'
+                        type 'date'
+                        onInsert "new Date()"
+                    {
+                        name 'lastAccess'
+                        type 'date'
+    useFilesystem false
+    { filesystem
+    useLocalStorage false
+    { localStorage
+        key "wr-state"

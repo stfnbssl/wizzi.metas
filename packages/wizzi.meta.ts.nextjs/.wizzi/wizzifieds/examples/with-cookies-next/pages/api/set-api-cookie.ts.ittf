@@ -1,0 +1,20 @@
+module
+    kind react
+    import 
+        @ setCookie
+        from 'cookies-next'
+    export-default 
+        async-function setApiCookie
+            param req
+            param res
+            try 
+                _ setCookie
+                    @ 'api-cookie'
+                    @ 'mock-value'
+                    { 
+                        @ req
+                        @ res
+                        @ maxAge 60 * 60 * 24
+                _ res.status(200).send('set api cookies')
+            catch error
+                _ res.status(400).send(error.message)

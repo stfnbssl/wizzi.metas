@@ -1,0 +1,20 @@
+module
+    kind react
+    export 
+        const i18n
+            @expr
+                { 
+                    @ defaultLocale 'en'
+                    [ locales
+                        @ 'en'
+                        @ 'de'
+                        @ 'cs'
+                :as 
+                    :ref const
+    export 
+        :type Locale
+            :[] 
+                :[] 
+                    :typeof i18n
+                    :literal 'locales'
+                :number 

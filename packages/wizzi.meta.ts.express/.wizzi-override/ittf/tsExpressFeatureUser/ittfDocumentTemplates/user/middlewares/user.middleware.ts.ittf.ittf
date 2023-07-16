@@ -1,0 +1,104 @@
+$group
+    import express from 'express'
+    import userService from '../api/user.service'
+    +
+    class UsersMiddleware
+        m validateSameEmailDoesntExist
+            async
+            param req
+                :ref express.Request
+            param res
+                :ref express.Response
+            param next
+                :ref express.NextFunction
+            const user
+                await 
+                    _ userService.getUserByEmail(req.body.email)
+            if user
+                _ res.status(400).send
+                    { 
+                        [ errors
+                            @ 'User email already exists'
+            else
+                _ next()
+        
+        m validateSameEmailBelongToSameUser
+            async
+            param req
+                :ref express.Request
+            param res
+                :ref express.Response
+            param next
+                :ref express.NextFunction
+            if res.locals.user._id === req.params.userId
+                _ next()
+            else
+                _ res.status(400).send
+                    { 
+                        [ errors
+                            @ 'Invalid email'
+        
+        m userCantChangePermission
+            async
+            param req
+                :ref express.Request
+            param res
+                :ref express.Response
+            param next
+                :ref express.NextFunction
+            if 'permissionFlags' in req.body && req.body.permissionFlags !== res.locals.user.permissionFlags
+                _ res.status(400).send
+                    { 
+                        [ errors
+                            @ 'User cannot change permission flags'
+            else
+                _ next()
+        
+        p validatePatchEmail
+            async=> 
+                param req
+                    :ref express.Request
+                param res
+                    :ref express.Response
+                param next
+                    :ref express.NextFunction
+                if req.body.email
+                    _ this.validateSameEmailBelongToSameUser(req, res, next)
+                else
+                    _ next()
+        
+        m validateUserExists
+            async
+            param req
+                :ref express.Request
+            param res
+                :ref express.Response
+            param next
+                :ref express.NextFunction
+            const user
+                await 
+                    _ userService.readById(req.params.userId)
+            if user
+                set res.locals.user = user
+                _ next()
+            else
+                _ res.status(404).send
+                    { 
+                        [ errors
+                            `lit 
+                                + User&nbsp;
+                                @ req.params.userId
+                                + &nbsp;not found
+        
+        m extractUserId
+            async
+            param req
+                :ref express.Request
+            param res
+                :ref express.Response
+            param next
+                :ref express.NextFunction
+            set req.body.id = req.params.userId
+            _ next()
+    +
+    export-default new UsersMiddleware()

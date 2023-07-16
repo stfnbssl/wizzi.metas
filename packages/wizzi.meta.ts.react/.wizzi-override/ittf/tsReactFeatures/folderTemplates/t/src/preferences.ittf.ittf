@@ -1,0 +1,19 @@
+$group
+
+    $if metaCtx.tsReactFeatures.usePreferences
+
+        $
+            var items = [
+                'index',
+                'types',
+                'PreferencesProvider',
+                'usePreferences',
+                'withPreferences',
+                'withThemeName',
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/src/features/preferences/${item}.tsx.ittf.ittf
+                module
+                    ${'$'}include tsReactFeatures/preferences/${item}.tsx    
+    

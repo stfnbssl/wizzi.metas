@@ -1,0 +1,13 @@
+{
+    productionName "webJsWz"
+    [ parameters
+        {
+            name "useXxx"
+            type "boolean"
+        {
+            name "Xxx"
+            type "string"
+            kind "enum"
+            [ enumValues
+                "aaa"
+                "bbb"

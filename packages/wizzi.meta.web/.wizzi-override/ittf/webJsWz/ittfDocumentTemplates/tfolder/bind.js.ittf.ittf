@@ -1,0 +1,22 @@
+﻿$group
+
+	# Credit to Douglas Crockford for this bind method​
+	if !(Function.prototype.bind)
+        set Function.prototype.bind =
+            function 
+                param oThis
+                if typeof (this) !== "function"
+                    throw
+                        new TypeError ("Function.prototype.bind - what is trying to be bound is not callable")
+                var
+                    decl aArgs = Array.prototype.slice.call(arguments, 1)
+                    decl fToBind = this
+                    decl fNOP
+                        function 
+                    decl fBound
+                        function 
+                            return fToBind.apply(this instanceof fNOP && oThis ? this : oThis, aArgs.concat(Array.prototype.slice.call(arguments)))
+                set fNOP.prototype = this.prototype
+                set fBound.prototype =
+                    new fNOP ()
+                return fBound

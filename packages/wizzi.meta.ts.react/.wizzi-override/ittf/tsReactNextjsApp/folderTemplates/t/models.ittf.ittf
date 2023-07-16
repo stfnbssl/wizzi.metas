@@ -1,0 +1,76 @@
+$group
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            $if metaCtx.usePackageVersion
+                ${'$'}{'$'}include versions
+            name "$wizzi.meta.ts.react"
+            npmName "${metaCtx.npmName}"
+            version "$ 0.0.1"
+            description "$Wizzi meta plugin for creating wizzi ts.react packages"
+            $if metaCtx.author
+                { author
+                    name "$Stefano Bassoli"
+                    email "$stfn.bssl@gmail.com"
+            $if metaCtx.license
+                { license
+                    type "$MIT"
+                    email "$copy 2023"
+            $if metaCtx.github
+                { github
+                    userid3 "$stfnbssl"
+            
+            { Build
+                $if metaCtx.useTsReact
+                    ${'$'}include tsReact.json
+                    
+                $if metaCtx.useTsReactApp
+                    ${'$'}include tsReactApp.json
+                    
+                $if metaCtx.useTsReactAssets
+                    ${'$'}include tsReactAssets.json
+                    
+                $if metaCtx.useTsReactBasicWebpack
+                    ${'$'}include tsReactBasicWebpack.json
+                    
+                $if metaCtx.useTsReactBasicVite
+                    ${'$'}include tsReactBasicVite.json
+                    
+                $if metaCtx.useTsReactComponents
+                    ${'$'}include tsReactComponents.json
+                    
+                $if metaCtx.useTsReactEditor
+                    ${'$'}include tsReactEditor.json
+                    
+                $if metaCtx.useTsReactFeatures
+                    ${'$'}include tsReactFeatures.json
+                    
+                $if metaCtx.useTsReactNextjsApp
+                    ${'$'}include tsReactNextjsApp.json
+                    
+                $if metaCtx.useTsReactPageForms
+                    ${'$'}include tsReactPageForms.json
+                    
+                $if metaCtx.useTsReactRedux
+                    ${'$'}include tsReactRedux.json
+                    
+                $if metaCtx.useTsReactStoryboard
+                    ${'$'}include tsReactStoryboard.json
+                    
+                $if metaCtx.useTsReactThemes
+                    ${'$'}include tsReactThemes.json
+                    
+                $if metaCtx.useTsReactTypings
+                    ${'$'}include tsReactTypings.json
+                    
+                $if metaCtx.useTsReactUtils
+                    ${'$'}include tsReactUtils.json
+                    
+                $if metaCtx.useTsReactWebpackGetStartedApp
+                    ${'$'}include tsReactWebpackGetStartedApp.json
+                    
+                $if metaCtx.useTsReactWebpackWidgetsApp
+                    ${'$'}include tsReactWebpackWidgetsApp.json
+                    
+                $if metaCtx.useTsReactWidgets
+                    ${'$'}include tsReactWidgets.json
+                    

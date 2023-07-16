@@ -1,0 +1,43 @@
+$group
+	$$ folder __root ext ts
+	$
+		var items = [
+			'next-env.d',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/__root/${item}.ts.ittf.ittf
+			module
+				${'$'}include tsNextjsBlog/__root/${item}.ts
+	$$ folder __root ext json
+	$
+		var items = [
+			'package',
+			'tsconfig',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/__root/${item}.json.ittf.ittf
+			{ 
+				${'$'}include tsNextjsBlog/__root/${item}.json
+	$$ folder __root ext js
+	$
+		var items = [
+			'postcss.config',
+			'tailwind.config',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/__root/${item}.js.ittf.ittf
+			module
+				${'$'}include tsNextjsBlog/__root/${item}.js
+	$$ folder __root ext md
+	$
+		var items = [
+			'README',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/__root/${item}.md.ittf.ittf
+			md
+				${'$'}include tsNextjsBlog/__root/${item}.md

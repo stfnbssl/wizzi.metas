@@ -1,0 +1,5 @@
+md
+    h1 
+        + Hello World
+    p 
+        + This is an example blog page with MDX support.

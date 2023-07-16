@@ -1,0 +1,12 @@
+$group
+	$$ folder api ext ts
+	$
+		var items = [
+			'byHash',
+			'wizziFs',
+		];
+
+	$foreach item in items
+		$file __dot__wizzi/src/features/wizziFs/api/${item}.ts.ittf.ittf
+			module
+				${'$'}include tsExpressFeatureWizziFs/api/${item}.ts

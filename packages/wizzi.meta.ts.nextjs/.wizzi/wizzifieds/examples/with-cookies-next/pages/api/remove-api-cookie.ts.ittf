@@ -1,0 +1,18 @@
+module
+    kind react
+    import 
+        @ deleteCookie
+        from 'cookies-next'
+    export-default 
+        async-function setApiCookie
+            param req
+            param res
+            try 
+                _ deleteCookie
+                    @ 'api-cookie'
+                    { 
+                        @ req
+                        @ res
+                _ res.status(200).send('remove api cookies')
+            catch error
+                _ res.status(400).send(error.message)

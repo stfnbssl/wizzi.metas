@@ -1,0 +1,155 @@
+module
+    kind react
+    import 
+        @ Amplify
+        @ API
+        @ withSSRContext
+        from 'aws-amplify'
+    import Head from 'next/head'
+    import 
+        @ useRouter
+        from 'next/router'
+    import 
+        @ DeleteTodoInput
+        @ GetTodoQuery
+        @ Todo
+        @ ListTodosQuery
+        from '../../API'
+    import awsExports from '../../aws-exports'
+    import 
+        @ deleteTodo
+        from '../../graphql/mutations'
+    import 
+        @ getTodo
+        @ listTodos
+        from '../../graphql/queries'
+    import 
+        @ GetStaticProps
+        @ GetStaticPaths
+        from 'next'
+    import 
+        @ GRAPHQL_AUTH_MODE
+        from '@aws-amplify/api'
+    import styles from '../../styles/Home.module.css'
+    _ Amplify.configure
+        { 
+            @ ...awsExports
+            @ ssr true
+    export-default 
+        function TodoPage
+            { 
+                @ todo
+                :{ 
+                    :p todo
+                        :ref Todo
+            const router = useRouter()
+            if router.isFallback
+                return 
+                    div 
+                        @ className {styles.container}
+                        h1 
+                            @ className {styles.title}
+                            + Loading…
+            async-function handleDelete
+                :return
+                    :ref Promise
+                        :param void
+                try 
+                    const deleteInput
+                        :ref DeleteTodoInput
+                        =
+                            { 
+                                @ id todo.id
+                    await 
+                        _ API.graphql
+                            { 
+                                @ authMode GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+                                @ query deleteTodo
+                                { variables
+                                    @ input deleteInput
+                    _ router.push
+                        `lit 
+                            + /
+                catch 
+                    _ console.error(...errors)
+                    throw new Error(errors[0].message)
+            return 
+                div 
+                    @ className {styles.container}
+                    < Head 
+                        < title 
+                            + {todo.name}
+                            + – Amplify + Next.js
+                        link 
+                            @ rel "icon"
+                            @ href "/favicon.ico"
+                    main 
+                        @ className {styles.main}
+                        h1 
+                            @ className {styles.title}
+                            + {todo.name}
+                        p 
+                            @ className {styles.description}
+                            + {todo.description}
+                    footer 
+                        button 
+                            @ className {styles.footer}
+                            @ onClick {handleDelete}
+                            + 💥 Delete todo
+    export 
+        const getStaticPaths
+            :ref GetStaticPaths
+            =
+                async=> 
+                    const SSR = withSSRContext()
+                    const todosQuery
+                        @expr
+                            await 
+                                _ SSR.API.graphql
+                                    { 
+                                        @ query listTodos
+                                        @ authMode GRAPHQL_AUTH_MODE.API_KEY
+                            :as 
+                                :{ 
+                                    :p data
+                                        :ref ListTodosQuery
+                                    :p errors
+                                        :[ 
+                                            :any 
+                    const paths
+                        _ todosQuery.data.listTodos.items.map
+                            => 
+                                param todo
+                                    :ref Todo
+                                (
+                                    { 
+                                        { params
+                                            @ id todo.id
+                    return 
+                        { 
+                            @ fallback true
+                            @ paths
+    export 
+        const getStaticProps
+            :ref GetStaticProps
+            =
+                async=> 
+                    { 
+                        @ params
+                    const SSR = withSSRContext()
+                    const response
+                        @expr
+                            await 
+                                _ SSR.API.graphql
+                                    { 
+                                        @ query getTodo
+                                        { variables
+                                            @ id params.id
+                            :as 
+                                :{ 
+                                    :p data
+                                        :ref GetTodoQuery
+                    return 
+                        { 
+                            { props
+                                @ todo response.data.getTodo

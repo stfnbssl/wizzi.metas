@@ -1,0 +1,96 @@
+module
+    kind react
+    :import-type 
+        @ Comment
+        from '../interfaces'
+    import React
+        @ useState
+        from 'react'
+    import useSWR from 'swr'
+    import 
+        @ useAuth0
+        from '@auth0/auth0-react'
+    const fetcher
+        => 
+            param url
+            _ fetch(url).then
+                => 
+                    param res
+                    _ res.json()
+    export-default 
+        function useComments
+            const 
+                { 
+                    @ getAccessTokenSilently
+                = useAuth0()
+            const [text, setText] = useState('')
+            const 
+                { 
+                    @ data comments
+                    @ mutate
+                =
+                    _ useSWR
+                        :param 
+                            :[ 
+                                :ref Comment
+                        @ '/api/comment'
+                        @ fetcher
+                        { 
+                            @ fallbackData []
+            const onSubmit
+                async=> 
+                    param e
+                        :ref React.FormEvent
+                    _ e.preventDefault()
+                    const token
+                        await 
+                            _ getAccessTokenSilently()
+                    try 
+                        await 
+                            _ fetch
+                                @ '/api/comment'
+                                { 
+                                    @ method 'POST'
+                                    @ body
+                                        _ JSON.stringify
+                                            { 
+                                                @ text
+                                    { headers
+                                        @ Authorization token
+                                        @ 'Content-Type' 'application/json'
+                        _ setText('')
+                        await 
+                            _ mutate()
+                    catch err
+                        _ console.log(err)
+            const onDelete
+                async=> 
+                    param comment
+                        :ref Comment
+                    const token
+                        await 
+                            _ getAccessTokenSilently()
+                    try 
+                        await 
+                            _ fetch
+                                @ '/api/comment'
+                                { 
+                                    @ method 'DELETE'
+                                    @ body
+                                        _ JSON.stringify
+                                            { 
+                                                @ comment
+                                    { headers
+                                        @ Authorization token
+                                        @ 'Content-Type' 'application/json'
+                        await 
+                            _ mutate()
+                    catch err
+                        _ console.log(err)
+            return 
+                { 
+                    @ text
+                    @ setText
+                    @ comments
+                    @ onSubmit
+                    @ onDelete

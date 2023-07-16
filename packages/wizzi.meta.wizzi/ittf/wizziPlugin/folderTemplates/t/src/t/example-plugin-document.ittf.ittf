@@ -1,0 +1,96 @@
+$group
+    $params &schema
+
+    ${'$'}{'$'}
+        var md = {
+            name: '${schema.name}',
+            bif: 1
+        };
+    
+    wizziplugin/examples/plugin${"${'('}"} &md )
+
+        ${'$'}{'$'}append plugins
+            [ items
+                @ './wizzi.plugin.${schema.name}/index.js'
+                $foreach include in schema.includes
+                    @ './wizzi.plugin.${include.name}/index.js'
+                ${'$'}{'$'}*
+                    $foreach include in schema.includes
+                        @ '@wizzi/plugin.${include.name}'
+                *${'$'}{'$'}
+            @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+
+        let arg = process.argv[2]
+        const moduleName = arg && arg.length > 0 ? arg : 'first'
+        _ getWzCtx         
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '.wizzi-override'
+                @ 'models'
+            a_cb_no_throw${"${'('}"} wzCtx )
+                if err
+                    error err
+                    return
+                _ executeGenerateModules
+                    [
+                        @ moduleName
+                    @ wzCtx
+                    a_cb_no_throw${"${'('}"} result )
+                        if err
+                            error '${schema.name}.examples.executeGenerateModules.err', err
+                            error '${schema.name}.examples.executeGenerateModules.err.toString()', err.toString()
+                            if err.inner
+                                error '${schema.name}.examples.executeGenerateModules.err.inner.toString()', err.inner.toString()
+                        else
+                            $$ loog '${schema.name}.examples.executeGenerateModules.result', result
+
+        function executeGenerateModules
+            param modules
+            param wzCtx
+            param callback
+
+            _ async.mapSeries
+                @ modules
+                =>
+                    param module
+                    param callback
+
+                    $$ loog '${schema.name}.example.executeGenerateModules.module: ' + module
+            
+                    var ittfDocumentUri
+                        _ path.join
+                            @ __dirname
+                            @ 'ittf'
+                            @ module + '.${schema.name}.ittf'
+                    
+                    var outputPath
+                        _ path.join
+                            @ __dirname
+                            @ 'results'
+                            @ module + '.${schema.name}.document.html'
+                    
+                    _ loadWizziModel
+                        @ ittfDocumentUri
+                        {
+                            @ wzCtx wzCtx
+                        a_cb${"${'('}"} wizziModel )
+                            if wizziModel.toJson
+                                _ file.write
+                                    @ outputPath + '.json'
+                                    _ stringify
+                                        _ wizziModel.toJson
+                                        @ null
+                                        @ 4
+                            _ loadModelAndGenerateArtifact
+                                @ ittfDocumentUri
+                                {
+                                    @ wzCtx wzCtx
+                                @ '${schema.name}/document'
+                                a_cb${"${'('}"} artifactText )
+                                    $$ loog '${schema.name}.example.executeGenerateModules.outputPath: ' + outputPath
+                                    _ file.write
+                                        @ outputPath
+                                        @ artifactText
+                                    r_cb${"${'('}"} artifactText )
+                @ callback

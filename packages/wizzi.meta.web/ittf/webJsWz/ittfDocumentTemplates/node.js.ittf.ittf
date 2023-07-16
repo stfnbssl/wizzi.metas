@@ -1,0 +1,33 @@
+$group
+
+	if !window.wz
+		set window.wz = {}
+	
+	set wz.node = {}
+	
+	set wz.node.remove
+		function
+			param node
+			if !node.parent
+				throw new Error('Node must have a parent')
+			if !node.parent.children
+				throw new Error('Node parent must must have a children property')
+			var index = node.parent.children.indexOf(node)
+			if index < 0
+				throw new Error('Node must be child of its parent property')
+			_ node.parent.children.splice(index, 1)
+			return index
+
+	set wz.node.replace
+		function
+			param node
+			param newnode
+			if !node.parent
+				throw new Error('Node must have a parent')
+			if !node.parent.children
+				throw new Error('Node parent must must have a children property')
+			var index = node.parent.children.indexOf(node)
+			if index < 0
+				throw new Error('Node must be child of its parent property')
+			set newnode.parent = node.parent
+			_ node.parent.children[index] = newnode

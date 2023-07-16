@@ -1,0 +1,15 @@
+module
+    kind react
+    import 
+        @ removeTokenCookie
+        from '../../lib/auth-cookies'
+    export-default 
+        async-function logout
+            param req
+            param res
+            _ removeTokenCookie(res)
+            _ res.writeHead
+                @ 302
+                { 
+                    @ Location '/'
+            _ res.end()

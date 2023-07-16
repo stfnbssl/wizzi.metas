@@ -1,0 +1,70 @@
+module
+    kind react
+    :import-type 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+        # This API route authenticates Stytch OTP codes.
+    import 
+        @ Session
+        from 'next-iron-session'
+    import withSession from '../../lib/withSession'
+    import loadStytch from '../../lib/loadStytch'
+    :type NextIronRequest
+        :intersect 
+            :ref NextApiRequest
+            :{ 
+                :p session
+                    :ref Session
+    :type Data
+        :{ 
+            :p msg
+                :string 
+    export 
+        async-function handler
+            param req
+                :ref NextIronRequest
+            param res
+                :ref NextApiResponse
+                    :param 
+                        :ref Data
+            if req.method === 'POST'
+                const client = loadStytch()
+                const data = JSON.parse(req.body)
+                try 
+                    const params
+                        { 
+                            @ code data.otpInput
+                            @ method_id data.methodId
+                        # params are of type stytch.LoginOrCreateUserBySMSRequest
+                    const resp
+                        await 
+                            _ client.otps.authenticate(params)
+                    if resp.status_code.toString() === '200'
+                        _ req.session.destroy()
+                            # Set session
+                            # Save additional user data here
+                        _ req.session.set
+                            @ 'user'
+                            { 
+                                @ id resp.user_id
+                            # Save additional user data here
+                        await 
+                            _ req.session.save()
+                        _ res.status(200).send
+                            { 
+                                @ msg
+                                    `lit 
+                                        + successfully authenticated&nbsp;
+                                        @ resp.user_id
+                                        + 
+                    else
+                        throw Error('Error authenticating your code')
+                catch error
+                    const errorString = JSON.stringify(error)
+                    _ console.log(error)
+                    _ res.status(400).json
+                        { 
+                            @ msg errorString
+            else
+    export-default withSession(handler)

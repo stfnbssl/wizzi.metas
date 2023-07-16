@@ -1,0 +1,50 @@
+module
+    kind react
+    import 
+        @ useEffect
+        from 'react'
+    import Script from 'next/script'
+    import 
+        @ useRouter
+        from 'next/router'
+    import 
+        @ GTM_ID
+        @ pageview
+        from '../lib/gtm'
+    function MyApp
+        { 
+            @ Component
+            @ pageProps
+        const router = useRouter()
+        _ useEffect
+            => 
+                _ router.events.on('routeChangeComplete', pageview)
+                return 
+                    => 
+                        _ router.events.off('routeChangeComplete', pageview)
+            [ 
+                @ router.events
+        return 
+            < React.Fragment
+                { 
+                    # 
+                        # Google Tag Manager - Global base code
+                < Script 
+                    @ id "gtag-base"
+                    @ strategy "afterInteractive"
+                    @ dangerouslySetInnerHTML
+                        { 
+                            @ __html
+                                `lit 
+                                    + &lf;
+                                    + &nbsp;           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':&lf;
+                                    + &nbsp;           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],&lf;
+                                    + &nbsp;           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=&lf;
+                                    + &nbsp;           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);&lf;
+                                    + &nbsp;           })(window,document,'script','dataLayer', '
+                                    @ GTM_ID
+                                    + ');&lf;
+                                    + &nbsp;        &nbsp;
+                < Component 
+                    @ {...pageProps}
+    export-default MyApp

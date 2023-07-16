@@ -1,0 +1,38 @@
+$group
+
+    import 
+        as path
+        from 'path'
+    import 
+        @ Application
+        @ static
+            as expressStatic
+        from 'express'
+    import 
+        @ MiddlewareType
+        from '../features/app/types'
+    export 
+        const StaticFilesMiddleware
+            :ref MiddlewareType
+            => 
+                param app
+                    :ref Application
+                ${'$'}if wzCtx.Build.express.useStaticFiles
+                    success 'StaticFilesMiddleware. Folder served from ', 
+                        \b path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, 'public')
+                    _ app.use('/public', expressStatic(path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, 'public')))
+                    ${'$'}if wzCtx.Build.express.staticFiles.publicPath
+                        success 'StaticFilesMiddleware. Folder served from ', 
+                            \b path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, '${'$'}{wzCtx.Build.express.staticFiles.publicPath}')
+                        _ app.use('/${'$'}{wzCtx.Build.express.staticFiles.publicPath}', expressStatic(path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, '${'$'}{wzCtx.Build.express.staticFiles.publicPath}')))
+
+                    ${'$'}if wzCtx.Build.useIttfStatic
+                        success 'StaticFilesMiddleware. Folder served from ', 
+                            \b path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, 'ittf')
+                        _ app.use('/ittf', expressStatic(path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, 'ittf')))
+                            # simply browse ittfs when IttfDocumentsMiddleware is not used
+                ${'$'}if wzCtx.Build.isClientServer || wzCtx.Build.isServer
+                    success 'StaticFilesMiddleware. Folder served from ', 
+                        \b path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, 'dist')
+                    _ app.use('/dist', expressStatic(path.resolve(${'$'}{wzCtx.Build.express.staticFiles.basePath}, 'dist')))
+

@@ -1,0 +1,42 @@
+module
+    kind react
+    import '@compiled/react'
+    import 
+        @ BoxStyles
+        from '../components/class-names-box'
+    import 
+        @ Button
+        from '../components/styled-button'
+    import 
+        @ secondary
+        @ primary
+        from '../style/colors'
+    const IndexPage
+        => 
+            < BoxStyles 
+                { 
+                    => 
+                        param props
+                        div 
+                            @ {...props}
+                            < Button 
+                                @ color {secondary}
+                                + Styled button
+                            div 
+                                @ css
+                                    { 
+                                        @ marginTop 8
+                                        @ flexGrow 1
+                                        @ height '100%'
+                                        @ display 'flex'
+                                        @ alignItems 'center'
+                                        @ justifyContent 'center'
+                                        @ fontFamily 'sans-serif'
+                                        @ color primary
+                                        @ border
+                                            `lit 
+                                                + 1px solid&nbsp;
+                                                @ primary
+                                                + 
+                                + CSS prop
+    export-default IndexPage

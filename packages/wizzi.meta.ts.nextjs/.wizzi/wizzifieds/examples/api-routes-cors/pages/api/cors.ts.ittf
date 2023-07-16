@@ -1,0 +1,57 @@
+module
+    kind react
+    :import-type 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    import Cors from 'cors'
+        # Initializing the cors middleware
+        # You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+    const cors
+        _ Cors
+            { 
+                [ methods
+                    @ 'POST'
+                    @ 'GET'
+                    @ 'HEAD'
+        # Initializing the cors middleware
+        # You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+        # Helper method to wait for a middleware to execute before continuing
+        # And to throw an error when an error happens in a middleware
+    function runMiddleware
+        param req
+            :ref NextApiRequest
+        param res
+            :ref NextApiResponse
+        param fn
+            :ref Function
+        return 
+            new Promise
+                => 
+                    param resolve
+                    param reject
+                    _ fn
+                        @ req
+                        @ res
+                        => 
+                            param result
+                                :any 
+                            if result instanceof Error
+                                return reject(result)
+                            return resolve(result)
+        # Helper method to wait for a middleware to execute before continuing
+        # And to throw an error when an error happens in a middleware
+    export-default 
+        async-function handler
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            await 
+                _ runMiddleware(req, res, cors)
+                # Run the middleware
+                # Rest of the API logic
+            _ res.json
+                { 
+                    @ message 'Hello Everyone!'
+                # Rest of the API logic

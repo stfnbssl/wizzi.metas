@@ -1,0 +1,29 @@
+$group
+
+    $
+        var myName = 'Wizzi';
+        var mdObj = {
+            ApiName: 'Wizzi',
+            apiUrl: '/api/v1',
+            items: [
+              { Prod: 'Artifact', prod: 'artifact'},
+              { Prod: 'Package', prod: 'package'},
+              { Prod: 'Plugin', prod: 'plugin'},
+              { Prod: 'Meta', prod: 'meta'},
+              { Prod: 'Tfolder', prod: 'tfolder'},
+            ]
+        }
+        //
+
+    iife_window( api, ${myName}, increment )
+      set ${myName}.cache = new utils.Cache('${myName}')
+
+    $foreach md in mdObj.items
+      $ 
+        md.ApiName = mdObj.ApiName;
+        md.apiUrl = mdObj.apiUrl;
+        //
+      wizzi/fetch( &md )
+
+    $ var md = mdObj
+    wizzi/cdn( &md )

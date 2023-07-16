@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useWebSvg
+        $file __dot__wizzi/svg/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include svg/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/svg/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include svg/tfolder/${item}.js

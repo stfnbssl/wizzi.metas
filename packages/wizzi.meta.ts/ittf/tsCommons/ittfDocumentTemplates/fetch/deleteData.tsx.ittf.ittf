@@ -1,0 +1,12 @@
+$group
+    
+    function deleteData
+        param url
+            :string
+
+        return
+            _ executeFetch
+                @ url
+                {
+                {
+                    @ method 'DELETE'

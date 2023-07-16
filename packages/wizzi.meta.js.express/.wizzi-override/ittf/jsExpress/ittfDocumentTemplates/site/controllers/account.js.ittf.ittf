@@ -1,0 +1,78 @@
+$group
+
+    import { Router, Request, Response } from 'express';
+    import * as passport from 'passport';
+    import { authApiCalls } from '../../features/auth.js';
+
+    export
+        class AccountController
+            const path = '/account'
+            const router = Router()
+            m initialize
+                param initValues
+                
+                warn 'Entering AccountController.initialize'
+                
+                _ this.router.get
+                    @ `${this.path}/login`
+                    _ passport.authenticate
+                        @ 'auth0'
+                        {
+                            @ scope 'openid email profile
+                        => 
+                            param req
+                            param res
+                            _ res.redirect('/')
+                _ this.router.get(`${this.path}/callback`, this.callback)
+                _ this.router.get(`${this.path}/logout`, this.logout)
+                _ this.router.get(`${this.path}/user`, initValues.authSecured(), this.user)
+
+    function callback
+        param request
+        param response
+        param next
+        _ passport.authenticate
+            @ 'auth0'
+            =>
+                param err
+                param user
+                param info
+                if err
+                    return next(err)
+                if !user
+                    return response.redirect(`${this.path}/login`) 
+                _ request.logIn
+                    @ user
+                    =>
+                        param err
+                        if err
+                            return next(err)
+                        const full_user = await authApiCalls.getUser(user.user_id)
+                        $$ loogg 'full_user', full_user
+                        set request.session.github_accessToken = full_user.identities[0].access_token
+                        let returnTo = `${this.path}/user`
+                        if request.session
+                            set returnTo = request.session.returnTo
+                            delete request.session.returnTo
+                        _ response.redirect
+                            @ returnTo || `${this.path}/user`
+                    
+        # (request, response, next);
+
+
+    function logout
+        param request
+        param response
+        _ request.logout()
+        _ response.redirect('/')
+
+    function user
+        param request
+        param response
+        const { _raw, _json, ...user } = request.user
+        _ response.render
+            @ 'account/user.html.ittf'
+            {
+                @ user user
+                @ userProfile JSON.stringify(user, null, 2)
+                @ title 'Profile page'

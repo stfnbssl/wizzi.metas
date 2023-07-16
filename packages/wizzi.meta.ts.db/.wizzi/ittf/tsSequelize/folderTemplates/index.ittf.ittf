@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useTsSequelize
+        $file __dot__wizzi/tsSequelize/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tsSequelize/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/tsSequelize/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include tsSequelize/tfolder/${item}.js

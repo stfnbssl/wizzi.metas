@@ -1,0 +1,45 @@
+module
+    kind react
+    import 'server-only'
+    :import-type 
+        @ Locale
+        from './i18n-config'
+        # We enumerate all dictionaries here for better linting and typescript support
+        # We also get the default import for cleaner types
+    const dictionaries
+        { 
+            @ en
+                => 
+                    _ import
+                        @ './dictionaries/en.json'
+                        ._ then
+                            => 
+                                param module
+                                +
+                                    @expr module.default
+            @ de
+                => 
+                    _ import
+                        @ './dictionaries/de.json'
+                        ._ then
+                            => 
+                                param module
+                                +
+                                    @expr module.default
+            @ cs
+                => 
+                    _ import
+                        @ './dictionaries/cs.json'
+                        ._ then
+                            => 
+                                param module
+                                +
+                                    @expr module.default
+        # We enumerate all dictionaries here for better linting and typescript support
+        # We also get the default import for cleaner types
+    export 
+        const getDictionary
+            async=> 
+                param locale
+                    :ref Locale
+                _ dictionaries[locale]()

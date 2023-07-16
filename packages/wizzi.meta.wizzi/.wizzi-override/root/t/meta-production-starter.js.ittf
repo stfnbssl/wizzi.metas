@@ -1,0 +1,42 @@
+$group
+    #
+        # Retrieve all WizziMetaProductions
+        # Simple starter meta generation
+    m getMetaProductionStarter
+        param options
+        param callback
+        +
+        var productions
+            [
+                $foreach prod in wzCtx.Productions
+                    @ "${prod.name}"
+        _ async.map
+            @ productions
+            =>
+                param prod
+                param callback
+                if options && options.metaCtx
+                    const useProductionVar = 'use' + prod[0].toUpperCase() + prod.substring(1)
+                    if !options.metaCtx[useProductionVar]
+                        r_cb( {} )
+                    log 'using meta production', useProductionVar, options.metaCtx[useProductionVar]
+                _ this.getMetaProduction
+                    @ prod
+                    a_cb( metaProduction )
+                        r_cb( metaProduction )
+            =>
+                param err
+                param metaProductions
+                const result
+                    {
+                foreach mp in metaProductions
+                    for var k in mp.folderTemplates
+                        var newk = 'folderTemplates/' + mp.productionName + '/' + k
+                        set result[newk] = mp.folderTemplates[k]
+                    for var k in mp.ittfDocumentTemplates
+                        var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k
+                        set result[newk] = mp.ittfDocumentTemplates[k]
+                    for var k in mp.plainDocuments
+                        var newk = 'plainDocuments/' + mp.productionName + '/' + k
+                        set result[newk] = mp.plainDocuments[k]
+                r_cb( result )

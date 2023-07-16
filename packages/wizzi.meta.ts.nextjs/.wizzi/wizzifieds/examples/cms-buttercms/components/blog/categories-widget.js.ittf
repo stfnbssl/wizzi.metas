@@ -1,0 +1,28 @@
+module
+    kind react
+    import Link from 'next/link'
+    export-default 
+        function CategoriesWidget
+            { 
+                @ categories
+            return 
+                div 
+                    @ className "widget categories-widget"
+                    h5 
+                        @ className "widget-title"
+                        + Categories
+                    ul 
+                        @ className "categories-list"
+                        { 
+                            _ categories.map
+                                => 
+                                    param category
+                                    li 
+                                        @ key {category.slug}
+                                        < Link 
+                                            @ href
+                                                `lit 
+                                                    + /blog/category/
+                                                    @ category.slug
+                                                    + 
+                                            + {category.name}

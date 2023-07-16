@@ -1,0 +1,61 @@
+md
+    h1 
+        + Electron application example
+    p 
+        + This example shows how you can use Next.js inside an Electron application to avoid a lot of configuration. It uses the Next.js router as view and server-render to speed up the initial render of the application.
+    br 
+    p 
+        + For development it&#39;s going to run an HTTP server and let Next.js handle routing. In production it uses
+        code output: &#39;export&#39;
+        + to pre-generate HTML static files and uses them in your app instead of running an HTTP server.
+    br 
+    p 
+        b 
+            + For detailed documentation about how to build Electron apps with Next.js, see
+            a 
+                href https://leo.im/2017/electron-next
+                title 
+                + this blog post
+            + !
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-electron with-electron-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-electron with-electron-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-electron with-electron-app
+    br 
+    p 
+        + You can create the production app using
+        code npm run dist
+        + .

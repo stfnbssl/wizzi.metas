@@ -1,0 +1,98 @@
+$group
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            $if metaCtx.usePackageVersion
+                ${'$'}{'$'}include versions
+            name "$wizzi.meta.ts.express"
+            npmName "${metaCtx.npmName}"
+            version "$ 0.0.1"
+            description "$Wizzi meta plugin for creating wizzi typescript express server packages"
+            $if metaCtx.author
+                { author
+                    name "$Stefano Bassoli"
+                    email "$stfn.bssl@gmail.com"
+            $if metaCtx.license
+                { license
+                    type "$MIT"
+                    email "$copy 2023"
+            $if metaCtx.github
+                { github
+                    userid3 "$stfnbssl"
+            
+            { Build
+                $if metaCtx.useTsExpress
+                    ${'$'}{'$'}include tsExpress.json
+                    
+                $if metaCtx.useTsExpressApp
+                    ${'$'}{'$'}include tsExpressApp.json
+                    
+                $if metaCtx.useTsExpressData
+                    ${'$'}{'$'}include tsExpressData.json
+                    
+                $if metaCtx.useTsExpressFeatureAccount
+                    ${'$'}{'$'}include tsExpressFeatureAccount.json
+                    
+                $if metaCtx.useTsExpressFeatureAuth
+                    ${'$'}{'$'}include tsExpressFeatureAuth.json
+                    
+                $if metaCtx.useTsExpressFeatureBlog
+                    ${'$'}{'$'}include tsExpressFeatureBlog.json
+                    
+                $if metaCtx.useTsExpressFeatureConfig
+                    ${'$'}{'$'}include tsExpressFeatureConfig.json
+                    
+                $if metaCtx.useTsExpressFeatureCdn
+                    ${'$'}{'$'}include tsExpressFeatureCdn.json
+                    
+                $if metaCtx.useTsExpressFeatureFilesystem
+                    ${'$'}{'$'}include tsExpressFeatureFilesystem.json
+                    
+                $if metaCtx.useTsExpressFeatureGithub
+                    ${'$'}{'$'}include tsExpressFeatureGithub.json
+                    
+                $if metaCtx.useTsExpressFeaturePacki
+                    ${'$'}{'$'}include tsExpressFeaturePacki.json
+                    
+                $if metaCtx.useTsExpressFeatureProject
+                    ${'$'}{'$'}include tsExpressFeatureProject.json
+                    
+                $if metaCtx.useTsExpressFeatureRepo
+                    ${'$'}{'$'}include tsExpressFeatureRepo.json
+                    
+                $if metaCtx.useTsExpressFeatureUser
+                    ${'$'}{'$'}include tsExpressFeatureUser.json
+                    
+                $if metaCtx.useTsExpressFeatureWizzi
+                    ${'$'}{'$'}include tsExpressFeatureWizzi.json
+                    
+                $if metaCtx.useTsExpressFeatureWizziDocs
+                    ${'$'}{'$'}include tsExpressFeatureWizziDocs.json
+                    
+                $if metaCtx.useTsExpressFeatureWizziFs
+                    ${'$'}{'$'}include tsExpressFeatureWizziFs.json
+                    
+                $if metaCtx.useTsExpressFeatureWizziGist
+                    ${'$'}{'$'}include tsExpressFeatureWizziGist.json
+                    
+                $if metaCtx.useTsExpressFeatureWizziMeta
+                    ${'$'}{'$'}include tsExpressFeatureWizziMeta.json
+                    
+                $if metaCtx.useTsExpressFeatureWizziProduction
+                    ${'$'}{'$'}include tsExpressFeatureWizziProduction.json
+                    
+                $if metaCtx.useTsExpressIttf
+                    ${'$'}{'$'}include tsExpressIttf.json
+                    
+                $if metaCtx.useTsExpressStyles
+                    ${'$'}{'$'}include tsExpressStyles.json
+                    
+                $if metaCtx.useTsExpressTests
+                    ${'$'}{'$'}include tsExpressTests.json
+                    
+                $if metaCtx.useTsExpressUtils
+                    ${'$'}{'$'}include tsExpressUtils.json
+                    
+                $if metaCtx.useTsExpressWizziSite
+                    ${'$'}{'$'}include tsExpressWizziSite.json
+                    
+                { utils

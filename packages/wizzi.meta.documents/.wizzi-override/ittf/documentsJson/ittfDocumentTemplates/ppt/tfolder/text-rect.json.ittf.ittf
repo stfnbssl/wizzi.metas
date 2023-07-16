@@ -1,0 +1,24 @@
+$group
+    ${'$'}params text, rect, style|@@null, subtext|@@null
+    
+    {
+        kind "text"
+
+        text "${'$'}{text}"
+        
+        ${'$'}if style != null
+            style "${'$'}{style}"
+
+        ${'$'}if subtext != null
+            subtext "${'$'}{subtext}"
+
+        ${'$'} var ss = rect.split(' ')
+
+        { position
+            isObject true
+            y "${'$'}{ss[0]}"
+            x "${'$'}{ss[1]}"
+            h "${'$'}{ss[2]}"
+            w "${'$'}{ss[3]}"
+        
+        ${'$'}hook

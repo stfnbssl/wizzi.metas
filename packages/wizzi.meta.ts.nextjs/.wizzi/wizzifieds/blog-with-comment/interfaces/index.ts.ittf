@@ -1,0 +1,52 @@
+module
+    kind react
+    export 
+        :type User
+            :{ 
+                :p name
+                    :string 
+                :p picture
+                    :string 
+                :p sub
+                    :string 
+                :p email
+                    :optional 
+                    :string 
+    export 
+        :type Comment
+            :{ 
+                :p id
+                    :string 
+                :p created_at
+                    :number 
+                :p url
+                    :string 
+                :p text
+                    :string 
+                :p user
+                    :ref User
+    export 
+        :type Post
+            :{ 
+                :p slug
+                    :optional 
+                    :string 
+                :p title
+                    :optional 
+                    :string 
+                :p author
+                    :optional 
+                    :string 
+                :p date
+                    :optional 
+                    :ref Date
+                :p content
+                    :optional 
+                    :string 
+                :p excerpt
+                    :optional 
+                    :string 
+                :index 
+                    :any 
+                    param key
+                        :string 

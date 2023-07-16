@@ -1,0 +1,50 @@
+md
+    h1 
+        + TypeScript types example
+    p 
+        + This example shows how to integrate the TypeScript type system into Next.js. Since TypeScript is supported out of the box with Next.js, all we have to do is to install TypeScript.
+    br 
+    p 
+        + This example shows how to properly export and import typescript types without getting the
+    br 
+    code 
+        lang js
+        + Attempted import error: 'TypeA' is not exported from './package-1'.
+    br 
+    p 
+        + error as raised in
+        a 
+            href https://github.com/vercel/next.js/issues/7882
+            title 
+            + vercel/next.js#7882
+        + .
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-typescript-types
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript-types
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + Useful links
+    p 
+        a 
+            href https://github.com/babel/babel/pull/11171
+            title 
+            + Add import type and export type support to TypeScript

@@ -1,0 +1,19 @@
+module
+    kind react
+    const clearUrl
+        => 
+            param url
+                :string 
+            const 
+                { 
+                    @ origin
+                    @ pathname
+                = new URL(url)
+            return 
+                `lit 
+                    + 
+                    @ origin
+                    + 
+                    @ pathname
+                    + 
+    export-default clearUrl

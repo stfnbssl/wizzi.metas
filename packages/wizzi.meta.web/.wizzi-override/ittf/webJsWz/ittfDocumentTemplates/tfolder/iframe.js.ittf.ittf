@@ -1,0 +1,36 @@
+$group
+
+    if !window.wz
+        set window.wz = {}
+
+    set wz.getBlobURL
+        function
+            param code
+            param type
+            const blob
+                new Blob
+                    [ 
+                        @ code
+                    { 
+                        @ type
+            return URL.createObjectURL(blob)
+
+    set wz.getGeneratedPageURL
+        function
+            param html
+            param css
+            param js
+
+            const cssURL = css ? wz.getBlobURL(css, 'text/css') : null
+            const jsURL = js ? wz.getBlobURL(js, 'text/javascript') : null
+            const source
+                [
+                    @ '<html>'
+                    @ '    <head>'
+                    @ css ? '        <link rel="stylesheet" type="text/css" href="' + cssURL + '" />' : ''
+                    @ js ? '         <script src="' + jsURL + '"><' + '/script>' : ''
+                    @ '    </head>'
+                    @ '    <body>' + html + '</body>'
+                    @ '</html>'
+                    ._ join('\n')
+            return wz.getBlobURL(source, 'text/html')

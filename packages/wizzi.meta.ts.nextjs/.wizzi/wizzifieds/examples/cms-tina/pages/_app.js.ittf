@@ -1,0 +1,14 @@
+module
+    kind react
+    import Tina from '../.tina/components/TinaDynamicProvider.js'
+    import '../styles/index.css'
+    const App
+        => 
+            { 
+                @ Component
+                @ pageProps
+            return 
+                < Tina 
+                    < Component 
+                        @ {...pageProps}
+    export-default App

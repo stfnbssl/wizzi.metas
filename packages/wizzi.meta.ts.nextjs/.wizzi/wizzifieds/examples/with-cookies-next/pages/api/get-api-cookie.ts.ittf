@@ -1,0 +1,33 @@
+module
+    kind react
+    import 
+        @ getCookie
+        @ getCookies
+        from 'cookies-next'
+    import 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    export-default 
+        async-function getApiCookie
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            try 
+                const currentCookie
+                    _ getCookie
+                        @ 'api-cookie'
+                        { 
+                            @ req
+                            @ res
+                const allCookies
+                    _ getCookies
+                        { 
+                            @ req
+                            @ res
+                _ console.log('currentCookie: ', currentCookie)
+                _ console.log('allCookies: ', allCookies)
+                _ res.status(200).send('get api cookies')
+            catch error
+                _ res.status(400).send(error.message)

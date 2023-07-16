@@ -1,0 +1,55 @@
+$group
+
+	name  "${'$'}{wzCtx.name}"
+	
+	version  "${'$'}{wzCtx.version}"
+	
+	description "${'$'}{wzCtx.description}"
+    
+	author
+		{
+			name "${'$'}{wzCtx.author.name}"
+			email "${'$'}{wzCtx.author.email}"
+	
+	private false
+	
+	licenses
+		[
+			${'$'}if wzCtx.license.name == 'MIT'
+                {
+                    type "MIT"
+                    url "https://github.com/${'$'}{wzCtx.github.userId}/${'$'}{wzCtx.name}/tree/master/license.txt"
+	
+	repository
+		{
+			type "git"
+			url "https://github.com/${'$'}{wzCtx.github.userId}/${'$'}{wzCtx.name}/tree/master"
+
+	engines
+		{
+			node ">=0.10.28"
+			npm ">=1.4.28"
+	
+	scripts
+		{
+			test "mocha tests/**/*.js --full-trace"
+            ${'$'}hook scripts
+	
+	dependencies
+		{
+			async "^3.2.0"
+			chalk "^4.1.0"
+			i "^0.3.7"
+			iconv-lite "^0.6.2"
+			json-stringify-safe "^5.0.1"
+			lodash "^4.17.21"
+            wizzi-mtree "^0.7.10"
+            wizzi-utils "^0.7.12"
+			${'$'}hook dependencies
+	
+	devDependencies
+		{
+            del "^6.0.0"
+            expect.js "^0.3.1"
+            mocha "^8.3.0"
+			${'$'}hook devDependencies

@@ -1,0 +1,34 @@
+$group
+    $params stateProp|tfolder
+        
+    < HR
+    < FormHidden
+        @ id '${stateProp}_tfolders'
+        @ name '${stateProp}_tfolders'
+        @ value {JSON.stringify(this.state.${stateProp}_dependencies)}
+    < FormCheckBox
+        @ label 'Add a tfolder dependency'
+        @ name '${stateProp}_add_tfolder'
+        @ id '${stateProp}_add_tfolder'
+        @ value {this.state.${stateProp}_add_tfolder}
+        @ onChange {this.handleInputChange}
+    {
+        &&
+            + this.state.${stateProp}_add_tfolder
+            div
+                {
+                    _ this.state.${stateProp}_dependencies.map
+                        =>
+                            param tfolder
+                            param ndx
+                            log 'Create${stateProp}.tfolder', tfolder
+                            return
+                                div
+                                    @ key {ndx}
+                                    < FormRow
+                                        @ type 'delete'
+                                        @ value {tfolder}
+                                        @ onDelete {this.handleTFolderDelete}
+                < FormRow
+                    @ type 'add'
+                    @ onAdd {this.handleTFolderAdd}

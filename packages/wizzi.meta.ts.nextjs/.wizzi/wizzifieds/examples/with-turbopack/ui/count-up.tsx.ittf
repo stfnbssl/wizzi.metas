@@ -1,0 +1,36 @@
+module
+    kind react
+    directive 
+    import 
+        @ useCountUp
+        from 'use-count-up'
+    const CountUp
+        => 
+            { 
+                @ start
+                @ end
+                @ duration
+                    = 1
+                :{ 
+                    :p start
+                        :number 
+                    :p end
+                        :number 
+                    :p duration
+                        :optional 
+                        :number 
+            const 
+                { 
+                    @ value
+                =
+                    _ useCountUp
+                        { 
+                            @ isCounting true
+                            @ end
+                            @ start
+                            @ duration
+                            @ decimalPlaces 1
+            return 
+                span 
+                    + {value}
+    export-default CountUp

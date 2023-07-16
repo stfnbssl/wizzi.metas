@@ -1,0 +1,11 @@
+module
+    kind react
+    set module.exports =
+        { 
+            m rewrites
+                async
+                return 
+                    [ 
+                        { 
+                            @ source '/'
+                            @ destination '/implicit'

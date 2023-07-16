@@ -1,0 +1,24 @@
+module
+    kind react
+    import 
+        @ format
+        from './utils'
+    _ describe
+        @ 'format'
+        => 
+            _ it
+                @ 'returns empty string for no names defined'
+                => 
+                    _ expect(format(undefined, undefined, undefined)).toEqual('')
+            _ it
+                @ 'formats just first names'
+                => 
+                    _ expect(format('Joseph', undefined, undefined)).toEqual('Joseph')
+            _ it
+                @ 'formats first and last names'
+                => 
+                    _ expect(format('Joseph', undefined, 'Publique')).toEqual('Joseph Publique')
+            _ it
+                @ 'formats first, middle and last names'
+                => 
+                    _ expect(format('Joseph', 'Quincy', 'Publique')).toEqual('Joseph Quincy Publique')

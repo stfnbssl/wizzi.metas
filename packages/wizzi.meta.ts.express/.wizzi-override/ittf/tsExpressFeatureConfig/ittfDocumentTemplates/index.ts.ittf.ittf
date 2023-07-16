@@ -1,0 +1,19 @@
+$group
+    
+    import create from './env'
+    
+    import 
+        @ ConfigType
+        from './types'
+
+    const config
+        :ref ConfigType
+        = create()
+    
+    export 
+        @ config
+
+    export 
+        :type
+        @ ConfigType
+        from './types'

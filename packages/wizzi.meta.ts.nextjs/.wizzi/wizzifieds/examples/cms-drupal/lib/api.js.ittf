@@ -1,0 +1,12 @@
+module
+    kind react
+    export 
+        function absoluteURL
+            param url
+            return 
+                `lit 
+                    + 
+                    @ process.env.NEXT_PUBLIC_DRUPAL_BASE_URL
+                    + 
+                    @ url
+                    + 

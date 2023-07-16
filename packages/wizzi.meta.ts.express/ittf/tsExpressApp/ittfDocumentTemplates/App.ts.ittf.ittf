@@ -1,0 +1,133 @@
+$group
+
+    ${'$'}
+        var md = {
+            isGetApp: false,
+            createHttpServer: wzCtx.Build.express.useSslCert || wzCtx.Build.useSocketIO
+        }
+
+    app/appImports${'('}&md)
+    ${'$'}if wzCtx.Build.useNetlify
+        import serverless from 'serverless-http'
+        index/imports${'('}&md)
+    +
+    function normalizePort
+        param val
+            :any
+        var port = parseInt(val, 10)
+        if isNaN(port)
+            return val
+        if port >= 0
+            return port
+        return false
+        #
+            # 
+            # Normalize a port into a number, string, or false.
+            # 
+    +
+    ${'$'}include app/initializeApp
+    +
+    class App
+        p app
+            :public 
+            :ref express.Application
+        p config
+            :public 
+            :ref ConfigType
+        p port
+            :public 
+            :any 
+        p server
+            :public 
+            :any 
+
+        ctor 
+            param initValues
+                :ref AppInitializerType
+            +
+            set this.config = initValues.config
+            set this.port = normalizePort(process.env.PORT || this.config.port) || "3000"
+            set this.app
+                _ express
+            _ this.app.set('port', this.port)
+            +
+            _ initializeApp
+                @ this.app
+                @ initValues
+            +
+            ${'$'}if wzCtx.Build.express.useSslCert
+                set this.server
+                    _ https.createServer
+                        {
+                            @ key ssl_key
+                            @ cert ssl_cert
+                        @ this.app
+            ${'$'}elif wzCtx.Build.useSocketIO
+                set this.server = http.createServer(this.app)
+            +
+            ${'$'}if wzCtx.Build.useSocketIO
+                +
+                # Connecting sockets to the server and adding them to the request
+                # so that we can access them later in the controller
+                const io = socketio(this.server)
+                _ 
+                    ( 
+                        + io
+                            :as 
+                                :any 
+                    ._ set
+                        @ 'transports'
+                        [ 
+                            @ 'websocket'
+                            @ 'polling'
+                _ this.app.set('io', io)
+                # Catch a start up request so that a sleepy server instance (p.e. Heroku) can
+                # be responsive as soon as possible
+                _ this.app.get
+                    @ '/wake-up'
+                    => 
+                        param req
+                        param res
+                        _ res.send('👍')
+
+        m listen
+            :public 
+            param port
+                :number
+                :optional
+            ${'$'}if md.createHttpServer
+                _ this.server.listen
+                    @ this.port
+                    => 
+                        _ console.log
+                            `lit 
+                                + App listening at ${'$'}{wzCtx.App.siteUrl}:
+                                @ this.port
+            ${'$'}else
+                set this.server
+                    _ this.app.listen
+                        @ this.port
+                        => 
+                            _ console.log
+                                `lit 
+                                    + App listening at ${'$'}{wzCtx.App.siteUrl}:
+                                    @ this.port
+
+        m close
+            :public 
+            param done
+            _ console.log
+                `lit 
+                    + Server closing. App listening at ${'$'}{wzCtx.App.siteUrl}:
+                    @ this.port
+
+            _ this.server.close
+                =>
+                    _ console.log
+                        `lit 
+                            + Server stopped. App was listening at ${'$'}{wzCtx.App.siteUrl}:
+                            @ this.port
+                    _ done
+
+    ${'$'}if !wzCtx.Build.useNetlify
+        export-default App

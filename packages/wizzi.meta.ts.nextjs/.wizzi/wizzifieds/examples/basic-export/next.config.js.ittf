@@ -1,0 +1,11 @@
+module
+    kind react
+    const nextConfig
+        { 
+            @ output 'export'
+        # @ts-check
+        #
+            # *
+            # * @type {import('next').NextConfig}
+            # 
+    set module.exports = nextConfig

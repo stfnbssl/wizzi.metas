@@ -1,0 +1,67 @@
+$group
+    import 
+        @ ModelBuilderType
+        from '../features/app'
+    import 
+        @ ConfigType
+        from '../features/config'
+    import
+        @ Sequelize 
+        from 'sequelize'
+    +
+    const db
+        {
+            @ sequelize null
+            @ Sequelize null
+        :any
+    export
+        function sequelizeStart
+            param config
+                :ref ConfigType
+            param modelBuilders
+                :[ 
+                    :ref ModelBuilderType
+            +
+            const
+                {
+                    @ sequelizeUser
+                    @ sequelizePassword
+                    @ sequelizeDatabase
+                    @ sequelizeDatabaseUrl
+                    @ sequelizeDialect
+                = config
+            let sequelize: Sequelize
+            const options
+                {
+                    @ dialect sequelizeDialect
+                    @ username sequelizeUser
+                    @ password sequelizePassword
+                    @ database sequelizeDatabase
+                    { pool
+                        @ max 5
+                        @ min 0
+                        @ acquire 30000
+                        @ idle 10000
+            if sequelizeDatabaseUrl && sequelizeDatabaseUrl.length > 0
+                set sequelize = new Sequelize(sequelizeDatabaseUrl, options);
+            else
+                set sequelize = new Sequelize(sequelizeDatabase, sequelizeUser, sequelizePassword, options);
+            _ modelBuilders.forEach
+                => 
+                    param builder
+                    _ builder.buildModel
+                      @ sequelize
+            _ modelBuilders.forEach
+                => 
+                    param builder
+                    _ builder.applyExtraSetup
+                      @ sequelize
+            set db.sequelize = sequelize
+            set db.Sequelize = Sequelize
+            return db
+    +
+    export 
+        const close
+            => 
+                if sequelize
+                  _ sequelize.close()                      

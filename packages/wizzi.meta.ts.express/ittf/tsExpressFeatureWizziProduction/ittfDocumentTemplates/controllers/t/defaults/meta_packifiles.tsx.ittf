@@ -1,0 +1,88 @@
+$group
+
+    function getPackiFiles
+        return
+            {
+                { ['.packi/config.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    [ tfolders'
+                            @ '        {'
+                            @ '            ${'$'}${'$'} name "..."'
+                            @ '    [ contexts'
+                            @ '        {'
+                            @ '            ${'$'}${'$'} propertyName "..."'
+                            @ '            ${'$'}${'$'} artifactName "..."'
+                            ._ join
+                                @ '\n'
+                { ['.packi/properties/index.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    [ properties'
+                            @ '        {'
+                            @ '            name "name"'
+                            @ '            type "string"'
+                            @ '        string${ '(' } kind )'
+                            ._ join
+                                @ '\n'
+                { ['.packi/properties/t/string.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    $params name'
+                            @ '    name "${'$'}{name}"'
+                            @ '    type "string"'
+                            @ '    $hook'
+                            ._ join
+                                @ '\n'
+                { ['.packi/properties/t/boolean.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    $params name'
+                            @ '    name "${'$'}{name}"'
+                            @ '    type "boolean"'
+                            @ '    $hook'
+                            ._ join
+                                @ '\n'
+                { ['.packi/properties/t/number.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    $params name'
+                            @ '    name "${'$'}{name}"'
+                            @ '    type "number"'
+                            @ '    $hook'
+                            ._ join
+                                @ '\n'
+                { ['.packi/properties/t/object.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    $params name'
+                            @ '    name "${'$'}{name}"'
+                            @ '    type "object"'
+                            @ '    [ properties'
+                            @ '        $hook'
+                            ._ join
+                                @ '\n'
+                { ['.packi/properties/t/array.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    $params name'
+                            @ '    name "${'$'}{name}"'
+                            @ '    type "array"'
+                            @ '    [ properties'
+                            @ '        $hook'
+                            ._ join
+                                @ '\n'

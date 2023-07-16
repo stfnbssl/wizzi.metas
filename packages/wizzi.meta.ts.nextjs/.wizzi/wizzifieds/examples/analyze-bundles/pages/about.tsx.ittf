@@ -1,0 +1,8 @@
+module
+    kind react
+    const About
+        => 
+            return 
+                div 
+                    + About us
+    export-default About

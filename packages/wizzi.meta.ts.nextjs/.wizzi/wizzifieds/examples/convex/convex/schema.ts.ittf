@@ -1,0 +1,15 @@
+module
+    kind react
+    import 
+        @ defineSchema
+        @ defineTable
+        @ s
+        from 'convex/schema'
+    export-default 
+        _ defineSchema
+            { 
+                @ messages
+                    _ defineTable
+                        { 
+                            @ author s.string()
+                            @ body s.string()

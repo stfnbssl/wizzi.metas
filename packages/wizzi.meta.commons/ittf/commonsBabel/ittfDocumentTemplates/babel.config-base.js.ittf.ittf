@@ -1,0 +1,21 @@
+$group
+
+    const path = require('path')
+    set module.exports =
+        => 
+            param api
+            const isWebpack
+                _ api.caller
+                    => 
+                        param caller
+                        _ Boolean(caller && caller.name === 'babel-loader')
+            return
+                {
+                    [ plugins
+                        ${'$'}include babel/${metaCtx.ver}/configjs/plugins
+                    [ presets
+                        ${'$'}include babel/${metaCtx.ver}/configjs/presets
+                    { env
+                        ${'$'}include babel/${metaCtx.ver}/configjs/env
+                    [ overrides
+                        ${'$'}include babel/${metaCtx.ver}/configjs/overrides

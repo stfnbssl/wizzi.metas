@@ -1,0 +1,69 @@
+$group
+
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        +
+        export 
+            async-function metaGenerate
+                $* VIA
+                param files
+                    :ref packiTypes.PackiFiles
+                *$
+                param metaCtx
+                    :any 
+                param factoryPlugins
+                    :any 
+                    :optional
+                param metaPlugins
+                    :any 
+                    :optional
+                param globalContext
+                    :{
+                        :index
+                            :any
+                            param k
+                                :string
+                    :optional
+                :return
+                    :ref Promise
+                        :param 
+                            :ref packiTypes.PackiFiles
+                return 
+                    new Promise
+                        async=> 
+                            param resolve
+                            param reject
+                            $* VIA
+                            if !verify.isObject(files)
+                                return
+                                    _ reject
+                                        {
+                                            @ action 'wizzi.productions.metaGenerate'
+                                            @ message 'files parameter must be an object of type PackiFiles'
+                                            @ files
+                            *$
+                            $$ loogmyname, 'metaGenerate.files', Object.keys(files)
+                            log myname, 'metaGenerate.metaCtx', Object.keys(metaCtx)
+                            let jsonwf
+                                :any 
+                                =
+                                    { 
+                            try 
+                                set jsonwf =
+                                    await 
+                                        _ createJsonFsAndFactory
+                                            {
+                                            @ factoryPlugins
+                                            @ metaPlugins
+                                _ jsonwf.wf.metaGenerate
+                                    {
+                                        @ metaCtx metaCtx $$ getMetaContext()
+                                        { paths
+                                            @ metaProductionTempFolder '___template'
+                                            @ metaProductionWizziFolder '.wizzi'
+                                        { globalContext
+                                    a_reject${'('}wizziPackiFiles, :ref, packiTypes.PackiFiles)
+                                        _ resolve
+                                            @ wizziPackiFiles
+
+                            catch ex
+                                return reject(ex)                                                    

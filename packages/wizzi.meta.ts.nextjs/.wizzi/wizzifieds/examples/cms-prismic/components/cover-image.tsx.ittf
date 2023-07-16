@@ -1,0 +1,51 @@
+module
+    kind react
+    import Link from 'next/link'
+    import 
+        @ PrismicNextImage
+        from '@prismicio/next'
+    import 
+        @ ImageField
+        from '@prismicio/types'
+    import cn from 'classnames'
+    :type CoverImageProps
+        :{ 
+            :p title
+                :string 
+            :p image
+                :ref ImageField
+            :p href
+                :optional 
+                :string 
+    export-default 
+        function CoverImage
+            { 
+                @ title
+                @ image imageField
+                @ href
+                :ref CoverImageProps
+            const image
+                < PrismicNextImage 
+                    @ field {imageField}
+                    @ width {2000}
+                    @ height {1000}
+                    @ imgixParams
+                        { 
+                            @ fit 'crop'
+                            @ ar '2:1'
+                    @ className
+                        _ cn
+                            @ 'shadow-small'
+                            { 
+                                @ 'hover:shadow-medium transition-shadow duration-200' href
+            return 
+                div 
+                    @ className "sm:mx-0"
+                    { 
+                        iif href
+                            then
+                                < Link 
+                                    @ href {href}
+                                    @ aria-label {title}
+                                    + {image}
+                            else image

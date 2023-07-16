@@ -1,0 +1,50 @@
+module
+    kind react
+    :import-type 
+        @ MouseEvent
+        from 'react'
+    import Link from 'next/link'
+    import 
+        @ useCount
+        @ useDispatchCount
+        from '../components/Counter'
+    const IndexPage
+        => 
+            const count = useCount()
+            const dispatch = useDispatchCount()
+            const handleIncrease
+                => 
+                    param event
+                        :ref MouseEvent
+                            :param 
+                                :ref HTMLButtonElement
+                    _ dispatch
+                        { 
+                            @ type 'INCREASE'
+            const handleDecrease
+                => 
+                    param event
+                        :ref MouseEvent
+                            :param 
+                                :ref HTMLButtonElement
+                    _ dispatch
+                        { 
+                            @ type 'DECREASE'
+            return 
+                < React.Fragment
+                    h1 
+                        + HOME
+                    p 
+                        + Counter:
+                        + {count}
+                    button 
+                        @ onClick {handleIncrease}
+                        + Increase
+                    button 
+                        @ onClick {handleDecrease}
+                        + Decrease
+                    p 
+                        < Link 
+                            @ href "/about"
+                            + About
+    export-default IndexPage

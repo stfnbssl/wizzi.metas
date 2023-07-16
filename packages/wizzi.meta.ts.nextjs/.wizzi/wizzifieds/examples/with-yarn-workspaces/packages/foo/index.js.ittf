@@ -1,0 +1,3 @@
+module
+    kind react
+    set module.exports = 'foo'

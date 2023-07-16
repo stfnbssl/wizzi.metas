@@ -1,0 +1,18 @@
+$group
+    $if metaCtx.useTsExpressWizziSite
+        $include wzCtxModel
+        $* Sample file templates
+        $file __dot__wizzi/tsExpressWizziSite/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tsExpressWizziSite/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/tsExpressWizziSite/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include tsExpressWizziSite/tfolder/${item}.js
+        *$

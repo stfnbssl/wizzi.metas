@@ -1,0 +1,222 @@
+module
+    kind react
+    import Head from 'next/head'
+    export-default 
+        function Home
+            return 
+                div 
+                    @ className "container"
+                    < Head 
+                        < title 
+                            + Create Next App
+                        link 
+                            @ rel "icon"
+                            @ href "/favicon.ico"
+                    main 
+                        h1 
+                            @ className "title"
+                            + Welcome to
+                            a 
+                                @ href "https://nextjs.org"
+                                + Next.js!
+                        p 
+                            @ className "description"
+                            + Get started by editing
+                            code 
+                                + pages/index.js
+                        div 
+                            @ className "grid"
+                            a 
+                                @ href "https://nextjs.org/docs"
+                                @ className "card"
+                                h3 
+                                    + Documentation →
+                                p 
+                                    + Find in-depth information about Next.js features and API.
+                            a 
+                                @ href "https://nextjs.org/learn"
+                                @ className "card"
+                                h3 
+                                    + Learn →
+                                p 
+                                    + Learn about Next.js in an interactive course with quizzes!
+                            a 
+                                @ href "https://github.com/vercel/next.js/tree/canary/examples"
+                                @ className "card"
+                                h3 
+                                    + Examples →
+                                p 
+                                    + Discover and deploy boilerplate example Next.js projects.
+                            a 
+                                @ href "https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+                                @ target "_blank"
+                                @ rel "noopener noreferrer"
+                                @ className "card"
+                                h3 
+                                    + Deploy →
+                                p 
+                                    + Instantly deploy your Next.js site to a public URL with Vercel.
+                    footer 
+                        a 
+                            @ href "https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+                            @ target "_blank"
+                            @ rel "noopener noreferrer"
+                            + Powered by
+                            + {' '}
+                            img 
+                                @ src "/vercel.svg"
+                                @ alt "Vercel Logo"
+                                @ className "logo"
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       .container {&lf;
+                                + &nbsp;         min-height: 100vh;&lf;
+                                + &nbsp;         padding: 0 0.5rem;&lf;
+                                + &nbsp;         display: flex;&lf;
+                                + &nbsp;         flex-direction: column;&lf;
+                                + &nbsp;         justify-content: center;&lf;
+                                + &nbsp;         align-items: center;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       main {&lf;
+                                + &nbsp;         padding: 5rem 0;&lf;
+                                + &nbsp;         flex: 1;&lf;
+                                + &nbsp;         display: flex;&lf;
+                                + &nbsp;         flex-direction: column;&lf;
+                                + &nbsp;         justify-content: center;&lf;
+                                + &nbsp;         align-items: center;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       footer {&lf;
+                                + &nbsp;         width: 100%;&lf;
+                                + &nbsp;         height: 100px;&lf;
+                                + &nbsp;         border-top: 1px solid #eaeaea;&lf;
+                                + &nbsp;         display: flex;&lf;
+                                + &nbsp;         justify-content: center;&lf;
+                                + &nbsp;         align-items: center;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       footer img {&lf;
+                                + &nbsp;         margin-left: 0.5rem;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       footer a {&lf;
+                                + &nbsp;         display: flex;&lf;
+                                + &nbsp;         justify-content: center;&lf;
+                                + &nbsp;         align-items: center;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       a {&lf;
+                                + &nbsp;         color: inherit;&lf;
+                                + &nbsp;         text-decoration: none;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .title a {&lf;
+                                + &nbsp;         color: #0070f3;&lf;
+                                + &nbsp;         text-decoration: none;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .title a:hover,&lf;
+                                + &nbsp;       .title a:focus,&lf;
+                                + &nbsp;       .title a:active {&lf;
+                                + &nbsp;         text-decoration: underline;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .title {&lf;
+                                + &nbsp;         margin: 0;&lf;
+                                + &nbsp;         line-height: 1.15;&lf;
+                                + &nbsp;         font-size: 4rem;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .title,&lf;
+                                + &nbsp;       .description {&lf;
+                                + &nbsp;         text-align: center;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .description {&lf;
+                                + &nbsp;         line-height: 1.5;&lf;
+                                + &nbsp;         font-size: 1.5rem;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       code {&lf;
+                                + &nbsp;         background: #fafafa;&lf;
+                                + &nbsp;         border-radius: 5px;&lf;
+                                + &nbsp;         padding: 0.75rem;&lf;
+                                + &nbsp;         font-size: 1.1rem;&lf;
+                                + &nbsp;         font-family: Menlo, Monaco, Lucida Console, Liberation Mono,&lf;
+                                + &nbsp;           DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .grid {&lf;
+                                + &nbsp;         display: flex;&lf;
+                                + &nbsp;         align-items: center;&lf;
+                                + &nbsp;         justify-content: center;&lf;
+                                + &nbsp;         flex-wrap: wrap;&lf;
+                                + &lf;
+                                + &nbsp;         max-width: 800px;&lf;
+                                + &nbsp;         margin-top: 3rem;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .card {&lf;
+                                + &nbsp;         margin: 1rem;&lf;
+                                + &nbsp;         flex-basis: 45%;&lf;
+                                + &nbsp;         padding: 1.5rem;&lf;
+                                + &nbsp;         text-align: left;&lf;
+                                + &nbsp;         color: inherit;&lf;
+                                + &nbsp;         text-decoration: none;&lf;
+                                + &nbsp;         border: 1px solid #eaeaea;&lf;
+                                + &nbsp;         border-radius: 10px;&lf;
+                                + &nbsp;         transition: color 0.15s ease, border-color 0.15s ease;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .card:hover,&lf;
+                                + &nbsp;       .card:focus,&lf;
+                                + &nbsp;       .card:active {&lf;
+                                + &nbsp;         color: #0070f3;&lf;
+                                + &nbsp;         border-color: #0070f3;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .card h3 {&lf;
+                                + &nbsp;         margin: 0 0 1rem 0;&lf;
+                                + &nbsp;         font-size: 1.5rem;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .card p {&lf;
+                                + &nbsp;         margin: 0;&lf;
+                                + &nbsp;         font-size: 1.25rem;&lf;
+                                + &nbsp;         line-height: 1.5;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .logo {&lf;
+                                + &nbsp;         height: 1em;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       @media (max-width: 600px) {&lf;
+                                + &nbsp;         .grid {&lf;
+                                + &nbsp;           width: 100%;&lf;
+                                + &nbsp;           flex-direction: column;&lf;
+                                + &nbsp;         }&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;
+                    < style 
+                        @ jsx
+                        @ global
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       html,&lf;
+                                + &nbsp;       body {&lf;
+                                + &nbsp;         padding: 0;&lf;
+                                + &nbsp;         margin: 0;&lf;
+                                + &nbsp;         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,&lf;
+                                + &nbsp;           Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,&lf;
+                                + &nbsp;           sans-serif;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       * {&lf;
+                                + &nbsp;         box-sizing: border-box;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;

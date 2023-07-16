@@ -1,0 +1,25 @@
+module
+    kind react
+    const nextConfig
+        { 
+            m webpack
+                param config
+                { 
+                    @ isServer
+                    @ dev
+                set config.output.webassemblyModuleFilename =
+                    iif isServer && !dev
+                        then '../static/wasm/[modulehash].wasm'
+                        else 'static/wasm/[modulehash].wasm'
+                    # Use the client static directory in the server bundle and prod mode
+                    # Fixes `Error occurred prerendering page "/"`
+                    # Since Webpack 5 doesn't enable WebAssembly by default, we should do it manually
+                set config.experiments =
+                    { 
+                        @ ...config.experiments
+                        @ asyncWebAssembly true
+                    # Since Webpack 5 doesn't enable WebAssembly by default, we should do it manually
+                return config
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

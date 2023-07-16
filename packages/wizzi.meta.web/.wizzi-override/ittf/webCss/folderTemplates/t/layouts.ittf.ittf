@@ -1,0 +1,21 @@
+$group
+    
+    $file __dot__wizzi/${pkgPath}ittf/t/css/layouts/meta_main.css.ittf.ittf
+        ${'$'}{'$'}group
+            ${'$'}include webCss/layouts/meta_main.css
+
+    $
+        var items = [
+            "fa-1",
+            "reset",
+            "wz-code",
+            "wz-content-1",
+            "wz-prettyprint",
+            "wz-sidebar-1",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}ittf/t/css/layouts/t/${item}.css.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webCss/layouts/tfolder/${item}.css
+

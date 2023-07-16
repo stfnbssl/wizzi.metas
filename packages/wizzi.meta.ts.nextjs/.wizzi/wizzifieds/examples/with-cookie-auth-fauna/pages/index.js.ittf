@@ -1,0 +1,27 @@
+module
+    kind react
+    import Layout from '../components/layout'
+    const Home
+        => 
+            < Layout 
+                h1 
+                    + Cookie-based authentication example
+                p 
+                    + Steps to test the functionality:
+                ol 
+                    li 
+                        + Click signup and create an account, this will also log you in.
+                    li 
+                        + Click home and click profile again, notice how your session is being&lf;        used through a token stored in a cookie.
+                    li 
+                        + Click logout and try to go to profile again. You'll get redirected to&lf;        the `/login` route.
+                < style 
+                    @ jsx
+                    { 
+                        `lit 
+                            + &lf;
+                            + &nbsp;     li {&lf;
+                            + &nbsp;       margin-bottom: 0.5rem;&lf;
+                            + &nbsp;     }&lf;
+                            + &nbsp;  &nbsp;
+    export-default Home

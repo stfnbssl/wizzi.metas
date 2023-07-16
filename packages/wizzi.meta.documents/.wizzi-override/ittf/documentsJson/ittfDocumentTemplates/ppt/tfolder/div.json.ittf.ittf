@@ -1,0 +1,15 @@
+$group
+    ${'$'}params position, title|@@null
+    {
+        ${'$'}if title != null
+            kind "titled-textblock"
+        ${'$'}else
+            kind "textblock"
+        
+        position "${'$'}{position}"
+        
+        ${'$'}if title != null
+            title "${'$'}{title}"
+        
+        ${'$'}hook
+

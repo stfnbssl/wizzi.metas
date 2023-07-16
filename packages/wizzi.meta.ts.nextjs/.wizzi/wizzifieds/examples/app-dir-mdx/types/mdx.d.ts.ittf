@@ -1,0 +1,10 @@
+module
+    kind react
+    :declare 
+        :module '*.mdx'
+            let MDXComponent
+                :=> 
+                    :ref JSX.Element
+                    param props
+            export-default MDXComponent
+        # types/mdx.d.ts

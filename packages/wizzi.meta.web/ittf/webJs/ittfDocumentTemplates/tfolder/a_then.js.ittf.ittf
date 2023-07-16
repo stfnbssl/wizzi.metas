@@ -1,0 +1,7 @@
+$group
+	${'$'}params result|notUsed
+
+    ._ then
+        =>
+            param ${'$'}{result}
+            ${'$'}hook

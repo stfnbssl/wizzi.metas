@@ -1,0 +1,18 @@
+$group
+    $if metaCtx.useJsCommons
+        $include wzCtxModel
+        $* Sample file templates
+        $file __dot__wizzi/jsCommons/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsCommons/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/jsCommons/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include jsCommons/tfolder/${item}.js
+        *$

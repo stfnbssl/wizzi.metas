@@ -1,0 +1,60 @@
+{
+    "name": "wizzi.meta.ts",
+    "npmName": "@wizzi/meta.ts",
+    "pluginBasename": "",
+    "version": "0.0.1",
+    "description": "Wizzi meta plugin for creating wizzi typescript packages",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "github": {
+        "userid": "stfnbssl"
+    },
+    "license": "MIT",
+    "metaNamespace": "ts",
+    "Build": {
+        "useConfig": true,
+        "config": {},
+        "isWizziMeta": true,
+        "wizziMeta": {
+            "plugins": [
+                "./wizzi.plugin.ittf/index.js",
+                "./wizzi.plugin.wzjob/index.js"
+            ],
+            "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
+            "globalContext": {
+                "wzConfigIsDevelopment": true,
+                "wzConfigIsPackageDeploy": false
+            }
+        },
+        "useWizziJsonFactory": true,
+        "utils": {
+            "useStringifySafe": true
+        }
+    },
+    "Productions": [
+        {
+            "name": "tsCommons",
+            "title": "tsCommons wizzi meta production"
+        },
+        {
+            "name": "tsEsmWrapper",
+            "title": "tsEsmWrapper wizzi meta production",
+            "isPackageMain": true
+        },
+        {
+            "name": "tsNode",
+            "title": "tsNode wizzi meta production",
+            "isPackageMain": true
+        },
+        {
+            "name": "tsNodeFeatureGithub",
+            "title": "tsNodeFeatureGithub wizzi meta production"
+        },
+        {
+            "name": "tsUtils",
+            "title": "tsUtils wizzi meta production"
+        }
+    ]
+}

@@ -1,0 +1,62 @@
+module
+    kind react
+    :import-type 
+        @ NextApiResponse
+        from 'next'
+    import LRU from 'lru-cache'
+    :type Options
+        :{ 
+            :p uniqueTokenPerInterval
+                :optional 
+                :number 
+            :p interval
+                :optional 
+                :number 
+    export-default 
+        function rateLimit
+            param options
+                :ref Options
+                :optional 
+            const tokenCache
+                new LRU
+                    { 
+                        @ max options?.uniqueTokenPerInterval || 500
+                        @ ttl options?.interval || 60000
+            return 
+                { 
+                    @ check
+                        => 
+                            param res
+                                :ref NextApiResponse
+                            param limit
+                                :number 
+                            param token
+                                :string 
+                            new Promise
+                                :param void
+                                => 
+                                    param resolve
+                                    param reject
+                                    const tokenCount
+                                        || 
+                                            ( 
+                                                _ tokenCache.get(token)
+                                                    :as 
+                                                        :[ 
+                                                            :number 
+                                            + [null]
+                                    if tokenCount[0] === 0
+                                        _ tokenCache.set(token, tokenCount)
+                                    set tokenCount[0] += 1
+                                    const currentUsage = tokenCount[0]
+                                    const isRateLimited = currentUsage >= limit
+                                    _ res.setHeader('X-RateLimit-Limit', limit)
+                                    _ res.setHeader
+                                        @ 'X-RateLimit-Remaining'
+                                        iif isRateLimited
+                                            then 0
+                                            else limit - currentUsage
+                                    return 
+                                        iif isRateLimited
+                                            then reject()
+                                            else resolve()

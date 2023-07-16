@@ -1,0 +1,6 @@
+$group
+    $params name
+    {
+        name "${name}"
+        type "string"
+        $hook

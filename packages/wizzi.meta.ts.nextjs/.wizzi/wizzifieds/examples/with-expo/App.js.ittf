@@ -1,0 +1,7 @@
+module
+    kind react
+    export 
+        @ default
+        from './pages/index'
+        # Re-export the root component from the Next.js website
+        # as the root component for the native React app.

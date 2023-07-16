@@ -1,0 +1,21 @@
+$group
+    
+    $if metaCtx.tsReactWidgets.useStyled
+        $
+            var items = [
+                'AnimatedLogo',
+                'Avatar',
+                'Banner',
+                'Box',
+                'Button',
+                'Modal',
+                'ModalDialog',
+                'ModalSheet',
+                'ProgressIndicator',
+                'Text',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/widgets/styled/${item}.tsx.ittf.ittf
+            module
+                ${'$'}include tsReactWidgets/styled/${item}.tsx

@@ -1,0 +1,48 @@
+module
+    kind react
+    import Head from 'next/head'
+    import Header from 'components/Header'
+    export-default 
+        function Layout
+            { 
+                @ children
+                :{ 
+                    :p children
+                        :ref React.ReactNode
+            return 
+                < React.Fragment
+                    < Head 
+                        < title 
+                            + With Iron Session
+                    < style 
+                        @ jsx
+                        @ global
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       *,&lf;
+                                + &nbsp;       *::before,&lf;
+                                + &nbsp;       *::after {&lf;
+                                + &nbsp;         box-sizing: border-box;&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       body {&lf;
+                                + &nbsp;         margin: 0;&lf;
+                                + &nbsp;         color: #333;&lf;
+                                + &nbsp;         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,&lf;
+                                + &nbsp;           'Helvetica Neue', Arial, Noto Sans, sans-serif, 'Apple Color Emoji',&lf;
+                                + &nbsp;           'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';&lf;
+                                + &nbsp;       }&lf;
+                                + &lf;
+                                + &nbsp;       .container {&lf;
+                                + &nbsp;         max-width: 65rem;&lf;
+                                + &nbsp;         margin: 1.5rem auto;&lf;
+                                + &nbsp;         padding-left: 1rem;&lf;
+                                + &nbsp;         padding-right: 1rem;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;
+                    < Header 
+                    main 
+                        div 
+                            @ className "container"
+                            + {children}

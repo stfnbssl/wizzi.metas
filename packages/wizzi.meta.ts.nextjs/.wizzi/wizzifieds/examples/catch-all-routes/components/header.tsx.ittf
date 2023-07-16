@@ -1,0 +1,26 @@
+module
+    kind react
+    import Link from 'next/link'
+    const Header
+        => 
+            header 
+                ul 
+                    li 
+                        < Link 
+                            @ href "/"
+                            + Home
+                    li 
+                        < Link 
+                            @ href "/about"
+                            + About
+                    li 
+                        < Link 
+                            @ href "/post/[...slug]"
+                            @ as "/post/2020/first-post/with/catch/all/routes"
+                            + First Post
+                    li 
+                        < Link 
+                            @ href "/post/[...slug]"
+                            @ as "/post/2020/second-post/with/catch/all/routes"
+                            + Second Post
+    export-default Header

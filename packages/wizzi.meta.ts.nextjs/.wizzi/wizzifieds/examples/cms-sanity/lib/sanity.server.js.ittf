@@ -1,0 +1,55 @@
+module
+    kind react
+    import 
+        @ createClient
+        from 'next-sanity'
+        #
+            # *
+            # * Server-side Sanity utilities. By having these in a separate file from the
+            # * utilities we use on the client side, we are able to tree-shake (remove)
+            # * code that is not used on the client side.
+            # 
+    import 
+        @ sanityConfig
+        from './config'
+    export 
+        const sanityClient = createClient(sanityConfig)
+    export 
+        const previewClient
+            _ createClient
+                { 
+                    @ ...sanityConfig
+                    @ useCdn false
+                    @ token process.env.SANITY_API_READ_TOKEN || process.env.SANITY_API_WRITE_TOKEN
+                        # Fallback to using the WRITE token until https://www.sanity.io/docs/vercel-integration starts shipping a READ token.
+                        # As this client only exists on the server and the token is never shared with the browser, we don't risk escalating permissions to untrustworthy users
+    export 
+        const getClient
+            => 
+                param preview
+                ( 
+                    iif preview
+                        then previewClient
+                        else sanityClient
+    export 
+        function overlayDrafts
+            param docs
+            const documents = docs || []
+            const overlayed
+                _ documents.reduce
+                    => 
+                        param map
+                        param doc
+                        if !doc._id
+                            throw new Error('Ensure that `_id` is included in query projection')
+                        const isDraft = doc._id.startsWith('drafts.')
+                        const id
+                            iif isDraft
+                                then doc._id.slice(7)
+                                else doc._id
+                        return 
+                            iif isDraft || !map.has(id)
+                                then map.set(id, doc)
+                                else map
+                    new Map
+            return Array.from(overlayed.values())

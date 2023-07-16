@@ -1,0 +1,12 @@
+module
+    kind react
+    const dotenv = require('dotenv')
+    const 
+        { 
+            @ parse
+        = require('pg-connection-string')
+    _ dotenv.config
+        { 
+            @ path '.env.local'
+    const options = parse(process.env.DATABASE_URL || '')
+    set module.exports = options

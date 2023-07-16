@@ -1,0 +1,24 @@
+module
+    kind react
+    import createCache from '@emotion/cache'
+    import 
+        @ CacheProvider
+        from '@emotion/react'
+    import 
+        @ globalStyles
+        from '../shared/styles'
+    const cache
+        _ createCache
+            { 
+                @ key 'next'
+    const App
+        => 
+            { 
+                @ Component
+                @ pageProps
+            < CacheProvider 
+                @ value {cache}
+                + {globalStyles}
+                < Component 
+                    @ {...pageProps}
+    export-default App

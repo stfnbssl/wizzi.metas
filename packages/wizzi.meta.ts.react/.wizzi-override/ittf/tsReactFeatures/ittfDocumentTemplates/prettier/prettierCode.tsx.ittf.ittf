@@ -1,0 +1,71 @@
+$group
+
+    import 
+        @ getFileLanguage 
+        from '../file/index'
+    
+    export-default 
+        async-function prettierCode
+            param path
+                :string 
+            param code
+                :string 
+            :return
+                :ref Promise
+                    :param string
+            const language = getFileLanguage(path)
+            let parser
+            let plugins
+            switch language
+                case 'javascript'
+                    set parser = 'babel'
+                    set plugins =
+                        [ 
+                            await 
+                                _ import
+                                    @ 'prettier/parser-babel'
+                    break 
+                case 'typescript'
+                    set parser = 'typescript'
+                    set plugins =
+                        [ 
+                            await 
+                                _ import
+                                    @ 'prettier/parser-typescript'
+                    break 
+                case 'markdown'
+                    set parser = 'markdown'
+                    set plugins =
+                        await 
+                            _ Promise.all
+                                [ 
+                                    _ import
+                                        @ 'prettier/parser-babel'
+                                    _ import
+                                        @ 'prettier/parser-typescript'
+                                    _ import
+                                        @ 'prettier/parser-markdown'
+                    break 
+            if parser && plugins
+                const prettier
+                    await 
+                        _ import
+                            @ 'prettier/standalone'
+                const 
+                    { 
+                        @ default config
+                    =
+                        @expr
+                            await 
+                                _ import
+                                    @ './prettier.json'
+                            :as 
+                                :any 
+                return 
+                    _ prettier.format
+                        @ code
+                        { 
+                            @ parser
+                            @ plugins
+                            @ ...config
+            return code

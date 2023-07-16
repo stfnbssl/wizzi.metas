@@ -1,0 +1,77 @@
+$group
+    import
+        @ packiTypes
+        from '../packi'
+
+    export
+        function createInitialPackiFiles
+            param contexts
+                :string
+            param tfolders
+                :string
+            param wizziSchema
+                :string
+            param mainIttf
+                :string
+            const packiFiles
+                :ref packiTypes.PackiFiles
+                = {}
+            if wizziSchema && mainIttf
+                set packiFiles[mainIttf]
+                    {
+                        @ type 'CODE'
+                        @ contents wizziSchema
+            set packiFiles['.packi/config.json.ittf']
+                {
+                    @ type 'CODE'
+                    @ contents createPackiConfigContents(contexts, tfolders)
+            return packiFiles
+
+    export
+        function createPackiConfigContents
+            param contexts
+                :string
+            param tfolders
+                :string
+            const tfoldersObj = JSON.parse(tfolders || '[]')
+            const contextsObj = JSON.parse(contexts || '[]')
+            const sb = []
+            _ sb.push('{')
+            _ sb.push('\t[ tfolders')
+            foreach tf in tfoldersObj
+                _ sb.push('\t\t{')
+                _ sb.push('\t\t\tname "' + tf.name + '"')
+            _ sb.push('\t[ contexts')
+            foreach ctx in contextsObj
+                _ sb.push('\t\t{')
+                _ sb.push('\t\t\tpropertyName "' + ctx.propertyName + '"')
+                _ sb.push('\t\t\tartifactName "' + ctx.artifactName + '"')
+            return sb.join('\n')
+
+    export
+        function mergePackiFiles
+            param current
+                :ref packiTypes.PackiFiles
+            param toadd
+                :ref packiTypes.PackiFiles
+            param options
+                :any
+                :optional
+            set options = options || {}
+            var ret
+                :ref packiTypes.PackiFiles
+                { 
+            for var k in current
+                set ret[k] = current[k]
+            for var k in toadd
+                const filePath = options.mergeToFolder ? stripStartSlash(stripEndSlash(options.mergeToFolder)) + '/' + stripStartSlash(k) : k
+                set ret[filePath] = toadd[k]
+            return ret
+
+    function stripEndSlash
+        param path
+        return path.endsWith('/') ? path.substring(0, path.length - 1) : path
+    
+    function stripStartSlash
+        param path
+        return path.startsWith('/') ? path.substring(1) : path

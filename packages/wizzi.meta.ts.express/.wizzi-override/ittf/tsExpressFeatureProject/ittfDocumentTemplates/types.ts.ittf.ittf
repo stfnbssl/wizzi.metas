@@ -1,0 +1,10 @@
+$group
+
+    ${'$'}
+        var db = wzCtx.Build.data.Project.db;
+    +
+    import
+        @ Model
+        from "sequelize"
+    +
+    v08/sequelize/modelTypes${'('}&db)

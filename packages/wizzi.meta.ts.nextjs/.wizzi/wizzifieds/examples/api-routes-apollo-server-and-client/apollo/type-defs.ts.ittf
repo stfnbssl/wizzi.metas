@@ -1,0 +1,19 @@
+module
+    kind react
+    import 
+        @ gql
+        from '@apollo/client'
+    export 
+        const typeDefs
+            _` gql
+                + &lf;
+                + &nbsp; type User {&lf;
+                + &nbsp;   id: ID!&lf;
+                + &nbsp;   name: String!&lf;
+                + &nbsp;   status: String!&lf;
+                + &nbsp; }&lf;
+                + &lf;
+                + &nbsp; type Query {&lf;
+                + &nbsp;   viewer: User&lf;
+                + &nbsp; }&lf;
+                + 

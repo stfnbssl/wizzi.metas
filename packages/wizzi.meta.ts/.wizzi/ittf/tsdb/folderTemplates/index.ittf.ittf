@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useTsdb
+        $file __dot__wizzi/tsdb/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tsdb/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/tsdb/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include tsdb/tfolder/${item}.js

@@ -1,0 +1,30 @@
+$group
+    ---
+    ${'$'}if wzCtx.Build.useTypescript
+        ${'$'}if wzCtx.Build.isClientServer
+            @ index './src/client/index.tsx'
+        ${'$'}else
+            @ index './src/index.tsx'
+    ${'$'}else
+        ${'$'}if wzCtx.Build.isClientServer
+            @ index './src/client/index.js'
+        ${'$'}else
+            @ index './src/index.js'
+    ${'$'}if wzCtx.Build.useServiceWorker
+        ${'$'}if wzCtx.Build.useTypescript
+            ${'$'}if wzCtx.Build.isClientServer
+                @ sw './src/client/sw.tsx'
+                    # Service worker
+            ${'$'}else
+                @ sw './src/sw.tsx'
+                    # Service worker
+        ${'$'}else
+            ${'$'}if wzCtx.Build.isClientServer
+                @ sw './src/client/sw.js'
+                    # Service worker
+            ${'$'}else
+                @ sw './src/sw.js'
+                    # Service worker
+    ${'$'}if _.isArray(wzCtx.Build.webpack.entries)
+        ${'$'}foreach entry in wzCtx.Build.webpack.entries
+            @ ${'$'}{entry.name} '${'$'}{entry.path}'

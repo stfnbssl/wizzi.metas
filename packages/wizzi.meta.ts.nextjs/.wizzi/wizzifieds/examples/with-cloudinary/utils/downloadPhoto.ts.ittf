@@ -1,0 +1,44 @@
+module
+    kind react
+    function forceDownload
+        param blobUrl
+            :string 
+        param filename
+            :string 
+        let a
+            :any 
+            = document.createElement('a')
+        set a.download = filename
+        set a.href = blobUrl
+        _ document.body.appendChild(a)
+        _ a.click()
+        _ a.remove()
+    export-default 
+        function downloadPhoto
+            param url
+                :string 
+            param filename
+                :string 
+            if !filename
+                set filename = url.split('\\').pop().split('/').pop()
+            _ fetch
+                @ url
+                { 
+                    @ headers
+                        new Headers
+                            { 
+                                @ Origin location.origin
+                    @ mode 'cors'
+                ._ then
+                    => 
+                        param response
+                        _ response.blob()
+                ._ then
+                    => 
+                        param blob
+                        let blobUrl = window.URL.createObjectURL(blob)
+                        _ forceDownload(blobUrl, filename)
+                ._ catch
+                    => 
+                        param e
+                        _ console.error(e)

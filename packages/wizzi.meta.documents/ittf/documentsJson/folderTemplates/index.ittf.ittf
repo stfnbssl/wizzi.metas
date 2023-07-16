@@ -1,0 +1,4 @@
+$group
+    $if metaCtx.useDocumentsJson
+        $include wzCtxModel
+        $include ppt

@@ -1,0 +1,34 @@
+module
+    kind react
+    import 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    import 
+        @ serialize
+        from 'cookie'
+    import 
+        @ COOKIE_NAME
+        from '../../lib'
+    export-default 
+        async-function logout
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            if req.method !== 'POST'
+                return 
+                    _ res.status(405).send
+                        { 
+                            @ message 'Only POST requests allowed'
+            const cookie
+                _ serialize
+                    @ COOKIE_NAME
+                    @ ''
+                    { 
+                        @ maxAge -1
+                        @ path '/'
+            _ res.setHeader('Set-Cookie', cookie)
+            _ res.send
+                { 
+                    @ success true

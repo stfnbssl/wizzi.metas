@@ -1,0 +1,15 @@
+module
+    kind react
+    import './globalStyle.css'
+    export-default 
+        function RootLayout
+            { 
+                @ children
+                :{ 
+                    :p children
+                        :ref React.ReactNode
+            return 
+                html 
+                    @ lang "en"
+                    body 
+                        + {children}

@@ -1,0 +1,72 @@
+module
+    kind react
+    import 
+        @ BaseClientOptions
+        @ buildClient
+        @ SchemaInference
+        @ XataRecord
+        from '@xata.io/client'
+    const tables
+        @expr
+            [ 
+                { 
+                    @ name 'nextjs_with_xata_example'
+                    [ columns
+                        { 
+                            @ name 'title'
+                            @ type 'string'
+                        { 
+                            @ name 'description'
+                            @ type 'string'
+                        { 
+                            @ name 'url'
+                            @ type 'string'
+            :as 
+                :ref const
+    export 
+        :type SchemaTables
+            :typeof tables
+    export 
+        :type DatabaseSchema
+            :ref SchemaInference
+                :param 
+                    :ref SchemaTables
+    export 
+        :type NextjsWithXataExample
+            :[] 
+                :ref DatabaseSchema
+                :literal 'nextjs_with_xata_example'
+    export 
+        :type NextjsWithXataExampleRecord
+            :intersect 
+                :ref NextjsWithXataExample
+                :ref XataRecord
+    const DatabaseClient = buildClient()
+    const defaultOptions
+        { 
+    export 
+        class XataClient
+            super DatabaseClient
+                :param 
+                    :ref SchemaTables
+            ctor 
+                param options
+                    :ref BaseClientOptions
+                    :optional 
+                _ super
+                    { 
+                        @ ...defaultOptions
+                        @ ...options
+                    @ tables
+    let instance
+        :union 
+            :ref XataClient
+            :undefined 
+        = undefined
+    export 
+        const getXataClient
+            => 
+                if instance
+                    return instance
+                set instance = new XataClient()
+                return instance

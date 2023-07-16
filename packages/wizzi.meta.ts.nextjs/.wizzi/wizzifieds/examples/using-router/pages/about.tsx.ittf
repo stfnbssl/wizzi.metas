@@ -1,0 +1,10 @@
+module
+    kind react
+    import Header from '../components/Header'
+    export-default 
+        function AboutPage
+            return 
+                < React.Fragment
+                    < Header 
+                    p 
+                        + This is the about page.

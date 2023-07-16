@@ -1,0 +1,59 @@
+$group
+    
+    $if metaCtx.useCommonsWebpack
+        $$ VIA $include wzCtxModel
+
+        $file __dot__wizzi/${pkgPath}root/webpack.config.js.ittf.ittf
+            module
+                kind es6
+
+                ${'$'}{'$'}include webpack/${metaVer}/imports
+
+                set module.exports
+                    {
+                        @ mode
+                            iif process.env.NODE_ENV === 'production'
+                                then 'production'
+                                else 'development'
+                        @ devtool
+                            iif process.env.NODE_ENV === 'production'
+                                then 'source-map'
+                                $$ else 'eval-source-map'
+                                else 'cheap-module-source-map'
+                        { entry
+                            ${'$'}{'$'}include webpack/${metaVer}/entry
+                        { module
+                            [ rules
+                                ${'$'}{'$'}include webpack/${metaVer}/module.rules
+                        { resolve
+                            ${'$'}{'$'}include webpack/${metaVer}/resolve
+                        { output
+                            ${'$'}{'$'}include webpack/${metaVer}/output
+                        [ plugins
+                            ${'$'}{'$'}include webpack/${metaVer}/plugins
+                        { devServer
+                            ${'$'}{'$'}include webpack/${metaVer}/devServer
+                        { optimization
+                            ${'$'}{'$'}include webpack/${metaVer}/optimization
+
+
+        $
+            var items = [
+                "devServer",
+                "entry",
+                "externals",
+                "imports",
+                "module.rules",
+                "optimization",
+                "output",
+                "plugins",
+                "resolve",
+            ];
+
+        $foreach item in items
+
+            $file __dot__wizzi/t/webpack/${metaVer}/${item}.js.ittf.ittf
+                ${'$'}{'$'}group
+                
+                    ${'$'}include commonsWebpack/tfolder/${item}.js
+

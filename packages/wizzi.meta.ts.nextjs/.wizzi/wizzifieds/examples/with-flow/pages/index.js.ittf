@@ -1,0 +1,10 @@
+module
+    kind react
+    import Page from '../components/Page'
+        # @flow
+    export-default 
+        function Home
+            return 
+                < Page 
+                    div 
+                        + Hello World

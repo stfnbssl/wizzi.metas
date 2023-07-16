@@ -1,0 +1,10 @@
+$group
+    ${'$'}params name
+    set md.${'$'}{name}
+        function
+            param ctx
+            return
+                function
+                    param model
+                    param callback
+                    ${'$'}hook

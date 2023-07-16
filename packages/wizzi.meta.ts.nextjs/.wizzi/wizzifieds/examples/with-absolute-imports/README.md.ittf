@@ -1,0 +1,115 @@
+md
+    h1 
+        + Absolute Imports and Aliases
+    p 
+        + This example shows how to configure
+        a 
+            href https://nextjs.org/docs/advanced-features/module-path-aliases
+            title 
+            + Absolute imports and Module path aliases
+        + in
+        code tsconfig.json
+        + (or
+        code jsconfig.json
+        + for JavaScript projects). These options will allow absolute imports from
+        code .
+        + (the root directory), and allow you to create custom import aliases.
+    br 
+    p 
+        + If you’re working on a large project, your relative import statements might suffer from
+        code ../../../
+        + spaghetti:
+    br 
+    code 
+        lang tsx
+        + import Button from '../../../components/button'
+    br 
+    p 
+        + In such cases, we might want to setup absolute imports using the
+        code baseUrl
+        + option, for clearer and shorter imports:
+    br 
+    code 
+        lang tsx
+        + import Button from 'components/button'
+    br 
+    p 
+        + Furthermore, TypeScript also supports the
+        code paths
+        + option, which allows you to configure custom module aliases. You can then use your alias like so:
+    br 
+    code 
+        lang tsx
+        + import Button from '@/components/button'
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-absolute-imports
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-absolute-imports&project-name=with-absolute-imports&repository-name=with-absolute-imports
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-absolute-imports with-absolute-imports-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-absolute-imports with-absolute-imports-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-absolute-imports with-absolute-imports-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).

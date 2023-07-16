@@ -1,0 +1,14 @@
+$group
+    $if metaCtx.useTsExpressApp
+
+        $$ commonsWizzi -> $include __wizzi.config
+        $$ commonsWizzi -> $include __wizzi.override.config    
+        $include __generate
+        $$ commonsWizzi -> $include tfolder/commons
+        $$ commonsWizzi -> $include tfolder/wfjobs
+        $$ $include tfolder/v08/index
+        $include models
+        $include root
+        $include src/index
+        $include src/tfolder
+

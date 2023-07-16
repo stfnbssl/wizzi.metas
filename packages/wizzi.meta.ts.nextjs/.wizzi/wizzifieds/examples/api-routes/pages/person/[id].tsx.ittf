@@ -1,0 +1,104 @@
+module
+    kind react
+    import 
+        @ useRouter
+        from 'next/router'
+    import useSWR from 'swr'
+    :import-type 
+        @ Person
+        @ ResponseError
+        from '../../interfaces'
+    const fetcher
+        async=> 
+            param url
+                :string 
+            const res
+                await 
+                    _ fetch(url)
+            const data
+                await 
+                    _ res.json()
+            if res.status !== 200
+                throw new Error(data.message)
+            return data
+    export-default 
+        function PersonPage
+            const 
+                { 
+                    @ query
+                = useRouter()
+            const 
+                { 
+                    @ data
+                    @ error
+                    @ isLoading
+                    @ isValidating
+                =
+                    _ useSWR
+                        :param 
+                            :ref Person
+                        :param 
+                            :ref ResponseError
+                        => 
+                            ( 
+                                iif query.id
+                                    then
+                                        `lit 
+                                            + /api/people/
+                                            @ query.id
+                                            + 
+                                    else null
+                        @ fetcher
+            if error
+                return 
+                    div 
+                        + {error.message}
+            if isLoading
+                return 
+                    div 
+                        + Loading...
+            if !data
+                return null
+            return 
+                table 
+                    thead 
+                        tr 
+                            th 
+                                + Name
+                            th 
+                                + Height
+                            th 
+                                + Mass
+                            th 
+                                + Hair color
+                            th 
+                                + Skin color
+                            th 
+                                + Eye color
+                            th 
+                                + Gender
+                    tbody 
+                        tr 
+                            { 
+                                iif isValidating
+                                    then
+                                        td 
+                                            @ colSpan {7}
+                                            @ align "center"
+                                            + Validating...
+                                    else
+                                        < React.Fragment
+                                            td 
+                                                + {data.name}
+                                            td 
+                                                + {data.height}
+                                            td 
+                                                + {data.mass}
+                                            td 
+                                                + {data.hair_color}
+                                            td 
+                                                + {data.skin_color}
+                                            td 
+                                                + {data.eye_color}
+                                            td 
+                                                + {data.gender}

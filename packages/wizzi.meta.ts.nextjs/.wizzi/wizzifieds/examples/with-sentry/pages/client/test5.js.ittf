@@ -1,0 +1,30 @@
+module
+    kind react
+    import 
+        as Sentry
+        from '@sentry/nextjs'
+    const Test5
+        => 
+            < React.Fragment
+                h1 
+                    + Client Test 5
+                button 
+                    @ onClick
+                        => 
+                            const transaction
+                                _ Sentry.startTransaction
+                                    { 
+                                        @ name 'Testing performance'
+                            _ Sentry.configureScope
+                                => 
+                                    param scope
+                                    _ scope.setSpan(transaction)
+                            try 
+                                throw new Error('Client Test 5')
+                                    # Some operation the button does, but fails
+                            catch error
+                                _ Sentry.captureException(error)
+                            finally 
+                                _ transaction.finish()
+                    + Click me to create a transaction and throw an Error
+    export-default Test5

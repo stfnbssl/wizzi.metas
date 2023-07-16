@@ -1,0 +1,4 @@
+{
+    productionName "commonsEnv"
+        params/use( deployClient
+        $$ params/use( deployServer

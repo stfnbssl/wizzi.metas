@@ -1,0 +1,51 @@
+module
+    kind react
+    import 
+        @ useEffect
+        @ useState
+        from 'react'
+    import 
+        @ useUser
+        from '@auth0/nextjs-auth0'
+    import Layout from '../../components/layout'
+    const ApiProfile
+        => 
+            const 
+                { 
+                    @ user
+                    @ isLoading
+                = useUser()
+            const [data, setData] = useState(null)
+            _ useEffect
+                => 
+                    _ 
+                        const res
+                            await 
+                                _ fetch('/api/protected-api')
+                        const data
+                            await 
+                                _ res.json()
+                        _ setData(data)
+                [ 
+            return 
+                < Layout 
+                    @ user {user}
+                    @ loading {isLoading}
+                    h1 
+                        + Profile
+                    div 
+                        h3 
+                            + Public page (client rendered)
+                        p 
+                            + We are fetching data on the client-side :
+                        p 
+                            + By making request to '/api/protected-api' serverless function
+                        p 
+                            + so without a valid session cookie will fail
+                        p 
+                            + {JSON.stringify(data)}
+        # Public route.(CSR) also accessing API from the client-side.
+        # data is not cached when redirecting between pages.
+    export-default ApiProfile
+        # Public route.(CSR) also accessing API from the client-side.
+        # data is not cached when redirecting between pages.

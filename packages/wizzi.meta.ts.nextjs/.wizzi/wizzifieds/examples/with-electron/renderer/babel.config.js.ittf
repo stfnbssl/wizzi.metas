@@ -1,0 +1,15 @@
+module
+    kind react
+    const 
+        { 
+            @ devDependencies
+        = require('../package.json')
+    set module.exports =
+        { 
+            [ presets
+                [ 
+                    @ 'next/babel'
+                    { 
+                        { 'preset-env'
+                            { targets
+                                @ electron devDependencies.electron.replace(/^\^|~/, '')

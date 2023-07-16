@@ -1,0 +1,39 @@
+module
+    kind react
+    import 
+        @ useEffect
+        @ useRef
+        from 'react'
+        # https://overreacted.io/making-setinterval-declarative-with-react-hooks/
+    const useInterval
+        => 
+            param callback
+                :=> 
+                    :void 
+            param delay
+                :union 
+                    :number 
+                    :undefined 
+            const savedCallback
+                _ useRef
+                    :param 
+                        :typeof callback
+            _ useEffect
+                => 
+                    set savedCallback.current = callback
+                [ 
+                    @ callback
+            _ useEffect
+                => 
+                    const handler
+                        => 
+                            _ savedCallback.current?.()
+                    if delay !== null
+                        const id = setInterval(handler, delay)
+                        return 
+                            => 
+                                _ clearInterval(id)
+                [ 
+                    @ delay
+        # https://overreacted.io/making-setinterval-declarative-with-react-hooks/
+    export-default useInterval

@@ -1,0 +1,5 @@
+$group
+  $include helpers
+  $include localCollectionStore
+  $include localObjectStore
+  $include forms/index

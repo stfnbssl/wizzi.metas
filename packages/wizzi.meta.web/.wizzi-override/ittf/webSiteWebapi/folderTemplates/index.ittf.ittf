@@ -1,0 +1,60 @@
+$group
+    
+    $if metaCtx.useWebSiteWebapi
+
+        $file __dot__wizzi/${pkgPath}ittf/site/webapi/t/d-control.html.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webSiteWebApi/html/tfolder/d-control.html
+        
+        $file __dot__wizzi/${pkgPath}ittf/site/webapi/t/d-prop.html.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webSiteWebApi/html/tfolder/d-prop.html
+        
+        $file __dot__wizzi/${pkgPath}ittf/site/webapi/index.html.ittf.ittf
+            html
+                ${'$'}include webSiteWebApi/html/index.html
+        
+        $file __dot__wizzi/${pkgPath}ittf/site/webapi/index.json.ittf.ittf
+            {
+                [ webapis
+                    $if metaCtx.useBlog
+                        {
+                            title 'Wizzi - create blog post'
+                            method 'post'
+                            url '/api/v1/blog/post/:owner/:name'
+                            [ parameters
+                                {
+                                    type "text"
+                                    paramType "url"
+                                    name "owner"
+                                    label "Owner"
+                                    demoValue "stfnbssl"
+                                {
+                                    type "text"
+                                    paramType "url"
+                                    name "name"
+                                    label "Name"
+                                    demoValue "post-1"
+                                {
+                                    type "text"
+                                    paramType "body"
+                                    name "title"
+                                    label "Title"
+                                    demoValue 'Post 1'
+                                {
+                                    type "text"
+                                    paramType "body"
+                                    name "content"
+                                    label "Content"
+                                    demoValue 'Post 1 content'
+                        {
+                            title 'Wizzi - list blog posts'
+                            method 'get'
+                            url '/api/v1/blog/post/:owner'
+                            [ parameters
+                                {
+                                    type "text"
+                                    paramType "url"
+                                    name "owner"
+                                    label "Owner"
+                                    demoValue "stfnbssl"

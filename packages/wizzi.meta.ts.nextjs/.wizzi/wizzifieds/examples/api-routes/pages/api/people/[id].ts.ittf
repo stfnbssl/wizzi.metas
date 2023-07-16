@@ -1,0 +1,49 @@
+module
+    kind react
+    import 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    import 
+        @ people
+        from '../../../data'
+    :import-type 
+        @ Person
+        @ ResponseError
+        from '../../../interfaces'
+    export-default 
+        function personHandler
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+                    :param 
+                        :union 
+                            :ref Person
+                            :ref ResponseError
+            const 
+                { 
+                    @ query
+                = req
+            const 
+                { 
+                    @ id
+                = query
+            const person
+                _ people.find
+                    => 
+                        param p
+                        set p.id === id
+                # User with id exists
+            return 
+                iif person
+                    then res.status(200).json(person)
+                    else
+                        _ res.status(404).json
+                            { 
+                                @ message
+                                    `lit 
+                                        + User with id:&nbsp;
+                                        @ id
+                                        + &nbsp;not found.
+                # User with id exists

@@ -1,0 +1,20 @@
+module
+    kind react
+    import Head from 'next/head'
+    :type Props
+        :{ 
+            :p children
+                :ref React.ReactNode
+    export 
+        const Layout
+            => 
+                param props
+                    :ref Props
+                < React.Fragment
+                    < Head 
+                        < title 
+                            + Authsignal Passwordless Example
+                        link 
+                            @ rel "icon"
+                            @ href "/favicon.ico"
+                    + {props.children}

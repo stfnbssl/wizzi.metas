@@ -1,0 +1,38 @@
+module
+    kind react
+    import 
+        @ listGuestbookEntries
+        @ createGuestbookEntry
+        from '@/lib/fauna'
+    export-default 
+        async-function handler
+            param req
+            param res
+            const handlers
+                { 
+                    @ GET
+                        async=> 
+                            const entries
+                                await 
+                                    _ listGuestbookEntries()
+                            _ res.json(entries)
+                    @ POST
+                        async=> 
+                            const 
+                                { 
+                                    { body
+                                        @ name
+                                        @ message
+                                = req
+                            const created
+                                await 
+                                    _ createGuestbookEntry
+                                        { 
+                                            @ name
+                                            @ message
+                                            @ createdAt new Date()
+                            _ res.json(created)
+            if !handlers[req.method]
+                return res.status(405).end()
+            await 
+                _ handlers[req.method]()

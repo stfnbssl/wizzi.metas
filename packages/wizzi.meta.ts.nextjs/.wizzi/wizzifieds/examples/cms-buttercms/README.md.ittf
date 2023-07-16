@@ -1,0 +1,380 @@
+md
+    h1 
+        + A fully-functional, drop-in proof-of-concept Next.js app using ButterCMS
+    p 
+        + This Next.js starter project fully integrates with dynamic sample content from your ButterCMS account, including main menu, pages, blog posts, categories, and tags, all with a beautiful, custom theme with already-implemented search functionality. All of the included sample content is automatically created in your account dashboard when you sign up for a free trial of ButterCMS.
+    br 
+    p 
+        + A copy of this starter project can be easily and quickly deployed to Vercel with the click of a button.
+    br 
+    p 
+        + This example showcases Next.js&#39;s
+        a 
+            href https://nextjs.org/docs/basic-features/pages
+            title 
+            + Static Generation
+        + feature using
+        a 
+            href https://buttercms.com/
+            title 
+            + ButterCMS
+        + as the data source.
+    br 
+    h2 
+        + Demo
+    p 
+        + Check out our live demo:
+        a 
+            href https://nextjs-starter-buttercms.vercel.app/
+            title 
+            + https://nextjs-starter-buttercms.vercel.app/
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Once you have access to your Butter API token, you can deploy your Butterized proof-of-concept app to Vercel, the creators of Next.js, and spread your love of Butter. By clicking the button below, you&#39;ll create a copy of our starter project in your Git provider account, instantly deploy it, and institute a full content workflow connected to your ButterCMS account. Smooth.
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FButterCMS%2Fnextjs-starter-buttercms&env=NEXT_PUBLIC_BUTTER_CMS_API_KEY&envDescription=Your%20ButterCMS%20API%20Token&envLink=https%3A%2F%2Fbuttercms.com%2Fsettings%2F&project-name=nextjs-starter-buttercms&repo-name=nextjs-starter-buttercms&redirect-url=https%3A%2F%2Fbuttercms.com%2Fonboarding%2Fvercel-starter-deploy-callback%2F&production-deploy-hook=Deploy%20Triggered%20from%20ButterCMS&demo-title=ButterCMS%20Next.js%20Starter&demo-description=Fully%20integrated%20with%20your%20ButterCMS%20account&demo-url=https%3A%2F%2Fnextjs-starter-buttercms.vercel.app%2F&demo-image=https://cdn.buttercms.com/r0tGK8xFRti2iRKBJ0eY&repository-name=nextjs-starter-buttercms
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h3 
+        + Related examples
+    ul 
+        li 
+            a 
+                href /examples/cms-wordpress
+                title 
+                + WordPress
+        li 
+            a 
+                href /examples/cms-datocms
+                title 
+                + DatoCMS
+        li 
+            a 
+                href /examples/cms-sanity
+                title 
+                + Sanity
+        li 
+            a 
+                href /examples/cms-takeshape
+                title 
+                + TakeShape
+        li 
+            a 
+                href /examples/cms-prismic
+                title 
+                + Prismic
+        li 
+            a 
+                href /examples/cms-contentful
+                title 
+                + Contentful
+        li 
+            a 
+                href /examples/cms-agilitycms
+                title 
+                + Agility CMS
+        li 
+            a 
+                href /examples/cms-cosmic
+                title 
+                + Cosmic
+        li 
+            a 
+                href /examples/cms-strapi
+                title 
+                + Strapi
+        li 
+            a 
+                href /examples/cms-storyblok
+                title 
+                + Storyblok
+        li 
+            a 
+                href /examples/cms-graphcms
+                title 
+                + GraphCMS
+        li 
+            a 
+                href /examples/cms-kontent
+                title 
+                + Kontent
+        li 
+            a 
+                href /examples/cms-ghost
+                title 
+                + Ghost
+        li 
+            a 
+                href /examples/cms-umbraco-heartcore
+                title 
+                + Umbraco Heartcore
+        li 
+            a 
+                href /examples/blog-starter
+                title 
+                + Blog Starter
+        li 
+            a 
+                href /examples/cms-builder-io
+                title 
+                + Builder.io
+        li 
+            a 
+                href /examples/cms-dotcms
+                title 
+                + DotCMS
+        li 
+            a 
+                href /examples/cms-enterspeed
+                title 
+                + Enterspeed
+    br 
+    h2 
+        + How to use
+    h3 
+        + Option 1. Install via Github and NPM or Yarn
+    p 
+        + First, install the dependencies by cloning the repo and running one of the following commands, depending on your current setup:
+    br 
+    code 
+        lang bash
+        + git clone https://github.com/ButterCMS/nextjs-starter-buttercms.git
+        + cd nextjs-starter-buttercms
+        + npm install # or yarn install
+    br 
+    h3 
+        + Option 2. Install via Create-Next-App
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example cms-buttercms cms-buttercms-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example cms-buttercms cms-buttercms-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example cms-buttercms cms-buttercms-app
+    br 
+    h2 
+        + Configuration
+    h3 
+        + Step 1. Create an account on ButterCMS
+    p 
+        + First,
+        a 
+            href https://buttercms.com/
+            title 
+            + create an account on ButterCMS
+        + .
+    br 
+    p 
+        + After signing up, you’ll be presented with your free API token. We’ll use this in the next step.
+    br 
+    h3 
+        + Step 2. Set up environment variables
+    p 
+        + Copy the
+        code .env.local.example
+        + file in this directory to
+        code .env.local
+        + (which will be ignored by Git):
+    br 
+    code 
+        lang bash
+        + cp .env.local.example .env.local
+    br 
+    p 
+        + Then set each variable on
+        code .env.local
+        + :
+    br 
+    ul 
+        li 
+            code NEXT_PUBLIC_BUTTER_CMS_API_KEY
+            + should be set as the API key.
+    br 
+    h3 
+        + Step 3. Run Next.js in development mode
+    p 
+        + When you sign up for ButterCMS, it creates all of the example content used by this starter project. You can run Next.js in development mode to view your fully-functional starter project, including landing page with
+        + API-based components, API-based menu, and a blog.
+    br 
+    code 
+        lang bash
+        + npm install
+        + npm run dev
+        + 
+        + # or
+        + 
+        + yarn install
+        + yarn dev
+    br 
+    p 
+        + Your starter project should be up and running on
+        a 
+            href http://localhost:3000
+            title 
+            + http://localhost:3000
+        + ! If it doesn&#39;t work, post on
+        a 
+            href https://github.com/vercel/next.js/discussions
+            title 
+            + GitHub discussions
+        + .
+    br 
+    h3 
+        + Step 4. Try preview mode
+    p 
+        + Your starter project is automatically configured to show draft changes saved in your Butter account when run locally or deploy to a hosting provider. To disable this behavior, set the following value in your
+        code .env.local
+        + file:
+        code PREVIEW=false
+        + .
+    br 
+    p 
+        + To try preview mode,
+        a 
+            href https://buttercms.com/post/
+            title 
+            + create a blog post
+        + :
+    br 
+    ul 
+        li 
+            + Set the
+            b 
+                + Title
+            + as
+            code Draft Post Test
+            + .
+        li 
+            + Fill the content and summary with dummy text.
+    br 
+    p 
+        + Most importantly,
+        b 
+            + do not publish
+        + the blog post. Instead, click
+        b 
+            + Save Draft
+        + .
+    br 
+    p 
+        + If you have not already, set
+        code PREVIEW=false
+        + in your
+        code .env.local
+        + file and restart your local
+        + development server.
+    br 
+    p 
+        + Now, if you go to the your blog list view page on localhost:
+        a 
+            href http://localhost:3000/#blog
+            title 
+            + http://localhost:3000/#blog
+        + , you won&#39;t see this post, as its status has not yet been updated to
+        code published
+        + . However, if you use
+        b 
+            + Preview Mode
+        + by deleting
+        code PREVIEW=false
+        + from your
+        code .env.local
+        + file, your new post will appear (
+        a 
+            href https://nextjs.org/docs/advanced-features/preview-mode
+            title 
+            + Documentation
+        + ).
+    br 
+    p 
+        b 
+            + Tip
+        + :
+        a 
+            href https://buttercms.com/kb/preview-urls
+            title 
+            + You can set a preview URL on ButterCMS
+        + for pages
+        + deployed to Vercel, allowing you to live-preview changes on the web from within your Butter account! Sweet!
+    br 
+    h3 
+        + Step 5. Deploy on Vercel
+    p 
+        + You can deploy this app to the cloud with
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h4 
+        + Deploy from our template
+    p 
+        + If you want to deploy a copy of our starter to Vercel without any changes, you can just click this button:
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FButterCMS%2Fnextjs-starter-buttercms&env=NEXT_PUBLIC_BUTTER_CMS_API_KEY&envDescription=Your%20ButterCMS%20API%20Token&envLink=https%3A%2F%2Fbuttercms.com%2Fsettings%2F&project-name=nextjs-starter-buttercms&repo-name=nextjs-starter-buttercms&redirect-url=https%3A%2F%2Fbuttercms.com%2Fonboarding%2Fvercel-starter-deploy-callback%2F&production-deploy-hook=Deploy%20Triggered%20from%20ButterCMS&demo-title=ButterCMS%20Next.js%20Starter&demo-description=Fully%20integrated%20with%20your%20ButterCMS%20account&demo-url=https%3A%2F%2Fnextjs-starter-buttercms.vercel.app%2F&demo-image=https://cdn.buttercms.com/r0tGK8xFRti2iRKBJ0eY&repository-name=nextjs-starter-buttercms
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h4 
+        + Deploy your local project
+    p 
+        + To deploy your local project to Vercel (one in which you&#39;ve made changes), push it to GitHub/GitLab/Bitbucket and
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + import to Vercel
+        + .
+    br 
+    p 
+        b 
+            + Important
+        + : When you import your project on Vercel, make sure to click on
+        b 
+            + Environment Variables
+        + and set them to match your
+        code .env.local
+        + file.

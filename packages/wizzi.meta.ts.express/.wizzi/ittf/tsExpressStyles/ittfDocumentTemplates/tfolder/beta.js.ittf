@@ -1,0 +1,2 @@
+$group
+    log "Hello beta"

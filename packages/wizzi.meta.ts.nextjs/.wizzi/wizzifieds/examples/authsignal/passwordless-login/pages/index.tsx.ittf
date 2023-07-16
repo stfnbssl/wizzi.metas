@@ -1,0 +1,55 @@
+module
+    kind react
+    import 
+        @ GetServerSideProps
+        from 'next'
+    import 
+        @ Dashboard
+        @ Layout
+        @ Login
+        from '../components'
+    import 
+        @ getSessionFromCookie
+        @ User
+        from '../lib'
+    :interface Props
+        :p user
+            :union 
+                :ref User
+                :null 
+    export 
+        const getServerSideProps
+            :ref GetServerSideProps
+                :param 
+                    :ref Props
+            =
+                async=> 
+                    { 
+                        @ req
+                    const session
+                        await 
+                            _ getSessionFromCookie(req.headers.cookie)
+                    if session && new Date(session.expiresAt) > new Date()
+                        return 
+                            { 
+                                { props
+                                    @ user session.user
+                    else
+                        return 
+                            { 
+                                { props
+                                    @ user null
+    export-default 
+        function HomePage
+            { 
+                @ user
+                :ref Props
+            return 
+                < Layout 
+                    { 
+                        iif user
+                            then
+                                < Dashboard 
+                                    @ user {user}
+                            else
+                                < Login 

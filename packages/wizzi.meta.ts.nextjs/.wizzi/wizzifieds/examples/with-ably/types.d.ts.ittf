@@ -1,0 +1,12 @@
+module
+    kind react
+    export 
+        :type TextMessage
+            :{ 
+                :p text
+                    :string 
+    export 
+        :type ProxyMessage
+            :{ 
+                :p sender
+                    :string 

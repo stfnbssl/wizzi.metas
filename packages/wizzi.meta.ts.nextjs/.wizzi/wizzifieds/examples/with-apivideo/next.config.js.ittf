@@ -1,0 +1,13 @@
+module
+    kind react
+    const nextConfig
+        { 
+            @ reactStrictMode false
+            { compiler
+                @ styledComponents true
+            { images
+                [ domains
+                    @ 'vod.api.video'
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = nextConfig

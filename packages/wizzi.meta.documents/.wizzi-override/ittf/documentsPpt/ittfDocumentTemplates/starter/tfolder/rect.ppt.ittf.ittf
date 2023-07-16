@@ -1,0 +1,12 @@
+$group
+    ${'$'}params y, x, h, w, color|@@null
+
+    shape RECTANGLE
+        y ${'$'}{y}
+        x ${'$'}{x}
+        w ${'$'}{w}
+        h ${'$'}{h}
+        ${'$'}if color != null
+            fill
+                color ${'$'}{color}
+

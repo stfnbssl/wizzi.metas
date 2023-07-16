@@ -1,0 +1,1432 @@
+md
+    h1 
+        + A statically generated blog example using Next.js and Agility CMS
+    p 
+        + This example showcases Next.js&#39;s
+        a 
+            href https://nextjs.org/docs/basic-features/pages
+            title 
+            + Static Generation
+        + feature using
+        a 
+            href https://www.agilitycms.com
+            title 
+            + Agility CMS
+        + as the data source.
+    br 
+    quote 
+        p 
+            code IMPORTANT
+            + - This example uses Agility CMS&#39;s
+            a 
+                href https://agilitycms.com/resources/posts/page-management-in-agility-cms-vs-other-headless-cmss
+                title 
+                b 
+                    + Page Management
+            + features. This means that the CMS ultimately drives what pages are available and what content is on each page. This enables
+            b 
+                + Editors
+            + to focus on managing their pages, while allowing you, (the
+            b 
+                + Developer
+            + ) to focus on building UI components for the editors to compose their pages.
+    h2 
+        + Demo
+    ul 
+        li 
+            b 
+                + Live
+            + :
+            a 
+                href https://next-blog-agilitycms.vercel.app/
+                title 
+                + https://next-blog-agilitycms.vercel.app/
+        li 
+            b 
+                + Preview Mode
+            + :
+            a 
+                href https://next-blog-agilitycms.vercel.app/?agilitypreviewkey=GzL%2fio1pLkfKc9BR1%2fC1cDQeKjL0AkwrTAJ22q3UEjAcOhyrqZejDkDv4kMlBKqrEuQxsuRyiP%2bUaykDYlJ%2fJg%3d%3d
+                title 
+                + https://next-blog-agilitycms.vercel.app/?agilitypreviewkey=...
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Once you have access to
+        a 
+            href #step-15-set-up-environment-variables
+            title 
+            + the environment variables you&#39;ll need
+        + , deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + :
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/cms-agilitycms&project-name=cms-agilitycms&repository-name=cms-agilitycms&env=AGILITY_CMS_GUID,AGILITY_CMS_API_FETCH_KEY,AGILITY_CMS_API_PREVIEW_KEY,AGILITY_CMS_SECURITY_KEY&envDescription=API%20Keys%20required%20by%20Agility%20CMS&envLink=https://vercel.link/agility-cms-env
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h3 
+        + Related examples
+    ul 
+        li 
+            a 
+                href /examples/cms-wordpress
+                title 
+                + WordPress
+        li 
+            a 
+                href /examples/cms-datocms
+                title 
+                + DatoCMS
+        li 
+            a 
+                href /examples/cms-sanity
+                title 
+                + Sanity
+        li 
+            a 
+                href /examples/cms-takeshape
+                title 
+                + TakeShape
+        li 
+            a 
+                href /examples/cms-prismic
+                title 
+                + Prismic
+        li 
+            a 
+                href /examples/cms-contentful
+                title 
+                + Contentful
+        li 
+            a 
+                href /examples/cms-strapi
+                title 
+                + Strapi
+        li 
+            a 
+                href /examples/cms-cosmic
+                title 
+                + Cosmic
+        li 
+            a 
+                href /examples/cms-buttercms
+                title 
+                + ButterCMS
+        li 
+            a 
+                href /examples/cms-storyblok
+                title 
+                + Storyblok
+        li 
+            a 
+                href /examples/cms-graphcms
+                title 
+                + GraphCMS
+        li 
+            a 
+                href /examples/cms-kontent
+                title 
+                + Kontent
+        li 
+            a 
+                href /examples/cms-ghost
+                title 
+                + Ghost
+        li 
+            a 
+                href /examples/cms-umbraco-heartcore
+                title 
+                + Umbraco Heartcore
+        li 
+            a 
+                href /examples/blog-starter
+                title 
+                + Blog Starter
+        li 
+            a 
+                href /examples/cms-builder-io
+                title 
+                + Builder.io
+        li 
+            a 
+                href /examples/cms-dotcms
+                title 
+                + DotCMS
+        li 
+            a 
+                href /examples/cms-enterspeed
+                title 
+                + Enterspeed
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example cms-agilitycms cms-agilitycms-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example cms-agilitycms cms-agilitycms-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example cms-agilitycms cms-agilitycms-app
+    br 
+    h2 
+        + Configuration
+    h3 
+        + How is this Different from Other CMS Examples?
+    p 
+        + The key principle behind Agility CMS is that
+        b 
+            + Editors
+        + should have full control of their pages and what content is on each page without getting into code.
+    br 
+    p 
+        + This means you&#39;ll not only be defining
+        b 
+            + Content
+        + for your
+        code Posts
+        + and
+        code Authors
+        + , but you&#39;ll also be defining UI Components to compose your pages. This site will consist of a single
+        b 
+            + Page Template
+        + and a collection of
+        b 
+            + Modules
+        + that represent the UI components you see on the page.
+    br 
+    quote 
+        p 
+            b 
+                + NOTE
+            + -
+            code Modules
+            + and
+            code Page Templates
+            + in Agility CMS simply correspond to
+            code React Components
+            + in your website.
+    p 
+        + Once you&#39;ve gone through the steps below, you&#39;ll be able to dynamically manage pages (and what is on them) directly through the CMS without requiring a developer.
+    br 
+    h3 
+        + Step 1. Create an account and a project on
+        code Agility CMS
+    p 
+        + First,
+        a 
+            href https://agilitycms.com
+            title 
+            + create an account on Agility CMS
+        + .
+    br 
+    p 
+        + After creating an account you&#39;ll be asked to create a new project. Use any name of your liking as the
+        b 
+            + Project Name
+        + and select the
+        b 
+            + Blank (advanced users)
+        + template to create a blank Agility CMS instance.
+    br 
+    h3 
+        + Step 2. Create an
+        code Author
+        + Content Definition
+    p 
+        + From within the Agility CMS Content Manager, navigate to
+        b 
+            + Settings
+        + &gt;
+        b 
+            + Content Definitions
+        + and click
+        b 
+            + New
+        + to create a new
+        b 
+            + Content Definition
+        + .
+    br 
+    ul 
+        li 
+            + The
+            b 
+                + Title
+            + should be
+            code Author
+            + . This will also pre-populate
+            b 
+                + Reference Name
+            + for you.
+    br 
+    p 
+        + Next, add these fields via the
+        b 
+            + Form Builder
+        + tab (you don&#39;t have to modify any other settings):
+    br 
+    ul 
+        li 
+            code Name
+            + - Set
+            b 
+                + Field Label
+            + to
+            code Name
+            + and
+            b 
+                + Field Type
+            + to
+            code Text
+        li 
+            code Picture
+            + - Set
+            b 
+                + Field Label
+            + to
+            code Picture
+            + and
+            b 
+                + Field Type
+            + to
+            code Image
+    br 
+    p 
+        + When you are done, click
+        b 
+            + Save &amp; Close
+        + to save your
+        code Author
+        + content definition.
+    br 
+    h3 
+        + Step 3. Create a
+        code List
+        + based on your
+        code Author
+        + Content Definition
+    p 
+        + From within the Agility CMS Content Manager, navigate to
+        b 
+            + Shared Content
+        + and click the
+        b 
+            + + (New)
+        + button, then fill the form like so:
+    br 
+    ul 
+        li 
+            b 
+                + Type
+            + should be
+            code Content List
+        li 
+            b 
+                + Content Definition
+            + should be
+            b 
+                + Author
+        li 
+            b 
+                + Display Name
+            + should be set to
+            b 
+                + Authors
+            + . This will also pre-populate
+            b 
+                + Reference Name
+            + for you.
+    br 
+    h3 
+        + Step 4. Create a
+        code Post
+        + Content Definition
+    p 
+        + From within the Agility CMS Content Manager, navigate to
+        b 
+            + Settings
+        + &gt;
+        b 
+            + Content Definitions
+        + and click
+        b 
+            + New
+        + to create a new
+        b 
+            + Content Definition
+        + .
+    br 
+    ul 
+        li 
+            + The
+            b 
+                + Title
+            + should be
+            code Post
+            + .
+    br 
+    p 
+        + Next, add these fields via the
+        b 
+            + Form Builder
+        + tab (you don&#39;t have to modify any other settings):
+    br 
+    ul 
+        li 
+            code Title
+            + - Set
+            b 
+                + Field Type
+            + to
+            code Text
+        li 
+            code Slug
+            + - Set
+            b 
+                + Field Type
+            + to
+            code Text
+        li 
+            code Date
+            + - Set
+            b 
+                + Field Type
+            + to
+            code Date/Time
+        li 
+            code AuthorID
+            + - Set
+            b 
+                + Field Type
+            + to
+            code Number
+            + and enable
+            b 
+                + Hide field from input form
+        li 
+            code Author
+            + - Do the following:
+            ul 
+                li 
+                    b 
+                        + Field Type
+                    + -
+                    code Linked Content
+                li 
+                    b 
+                        + Content Definition
+                    + -
+                    code Author
+                li 
+                    b 
+                        + Content View
+                    + -
+                    code Shared Content
+                li 
+                    b 
+                        + Shared Content
+                    + -
+                    code Authors
+                li 
+                    b 
+                        + Render As
+                    + -
+                    code Dropdown List
+                li 
+                    b 
+                        + Save Value To Field
+                    + -
+                    code AuthorID
+        li 
+            code Excerpt
+            + - Set
+            b 
+                + Field Type
+            + to
+            code Text
+        li 
+            code Content
+            + - Set
+            b 
+                + Field Type
+            + to
+            code HTML
+        li 
+            code Cover Image
+            + - Set
+            b 
+                + Field Type
+            + to
+            code Image
+    br 
+    p 
+        + When you are done, click
+        b 
+            + Save &amp; Close
+        + to save your
+        code Post
+        + content definition.
+    br 
+    h3 
+        + Step 5. Create a
+        code Dynamic Page List
+        + based on your
+        code Posts
+        + Content Definition
+    p 
+        + From within the Agility CMS Content Manager, navigate to
+        b 
+            + Shared Content
+        + and click the
+        b 
+            + + (New)
+        + button, then fill the form like so:
+    br 
+    ul 
+        li 
+            b 
+                + Type
+            + should be
+            code Dynamic Page List
+        li 
+            b 
+                + Content Definition
+            + should be
+            code Post
+        li 
+            b 
+                + Display Name
+            + should be
+            code Posts
+            + . This will also pre-populate
+            b 
+                + Reference Name
+            + for you
+    br 
+    h3 
+        + Step 6. Populate Content
+    p 
+        + Go to
+        b 
+            + Shared Content
+        + , select the
+        b 
+            + Authors
+        + list and click the
+        b 
+            + + New
+        + button to create a new content item:
+    br 
+    ul 
+        li 
+            + You just need
+            b 
+                + 1 Author content item
+            + .
+        li 
+            + Use dummy data for the text.
+        li 
+            + For the image, you can download one from
+            a 
+                href https://unsplash.com/
+                title 
+                + Unsplash
+            + .
+    br 
+    p 
+        + Click on
+        b 
+            + Save
+        + and
+        b 
+            + Publish
+        + once you&#39;re done.
+    br 
+    p 
+        + Next, select the
+        b 
+            + Posts
+        + list and click the
+        b 
+            + + New
+        + button to create a new content item:
+    br 
+    ul 
+        li 
+            + We recommend creating at least
+            b 
+                + 2 Post content items
+            + .
+        li 
+            + Use dummy data for the text.
+        li 
+            + You can write markdown for the
+            b 
+                + Content
+            + field.
+        li 
+            + For the images, you can download ones from
+            a 
+                href https://unsplash.com/
+                title 
+                + Unsplash
+            + .
+        li 
+            + Pick the
+            b 
+                + Author
+            + you created earlier.
+    br 
+    p 
+        + For each post content item, you need to click
+        code Publish
+        + after saving. If not, the post will be in the
+        code Staging
+        + state.
+    br 
+    h3 
+        + Step 7. Define your
+        code Intro
+        + Module
+    p 
+        + Navigate to
+        b 
+            + Settings
+        + &gt;
+        b 
+            + Module Definitions
+        + and click
+        b 
+            + New
+        + to create a new
+        b 
+            + Module Definition
+        + .
+    br 
+    ul 
+        li 
+            + Set
+            b 
+                + Title
+            + to
+            code Intro
+        li 
+            + Set
+            b 
+                + Description
+            + to
+            code Displays an intro message.
+    br 
+    p 
+        + In this case, we are not adding any fields to control the output or behavior, since the content is actually hard-coded in the template.
+    br 
+    p 
+        + Click
+        b 
+            + Save &amp; Close
+        + to save the definition.
+    br 
+    h3 
+        + Step 8. Define your
+        code Hero Post
+        + Module
+    p 
+        + Navigate to
+        b 
+            + Settings
+        + &gt;
+        b 
+            + Module Definitions
+        + and click
+        b 
+            + New
+        + to create a new
+        b 
+            + Module Definition
+        + .
+    br 
+    ul 
+        li 
+            + Set
+            b 
+                + Title
+            + to
+            code Hero Post
+        li 
+            + Set
+            b 
+                + Description
+            + to
+            code Displays the latest Post.
+    br 
+    p 
+        + In this case, we are not adding any fields to control the output or behavior, since the latest post will be used by default and all of the data is associated to the post itself.
+    br 
+    p 
+        + Click
+        b 
+            + Save &amp; Close
+        + to save the definition.
+    br 
+    h3 
+        + Step 9. Define your
+        code More Stories
+        + Module
+    p 
+        + Navigate to
+        b 
+            + Settings
+        + &gt;
+        b 
+            + Module Definitions
+        + and click
+        b 
+            + New
+        + to create a new
+        b 
+            + Module Definition
+        + .
+    br 
+    ul 
+        li 
+            + Set
+            b 
+                + Title
+            + to
+            code More Stories
+        li 
+            + Set
+            b 
+                + Description
+            + to
+            code Displays a listing of Posts.
+    br 
+    p 
+        + Next, add the following field:
+    br 
+    ul 
+        li 
+            code Title
+            + - Set
+            b 
+                + Field Type
+            + to
+            code Text
+    br 
+    p 
+        + Click
+        b 
+            + Save &amp; Close
+        + to save the definition.
+    br 
+    h3 
+        + Step 10. Define your
+        code Post Details
+        + Module
+    p 
+        + Navigate to
+        b 
+            + Settings
+        + &gt;
+        b 
+            + Module Definitions
+        + and click
+        b 
+            + New
+        + to create a new
+        b 
+            + Module Definition
+        + .
+    br 
+    ul 
+        li 
+            + Set
+            b 
+                + Title
+            + to
+            code Post Details
+        li 
+            + Set
+            b 
+                + Description
+            + to
+            code Displays the details of a Post.
+    br 
+    p 
+        + In this case, we are not adding any fields to control the output or behavior, since the data is associated to the post itself.
+    br 
+    p 
+        + Click
+        b 
+            + Save &amp; Close
+        + to save the definition.
+    br 
+    h3 
+        + Step 11. Define a
+        code One Column
+        + Page Template
+    p 
+        + Navigate to
+        b 
+            + Settings
+        + &gt;
+        b 
+            + Page Templates
+        + and click
+        b 
+            + New
+        + to create a new
+        b 
+            + Page Template
+        + .
+    br 
+    ul 
+        li 
+            b 
+                + Name
+            + should be
+            code One Column Template
+        li 
+            b 
+                + Digital Channel Type
+            + should be
+            code Website
+        li 
+            + Under
+            b 
+                + Module Zones
+            + click
+            code + (New)
+            ul 
+                li 
+                    + Set
+                    b 
+                        + Display Name
+                    + to
+                    code Main Content Zone
+                    + , it will populate
+                    b 
+                        + Reference Name
+                    + for you
+                li 
+                    + Click
+                    code Save
+                    + to apply the
+                    code Main Content Zone
+    br 
+    p 
+        + Click
+        b 
+            + Save &amp; Close
+        + to save the page template.
+    br 
+    h3 
+        + Step 12. Add a new Page called
+        code home
+    p 
+        + Navigate to
+        b 
+            + Pages
+        + and click the
+        b 
+            + + (New)
+        + button in the page tree to create a new
+        b 
+            + Page
+        + .
+    br 
+    ul 
+        li 
+            + Set
+            b 
+                + Type
+            + to
+            code Page
+        li 
+            + Set
+            b 
+                + Page Template
+            + to
+            code One Column Template
+        li 
+            + Set
+            b 
+                + Menu Text
+            + to
+            code Home
+            + -
+            b 
+                + Page Title
+            + and
+            b 
+                + Page Name
+            + fields will be auto-populated.
+    br 
+    p 
+        + Click
+        b 
+            + Save
+        + to create the
+        code /home
+        + page.
+    br 
+    p 
+        + Next, let&#39;s add the
+        code Intro
+        + ,
+        code Hero Post
+        + and
+        code More Stories
+        + modules to the
+        code Main Content Zone
+        + of the
+        code home
+        + page:
+    br 
+    ul 
+        loose 
+        li 
+            + Click the
+            b 
+                + + (New)
+            + button on
+            code Main Content Zone
+            + and select
+            code Intro
+            + to add the module to the page
+        li 
+            + Click
+            b 
+                + Save &amp; Close
+            + on the module to return back to the page
+        li 
+            + Click the
+            b 
+                + + (New)
+            + button on
+            code Main Content Zone
+            + and select
+            code Hero Post
+            + to add the module to the page
+        li 
+            + Click
+            b 
+                + Save &amp; Close
+            + on the module to return back to the page
+        li 
+            + Click the
+            b 
+                + + (New)
+            + button on
+            code Main Content Zone
+            + and select
+            code More Stories
+            + to add the module to the page
+            ul 
+                li 
+                    + Set
+                    b 
+                        + Title
+                    + to
+                    code More Stories
+        li 
+            + Click
+            b 
+                + Save &amp; Close
+            + on the module to return back to the page
+    br 
+    p 
+        + Then click
+        b 
+            + Publish
+        + on the page in order to publish the page and all of its modules.
+    br 
+    h3 
+        + Step 13. Add a new Folder called
+        code posts
+    p 
+        + Navigate to
+        b 
+            + Pages
+        + and click the
+        code Website
+        + channel, then click the
+        b 
+            + + (New)
+        + button in the page tree to create a new
+        b 
+            + Folder
+        + in the root of the site:
+    br 
+    ul 
+        li 
+            + Set
+            b 
+                + Type
+            + to
+            code Folder
+        li 
+            + Set
+            b 
+                + Menu Text
+            + to
+            code Posts
+            + ,
+            b 
+                + Folder Name
+            + will be auto-populated to
+            code posts
+    br 
+    p 
+        + Click
+        b 
+            + Save
+        + to create the
+        code /posts
+        + folder.
+    br 
+    p 
+        b 
+            + Important:
+        + Click
+        b 
+            + Publish
+        + on the folder.
+    br 
+    h3 
+        + Step 14. Add a new Dynamic Page called
+        code posts-dynamic
+    p 
+        + Navigate to
+        b 
+            + Pages
+        + and select the existing
+        code /posts
+        + folder. Click the
+        b 
+            + + (New)
+        + button in the page tree to create a new
+        b 
+            + Dynamic Page
+        + underneath the
+        code posts
+        + page.
+    br 
+    ul 
+        li 
+            + Set
+            b 
+                + Type
+            + to
+            code Dynamic Page
+        li 
+            + Set
+            b 
+                + Page Template
+            + to
+            code One Column Template
+        li 
+            + Set
+            b 
+                + Build Pages From
+            + to
+            code Posts
+        li 
+            + Set
+            b 
+                + Sitemap Label
+            + to
+            code posts-dynamic
+        li 
+            + Set
+            b 
+                + Page Path Formula
+            + to
+            code ##Slug##
+        li 
+            + Set
+            b 
+                + Page Title Formula
+            + and
+            b 
+                + Menu Text Formula
+            + to
+            code ##Title##
+    br 
+    p 
+        + Click
+        b 
+            + Save
+        + to create the
+        code /posts/posts-dynamic
+        + dynamic page.
+    br 
+    p 
+        + Next, let&#39;s add the
+        code Post Details
+        + and
+        code More Stories
+        + modules to the
+        code Main Content Zone
+        + of the
+        code posts-dynamic
+        + page:
+    br 
+    ul 
+        li 
+            + Click the
+            b 
+                + + (New)
+            + button on
+            code Main Content Zone
+            + and select
+            code Post Details
+            + to add the module to the page
+        li 
+            + Click the
+            b 
+                + + (New)
+            + button on
+            code Main Content Zone
+            + and select
+            code More Stories
+            + to add the module to the page
+            ul 
+                li 
+                    + Set
+                    b 
+                        + Title
+                    + to
+                    code More Stories
+        li 
+            + Click
+            b 
+                + Save &amp; Close
+            + on the module to return back to the
+            code posts-dynamic
+            + page
+    br 
+    p 
+        + Then click
+        b 
+            + Publish
+        + on the page in order to publish the page and all of its modules.
+    br 
+    h3 
+        + Step 15. Set up environment variables
+    p 
+        + Copy the
+        code .env.local.example
+        + file in this directory to
+        code .env.local
+        + (which will be ignored by Git):
+    br 
+    code 
+        lang bash
+        + cp .env.local.example .env.local
+    br 
+    p 
+        + Go to the
+        b 
+            + Getting Started
+        + section from the menu and click on
+        b 
+            + API Keys
+        + . You should see a new modal called
+        code Content API Details
+        + , then click in the
+        b 
+            + Show API Key(s)
+        + button within it.
+    br 
+    p 
+        + Then set each variable on
+        code .env.local
+        + :
+    br 
+    ul 
+        li 
+            code AGILITY_CMS_GUID
+            + should be the
+            b 
+                + Instance GUID
+            + field
+        li 
+            code AGILITY_CMS_API_FETCH_KEY
+            + should be the
+            b 
+                + Live API Key
+            + field
+        li 
+            code AGILITY_CMS_API_PREVIEW_KEY
+            + should be the
+            b 
+                + Preview API Key
+            + field - this is used when the site is in
+            a 
+                href https://nextjs.org/docs/advanced-features/preview-mode
+                title 
+                + Preview Mode
+            + and allows your site to pull the latest content, regardless of whether it is published or not.
+        li 
+            code AGILITY_CMS_SECURITY_KEY
+            + should be the
+            b 
+                + Security Key
+            + field that can be found in
+            b 
+                + Settings
+            + &gt;
+            b 
+                + Global Security
+            + - this is used to communicate between the CMS and your site to validate
+            a 
+                href https://nextjs.org/docs/advanced-features/preview-mode
+                title 
+                + Preview Mode
+    br 
+    p 
+        + Your
+        code .env.local
+        + file should look like this:
+    br 
+    code 
+        lang bash
+        + AGILITY_CMS_GUID=...
+        + AGILITY_CMS_API_FETCH_KEY=...
+        + AGILITY_CMS_API_PREVIEW_KEY=...
+        + AGILITY_CMS_SECURITY_KEY=...
+    br 
+    h3 
+        + Step 16. Run Next.js in development mode
+    code 
+        lang bash
+        + npm install
+        + npm run dev
+        + 
+        + # or
+        + 
+        + yarn install
+        + yarn dev
+    br 
+    p 
+        + Your blog should be up and running on
+        a 
+            href http://localhost:3000
+            title 
+            + http://localhost:3000
+        + ! If it doesn&#39;t work, post on
+        a 
+            href https://github.com/vercel/next.js/discussions
+            title 
+            + GitHub discussions
+        + .
+    br 
+    h3 
+        + Step 17. Deploy on Vercel
+    p 
+        + You can deploy this app to the cloud with
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h4 
+        + Deploy Your Local Project
+    p 
+        + To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + import to Vercel
+        + .
+    br 
+    p 
+        b 
+            + Important
+        + : When you import your project on Vercel, make sure to click on
+        b 
+            + Environment Variables
+        + and set them to match your
+        code .env.local
+        + file.
+    br 
+    h4 
+        + Deploy from Our Template
+    p 
+        + Alternatively, you can deploy using our template by clicking on the Deploy button below.
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/cms-agilitycms&project-name=cms-agilitycms&repository-name=cms-agilitycms&env=AGILITY_CMS_GUID,AGILITY_CMS_API_FETCH_KEY,AGILITY_CMS_API_PREVIEW_KEY,AGILITY_CMS_SECURITY_KEY&envDescription=API%20Keys%20required%20by%20Agility%20CMS&envLink=https://vercel.link/agility-cms-env
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h3 
+        + Step 18. Try preview mode
+    p 
+        + Now that you&#39;ve deployed your app to Vercel, take note of the URL of your deployed site. This will be registered in Agility CMS so that when editors click the
+        code Preview
+        + button within Agility CMS, your app is loaded in
+        b 
+            + Preview Mode
+        + . Learn more about
+        a 
+            href https://nextjs.org/docs/advanced-features/preview-mode
+            title 
+            + NextJS Preview Mode
+        + ).
+    br 
+    p 
+        + To enable the Preview Mode, you&#39;ll need to add your site to
+        b 
+            + Domain Configuration
+        + in Agility CMS:
+    br 
+    ul 
+        li 
+            + Go to
+            b 
+                + Settings
+            + &gt;
+            b 
+                + Domain Configuration
+        li 
+            + Click on the existing channel in the list called
+            code Website
+        li 
+            + Click on the
+            b 
+                + + (New)
+            + button to add a new domain:
+            ul 
+                li 
+                    + Set
+                    b 
+                        + Name
+                    + to
+                    code Production
+                li 
+                    + Set
+                    b 
+                        + Domain URL
+                    + to the URL of your production deployment, it should look like
+                    code https://&lt;your-vercel-domain&gt;.vercel.app
+                li 
+                    + Enable
+                    b 
+                        + Preview Domain
+                li 
+                    + Click
+                    b 
+                        + Save
+                    + to save your settings
+    br 
+    p 
+        + Go to one of your
+        code Posts
+        + and update the title. For example, you can add
+        code [Staging]
+        + in front of the title. Click
+        b 
+            + Save
+        + , but
+        b 
+            + DO NOT
+        + click
+        b 
+            + Publish
+        + . By doing this, the post will be in the staging state.
+    br 
+    p 
+        + To enter
+        b 
+            + Preview Mode
+        + , click the
+        code Preview
+        + button on the details of your
+        code Post
+        + . This redirects you to the
+        code /
+        + page, however you will now be in
+        b 
+            + Preview Mode
+        + so you can navigate to your
+        code Post
+        + you want to view on the website.
+    br 
+    p 
+        + You should now be able to see the updated title. To exit the preview mode, you can click
+        b 
+            + Click here to exit preview mode
+        + at the top.
+    br 
+    quote 
+        p 
+            + NOTE - To set up preview on a specific
+            code Post
+            + (as opposed to the
+            code /
+            + page), click on the
+            b 
+                + Settings
+            + tab of the
+            code Post
+            + list in
+            b 
+                + Shared Content
+            + . For
+            b 
+                + Item Preview Page
+            + set it to
+            code ~/posts/posts-dynamic
+            + and for
+            b 
+                + Item Preview Query String Parameter
+            + set it to
+            code contentid
+            + .

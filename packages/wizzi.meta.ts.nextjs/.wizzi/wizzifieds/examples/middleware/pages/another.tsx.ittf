@@ -1,0 +1,14 @@
+module
+    kind react
+    import 
+        @ NextPage
+        from 'next'
+    export 
+        const AnotherPage
+            :ref NextPage
+            =
+                => 
+                    return 
+                        h1 
+                            + Another
+    export-default AnotherPage

@@ -1,0 +1,18 @@
+$group
+    function getIttfFilesBySchema
+        param srcpath
+        param schema
+        return
+            _ fs.readdirSync
+                @ srcpath
+                ._ filter
+                    =>
+                        param file
+                        return
+                            &&
+                                _ fs.lstatSync(path.join(srcpath, file)).isFile()
+                                _ verify.endsWith
+                                    @ file
+                                    iif schema === 'ittf'
+                                        then '.ittf'
+                                        else '.' + schema + '.ittf'

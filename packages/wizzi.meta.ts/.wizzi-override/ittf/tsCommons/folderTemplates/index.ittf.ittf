@@ -1,0 +1,6 @@
+$group
+    $if metaCtx.useTsCommons
+        
+        $include config
+        $include tfolder
+        $include ts

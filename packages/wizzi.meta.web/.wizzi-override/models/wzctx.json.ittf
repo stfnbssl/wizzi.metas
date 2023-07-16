@@ -1,0 +1,73 @@
+{
+    $include versions
+    name "wizzi.meta.web"
+    npmName ""
+    pluginBasename ""
+    version '${versions['@next']}'
+    description "Wizzi meta plugin for creating wizzi web packages"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    license "MIT"
+    metaNamespace "web"
+    { Build
+        useConfig true
+        { config
+        isWizziMeta true
+        { wizziMeta
+            [ plugins
+                "./wizzi.plugin.css/index.js"
+                "./wizzi.plugin.html/index.js"
+                "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.js/index.js"
+                "./wizzi.plugin.json/index.js"
+                "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.text/index.js"
+                "./wizzi.plugin.wzjob/index.js"
+            pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+            { globalContext
+                wzConfigIsDevelopment true
+                wzConfigIsPackageDeploy false
+        useWizziJsonFactory true
+        { utils
+            useStringifySafe true
+    [ Productions
+        {
+            name "webAppCrud"
+            title "webAppCrud wizzi meta production"
+        {
+            name "webCss"
+            title "webCss wizzi meta production"
+        {
+            name "webHtml"
+            title "webHtml wizzi meta production"
+        {
+            name "webIttfSite"
+            title "webIttfSite wizzi meta production"
+        {
+            name "webIttfStudioMeta"
+            title "webIttfStudioMeta wizzi meta production"
+        {
+            name "webJs"
+            title "webJs wizzi meta production"
+        {
+            name "webJsWz"
+            title "webJsWz wizzi meta production"
+        {
+            name "webSiteDemo"
+            title "webSiteDemo wizzi meta production"
+        {
+            name "webSiteWebapi"
+            title "webSiteWebapi wizzi meta production"
+        {
+            name "webStaticSite"
+            title "webStaticSite wizzi meta production"
+            isPackageMain true
+        {
+            name "webSvg"
+            title "webSvg wizzi meta production"
+        {
+            name "webWizziDocs"
+            title "webWizziDocs wizzi meta production"

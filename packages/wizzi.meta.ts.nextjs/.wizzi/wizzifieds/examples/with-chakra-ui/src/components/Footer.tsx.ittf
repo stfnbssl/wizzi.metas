@@ -1,0 +1,15 @@
+module
+    kind react
+    import 
+        @ Flex
+        @ FlexProps
+        from '@chakra-ui/react'
+    export 
+        const Footer
+            => 
+                param props
+                    :ref FlexProps
+                < Flex 
+                    @ as "footer"
+                    @ py "8rem"
+                    @ {...props}

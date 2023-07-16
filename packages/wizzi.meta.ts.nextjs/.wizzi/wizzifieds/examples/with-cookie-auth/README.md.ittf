@@ -1,0 +1,30 @@
+md
+    p 
+        + This example has been deprecated and removed in favor of one of the following examples:
+    br 
+    ul 
+        li 
+            a 
+                href https://github.com/vercel/next.js/tree/canary/examples/auth0
+                title 
+                + auth0
+        li 
+            a 
+                href https://github.com/vercel/next.js/tree/canary/examples/with-cookie-auth-fauna
+                title 
+                + with-cookie-auth-fauna
+        li 
+            a 
+                href https://github.com/vercel/next.js/tree/canary/examples/with-passport
+                title 
+                + with-passport
+        li 
+            a 
+                href https://github.com/vercel/next.js/tree/canary/examples/with-iron-session
+                title 
+                + with-iron-session
+        li 
+            a 
+                href https://github.com/vercel/next.js/tree/canary/examples/with-next-auth
+                title 
+                + with-next-auth

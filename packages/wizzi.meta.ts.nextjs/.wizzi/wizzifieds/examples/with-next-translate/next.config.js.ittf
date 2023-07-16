@@ -1,0 +1,6 @@
+module
+    kind react
+    const nextTranslate = require('next-translate')
+    set module.exports =
+        _ nextTranslate
+            { 

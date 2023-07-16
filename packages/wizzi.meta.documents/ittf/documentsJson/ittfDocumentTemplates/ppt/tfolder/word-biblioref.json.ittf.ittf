@@ -1,0 +1,9 @@
+$group
+    ${'$'}params title, author
+    {
+        text "${'$'}{title}"
+        style "bibliorefBold"
+    {
+        text " ${'$'}{author}"
+        style "biblioref"
+        br true

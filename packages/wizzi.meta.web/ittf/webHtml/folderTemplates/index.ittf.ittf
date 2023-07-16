@@ -1,0 +1,8 @@
+$group
+
+    $if metaCtx.useWebHtml
+
+        $include ittf_tfolder
+        $include src_tfolder
+
+        

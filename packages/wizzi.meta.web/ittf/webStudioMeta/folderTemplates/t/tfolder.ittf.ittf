@@ -1,0 +1,23 @@
+$group
+    
+    $
+        var items = [
+            "css/breadcrumbs",
+            "css/sidebar-left",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/ittf/meta/t/${item}.css.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webIttfStudioMeta/tfolder/${item}.css
+
+    $
+        var items = [
+            "options-init",
+            "options-analize",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/ittf/meta/t/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include webIttfStudioMeta/tfolder/${item}

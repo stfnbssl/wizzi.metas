@@ -1,0 +1,24 @@
+module
+    kind react
+    import 
+        @ Author
+        from './author'
+    export 
+        :type Post
+            :{ 
+                :p title
+                    :string 
+                :p slug
+                    :string 
+                :p date
+                    :union 
+                        :string 
+                        :null 
+                :p content
+                    :string 
+                :p excerpt
+                    :string 
+                :p coverImage
+                    :string 
+                :p author
+                    :ref Author

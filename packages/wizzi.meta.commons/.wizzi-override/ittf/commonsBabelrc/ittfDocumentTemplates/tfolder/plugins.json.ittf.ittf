@@ -1,0 +1,26 @@
+﻿$group
+	
+    "@babel/plugin-proposal-class-properties"
+    "@babel/plugin-proposal-object-rest-spread"
+    
+    ${'$'}if wzCtx.Build.usePrismjs
+        [
+            "prismjs"
+            {
+                languages
+                    [
+                        ${'$'}foreach mode in wzCtx.Build.prismjs.modes
+                            "${'$'}{mode}"
+                plugins ["line-numbers"]
+                theme "twilight"
+                css true
+    
+    ${'$'}if wzCtx.Build.babel.useDinamicImport
+        "@babel/plugin-syntax-dynamic-import"
+    
+    "@babel/plugin-transform-regenerator"
+    "@babel/plugin-transform-classes"
+    
+    ${'$'}if wzCtx.Build.useWebpack
+        ${'$'}if wzCtx.Build.webpack.addModuleExport
+            "add-module-exports"

@@ -1,0 +1,128 @@
+$group
+    $params &prod
+
+    $file __dot__wizzi/ittf/${prod.name}/folderTemplates/index.ittf.ittf.ittf
+    
+        ${'$'}{'$'}group
+            
+            ${'$'}{'$'}if metaCtx.use${_.capitalize(prod.name)}
+
+                ${'$'}{'$'}include wzCtxModel
+                $if prod.isPackageMain
+                    ${'$'}{'$'}include generate
+                    ${'$'}{'$'}include models
+                    ${'$'}{'$'}include root
+
+                ${'$'}{'$'}* Sample file templates
+                ${'$'}file __dot__wizzi/${prod.name}/yyy.js.ittf.ittf
+                    module
+                        kind es6
+                        ${'$'}{'$'}{'$'}include ${prod.name}/xxx.js
+
+                ${'$'}{'$'}
+                    var items = [
+                        "alpha",
+                        "beta",
+                    ];
+
+                ${'$'}{'$'}foreach item in items
+
+                    ${'$'}file __dot__wizzi/t/${prod.name}/${'$'}{'$'}{metaVer}/${'$'}{'$'}{item}.js.ittf.ittf
+                        ${'$'}{'$'}group
+                        
+                            ${'$'}{'$'}{'$'}include ${prod.name}/tfolder/${'$'}{'$'}{item}.js
+                *${'$'}{'$'}
+
+    
+    $file __dot__wizzi/ittf/${prod.name}/folderTemplates/t/wzCtxModel.ittf.ittf.ittf
+        ${'$'}{'$'}group
+
+            ${'$'}file __dot__wizzi/models/t/${prod.name}.json.ittf.ittf
+                ${'$'}{'$'}{'$'}{'$'}group
+                        
+                    useXxx true
+                    { xxx
+
+    $if prod.isPackageMain
+        
+        $file __dot__wizzi/ittf/${prod.name}/folderTemplates/t/generate.ittf.ittf.ittf
+            ${'$'}{'$'}group
+
+                ${'$'}file __dot__wizzi/generate.wfjob.ittf.ittf
+                    wfjob ${prod.name}/job
+                        $include generate.wfjob
+        
+        $file __dot__wizzi/ittf/${prod.name}/folderTemplates/t/models.ittf.ittf.ittf
+            ${'$'}{'$'}group
+            
+
+                ${'$'}file __dot__wizzi/models/wzctx.json.ittf.ittf
+                    {
+                        ${'$'}{'$'}if metaCtx.usePackageVersion 
+                            ${'$'}{'$'}{'$'}{'$'}include versions
+                        name "${'$'}{'$'}{metaCtx.name}"
+                        npmName "${'$'}{'$'}{metaCtx.npmName}"
+                        version "${'$'}{'$'} {metaCtx.version}"
+                        description "${'$'}{'$'}{metaCtx.description}"
+                        ${'$'}{'$'}if metaCtx.author
+                            { author
+                                name "${'$'}{'$'}{metaCtx.author.name}"
+                                email "${'$'}{'$'}{metaCtx.author.email}"
+                        ${'$'}{'$'}if metaCtx.license
+                            { license
+                                type "${'$'}{'$'}{metaCtx.license.type}"
+                                email "${'$'}{'$'}{metaCtx.license.copy}"
+                        ${'$'}{'$'}if metaCtx.github
+                            { github
+                                userid3 "${'$'}{'$'}{metaCtx.github.userid}"
+                        ---
+                        { Build
+                            $foreach item in metaCtx.Productions
+                                ${'$'}{'$'}if metaCtx.use${_.capitalize(item.name)}
+                                    ${'$'}{'$'}{'$'}{'$'}include ${item.name}.json
+                                    ---
+                            { utils
+
+        $file __dot__wizzi/ittf/${prod.name}/folderTemplates/t/root.ittf.ittf.ittf
+            ${'$'}{'$'}group
+
+                ${'$'}file __dot__wizzi/root/readme.md.ittf.ittf
+                    md
+                        ${'$'}{'$'}{'$'}include ${prod.name}/root/readme.md
+
+                ${'$'}file __dot__wizzi/root/license.text.ittf.ittf
+                    text
+                        ${'$'}{'$'}{'$'}include ${prod.name}/root/license.text
+
+
+    $file __dot__wizzi/ittf/${prod.name}/wzCtxSchemas/index.json.ittf.ittf
+    
+        {
+            productionName "${prod.name}"
+            [ parameters
+                {
+                    name "useXxx"
+                    type "boolean"
+                {
+                    name "Xxx"
+                    type "string"
+                    kind "enum"
+                    [ enumValues
+                        "aaa"
+                        "bbb"            
+
+    $file __dot__wizzi/ittf/${prod.name}/metaCtxSchemas/index.json.ittf.ittf
+    
+        {
+            productionName "${prod.name}"
+            [ parameters
+                {
+                    name "useXxx"
+                    type "boolean"
+                {
+                    name "Xxx"
+                    type "string"
+                    kind "enum"
+                    [ enumValues
+                        "aaa"
+                        "bbb"            

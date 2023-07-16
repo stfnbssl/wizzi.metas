@@ -1,0 +1,13 @@
+module
+    kind react
+    function MyApp
+        { 
+            @ Component
+            @ pageProps
+        return 
+            < Component 
+                @ {...pageProps}
+        # Add your polyfills here or at the component level.
+        # For example...
+        # import 'resize-observer-polyfill'
+    export-default MyApp

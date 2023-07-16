@@ -1,0 +1,40 @@
+module
+    kind react
+    import React from 'react'
+    import 
+        @ useMutation
+        from 'graphql-hooks'
+    const UPDATE_POST
+        `lit 
+            + &lf;
+            + &nbsp; mutation votePost($id: String!) {&lf;
+            + &nbsp;   votePost(id: $id) {&lf;
+            + &nbsp;     id&lf;
+            + &nbsp;     votes&lf;
+            + &nbsp;     __typename&lf;
+            + &nbsp;   }&lf;
+            + &nbsp; }&lf;
+            + 
+    export-default 
+        function PostUpvoter
+            { 
+                @ votes
+                @ id
+                @ onUpdate
+            const [updatePost] = useMutation(UPDATE_POST)
+            return 
+                button 
+                    @ className "upvote"
+                    @ onClick
+                        async=> 
+                            try 
+                                const result
+                                    await 
+                                        _ updatePost
+                                            { 
+                                                { variables
+                                                    @ id
+                                @expr onUpdate && onUpdate(result)
+                            catch e
+                                _ console.error('error upvoting post', e)
+                    + {votes}

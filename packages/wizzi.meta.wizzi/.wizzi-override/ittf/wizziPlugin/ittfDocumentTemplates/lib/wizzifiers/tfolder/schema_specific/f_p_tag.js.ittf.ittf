@@ -1,0 +1,45 @@
+﻿$group
+	${'$'}params name, tag|@@null
+
+	var p_${'$'}{name} 
+		{
+			@ textified null
+			@ isText false
+			[ children
+
+	if node.${'$'}{name}
+		
+		if !node.${'$'}{name}.kind
+			throw 'Node ${'$'}{name} has no kind: ' + JSON.stringify(node, null, 2)
+		
+		_ format
+			@ p_${'$'}{name} 
+			@ node.${'$'}{name}
+			@ options
+
+		set p_${'$'}{name}.tag = '${'$'}{ tag ? tag : name }'
+		_ ret.children.push
+			@ p_${'$'}{name} 
+
+		if p_${'$'}{name}.children.length == 1 
+
+			if !(p_${'$'}{name}.children[0].isText || p_${'$'}{name}.children[0].textified)
+				set p_${'$'}{name}.name = p_${'$'}{name}.children[0].name
+				set p_${'$'}{name}.source = p_${'$'}{name}.children[0].source
+				set p_${'$'}{name}.children = p_${'$'}{name}.children[0].children
+			
+			else
+
+				if p_${'$'}{name}.children[0].textified
+					set p_${'$'}{name}.textified = p_${'$'}{name}.children[0].textified
+			
+				if p_${'$'}{name}.children[0].isText
+					set p_${'$'}{name}.isText = true
+					set p_${'$'}{name}.name = p_${'$'}{name}.children[0].name
+					set p_${'$'}{name}.source = p_${'$'}{name}.children[0].source
+					set p_${'$'}{name}.children = []
+
+		# TODO VIA
+			else
+				throw new Error('AST-property ${'$'}{name}/${'$'}{tag} not managed by f_p_tag')
+				

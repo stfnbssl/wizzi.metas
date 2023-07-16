@@ -1,0 +1,146 @@
+$group
+
+	iife
+		
+		if !window.wz
+			set window.wz = {}
+
+        if !window.wz.production
+            set window.wz.production
+                {
+                    @ apiUrl "${'$'}{wzCtx.App.baseUrl}/api/v1/production"
+                    @ webUrl "${'$'}{wzCtx.App.baseUrl}"
+
+		set wz.initProduction
+			function
+                param options
+                set wz.production
+                    _ Object.assign
+                        {
+                        @ wz.production
+                        @ options
+
+		set wz.production.fileListToPacki
+			function
+				param fileList
+                param packiFiles
+                if !packiFiles
+                    set packiFiles = {}
+                foreach file in fileList
+                    if Array.isArray(file)
+                        _ wz.fileListToPacki
+                            @ file
+                            @ packiFiles
+                    else
+                        if file.path
+                            set packiFiles[file.path]
+                                { 
+                                    @ type file.type || 'CODE'
+                                    @ contents file.contents || ''
+                        else
+                            set packiFiles[file]
+                                { 
+                                    @ type file.type || 'CODE'
+                                    @ contents ''
+                return packiFiles
+
+		set wz.addFileToPacki
+			function
+				param packiFiles
+                param fileOrPath
+                param contents
+                if !packiFiles
+                    set packiFiles = {}
+                if fileOrPath
+                    if fileOrPath.path && fileOrPath.contents
+                        set packiFiles[fileOrPath.path]
+                            {
+                                @ type fileOrPath.type || 'CODE'
+                                @ contents fileOrPath.contents
+                    else
+                        set packiFiles[fileOrPath]
+                            {
+                                @ type 'CODE'
+                                @ contents contents
+                return packiFiles
+
+		set wz.removeFileFromPacki
+			function
+				param packiFiles
+                param fileOrPath
+                if !packiFiles
+                    return packiFiles
+                if fileOrPath
+                    if fileOrPath.path
+                        delete packiFiles[fileOrPath.path]
+                    else
+                        delete packiFiles[fileOrPath]
+                return packiFiles
+
+        set wz.production.getList
+            function
+                param kind
+                param owner
+                param callback
+
+                _ wz.fetch.get
+                    `lit 
+                        + 
+                        @ wz.production.apiUrl
+                        + /
+                        @ kind
+                        + /
+                        @ owner
+                    @ callback
+                    
+        set wz.production.createItem
+            function
+                param kind
+                param owner
+                param name
+                param wizziSchema
+                param mainIttf
+				param packiFiles
+				param callback
+
+                # loog 'wz.production.createItem.mainIttf', mainIttf
+                # loog 'wz.production.createItem.packiFiles', packiFiles
+
+                _ wz.fetch.post
+                    @ wz.production.apiUrl + '/' + kind + '/:owner/:name'
+                    [
+                        {
+                            @ type 'url'
+                            @ name 'owner'
+                            @ value owner
+                        {
+                            @ type 'url'
+                            @ name 'name'
+                            @ value name
+                    {
+                        @ wizziSchema
+                        @ mainIttf
+                        @ packiFiles
+                    @ callback
+        
+        set wz.production.updateItem
+            function
+                param kind
+                param id
+                param wizziSchema
+                param mainIttf
+				param packiFiles
+				param callback
+
+                _ wz.fetch.put
+                    @ wz.production.apiUrl + '/' + kind + '/:id'
+                    [
+                        {
+                            @ type 'url'
+                            @ name 'id'
+                            @ value id
+                    {
+                        @ wizziSchema
+                        @ mainIttf
+                        @ packiFiles
+                    @ callback

@@ -1,0 +1,11 @@
+module
+    kind react
+    import Page from '../components/Page'
+        # @flow
+    export-default 
+        function Contact
+            return 
+                < Page 
+                    @ title "Contact us"
+                    div 
+                        + Contact

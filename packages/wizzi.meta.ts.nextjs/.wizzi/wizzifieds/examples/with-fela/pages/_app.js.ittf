@@ -1,0 +1,14 @@
+module
+    kind react
+    import FelaProvider from '../FelaProvider'
+    function MyApp
+        { 
+            @ Component
+            @ pageProps
+            @ renderer
+        return 
+            < FelaProvider 
+                @ renderer {renderer}
+                < Component 
+                    @ {...pageProps}
+    export-default MyApp

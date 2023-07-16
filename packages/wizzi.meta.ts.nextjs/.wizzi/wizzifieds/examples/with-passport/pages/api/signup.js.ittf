@@ -1,0 +1,18 @@
+module
+    kind react
+    import 
+        @ createUser
+        from '../../lib/user'
+    export-default 
+        async-function signup
+            param req
+            param res
+            try 
+                await 
+                    _ createUser(req.body)
+                _ res.status(200).send
+                    { 
+                        @ done true
+            catch error
+                _ console.error(error)
+                _ res.status(500).end(error.message)

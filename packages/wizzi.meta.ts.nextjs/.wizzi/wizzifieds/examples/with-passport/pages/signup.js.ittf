@@ -1,0 +1,74 @@
+module
+    kind react
+    import 
+        @ useState
+        from 'react'
+    import Router from 'next/router'
+    import 
+        @ useUser
+        from '../lib/hooks'
+    import Layout from '../components/layout'
+    import Form from '../components/form'
+    const Signup
+        => 
+            _ useUser
+                { 
+                    @ redirectTo '/'
+                    @ redirectIfFound true
+            const [errorMsg, setErrorMsg] = useState('')
+            async-function handleSubmit
+                param e
+                _ e.preventDefault()
+                if errorMsg
+                    _ setErrorMsg('')
+                const body
+                    { 
+                        @ username e.currentTarget.username.value
+                        @ password e.currentTarget.password.value
+                if body.password !== e.currentTarget.rpassword.value
+                    _ setErrorMsg
+                        `lit 
+                            + The passwords don't match
+                    return 
+                try 
+                    const res
+                        await 
+                            _ fetch
+                                @ '/api/signup'
+                                { 
+                                    @ method 'POST'
+                                    { headers
+                                        @ 'Content-Type' 'application/json'
+                                    @ body JSON.stringify(body)
+                    if res.status === 200
+                        _ Router.push('/login')
+                    else
+                        throw 
+                            new Error
+                                await 
+                                    _ res.text()
+                catch error
+                    _ console.error('An unexpected error happened occurred:', error)
+                    _ setErrorMsg(error.message)
+            return 
+                < Layout 
+                    div 
+                        @ className "login"
+                        < Form 
+                            @ isLogin {false}
+                            @ errorMessage {errorMsg}
+                            @ onSubmit {handleSubmit}
+                    < style 
+                        @ jsx
+                        { 
+                            `lit 
+                                + &lf;
+                                + &nbsp;       .login {&lf;
+                                + &nbsp;         max-width: 21rem;&lf;
+                                + &nbsp;         margin: 0 auto;&lf;
+                                + &nbsp;         padding: 1rem;&lf;
+                                + &nbsp;         border: 1px solid #ccc;&lf;
+                                + &nbsp;         border-radius: 4px;&lf;
+                                + &nbsp;       }&lf;
+                                + &nbsp;    &nbsp;
+    export-default Signup

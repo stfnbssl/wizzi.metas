@@ -1,0 +1,14 @@
+module
+    kind react
+    export 
+        :type CacheStrategyPath
+            :union 
+                :literal 'no-cache'
+                :literal 'memory-cache'
+                :literal 'session-storage-cache'
+                :literal 'ls-cache'
+    export 
+        :type RouterProps
+            :{ 
+                :p cacheStrategy
+                    :ref CacheStrategyPath

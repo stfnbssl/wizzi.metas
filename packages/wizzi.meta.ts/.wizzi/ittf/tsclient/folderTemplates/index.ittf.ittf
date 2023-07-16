@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useTsclient
+        $file __dot__wizzi/tsclient/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tsclient/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/tsclient/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include tsclient/tfolder/${item}.js

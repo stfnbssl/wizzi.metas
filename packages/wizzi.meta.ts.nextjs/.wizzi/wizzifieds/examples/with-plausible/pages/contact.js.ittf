@@ -1,0 +1,43 @@
+module
+    kind react
+    import 
+        @ useState
+        from 'react'
+    import Page from '../components/Page'
+    import 
+        @ usePlausible
+        from 'next-plausible'
+    export-default 
+        function Contact
+            const [message, setMessage] = useState('')
+            const plausible = usePlausible()
+            const handleSubmit
+                => 
+                    param e
+                    _ e.preventDefault()
+                    _ plausible
+                        @ 'customEventName'
+                        { 
+                            { props
+                                @ message
+                        # your own submit logic
+                    _ setMessage('')
+                        # your own submit logic
+            return 
+                < Page 
+                    h1 
+                        + This is the Contact page
+                    form 
+                        @ onSubmit {handleSubmit}
+                        label 
+                            span 
+                                + Message:
+                            textarea 
+                                @ onChange
+                                    => 
+                                        param e
+                                        _ setMessage(e.target.value)
+                                @ value {message}
+                        button 
+                            @ type "submit"
+                            + submit

@@ -1,0 +1,20 @@
+module
+    kind react
+    import Script from 'next/script'
+    export-default 
+        function Inline
+            return 
+                < React.Fragment
+                    { 
+                        # 
+                            # Attributes are forwarded
+                    < Script 
+                        @ src "https://www.google-analytics.com/analytics.js"
+                        @ id "analytics"
+                        @ nonce "XUENAJFW"
+                        @ data-test "analytics"
+                    main 
+                        h1 
+                            + Forwarded attributes
+                        h5 
+                            + Open devtools and check that attributes has been forwarded correctly.

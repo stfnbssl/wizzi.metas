@@ -1,0 +1,18 @@
+$group
+
+    $if metaCtx.commonsWizzi.useJsCommons
+    
+        $$ .ittf commons to many schemas
+
+        $
+            var items = [
+                'a_cb',
+                'a_cb_throw',
+                'a_cb_no_throw',
+                'r_cb',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/t/${item}.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include commonsWizzi/tfolder/jscommons/${item}.js

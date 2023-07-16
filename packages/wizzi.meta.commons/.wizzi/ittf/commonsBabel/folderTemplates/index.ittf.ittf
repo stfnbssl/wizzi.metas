@@ -1,0 +1,15 @@
+$group
+    $if metaCtx.useCommonsBabel
+        $file __dot__wizzi/commonsBabel/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include commonsBabel/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/commonsBabel/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include commonsBabel/tfolder/${item}.js

@@ -1,0 +1,26 @@
+module
+    kind react
+    :import-type 
+        @ AppProps
+        from 'next/app'
+    :interface LayoutProps
+        :p children
+            :ref React.ReactNode
+    const Layout
+        => 
+            { 
+                @ children
+                :ref LayoutProps
+            div 
+                @ className "layout"
+                + {children}
+    export-default 
+        function App
+            { 
+                @ Component
+                @ pageProps
+                :ref AppProps
+            return 
+                < Layout 
+                    < Component 
+                        @ {...pageProps}

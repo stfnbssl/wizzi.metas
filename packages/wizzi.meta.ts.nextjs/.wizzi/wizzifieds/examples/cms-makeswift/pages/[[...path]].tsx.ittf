@@ -1,0 +1,94 @@
+module
+    kind react
+    import '../lib/makeswift/register-components'
+    import 
+        @ Makeswift
+        from '@makeswift/runtime/next'
+    import 
+        @ GetStaticPathsResult
+        @ GetStaticPropsContext
+        @ GetStaticPropsResult
+        from 'next'
+    import 
+        @ Page
+            as MakeswiftPage
+        @ PageProps
+            as MakeswiftPageProps
+        from '@makeswift/runtime/next'
+    :type ParsedUrlQuery
+        :{ 
+            :p path
+                :optional 
+                :[ 
+                    :string 
+    export 
+        async-function getStaticPaths
+            :return
+                :ref Promise
+                    :param 
+                        :ref GetStaticPathsResult
+                            :param 
+                                :ref ParsedUrlQuery
+            const makeswift
+                new Makeswift
+                    :! 
+                        @expr process.env.MAKESWIFT_SITE_API_KEY
+            const pages
+                await 
+                    _ makeswift.getPages()
+            return 
+                { 
+                    @ paths
+                        _ pages.map
+                            => 
+                                param page
+                                (
+                                    { 
+                                        { params
+                                            @ path
+                                                _ page.path.split('/').filter
+                                                    => 
+                                                        param segment
+                                                        set segment !== ''
+                    @ fallback 'blocking'
+    :type Props
+        :ref MakeswiftPageProps
+    export 
+        async-function getStaticProps
+            param ctx
+                :ref GetStaticPropsContext
+                    :param 
+                        :ref ParsedUrlQuery
+            :return
+                :ref Promise
+                    :param 
+                        :ref GetStaticPropsResult
+                            :param 
+                                :ref Props
+            const makeswift
+                new Makeswift
+                    :! 
+                        @expr process.env.MAKESWIFT_SITE_API_KEY
+            const path = '/' + (ctx.params?.path ?? []).join('/')
+            const snapshot
+                await 
+                    _ makeswift.getPageSnapshot
+                        @ path
+                        { 
+                            @ preview ctx.preview
+            if snapshot == null
+                return 
+                    { 
+                        @ notFound true
+            return 
+                { 
+                    { props
+                        @ snapshot
+    export-default 
+        function Page
+            { 
+                @ snapshot
+                :ref Props
+            return 
+                < MakeswiftPage 
+                    @ snapshot {snapshot}

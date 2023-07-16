@@ -1,0 +1,67 @@
+$group
+
+    async-function duplicateGist
+        param hash
+            :string
+        param newname
+            :string
+        r_promise${'('})
+            var filePath = crypto.decrypt(hash)
+            var kind = gistFs.gistKindFromFilePath(filePath)
+            
+            _ wizziFs.duplicateFsItem
+                @ filePath
+                _ path.join
+                    _ path.dirname(filePath)
+                    @ newname
+                a_then${'('} result )
+                    _ getGistList
+                        @ kind
+                        a_then${'('} result )
+                            if isGistKind(kind)
+                                r_resolve${'('})
+                                    {
+                                        @ message kind + ' duplicated'
+                                        { data
+                                            @ gists result.data.gists
+                            else
+                                r_resolve${'('})
+                                    {
+                                        @ message 'Snippet duplicated'
+                                        { data
+                                            @ gists result.data.snippets
+                        catch_reject${'('} wizziGist.duplicateGist.getGistList )
+                catch_reject${'('} wizziGist.duplicateGist.wizziFs.duplicateFsItem )
+
+    async-function renameGist
+        param hash
+            :string
+        param newname
+            :string
+        r_promise${'('})
+			var filePath = crypto.decrypt(hash)
+			var kind = gistFs.gistKindFromFilePath(filePath)
+			
+			_ wizziFs.renameFsItem
+				@ filePath
+				_ path.join
+					_ path.dirname(filePath)
+					@ newname
+				a_then${'('} result )
+					_ getGistList
+						@ kind
+						a_then${'('} result )
+							if isGistKind(kind)
+                                r_resolve${'('})
+                                    {
+                                        @ message kind + ' renamed'
+                                        { data
+                                            @ gists result.data.gists
+							else
+                                r_resolve${'('})
+                                    {
+                                        @ message 'Snippet renamed'
+                                        { data
+                                            @ snippets result.data.snippets
+                        catch_reject${'('} wizziGist.renameGist.getGistList )
+                catch_reject${'('} wizziGist.renameGist.wizziFs.renameFsItem )

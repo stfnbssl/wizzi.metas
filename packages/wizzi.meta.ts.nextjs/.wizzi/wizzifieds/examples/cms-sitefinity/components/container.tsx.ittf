@@ -1,0 +1,17 @@
+module
+    kind react
+    :type Props
+        :{ 
+            :p children
+                :optional 
+                :ref React.ReactNode
+    const Container
+        => 
+            { 
+                @ children
+                :ref Props
+            return 
+                div 
+                    @ className "container mx-auto px-5"
+                    + {children}
+    export-default Container

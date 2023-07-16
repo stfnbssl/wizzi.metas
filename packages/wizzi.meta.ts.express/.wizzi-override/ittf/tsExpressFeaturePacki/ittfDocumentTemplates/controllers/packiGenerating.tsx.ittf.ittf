@@ -1,0 +1,189 @@
+$group
+
+    $
+        var routeWebFragment = metaCtx.isLocal ? 'route' : 'route_web_secured';
+
+    ${'$'}
+        var ctrl = {
+            name: 'PackiGenerating',
+            path: '/~=',
+            webSecured: wzCtx.App.isLocal == false,
+        }
+    
+    v08/ts/controller${'('} &ctrl )
+            
+        ${'$'}append imports
+            import ReactDOMServer
+                from 'react-dom/server'
+            import
+                @ wizziTypes
+                @ wizziProds
+                @ WizziFactory
+                from '../../wizzi'
+            import
+                @ packageApi
+                @ metaApi
+                @ pluginApi
+                @ productionApi
+                from '../../packiProductions' 
+            import EditorDocument 
+                from '../../../pages/EditorDocument' 
+            const myname = 'features/packi/controller/packiGenerating'
+            +
+            function renderPackiEditor
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param packiItemObject
+                    :object
+                param loggedUser
+                    :object
+                param queryParams
+                    :object
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < EditorDocument 
+                                @ data {packiItemObject}
+                                @ queryParams {queryParams}
+                                @ loggedUser {loggedUser}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+        
+        v08/ts/${routeWebFragment}${'('} get, /p/:owner/:name, this.getPackiPackageGeneration)
+        v08/ts/${routeWebFragment}${'('} get, /p/:owner/:name/*, this.getPackiPackageGeneration)
+        v08/ts/${routeWebFragment}${'('} get, /m/:owner/:name, this.getPackiMetaGeneration)
+        v08/ts/${routeWebFragment}${'('} get, /m/:owner/:name/*, this.getPackiMetaGeneration)
+        v08/ts/${routeWebFragment}${'('} get, /l/:owner/:name, this.getPackiPluginGeneration)
+        v08/ts/${routeWebFragment}${'('} get, /l/:owner/:name/*, this.getPackiPluginGeneration)
+        
+        ${'$'}append handlers
+
+            v08/ts/handler${'('} getPackiPackageGeneration )
+                $$ loog myname + '.getPackiPackageGeneration', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                $$ loog myname + '.getPackiPackageGeneration', parts[1], parts.slice(2).join('/')
+                _ productionApi.prepareProduction
+                    @ 'package'
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    @ ''
+                    {
+                    ._ then
+                        =>
+                            param packageProductionSet
+                                :any
+                            _ wizziProds.executeJobs
+                                @ packageProductionSet.packiFiles
+                                @ packageProductionSet.context
+                                ._ then
+                                    =>
+                                        param fsJson
+                                            :any
+                                        _ WizziFactory.extractGeneratedFiles
+                                            @ fsJson
+                                            ._ then
+                                                =>
+                                                    param packiFiles
+                                                    $*
+                                                    _ sendSuccess
+                                                        @ response
+                                                        {
+                                                            @ files JSON.stringify(packiFiles, null, 4)
+                                                    *$
+                                                    const user = (request.session as any).user
+                                                    const loggedUser
+                                                        {
+                                                            @ id user._id
+                                                            @ username user.username
+                                                            @ displayName user.name
+                                                            @ picture user.avatar_url
+                                                    _ renderPackiEditor
+                                                        @ request
+                                                        @ response
+                                                        {
+                                                            @ type 'success'
+                                                            { packi
+                                                                @ _id packageProductionSet._id
+                                                                @ owner packageProductionSet.owner
+                                                                @ name packageProductionSet.name
+                                                                @ description packageProductionSet.description
+                                                                @ packiFiles packiFiles
+                                                                @ packiProduction 'package'
+                                                                @ readOnly true
+                                                                @ generation true
+                                                        @ loggedUser
+                                                        @ queryParams
+                                        v08/ts/catch_fail${'('} getPackiPackageGeneration.extractGeneratedFiles )
+                                v08/ts/catch_fail${'('} getPackiPackageGeneration.executeJobs )
+                    v08/ts/catch_fail${'('} getPackiPackageGeneration.prepareProduction )
+
+            v08/ts/handler${'('} getPackiMetaGeneration )
+                $$ loog myname + '.getPackiMetaGeneration', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                $$ loog myname + '.getPackiMetaGeneration', parts[1], parts.slice(2).join('/')
+            
+            v08/ts/handler${'('} getPackiPluginGeneration )
+                $$ loog myname + '.getPackiPluginGeneration', request.path 
+                const queryParams = {}
+                const parts = request.path.split('/')
+                $$ loog myname + '.getPackiPluginGeneration', parts[1], parts.slice(2).join('/')
+                _ productionApi.prepareProduction
+                    @ 'plugin'
+                    @ parts[2]
+                    @ parts.slice(3).join('/')
+                    @ ''
+                    {
+                    ._ then
+                        =>
+                            param packageProductionSet
+                                :any
+                            _ wizziProds.executeJobs
+                                @ packageProductionSet.packiFiles
+                                @ packageProductionSet.context
+                                ._ then
+                                    =>
+                                        param fsJson
+                                            :any
+                                        _ WizziFactory.extractGeneratedFiles
+                                            @ fsJson
+                                            ._ then
+                                                =>
+                                                    param packiFiles
+                                                    $*
+                                                    _ sendSuccess
+                                                        @ response
+                                                        {
+                                                            @ files JSON.stringify(packiFiles, null, 4)
+                                                    *$
+                                                    const user = (request.session as any).user
+                                                    const loggedUser
+                                                        {
+                                                            @ id user._id
+                                                            @ username user.username
+                                                            @ displayName user.name
+                                                            @ picture user.avatar_url
+                                                    _ renderPackiEditor
+                                                        @ request
+                                                        @ response
+                                                        {
+                                                            @ type 'success'
+                                                            { packi
+                                                                @ _id packageProductionSet._id
+                                                                @ owner packageProductionSet.owner
+                                                                @ name packageProductionSet.name
+                                                                @ description packageProductionSet.description
+                                                                @ packiFiles packiFiles
+                                                                @ packiProduction 'plugin'
+                                                                @ readOnly true
+                                                                @ generation true
+                                                        @ loggedUser
+                                                        @ queryParams
+                                        v08/ts/catch_fail${'('} getPackiPluginGeneration.extractGeneratedFiles )
+                                v08/ts/catch_fail${'('} getPackiPluginGeneration.executeJobs )
+                    v08/ts/catch_fail${'('} getPackiPluginGeneration.prepareProduction )

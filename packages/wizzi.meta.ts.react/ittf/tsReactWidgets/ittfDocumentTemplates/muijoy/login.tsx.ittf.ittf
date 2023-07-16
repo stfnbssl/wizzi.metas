@@ -1,0 +1,104 @@
+$group
+
+    import React from 'react'
+    import 
+        @ CssVarsProvider
+        @ useColorScheme
+        from '@mui/joy/styles'
+    import Sheet from '@mui/joy/Sheet'
+    import Typography from '@mui/joy/Typography'
+    import TextField from '@mui/joy/TextField'
+    import Button from '@mui/joy/Button'
+    import Link from '@mui/joy/Link'
+    
+    const ModeToggle
+        => 
+            const 
+                { 
+                    @ mode
+                    @ setMode
+                = useColorScheme()
+            const [mounted, setMounted] = React.useState(false)
+                # necessary for server-side rendering
+                # because mode is undefined on the server
+            _ React.useEffect
+                => 
+                    _ setMounted(true)
+                [ 
+                # necessary for server-side rendering
+                # because mode is undefined on the server
+            if !mounted
+                return null
+            return 
+                < Button 
+                    @ variant "outlined"
+                    @ onClick
+                        => 
+                            if mode === 'light'
+                                _ setMode('dark')
+                            else
+                                _ setMode('light')
+                    { 
+                        iif mode === 'light'
+                            then 'Turn dark'
+                            else 'Turn light'
+    export
+        function Login
+            return 
+                < CssVarsProvider 
+                    < ModeToggle 
+                    < Sheet 
+                        @ sx
+                            { 
+                                @ maxWidth 400
+                                @ mx 'auto'
+                                @ my 4
+                                    # margin left & right
+                                @ py 3
+                                    # margin top & botom
+                                @ px 2
+                                    # padding top & bottom
+                                @ display 'flex'
+                                    # padding left & right
+                                @ flexDirection 'column'
+                                @ gap 2
+                                @ borderRadius 'sm'
+                                @ boxShadow 'md'
+                        div 
+                            < Typography 
+                                @ level "h4"
+                                @ component "h1"
+                                b 
+                                    + Welcome!
+                            < Typography 
+                                @ level "body2"
+                                + Sign in to continue
+                        < TextField 
+                            @ name "email"
+                                # html input attribute
+                            @ type "email"
+                            @ placeholder "johndoe@email.com"
+                                # pass down to FormLabel as children
+                            @ label "Email"
+                                # pass down to FormLabel as children
+                        < TextField 
+                            @ name "password"
+                            @ type "password"
+                            @ placeholder "password"
+                            @ label "Password"
+                        < Button 
+                            @ sx
+                                { 
+                                    @ mt 1
+                                        # margin top
+                            + Log in
+                        < Typography 
+                            @ endDecorator
+                                < Link 
+                                    @ href "/sign-up"
+                                    + Sign up
+                            @ fontSize "sm"
+                            @ sx
+                                { 
+                                    @ alignSelf 'center'
+                            + Don't have an account?

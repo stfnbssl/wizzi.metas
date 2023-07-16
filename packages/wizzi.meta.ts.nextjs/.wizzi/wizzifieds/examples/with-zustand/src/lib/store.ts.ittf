@@ -1,0 +1,110 @@
+module
+    kind react
+    import 
+        @ createContext
+        @ useContext
+        from 'react'
+    import 
+        @ createStore
+        @ useStore
+            as useZustandStore
+        from 'zustand'
+    :interface StoreInterface
+        :p lastUpdate
+            :number 
+        :p light
+            :boolean 
+        :p count
+            :number 
+        :p tick
+            :=> 
+                :void 
+                param lastUpdate
+                    :number 
+                param light
+                    :boolean 
+        :p increment
+            :=> 
+                :void 
+        :p decrement
+            :=> 
+                :void 
+        :p reset
+            :=> 
+                :void 
+    const getDefaultInitialState
+        => 
+            (
+                { 
+                    @ lastUpdate Date.now()
+                    @ light false
+                    @ count 0
+    export 
+        :type StoreType
+            :ref ReturnType
+                :param 
+                    :typeof initializeStore
+    const zustandContext
+        _ createContext
+            :param 
+                :union 
+                    :ref StoreType
+                    :null 
+            @ null
+    export 
+        const Provider = zustandContext.Provider
+    export 
+        const useStore
+            => 
+                param selector
+                    :=> 
+                        :ref T
+                        param state
+                            :ref StoreInterface
+                const store = useContext(zustandContext)
+                if !store
+                    throw new Error('Store is missing the provider')
+                return useZustandStore(store, selector)
+    export 
+        const initializeStore
+            => 
+                param preloadedState
+                    :ref Partial
+                        :param 
+                            :ref StoreInterface
+                    = 
+                        { 
+                return 
+                    _ createStore
+                        :param 
+                            :ref StoreInterface
+                        => 
+                            param set
+                            param get
+                            (
+                                { 
+                                    @ ...getDefaultInitialState()
+                                    @ ...preloadedState
+                                    @ tick
+                                        => 
+                                            param lastUpdate
+                                            param light
+                                            _ set
+                                                { 
+                                                    @ lastUpdate
+                                                    @ light !!light
+                                    @ increment
+                                        => 
+                                            _ set
+                                                { 
+                                                    @ count get().count + 1
+                                    @ decrement
+                                        => 
+                                            _ set
+                                                { 
+                                                    @ count get().count - 1
+                                    @ reset
+                                        => 
+                                            _ set
+                                                { 
+                                                    @ count getDefaultInitialState().count

@@ -1,0 +1,87 @@
+md
+    h1 
+        + Overmind example
+    p 
+        + This example uses
+        a 
+            href https://overmindjs.org/?view=react&typescript=false
+            title 
+            + overmind
+        + .
+    br 
+    h2 
+        + Deploy your own
+    p 
+        + Deploy the example using
+        a 
+            href https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + or preview live with
+        a 
+            href https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-overmind
+            title 
+            + StackBlitz
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-overmind&project-name=with-overmind&repository-name=with-overmind
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h2 
+        + How to use
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example with-overmind with-overmind-app
+    br 
+    code 
+        lang bash
+        + yarn create next-app --example with-overmind with-overmind-app
+    br 
+    code 
+        lang bash
+        + pnpm create next-app --example with-overmind with-overmind-app
+    br 
+    p 
+        + Deploy it to the cloud with
+        a 
+            href https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example
+            title 
+            + Vercel
+        + (
+        a 
+            href https://nextjs.org/docs/deployment
+            title 
+            + Documentation
+        + ).
+    br 
+    h2 
+        + Notes
+    p 
+        + Look at the comments for more information on how the application is structured. This is just one of several ways you can manage hydration and rehydration of state. It depends heavily on how you want to manage it, do code sharing between client and server etc. The exampled approach should give you the hooks and flexibility to get you started on your endeavor :-)

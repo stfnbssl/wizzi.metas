@@ -1,0 +1,51 @@
+$group
+    $if metaCtx.useWizziFactory
+        $include wzCtxModel
+        
+        $
+            var items = [
+                "executegenerateModelDoms",
+                "executeWizziJob",
+                "fileInfoByPath",
+                "getIttfFilesBySchema",
+                "loadModelAndGenerateArtifact",
+                "loadModelAndGenerateArtifactFromText",
+                "loadModelAndTransform",
+                "loadMTree",
+                "loadMTreeBuildupScript",
+                "loadWizziModel",
+                "loadWizziModelAndSaveToJson"
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/t/wizzi/opers/${item}.js.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include wizziFactory/tfolder/opers/${item}.js
+
+        $
+            var items = [
+                "getWizziIttf",
+                "getWizziTree",
+                "getCodeAst",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/t/wizzi/opers/${item}.js.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include wizziFactory/tfolder/opers/${item}.js
+
+        $
+            var items = [
+                "wizziEnabled",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/t/wizzi/helpers/${item}.js.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include wizziFactory/tfolder/helpers/${item}.js
+
+        $file __dot__wizzi/t/wizzi/globals/defaultMimeTypes.js.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziFactory/tfolder/globals/defaultMimeTypes.js                    
+
+

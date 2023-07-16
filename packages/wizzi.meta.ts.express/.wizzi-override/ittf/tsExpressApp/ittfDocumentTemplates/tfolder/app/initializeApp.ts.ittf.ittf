@@ -1,0 +1,36 @@
+$group
+    ${'$'}params &md
+    +
+    function initializeApp
+        param app
+            :ref express.Application
+        param initValues
+            :ref AppInitializerType
+        +
+        _ initValues.middlewaresPre.forEach
+            => 
+                param middleware
+                _ middleware(app)
+        +
+        _ initValues.apis.forEach
+            => 
+                param api
+                warn 'installing api: ', api.name
+                _ api.initialize
+                    @ app
+                    @ initValues
+                set initValues.globalApi[api.name] = api
+        +
+        _ initValues.controllers.forEach
+            => 
+                param controller
+                warn 'installing router on path: ', controller.path
+                _ controller.initialize
+                    @ app
+                    @ initValues
+                _ app.use(controller.path, controller.router)
+        +
+        _ initValues.middlewaresPost.forEach
+            => 
+                param middleware
+                _ middleware(app)

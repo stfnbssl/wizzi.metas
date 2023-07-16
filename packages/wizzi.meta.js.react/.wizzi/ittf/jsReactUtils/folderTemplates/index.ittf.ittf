@@ -1,0 +1,16 @@
+$group
+    $if metaCtx.useJsReactUtils
+        $include wzCtxModel
+        $file __dot__wizzi/jsReactUtils/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsReactUtils/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/jsReactUtils/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include jsReactUtils/tfolder/${item}.js

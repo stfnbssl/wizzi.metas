@@ -1,0 +1,10 @@
+$group
+    $if metaCtx.useWizziPlugin
+        
+        $include __generate
+        $include root
+        $include models
+        $include src/examples
+        $include src/lib
+        $include src/tests
+        $include tfolder/v08/index

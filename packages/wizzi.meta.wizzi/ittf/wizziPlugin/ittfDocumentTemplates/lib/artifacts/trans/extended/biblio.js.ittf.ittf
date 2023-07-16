@@ -1,0 +1,285 @@
+$group
+
+    set functors.book
+        function
+            param parent
+            param resultObj
+            var bookObj
+                {
+                    @ id (resultObj.ns || 'global') + '.' + parent.wzName
+                    @ title null
+                    [ authors
+                    [ editions
+                    [ translations
+                    [ reviews
+                    [ buys
+                    [ contents
+            if resultObj.ns_author
+                _ bookObj.authors.push
+                    @ resultObj.ns_author
+            var newitems = []
+            foreach child in parent.items
+                if functors.writingfields(child, bookObj)
+                elif child.wzElement == "datepub"
+                    set bookObj.datepub = child.wzName
+                elif child.wzElement == "written"
+                    set bookObj.written = child.wzName
+                elif child.wzElement == "index"
+                    set bookObj.index = []
+                    foreach c2 in child.items
+                        if c2.wzElement == "text"
+                            _ bookObj.index.push
+                                @ c2.wzName
+                elif child.wzElement == "backcover"
+                    var backcoverObj
+                        {
+                            [ contents
+                    foreach c2 in child.items
+                        _ fillContents(c2, backcoverObj, resultObj)                    
+                    set bookObj.backcover = backcoverObj
+                elif child.wzElement == "source"
+                    _ functors.source
+                        @ child
+                        @ bookObj
+                elif child.wzElement == "textabstract"
+                    _ functors.abstract
+                        @ child
+                        @ bookObj
+                        @ resultObj
+                elif child.wzElement == "ereader"
+                    set bookObj.ereader = child.wzName
+                elif child.wzElement == "buy"
+                    _ bookObj.buys.push
+                        {
+                            @ seller child.seller
+                            @ url child.url
+                elif !fillContents(child, bookObj, resultObj)
+                else
+                    _ newitems.push
+                        @ child
+            _ functors.clearWritings
+                @ bookObj
+            _ resultObj.books.push
+                @ bookObj
+            foreach child in newitems
+                _ doitem
+                    @ child
+                    @ resultObj
+            return bookObj
+
+    set functors.article
+        function
+            param parent
+            param resultObj
+            var articleObj
+                {
+                    @ id (resultObj.ns || 'global') + '.' + parent.wzName
+                    @ title null
+                    [ authors
+                    [ editions
+                    [ translations
+                    [ reviews
+                    [ contents
+            if resultObj.ns_author
+                _ articleObj.authors.push
+                    @ resultObj.ns_author
+            var newitems = []
+            foreach child in parent.items
+                if functors.writingfields(child, articleObj)
+                elif child.wzElement == "datepub"
+                    set articleObj.datepub = child.wzName
+                elif child.wzElement == "url"
+                    set articleObj.url = child.wzName
+                elif child.wzElement == "book"
+                    set articleObj.book = child.wzName
+                elif child.wzElement == "source"
+                    _ functors.source
+                        @ child
+                        @ bookObj
+                elif child.wzElement == "textabstract"
+                    _ functors.abstract
+                        @ child
+                        @ articleObj
+                        @ resultObj
+                elif !fillContents(child, articleObj, resultObj)
+                else
+                    _ newitems.push
+                        @ child
+            _ resultObj.articles.push
+                @ articleObj
+            foreach child in newitems
+                _ doitem
+                    @ child
+                    @ resultObj
+            _ functors.clearWritings
+                @ articleObj
+            return articleObj
+
+    set functors.abstract
+        function
+            param field
+            param parentObj
+            param resultObj
+            var abstractObj
+                {
+                    [ contents
+            foreach child in field.items
+                if child.wzElement == "epage"
+                    set abstractObj.epage = child.wzName 
+                elif child.wzElement == "eloc"
+                    set abstractObj.eloc = child.wzName
+                elif !fillContents(child, abstractObj, resultObj)               
+                else
+                    $$ TODO error
+            set parentObj.abstract = abstractObj
+
+    set functors.source
+        function
+            param parent
+            param resultObj
+            var sourceObj
+                {
+                    @ id parent.wzName
+                    [ contents
+            foreach child in parent.items
+                if child.wzElement == "title"
+                    set sourceObj.title = child.wzName 
+                elif child.wzElement == "url"
+                    set sourceObj.url = child.wzName
+            set resultObj.source = sourceObj
+
+    set functors.title
+        function
+            param field
+            param parentObj
+            var titleObj
+                {
+                    @ text null
+                    [ langs
+            set titleObj.text = field.wzName
+            foreach child in field.items
+                _ functors.language
+                    @ child
+                    @ titleObj
+            if titleObj.langs.length == 0
+                delete titleObj.langs
+            set parentObj.title = titleObj       
+
+    set functors.alias
+        function
+            param field
+            param parentObj
+            if !parentObj || !parentObj.aliases
+                $$ loog 'wrong alias position', field.wzName
+                return
+            var aliasObj
+                {
+                    @ text null
+                    [ langs
+            set aliasObj.text = field.wzName
+            foreach child in field.items
+                _ functors.language
+                    @ child
+                    @ aliasObj
+            if aliasObj.langs.length == 0
+                delete aliasObj.langs
+            _ parentObj.aliases.push
+                @ aliasObj
+
+    set functors.language
+        function
+            param field
+            param parentObj
+            if ['en','de','fr','sp'].indexOf(field.wzElement) > -1
+                var langObj
+                    {
+                        @ lang field.wzElement
+                        @ text field.wzName
+                foreach child in field.items
+                    if child.wzElement == 'it'
+                        set langObj.it = child.wzName
+                _ parentObj.langs.push
+                    @ langObj
+
+    set functors.edition
+        function
+            param field
+            param parentObj
+            var edition 
+                {
+                    @ name field.wzName
+            foreach child in field.items
+                if functors.writingfields(child, edition)
+            return edition
+
+    set functors.translation
+        function
+            param field
+            param parentObj
+            var translation 
+                {
+                    @ language field.wzName
+                    [ editions
+            foreach child in field.items
+                if functors.writingfields(child, translation)
+            return translation
+
+    set functors.writingfields
+        function
+            param field
+            param parentObj
+            if field.wzElement == 'date'
+                set parentObj.date = field.wzName
+                return true
+            elif field.wzElement == 'prefator'
+                set parentObj.prefator = field.wzName
+                return true
+            elif field.wzElement == 'curator'
+                set parentObj.curator = field.wzName
+                return true
+            elif field.wzElement == 'page'
+                set parentObj.page = field.wzName
+                return true
+            elif field.wzElement == 'e-page'
+                set parentObj.epage = field.wzName
+                return true
+            elif field.wzElement == 'e-loc'
+                set parentObj.eloc = field.wzName
+                return true
+            elif field.wzElement == 'in'
+                set parentObj.in = field.wzName
+                return true
+            elif field.wzElement == "author"
+                _ parentObj.authors.push(field.wzName)
+                return true
+            elif field.wzElement == "title"
+                _ functors.title
+                    @ field
+                    @ parentObj
+                return true
+            elif field.wzElement == 'edition'
+                _ parentObj.editions.push
+                    _ functors.edition
+                        @ field
+                        @ parentObj
+            elif field.wzElement == 'translation'
+                _ parentObj.translations.push
+                    _ functors.translation
+                        @ field
+                        @ parentObj
+            else
+                return false
+
+    set functors.clearWritings
+        function
+            param parentObj
+            if parentObj.reviews && parentObj.reviews.length == 0
+                delete parentObj.reviews
+            if parentObj.contents && parentObj.contents.length == 0
+                delete parentObj.contents
+            if parentObj.buys && parentObj.buys.length == 0
+                delete parentObj.buys
+            if parentObj.editions && parentObj.editions.length == 0
+                delete parentObj.editions
+            if parentObj.translations && parentObj.translations.length == 0
+                delete parentObj.translations

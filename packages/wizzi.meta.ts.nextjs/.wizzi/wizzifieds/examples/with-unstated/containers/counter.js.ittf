@@ -1,0 +1,26 @@
+module
+    kind react
+    import 
+        @ useState
+        from 'react'
+    import 
+        @ createContainer
+        from 'unstated-next'
+    function useCounter
+        const [count, setCount] = useState(0)
+        const decrement
+            => 
+                _ setCount(count - 1)
+        const increment
+            => 
+                _ setCount(count + 1)
+        const reset
+            => 
+                _ setCount(0)
+        return 
+            { 
+                @ count
+                @ decrement
+                @ increment
+                @ reset
+    export-default createContainer(useCounter)

@@ -1,0 +1,303 @@
+module
+    kind react
+    import React
+        @ useCallback
+        @ useState
+        from 'react'
+    import 
+        @ useInView
+        from 'react-intersection-observer'
+    :type State
+        :{ 
+            :p lazyLoad
+                :boolean 
+            :p isSsr
+                :boolean 
+            :p isIntersectionObserverAvailable
+                :boolean 
+            :p inView
+                :optional 
+                :boolean 
+            :p loaded
+                :boolean 
+    const imageAddStrategy
+        => 
+            { 
+                @ lazyLoad
+                @ isSsr
+                @ isIntersectionObserverAvailable
+                @ inView
+                @ loaded
+                :ref State
+            if !lazyLoad
+                return true
+            if isSsr
+                return false
+            if isIntersectionObserverAvailable
+                return inView || loaded
+            return true
+    const imageShowStrategy
+        => 
+            { 
+                @ lazyLoad
+                @ isSsr
+                @ isIntersectionObserverAvailable
+                @ loaded
+                :ref State
+            if !lazyLoad
+                return true
+            if isSsr
+                return false
+            if isIntersectionObserverAvailable
+                return loaded
+            return true
+    :type ImageData
+        :{ 
+            :p aspectRatio
+                :number 
+            :p base64
+                :optional 
+                :string 
+            :p height
+                :optional 
+                :number 
+            :p width
+                :number 
+            :p sizes
+                :optional 
+                :string 
+            :p src
+                :optional 
+                :string 
+            :p srcSet
+                :optional 
+                :string 
+            :p webpSrcSet
+                :optional 
+                :string 
+            :p bgColor
+                :optional 
+                :string 
+            :p alt
+                :optional 
+                :string 
+            :p title
+                :optional 
+                :string 
+    :type ImageProps
+        :{ 
+            :p data
+                :ref ImageData
+            :p className
+                :optional 
+                :string 
+            :p pictureClassName
+                :optional 
+                :string 
+            :p fadeInDuration
+                :optional 
+                :number 
+            :p intersectionTreshold
+                :optional 
+                :number 
+            :p intersectionThreshold
+                :optional 
+                :number 
+            :p intersectionMargin
+                :optional 
+                :string 
+            :p lazyLoad
+                :optional 
+                :boolean 
+            :p style
+                :optional 
+                :ref React.CSSProperties
+            :p pictureStyle
+                :optional 
+                :ref React.CSSProperties
+            :p explicitWidth
+                :optional 
+                :boolean 
+    const Image
+        function 
+            { 
+                @ className
+                @ fadeInDuration
+                @ intersectionTreshold
+                @ intersectionMargin
+                @ pictureClassName
+                @ lazyLoad
+                    = true
+                @ style
+                @ pictureStyle
+                @ explicitWidth
+                @ data
+                :ref ImageProps
+            const [loaded, setLoaded] = useState(false)
+            const handleLoad
+                _ useCallback
+                    => 
+                        _ setLoaded(true)
+                    [ 
+            const [ref, inView]
+                _ useInView
+                    { 
+                        @ threshold intersectionTreshold || 0
+                        @ rootMargin intersectionMargin || '0px 0px 0px 0px'
+                        @ triggerOnce true
+            const isSsr = typeof window === 'undefined'
+            const isIntersectionObserverAvailable
+                iif isSsr
+                    then false
+                    else !!window.IntersectionObserver
+            const absolutePositioning
+                :ref React.CSSProperties
+                =
+                    { 
+                        @ position 'absolute'
+                        @ left 0
+                        @ top 0
+                        @ bottom 0
+                        @ right 0
+            const addImage
+                _ imageAddStrategy
+                    { 
+                        @ lazyLoad
+                        @ isSsr
+                        @ isIntersectionObserverAvailable
+                        @ inView
+                        @ loaded
+            const showImage
+                _ imageShowStrategy
+                    { 
+                        @ lazyLoad
+                        @ isSsr
+                        @ isIntersectionObserverAvailable
+                        @ inView
+                        @ loaded
+            const webpSource
+                && 
+                    + data.webpSrcSet
+                    source 
+                        @ srcSet {data.webpSrcSet}
+                        @ sizes {data.sizes}
+                        @ type "image/webp"
+            const regularSource
+                && 
+                    + data.srcSet
+                    source 
+                        @ srcSet {data.srcSet}
+                        @ sizes {data.sizes}
+            const placeholder
+                div 
+                    @ style
+                        { 
+                            @ backgroundImage
+                                iif data.base64
+                                    then
+                                        `lit 
+                                            + url(
+                                            @ data.base64
+                                            + )
+                                    else null
+                            @ backgroundColor data.bgColor
+                            @ backgroundSize 'cover'
+                            @ opacity
+                                iif showImage
+                                    then 0
+                                    else 1
+                            @ transition
+                                iif !fadeInDuration || fadeInDuration > 0
+                                    then
+                                        `lit 
+                                            + opacity&nbsp;
+                                            @ fadeInDuration || 500
+                                            + ms&nbsp;
+                                            @ fadeInDuration || 500
+                                            + ms
+                                    else null
+                            @ ...absolutePositioning
+            const 
+                { 
+                    @ width
+                    @ aspectRatio
+                = data
+            const height = data.height || width / aspectRatio
+            const sizer
+                svg 
+                    @ className {pictureClassName}
+                    @ style
+                        { 
+                            @ width
+                                iif explicitWidth
+                                    then
+                                        `lit 
+                                            + 
+                                            @ width
+                                            + px
+                                    else '100%'
+                            @ height 'auto'
+                            @ display 'block'
+                            @ ...pictureStyle
+                    @ height {height}
+                    @ width {width}
+            return 
+                div 
+                    @ ref {ref}
+                    @ className {className}
+                    @ style
+                        { 
+                            @ display 'inline-block'
+                            @ overflow 'hidden'
+                            @ ...style
+                            @ position 'relative'
+                    + {sizer}
+                    + {placeholder}
+                    { 
+                        && 
+                            + addImage
+                            picture 
+                                @ style
+                                    { 
+                                        @ ...absolutePositioning
+                                        @ opacity
+                                            iif showImage
+                                                then 1
+                                                else 0
+                                        @ transition
+                                            iif !fadeInDuration || fadeInDuration > 0
+                                                then
+                                                    `lit 
+                                                        + opacity&nbsp;
+                                                        @ fadeInDuration || 500
+                                                        + ms
+                                                else null
+                                + {webpSource}
+                                + {regularSource}
+                                { 
+                                    && 
+                                        + data.src
+                                        img 
+                                            @ src {data.src}
+                                            @ alt {data.alt}
+                                            @ title {data.title}
+                                            @ onLoad {handleLoad}
+                                            @ style
+                                                { 
+                                                    @ width '100%'
+                    noscript 
+                        picture 
+                            @ className {pictureClassName}
+                            @ style
+                                { 
+                                    @ ...pictureStyle
+                            + {webpSource}
+                            + {regularSource}
+                            { 
+                                && 
+                                    + data.src
+                                    img 
+                                        @ src {data.src}
+                                        @ alt {data.alt}
+                                        @ title {data.title}
+    export-default Image

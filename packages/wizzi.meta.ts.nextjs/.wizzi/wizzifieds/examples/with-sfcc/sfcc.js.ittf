@@ -1,0 +1,78 @@
+module
+    kind react
+    import 
+        @ Customer
+        @ Product
+        @ Search
+        from 'commerce-sdk'
+    export-default 
+        async-function getProducts
+            param searchQuery
+            const clientConfig
+                { 
+                    { headers
+                        @ authorization
+                            `lit 
+                                + 
+                    { parameters
+                        @ clientId process.env.SFDC_CLIENT_ID
+                        @ secret process.env.SFDC_SECRET
+                        @ organizationId process.env.SFDC_ORGANIZATIONID
+                        @ shortCode process.env.SFDC_SHORTCODE
+                        @ siteId process.env.SFDC_SITEID
+            const credentials
+                `lit 
+                    + 
+                    @ clientConfig.parameters.clientId
+                    + :
+                    @ clientConfig.parameters.secret
+                    + 
+            const base64data = Buffer.from(credentials).toString('base64')
+            const headers
+                { 
+                    @ Authorization
+                        `lit 
+                            + Basic&nbsp;
+                            @ base64data
+                            + 
+            const client = new Customer.ShopperLogin(clientConfig)
+            const shopperToken
+                await 
+                    _ client.getAccessToken
+                        { 
+                            @ headers
+                            { body
+                                @ grant_type 'client_credentials'
+            const configWithAuth
+                { 
+                    @ ...clientConfig
+                    { headers
+                        @ authorization
+                            `lit 
+                                + Bearer&nbsp;
+                                @ shopperToken.access_token
+                                + 
+            const searchClient = new Search.ShopperSearch(configWithAuth)
+            const searchResults
+                await 
+                    _ searchClient.productSearch
+                        { 
+                            { parameters
+                                @ q searchQuery
+            const results = []
+            const productsClient = new Product.ShopperProducts(configWithAuth)
+            await 
+                _ Promise.all
+                    _ searchResults.hits.map
+                        async=> 
+                            param product
+                            const productResults
+                                await 
+                                    _ productsClient.getProduct
+                                        { 
+                                            { parameters
+                                                @ organizationId clientConfig.parameters.organizationId
+                                                @ siteId clientConfig.parameters.siteId
+                                                @ id product.productId
+                            _ results.push(productResults)
+            return results

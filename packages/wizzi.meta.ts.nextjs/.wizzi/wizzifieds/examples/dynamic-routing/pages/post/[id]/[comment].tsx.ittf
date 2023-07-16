@@ -1,0 +1,26 @@
+module
+    kind react
+    import 
+        @ useRouter
+        from 'next/router'
+    import Header from '../../../components/header'
+    export-default 
+        function CommentPage
+            const router = useRouter()
+            const id
+                @expr router.query.id
+                    :as 
+                        :string 
+            const comment
+                @expr router.query.comment
+                    :as 
+                        :string 
+            return 
+                < React.Fragment
+                    < Header 
+                    h1 
+                        + Post:
+                        + {id}
+                    h1 
+                        + Comment:
+                        + {comment}

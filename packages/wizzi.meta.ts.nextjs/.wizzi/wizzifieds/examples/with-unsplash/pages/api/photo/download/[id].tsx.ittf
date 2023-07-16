@@ -1,0 +1,58 @@
+module
+    kind react
+    import 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    import Unsplash
+        @ toJson
+        from 'unsplash-js'
+    import fetch from 'node-fetch'
+    set global.fetch = fetch
+    export-default 
+        function download
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            const 
+                { 
+                    { query
+                        @ id
+                = req
+            const u
+                new Unsplash
+                    { 
+                        @ accessKey process.env.UNSPLASH_ACCESS_KEY
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        _ u.photos.getPhoto(id.toString()).then(toJson).then
+                            => 
+                                param json
+                                _ u.photos.downloadPhoto(json)
+                                const filePath = json.links.download
+                                const fileName = id + '.jpg'
+                                _ res.setHeader('content-disposition', 'attachment; filename=' + fileName)
+                                _ fetch(filePath).then
+                                    => 
+                                        param r
+                                        _ r.buffer()
+                                    ._ then
+                                        => 
+                                            param buff
+                                            _ res.end(buff)
+                                            _ resolve()
+                                    ._ catch
+                                        => 
+                                            param error
+                                            _ res.json(error)
+                                            _ res.status(405).end()
+                                            _ resolve()
+                            ._ catch
+                                => 
+                                    param error
+                                    _ res.json(error)
+                                    _ res.status(405).end()
+                                    _ resolve()

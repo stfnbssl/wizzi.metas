@@ -1,0 +1,57 @@
+﻿$group
+
+	#
+	# implements editSave
+	# params
+	# { ctx
+	#
+	class DataManager
+		ctor
+			param ctx
+			set this.ctx = ctx
+			set this.editSaveUrl = ctx.editSaveUrl
+			set this.editSaveHttpMethod = ctx.editSaveHttpMethod
+
+		m editSave
+			param hash
+			param content
+			log 'wz.DataManager.editSave', hash, content
+			_ fetch
+				@ this.editSaveUrl
+				{
+					@ method this.editSaveHttpMethod.toUpperCase()
+					{ headers
+						@ "Content-Type" "application/json"
+					@ body
+						_ JSON.stringify
+							{
+								@ hash hash
+								@ content content
+								@ prettify true
+				._ then
+					=>
+						param response
+                        _ response.json()
+				._ then
+					=>
+						param json
+                        #
+                            _ alert
+                                @ 'editSave: ' + JSON.stringify(json, null, 2)
+						if this.ctx.editManager && this.ctx.editManager.onSave
+							set json.data.hash = hash
+							set json.data.content = content
+                            #
+                                _ alert
+                                    @ 'editSave: ' + JSON.stringify(json, null, 2)
+							_ this.ctx.editManager.onSave
+								@ json.data
+                ._ catch
+					=>
+						param err
+                        _ alert
+                            @ 'editSave error: ' + err
+                            $$ @ 'editSave error: ' + err + '\n' + JSON.stringify(err, null, 2)
+
+
+

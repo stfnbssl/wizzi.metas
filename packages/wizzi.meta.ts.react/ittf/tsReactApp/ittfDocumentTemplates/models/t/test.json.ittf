@@ -1,0 +1,3 @@
+$group
+    useJest true
+    { jest

@@ -1,0 +1,61 @@
+module
+    kind react
+    import 
+        @ client
+        @ e
+        from './client'
+    const posts
+        [ 
+            { 
+                @ title 'Join the EdgeDB Discord'
+                @ content 'Just follow [this link](https://edgedb.com/p/discord).'
+                @ published true
+                @ authorName 'Bobby'
+            { 
+                @ title 'Follow EdgeDB on Twitter'
+                @ content "We're [@edgedatabase](https://www.twitter.com/edgedatabase)."
+                @ published true
+                @ authorName 'Sally'
+            { 
+                @ title 'Star EdgeDB on GitHub'
+                @ content 'The repo is at [github.com/edgedb/edgedb](https://www.github.com/edgedb/edgedb).'
+                @ published true
+                @ authorName 'Polly'
+            { 
+                @ title 'Try the EdgeDB query builder for TypeScript'
+                @ content 'The docs are [here](https://www.edgedb.com/docs/clients/01_js/index).'
+                @ published false
+                @ authorName 'Polly'
+    async-function main
+        _ console.log
+            `lit 
+                + Start seeding...
+        for 
+            left
+                const post
+            of posts
+            const newPost
+                await 
+                    _ e.insert
+                        @expr e.Post
+                        { 
+                            @ ...post
+                            @ published
+                                iif post.published
+                                    then e.std.datetime_current()
+                                    else null
+                        ._ run
+                            @ client
+            _ console.log
+                `lit 
+                    + Created Post&nbsp;
+                    @ newPost.id
+                    + 
+        _ console.log
+            `lit 
+                + Seeding complete!
+    _ main().catch
+        => 
+            param e
+            _ console.error(e)
+            _ process.exit(1)

@@ -1,0 +1,51 @@
+module
+    kind react
+    import 
+        @ useTranslations
+        from 'next-intl'
+    import 
+        @ useRouter
+        from 'next/router'
+    import Link from 'next/link'
+    export-default 
+        function Navigation
+            const t = useTranslations('Navigation')
+            const 
+                { 
+                    @ locale
+                    @ locales
+                    @ route
+                = useRouter()
+            const otherLocale
+                _ locales?.find?.
+                    => 
+                        param cur
+                        set cur !== locale
+            return 
+                div 
+                    @ style
+                        { 
+                            @ display 'flex'
+                            @ justifyContent 'space-between'
+                    div 
+                        @ style
+                            { 
+                                @ display 'flex'
+                                @ gap 10
+                        < Link 
+                            @ href "/"
+                            + {t('index')}
+                        < Link 
+                            @ href "/about"
+                            + {t('about')}
+                    { 
+                        && 
+                            + otherLocale
+                            < Link 
+                                @ href {route}
+                                @ locale {otherLocale}
+                                { 
+                                    _ t
+                                        @ 'switchLocale'
+                                        { 
+                                            @ locale otherLocale

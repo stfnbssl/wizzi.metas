@@ -1,0 +1,63 @@
+module
+    kind react
+    import 
+        @ useState
+        from 'react'
+    import LoginModal from '../modal'
+    import userbase from 'userbase-js'
+    export-default 
+        function Nav
+            { 
+                @ user
+                @ setUser
+            const [open, setOpen] = useState()
+            const [modalType, setModalType] = useState()
+            function openModal
+                param type
+                _ setOpen(true)
+                _ setModalType(type)
+            async-function logOut
+                try 
+                    await 
+                        _ userbase.signOut()
+                    _ setUser(null)
+                catch e
+                    _ console.error(e.message)
+            return 
+                nav 
+                    @ className "container mx-auto"
+                    ul 
+                        @ className "flex justify-end items-center p-8"
+                        { 
+                            iif !user
+                                then
+                                    < React.Fragment
+                                        li 
+                                            button 
+                                                @ className "font-bold mx-2"
+                                                @ onClick
+                                                    => 
+                                                        _ openModal('logIn')
+                                                + Log In
+                                        li 
+                                            button 
+                                                @ className "btn-yellow mx-2"
+                                                @ onClick
+                                                    => 
+                                                        _ openModal('signUp')
+                                                + Sign Up
+                                else
+                                    li 
+                                        button 
+                                            @ className "font-bold"
+                                            @ onClick {logOut}
+                                            + Log Out
+                    { 
+                        && 
+                            + open
+                            div 
+                                @ className "w-4/5 md:w-1/2 mx-auto"
+                                < LoginModal 
+                                    @ toggle {setOpen}
+                                    @ modalType {modalType}
+                                    @ setUser {setUser}

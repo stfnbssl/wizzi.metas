@@ -1,0 +1,8 @@
+md
+    p 
+        + This example has been moved to
+        a 
+            href ../with-sentry
+            title 
+            + examples/with-sentry
+        + .

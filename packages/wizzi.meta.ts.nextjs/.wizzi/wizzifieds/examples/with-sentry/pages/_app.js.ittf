@@ -1,0 +1,13 @@
+module
+    kind react
+    export-default 
+        function App
+            { 
+                @ Component
+                @ pageProps
+                @ err
+            return 
+                < Component 
+                    @ {...pageProps}
+                    @ err {err}
+                # Workaround for https://github.com/vercel/next.js/issues/8592

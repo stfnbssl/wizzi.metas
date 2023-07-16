@@ -1,0 +1,67 @@
+﻿$group
+	. results
+        background #555
+        padding 1.25rem 1rem
+    
+	. demo-styles
+        + .resources
+        border-radius .25rem
+        color whitesmoke
+        padding 2rem
+    
+	. demo-styles
+        display block
+        flex 2
+        white-space pre-wrap
+        background #444
+        font 1rem/1.1 monospace
+        tab-size 4
+    
+	. demo-html
+        display block
+        flex 2
+        white-space pre-wrap
+        background #ddd
+        font 1rem/1.1 monospace
+        tab-size 4
+
+	. demo-styles:focus
+        outline 0
+        background #404040
+
+	. demo-html:focus
+        outline 0
+        background #d0d0d0
+    
+	. resources
+        flex 1
+        margin-left 1rem
+        line-height 1.7
+    
+	. resources h1
+        + .resources h2
+        font-weight 300
+    
+	. resources h1
+        font-size 1.4rem
+        opacity .3
+    
+	. resources h2 a
+        display block
+        font-size 1.6rem
+        color whitesmoke
+        transition .4s
+    
+	. resources h2 a:hover
+        text-decoration none
+
+	. no-support
+        + .resources h2 a.no-support:hover
+        opacity .3
+        cursor not-allowed
+    
+	. resources small
+        font-size 1.2rem
+        color #ccc
+
+    

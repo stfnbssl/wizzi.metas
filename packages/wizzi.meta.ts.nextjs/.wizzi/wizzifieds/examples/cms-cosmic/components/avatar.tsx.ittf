@@ -1,0 +1,39 @@
+module
+    kind react
+    import Image from 'next/image'
+    :type AvatarProps
+        :{ 
+            :p name
+                :string 
+            :p picture
+                :string 
+    const Avatar
+        => 
+            param props
+                :ref AvatarProps
+            const 
+                { 
+                    @ name
+                    @ picture
+                = props
+            return 
+                div 
+                    @ className "flex items-center"
+                    div 
+                        @ className "w-12 h-12 relative mr-4"
+                        { 
+                            && 
+                                + picture
+                                < Image 
+                                    @ src
+                                        `lit 
+                                            + 
+                                            @ picture
+                                            + ?auto=format,compress,enhance&w=100&h=100
+                                    @ layout "fill"
+                                    @ className "rounded-full"
+                                    @ alt {name}
+                    div 
+                        @ className "text-xl font-bold"
+                        + {name}
+    export-default Avatar

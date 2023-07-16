@@ -1,0 +1,25 @@
+$group
+
+    ${'$'}if wzCtx.Build.useLogger
+        ${'$'}if wzCtx.Build.logger.useMorgan
+            var morgan = require('morgan')
+    
+        export 
+            const LoggerMiddleware
+                => 
+                    param app
+                    ${'$'}if wzCtx.Build.logger.useMorgan
+                        _ app.use(morgan('combined'))
+                    ${'$'}else
+                        _ app.use
+                            => 
+                                param request
+                                param response
+                                param next
+                                _ console.log
+                                    `lit 
+                                        + 
+                                        @ request.method
+                                        + \b
+                                        @ request.path
+                                _ next

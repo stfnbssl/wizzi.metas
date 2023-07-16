@@ -1,0 +1,41 @@
+module
+    kind react
+    import 
+        @ withPageAuthRequired
+        from '@auth0/nextjs-auth0'
+    import Layout from '../../components/layout'
+    import 
+        @ User
+        from '../../interfaces'
+    :type ProfileProps
+        :{ 
+            :p user
+                :ref User
+    export-default 
+        function Profile
+            { 
+                @ user
+                :ref ProfileProps
+            return 
+                < Layout 
+                    @ user {user}
+                    h1 
+                        + Profile
+                    div 
+                        h3 
+                            + Profile (server rendered)
+                        img 
+                            @ src {user.picture}
+                            @ alt "user picture"
+                        p 
+                            + nickname:
+                            + {user.nickname}
+                        p 
+                            + name:
+                            + {user.name}
+        # Protected route, checking authentication status before rendering the page.(SSR)
+        # It's slower than a static page with client side authentication
+    export 
+        const getServerSideProps = withPageAuthRequired()
+        # Protected route, checking authentication status before rendering the page.(SSR)
+        # It's slower than a static page with client side authentication

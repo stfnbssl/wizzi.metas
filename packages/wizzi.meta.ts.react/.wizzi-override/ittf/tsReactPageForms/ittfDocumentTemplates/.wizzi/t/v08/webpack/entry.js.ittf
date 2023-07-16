@@ -1,0 +1,27 @@
+$group
+    
+    $if wzCtx.Build.useTypescript
+        $if wzCtx.Build.isClientServer
+            @ './src/client/index.tsx'
+        $else
+            @ './src/index.tsx'
+    $else
+        $if wzCtx.Build.isClientServer
+            @ './src/client/index.js'
+        $else
+            @ './src/index.js'
+    $if wzCtx.Build.useServiceWorker
+        $if wzCtx.Build.useTypescript
+            $if wzCtx.Build.isClientServer
+                @ sw './src/client/sw.tsx'
+                    # Service worker
+            $else
+                @ sw './src/sw.tsx'
+                    # Service worker
+        $else
+            $if wzCtx.Build.isClientServer
+                @ sw './src/client/sw.js'
+                    # Service worker
+            $else
+                @ sw './src/sw.js'
+                    # Service worker

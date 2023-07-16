@@ -1,0 +1,13 @@
+$group
+    $params &prod
+
+    $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/root/license.text.ittf.ittf.ittf
+        ${'$'}{'$'}group
+
+            $include license.text
+
+
+    $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/root/readme.md.ittf.ittf.ittf
+        ${'$'}{'$'}group
+
+            $include readme.md

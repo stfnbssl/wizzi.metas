@@ -1,0 +1,83 @@
+{
+    name "wizzi.pageforms"
+    version "0.0.1"
+    description "wizzi.pageforms"
+    { author
+        name ""
+        email ""
+    $
+        var md = {
+            useSsl: false,
+            host: 'localhost',
+            port: 5000,
+            apiVersion: 'v1'
+        };
+        md.http = md.useSsl ? 'https' : 'http';
+
+    { App
+        
+        port ${md.port}
+        $if wzConfigIsLocal
+            baseUrl "${md.http}://localhost:${md.port}"
+            siteUrl "${md.http}://localhost"
+        $else
+            baseUrl "https://www.wizzihub.com"
+            siteUrl "https://www.wizzihub.com"
+        apiVersion "1"
+        { constants
+            { preview
+                minWidth 700
+        [ Components
+    
+    { Style
+        vpadRatio 0.25
+        bodyFontSize "12px"
+        bodyLineHeight 1.3165
+    
+    { Build
+        usePackiAspects false
+        
+        isClientServer false
+        isClient true
+        useExistingDevServer true
+        { existingDevServer
+            path "server"
+            execPath "server/index.js"
+        useEnvCmd true
+        useVExpo false
+        
+        useSite false
+        { site
+        
+        useNetlify false
+        { netlify
+        
+        useStorybook false
+        { storybook
+        
+       
+        useAccount false
+        { account
+        
+        useConfig true
+        { config
+            useEnvalid true
+            { envalid
+        
+        useMarked true
+        
+        useMonacoEditor true
+        { monacoEditor
+        
+        useFilesystem true
+        { filesystem
+
+        $include babel.webpack.json
+        $include code.json
+        $include db.json
+        $include demo.json
+        $include react.json
+        $include styles.json
+        $include test.json
+        $include utils.json
+        $include data.json             

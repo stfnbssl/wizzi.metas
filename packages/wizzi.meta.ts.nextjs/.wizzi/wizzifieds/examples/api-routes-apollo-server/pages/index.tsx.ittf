@@ -1,0 +1,48 @@
+module
+    kind react
+    import Link from 'next/link'
+    import queryGraphql from '../shared/query-graphql'
+    export-default 
+        function UserListing
+            { 
+                @ users
+            return 
+                div 
+                    h1 
+                        + User Listing
+                    ul 
+                        { 
+                            _ users.map
+                                => 
+                                    param user
+                                    li 
+                                        @ key {user.username}
+                                        < Link 
+                                            @ href "/[username]"
+                                            @ as
+                                                `lit 
+                                                    + /
+                                                    @ user.username
+                                                    + 
+                                            + {user.name}
+    export 
+        async-function getStaticProps
+            const 
+                { 
+                    @ users
+                =
+                    await 
+                        _ queryGraphql
+                            `lit 
+                                + &lf;
+                                + &nbsp;   query {&lf;
+                                + &nbsp;     users {&lf;
+                                + &nbsp;       name&lf;
+                                + &nbsp;       username&lf;
+                                + &nbsp;     }&lf;
+                                + &nbsp;   }&lf;
+                                + &nbsp;&nbsp;
+            return 
+                { 
+                    { props
+                        @ users

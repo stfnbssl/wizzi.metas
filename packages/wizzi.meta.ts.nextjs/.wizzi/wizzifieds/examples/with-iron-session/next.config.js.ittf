@@ -1,0 +1,10 @@
+module
+    kind react
+    set module.exports =
+        { 
+            @ reactStrictMode true
+            { images
+                [ domains
+                    @ 'avatars.githubusercontent.com'
+        #
+            # * @type {import('next').NextConfig}

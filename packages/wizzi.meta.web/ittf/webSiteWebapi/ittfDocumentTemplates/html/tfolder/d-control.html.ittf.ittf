@@ -1,0 +1,37 @@
+$group
+    ${'$'}params type, id, label, value
+    
+    ${'$'}
+        var valuex = _.replace(value, "${'$'}", ",")
+
+    . d-param
+        ${'$'}if type === 'text'
+            . d-param-label
+                label ${'$'}{label}
+                    for ${'$'}{id}
+            . d-param-input
+                input
+                    id ${'$'}{id}
+                    value ${'$'}{valuex}
+                    class form-control
+        ${'$'}elif type === 'object'
+            . d-param-label
+                label ${'$'}{label}
+                    for ${'$'}{id}
+            . d-param-input
+                textarea
+                    style width:100%;
+                    id ${'$'}{id}
+                    rows 6
+                    class form-
+                    + ${'$'}{valuex}
+        ${'$'}elif type === 'static'
+            . d-param-label
+                label ${'$'}{label}
+                    for ${'$'}{id}
+            . d-param-input
+                input
+                    id ${'$'}{id}
+                    valuex ${'$'}{valuex}
+                    disabled
+                    class form-control

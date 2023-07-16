@@ -1,0 +1,22 @@
+module
+    kind react
+    import 
+        @ InferGetStaticPropsType
+        from 'next'
+    export 
+        function getStaticProps
+            return 
+                { 
+                    { props
+                        @ framework 'preact'
+    export-default 
+        function SSGPage
+            { 
+                @ framework
+                :ref InferGetStaticPropsType
+                    :param 
+                        :typeof getStaticProps
+            return 
+                div 
+                    + {framework}
+                    + ssg example

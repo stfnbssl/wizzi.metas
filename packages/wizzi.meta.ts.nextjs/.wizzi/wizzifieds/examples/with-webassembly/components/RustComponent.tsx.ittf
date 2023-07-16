@@ -1,0 +1,38 @@
+module
+    kind react
+    :import-type 
+        @ AddModuleExports
+        from '../wasm'
+    import dynamic from 'next/dynamic'
+    :interface RustComponentProps
+        :p number
+            :ref Number
+    const RustComponent
+        _ dynamic
+            { 
+                @ loader
+                    async=> 
+                        const exports
+                            @expr
+                                await 
+                                    _ import
+                                        @ '../add.wasm'
+                                :as 
+                                    :ref AddModuleExports
+                            # Import the wasm module
+                            # @ts-ignore
+                        const 
+                            { 
+                                @ add_one addOne
+                            = exports
+                            # Return a React component that calls the add_one method on the wasm module
+                        return 
+                            => 
+                                { 
+                                    @ number
+                                    :ref RustComponentProps
+                                div 
+                                    < React.Fragment
+                                        + {addOne(number)}
+                            # Return a React component that calls the add_one method on the wasm module
+    export-default RustComponent

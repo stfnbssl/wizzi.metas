@@ -1,0 +1,41 @@
+module
+    kind react
+    import Image from 'next/image'
+    import AuthorType from '../types/authorType'
+    :type Props
+        :{ 
+            :p author
+                :ref AuthorType
+    export-default 
+        function Avatar
+            { 
+                @ author
+                :ref Props
+            const name
+                :string 
+                =
+                    iif author
+                        then
+                            iif author.firstName && author.lastName
+                                then
+                                    `lit 
+                                        + 
+                                        @ author.firstName
+                                        + &nbsp;
+                                        @ author.lastName
+                                        + 
+                                else author.name
+                        else null
+            return 
+                div 
+                    @ className "flex items-center"
+                    div 
+                        @ className "w-12 h-12 relative mr-4"
+                        < Image 
+                            @ src {author.avatar.url}
+                            @ layout "fill"
+                            @ className "rounded-full"
+                            @ alt {name}
+                    div 
+                        @ className "text-xl font-bold"
+                        + {name}

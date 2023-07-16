@@ -1,0 +1,30 @@
+module
+    kind react
+    import Alert from './alert'
+    import Footer from './footer'
+    import Meta from './meta'
+    :type LayoutProps
+        :{ 
+            :p preview
+                :boolean 
+            :p children
+                :union 
+                    :ref JSX.Element
+                    :[ 
+                        :ref JSX.Element
+    export-default 
+        function Layout
+            { 
+                @ preview
+                @ children
+                :ref LayoutProps
+            return 
+                < React.Fragment
+                    < Meta 
+                    div 
+                        @ className "min-h-screen"
+                        < Alert 
+                            @ preview {preview}
+                        main 
+                            + {children}
+                    < Footer 

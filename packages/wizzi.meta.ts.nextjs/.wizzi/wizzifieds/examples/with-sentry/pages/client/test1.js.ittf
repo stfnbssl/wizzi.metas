@@ -1,0 +1,11 @@
+module
+    kind react
+    const doAsyncWork
+        => 
+            _ Promise.reject(Error('Client Test 1'))
+    _ doAsyncWork()
+    const Test1
+        => 
+            h1 
+                + Client Test 1
+    export-default Test1

@@ -1,0 +1,366 @@
+$group
+
+    ${'$'}
+        var moduleName = 'features.packiProductions.api.production';
+
+    import
+        @ packiTypes
+        from '../../packi'
+    import
+        @ wizziProds
+        from '../../wizzi'
+    import
+        as productionTypes
+        from '../types'
+    import
+        @ ValidateResult
+        @ CRUDResult
+        from '../../types'
+    import
+        as artifactApi
+        from './artifact'
+    import
+        as packageApi
+        from './package'
+    import
+        as pluginApi
+        from './plugin'
+    import
+        as metaApi
+        from './meta'
+    import
+        as tFolderApi
+        from './tfolder'
+    import
+        @ getArtifactGeneration
+        @ getArtifactTransformation
+        from './artifact'
+    +
+    const myname = '${'$'}{moduleName}'
+    +
+    const packiConfigPath = '.packi/config.json.ittf'
+    +
+    function transformProductionObject
+        param packiProduction
+            :ref productionTypes.PackiProduction
+        param productionObject
+            :any
+        # TODO
+        set productionObject.packiProduction = packiProduction
+        set productionObject.packiConfig = productionObject.packiFiles[packiConfigPath] 
+        if !productionObject.packiConfig
+            # TODO set a default packiConfig based on packiProduction
+        return productionObject
+    +
+    function mergePackiFiles
+        param a
+            :any
+        param b
+            :any
+        var ret
+            :any
+            { 
+        for var k in a
+            set ret[k] = a[k]
+        for var k in b
+            set ret[k] = b[k]
+        return ret
+    +
+    export
+        async-function getProductionById
+            param packiProduction
+                :ref productionTypes.PackiProduction
+            param id
+                :string
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        if packiProduction == 'artifact'
+                            _ artifactApi.getArtifactProductionById
+                                @ id
+                                ._ then
+                                    =>
+                                        param result
+                                            :any
+                                        if result.ok
+                                            _ resolve
+                                                @ result.item
+                                        else
+                                            _ reject
+                                                @ result
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionById.getArtifactProductionById )
+                        elif packiProduction == 'package'
+                            _ packageApi.getPackageProductionById
+                                @ id
+                                ._ then
+                                    =>
+                                        param result
+                                            :any
+                                        if result.ok
+                                            _ resolve
+                                                @ result.item
+                                        else
+                                            _ reject
+                                                @ result
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionById.getPackageProductionById )
+                        elif packiProduction == 'meta'
+                            _ metaApi.getMetaProductionById
+                                @ id
+                                ._ then
+                                    =>
+                                        param result
+                                            :any
+                                        if result.ok
+                                            _ resolve
+                                                @ result.item
+                                        else
+                                            _ reject
+                                                @ result
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionById.getMetaProductionById )
+                        elif packiProduction == 'plugin'
+                            _ pluginApi.getPluginProductionById
+                                @ id
+                                ._ then
+                                    =>
+                                        param result
+                                            :any
+                                        if result.ok
+                                            _ resolve
+                                                @ result.item
+                                        else
+                                            _ reject
+                                                @ result
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionById.getPluginProductionById )
+                        elif packiProduction == 'tfolder'
+                            _ tFolderApi.getTFolderById
+                                @ id
+                                ._ then
+                                    =>
+                                        param result
+                                            :any
+                                        if result.ok
+                                            _ resolve
+                                                @ result.item
+                                        else
+                                            _ reject
+                                                @ result
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionById.getTFolderProductionById )
+                        else
+                            throw new Error${'('}"${'$'}{moduleName}.getProductionById: packiProduction " + packiProduction + " not implemented")
+    +
+    export
+        async-function getProductionObject
+            param packiProduction
+                :ref productionTypes.PackiProduction
+            param owner
+                :string
+            param name
+                :string
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        if packiProduction == 'artifact'
+                            _ artifactApi.getArtifactProductionObject
+                                @ owner
+                                @ name
+                                ._ then
+                                    =>
+                                        param productionObject
+                                            :any
+                                        _ resolve
+                                            _ transformProductionObject
+                                                @ packiProduction
+                                                @ productionObject
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionObject.getArtifactProductionObject )
+                        elif packiProduction == 'package'
+                            _ packageApi.getPackageProductionObject
+                                @ owner
+                                @ name
+                                ._ then
+                                    =>
+                                        param productionObject
+                                            :any
+                                        _ resolve
+                                            _ transformProductionObject
+                                                @ packiProduction
+                                                @ productionObject
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionObject.getPackageProductionObject )
+                        elif packiProduction == 'meta'
+                            _ metaApi.getMetaProductionObject
+                                @ owner
+                                @ name
+                                ._ then
+                                    =>
+                                        param productionObject
+                                            :any
+                                        _ resolve
+                                            _ transformProductionObject
+                                                @ packiProduction
+                                                @ productionObject
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionObject.getMetaProductionObject )
+                        elif packiProduction == 'plugin'
+                            _ pluginApi.getPluginProductionObject
+                                @ owner
+                                @ name
+                                ._ then
+                                    =>
+                                        param productionObject
+                                            :any
+                                        _ resolve
+                                            _ transformProductionObject
+                                                @ packiProduction
+                                                @ productionObject
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionObject.getPluginProductionObject )
+                        elif packiProduction == 'tfolder'
+                            _ tFolderApi.getTFolderObject
+                                @ owner
+                                @ name
+                                ._ then
+                                    =>
+                                        param productionObject
+                                            :any
+                                        _ resolve
+                                            _ transformProductionObject
+                                                @ packiProduction
+                                                @ productionObject
+                                v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionObject.getTFolderObject )
+                        else
+                            throw new Error("${'$'}{moduleName}.getProductionObject: packiProduction " + packiProduction + " not implemented")
+    +
+    export
+        async-function prepareProductionById
+            param packiProduction
+                :ref productionTypes.PackiProduction
+            param id
+                :string
+            param queryContext
+                :string
+            param rootContext
+                :any
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ getProductionById
+                            @ packiProduction
+                            @ id
+                            ._ then
+                                =>
+                                    param productionItem
+                                        :any
+                                    _ prepareProduction
+                                        @ packiProduction
+                                        @ productionItem.owner
+                                        @ productionItem.name
+                                        @ queryContext
+                                        @ rootContext
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                _ resolve
+                                                    @ result
+                                        v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProductionById.prepareProduction )
+                            v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProductionById.getProductionById )
+    +
+    export
+        async-function prepareProduction
+            param packiProduction
+                :ref productionTypes.PackiProduction
+            param owner
+                :string
+            param productionName
+                :string
+            param queryContext
+                :string
+            param rootContext
+                :any
+            #
+                # __key__production_flow
+                # returns an object with packiFiles and context ready for generation 
+                # Called by features.production.api.artifact.getArtifactGeneration_withPrepare
+                # Called by features.production.api.meta.generateMetaProduction
+                # Called by features.production.api.meta.getTemplatePackiFiles
+                # Called by handlers of features.production.controllers.apiv1generations
+            log myname + 'prepareProduction entered', owner, productionName
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ getDefaultContext_withCache
+                            @ owner
+                            @ productionName
+                            @ rootContext
+                            ._ then
+                                =>
+                                    param defaultContext
+                                        :any
+                                    log myname + 'prepareProduction.getDefaultContext_withCache completed', Object.keys(defaultContext)
+                                    _ getProductionObject
+                                        @ packiProduction
+                                        @ owner
+                                        @ productionName
+                                        ._ then
+                                            =>
+                                                param productionObject
+                                                    :any
+                                                log 'prepareProduction.productionObject got', Object.keys(productionObject)
+                                                if productionObject.packiConfig
+                                                    log 'prepareProduction.productionObject packiConfig', productionObject.packiConfig
+                                                    _ getProductionSetFromProductionObject
+                                                        @ owner
+                                                        @ productionName
+                                                        @ productionObject.packiConfig
+                                                        @ productionObject.packiFiles
+                                                        @ defaultContext
+                                                        ._ then
+                                                            =>
+                                                                param productionSet
+                                                                    :any
+                                                                set productionObject.packiFiles = productionSet.packiFiles
+                                                                set productionObject.context = productionSet.context
+                                                                _ getProductionSetByQueryContext
+                                                                    @ owner
+                                                                    @ productionName
+                                                                    @ queryContext
+                                                                    @ productionObject.packiFiles
+                                                                    @ productionObject.context
+                                                                    ._ then
+                                                                        =>
+                                                                            param queryProductionSet
+                                                                                :any
+                                                                            set productionObject.packiFiles = queryProductionSet.packiFiles
+                                                                            set productionObject.context = queryProductionSet.context
+                                                                            _ resolve
+                                                                                @ productionObject
+                                                                    v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProduction.getContextByQueryContext )
+                                                        v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProduction.getContextByProductionObject )
+                                                else
+                                                    _ getProductionSetByQueryContext
+                                                        @ owner
+                                                        @ productionName
+                                                        @ queryContext
+                                                        @ productionObject.packiFiles
+                                                        @ defaultContext
+                                                        ._ then
+                                                            =>
+                                                                param queryProductionSet
+                                                                    :any
+                                                                set productionObject.packiFiles = queryProductionSet.packiFiles
+                                                                set productionObject.context = queryProductionSet.context
+                                                                _ resolve
+                                                                    @ productionObject
+                                                        v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProduction.getContextByQueryContext )
+                                        v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProduction.getProductionObject )
+                            v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProduction.getDefaultContext_withCache )
+
+    ${'$'}include production/ctx_get
+    ${'$'}include production/ctx_from_production_object
+    ${'$'}include production/ctx_from_query_string
+    ${'$'}include production/metaCtx_from_packi_config

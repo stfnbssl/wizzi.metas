@@ -1,0 +1,5 @@
+module
+    kind es6
+    $
+        var md = {};
+    v08/postcss/tailwind.config.js(&md)

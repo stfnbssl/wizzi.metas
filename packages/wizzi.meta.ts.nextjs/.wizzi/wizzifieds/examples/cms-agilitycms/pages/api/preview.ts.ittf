@@ -1,0 +1,44 @@
+module
+    kind react
+    :import-type 
+        @ NextApiRequest
+        @ NextApiResponse
+        from 'next'
+    import 
+        @ validatePreview
+        from '../../lib/api'
+    export-default 
+        async-function handler
+            param req
+                :ref NextApiRequest
+            param res
+                :ref NextApiResponse
+            const validationResp
+                await 
+                    _ validatePreview
+                        { 
+                            @ agilityPreviewKey req.query.agilitypreviewkey
+                            @ slug req.query.slug
+                            @ contentID req.query.contentid
+                # Check the secret and next parameters
+                # This secret should only be known to this API route and the CMS
+                # validate our preview key, also validate the requested page to preview exists
+            if validationResp.error
+                return 
+                    _ res.status(401).end
+                        `lit 
+                            + 
+                            @ validationResp.message
+                            + 
+            _ res.setDraftMode
+                { 
+                    @ enable true
+                # Enable Draft Mode by setting the cookie
+                # Redirect to the slug
+            if !('slug' in validationResp)
+                throw new Error('invariant missing slug in validation response')
+            _ res.writeHead
+                @ 307
+                { 
+                    @ Location validationResp.slug
+            _ res.end()

@@ -1,0 +1,8 @@
+module
+    kind react
+    export 
+        :interface AddModuleExports
+            :m add_one
+                :ref Number
+                param number
+                    :ref Number

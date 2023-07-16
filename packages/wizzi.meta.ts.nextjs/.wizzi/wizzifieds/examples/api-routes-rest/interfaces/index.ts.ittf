@@ -1,0 +1,10 @@
+module
+    kind react
+    export 
+        :type User
+            :{ 
+                :p id
+                    :number 
+                :p name
+                    :optional 
+                    :string 

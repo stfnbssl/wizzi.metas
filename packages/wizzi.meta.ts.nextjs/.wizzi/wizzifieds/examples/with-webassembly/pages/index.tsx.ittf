@@ -1,0 +1,31 @@
+module
+    kind react
+    import 
+        @ useRouter
+        from 'next/router'
+    import Link from 'next/link'
+    import RustComponent from '../components/RustComponent'
+    export-default 
+        function Page
+            const 
+                { 
+                    @ query
+                = useRouter()
+            const number
+                || 
+                    _ parseInt
+                        @expr query.number
+                            :as 
+                                :string 
+                    + 30
+            return 
+                div 
+                    < RustComponent 
+                        @ number {number}
+                    < Link 
+                        @ href
+                            `lit 
+                                + /?number=
+                                @ number + 1
+                                + 
+                        + +

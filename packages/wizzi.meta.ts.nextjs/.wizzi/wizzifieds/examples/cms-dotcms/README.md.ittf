@@ -1,0 +1,176 @@
+md
+    h1 
+        + A statically generated blog example using Next.js and dotCMS
+    p 
+        + This example showcases Next.js&#39;s
+        a 
+            href https://nextjs.org/docs/basic-features/pages
+            title 
+            + Static Generation
+        + feature using
+        a 
+            href https://dotcms.com/
+            title 
+            + dotCMS
+        + as the data source.
+    br 
+    h2 
+        + Demo
+    h3 
+        a 
+            href https://nextjs-dotcms-blog.vercel.app/
+            title 
+            + https://nextjs-dotcms-blog.vercel.app/
+    h2 
+        + Deploy your own
+    p 
+        + Using the Deploy Button below, you&#39;ll deploy the Next.js project.
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FdotCMS%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fcms-dotcms&project-name=nextjs-dotcms-blog&repository-name=nextjs-dotcms-blog&demo-title=Next.js+Blog&demo-description=Static+blog+with+multiple+authors+using+Preview+Mode&demo-url=https%3A%2F%2Fnext-blog-dotcms.vercel.app%2F
+            title 
+            img 
+                href https://vercel.com/button
+                title 
+    br 
+    h3 
+        + Related examples
+    ul 
+        li 
+            a 
+                href /examples/cms-wordpress
+                title 
+                + WordPress
+        li 
+            a 
+                href /examples/cms-datocms
+                title 
+                + DatoCMS
+        li 
+            a 
+                href /examples/cms-sanity
+                title 
+                + Sanity
+        li 
+            a 
+                href /examples/cms-takeshape
+                title 
+                + TakeShape
+        li 
+            a 
+                href /examples/cms-prismic
+                title 
+                + Prismic
+        li 
+            a 
+                href /examples/cms-strapi
+                title 
+                + Strapi
+        li 
+            a 
+                href /examples/cms-agilitycms
+                title 
+                + Agility CMS
+        li 
+            a 
+                href /examples/cms-cosmic
+                title 
+                + Cosmic
+        li 
+            a 
+                href /examples/cms-buttercms
+                title 
+                + ButterCMS
+        li 
+            a 
+                href /examples/cms-storyblok
+                title 
+                + Storyblok
+        li 
+            a 
+                href /examples/cms-graphcms
+                title 
+                + GraphCMS
+        li 
+            a 
+                href /examples/cms-kontent
+                title 
+                + Kontent
+        li 
+            a 
+                href /examples/cms-ghost
+                title 
+                + Ghost
+        li 
+            a 
+                href /examples/cms-contentful
+                title 
+                + Contentful
+        li 
+            a 
+                href /examples/blog-starter
+                title 
+                + Blog Starter
+    br 
+    h2 
+        + How to use
+    p 
+        + Rename
+        code .env.local.example
+        + to
+        code .env.local
+        + and complete the variables:
+    br 
+    p 
+        code NEXT_PUBLIC_DOTCMS_HOST
+        + is the dotCMS host, you can use
+        code https://demo.dotcms.com
+        + 
+        + 
+        code DOTCMS_TOKEN
+        + for the demo site, you can generate the token using:
+    br 
+    code 
+        + curl -H "Content-Type:application/json" --insecure  -X POST -d  '
+        + { "user":"admin@dotcms.com", "password":"admin", "expirationDays": 10 }
+        + ' http://demo.dotcms.com:8080/api/v1/authentication/api-token
+    br 
+    p 
+        + Execute
+        a 
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            title 
+            code create-next-app
+        + with
+        a 
+            href https://docs.npmjs.com/cli/init
+            title 
+            + npm
+        + ,
+        a 
+            href https://yarnpkg.com/lang/en/docs/cli/create/
+            title 
+            + Yarn
+        + , or
+        a 
+            href https://pnpm.io
+            title 
+            + pnpm
+        + to bootstrap the example:
+    br 
+    code 
+        lang bash
+        + npx create-next-app --example cms-dotcms cms-dotcms-app
+        + # or
+        + yarn create next-app --example cms-dotcms cms-dotcms-app
+        + # or
+        + pnpm create next-app --example cms-dotcms cms-dotcms-app
+    br 
+    p 
+        a 
+            href https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fcms-dotcms&project-name=nextjs-dotcms-blog&repository-name=nextjs-dotcms-blog&demo-title=Next.js+Blog&demo-description=Static+blog+with+multiple+authors+using+Preview+Mode&demo-url=https%3A%2F%2Fnext-blog-dotcms.vercel.app%2F
+            title 
+            img 
+                href https://vercel.com/button
+                title 

@@ -1,0 +1,43 @@
+{
+    $include versions
+    name "wizzi.meta.ts.db"
+    npmName "@wizzi/meta.tsDb"
+    pluginBasename ""
+    version '${versions['@wizzi/meta.tsDb@next']}'
+    description "wizzi.meta.ts.db"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    { license
+        name "MIT"
+        copy "copy 2023"
+    metaNamespace "tsDb"
+    { Build
+        useConfig true
+        { config
+        isWizziMeta true
+        { wizziMeta
+            [ plugins
+                "./wizzi.plugin.ittf/index.js"
+            pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+            { globalContext
+                wzConfigIsDevelopment true
+                wzConfigIsPackageDeploy false
+        useWizziJsonFactory true
+        { utils
+            useStringifySafe true
+    [ Productions
+        {
+            name "tsDbMongoDb"
+            title "tsDbMongoDb wizzi meta production"
+        {
+            name "tsDbPostgres"
+            title "tsDbPostgres wizzi meta production"
+        {
+            name "tsDbRedis"
+            title "tsDbRedis wizzi meta production"
+        {
+            name "tsDbSequelize"
+            title "tsDbSequelize wizzi meta production"

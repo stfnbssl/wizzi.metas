@@ -1,0 +1,45 @@
+module
+    kind react
+    import 
+        @ gql
+        from '@apollo/client'
+    export 
+        const typeDefs
+            _` gql
+                + &lf;
+                + &nbsp; type User {&lf;
+                + &nbsp;   id: ID!&lf;
+                + &nbsp;   email: String!&lf;
+                + &nbsp;   createdAt: Int!&lf;
+                + &nbsp; }&lf;
+                + &lf;
+                + &nbsp; input SignUpInput {&lf;
+                + &nbsp;   email: String!&lf;
+                + &nbsp;   password: String!&lf;
+                + &nbsp; }&lf;
+                + &lf;
+                + &nbsp; input SignInInput {&lf;
+                + &nbsp;   email: String!&lf;
+                + &nbsp;   password: String!&lf;
+                + &nbsp; }&lf;
+                + &lf;
+                + &nbsp; type SignUpPayload {&lf;
+                + &nbsp;   user: User!&lf;
+                + &nbsp; }&lf;
+                + &lf;
+                + &nbsp; type SignInPayload {&lf;
+                + &nbsp;   user: User!&lf;
+                + &nbsp; }&lf;
+                + &lf;
+                + &nbsp; type Query {&lf;
+                + &nbsp;   user(id: ID!): User!&lf;
+                + &nbsp;   users: [User]!&lf;
+                + &nbsp;   viewer: User&lf;
+                + &nbsp; }&lf;
+                + &lf;
+                + &nbsp; type Mutation {&lf;
+                + &nbsp;   signUp(input: SignUpInput!): SignUpPayload!&lf;
+                + &nbsp;   signIn(input: SignInInput!): SignInPayload!&lf;
+                + &nbsp;   signOut: Boolean!&lf;
+                + &nbsp; }&lf;
+                + 

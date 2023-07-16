@@ -1,0 +1,39 @@
+module
+    kind react
+    import 
+        @ useEffect
+        from 'react'
+    import 
+        @ useRouter
+        from 'next/router'
+    import 
+        @ gql
+        @ useMutation
+        @ useApolloClient
+        from '@apollo/client'
+    const SignOutMutation
+        _` gql
+            + &lf;
+            + &nbsp; mutation SignOutMutation {&lf;
+            + &nbsp;   signOut&lf;
+            + &nbsp; }&lf;
+            + 
+    function SignOut
+        const client = useApolloClient()
+        const router = useRouter()
+        const [signOut] = useMutation(SignOutMutation)
+        _ useEffect
+            => 
+                _ signOut().then
+                    => 
+                        _ client.resetStore().then
+                            => 
+                                _ router.push('/signin')
+            [ 
+                @ signOut
+                @ router
+                @ client
+        return 
+            p 
+                + Signing out...
+    export-default SignOut

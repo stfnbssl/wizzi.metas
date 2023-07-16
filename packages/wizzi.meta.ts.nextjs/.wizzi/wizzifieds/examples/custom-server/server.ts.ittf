@@ -1,0 +1,39 @@
+module
+    kind react
+    import 
+        @ createServer
+        from 'http'
+    import 
+        @ parse
+        from 'url'
+    import next from 'next'
+    const port = parseInt(process.env.PORT || '3000', 10)
+    const dev = process.env.NODE_ENV !== 'production'
+    const app
+        _ next
+            { 
+                @ dev
+    const handle = app.getRequestHandler()
+    _ app.prepare().then
+        => 
+            _ createServer
+                => 
+                    param req
+                    param res
+                    const parsedUrl
+                        _ parse
+                            :! 
+                                @expr req.url
+                            @ true
+                    _ handle(req, res, parsedUrl)
+                ._ listen
+                    @ port
+            _ console.log
+                `lit 
+                    + > Server listening at http://localhost:
+                    @ port
+                    + &nbsp;as&nbsp;
+                    iif dev
+                        then 'development'
+                        else process.env.NODE_ENV
+                    + 

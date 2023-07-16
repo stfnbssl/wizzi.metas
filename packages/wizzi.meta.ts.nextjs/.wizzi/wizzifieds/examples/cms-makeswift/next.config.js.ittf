@@ -1,0 +1,11 @@
+module
+    kind react
+    const withMakeswift = require('@makeswift/runtime/next/plugin')()
+        #
+            # * @type {import('next').NextConfig}
+    const nextConfig
+        { 
+            @ reactStrictMode true
+        #
+            # * @type {import('next').NextConfig}
+    set module.exports = withMakeswift(nextConfig)

@@ -1,0 +1,41 @@
+$group
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            $if metaCtx.usePackageVersion
+                ${'$'}{'$'}include versions
+            name "${metaCtx.name}"
+            npmName "${metaCtx.npmName}"
+            version "${metaCtx.version}"
+            description "${metaCtx.description}"
+            $if metaCtx.author
+                { author
+                    name "${metaCtx.author.name}"
+                    email "${metaCtx.author.email}"
+            $if metaCtx.license
+                { license
+                    type "${metaCtx.license.type}"
+                    copy "${metaCtx.license.copy}"
+            $if metaCtx.github
+                { github
+                    userid3 "${metaCtx.github.userid}"
+            { Build
+                ${'$'}{'$'}include tsNextjsBasicApp.json
+                useNextjs true
+                { nextjs
+                useReact true
+                { react
+                useTypescript true
+                { typescript
+                $if metaCtx.useTsNextjsBlog
+                    useRemark true
+                    { remark
+                $if metaCtx.tsNextjsBasicApp.useTailwind || metaCtx.useTsNextjsBlog
+                    useTailwind true
+                    { tailwind
+                { utils
+                    $if metaCtx.useTsNextjsBlog
+                        useDateFns true
+                        useGrayMatter true
+
+                
+                    
