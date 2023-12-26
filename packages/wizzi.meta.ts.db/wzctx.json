@@ -1,8 +1,8 @@
 {
     "name": "wizzi.meta.ts.db",
-    "npnName": "@wizzi/meta.tsDb",
+    "npmName": "@wizzi/meta.tsDb",
     "pluginBasename": "",
-    "version": "",
+    "version": "0.0.1",
     "description": "wizzi.meta.ts.db",
     "author": {
         "name": "Stefano Bassoli",

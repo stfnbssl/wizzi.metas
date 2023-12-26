@@ -104,21 +104,13 @@ $group
         ${'$'}else
             html/j${'('} https://unpkg.com/prop-types@15.8.1/prop-types.js
 
-        ${'$'}if opt.useReactLatest
-            ${'$'}if opt.production
-                html/j${'('} https://unpkg.com/react@18.2.0/umd/react.production.min.js
-                html/j${'('} https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js
-            ${'$'}else
-                html/j${'('} https://unpkg.com/react@latest/umd/react.development.js
-                html/j${'('} https://unpkg.com/react-dom@latest/umd/react-dom.development.js
+        ${'$'}if opt.production
+            html/j${'('} https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js
+            html/j${'('} https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js
         ${'$'}else
-            ${'$'}if opt.production
-                html/j${'('} https://unpkg.com/react@18.2.0/umd/react.production.min.js
-                html/j${'('} https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js
-            ${'$'}else
-                html/j${'('} https://unpkg.com/react@18.2.0/umd/react.development.js
-                html/j${'('} https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js
-
+            html/j${'('} https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.min.js
+            html/j${'('} https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.min.js
+        
         ${'$'}if opt.useClassNames
             html/j${'('} /public/lib/react/classnames.js
 
@@ -139,14 +131,11 @@ $group
                         html/j${'('} https://unpkg.com/@material-ui/core@4.12.4/umd/material-ui.development.js
                     ${'$'}else
                         html/j${'('} https://unpkg.com/@mui/material@5.8.7/umd/material-ui.development.js
+        
         ${'$'}if opt.useRouter
-            ${'$'}if opt.local || opt.isWizziStudio
-                html/j${'('} /public/lib/react/react-router.min.4.3.1.js
-            ${'$'}else
-                ${'$'}if opt.useRouterLatest
-                    html/j${'('} https://unpkg.com/react-router-dom@latest/umd/react-router-dom.js
-                ${'$'}else
-                    html/j${'('} https://unpkg.com/react-router-dom@4.3.1/umd/react-router-dom.js
+            html/j${'('}  https://cdn.jsdelivr.net/npm/@remix-run/router@1.7.1/dist/router.umd.min.js
+            html/j${'('}  https://cdn.jsdelivr.net/npm/react-router@6.14.1/dist/umd/react-router.production.min.js
+            html/j${'('}  https://cdn.jsdelivr.net/npm/react-router-dom@6.14.1/dist/umd/react-router-dom.production.min.js
 
         ${'$'}if opt.useReactGrid
             html/j${'('} /public/lib/react/react-grid-layout.min.js
@@ -156,7 +145,6 @@ $group
                 html/j${'('} https://unpkg.com/downshift@6.1.7/dist/downshift.umd.js
             ${'$'}else
                 html/j${'('} https://cdn.jsdelivr.net/npm/downshift@2.0.10/dist/downshift.umd.min.js
-
 
         ${'$'}if opt.useGridLayout
             ${'$'}if opt.useGridLayoutLatest
@@ -170,7 +158,6 @@ $group
         ${'$'}if opt.react.useTransitionGroup
             js https://cdnjs.cloudflare.com/ajax/libs/react-transition-group/4.4.1/react-transition-group.min.js
 
-    
     ${'$'}if opt.useRxJs
         html/j${'('} /public/lib/rxjs/rxjs.umd.min.js
         
@@ -209,7 +196,7 @@ $group
                                 @ processEscapes true
     
     ${'$'}if useBabel
-        html/j${'('} https://unpkg.com/babel-standalone@latest/babel.min.js
+        html/j${'('} https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js        
 
     ${'$'}if opt.useMonaco
         html/j${'('} /public/lib/monaco-editor/min/vs/loader.js

@@ -5,5 +5,6 @@ $group
             module
                 ${'$'}include tsDbMongoDb/services/mongodb.ts
 
+        $include featuresCrud
         $include tfolder/v08/index
         $include wzCtxModel

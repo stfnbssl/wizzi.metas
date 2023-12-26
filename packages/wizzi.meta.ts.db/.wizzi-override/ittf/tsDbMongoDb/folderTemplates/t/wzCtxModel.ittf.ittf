@@ -12,3 +12,27 @@ $group
                 { options
                     useNewUrlParser true
                     useUnifiedTopology true
+                $if metaCtx.tsDbMongoDb.useFeatureTables
+                    [ featureTables
+                        $foreach table in metaCtx.tsDbMongoDb.featureTables.tables
+                            {
+                                Name "${_.capitalize(table.name)}"
+                                name "${table.name}"
+                                mongoName "plugin"
+                                descr "${table.descr}"
+                                prefix "${table.prefix}"
+                                [ fields
+                                    $foreach field in table.fields
+                                        { 
+                                            name '${field.name}'
+                                            type '${field.type}'
+                                            $if field.isKey
+                                                isKey true
+                                            $if field.isListFilter
+                                                isListFilter true
+                                $if table.created_at
+                                    created_at true
+                                $if table.updated_at
+                                    updated_at true
+                                $if table.update_delete_by_id
+                                    update_delete_by_id true

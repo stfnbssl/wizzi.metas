@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@0.7.8
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.db\.wizzi-override\root\index.js.ittf
-    utc time: Wed, 10 May 2023 06:48:14 GMT
+    utc time: Mon, 24 Jul 2023 09:18:51 GMT
 */
 'use strict';
 
@@ -51,69 +51,107 @@ class FactoryMeta {
             return callback(null, metaProduction);
         }
         
-        const fsFile = vfile();
-        
-        var productionFolderTemplatesPath = path.resolve(__dirname, 'ittf', productionName, 'folderTemplates');
-        if (fsFile.isDirectory(productionFolderTemplatesPath)) {
-            createPackifilesFromFs(productionFolderTemplatesPath, (err, folderTemplates) => {
+        metaProduction = {};
+        return this.getFolderTemplates(productionName, metaProduction, (err, notUsed) => {
             
                 if (err) {
                     return callback(err);
                 }
-                var productionIttfDocumentTemplatesPath = path.resolve(__dirname, 'ittf', productionName, 'ittfDocumentTemplates');
-                if (fsFile.isDirectory(productionIttfDocumentTemplatesPath)) {
-                    createPackifilesFromFs(productionIttfDocumentTemplatesPath, (err, ittfDocumentTemplates) => {
-                    
-                        if (err) {
-                            return callback(err);
-                        }
-                        var productionMetaCtxSchemasPath = path.resolve(__dirname, 'ittf', productionName, 'metaCtxSchemas');
-                        if (fsFile.isDirectory(productionMetaCtxSchemasPath)) {
-                            createPackifilesFromFs(productionMetaCtxSchemasPath, (err, metaCtxSchema) => {
-                            
-                                if (err) {
-                                    return callback(err);
-                                }
-                                var productionWzCtxSchemasPath = path.resolve(__dirname, 'ittf', productionName, 'wzCtxSchemas');
-                                if (fsFile.isDirectory(productionWzCtxSchemasPath)) {
-                                    createPackifilesFromFs(productionWzCtxSchemasPath, (err, wzCtxSchema) => {
-                                    
-                                        if (err) {
-                                            return callback(err);
-                                        }
-                                        metaProduction = {
-                                            productionName: productionName, 
-                                            metaNamespace: "tsDb", 
-                                            folderTemplates: folderTemplates, 
-                                            ittfDocumentTemplates: ittfDocumentTemplates, 
-                                            metaCtxSchema: metaCtxSchema, 
-                                            wzCtxSchema: metaCtxSchema
-                                         };
-                                        this.metaProductions[productionName] = metaProduction;
-                                        return callback(null, metaProduction);
-                                    }
-                                    )
-                                }
-                                else {
-                                    return callback(null, "Folder " + productionWzCtxSchemasPath + " not found");
-                                }
-                            }
-                            )
-                        }
-                        else {
-                            return callback(null, "Folder " + productionMetaCtxSchemasPath + " not found");
-                        }
-                    }
-                    )
+                metaProduction.productionName = productionName;
+                metaProduction.metaNamespace = "tsDb";
+                this.metaProductions[productionName] = metaProduction;
+                return callback(null, metaProduction);
+            }
+            );
+    }
+    getFolderTemplates(productionName, metaProduction, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'folderTemplates');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+            
+                if (err) {
+                    return callback(err);
                 }
-                else {
-                    return callback(null, "Folder " + productionIttfDocumentTemplatesPath + " not found");
-                }
+                metaProduction.folderTemplates = result;
+                return this.getIttfDocumentTemplates(productionName, metaProduction, callback);
             }
             )
         }
         else {
-            return callback(null, "Folder " + productionFolderTemplatesPath + " not found");
+            return this.getIttfDocumentTemplates(productionName, metaProduction, callback);
+        }
+    }
+    getIttfDocumentTemplates(productionName, metaProduction, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'ittfDocumentTemplates');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                metaProduction.ittfDocumentTemplates = result;
+                return this.getPlainDocuments(productionName, metaProduction, callback);
+            }
+            )
+        }
+        else {
+            return this.getPlainDocuments(productionName, metaProduction, callback);
+        }
+    }
+    getPlainDocuments(productionName, metaProduction, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'plainDocuments');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                metaProduction.plainDocuments = result;
+                return this.getMetaCtxSchema(productionName, metaProduction, callback);
+            }
+            )
+        }
+        else {
+            return this.getMetaCtxSchema(productionName, metaProduction, callback);
+        }
+    }
+    getMetaCtxSchema(productionName, metaProduction, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'metaCtxSchema');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                metaProduction.metaCtxSchema = result;
+                return this.getWzCtxSchema(productionName, metaProduction, callback);
+            }
+            )
+        }
+        else {
+            return this.getWzCtxSchema(productionName, metaProduction, callback);
+        }
+    }
+    getWzCtxSchema(productionName, metaProduction, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'wzCtxSchema');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                metaProduction.wzCtxSchema = result;
+                return callback(null);
+            }
+            )
+        }
+        else {
+            return callback(null);
         }
     }
     //
@@ -132,7 +170,7 @@ class FactoryMeta {
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
-                console.log('getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]);
+                console.log('using meta production', useProductionVar, options.metaCtx[useProductionVar]);
             }
             this.getMetaProduction(prod, (err, metaProduction) => {
             
@@ -153,13 +191,13 @@ class FactoryMeta {
                     var newk = 'folderTemplates/' + mp.productionName + '/' + k;
                     result[newk] = mp.folderTemplates[k];
                 }
-            }
-            var i, i_items=metaProductions, i_len=metaProductions.length, mp;
-            for (i=0; i<i_len; i++) {
-                mp = metaProductions[i];
                 for (var k in mp.ittfDocumentTemplates) {
                     var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k;
                     result[newk] = mp.ittfDocumentTemplates[k];
+                }
+                for (var k in mp.plainDocuments) {
+                    var newk = 'plainDocuments/' + mp.productionName + '/' + k;
+                    result[newk] = mp.plainDocuments[k];
                 }
             }
             return callback(null, result);
@@ -203,6 +241,7 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
+    version: 'wizzi.meta.ts.db', 
     provides: {
         metaProductions: [
             'tsDbMongoDb', 

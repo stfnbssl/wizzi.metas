@@ -34,10 +34,12 @@ $group
         @ obj.${'$'}{prefix}_id
         @ obj.${'$'}{prefix}_owner
         @ obj.${'$'}{prefix}_name
+        $* VIA 21/7/23
         @ obj.${'$'}{prefix}_description
         ${'$'}if prod == 'artifact'
             @ obj.${'$'}{prefix}_mainIttf
             @ obj.${'$'}{prefix}_wizziSchema
+        *$
         ._ then
             =>
                 param result

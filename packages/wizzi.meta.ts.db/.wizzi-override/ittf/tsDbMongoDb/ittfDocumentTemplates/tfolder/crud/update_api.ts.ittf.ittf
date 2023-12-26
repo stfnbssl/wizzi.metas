@@ -41,15 +41,6 @@ $group
                         param resolve
                         param reject
                         +
-                        $* stop 5/11/22
-                        const query
-                            { 
-                                ${'$'}if md.update_delete_by_id
-                                    @ _id id
-                                ${'$'}else
-                                    ${'$'}foreach item in md.query
-                                        @ ${'$'}{item.name} ${'$'}{item.name}
-                        *$
                         ${'$'}if md.update_delete_by_id
                             var query
                             if id && id.length > 0

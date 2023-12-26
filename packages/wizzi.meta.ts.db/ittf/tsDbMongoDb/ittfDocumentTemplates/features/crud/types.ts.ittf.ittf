@@ -1,0 +1,23 @@
+$group
+    import
+        @ Document
+        from "mongoose"
+    +
+    v08/mongo/crud/modeltype${'('}&md)
+        ${'$'}append fields
+            ${'$'}foreach field in md.fields
+                :p ${'$'}{field.name}
+                    ${'$'}if field.type == "string"
+                        :string
+                    ${'$'}if field.type == "number"
+                        :number
+                    ${'$'}if field.type == "boolean"
+                        :boolean
+                    ${'$'}if field.type == "date"
+                        :ref Date
+            ${'$'}if md.created_at
+                :p created_at
+                    :ref Date
+            ${'$'}if md.updated_at
+                :p updated_at
+                    :ref Date

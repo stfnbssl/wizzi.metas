@@ -1,8 +1,8 @@
 {
     "name": "wizzi.meta.js.react",
-    "npnName": "@wizzi/meta.jsReact",
+    "npmName": "@wizzi/meta.jsReact",
     "pluginBasename": "",
-    "version": "",
+    "version": "0.0.1",
     "description": "wizzi.meta.js.react",
     "author": {
         "name": "Stefano Bassoli",

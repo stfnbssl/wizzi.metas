@@ -38,6 +38,9 @@ $group
                     ${'$'}{'$'}include jsReactUtils.json
                     ---
 
+                { utils
+                    useLeaflet true
+
     $file __dot__wizzi/models/t/code.json.ittf.ittf
         ${'$'}{'$'}group
         

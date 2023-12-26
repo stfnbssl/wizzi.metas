@@ -177,6 +177,8 @@
     ${'$'}if wzCtx.Build.useAuthorization
         jwks-rsa "^1.4.0"
     ---
+    ${'$'}if wzCtx.Build.utils.useLeaflet
+        leaflet "^1.9.1"
     ${'$'}if wzCtx.Build.utils.useLodash || wzCtx.Build.useMonacoEditor
         lodash "^4.17.21"
         ${'$'}if wzCtx.Build.useBabel
