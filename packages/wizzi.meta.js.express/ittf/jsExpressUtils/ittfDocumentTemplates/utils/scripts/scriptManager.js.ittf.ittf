@@ -1,0 +1,45 @@
+$group
+    import path from 'path'
+    import util from 'util'
+    import
+        @ fSystem
+        @ verify
+        from 'wizzi-utils'
+    import * as cp from 'child_process'
+    $$ var robocopy = require('robocopy')
+    $$ var powershell = require('node-powershell')
+    # var npm = require('npm')
+    var babelParser = null
+    var babelCore = null
+    var prettier = null
+    var webpack = null
+    var MemoryFS = null
+    var memoryFS = null
+    const DEFAULT_PRETTIER_CONFIG
+        {
+            @ bracketSpacing true
+            @ jsxBracketSameLine false
+            @ parser "babylon"
+            @ printWidth 80
+            @ semi true
+            @ singleQuote false
+            @ tabWidth 2
+            @ trailingComma "none"
+            @ useTabs false
+    $$ $include robocopy
+    $$ $include powershell
+    ${'$'}include spawn
+    $$ $include git
+    ${'$'}include nodejs
+    $$ $include babelParse
+    $$ $include babelTransform
+    $$ $include flow
+    $$ $include prettier
+    $$ $include eslint
+    $$ $include webpack
+    export
+        {
+            @ spawnExec
+            @ spawnExecToEventStream
+            @ nodeJsExec
+            @ nodeJsExecToEventStream

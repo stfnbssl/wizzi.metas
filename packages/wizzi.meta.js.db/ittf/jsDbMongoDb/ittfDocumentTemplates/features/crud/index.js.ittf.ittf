@@ -1,0 +1,33 @@
+$group
+
+    ${'$'} 
+        var apiVersion = md.apiVersion ? md.apiVersion : '1';
+
+    import
+        as ${'$'}{md.name}Api
+        from './api/${'$'}{md.name}'
+    import
+        @ ${'$'}{md.Name}ModelBuilder
+        @ Get${'$'}{md.Name}Model
+        from './mongo/${'$'}{md.name}'
+    import
+        @ ApiV${'$'}{apiVersion}${'$'}{md.Name}Controller
+        from './controllers/apiv${'$'}{apiVersion}${'$'}{md.name}'
+    +
+    const ${'$'}{md.name}ModelGetters
+        {
+            @ Get${'$'}{md.Name}Model
+    +
+    const ${'$'}{md.name}ModelBuilders
+        [
+            @ ${'$'}{md.Name}ModelBuilder
+    +
+    const ${'$'}{md.name}Controllers
+        [
+            @ new ApiV${'$'}{apiVersion}${'$'}{md.Name}Controller()
+    +
+    export
+        @ ${'$'}{md.name}ModelGetters
+        @ ${'$'}{md.name}ModelBuilders
+        @ ${'$'}{md.name}Controllers
+        @ ${'$'}{md.name}Api

@@ -1,7 +1,7 @@
 $group
     $if metaCtx.useWizziMeta
-        $*
         $include __generate
+        $*
         $include __wizzi.config
         $include __wizzi.override.config
         *$

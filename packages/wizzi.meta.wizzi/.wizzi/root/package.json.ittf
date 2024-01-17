@@ -18,12 +18,12 @@
         $if wzCtx.type
             type "${wzCtx.type}"
     { scripts
-        $include v08/package/scripts
+        $include package/0_0_1/scripts
     { dependencies
-        $include v08/package/dependencies
+        $include package/0_0_1/dependencies
     { devDependencies
-        $include v08/package/devDependencies
-    $include v08/package/tools
-    $include v08/package/browser
+        $include package/0_0_1/devDependencies
+    $include package/0_0_1/tools
+    $include package/0_0_1/browser
     $$ see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/
-    $include v08/package/resolutions
+    $include package/0_0_1/resolutions

@@ -1,2 +1,34 @@
 {
-    productionName "wizziplugin"
+    productionName "wizziPlugin"
+    [ parameters
+        params/string(name)
+        params/string(npnName)
+        params/string(description)
+        params/string(version)
+        params/boolean(usePackageVersion)
+        params/object(author)
+            params/string(name)
+            params/string(email)
+        params/object(license)
+            params/string(type)
+            params/string(copy)
+        params/object(github)
+            params/string(userid)
+        params/object(wizziV08)
+            params/array(plugins)
+                params/string(pluginName)
+        params/object(App)
+            params/string(name)
+            params/enum(kind)
+                "NodeCLI"
+                "WizziPackage"
+                "WizziPlugin"
+                "WizziMeta"
+        params/object(Package)
+            params/string(name)
+            params/string(description)
+            params/enum(kind)
+                "NodeCLI"
+                "WizziPackage"
+                "WizziPlugin"
+                "WizziMeta"

@@ -1,0 +1,7 @@
+${'$'}group 
+   $file __dot__wizzi/root/readme.md.ittf.ittf
+       md 
+           ${'$'}{'$'}include wizziMeta/root/readme.md
+   $file __dot__wizzi/root/license.text.ittf.ittf
+       text 
+           ${'$'}{'$'}include wizziMeta/root/license.text

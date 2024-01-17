@@ -1,6 +1,6 @@
 {
     "name": "wizzi.meta.js",
-    "npnName": "@wizzi/meta.js",
+    "npmName": "@wizzi/meta.js",
     "pluginBasename": "",
     "version": "0.0.1",
     "description": "Wizzi meta plugin for creating wizzi js packages",

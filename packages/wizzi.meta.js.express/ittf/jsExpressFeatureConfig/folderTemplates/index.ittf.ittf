@@ -1,0 +1,16 @@
+$group
+    
+    $if metaCtx.useJsExpressFeatureConfig
+        $include wzCtxModel
+
+        $file __dot__wizzi/${pkgPath}src/features/config/env.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsExpressFeatureConfig/env.js
+    
+        $file __dot__wizzi/${pkgPath}src/features/config/index.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsExpressFeatureConfig/index.js
+    
+

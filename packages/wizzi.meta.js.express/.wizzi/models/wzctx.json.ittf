@@ -1,26 +1,31 @@
 {
     $include versions
     name "wizzi.meta.js.express"
-    npmName "@wizzi/meta.jsExpress"
+    npmName "@wizzi/meta.js.express"
     pluginBasename ""
-    version '${versions['@wizzi/meta.jsExpress@next']}'
-    description "wizzi.meta.js.express"
+    version '${versions['@wizzi/meta.js.express@next']}'
+    description "Wizzi meta plugin for creating wizzi javascript express server packages"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
-    { license
-        name "MIT"
-        copy "copy 2023"
-    metaNamespace "jsExpress"
+    license "MIT"
+    metaNamespace "js.express"
     { Build
         useConfig true
         { config
         isWizziMeta true
         { wizziMeta
             [ plugins
+                "./wizzi.plugin.css/index.js"
+                "./wizzi.plugin.html/index.js"
                 "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.js/index.js"
+                "./wizzi.plugin.json/index.js"
+                "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.text/index.js"
+                "./wizzi.plugin.wzjob/index.js"
             pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
             { globalContext
                 wzConfigIsDevelopment true
@@ -36,6 +41,16 @@
             name "jsExpressApp"
             title "jsExpressApp wizzi meta production"
             isPackageMain true
+        {
+            name "jsExpressBasicApp"
+            title "jsExpressBasicApp wizzi meta production"
+            isPackageMain true
+        {
+            name "jsExpressStyles"
+            title "jsExpressStyles wizzi meta production"
+        {
+            name "jsExpressUtils"
+            title "jsExpressUtils wizzi meta production"
         {
             name "jsExpressWizziSite"
             title "jsExpressWizziSite wizzi meta production"

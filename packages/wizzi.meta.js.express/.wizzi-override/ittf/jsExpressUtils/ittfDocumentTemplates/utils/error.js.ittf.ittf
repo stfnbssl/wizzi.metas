@@ -1,0 +1,67 @@
+$group
+    
+    const MISSING_REQUIRED_FIELDS = 1000
+    const MISSING_EMAIL = 1002
+    const MISSING_FULLNAME = 1003
+    const MISSING_USER_ID = 1004
+    const USER_NOT_FOUND = 2001
+    const LOGIN_REQUIRED = 3001
+    const USERNAME_EXISTS = 3002
+    const EMAIL_EXISTS = 3003
+    const EMAIL_USERNAME_PASSWORD_INVALID = 3006
+    const LOGOUT_REQUIRED = 3007
+    const OTP_INVALID = 3008
+    const OTP_EXPIRED = 3009
+    const CONTEST_NOT_FOUND = 3103
+    const NOT_REGISTERED_YET = 3201
+    const SYSTEM_ERROR = 4002
+    const SEND_EMAIL_ERROR = 4003
+    let errorMap
+        { 
+    set errorMap[MISSING_REQUIRED_FIELDS] = "Missing required field(s)"
+    set errorMap[MISSING_EMAIL] = "Missing email"
+    set errorMap[MISSING_FULLNAME] = "Missing fullname"
+    set errorMap[MISSING_USER_ID] = "Missing user ID"
+    set errorMap[USERNAME_EXISTS] = "Username already exists"
+    set errorMap[EMAIL_EXISTS] = "Email already exists"
+    set errorMap[USER_NOT_FOUND] = "User not found"
+    set errorMap[EMAIL_USERNAME_PASSWORD_INVALID] = "Email/Username or password is invalid"
+    set errorMap[LOGOUT_REQUIRED] = "Logout required"
+    set errorMap[SYSTEM_ERROR] = "System Error"
+    set errorMap[LOGIN_REQUIRED] = "Login required"
+    set errorMap[OTP_INVALID] = "OTP is invalid"
+    set errorMap[OTP_EXPIRED] = "OTP is expired"
+    set errorMap[SEND_EMAIL_ERROR] = "Send email Error"
+    set errorMap[CONTEST_NOT_FOUND] = "Contest not found"
+    set errorMap[NOT_REGISTERED_YET] = "Not registered yet"
+    class FcError
+        super Error
+        p code
+        p message
+        p data
+        ctor 
+            param errCode
+            param data
+            _ super(errorMap[errCode])
+            set this.code = errCode
+            set this.message = errorMap[errCode]
+            set this.data = data
+    export
+        { 
+            @ FcError
+            @ MISSING_REQUIRED_FIELDS
+            @ MISSING_EMAIL
+            @ MISSING_FULLNAME
+            @ MISSING_USER_ID
+            @ USER_NOT_FOUND
+            @ EMAIL_USERNAME_PASSWORD_INVALID
+            @ LOGOUT_REQUIRED
+            @ EMAIL_EXISTS
+            @ USERNAME_EXISTS
+            @ SYSTEM_ERROR
+            @ LOGIN_REQUIRED
+            @ OTP_INVALID
+            @ OTP_EXPIRED
+            @ SEND_EMAIL_ERROR
+            @ CONTEST_NOT_FOUND
+            @ NOT_REGISTERED_YET

@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.8
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.js.express\.wizzi-override\root\errors.js.ittf
-    utc time: Wed, 10 May 2023 06:55:19 GMT
+    utc time: Wed, 17 Jan 2024 06:23:14 GMT
 */
 'use strict';
 
@@ -31,6 +31,7 @@ class WizziMetaError extends Error {
         }
     }
     toString() {
+        console.log('this.data', this.data, __filename);
         var msg = [];
         msg.push(chalk.red('Error: ' + this.message));
         msg.push(chalk.red('  name: ' + this.data.errorName));
@@ -46,6 +47,13 @@ class WizziMetaError extends Error {
             var i, i_items=this.errorLines, i_len=this.errorLines.length, line;
             for (i=0; i<i_len; i++) {
                 line = this.errorLines[i];
+                msg.push(chalk.yellow('  ' + line));
+            }
+        }
+        if (this.data.errorLines) {
+            var i, i_items=this.data.errorLines, i_len=this.data.errorLines.length, line;
+            for (i=0; i<i_len; i++) {
+                line = this.data.errorLines[i];
                 msg.push(chalk.yellow('  ' + line));
             }
         }

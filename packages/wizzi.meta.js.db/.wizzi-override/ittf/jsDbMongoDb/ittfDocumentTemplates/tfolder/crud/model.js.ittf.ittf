@@ -1,0 +1,43 @@
+$group
+    ${'$'}params &md
+
+    import
+        @ Schema
+        @ Model
+        @ model
+        from "mongoose"
+    +
+    const ${'$'}{md.Name}Schema
+        new Schema
+            {
+                ${'$'}hook fields
+    +
+    ${'$'}hook
+    +
+    # mongoose models creation is centralized
+    # the mongodb service calls buildModel() when starting, after connection has been established
+    # controllers call Get${'$'}{md.Name}Model() when initialized, after buildModel() has benn called
+    +
+    let ${'$'}{md.Name}Model
+    +
+    export
+        function Get${'$'}{md.Name}Model
+            if !${'$'}{md.Name}Model
+                set ${'$'}{md.Name}Model
+                    _ model
+                        @ "${'$'}{md.Name}"
+            return ${'$'}{md.Name}Model
+    +
+    export
+        const ${'$'}{md.Name}ModelBuilder
+            {
+                @ buildModel
+                    =>
+                        param options
+                        set ${'$'}{md.Name}Model =
+                            _ model
+                                @ "${'$'}{md.Name}"
+                                @ ${'$'}{md.Name}Schema
+                @ applyExtraSetup
+                    =>
+                        param options

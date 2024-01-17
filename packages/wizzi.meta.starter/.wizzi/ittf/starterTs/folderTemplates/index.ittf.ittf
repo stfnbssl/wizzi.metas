@@ -1,8 +1,0 @@
-$group
-    $if metaCtx.useStarterTs
-        $include wzCtxModel
-        $include __generate
-        $include __wizzi.config
-        $include __wizzi.override.config
-        $include models
-        $include root

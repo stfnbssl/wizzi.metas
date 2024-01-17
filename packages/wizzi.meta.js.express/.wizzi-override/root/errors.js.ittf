@@ -28,6 +28,7 @@ module
                     [
                         @ 'TODO'
         m toString
+            log 'this.data', this.data
             var msg = []
             _ msg.push(chalk.red('Error: ' + this.message))
             _ msg.push(chalk.red('  name: ' + this.data.errorName))
@@ -38,6 +39,9 @@ module
                 _ msg.push(chalk.yellow('  uri: unknown'))
             if this.errorLines
                 foreach line in this.errorLines
+                    _ msg.push(chalk.yellow('  ' + line))
+            if this.data.errorLines
+                foreach line in this.data.errorLines
                     _ msg.push(chalk.yellow('  ' + line))
             if this.data.errorName === 'JsWizziError'
                 _ msg.push(chalk.yellow('  onStatement: ' + this.data.onStatement))

@@ -1,0 +1,46 @@
+$group
+
+    $
+        var items = [
+            'error',
+            'functionWrappers',
+            'index',
+            'sendResponse',
+            'rest',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/utils/${item}.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsExpressUtils/utils/${item}.js
+    
+
+    $if metaCtx.jsExpressUtils.useScripts
+        $
+            var items = [
+                'scriptManager',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/utils/scripts/${item}.js.ittf.ittf
+                module
+                    kind es6
+                    ${'$'}include jsExpressUtils/utils/scripts/${item}.js
+
+        $
+            var items = [
+                'spawn',
+                'nodejs',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/utils/scripts/t/${item}.js.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include jsExpressUtils/utils/scripts/tfolder/${item}.js
+
+    $if metaCtx.jsExpressUtils.useWizziFs
+        $file __dot__wizzi/${pkgPath}src/utils/wizziFs.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsExpressUtils/utils/wizziFs.js

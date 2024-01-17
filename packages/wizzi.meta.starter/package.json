@@ -1,0 +1,22 @@
+{
+    "name": "wizzi.meta.starter",
+    "version": "",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "private": false,
+    "licenses": [
+        {
+            "type": "",
+            "url": ""
+        }
+    ],
+    "main": "",
+    "scripts": {},
+    "dependencies": {
+        "@wizzi/plugin.ittf": "latest",
+        "json-stringify-safe": "^5.0.1"
+    },
+    "devDependencies": {}
+}

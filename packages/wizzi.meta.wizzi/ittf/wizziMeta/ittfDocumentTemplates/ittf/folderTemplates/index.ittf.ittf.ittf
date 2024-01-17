@@ -1,0 +1,5 @@
+$group
+    $params &prod
+
+    {'$'}if metaCtx.use${_.capitalize(prod.name)}
+        ${'$'}{'$'}include wzCtxModel

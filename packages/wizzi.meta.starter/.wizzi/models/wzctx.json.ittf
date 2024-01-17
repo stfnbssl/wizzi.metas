@@ -1,18 +1,17 @@
 {
+    $include versions
     name "wizzi.meta.starter"
-    npmName "@wizzi/meta.starter"
+    npmName ""
     pluginBasename ""
-    version "0.0.1"
-    description "Wizzi meta plugin for creating wizzi starter packages"
+    version '${versions['@next']}'
+    description "Wizzi meta plugin for creating wizzi meta starter packages"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
-    { license
-        name ""
-        copy "copy 2023"
-    metaNamespace ""
+    license "MIT"
+    metaNamespace "starter"
     { Build
         useConfig true
         { config
@@ -20,23 +19,13 @@
         { wizziMeta
             [ plugins
                 "./wizzi.plugin.css/index.js"
-                "./wizzi.plugin.docx/index.js"
-                "./wizzi.plugin.graphql/index.js"
                 "./wizzi.plugin.html/index.js"
                 "./wizzi.plugin.ittf/index.js"
                 "./wizzi.plugin.js/index.js"
-                "./wizzi.plugin.ts/index.js"
                 "./wizzi.plugin.json/index.js"
                 "./wizzi.plugin.md/index.js"
-                "./wizzi.plugin.pandoc/index.js"
-                "./wizzi.plugin.pdf/index.js"
-                "./wizzi.plugin.ppt/index.js"
                 "./wizzi.plugin.text/index.js"
-                "./wizzi.plugin.svg/index.js"
                 "./wizzi.plugin.wzjob/index.js"
-                "./wizzi.plugin.wzschema/index.js"
-                "./wizzi.plugin.xml/index.js"
-                "./wizzi.plugin.yaml/index.js"
             pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
             { globalContext
                 wzConfigIsDevelopment true
@@ -44,16 +33,9 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        buildVar1 "valueOfBuildVar1"
     [ Productions
         {
-            name "starterHtml"
-            title "starterHtml wizzi meta production"
-        {
-            name "starterJs"
-            title "starterJs wizzi meta production"
-        {
-            name "starterTs"
-            title "starterTs wizzi meta production"
-        {
-            name "starterWizzi"
-            title "starterWizzi wizzi meta production"
+            name "starterProduction1"
+            title "starterProduction1 wizzi meta production"
+            isPackageMain true

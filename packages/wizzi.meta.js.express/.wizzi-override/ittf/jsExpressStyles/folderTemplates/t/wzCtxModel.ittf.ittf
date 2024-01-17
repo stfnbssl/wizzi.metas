@@ -1,0 +1,22 @@
+$group
+    $file __dot__wizzi/models/t/jsExpressStyles.json.ittf.ittf
+        ${'$'}{'$'}group
+                
+            { styles
+                usePalx false
+            
+            useStyledComponents false
+            { styledComponents
+    
+            useStyledSystem false
+            { styledSystem
+    
+            useAphrodite false
+            { aphrodite
+                disableImportant true
+    
+            useTailwindcss false
+            { tailwindcss
+    
+            useExpoStyles false
+            { expoStyles       

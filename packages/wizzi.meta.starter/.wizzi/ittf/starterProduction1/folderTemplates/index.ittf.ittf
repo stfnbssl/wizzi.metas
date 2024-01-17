@@ -1,0 +1,21 @@
+$group
+    $if metaCtx.useStarterProduction1
+        $include wzCtxModel
+        $include generate
+        $include models
+        $include root
+        $* Sample file templates
+        $file __dot__wizzi/starterProduction1/yyy.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include starterProduction1/xxx.js
+        $
+            var items = [
+                "alpha",
+                "beta",
+            ];
+        $foreach item in items
+            $file __dot__wizzi/t/starterProduction1/${metaVer}/${item}.js.ittf.ittf
+                $group
+                    ${'$'}include starterProduction1/tfolder/${item}.js
+        *$

@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.8
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.js\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 02 Jun 2023 11:13:48 GMT
+    utc time: Wed, 17 Jan 2024 06:27:16 GMT
 */
 'use strict';
 
@@ -18,7 +18,9 @@ const vfile = wizziUtils.fSystem.vfile;
 var md = module.exports = {};
 md.name = 'wizzi.meta.js.index';
 
-//
+/**
+     FactoryMeta class
+*/
 class FactoryMeta {
     constructor(provides) {
         this.provides = provides;
@@ -42,7 +44,9 @@ class FactoryMeta {
         return this.provides;
     }
     
-    //
+    /**
+         Retrieve a WizziMetaProduction by its production name
+    */
     getMetaProduction(productionName, callback) {
         
         var metaProduction = this.metaProductions[productionName] || null;
@@ -154,7 +158,10 @@ class FactoryMeta {
             return callback(null);
         }
     }
-    //
+    /**
+         Retrieve all WizziMetaProductions
+         Simple starter meta generation
+    */
     getMetaProductionStarter(options, callback) {
         
         var productions = [
@@ -169,7 +176,7 @@ class FactoryMeta {
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
-                console.log('using meta production', useProductionVar, options.metaCtx[useProductionVar]);
+                console.log('using meta production', useProductionVar, options.metaCtx[useProductionVar], __filename);
             }
             this.getMetaProduction(prod, (err, metaProduction) => {
             

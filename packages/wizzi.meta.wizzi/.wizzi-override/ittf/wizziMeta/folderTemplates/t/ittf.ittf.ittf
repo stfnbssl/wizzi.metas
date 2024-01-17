@@ -8,6 +8,7 @@ $group
             'string',
             'object',
             'array',
+            'enum',
             ];
 
     $foreach item in items
@@ -15,8 +16,95 @@ $group
             ${'$'}{'$'}group
                 ${'$'}include wizziMeta/ittf/tfolder/params/${item}.json
 
+    
+    $*
     $foreach prod in metaCtx.Productions
         folderTemplates(&prod)
-
     $foreach prod in metaCtx.Productions
         ittfDocumentTemplates(&prod)
+    *$
+
+    $foreach prod in metaCtx.Productions
+        
+        $file __dot__wizzi/ittf/${prod.name}/folderTemplates/index.ittf.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}
+                    var prod = { name: "${prod.name}", isPackageMain: ${prod.isPackageMain ? 'true' : 'false'} };
+                wizziMeta/ittf/folderTemplates/index.json${'('}&prod)
+        
+        $file __dot__wizzi/ittf/${prod.name}/folderTemplates/t/wzCtxModel.ittf.ittf.ittf
+            ${'$'}{'$'}group
+
+                ${'$'}file __dot__wizzi/models/t/${prod.name}.json.ittf.ittf
+                    ${'$'}{'$'}{'$'}{'$'}group
+                            
+                        useXxx true
+                        { xxx
+
+        $if prod.isPackageMain
+            
+            $file __dot__wizzi/ittf/${prod.name}/folderTemplates/t/generate.ittf.ittf.ittf
+                ${'$'}{'$'}group
+
+                    ${'$'}file __dot__wizzi/generate.wfjob.ittf.ittf
+                        wfjob ${prod.name}/job
+                            TODO $include generate.wfjob
+            
+            $file __dot__wizzi/ittf/${prod.name}/folderTemplates/t/models.ittf.ittf.ittf
+                ${'$'}{'$'}group
+                
+                    ${'$'}file __dot__wizzi/models/wzctx.json.ittf.ittf
+                        {
+                            ${'$'}include wizziMeta/ittf/folderTemplates/target_models/wzctx.json
+                            ---
+                            { Build
+                                $foreach item in metaCtx.Productions
+                                    ${'$'}{'$'}if metaCtx.use${_.capitalize(item.name)}
+                                        ${'$'}{'$'}{'$'}{'$'}include ${item.name}.json
+                                        ---
+                                { utils
+
+            $file __dot__wizzi/ittf/${prod.name}/folderTemplates/t/root.ittf.ittf.ittf
+                ${'$'}{'$'}group
+
+                    ${'$'}file __dot__wizzi/root/readme.md.ittf.ittf
+                        md
+                            ${'$'}{'$'}{'$'}include ${prod.name}/root/readme.md
+
+                    ${'$'}file __dot__wizzi/root/license.text.ittf.ittf
+                        text
+                            ${'$'}{'$'}{'$'}include ${prod.name}/root/license.text
+
+
+        $file __dot__wizzi/ittf/${prod.name}/wzCtxSchemas/index.json.ittf.ittf
+        
+            {
+                productionName "${prod.name}"
+                [ parameters
+                    {
+                        name "useXxx"
+                        type "boolean"
+                    {
+                        name "Xxx"
+                        type "string"
+                        kind "enum"
+                        [ enumValues
+                            "aaa"
+                            "bbb"            
+
+        $file __dot__wizzi/ittf/${prod.name}/metaCtxSchemas/index.json.ittf.ittf
+        
+            {
+                productionName "${prod.name}"
+                [ parameters
+                    {
+                        name "useXxx"
+                        type "boolean"
+                    {
+                        name "Xxx"
+                        type "string"
+                        kind "enum"
+                        [ enumValues
+                            "aaa"
+                            "bbb"            
+

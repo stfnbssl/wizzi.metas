@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.8
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.wizzi\.wizzi-override\examples\step_1.js.ittf
-    utc time: Fri, 16 Jun 2023 15:53:27 GMT
+    utc time: Tue, 16 Jan 2024 14:13:29 GMT
 */
 'use strict';
 var async = require('async');
@@ -32,7 +32,7 @@ metaIndex.createMetaPlugin({}, (err, mf) => {
     , (err, result) => {
     
         const dump = stringify(result, null, 2);
-        console.log('result', dump);
+        console.log('result', dump, __filename);
     }
     )
 }

@@ -1,15 +1,17 @@
 $group
     $if metaCtx.useJsExpressApp
-        $file __dot__wizzi/jsExpressApp/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include jsExpressApp/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/jsExpressApp/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include jsExpressApp/tfolder/${item}.js
+
+        $$ commonsWizzi -> $include __wizzi.config
+        $$ commonsWizzi -> $include __wizzi.override.config    
+        $$ commonsWizzi -> $include tfolder/commons
+        $$ commonsWizzi -> $include tfolder/wfjobs
+        $$ $include tfolder/v08/index
+
+        $include __generate
+        $include models
+        $include root
+        $include src/index
+        $include src/tfolder
+        $include ittf/demo
+        $include tests/index
+

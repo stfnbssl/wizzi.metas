@@ -1,0 +1,16 @@
+$group
+
+    $
+        var items = [
+            "App.js",
+            "httpException.js",
+            "index.js",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/${item}.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsExpressApp/${item}
+
+    

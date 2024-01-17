@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.8
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.wizzi\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 16 Jun 2023 15:53:27 GMT
+    utc time: Tue, 16 Jan 2024 14:13:29 GMT
 */
 'use strict';
 
@@ -18,7 +18,9 @@ const vfile = wizziUtils.fSystem.vfile;
 var md = module.exports = {};
 md.name = 'wizzi.meta.wizzi.index';
 
-//
+/**
+     FactoryMeta class
+*/
 class FactoryMeta {
     constructor(provides) {
         this.provides = provides;
@@ -42,7 +44,9 @@ class FactoryMeta {
         return this.provides;
     }
     
-    //
+    /**
+         Retrieve a WizziMetaProduction by its production name
+    */
     getMetaProduction(productionName, callback) {
         
         var metaProduction = this.metaProductions[productionName] || null;
@@ -154,7 +158,10 @@ class FactoryMeta {
             return callback(null);
         }
     }
-    //
+    /**
+         Retrieve all WizziMetaProductions
+         Simple starter meta generation
+    */
     getMetaProductionStarter(options, callback) {
         
         var productions = [
@@ -170,12 +177,16 @@ class FactoryMeta {
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
-                console.log('using meta production', useProductionVar, options.metaCtx[useProductionVar]);
+                console.log('using meta production', useProductionVar, options.metaCtx[useProductionVar], __filename);
             }
             this.getMetaProduction(prod, (err, metaProduction) => {
             
                 if (err) {
                     return callback(err);
+                }
+                if (options.metaCtx.__wz_fsc) {
+                    options.metaCtx.__wz_fsc.addDebugObject('packi', 'meta_plugin_' + prod + '_folderTemplates', metaProduction.folderTemplates)
+                    options.metaCtx.__wz_fsc.addDebugObject('packi', 'meta_plugin_' + prod + '_ittfDocumentTemplates', metaProduction.ittfDocumentTemplates)
                 }
                 return callback(null, metaProduction);
             }

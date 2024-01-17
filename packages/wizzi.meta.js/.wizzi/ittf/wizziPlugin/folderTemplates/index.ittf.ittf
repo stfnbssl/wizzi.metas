@@ -1,0 +1,6 @@
+$group
+    $if metaCtx.useWizziPlugin
+        $include wzCtxModel
+        $include generate
+        $include models
+        $include root

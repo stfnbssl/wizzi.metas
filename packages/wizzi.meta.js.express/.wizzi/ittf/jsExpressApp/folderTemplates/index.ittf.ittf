@@ -1,15 +1,6 @@
 $group
     $if metaCtx.useJsExpressApp
-        $file __dot__wizzi/jsExpressApp/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include jsExpressApp/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/jsExpressApp/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include jsExpressApp/tfolder/${item}.js
+        $include wzCtxModel
+        $include generate
+        $include models
+        $include root

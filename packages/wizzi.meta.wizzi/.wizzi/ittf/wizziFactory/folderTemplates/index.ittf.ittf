@@ -1,6 +1,7 @@
 $group
     $if metaCtx.useWizziFactory
         $include wzCtxModel
+        $* Sample file templates
         $file __dot__wizzi/wizziFactory/yyy.js.ittf.ittf
             module
                 kind es6
@@ -14,3 +15,4 @@ $group
             $file __dot__wizzi/t/wizziFactory/${metaVer}/${item}.js.ittf.ittf
                 $group
                     ${'$'}include wizziFactory/tfolder/${item}.js
+        *$

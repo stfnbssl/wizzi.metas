@@ -1,24 +1,31 @@
 {
     $include versions
-    name "wizzi.meta.js"
-    npmName "@wizzi/meta.js"
+    name "wizzi.meta.wizzi"
+    npmName "@wizzi/meta.wizzi"
     pluginBasename ""
-    version '${versions['@wizzi/meta.js@next']}'
-    description "Wizzi meta plugin for creating wizzi js packages"
+    version '${versions['@wizzi/meta.wizzi@next']}'
+    description "Wizzi meta plugin for creating wizzi wizzi packages"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
     license "MIT"
-    metaNamespace "js"
+    metaNamespace "wizzi"
     { Build
         useConfig true
         { config
         isWizziMeta true
         { wizziMeta
             [ plugins
+                "./wizzi.plugin.css/index.js"
+                "./wizzi.plugin.html/index.js"
                 "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.js/index.js"
+                "./wizzi.plugin.json/index.js"
+                "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.text/index.js"
+                "./wizzi.plugin.wzjob/index.js"
             pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
             { globalContext
                 wzConfigIsDevelopment true
@@ -28,12 +35,16 @@
             useStringifySafe true
     [ Productions
         {
-            name "jsCLI"
-            title "jsCLI wizzi meta production"
+            name "wizziJobs"
+            title "wizziJobs wizzi meta production"
+        {
+            name "wizziFactory"
+            title "wizziFactory wizzi meta production"
+        {
+            name "wizziPlugin"
+            title "wizziPlugin wizzi meta production"
             isPackageMain true
         {
-            name "jsCommons"
-            title "jsCommons wizzi meta production"
-        {
-            name "jsUtils"
-            title "jsUtils wizzi meta production"
+            name "wizziMeta"
+            title "wizziMeta wizzi meta production"
+            isPackageMain true

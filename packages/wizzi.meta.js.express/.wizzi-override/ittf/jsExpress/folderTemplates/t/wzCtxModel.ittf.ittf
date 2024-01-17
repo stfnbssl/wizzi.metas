@@ -1,0 +1,53 @@
+$group
+
+    $file __dot__wizzi/models/t/jsExpress.json.ittf.ittf
+        ${'$'}{'$'}group
+            
+            useExpress true
+            { express
+                useSslCert ${metaCtx.useSslCert ? "true" : "false"}
+                useErrors false
+                useStaticFiles true
+                { staticFiles
+                    basePath "__dirname, '..', '..'"
+                    $if metaCtx.jsExpress.useStaticFiles && metaCtx.jsExpress.staticFiles.publicPath
+                        publicPath "${metaCtx.jsExpress.staticFiles.publicPath}"
+                useSessionStore false
+                useExpressValidator true
+        
+            useSession true
+            { session
+                name "${'$'}{metaCtx.name}"
+                secret "${'$'}{'$'}{stfnbssl_env.sessionSecret}"
+        
+            noCache true
+        
+            useSocketIO false 
+            { socketIO
+            
+            useCookie true
+            { cookie
+        
+            useLogger false
+            { logger
+                useMorgan false
+                { morgan
+        
+            useCompression false
+            { compression
+                level 6
+            
+            useHelmet false
+            { helmet
+            
+            usePromiseMiddleware true
+            { promiseMiddleware
+
+            $if metaCtx.jsExpress.useCors
+                useCors true
+                { cors
+                    $if metaCtx.jsExpress.cors.clientOrigins && metaCtx.jsExpress.cors.clientOrigins.length > 0
+                        [ clientOrigins
+                            $foreach item in metaCtx.jsExpress.cors.clientOrigins
+                                "${item}"
+

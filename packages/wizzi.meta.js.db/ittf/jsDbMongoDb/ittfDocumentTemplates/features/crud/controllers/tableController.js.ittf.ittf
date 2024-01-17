@@ -1,0 +1,203 @@
+$group
+
+    ${'$'}
+        function getKeyPath(fields) {
+            var sb = [];
+            for (var i=0; i<fields.length; i++) {
+                if (fields[i].isKey) {
+                    sb.push (':' + fields[i].name);
+                }
+            }
+            return sb.join('/');
+        }
+        function getListPath(fields) {
+            var sb = [];
+            for (var i=0; i<fields.length; i++) {
+                if (fields[i].isListFilter) {
+                    sb.push (':' + fields[i].name);
+                }
+            }
+            return sb.join('/');
+        }
+
+    v08/js/controller${'('} &ctrl )
+        ${'$'}append imports
+            import
+                @ get${'$'}{md.Name}
+                @ get${'$'}{md.Name}ById
+                @ get${'$'}{md.Name}List
+                @ create${'$'}{md.Name}
+                @ update${'$'}{md.Name}
+                @ delete${'$'}{md.Name}
+                from '../api/${'$'}{md.name}'
+            ${'$'} 
+                var version = md.apiVersion ? md.apiVersion : '1';
+            const myname = 'src/features/${'$'}{md.name}/controllers/apiv${'$'}{version}${'$'}{md.name}'
+
+        ${'$'} 
+            var listPath = getListPath(md.fields);
+            var keyPath = getKeyPath(md.fields);
+        
+        v08/js/route${'('} get, /${'$'}{listPath}, this.get${'$'}{md.Name}s)
+        v08/js/route${'('} get, /checkname/${'$'}{keyPath}, this.getCheckArtifactName)
+        v08/js/route${'('} get, /${'$'}{keyPath}, this.get${'$'}{md.Name})
+        v08/js/route${'('} post, /${'$'}{keyPath}, this.post${'$'}{md.Name})
+        v08/js/route${'('} put, /:id, this.put${'$'}{md.Name})
+        v08/js/route${'('} delete, /:id, this.delete${'$'}{md.Name})
+
+        ${'$'}append handlers
+            
+            v08/js/handler${'('} getCheckArtifactName )
+                _ get${'$'}{md.Name}
+                    ${'$'}foreach field in md.fields
+                        ${'$'}if field.isKey
+                            @ request.params.${'$'}{field.name}
+                    ._ then
+                        =>
+                            param result
+                            if result.length == 1
+                                _ sendSuccess
+                                    @ response
+                                    {
+                                        @ isValid false
+                                        @ message '${'$'}{md.descr} already exists'
+                            else
+                                _ sendSuccess
+                                    @ response
+                                    {
+                                        @ isValid true
+                    v08/js/catch_send_fail${'('} get${'$'}{md.Name} )
+            
+            v08/js/handler${'('} get${'$'}{_.pluralize(md.Name)} )
+                _ get${'$'}{md.Name}List
+                    {
+                        { query
+                            ${'$'}foreach field in md.fields
+                                ${'$'}if field.isListFilter
+                                    @ ${'$'}{field.name} request.params.${'$'}{field.name}
+                    ._ then
+                        =>
+                            param result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/js/catch_send_fail${'('} get${'$'}{md.Name}s )
+
+            v08/js/handler${'('} get${'$'}{md.Name} )
+                _ get${'$'}{md.Name}
+                    ${'$'}foreach field in md.fields
+                        ${'$'}if field.isKey
+                            @ request.params.${'$'}{field.name}
+                    ._ then
+                        =>
+                            param result
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/js/catch_send_fail${'('} get${'$'}{md.Name} )
+
+            v08/js/handler${'('} post${'$'}{md.Name} )
+                _ create${'$'}{md.Name}
+                    ${'$'}foreach field in md.fields
+                        ${'$'}if field.isKey
+                            @ request.params.${'$'}{field.name}
+                    ${'$'}foreach field in md.fields
+                        ${'$'}if !field.isKey
+                            @ request.body.${'$'}{field.name}
+                    ._ then
+                        =>
+                            param result
+                            # loog 'post${'$'}{md.Name}.create.result', result
+                            #
+                                _ invalidateCache
+                                    ${'$'}foreach field in md.fields
+                                        ${'$'}if field.isKey
+                                            @ request.params.${'$'}{field.name}
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/js/catch_send_fail${'('} post${'$'}{md.Name} )
+            
+            v08/js/handler${'('} put${'$'}{md.Name} )
+                log 'put${'$'}{md.Name}.request.params', request.params
+                log 'put${'$'}{md.Name}.request.body', Object.keys(request.body)
+                _ update${'$'}{md.Name}
+                    @ request.params.id
+                    ${'$'}foreach field in md.fields
+                        @ request.body.${'$'}{field.name}
+                    ._ then
+                        =>
+                            param result
+                            # loog 'put${'$'}{md.Name}.update.result', result
+                            #
+                                _ invalidateCache
+                                    @ request.params.id
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/js/catch_send_fail${'('} put${'$'}{md.Name} )
+
+
+            v08/js/handler${'('} delete${'$'}{md.Name} )
+                log 'delete${'$'}{md.Name}.request.params', request.params
+                _ delete${'$'}{md.Name}
+                    @ request.params.id
+                    ${'$'}foreach field in md.fields
+                        ${'$'}if field.isKey
+                            @ request.params.${'$'}{field.name}
+                    ._ then
+                        =>
+                            param result
+                            # loog 'delete${'$'}{md.Name}.delete.result', result
+                            #
+                                _ invalidateCache
+                                    @ request.params.id
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/js/catch_send_fail${'('} delete${'$'}{md.Name} )
+
+    $*
+        $append handlers
+            v08/js/handler${'('} put${'$'}{md.Name} )
+                log 'put${'$'}{md.Name}.request.params', request.params
+                log 'put${'$'}{md.Name}.request.body', Object.keys(request.body)
+                if request.body.packiFiles
+                    log 'put${'$'}{md.Name}.request.body.packiFiles', Object.keys(request.body.packiFiles)
+                const options = request.body.options || {}
+                if options.wizzify
+                    _ wizziProds.wizzify
+                        @ request.body.packiFiles
+                        ._ then
+                            =>
+                                param resultPackiFiles
+                                log 'put${'$'}{md.Name}.wizzify.resultPackiFiles', Object.keys(resultPackiFiles)
+                                return
+                                    _ exec_update${'$'}{md.Name}
+                                        @ request
+                                        @ response
+                                        @ resultPackiFiles
+                        v08/js/catch_send_fail( put${'$'}{md.Name}.wizzify )
+                elif options.merge
+                    _ get${'$'}{md.Name}ObjectById
+                        @ request.params.id
+                        ._ then
+                            =>
+                                param prevArtifact
+                                const resultPackiFiles
+                                    _ mergePackiFiles
+                                        @ prevArtifact.packiFiles
+                                        @ request.body.packiFiles
+                                log 'put${'$'}{md.Name}.merge.resultPackiFiles', Object.keys(resultPackiFiles)
+                                return
+                                    _ exec_update${'$'}{md.Name}
+                                        @ request
+                                        @ response
+                                        @ resultPackiFiles
+                        v08/js/catch_send_fail( put${'$'}{md.Name}.merge.get${'$'}{md.Name}ById )
+                else
+                    _ exec_update${'$'}{md.Name}
+                        @ request
+                        @ response
+                        @ request.body.packiFiles
+    *$

@@ -1,70 +1,18 @@
 {
     $include versions
-    name "wizzi.meta.commons"
-    npmName "@wizzi/meta.commons"
-    pluginBasename ""
-    version '${versions['@wizzi/meta.commons@next']}'
-    description "wizzi.meta.commons"
+    name "$wizzi.meta.wizzi"
+    npmName ""
+    version "$ 0.0.1"
+    description "$Wizzi meta plugin for creating wizzi wizzi packages"
     { author
-        name "Stefano Bassoli"
-        email "stfn.bssl@gmail.com"
-    { github
-        userid "stfnbssl"
+        name "$Stefano Bassoli"
+        email "$stfn.bssl@gmail.com"
     { license
-        name "MIT"
-        copy "copy 2023"
-    metaNamespace "commons"
+        type "$MIT"
+        email "$copy 2023"
+    { github
+        userid3 "$stfnbssl"
     { Build
-        useConfig true
-        { config
-        isWizziMeta true
-        { wizziMeta
-            [ plugins
-                "./wizzi.plugin.ittf/index.js"
-            pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
-            { globalContext
-                wzConfigIsDevelopment true
-                wzConfigIsPackageDeploy false
-        useWizziJsonFactory true
+        $include wizziFactory.json
+        $include wizziMeta.json
         { utils
-            useStringifySafe true
-    [ Productions
-        {
-            name "commonsBabel"
-            title "commonsBabel wizzi meta production"
-        {
-            name "commonsBabelrc"
-            title "commonsBabelrc wizzi meta production"
-        {
-            name "commonsDeploy"
-            title "commonsDeploy wizzi meta production"
-        {
-            name "commonsEnv"
-            title "commonsEnv wizzi meta production"
-        {
-            name "commonsEslint"
-            title "commonsEslint wizzi meta production"
-        {
-            name "commonsGit"
-            title "commonsGit wizzi meta production"
-        {
-            name "commonsPackage"
-            title "commonsPackage wizzi meta production"
-        {
-            name "commonsPostcss"
-            title "commonsPostcss wizzi meta production"
-        {
-            name "commonsPrettier"
-            title "commonsPrettier wizzi meta production"
-        {
-            name "commonsServerCertificate"
-            title "commonsServerCertificate wizzi meta production"
-        {
-            name "commonsTailwind"
-            title "commonsTailwind wizzi meta production"
-        {
-            name "commonsWebpack"
-            title "commonsWebpack wizzi meta production"
-        {
-            name "commonsWizzi"
-            title "commonsWizzi wizzi meta production"

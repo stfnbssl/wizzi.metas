@@ -1,0 +1,38 @@
+$group
+    $file __dot__wizzi/models/t/jsDbMongoDb.json.ittf.ittf
+        ${'$'}{'$'}group
+
+            useMongoDb true
+            { mongoDb
+                host "mongodb+srv"
+                user "yanez"
+                password "${'$'}{'$'}{stfnbssl_env.mongoDbPsw}"
+                dbPath "@cluster0.idlk7.mongodb.net"
+                dbName "wizzi"
+                { options
+                    useNewUrlParser true
+                    useUnifiedTopology true
+                $if metaCtx.jsDbMongoDb.useFeatureTables
+                    [ featureTables
+                        $foreach table in metaCtx.jsDbMongoDb.featureTables.tables
+                            {
+                                Name "${_.capitalize(table.name)}"
+                                name "${table.name}"
+                                mongoName "plugin"
+                                descr "${table.descr}"
+                                prefix "${table.prefix}"
+                                [ fields
+                                    $foreach field in table.fields
+                                        { 
+                                            name '${field.name}'
+                                            type '${field.type}'
+                                            $if field.isKey
+                                                isKey true
+                                            $if field.isListFilter
+                                                isListFilter true
+                                $if table.created_at
+                                    created_at true
+                                $if table.updated_at
+                                    updated_at true
+                                $if table.update_delete_by_id
+                                    update_delete_by_id true

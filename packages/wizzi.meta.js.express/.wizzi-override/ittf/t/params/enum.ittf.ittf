@@ -1,0 +1,9 @@
+$group
+    $params name
+    {
+        name "${name}"
+        type "string"
+        kind "enum"
+        $append extend
+        [ enumValues
+            $hook

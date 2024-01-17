@@ -1,0 +1,69 @@
+$group
+    
+    $if metaCtx.jsDbMongoDb.useFeatureTables
+
+        $foreach table in metaCtx.jsDbMongoDb.featureTables.tables
+
+            $file __dot__wizzi/src/features/${table.name}/api/${table.name}.js.ittf.ittf
+                module
+                    kind es6
+                    ${'$'}{'$'}
+                        var md = null;
+                        for (var tIndex = 0; tIndex < wzCtx.Build.mongoDb.featureTables.length; tIndex++ ) {
+                            if (wzCtx.Build.mongoDb.featureTables[tIndex].name == "${table.name}") {
+                                md = wzCtx.Build.mongoDb.featureTables[tIndex];
+                            }
+                        }
+                        md.query = [];
+                        for (var i = 0; i < md.fields.length; i++ ) {
+                            if (md.fields[i].isKey) {
+                                md.query.push (md.fields[i]);
+                            }
+                        }
+                    ${'$'}include jsDbMongoDb/features/crud/api/tableCRUD.js
+
+            $file __dot__wizzi/src/features/${table.name}/mongo/${table.name}.js.ittf.ittf
+                module
+                    kind es6
+                    ${'$'}{'$'}
+                        var md = null;
+                        for (var tIndex = 0; tIndex < wzCtx.Build.mongoDb.featureTables.length; tIndex++ ) {
+                            if (wzCtx.Build.mongoDb.featureTables[tIndex].name == "${table.name}") {
+                                md = wzCtx.Build.mongoDb.featureTables[tIndex];
+                            }
+                        }
+                    ${'$'}include jsDbMongoDb/features/crud/mongo/tableModel.js
+
+            $ 
+                var version = table.apiVersion ? table.apiVersion : '1';
+
+            $file __dot__wizzi/src/features/${table.name}/controllers/apiv${version}${table.name}.js.ittf.ittf
+                module
+                    kind es6
+                    ${'$'}{'$'}
+                        var md = null;
+                        for (var tIndex = 0; tIndex < wzCtx.Build.mongoDb.featureTables.length; tIndex++ ) {
+                            if (wzCtx.Build.mongoDb.featureTables[tIndex].name == "${table.name}") {
+                                md = wzCtx.Build.mongoDb.featureTables[tIndex];
+                            }
+                        }
+                        var apiVersion = md.apiVersion ? md.apiVersion : '1';
+                        var ctrl = {
+                            name: "ApiV" + apiVersion + md.Name,
+                            Name: md.Name,
+                            path: md.path ? md.path : '/api/v' + apiVersion + '/' + md.name,
+                            webSecured: !!md.webSecured,
+                        }
+                    ${'$'}include jsDbMongoDb/features/crud/controllers/tableController.js
+
+            $file __dot__wizzi/src/features/${table.name}/index.js.ittf.ittf
+                module
+                    kind es6
+                    ${'$'}{'$'}
+                        var md = null;
+                        for (var tIndex = 0; tIndex < wzCtx.Build.mongoDb.featureTables.length; tIndex++ ) {
+                            if (wzCtx.Build.mongoDb.featureTables[tIndex].name == "${table.name}") {
+                                md = wzCtx.Build.mongoDb.featureTables[tIndex];
+                            }
+                        }
+                    ${'$'}include jsDbMongoDb/features/crud/index.js

@@ -1,10 +1,2 @@
-$group
-    $params result|notUsed
-    =>
-        param err
-        param ${result}
-        if err
-            return
-                _ callback
-                    @ err
-        $hook
+${'$'}group 
+   $include jsCommons/tfolder/a_cb.js

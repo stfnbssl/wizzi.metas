@@ -1,7 +1,2 @@
-$group
-    $params err|@@null
-    return
-        $if err == null
-            _ callback(err)
-        $else
-            _ callback(${err})
+${'$'}group 
+   $include jsCommons/tfolder/r_cb_err.js

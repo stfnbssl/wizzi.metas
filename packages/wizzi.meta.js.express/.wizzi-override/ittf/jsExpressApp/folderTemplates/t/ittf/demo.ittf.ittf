@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "index",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}ittf/${item}.html.ittf.ittf
+            html
+                ${'$'}include jsExpressApp/ittf/demo/${item}.html

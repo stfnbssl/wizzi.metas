@@ -1,0 +1,75 @@
+$group
+
+    import 
+        @ Response
+        from 'express'
+
+    import HttpException from '../httpException'
+
+    function sendContent
+        param res
+        param contentType
+        param content
+        _ res.writeHead
+            @ 200
+            { 
+                @ 'Content-Type' contentType
+                @ 'Content-Length' content ? content.length : 0
+        _ res.end(content)
+
+    export 
+        const sendHtml
+            => 
+                param res
+                param content
+                _ sendContent
+                    @ res
+                    @ 'text/html'
+                    @ content
+    
+    export 
+        const sendFailure
+            => 
+                param res
+                param error
+                param status
+                _ res.status
+                    iif error && error.status
+                        then error.status
+                        else status
+                _ res.type('application/json')
+                _ res.send(error)
+    
+    export 
+        const sendSuccess
+            => 
+                param res
+                param message
+                _ res.status(200)
+                _ res.type('application/json')
+                _ res.send(message)
+    
+    export 
+        function sendPromiseResult
+            param res
+            param message
+            _ message.then
+                => 
+                    param result
+                    _ sendSuccess(res, result)
+                        # console.log('sendPromiseResult.ok', result);
+                ._ catch
+                    => 
+                        param err
+                        error 'sendPromiseResult.err', err
+                        _ sendFailure(res, err, 500)
+    
+    export 
+        function sendPromiseLikeResult
+            param res
+            param message
+            _ message.then
+                => 
+                    param result
+                    _ sendSuccess(res, result)
+                    $$ loog 'sendPromiseLikeResult.ok', result

@@ -1,0 +1,90 @@
+$group
+    ${'$'}params &md
+
+    +
+    export
+        async-function get${'$'}{md.Name}
+            ${'$'}foreach item in md.query
+                param ${'$'}{item.name}
+            +
+            #
+                _ console.log
+                    @ myname
+                    @ 'get${'$'}{md.Name}' 
+                    ${'$'}foreach item in md.query
+                        @ ${'$'}{item.name}
+            +
+            const ${'$'}{md.Name} = Get${'$'}{md.Name}Model()
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        let query
+                            { 
+                                ${'$'}foreach item in md.query
+                                    @ ${'$'}{item.name} ${'$'}{item.name}
+                        +
+                        _ ${'$'}{md.Name}.find
+                            @ query
+                            =>
+                                param err
+                                param result
+                                if err
+                                    error myname, 'get${'$'}{md.Name}', '${'$'}{md.Name}.find', 'error', err
+                                    return reject(err)
+                                if result.length == 1
+                                    return 
+                                        _ resolve
+                                            {
+                                                @ oper 'get'
+                                                @ ok true
+                                                @ item result[0]
+                                _ resolve
+                                    {
+                                        @ oper 'get'
+                                        @ ok false
+                                        @ message '${'$'}{md.descr} not found'
+
+    +
+    export
+        async-function get${'$'}{md.Name}ById
+            param id
+            +
+            #
+                _ console.log
+                    @ myname
+                    @ 'get${'$'}{md.Name}ById' 
+                    @ id
+            +
+            const ${'$'}{md.Name} = Get${'$'}{md.Name}Model()
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        _ ${'$'}{md.Name}.find
+                            {
+                                @ _id id
+                            =>
+                                param err
+                                param result
+                                if err
+                                    error myname, 'get${'$'}{md.Name}', '${'$'}{md.Name}.find', 'error', err
+                                    return reject(err)
+                                if result.length == 1
+                                    return 
+                                        _ resolve
+                                            {
+                                                @ oper 'get'
+                                                @ ok true
+                                                @ item result[0]
+                                _ resolve
+                                    {
+                                        @ oper 'get${'$'}{md.Name}'
+                                        @ ok false
+                                        @ message '${'$'}{md.descr} not found'                                        

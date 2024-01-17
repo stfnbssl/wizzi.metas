@@ -1,2 +1,17 @@
 {
-    productionName "wizzimeta"
+    productionName "wizziMeta"
+    [ parameters
+        params/array(globals)
+            params/object(item)
+                params/string(name)
+                params/string(value)
+                params/string(type)
+        params/array(BuildVars)
+            params/object(item)
+                params/string(name)
+                params/string(value)
+                params/string(type)
+        params/array(Productions)
+            params/object(item)
+                params/string(name)
+                params/boolean(isPackageMain)

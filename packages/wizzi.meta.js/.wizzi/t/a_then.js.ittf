@@ -1,6 +1,2 @@
-$group
-    $params result|notUsed, message|@@null
-    ._ then
-        =>
-            param ${result}
-            $hook
+${'$'}group 
+   $include jsCommons/tfolder/a_then.js

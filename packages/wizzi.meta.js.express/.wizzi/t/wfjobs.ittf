@@ -61,6 +61,36 @@ $group
                 model-ref ${jobCtx.job_model}
                     export-name ${jobCtx.job_model}
             $hook
+    $elif name == 'any_docx'
+        artifact any_docx
+            src ./**/*.docx.ittf
+            schema docx
+            generator docx/document
+            extension docx
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_pdf'
+        artifact any_pdf
+            src ./**/*.pdf.ittf
+            schema pdf
+            generator pdf/document
+            extension pdf
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_ppt'
+        artifact any_ppt
+            src ./**/*.ppt.ittf
+            schema ppt
+            generator ppt/document
+            extension ppt
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
     $elif name == 'any_json'
         artifact any_json
             src ./**/*.json.ittf
@@ -137,6 +167,46 @@ $group
             schema ittf
             generator ittf/document
             extension ittf
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_asis'
+        artifact any_asis
+            src ./**/*.plain.ittf
+            schema plain
+            generator plain/file
+            extension @@null
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_ts_asis'
+        artifact any_ts_asis
+            src ./**/*.ts.plain.ittf
+            schema plain
+            generator plain/file
+            extension @@null
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_tsx_asis'
+        artifact any_tsx_asis
+            src ./**/*.tsx.plain.ittf
+            schema plain
+            generator plain/file
+            extension @@null
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
+    $elif name == 'any_css_asis'
+        artifact any_css_asis
+            src ./**/*.css.plain.ittf
+            schema plain
+            generator plain/file
+            extension @@null
             $if jobCtx.job_model
                 model-ref ${jobCtx.job_model}
                     export-name ${jobCtx.job_model}
@@ -314,6 +384,10 @@ $group
         artifact any_plain_svg
             src ./**/*.svg
             extension svg
+    $elif name == 'any__copy'
+        artifact any_${ext}_inside___copy
+            src ./**/*__copy/**/*.${ext}
+            extension ${ext}
     $elif name == 'any_examples__copy'
         artifact any_examples_${ext}_inside___copy
             src ${jobCtx.ittf_examples_folder}/**/*__copy/**/*.${ext}

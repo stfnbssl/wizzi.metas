@@ -1,0 +1,19 @@
+$group
+    
+    ${'$'}{'$'}if metaCtx.usePackageVersion 
+        ${'$'}{'$'}{'$'}include versions
+    name "${'$'}{'$'}{metaCtx.name}"
+    npmName "${'$'}{'$'}{metaCtx.npmName}"
+    description ${'$'}{'$'}{metaCtx.description}
+    version "${'$'}{'$'}{metaCtx.version}"
+    ${'$'}{'$'}if metaCtx.author
+        { author
+            name "${'$'}{'$'}{metaCtx.author.name}"
+            email "${'$'}{'$'}{metaCtx.author.email}"
+    ${'$'}{'$'}if metaCtx.license
+        { license
+            type "${'$'}{'$'}{metaCtx.license.type}"
+            email "${'$'}{'$'}{metaCtx.license.copy}"
+    ${'$'}{'$'}if metaCtx.github
+        { github
+            userid "${'$'}{'$'}{metaCtx.github.userid}"

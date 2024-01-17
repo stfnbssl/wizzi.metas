@@ -1,2 +1,7 @@
 {
     productionName "wizziFactory"
+    [ parameters
+        params/object(wizziFactory)
+            params/array(plugins)
+                params/string(pluginName)
+            params/string(pluginsBaseFolder)

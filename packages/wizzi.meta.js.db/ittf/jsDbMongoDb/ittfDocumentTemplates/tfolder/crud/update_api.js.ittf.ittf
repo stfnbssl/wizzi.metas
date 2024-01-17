@@ -1,0 +1,77 @@
+$group
+    ${'$'}params &md
+
+    +
+    export
+        async-function update${'$'}{md.Name}
+            ${'$'}if md.update_delete_by_id
+                param id
+            ${'$'}foreach item in md.fields
+                param ${'$'}{item.name}
+            +
+            #
+                _ console.log
+                    @ myname
+                    @ 'update${'$'}{md.Name}' 
+                    ${'$'}foreach item in md.fields
+                        @ ${'$'}{item.name}
+            +
+            const ${'$'}{md.Name} = Get${'$'}{md.Name}Model()
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        ${'$'}if md.update_delete_by_id
+                            var query
+                            if id && id.length > 0
+                                set query
+                                    {
+                                        @ _id id
+                            else
+                                set query
+                                    {
+                                        ${'$'}foreach item in md.query
+                                            @ ${'$'}{item.name} ${'$'}{item.name}
+                        ${'$'}else
+                            const query
+                                { 
+                                    ${'$'}foreach item in md.query
+                                        @ ${'$'}{item.name} ${'$'}{item.name}
+
+                        const update
+                            { 
+                        ${'$'}foreach item in md.fields
+                            if typeof ${'$'}{item.name} !== 'undefined'
+                                set update['${'$'}{item.name}'] = ${'$'}{item.name}
+                        ${'$'}if md.updated_at
+                            set update['updated_at'] = new Date()
+                        +
+                        _ ${'$'}{md.Name}.findOneAndUpdate
+                            @ query
+                            @ update
+                            {
+                            =>
+                                param err
+                                param result
+                                if err
+                                    error myname, 'update${'$'}{md.Name}', '${'$'}{md.Name}.findOneAndUpdate', 'error', err
+                                    return reject(err)
+                                if !result
+                                    error myname, 'update${'$'}{md.Name}', '${'$'}{md.Name}.findOneAndUpdate', 'error', 'document not found'
+                                    return
+                                        _ reject
+                                            {
+                                                @ oper 'update${'$'}{md.Name}'
+                                                @ ok false
+                                                @ message '${'$'}{md.descr} document not found: ' + id
+                                +
+                                $$ loog myname, 'update${'$'}{md.Name}', '${'$'}{md.Name}.findOneAndUpdate', 'result', result
+                                return
+                                    _ resolve
+                                        {
+                                            @ oper 'update${'$'}{md.Name}'
+                                            @ ok true
+                                            @ message '${'$'}{md.descr} updated'

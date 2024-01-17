@@ -1,2 +1,3 @@
 {
     productionName "commonsEnv"
+    params/boolean(useDeployClient)

@@ -1,7 +1,2 @@
-$group
-    $params result|notUsed, message|@@null
-    ._ then
-        =>
-            param ${result}
-            $hook
-    v08/ts/catch_reject( ${message} )
+${'$'}group 
+   $include jsCommons/tfolder/a_then_catch_reject.js

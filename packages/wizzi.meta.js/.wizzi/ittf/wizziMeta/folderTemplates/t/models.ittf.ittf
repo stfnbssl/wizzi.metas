@@ -1,0 +1,19 @@
+${'$'}group 
+   $file __dot__wizzi/models/wzctx.json.ittf.ittf
+       { 
+           $include wizziMeta/ittf/folderTemplates/target_models/wzctx.json
+           --- 
+           { Build
+               ${'$'}if metaCtx.useWizziJobs
+                   ${'$'}{'$'}{'$'}include wizziJobs.json
+                   --- 
+               ${'$'}if metaCtx.useWizziFactory
+                   ${'$'}{'$'}{'$'}include wizziFactory.json
+                   --- 
+               ${'$'}if metaCtx.useWizziPlugin
+                   ${'$'}{'$'}{'$'}include wizziPlugin.json
+                   --- 
+               ${'$'}if metaCtx.useWizziMeta
+                   ${'$'}{'$'}{'$'}include wizziMeta.json
+                   --- 
+               { utils

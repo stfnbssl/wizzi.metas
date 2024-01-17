@@ -1,0 +1,35 @@
+$group
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            $if metaCtx.usePackageVersion
+                ${'$'}{'$'}include versions
+            name "$wizzi.meta.wizzi"
+            npmName "${metaCtx.npmName}"
+            version "$ 0.0.1"
+            description "$Wizzi meta plugin for creating wizzi wizzi packages"
+            $if metaCtx.author
+                { author
+                    name "$Stefano Bassoli"
+                    email "$stfn.bssl@gmail.com"
+            $if metaCtx.license
+                { license
+                    type "$MIT"
+                    email "$copy 2023"
+            $if metaCtx.github
+                { github
+                    userid3 "$stfnbssl"
+            
+            { Build
+                $if metaCtx.useWizziJobs
+                    ${'$'}{'$'}include wizziJobs.json
+                    
+                $if metaCtx.useWizziFactory
+                    ${'$'}{'$'}include wizziFactory.json
+                    
+                $if metaCtx.useWizziPlugin
+                    ${'$'}{'$'}include wizziPlugin.json
+                    
+                $if metaCtx.useWizziMeta
+                    ${'$'}{'$'}include wizziMeta.json
+                    
+                { utils

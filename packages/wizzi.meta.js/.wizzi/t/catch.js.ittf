@@ -1,5 +1,2 @@
-$group
-    ._ catch
-        =>
-            param err
-            $hook
+${'$'}group 
+   $include jsCommons/tfolder/catch.js

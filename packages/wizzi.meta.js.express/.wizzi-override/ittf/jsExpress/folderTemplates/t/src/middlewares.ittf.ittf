@@ -1,0 +1,34 @@
+$group
+
+    $
+        var mwItems = [
+            "bodyParser","compression",
+            "cacheControl","cookie","cors","errors",
+            "helmet","index","logger", "promise",
+            "session","static","userInViews"
+        ];
+        if (metaCtx.useJsExpressApp) {
+            if (metaCtx.jsExpressApp.useWebpackApp) {
+                mwItems.push("webpackApp");
+            }
+        }
+        if (metaCtx.useJsExpressFeatureAuth) {
+            if (metaCtx.jsExpressFeatureAuth.useLocalUserFromConfig) {
+            } else {
+                mwItems.push("webSecured");
+                mwItems.push("apiSecured");
+                mwItems.push("authorization");
+            }
+        }
+        if (metaCtx.useJsExpressFeatureWizzi) {
+            mwItems.push("ittfStatic");
+            mwItems.push("wizziViewEngine");
+            mwItems.push("wizziCdn");
+        }
+
+
+    $foreach item in mwItems
+        $file __dot__wizzi/${pkgPath}src/middlewares/${item}.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsExpress/middlewares/${item}.js

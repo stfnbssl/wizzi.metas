@@ -183,7 +183,7 @@ $group
         if lines.length === 1
             return lines[0]
         else
-            set acc = []
+            var acc = []
             _ lines.forEach
                 function 
                     param l

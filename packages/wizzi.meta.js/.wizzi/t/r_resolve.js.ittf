@@ -1,7 +1,2 @@
-$group
-    $params result|@@null
-    return
-        _ resolve
-            $if result !== null
-                @ ${result}
-            $hook
+${'$'}group 
+   $include jsCommons/tfolder/r_resolve.js

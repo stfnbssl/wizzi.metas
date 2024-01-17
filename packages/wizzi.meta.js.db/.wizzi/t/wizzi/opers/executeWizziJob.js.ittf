@@ -1,0 +1,28 @@
+$group
+    function executeWizziJob
+        param ittfDocumentUri
+        param context
+        param plugins
+        param callback
+        +
+        if !callback
+            set callback = plugins
+            set plugins = null
+        +
+        _ createWizziFactory
+            {
+            @ options
+            a_cb( wf )
+                _ wf.executeJob
+                    {
+                        @ name path.basename(ittfDocumentUri)
+                        @ path ittfDocumentUri
+                        @ productionOptions
+                            _ wizzi.productionOptions
+                                {
+                                    @ indentSpaces 4
+                                    @ basedir __dirname
+                                    @ verbose 2
+                        @ modelContext context || {}
+                        @ jobContext {}
+                    @ callback

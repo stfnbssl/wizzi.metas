@@ -1,15 +1,3 @@
 $group
     $if metaCtx.useJsExpressWizziSite
-        $file __dot__wizzi/jsExpressWizziSite/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include jsExpressWizziSite/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/jsExpressWizziSite/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include jsExpressWizziSite/tfolder/${item}.js
+        $include wzCtxModel

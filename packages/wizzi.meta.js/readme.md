@@ -2,14 +2,13 @@
 
 Wizzi meta plugin for creating wizzi js packages
 
+
 ## Features
 ### Implemented Wizzi meta productions
 
 <table>
 <tr>
-<th>Production</th>
-<th>Descriptionn</th>
-</tr>
+<th>Production<th>Descriptionn</tr>
 <tr>
 <td>
 <a href https://github.com//wizzi.meta.js/tree/master/.wizzi/ittf/lib/wizzi/productions/jsCLI.wfproduction.ittf>jsCLI</a><td>jsCLI wizzi meta production</td>
@@ -35,18 +34,20 @@ Wizzi meta plugin for creating wizzi js packages
 ## Source and generation
 wizzi.meta.js is generated using Wizzi.
 
+
 ## Wizzi
 
 One machinery many productions.
 
 
+
 <p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
 
 ## Built With
-* [Nodejs](https://nodejs.org)
-
-* [Wizzi](https://github.com/stfnbssl/wizzi)
-
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
 

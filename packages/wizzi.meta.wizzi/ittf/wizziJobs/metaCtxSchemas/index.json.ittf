@@ -1,2 +1,3 @@
 {
-    productionName "wzjobs"
+    productionName "wzJobs"
+    [ parameters

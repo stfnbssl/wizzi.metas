@@ -31,3 +31,6 @@ $group
             $file __dot__wizzi/${pkgPath}t/${item}.js.ittf.ittf
                 ${'$'}{'$'}group
                     ${'$'}include jsCommons/tfolder/${item}.js
+
+        $if metaCtx.useJsExpress
+            $include tfolder/webapp

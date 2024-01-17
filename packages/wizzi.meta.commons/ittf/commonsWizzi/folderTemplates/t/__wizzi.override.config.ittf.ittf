@@ -39,7 +39,7 @@ $group
                         @ wzConfigIsDocumentation true
                         $if _.isArray(metaCtx.globals)
                             $foreach item in metaCtx.globals
-                                $if item.noquote
-                                    @ ${item.name} ${item.value}
-                                $else
+                                $if item.type == 'string'
                                     @ ${item.name} "${item.value}"
+                                $else
+                                    @ ${item.name} ${item.value}                                    

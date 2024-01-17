@@ -23,6 +23,11 @@ $group
                 _ this.getMetaProduction
                     @ prod
                     a_cb( metaProduction )
+                        if options.metaCtx.__wz_fsc
+                            _ options.metaCtx.__wz_fsc.addDebugObject
+                                @ 'packi'
+                                @ 'meta_plugin_' + prod + '_ittfDocumentTemplates'
+                                @ metaProduction.ittfDocumentTemplates
                         r_cb( metaProduction )
             =>
                 param err

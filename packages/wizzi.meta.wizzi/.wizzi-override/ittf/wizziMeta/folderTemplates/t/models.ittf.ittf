@@ -43,9 +43,12 @@ $group
                 useWizziJsonFactory true
                 { utils
                     useStringifySafe true
-                $if metaCtx.BuildVars
+                $if _.isArray(metaCtx.BuildVars)
                     $foreach bv in metaCtx.BuildVars
-                        ${bv.name} ${bv.value}
+                        $if bv.type == 'string'
+                            ${bv.name} "${bv.value}"
+                        $else
+                            ${bv.name} ${bv.value}
             [ Productions
                 $foreach p in metaCtx.Productions
                     {

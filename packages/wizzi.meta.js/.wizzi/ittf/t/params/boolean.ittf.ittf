@@ -1,6 +1,2 @@
-$group
-    $params name
-    {
-        name "${name}"
-        type "boolean"
-        $hook
+${'$'}group 
+   $include wizziMeta/ittf/tfolder/params/boolean.json

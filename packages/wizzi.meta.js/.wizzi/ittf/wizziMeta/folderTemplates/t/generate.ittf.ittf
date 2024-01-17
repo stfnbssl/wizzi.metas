@@ -1,0 +1,4 @@
+${'$'}group 
+   $file __dot__wizzi/generate.wfjob.ittf.ittf
+       wfjob wizziMeta/job
+           TODO $include generate.wfjob

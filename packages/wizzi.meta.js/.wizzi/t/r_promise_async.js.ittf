@@ -1,7 +1,2 @@
-$group
-    return
-        new Promise
-            async=>
-                param resolve
-                param reject
-                $hook
+${'$'}group 
+   $include jsCommons/tfolder/r_promise_async.js

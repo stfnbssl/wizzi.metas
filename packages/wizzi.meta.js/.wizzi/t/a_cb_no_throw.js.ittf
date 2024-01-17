@@ -1,6 +1,2 @@
-$group
-    $params result|notUsed
-    =>
-        param err
-        param ${result}
-        $hook
+${'$'}group 
+   $include jsCommons/tfolder/a_cb_no_throw.js

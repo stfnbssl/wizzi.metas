@@ -1,0 +1,57 @@
+$group
+    ${'$'}params &md
+
+    +
+    export
+        async-function delete${'$'}{md.Name}
+            ${'$'}if md.update_delete_by_id
+                param id
+            ${'$'}foreach item in md.query
+                param ${'$'}{item.name}
+            +
+            #
+                _ console.log
+                    @ myname
+                    @ 'delete${'$'}{md.Name}' 
+                    ${'$'}foreach item in md.query
+                        @ ${'$'}{item.name}
+            +
+            const ${'$'}{md.Name} = Get${'$'}{md.Name}Model()
+            +
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        +
+                        ${'$'}if md.update_delete_by_id
+                            var query
+                            if id && id.length > 0
+                                set query
+                                    {
+                                        @ _id id
+                            else
+                                set query
+                                    {
+                                        ${'$'}foreach item in md.query
+                                            @ ${'$'}{item.name} ${'$'}{item.name}
+                        ${'$'}else
+                            const query
+                                { 
+                                    ${'$'}foreach item in md.query
+                                        @ ${'$'}{item.name} ${'$'}{item.name}
+
+                        +
+                        _ ${'$'}{md.Name}.deleteOne
+                            @ query
+                            =>
+                                param err
+                                if err
+                                    error myname, 'delete${'$'}{md.Name}', '${'$'}{md.Name}.deleteOne', 'error', err
+                                    return reject(err)
+                                $$ loog myname, 'delete${'$'}{md.Name}', '${'$'}{md.Name}.deleteOne'
+                                _ resolve
+                                    {
+                                        @ oper 'delete${'$'}{md.Name}'
+                                        @ ok true
+                                        @ message '${'$'}{md.descr}'

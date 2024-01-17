@@ -1,0 +1,28 @@
+$group
+    
+    $file __dot__wizzi/models/t/jsExpressUtils.json.ittf.ittf
+        ${'$'}{'$'}group
+            
+            { utils
+                useAxios true
+                useEscapeRegexp false
+                useEscapeHtml false
+                useNullThrows false
+                useLodash false
+                useStringifySafe true
+                useParseUrl true
+                useEs6Error false
+                useJsCookie false
+                useQueryString true
+                useSanitizeHtml false
+                useDateFns false
+                useFetchPonyfill false
+                $if metaCtx.useJsDbMongoDb || metaCtx.useJsDbPostgres || metaCtx.useJsDbSequelize
+                    useNanoId true
+                useNodeCache true
+                useGitUrlParse false
+                useJsonToAst false
+                useRimRaf false
+                $if metaCtx.useJsExpressFeaturePacki
+                    $if metaCtx.jsExpressFeaturePacki.usePackiProductions
+                        useDiffMatchPatch true

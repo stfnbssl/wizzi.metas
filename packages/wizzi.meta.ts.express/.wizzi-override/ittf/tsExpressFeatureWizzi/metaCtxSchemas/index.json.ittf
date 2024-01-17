@@ -1,16 +1,21 @@
 {
     [ parameters
-        params/use( wizziCdn
-        params/use( wizziGist
-        params/use( wizziMeta
-        params/use( wizziPackage
-        params/use( wizziFs
-        params/use( wizziServices
-        
+        params/use( tsExpressFeatureWizzi
+            params/array( plugins
+                param/string( pluginName
+            params/string( pluginsBaseFolder
+            params/use( wizziCdn
+            params/use( wizziFs
+            params/use( wizziGist
+            params/use( wizziMeta
+                params/array( metaPlugins
+                    param/string( metaPluginName
+                params/string( metaPluginsBaseFolder
+            params/use( wizziProduction
+            params/use( wizziServices
+       
         params/use( packi 
             $$ ???
         params/use( packiBrowse 
             $$ ???
-        params/string( pluginsBaseFolder
-        params/array( plugins
-            param/string( pluginName
+        

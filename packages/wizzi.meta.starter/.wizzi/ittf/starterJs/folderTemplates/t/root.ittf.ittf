@@ -1,7 +1,0 @@
-$group
-    $file __dot__wizzi/root/readme.md.ittf.ittf
-        md
-            ${'$'}include starterJs/root/readme.md
-    $file __dot__wizzi/root/license.text.ittf.ittf
-        text
-            ${'$'}include starterJs/root/license.text

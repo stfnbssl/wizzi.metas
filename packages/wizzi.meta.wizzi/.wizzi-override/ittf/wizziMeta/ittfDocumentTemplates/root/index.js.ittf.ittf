@@ -12,8 +12,6 @@ $group
 	var md = module.exports = {}
 	set md.name = '${'$'}{wzCtx.name}.index'
 	+
-	#
-		# FactoryMeta class
 	class FactoryMeta
 		ctor
 			param provides
@@ -43,6 +41,8 @@ $group
         ${'$'}include meta-production-starter
 		+
 	+
+    #
+        # Scan a filesystem folder and returns the content in a packiFiles object.
     function createPackifilesFromFs
         param folderPath
         param callback

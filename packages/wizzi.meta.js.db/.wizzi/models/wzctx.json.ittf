@@ -1,0 +1,48 @@
+{
+    $include versions
+    name "wizzi.meta.js.db"
+    npmName "@wizzi/meta.js.db"
+    pluginBasename ""
+    version '${versions['@wizzi/meta.js.db@next']}'
+    description "Wizzi meta plugin for creating wizzi javascript database layer packages"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    license "MIT"
+    metaNamespace "js.db"
+    { Build
+        useConfig true
+        { config
+        isWizziMeta true
+        { wizziMeta
+            [ plugins
+                "./wizzi.plugin.css/index.js"
+                "./wizzi.plugin.html/index.js"
+                "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.js/index.js"
+                "./wizzi.plugin.json/index.js"
+                "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.text/index.js"
+                "./wizzi.plugin.wzjob/index.js"
+            pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+            { globalContext
+                wzConfigIsDevelopment true
+                wzConfigIsPackageDeploy false
+        useWizziJsonFactory true
+        { utils
+            useStringifySafe true
+    [ Productions
+        {
+            name "jsDbMongoDb"
+            title "jsDbMongoDb wizzi meta production"
+        {
+            name "jsDbPostgres"
+            title "jsDbPostgres wizzi meta production"
+        {
+            name "jsDbRedis"
+            title "jsDbRedis wizzi meta production"
+        {
+            name "jsDbSequelize"
+            title "jsDbSequelize wizzi meta production"

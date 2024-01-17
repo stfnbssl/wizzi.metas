@@ -1,7 +1,14 @@
 $group
     #
-        # Retrieve all WizziMetaProductions
-        # Simple starter meta generation
+        # Build and returns a packiFiles object with all the meta ittf documents
+        # of the WizziMetaProductions that have the property use<metaProduction>
+        # of the object options.metaCtx set to true.
+        # The packiFiles filepaths are built this way:
+        # - folderTemplates/<ProductionName><metaFilePath>
+        # - ittfDocumentTemplates/<ProductionName><metaFilePath>
+        # - plainDocuments/<ProductionName><metaFilePath>
+        # For each metaProduction used the returned packiFiles object must contain a document
+        # with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
     m getMetaProductionStarter
         param options
         param callback
