@@ -2,8 +2,8 @@ $group
     ${'$'}params &md
 
     +
-    export
-        async-function get${'$'}{md.Name}List
+    set md.get${'$'}{md.Name}List
+        async-function 
             param options
             set options = options || {}
             +

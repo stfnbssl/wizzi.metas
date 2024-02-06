@@ -2,22 +2,5 @@ $group
     $if metaCtx.useJsCLI
         $include wzCtxModel
         $include generate
-        $include wizzi.config
-        $include wizzi.override.config
         $include models
         $include root
-        $* Sample file templates
-        $file __dot__wizzi/jsCLI/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include jsCLI/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/jsCLI/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include jsCLI/tfolder/${item}.js
-        *$

@@ -1,0 +1,16 @@
+$group
+    
+    $if metaCtx.jsExpressWizziSite.useAccount
+        
+        $file __dot__wizzi/${pkgPath}src/site/controllers/account.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsExpressWizziSite/controllers/account.js
+        
+        $file __dot__wizzi/${pkgPath}src/site/views/account/profile.html.ittf.ittf
+            html
+                ${'$'}include jsExpressWizziSite/views/account/profile.html
+        
+        $file __dot__wizzi/${pkgPath}src/site/views/account/error-github-email-private.html.ittf.ittf
+            html
+                ${'$'}include jsExpressWizziSite/views/account/error-github-email-private.html

@@ -1,6 +1,6 @@
 # wizzi.meta.wizzi
 
-wizzi.meta.wizzi
+Wizzi meta plugin for creating wizzi wizzi packages
 
 
 ## Features

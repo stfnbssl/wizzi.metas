@@ -13,9 +13,8 @@ $group
 
     $foreach item in items
         $file __dot__wizzi/ittf/t/params/${item}.ittf.ittf.ittf
-            ${'$'}{'$'}group
+            {
                 ${'$'}include wizziMeta/ittf/tfolder/params/${item}.json
-
     
     $*
     $foreach prod in metaCtx.Productions
@@ -40,6 +39,10 @@ $group
                             
                         useXxx true
                         { xxx
+
+        $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/sample.json.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziMeta/ittf/ittfDocumentTemplates/sample.json
 
         $if prod.isPackageMain
             
@@ -77,34 +80,9 @@ $group
 
 
         $file __dot__wizzi/ittf/${prod.name}/wzCtxSchemas/index.json.ittf.ittf
-        
             {
-                productionName "${prod.name}"
-                [ parameters
-                    {
-                        name "useXxx"
-                        type "boolean"
-                    {
-                        name "Xxx"
-                        type "string"
-                        kind "enum"
-                        [ enumValues
-                            "aaa"
-                            "bbb"            
+                ${'$'}include wizziMeta/ittf/ittfDocumentTemplates/wzCtxSchemas/index.json
 
         $file __dot__wizzi/ittf/${prod.name}/metaCtxSchemas/index.json.ittf.ittf
-        
             {
-                productionName "${prod.name}"
-                [ parameters
-                    {
-                        name "useXxx"
-                        type "boolean"
-                    {
-                        name "Xxx"
-                        type "string"
-                        kind "enum"
-                        [ enumValues
-                            "aaa"
-                            "bbb"            
-
+                ${'$'}include wizziMeta/ittf/ittfDocumentTemplates/metaCtxSchemas/index.json

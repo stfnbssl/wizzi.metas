@@ -1,12 +1,12 @@
 $group
     
-    import cookieParser from 'cookie-parser'
+    const cookieParser =  require('cookie-parser')
 
     # http://expressjs.com/en/resources/middleware/cookie-parser.html
     
-    export 
-        const CookieMiddleware
-            => 
-                param app
-                _ app.use
-                    _ cookieParser
+    set module.exports = {}
+    set module.exports.CookieMiddleware
+        => 
+            param app
+            _ app.use
+                _ cookieParser

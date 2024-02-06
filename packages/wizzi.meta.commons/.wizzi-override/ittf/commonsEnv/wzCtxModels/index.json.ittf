@@ -1,6 +1,0 @@
-{
-    productionName "commonsEnv"
-    [ parameters
-        params/object( App
-            params/string( baseUrl
-            params/string( apiVersion

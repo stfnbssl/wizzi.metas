@@ -1,5 +1,11 @@
 {
-    productionName "tsNode"
     [ parameters
-        params/use(features)
-            params/use(config)
+        $*
+        params/use( ... )
+        params/string( ... )
+        params/boolean( ... )
+        params/integer( ... )
+        params/array( ... )
+        params/object( ... )
+        params/enum( ... )
+        *$

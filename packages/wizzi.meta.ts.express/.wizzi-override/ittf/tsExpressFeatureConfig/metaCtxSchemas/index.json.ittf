@@ -1,3 +1,3 @@
 {
-    productionName "tsExpressFeatureConfig"
-    params/use( studioUserInfo
+    [ parameters
+        params/use( studioUserInfo

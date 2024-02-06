@@ -8,7 +8,7 @@ $group
 
     app/appImports${'('}&md)
     ${'$'}if wzCtx.Build.useNetlify
-        import serverless from 'serverless-http'
+        const serverless = require('serverless-http')
         index/imports${'('}&md)
     +
     function normalizePort
@@ -114,4 +114,4 @@ $group
                     _ done
 
     ${'$'}if !wzCtx.Build.useNetlify
-        export-default App
+        set module.exports = App

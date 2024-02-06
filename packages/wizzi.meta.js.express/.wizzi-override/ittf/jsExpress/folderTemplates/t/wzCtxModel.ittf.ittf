@@ -5,16 +5,17 @@ $group
             
             useExpress true
             { express
-                useSslCert ${metaCtx.useSslCert ? "true" : "false"}
+                useSslCert ${metaCtx.express.useSslCert ? "true" : "false"}
                 useErrors false
                 useStaticFiles true
                 { staticFiles
-                    basePath "__dirname, '..', '..'"
-                    $if metaCtx.jsExpress.useStaticFiles && metaCtx.jsExpress.staticFiles.publicPath
-                        publicPath "${metaCtx.jsExpress.staticFiles.publicPath}"
                 useSessionStore false
                 useExpressValidator true
         
+            $if metaCtx.express.useIttfStaticFiles
+                useIttfStaticFiles true
+                { ittfStaticFiles
+
             useSession true
             { session
                 name "${'$'}{metaCtx.name}"
@@ -43,11 +44,11 @@ $group
             usePromiseMiddleware true
             { promiseMiddleware
 
-            $if metaCtx.jsExpress.useCors
+            $if metaCtx.express.useCors
                 useCors true
                 { cors
-                    $if metaCtx.jsExpress.cors.clientOrigins && metaCtx.jsExpress.cors.clientOrigins.length > 0
+                    $if metaCtx.express.cors.clientOrigins && metaCtx.express.cors.clientOrigins.length > 0
                         [ clientOrigins
-                            $foreach item in metaCtx.jsExpress.cors.clientOrigins
+                            $foreach item in metaCtx.express.cors.clientOrigins
                                 "${item}"
 

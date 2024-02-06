@@ -1,9 +1,9 @@
 {
     $include versions
     name "wizzi.meta.ts.express"
-    npmName ""
+    npmName "@wizzi/meta.ts.express"
     pluginBasename ""
-    version '${versions['@next']}'
+    version '${versions['@wizzi/meta.ts.express@next']}'
     description "Wizzi meta plugin for creating wizzi typescript express server packages"
     { author
         name "Stefano Bassoli"
@@ -33,80 +33,123 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "typescript"
+        {
+            name "express"
     [ Productions
         {
             name "tsExpress"
             title "tsExpress wizzi meta production"
+            [ categories
         {
             name "tsExpressApp"
             title "tsExpressApp wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsExpressData"
             title "tsExpressData wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureAccount"
             title "tsExpressFeatureAccount wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureAuth"
             title "tsExpressFeatureAuth wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureBlog"
             title "tsExpressFeatureBlog wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureConfig"
             title "tsExpressFeatureConfig wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureCdn"
             title "tsExpressFeatureCdn wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureFilesystem"
             title "tsExpressFeatureFilesystem wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureGithub"
             title "tsExpressFeatureGithub wizzi meta production"
+            [ categories
         {
             name "tsExpressFeaturePacki"
             title "tsExpressFeaturePacki wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureProject"
             title "tsExpressFeatureProject wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureRepo"
             title "tsExpressFeatureRepo wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureUser"
             title "tsExpressFeatureUser wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureWizzi"
             title "tsExpressFeatureWizzi wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureWizziDocs"
             title "tsExpressFeatureWizziDocs wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureWizziFs"
             title "tsExpressFeatureWizziFs wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureWizziGist"
             title "tsExpressFeatureWizziGist wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureWizziMeta"
             title "tsExpressFeatureWizziMeta wizzi meta production"
+            [ categories
         {
             name "tsExpressFeatureWizziProduction"
             title "tsExpressFeatureWizziProduction wizzi meta production"
+            [ categories
         {
             name "tsExpressIttf"
             title "tsExpressIttf wizzi meta production"
+            [ categories
         {
             name "tsExpressStyles"
             title "tsExpressStyles wizzi meta production"
+            [ categories
         {
             name "tsExpressTests"
             title "tsExpressTests wizzi meta production"
+            [ categories
         {
             name "tsExpressUtils"
             title "tsExpressUtils wizzi meta production"
+            [ categories
         {
             name "tsExpressWizziSite"
             title "tsExpressWizziSite wizzi meta production"
+            [ categories

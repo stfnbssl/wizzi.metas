@@ -108,7 +108,7 @@ $group
                         $else
                             template "./index.html"
                         $if _.isNotEmpty(thisProduction.webpackHtml.filename)
-                            filename "${thisProduction.webpackHtml.template}"
+                            filename "${thisProduction.webpackHtml.filename}"
                         $else
                             filename "index.html"
                 useMinimizer false

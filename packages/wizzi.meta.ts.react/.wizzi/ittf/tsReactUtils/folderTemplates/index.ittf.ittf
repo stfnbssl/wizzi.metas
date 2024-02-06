@@ -1,18 +1,3 @@
 $group
     $if metaCtx.useTsReactUtils
         $include wzCtxModel
-        $* Sample file templates
-        $file __dot__wizzi/tsReactUtils/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include tsReactUtils/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/tsReactUtils/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include tsReactUtils/tfolder/${item}.js
-        *$

@@ -1,0 +1,35 @@
+module
+    kind es6
+    +
+    const path = require('path')
+    const util = require('util')
+    const async = require('async')
+    const chalk = require('chalk')
+    $if wzCtx.Build.useWizziFactory
+        const wizzi = require('@wizzi/factory')
+        const wizziUtils = require('@wizzi/utils')
+        const file = wizziUtils.file
+        const verify = wizziUtils.verify
+    $else
+        const fs = require('fs')
+    $if wzCtx.Build.useCliCommandFileConfig
+        const config = require('../utils/config')
+    const help = require('./help')
+    $if wzCtx.Build.useWizziFactory
+        const factory = require('../factory')
+    +
+    $if wzCtx.Build.useWizziFactory
+        var pluginsBaseFolderV08 = 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages'
+        var metaPluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.metas/packages'
+    +
+    set module.exports
+        =>
+            param name
+            $if wzCtx.Build.useCliCommandFileConfig
+                let configPath = config.getPath(name, true)
+                if !configPath
+                    _ console.error(`meta config file "wizzi.meta.config.${(name ? name + '.' : '')}js" not found`)
+                    return
+                const configInstance = require(configPath)
+                log 'Command first. Config instance:', configInstance
+            # ...

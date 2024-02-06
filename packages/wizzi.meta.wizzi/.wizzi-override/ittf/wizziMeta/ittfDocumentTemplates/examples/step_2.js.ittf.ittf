@@ -9,10 +9,10 @@ $group
         a_cb${'('} mf )
             _ mf.getMetaProductionStarter
                 {
-                a_cb${'('} metaProduction )
+                a_cb${'('} metaProductions )
                     const dump
                         _ stringify
-                            @ metaProduction
+                            @ metaProductions
                             @ null
                             @ 2
-                    log 'metaProduction', dump
+                    log 'metaProductions', dump

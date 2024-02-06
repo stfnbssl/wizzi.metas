@@ -42,11 +42,12 @@ $group
         ctor 
             param errCode
             param data
-            _ super(errorMap[errCode])
+            base errorMap[errCode]
             set this.code = errCode
             set this.message = errorMap[errCode]
             set this.data = data
-    export
+    +
+    set module.exports
         { 
             @ FcError
             @ MISSING_REQUIRED_FIELDS

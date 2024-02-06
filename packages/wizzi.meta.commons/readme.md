@@ -1,6 +1,6 @@
 # wizzi.meta.commons
 
-wizzi.meta.commons
+Wizzi meta plugin for creating wizzi commons packages
 
 
 ## Features

@@ -5,14 +5,14 @@ $group
 
     import
         as ${'$'}{md.name}Api
-        from './api/${'$'}{md.name}'
+        from './api/${'$'}{md.name}.js'
     import
         @ ${'$'}{md.Name}ModelBuilder
         @ Get${'$'}{md.Name}Model
-        from './mongo/${'$'}{md.name}'
+        from './mongo/${'$'}{md.name}.js'
     import
         @ ApiV${'$'}{apiVersion}${'$'}{md.Name}Controller
-        from './controllers/apiv${'$'}{apiVersion}${'$'}{md.name}'
+        from './controllers/apiv${'$'}{apiVersion}${'$'}{md.name}.js'
     +
     const ${'$'}{md.name}ModelGetters
         {

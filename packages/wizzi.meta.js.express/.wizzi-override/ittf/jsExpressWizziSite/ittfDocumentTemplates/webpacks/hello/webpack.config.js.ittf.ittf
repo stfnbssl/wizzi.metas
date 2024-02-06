@@ -1,0 +1,49 @@
+$group
+
+    ${'$'}if wzCtx.type == 'module'
+        import { dirname } from 'path'
+        import { fileURLToPath } from 'url'
+        const __dirname = dirname(fileURLToPath(import.meta.url))
+    
+    const path = require('path')
+    +
+    const md = module.exports = {}
+    +
+    set md.config
+        { 
+            @ mode "development"
+            { resolve
+                [ extensions
+                    @ ".js"
+                    @ ".jsx"
+            @ entry 
+                _ path.resolve
+                    @ __dirname
+                    @ './src/index.js'
+            { module
+                [ rules
+                    {	
+                        @ test /\.(js|jsx)$/
+                        @ exclude /node_modules/
+                        { use
+                            @ loader 'babel-loader'
+                            { options
+                                [ presets
+                                    @ '@babel/preset-env'
+                                    @ '@babel/preset-react'
+                    {
+                        @ test /\.(css|scss)$/
+                        [ use
+                            @ "css-loader"
+                    {
+                        @ test /\.(jpg|jpeg|png|gif|mp3|svg)$/
+                        [ use
+                            @ "file-loader"
+            { output
+                @ path
+                    _ path.resolve
+                        @ __dirname
+                        @ 'static'
+                @ filename 'hello.bundle.js'
+                @ publicPath '/webpacks/hello'
+            @ devtool 'cheap-module-source-map'

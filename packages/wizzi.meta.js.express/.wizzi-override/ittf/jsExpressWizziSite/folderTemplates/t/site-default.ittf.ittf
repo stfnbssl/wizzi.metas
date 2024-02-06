@@ -1,0 +1,19 @@
+$group
+    
+    $file __dot__wizzi/${pkgPath}src/site/index.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include jsExpressWizziSite/index.js
+        
+    $file __dot__wizzi/${pkgPath}src/site/controllers/home.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include jsExpressWizziSite/controllers/home.js
+    
+    $file __dot__wizzi/${pkgPath}src/site/views/home/index.html.ittf.ittf
+        html
+            ${'$'}include jsExpressWizziSite/views/home/index.html
+
+    $file __dot__wizzi/${pkgPath}src/site/views/error.html.ittf.ittf
+        html
+            ${'$'}include jsExpressWizziSite/views/error.html

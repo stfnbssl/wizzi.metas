@@ -2,8 +2,8 @@
     "name": "wizzi.meta.commons",
     "npmName": "@wizzi/meta.commons",
     "pluginBasename": "",
-    "version": "0.0.1",
-    "description": "wizzi.meta.commons",
+    "version": "0.0.2",
+    "description": "Wizzi meta plugin for creating wizzi commons packages",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
@@ -11,10 +11,7 @@
     "github": {
         "userid": "stfnbssl"
     },
-    "license": {
-        "name": "MIT",
-        "copy": "copy 2023"
-    },
+    "license": "MIT",
     "metaNamespace": "commons",
     "Build": {
         "useConfig": true,
@@ -22,7 +19,14 @@
         "isWizziMeta": true,
         "wizziMeta": {
             "plugins": [
-                "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.css/index.js",
+                "./wizzi.plugin.html/index.js",
+                "./wizzi.plugin.ittf/index.js",
+                "./wizzi.plugin.js/index.js",
+                "./wizzi.plugin.json/index.js",
+                "./wizzi.plugin.md/index.js",
+                "./wizzi.plugin.text/index.js",
+                "./wizzi.plugin.wzjob/index.js"
             ],
             "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
             "globalContext": {
@@ -33,60 +37,96 @@
         "useWizziJsonFactory": true,
         "utils": {
             "useStringifySafe": true
-        }
+        },
+        "scripts": [
+            {
+                "name": "x:1",
+                "action": "node examples/step_1"
+            },
+            {
+                "name": "x:2",
+                "action": "node examples/step_2"
+            },
+            {
+                "name": "x:3",
+                "action": "node examples/step_3"
+            },
+            {
+                "name": "x:4",
+                "action": "node examples/step_4"
+            }
+        ]
     },
+    "Categories": [
+        {
+            "name": "commons"
+        }
+    ],
     "Productions": [
         {
             "name": "commonsBabel",
-            "title": "commonsBabel wizzi meta production"
+            "title": "commonsBabel wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsBabelrc",
-            "title": "commonsBabelrc wizzi meta production"
+            "title": "commonsBabelrc wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsDeploy",
-            "title": "commonsDeploy wizzi meta production"
+            "title": "commonsDeploy wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsEnv",
-            "title": "commonsEnv wizzi meta production"
+            "title": "commonsEnv wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsEslint",
-            "title": "commonsEslint wizzi meta production"
+            "title": "commonsEslint wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsGit",
-            "title": "commonsGit wizzi meta production"
+            "title": "commonsGit wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsPackage",
-            "title": "commonsPackage wizzi meta production"
+            "title": "commonsPackage wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsPostcss",
-            "title": "commonsPostcss wizzi meta production"
+            "title": "commonsPostcss wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsPrettier",
-            "title": "commonsPrettier wizzi meta production"
+            "title": "commonsPrettier wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsServerCertificate",
-            "title": "commonsServerCertificate wizzi meta production"
+            "title": "commonsServerCertificate wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsTailwind",
-            "title": "commonsTailwind wizzi meta production"
+            "title": "commonsTailwind wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsWebpack",
-            "title": "commonsWebpack wizzi meta production"
+            "title": "commonsWebpack wizzi meta production",
+            "categories": []
         },
         {
             "name": "commonsWizzi",
-            "title": "commonsWizzi wizzi meta production"
+            "title": "commonsWizzi wizzi meta production",
+            "categories": []
         }
     ]
 }

@@ -1,42 +1,41 @@
-# wizzi.meta.documents
+# wizzi.meta.douments
 
-wizzi.meta.documents
+Wizzi meta plugin for creating wizzi documents packages
+
 
 ## Features
 ### Implemented Wizzi meta productions
 
 <table>
 <tr>
-<th>Production</th>
-<th>Descriptionn</th>
+<th>Production<th>Descriptionn</tr>
+<tr>
+<td>
+<a href https://github.com//wizzi.meta.douments/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsApp.wfproduction.ittf>documentsApp</a><td>documentsApp wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.documents/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsApp.wfproduction.ittf>documentsApp</a><td>documentsApp wizzi meta production</td>
+<a href https://github.com//wizzi.meta.douments/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsDocx.wfproduction.ittf>documentsDocx</a><td>documentsDocx wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.documents/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsDocx.wfproduction.ittf>documentsDocx</a><td>documentsDocx wizzi meta production</td>
+<a href https://github.com//wizzi.meta.douments/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsHtmlSlide.wfproduction.ittf>documentsHtmlSlide</a><td>documentsHtmlSlide wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.documents/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsHtmlSlide.wfproduction.ittf>documentsHtmlSlide</a><td>documentsHtmlSlide wizzi meta production</td>
+<a href https://github.com//wizzi.meta.douments/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsJson.wfproduction.ittf>documentsJson</a><td>documentsJson wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.documents/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsJson.wfproduction.ittf>documentsJson</a><td>documentsJson wizzi meta production</td>
+<a href https://github.com//wizzi.meta.douments/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsPdf.wfproduction.ittf>documentsPdf</a><td>documentsPdf wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.documents/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsPdf.wfproduction.ittf>documentsPdf</a><td>documentsPdf wizzi meta production</td>
+<a href https://github.com//wizzi.meta.douments/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsPpt.wfproduction.ittf>documentsPpt</a><td>documentsPpt wizzi meta production</td>
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.documents/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsPpt.wfproduction.ittf>documentsPpt</a><td>documentsPpt wizzi meta production</td>
-</tr>
-<tr>
-<td>
-<a href https://github.com//wizzi.meta.documents/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsUtils.wfproduction.ittf>documentsUtils</a><td>documentsUtils wizzi meta production</td>
+<a href https://github.com//wizzi.meta.douments/tree/master/.wizzi/ittf/lib/wizzi/productions/documentsUtils.wfproduction.ittf>documentsUtils</a><td>documentsUtils wizzi meta production</td>
 </tr>
 </table>
 
@@ -49,20 +48,22 @@ wizzi.meta.documents
 <p>You can find a few samples in the /examples folder, but you can find more in the<a href="https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo/.wizzi/ittf/examples/advanced/plugins">demo package</a>.</p>
 
 ## Source and generation
-wizzi.meta.documents is generated using Wizzi.
+wizzi.meta.douments is generated using Wizzi.
+
 
 ## Wizzi
 
 One machinery many productions.
 
 
+
 <p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
 
 ## Built With
-* [Nodejs](https://nodejs.org)
-
-* [Wizzi](https://github.com/stfnbssl/wizzi)
-
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
 

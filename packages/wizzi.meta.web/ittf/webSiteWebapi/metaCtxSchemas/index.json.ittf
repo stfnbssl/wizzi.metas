@@ -1,2 +1,4 @@
 {
-    productionName "jswebapi"
+    productionName "webSiteWebapi"
+    [ parameters
+        params/use(blog)

@@ -1,0 +1,12 @@
+$group
+    $params message
+    ._ catch
+        =>
+            param err
+            if typeof err === 'object' && err !== null
+                $hook
+            _ response.render
+                @ 'error.html.ittf'
+                {
+                    @ message '${message}'
+                    @ error err

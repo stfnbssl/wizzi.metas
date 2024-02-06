@@ -1,0 +1,42 @@
+module
+    kind es6
+    const path = require("path")
+    const spawnUtils = require("../services/spawn")
+    +
+    $include metas
+    +
+    function doGenerate
+        param ndx
+        var metaName = metaList[ndx]
+        if !metaName
+            success "All generations done"
+            return
+        _ executeWizziGeneration
+            @ metaName
+            a_cb()
+                success "*** Generation of meta " + metaName + " DONE ***"
+                _ doGenerate
+                    @ ndx + 1
+    _ doGenerate
+        @ 0
+
+    function executeWizziGeneration
+        param metaName
+        param callback
+        log 'Starting generation of ', metaName
+        const PowerShell = spawnUtils.PowerShell
+        let ps
+            new PowerShell
+                @ "wz override"
+                {
+                    @ cwd "C:/My/wizzi/stfnbssl/wizzi.metas/packages/wizzi.meta." + metaName
+        _ spawnUtils.psOutput
+            @ ps
+            {
+            =>
+                param err
+                param stdout
+                param stderr
+                log "powershell 2", err || stderr || stdout
+                _ callback
+                    @ null

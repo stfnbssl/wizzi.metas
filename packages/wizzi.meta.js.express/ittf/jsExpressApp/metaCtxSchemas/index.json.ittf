@@ -1,2 +1,21 @@
 {
-    productionName "tsExpressApp"
+    [ parameters
+        params/object(App)
+            params/string(name)
+            params/string(title)
+            params/boolean(isLocal)
+            params/boolean(isProduction)
+            params/string(port)
+            params/boolean(useSsl)
+            params/string(siteUrl)
+            params/string(baseUrl)
+            params/string(siteUrlLocal)
+            params/string(baseUrlLocal)
+            params/string(apiVersion)
+        params/use(examples)
+            params/use(promise)
+        params/use(webpackApp)
+            params/array(items)
+                params/object(App)
+                    params/string(name)
+                    params/string(writeToDisk)

@@ -1,15 +1,3 @@
 $group
     $if metaCtx.useCommonsDeploy
-        $file __dot__wizzi/commonsDeploy/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include commonsDeploy/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/commonsDeploy/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include commonsDeploy/tfolder/${item}.js
+        $include wzCtxModel

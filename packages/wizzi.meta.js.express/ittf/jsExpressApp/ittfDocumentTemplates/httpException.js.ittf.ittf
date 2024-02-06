@@ -13,4 +13,4 @@ $group
         p status
         p message
  
-    export default HttpException
+    set module.exports = HttpException

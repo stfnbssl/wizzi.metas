@@ -1,2 +1,7 @@
-${'$'}group 
-   $include wizziMeta/ittf/tfolder/params/object.json
+{
+    $params name
+    name ${name}
+    type "object"
+    $append extend
+    [ properties
+        $hook

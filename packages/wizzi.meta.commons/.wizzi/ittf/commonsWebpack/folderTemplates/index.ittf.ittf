@@ -1,15 +1,3 @@
 $group
     $if metaCtx.useCommonsWebpack
-        $file __dot__wizzi/commonsWebpack/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include commonsWebpack/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/commonsWebpack/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include commonsWebpack/tfolder/${item}.js
+        $include wzCtxModel

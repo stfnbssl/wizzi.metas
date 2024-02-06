@@ -1,2 +1,4 @@
 {
-    productionName "tscommons"
+    productionName "tsCommons"
+    [ parameters
+        params/use(wizziViewEngine)

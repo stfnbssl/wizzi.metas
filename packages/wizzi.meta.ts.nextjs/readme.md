@@ -1,6 +1,6 @@
 # wizzi.meta.ts.nextjs
 
-Wizzi meta plugin for creating wizzi typescript nextjs packages
+Wizzi meta plugin for creating wizzi typescript next.js packages
 
 
 ## Features

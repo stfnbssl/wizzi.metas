@@ -1,15 +1,14 @@
 # wizzi.meta.ts.db
 
-wizzi.meta.ts.db
+Wizzi meta plugin for creating wizzi typescript database layer packages
+
 
 ## Features
 ### Implemented Wizzi meta productions
 
 <table>
 <tr>
-<th>Production</th>
-<th>Descriptionn</th>
-</tr>
+<th>Production<th>Descriptionn</tr>
 <tr>
 <td>
 <a href https://github.com//wizzi.meta.ts.db/tree/master/.wizzi/ittf/lib/wizzi/productions/tsDbMongoDb.wfproduction.ittf>tsDbMongoDb</a><td>tsDbMongoDb wizzi meta production</td>
@@ -39,18 +38,20 @@ wizzi.meta.ts.db
 ## Source and generation
 wizzi.meta.ts.db is generated using Wizzi.
 
+
 ## Wizzi
 
 One machinery many productions.
 
 
+
 <p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
 
 ## Built With
-* [Nodejs](https://nodejs.org)
-
-* [Wizzi](https://github.com/stfnbssl/wizzi)
-
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
 

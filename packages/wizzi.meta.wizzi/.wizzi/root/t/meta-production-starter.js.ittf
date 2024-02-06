@@ -13,22 +13,19 @@ $group
         param options
         param callback
         +
-        var productions
-            [
-                $foreach prod in wzCtx.Productions
-                    @ "${prod.name}"
         _ async.map
-            @ productions
+            @ metaProductions
             =>
                 param prod
                 param callback
+                const prodName = prod.name
                 if options && options.metaCtx
-                    const useProductionVar = 'use' + prod[0].toUpperCase() + prod.substring(1)
+                    const useProductionVar = 'use' + prodName[0].toUpperCase() + prodName.substring(1)
                     if !options.metaCtx[useProductionVar]
                         r_cb( {} )
                     log 'getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]
                 _ this.getMetaProduction
-                    @ prod
+                    @ prodName
                     a_cb( metaProduction )
                         r_cb( metaProduction )
             =>

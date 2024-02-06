@@ -1,6 +1,6 @@
 # wizzi.meta.js
 
-Wizzi meta plugin for creating wizzi js packages
+Wizzi meta plugin for creating wizzi javascript packages
 
 
 ## Features

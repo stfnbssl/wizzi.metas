@@ -1,0 +1,17 @@
+module
+    kind es6
+    var async = require('async')
+    var stringify = require('json-stringify-safe');
+    var metaIndex = require('../index')
+    _ metaIndex.createMetaPlugin
+        {
+        a_cb( mf )
+            _ mf.getMetaCategoryStarter
+                {
+                a_cb( metaCategories )
+                    const dump
+                        _ stringify
+                            @ metaCategories
+                            @ null
+                            @ 2
+                    log 'metaCategories', dump

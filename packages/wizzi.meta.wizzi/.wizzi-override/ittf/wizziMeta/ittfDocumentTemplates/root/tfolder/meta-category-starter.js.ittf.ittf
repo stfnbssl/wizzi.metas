@@ -1,0 +1,8 @@
+$group
+	#
+        # Returns the categories of all the productions of the plugin
+	m getMetaCategoryStarter
+        param options
+        param callback
+        +
+        r_cb${'('} pluginCategories )

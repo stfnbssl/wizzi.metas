@@ -1,0 +1,180 @@
+module
+    kind es6
+    const path = require("path")
+    const file = require("@wizzi/utils").fSystem.file
+    const spawnUtils = require("../services/spawn")
+    
+    +
+    const metasFolder = "C:/My/wizzi/stfnbssl/wizzi.metas/packages"
+    +
+    $include metas
+    +
+    function doUpgrade
+        param ndx
+        var metaName = metaList[ndx]
+        if !metaName
+            success "All meta upgrades done"
+            return
+        _ updateFiles
+            @ metaName
+            a_cb()
+                success "*** Upgrade of meta files of " + metaName + " DONE ***"
+                _ updateFolders
+                    @ metaName
+                    a_cb()
+                        success "*** Upgrade of meta folders of  " + metaName + " DONE ***"
+                        _ doUpgrade
+                            @ ndx + 1
+    _ doUpgrade
+        @ 0
+
+    function updateFiles
+        param metaName
+        param callback
+        const metaFolder 
+            _ path.join
+                @ metasFolder
+                @ "wizzi.meta." + metaName
+
+        const root_t_items
+            [
+                @ "t/meta-category-starter.js"
+                @ "t/meta-ctx-starter.js"
+                @ "t/meta-ctx.js"
+                @ "index.js"
+                @ "package.json"
+        foreach item in root_t_items
+            const fromFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi"
+                    @ "root"
+                    @ item + ".ittf"
+            const toFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi-override"
+                    @ "root"
+                    @ item + ".ittf"
+            _ file.copy
+                @ fromFile
+                @ toFile
+        const models
+            [
+                @ "wzctx.json.ittf"
+        foreach item in models
+            const fromFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi"
+                    @ "models"
+                    @ item
+            const toFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi-override"
+                    @ "models"
+                    @ item
+            _ file.copy
+                @ fromFile
+                @ toFile
+        const examples
+            [
+                @ "step_1.js.ittf"
+                @ "step_2.js.ittf"
+                @ "step_3.js.ittf"
+                @ "step_4.js.ittf"
+        foreach item in examples
+            const fromFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi"
+                    @ "examples"
+                    @ item
+            const toFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi-override"
+                    @ "examples"
+                    @ item
+            _ file.copy
+                @ fromFile
+                @ toFile
+        #
+        const tFolder
+            [
+                @ "package/0_0_1/scripts.json.ittf"
+        foreach item in tFolder
+            const fromFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi"
+                    @ "t"
+                    @ item
+            const toFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi-override"
+                    @ "t"
+                    @ item
+            _ file.copy
+                @ fromFile
+                @ toFile
+        _ callback
+            @ null
+
+    function updateFolders
+        param metaName
+        param callback
+        const metaFolder 
+            _ path.join
+                @ metasFolder
+                @ "wizzi.meta." + metaName
+        const folders
+            [
+                @ "t/package/0_0_1"
+        function exec
+            param ndx
+            const folderName = folders[ndx]
+            if !folderName
+                r_cb()
+            const fromFolder
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi"
+                    @ folderName 
+            const toFolder
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi-override"
+                    @ folderName
+            _ file.copyFolder
+                @ fromFolder
+                @ toFolder
+                a_cb()
+                    log 'copied folder from', fromFolder, 'to', toFolder
+                    _ exec
+                        @ ndx + 1
+        _ exec
+            @ 0
+
+    function executeWizziGeneration
+        param metaName
+        param callback
+        log 'Starting production of ', metaName
+        const PowerShell = spawnUtils.PowerShell
+        let ps
+            new PowerShell
+                @ "wz meta meta." + metaName
+                {
+                    @ cwd "C:/My/wizzi/stfnbssl/wizzi.dev/packages/wizzi.dev/metas"
+        _ spawnUtils.psOutput
+            @ ps
+            {
+            =>
+                param err
+                param stdout
+                param stderr
+                log "powershell 2", err || stderr || stdout
+                _ callback
+                    @ null

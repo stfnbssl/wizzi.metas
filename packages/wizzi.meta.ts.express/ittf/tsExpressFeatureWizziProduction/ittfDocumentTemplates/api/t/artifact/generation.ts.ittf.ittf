@@ -14,15 +14,21 @@ $group
                     => 
                         param resolve
                         param reject
+                        var artifactName = name
+                        var filePathTobeGenerated = null
+                        const ss = name.split('!')
+                        if ss.length == 2
+                            set artifactName = ss[0]
+                            set filePathTobeGenerated = ss[1]
                         _ getArtifactProduction_withCache
                             @ owner
-                            @ name
+                            @ artifactName
                             ._ then
                                 => 
                                     param ap
                                         :any
                                     _ wizziProds.generateArtifact
-                                        @ ap.mainIttf
+                                        @ filePathTobeGenerated || ap.mainIttf
                                         @ ap.packiFiles
                                         @ context
                                         ._ then
@@ -41,13 +47,17 @@ $group
                                             set err.parameter
                                                 {
                                                     @ artifactOwner owner
-                                                    @ artifactName name
-                                                    @ mainIttf ap.mainIttf
+                                                    @ requestArtifactName name
+                                                    @ artifactName artifactName
+                                                    @ mainIttf filePathTobeGenerated || ap.mainIttf
+
                             v08/ts/catch_reject${'('} getArtifactGeneration.getArtifactProduction )
                                 set err.parameter
                                     {
                                         @ artifactOwner owner
-                                        @ artifactName name
+                                        @ requestArtifactName name
+                                        @ artifactName artifactName
+
     +
     export
         async-function getArtifactGeneration_withPrepare

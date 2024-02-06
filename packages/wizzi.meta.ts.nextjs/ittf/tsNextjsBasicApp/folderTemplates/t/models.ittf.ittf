@@ -30,8 +30,8 @@ $group
                     useRemark true
                     { remark
                 $if metaCtx.tsNextjsBasicApp.useTailwind || metaCtx.useTsNextjsBlog
-                    useTailwind true
-                    { tailwind
+                    useTailwindcss true
+                    { tailwindcss
                 { utils
                     $if metaCtx.useTsNextjsBlog
                         useDateFns true

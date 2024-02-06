@@ -1,0 +1,46 @@
+module
+    kind es6
+    const menus
+        {
+            @ main
+                [
+                    @ ""
+                    @ ""
+                    @ "wzCtx.App.CLIName [noarguments] | configname | [command] <options>"
+                    @ ""
+                    @ "noarguments ......... execute ... using wizzi.config.js"
+                    @ "configname .......... execute ... using wizzi.config.<configname>.js"
+                    @ "first ............... execute ..."
+                    @ "version ............. show package version"
+                    @ "help ................ show help menu for a command"
+                    ._ join('\n')
+            @ create
+                [
+                    @ ""
+                    @ ""
+                    @ "wzCtx.App.CLIName create <options>"
+                    @ ""
+                    @ "--kind | -k <kindname> ... the project kind <kindname>"
+                    @ ""
+                    @ "valid kindnames:"
+                    @ "  webpack"
+                    @ "  express"
+                    @ "  plugin"
+                    ._ join('\n')
+            @ fy
+                [
+                    @ ""
+                    @ ""
+                    @ "wzCtx.App.CLIName fy <options>"
+                    @ ""
+                    @ "[--source | -s] <file | folder> .... the source file or folder"
+                    @ "[--dest | -d] <file | folder> ...... the destination file or folder"
+                    ._ join('\n')
+    set module.exports
+        =>
+            param args
+            const subCmd
+                iif args._[0] === 'help'
+                    then args._[1]
+                    else args._[0]
+            log menus[subCmd] || menus.main

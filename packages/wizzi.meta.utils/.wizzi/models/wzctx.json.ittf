@@ -1,0 +1,22 @@
+{
+    name "$wizzi.meta.js"
+    npmName ""
+    version "$ 0.0.1"
+    description "$Wizzi meta plugin for creating wizzi js packages"
+    { author
+        name "$Stefano Bassoli"
+        email "$stfn.bssl@gmail.com"
+    { license
+        name "$MIT"
+        email "$copy 2023"
+        url "$TODO"
+    { github
+        userid3 "$stfnbssl"
+    { Build
+        $include jsCLI.json
+        $include jsCommons.json
+        $include wizziFactory.json
+        { utils
+            useAsync true
+            useMinimist true
+            useChalk true

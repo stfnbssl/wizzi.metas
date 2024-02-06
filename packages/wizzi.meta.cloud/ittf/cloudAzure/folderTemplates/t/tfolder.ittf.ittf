@@ -10,8 +10,8 @@ $group
     $foreach item in items
 
         $file __dot__wizzi/t/v08/azure/github/devops/${item}.ittf.ittf
-            ${"${'$'}"}group
-                ${"${'$'}"}params &md
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
                 
                 ${'$'}include cloudAzure/github/tfolder/devops/${item}
 
@@ -25,8 +25,8 @@ $group
     $foreach item in items
 
         $file __dot__wizzi/t/v08/azure/arm/${item}.ittf.ittf
-            ${"${'$'}"}group
-                ${"${'$'}"}params &md
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
                 
                 ${'$'}include cloudAzure/arm/tfolder/${item}
 
@@ -39,7 +39,7 @@ $group
     $foreach item in items
 
         $file __dot__wizzi/t/v08/azure/tests/gulp/${item}.ittf.ittf
-            ${"${'$'}"}group
-                ${"${'$'}"}params &md
+            ${'$'}{'$'}group
+                ${'$'}{'$'}params &md
                 
                 ${'$'}include cloudAzure/tests/tfolder/gulp/${item}     

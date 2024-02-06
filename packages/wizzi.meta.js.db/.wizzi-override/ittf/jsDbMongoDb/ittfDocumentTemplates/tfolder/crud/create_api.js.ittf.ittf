@@ -2,8 +2,8 @@ $group
     ${'$'}params &md
 
     +
-    export
-        async-function create${'$'}{md.Name}
+    set md.create${'$'}{md.Name}
+        async-function 
             ${'$'}foreach item in md.fields
                 param ${'$'}{item.name}
             +

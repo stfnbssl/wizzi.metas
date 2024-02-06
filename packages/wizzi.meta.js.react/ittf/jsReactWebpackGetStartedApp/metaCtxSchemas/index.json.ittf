@@ -1,13 +1,23 @@
 {
     productionName "jsReactWebpackGetStarted"
     [ parameters
-        {
-            name "useXxx"
-            type "boolean"
-        {
-            name "Xxx"
-            type "string"
-            kind "enum"
-            [ enumValues
-                "aaa"
-                "bbb"
+        params/use(webpackCss)
+            params/use(miniCssExtract)
+        params/use(webpackSass)
+        params/use(webpackImages)
+        params/use(webpackFonts)
+        params/use(webpackYaml)
+        params/use(webpackFile)
+        params/use(webpackHtml)
+        params/use(webpackJson )
+        params/use(webpackOutput
+        params/object(webpackHtml)
+            params/string(title)
+            params/string(template)
+            params/string(filename)
+        params/array(webpackEntries)
+            params/object(webpackEntry)
+                params/string(name)
+                params/string(path)
+
+

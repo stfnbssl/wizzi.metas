@@ -1,0 +1,106 @@
+module
+    kind es6
+    const spawn = require("child_process").spawn
+    const EventEmitter = require("events").EventEmitter
+    const verify = require("@wizzi/utils").verify
+    +
+    const md = module.exports = {}
+    +
+    set md.isWin
+        =>
+            # TODO if you ever want make this multiplatform
+            return true
+    #
+        #
+        # Creates the child process.
+        #
+        # params
+        # string command   The command you want to run.
+        # [ args           The command arguments.
+        # { options        The options to pass to the `spawn`
+        # boolean output      If truly, the output will be piped in the process stdout/stderr streams.
+        # ??? `data` (String|Boolean): If `false`, the `stdin` stream will not be ended. By default this is an empty string.
+        # https://nodejs.org/api/child_process.html#child_processexecfilefile-args-options-callback
+        # function cb       The callback function.
+        # returns
+        # function cb   The process object {Process}.
+        #
+    set md.spawn
+        =>
+            param command
+            param args
+            param options
+            param cb
+            if typeof args === "function"
+                set cb = args
+                set args = []
+                set options =
+                    {
+            if typeof options === "function"
+                set cb = options
+                if !Array.isArray(args)
+                    set options = args
+                    set args = []
+                else
+                    set options =
+                        {
+            set options = options || {}
+            log 'spawn.cb', cb
+            if options.input !== false
+                set options.input = options.input || ""
+            let
+                decl showOutput = options.output
+                decl inputData = options.input
+            delete options.output
+            delete options.input
+            log 'md.spawn.command', command
+            log 'md.spawn.args', args
+            log 'md.spawn.options', options
+            let proc = spawn(command, args, options)
+            if showOutput
+                _ proc.stdout.pipe(process.stdout)
+                _ proc.stderr.pipe(process.stderr)
+            if inputData !== false
+                @expr proc.stdin && proc.stdin.end(inputData)
+            if cb
+                _ md.procOutput(proc, cb)
+            return proc
+    #
+        #
+        # The promise interface of md.spawno.
+        #
+        # resolve
+        # {
+        # string code
+        # string stdout
+        # string stderr
+        #
+    set md.spawnPromise
+        =>
+            param command
+            param args
+            param options
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ md.spawn
+                            @ command
+                            @ args
+                            @ options
+                            =>
+                                param err
+                                param stdout
+                                param stderr
+                                param code
+                                if err
+                                    return reject(err)
+                                _ resolve
+                                    {
+                                        @ code
+                                        @ stdout
+                                        @ stderr
+    $include ./t/procOutput
+    $include ./t/psOutput
+    $include ./t/powershell

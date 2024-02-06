@@ -33,24 +33,56 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "javascript"
+        {
+            name "express"
     [ Productions
         {
             name "jsExpress"
             title "jsExpress wizzi meta production"
+            [ categories
         {
             name "jsExpressApp"
             title "jsExpressApp wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "jsExpressBasicApp"
             title "jsExpressBasicApp wizzi meta production"
             isPackageMain true
+            [ categories
+        {
+            name "jsExpressFeatureConfig"
+            title "jsExpressFeatureConfig wizzi meta production"
+            [ categories
+        {
+            name "jsExpressFeatureWizzi"
+            title "jsExpressFeatureWizzi wizzi meta production"
+            [ categories
         {
             name "jsExpressStyles"
             title "jsExpressStyles wizzi meta production"
+            [ categories
         {
             name "jsExpressUtils"
             title "jsExpressUtils wizzi meta production"
+            [ categories
         {
             name "jsExpressWizziSite"
             title "jsExpressWizziSite wizzi meta production"
+            [ categories

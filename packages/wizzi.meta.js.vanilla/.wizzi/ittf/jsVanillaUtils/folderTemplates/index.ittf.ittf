@@ -1,16 +1,3 @@
 $group
     $if metaCtx.useJsVanillaUtils
         $include wzCtxModel
-        $file __dot__wizzi/jsVanillaUtils/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include jsVanillaUtils/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/jsVanillaUtils/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include jsVanillaUtils/tfolder/${item}.js

@@ -1,15 +1,3 @@
 $group
     $if metaCtx.useTsDbRedis
-        $file __dot__wizzi/tsDbRedis/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include tsDbRedis/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/tsDbRedis/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include tsDbRedis/tfolder/${item}.js
+        $include wzCtxModel

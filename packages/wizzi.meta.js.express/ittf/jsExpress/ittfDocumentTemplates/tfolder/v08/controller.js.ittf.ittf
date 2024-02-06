@@ -1,0 +1,94 @@
+$group
+    ${'$'}params &ctrl
+
+    const express = require('express')
+    const Router = require('express').Router
+    +
+    ${'$'}if ctrl.apiSecured || ctrl.webSecured
+        ${'$'}if ctrl.kind == 'site'
+            const mw = require('../../middlewares/index')
+        ${'$'}else
+            const mw = require('../../../middlewares/index')
+        ${'$'}if ctrl.apiSecured
+            const apiSecured = mw.apiSecured
+        ${'$'}if ctrl.webSecured
+            const webSecured = mw.webSecured
+    +
+    ${'$'}if ctrl.kind == 'site'
+        const utils = require('../../utils')        
+        const utilsSr = require('../../utils/sendResponse')        
+        const utilsRest = require('../../utils/rest')        
+        const utilsError = require('../../utils/error')
+    ${'$'}else
+        const utils = require('../../../utils')        
+        const utilsSr = require('../../../utils/sendResponse')
+        const utilsRest = require('../../../utils/rest')
+        const utilsError = require('../../../utils/error')
+    const sendHtml = utilsSr.sendHtml
+    const sendSuccess = utilsSr.sendSuccess
+    const sendPromiseResult = utilsSr.sendPromiseResult
+    const sendFailure = utilsSr.sendFailure
+    const restParamsCheck = utilsRest.restParamsCheck
+    const FcError = utilsError.FcError
+    const SYSTEM_ERROR = utilsError.SYSTEM_ERROR
+    const statusCode = utils.statusCode
+    +
+    ${'$'}hook imports
+    +
+    const md = module.exports = {}
+    +
+    function makeHandlerAwareOfAsyncErrors
+        param handler
+        return 
+            async-function 
+                param request
+                param response
+                param next
+                $$ loog 'makeHandlerAwareOfAsyncErrors called'
+                try 
+                    await 
+                        _ handler(request, response, next)
+                    $$ loog 'makeHandlerAwareOfAsyncErrors ok'
+                catch error
+                    if error instanceof FcError
+                        _ response.status(statusCode.BAD_REQUEST).send
+                            { 
+                                @ code error.code
+                                @ message error.message
+                                @ data
+                                    || 
+                                        + error.data
+                                        { 
+                    else
+                        const fcError = new FcError(SYSTEM_ERROR)
+                        _ response.status(statusCode.BAD_REQUEST).send
+                            { 
+                                @ code fcError.code
+                                @ message error.message
+                                @ data
+                                    || 
+                                        + fcError.data
+                                        { 
+    +
+    set md.${'$'}{ctrl.name}Controller
+        class ${'$'}{ctrl.name}Controller
+            +
+            p path = '${'$'}{ctrl.path}'
+            +
+            p router = Router()
+            ${'$'}if ctrl.modelName
+                +
+                p ${'$'}{ctrl.modelName}Model
+            +
+            ${'$'}hook properties
+            +
+            => initialize
+                param app
+                param initValues
+                warn 'Entering ${'$'}{ctrl.name}Controller.initialize'
+                ${'$'}if ctrl.modelName
+                    set this.${'$'}{ctrl.modelName}Model 
+                        _ Get${'$'}{ctrl.modelName}Model
+                ${'$'}hook
+            
+            ${'$'}hook handlers

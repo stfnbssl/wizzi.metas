@@ -1,5 +1,4 @@
 {
-    productionName "tsReactApp"
     [ parameters
         params/string( name )
         params/string( version )

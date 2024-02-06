@@ -1,0 +1,108 @@
+$group
+    #
+        #
+        # PowerShell
+        #
+        # params
+        # string input     The command or PowerShell script ro execute.
+        # { opt            An object containing the following fields:
+        # boolean debug        Turn on/off the debug messages (default: `false`).
+        # boolean noprofile    Turn on/off noprofile parameter (default: `true`).
+        # enum executionpolicy Run powershell with specified executionpolicy (default: System default).
+        # `Restricted`, `AllSigned`, `RemoteSigned`, `Unrestricted`, `Bypass`, `Undefined`.
+        # boolean PSCore       Turn on/off 'pwsh' the executable for PowerShell Core as opposed to Windowes PowerShell (default: 'false').
+        # function cb            The callback function (optional).
+        #
+    set md.PowerShell
+        class PowerShell
+            super EventEmitter
+            ctor
+                param input
+                param opt
+                param cb
+                log 'PowerShell.opt', opt
+                log 'PowerShell.cb', cb
+                set opt = opt || {}
+                const opt_debug
+                    iif verify.isUndefined(opt.debug)
+                        then false
+                        else opt.debug
+                const opt_noprofile
+                    iif verify.isUndefined(opt.noprofile)
+                        then true
+                        else opt.noprofile
+                const opt_PSCore
+                    iif verify.isUndefined(opt.PSCore)
+                        then false
+                        else opt.PSCore
+                const opt_executionpolicy = opt.executionpolicy
+                delete opt.debug
+                delete opt.noprofile
+                delete opt.noprofile
+                delete opt.PSCore
+                const EXE_NAME = (opt_PSCore ? 'pwsh' : 'powershell') + (md.isWin() ? ".exe" : "")
+                let args = []
+                if opt_noprofile
+                    _ args.push("-NoProfile")
+                if !verify.isUndefined(opt_executionpolicy)
+                    _ args.push("-ExecutionPolicy", opt_executionpolicy)
+                _ args.push("-Command", "& {" + input + "}")
+                set opt.stdio
+                    [
+                        @ "ignore"
+                        @ "pipe"
+                        @ "pipe"
+                let _proc
+                    set this.proc =
+                        _ md.spawn
+                            @ EXE_NAME
+                            @ args
+                            @ opt
+                            @ cb
+                _ _proc.stdout.setEncoding("utf8")
+                _ _proc.stderr.setEncoding("utf8")
+                _ _proc.on
+                    @ "error"
+                    =>
+                        param err
+                        _ this.emit("error", err)
+                if opt_debug
+                    _ console.log
+                        `lit
+                            + <
+                            @ EXE_NAME
+                            + > Starting&nbsp;
+                            @ _proc.pid
+                            + &nbsp;on&nbsp;
+                            @ process.platform
+                            +
+                let chunks = []
+                _ _proc.stdout.on
+                    @ "data"
+                    =>
+                        param chunk
+                        if typeof chunk === "string"
+                            _ chunks.push(chunk)
+                        else
+                            _ chunks.push.apply(chunks, chunk)
+                _ _proc.stderr.on
+                    @ "data"
+                    =>
+                        param err
+                        _ this.emit("error-output", err)
+                _ _proc.on
+                    @ "close"
+                    =>
+                        param code
+                        if opt_debug
+                            _ console.log
+                                `lit
+                                    + <
+                                    @ EXE_NAME
+                                    + > Process&nbsp;
+                                    @ _proc.pid
+                                    + &nbsp;exited with code&nbsp;
+                                    @ code
+                                    +
+                        _ this.emit("output", chunks.join(""))
+                        _ this.emit("end", code)

@@ -336,7 +336,8 @@ $group
         ${'$'}else
             webpack "^5.28.0"
             webpack-cli "^4.5.0"
-    ${'$'}if wzCtx.Build.useWebpackApp
+    ${'$'}elif wzCtx.Build.useWebpackApp
+        webpack "^5.28.0"
         webpack-dev-middleware "4.1.0"
     ${'$'}if wzCtx.Build.useWebpack
         ${'$'}if wzCtx.Build.webpack.useDevServer

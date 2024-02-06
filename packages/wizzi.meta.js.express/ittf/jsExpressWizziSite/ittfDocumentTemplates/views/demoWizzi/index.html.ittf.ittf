@@ -1,0 +1,19 @@
+$group
+    ${'$'}
+        var opt = {
+            title: 'Hello wizzi'
+        }
+
+    html/layouts/demo${'('}&opt)
+
+        div
+            a Demo wizzi ittf static
+                href /ittf/demo.wizzi.html.ittf
+
+        div
+            a Demo public folder
+                href /public/pure.html
+
+
+
+

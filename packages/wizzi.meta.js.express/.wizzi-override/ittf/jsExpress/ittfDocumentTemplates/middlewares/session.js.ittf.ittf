@@ -1,53 +1,63 @@
 $group
     
-    
     ${'$'}if wzCtx.Build.useSession
-        import session from 'express-session'
+        const session = require('express-session')
         ${'$'}if wzCtx.Build.useMongoDb
-            import mongoSessionStore from 'connect-mongo'
-            import mongoose from 'mongoose'
+            const MongoStore = require('connect-mongo')
+            const mongoose = require('mongoose')
 
-        import 
-            @ config
-            from '../features/config/index.js'
+        const config = require('../features/config/index.js').config
         
-        export 
-            const SessionMiddleware
-                => 
-                    param app
-                    ${'$'}if wzCtx.Build.useMongoDb
-                        const MongoStore = mongoSessionStore(session)
-                    const cookieOptions
-                        { 
-                            # serve secure cookies, requires https
-                            @ secure
-                                iif app.get('env') === 'production'
-                                    then true
-                                    else false
-                            @ httpOnly true
-                            @ maxAge 14 * 24 * 60 * 60 * 1000
-                            # expires in 14 days
-                    const sessionOptions
-                        { 
-                            @ name '${'$'}{wzCtx.Build.session.name}'
-                            @ secret config.sessionSecret
-                            @ store
-                                ${'$'}if wzCtx.Build.useMongoDb
-                                    new MongoStore
-                                        { 
-                                            @ mongooseConnection mongoose.connection
-                                            @ ttl 14 * 24 * 60 * 60
-                                            # save session 14 days
-                                ${'$'}else 
-                                    new session.MemoryStore()
-                            @ cookie cookieOptions
-                            @ resave false
-                            @ saveUninitialized false
-                    #
-                        # 
-                        # if !dev
-                        #     server.set('trust proxy', 1); // trust first proxy
-                        # 
-                    _ app.use
-                        _ session
-                            @ sessionOptions
+        set module.exports = {}
+        set module.exports.SessionMiddleware
+            => 
+                param app
+                ${'$'}if wzCtx.Build.useMongoDb
+                    $$ VIA const MongoStore = mongoSessionStore(session)
+                    const { mongoHost, mongoUser, mongoPassword, mongoPath } = config;
+                    if mongoUser && mongoUser.length > 0 &&
+                        \b mongoPassword && mongoPassword.length > 0 &&
+                        \b mongoHost && mongoHost.length > 0
+                        var connectUrl = `${mongoHost}://${mongoUser}:${mongoPassword}${mongoPath}`;
+                    else
+                        # example 'mongodb://localhost/test'
+                        var connectUrl = `${mongoPath}`;
+                    log 'middleware.session.mongoDb.connectUrl', connectUrl
+                const cookieOptions
+                    { 
+                        # serve secure cookies, requires https
+                        @ secure
+                            iif app.get('env') === 'production'
+                                then true
+                                else false
+                        @ httpOnly true
+                        @ maxAge 14 * 24 * 60 * 60 * 1000
+                        # expires in 14 days
+                const sessionOptions
+                    { 
+                        @ name '${'$'}{wzCtx.Build.session.name}'
+                        @ secret config.sessionSecret
+                        @ httpOnly true
+                        @ secure
+                            iif app.get('env') === 'production'
+                                then true
+                                else false
+                        @ maxAge 14 * 24 * 60 * 60 * 1000
+                        @ store
+                            ${'$'}if wzCtx.Build.useMongoDb
+                                _ MongoStore.create
+                                    {
+                                            @ mongoUrl connectUrl                          
+                            ${'$'}else 
+                                new session.MemoryStore()
+                        @ cookie cookieOptions
+                        @ resave false
+                        @ saveUninitialized true
+                #
+                    # 
+                    # if !dev
+                    #     server.set('trust proxy', 1); // trust first proxy
+                    # 
+                _ app.use
+                    _ session
+                        @ sessionOptions

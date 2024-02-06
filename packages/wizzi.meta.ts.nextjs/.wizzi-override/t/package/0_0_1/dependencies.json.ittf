@@ -5,17 +5,16 @@ $group
         @azure/keyvault-secrets "^4.4.0"
     
     $
-        var use_babel_cli = wzCtx.Build.useBabelNode
-            || wzCtx.Build.useBabelParser;
+        var use_babel_cli = wzCtx.Build.useBabelNode || wzCtx.Build.useBabelParser;
         var use_babel_core = wzCtx.Build.useBabelParser;
         var use_babel_parser = (wzCtx.Build.useBabel && wzCtx.Build.babel.useParser)
             || wzCtx.Build.useBabelParser;
-        var use_babel_polyfill = wzCtx.Build.useBabel
-            && wzCtx.Build.babel.useRegeneratorRuntime
+        var use_babel_polyfill = wzCtx.Build.useBabel && wzCtx.Build.babel.useRegeneratorRuntime
         var use_babel_runtime = wzCtx.Build.useBabel
             && wzCtx.Build.babel.useRuntime
-        var use_babel_preset_typescript = (wzCtx.Build.useBabel && wzCtx.Build.useTypescript)
+        var use_babel_preset_typescript = (wzCtx.Build.useBabel && (wzCtx.Build.useTypescript || wzCtx.Build.babel.useTypescript))
             || wzCtx.Build.useBabelParserTypescript;
+        var use_babel_preset_react = wzCtx.Build.useBabel && (wzCtx.Build.useReact || wzCtx.Build.babel.useReact)
         var use_babel_preset_env = wzCtx.Build.useBabel
             || wzCtx.Build.useBabelNode
             || wzCtx.Build.useTypescript;
@@ -27,6 +26,7 @@ $group
             || wzCtx.Build.useBabelParser;
         var use_babel_plugin_proposal_decorators = wzCtx.Build.useBabelParser;
         var use_babel_plugin_transform_object_assign = wzCtx.Build.useBabel;
+        var use_babel_plugin_transform_runtime = wzCtx.Build.useBabel;
     $if use_babel_cli
         @babel/cli "^7.2.0"
     $if use_babel_core
@@ -38,13 +38,17 @@ $group
     $if use_babel_polyfill
         @babel/polyfill "^7.2.5"
     $if use_babel_preset_env
-        @babel/preset-env "^7.2.0"
+        @babel/preset-env "^7.22.5"
+    $if use_babel_preset_react
+        @babel/preset-react "^7.22.5"
     $if use_babel_preset_typescript
-        @babel/preset-typescript "^7.1.0"
+        @babel/preset-typescript "^7.22.5"
     $if use_babel_plugin_proposal_class_properties
         @babel/plugin-proposal-class-properties "latest"
     $if use_babel_plugin_proposal_object_rest_spread
         @babel/plugin-proposal-object-rest-spread "latest"
+    $if use_babel_plugin_transform_runtime
+        @babel/plugin-transform-runtime "^7.14.5"
     $if use_babel_runtime
         @babel/runtime "^7.12.5"
     $if wzCtx.Build.useReact && wzCtx.Build.react.useMui
@@ -109,15 +113,16 @@ $group
         aphrodite "^2.4.0"
     $if wzCtx.Build.isWizziPlugin || wzCtx.Build.utils.useAsync
         async "^3.2.4"
-    $if wzCtx.Build.useTailwindcss
-        autoprefixer "^10.0.2"
     $if wzCtx.Build.utils.useAxios
         axios "^0.21.1"
     $if wzCtx.Build.useExpress
         $if wzCtx.Build.useNetlify
             aws-serverless-express "^3.2.0"
-    $if wzCtx.Build.useBabelParser
-        babel-plugin-parameter-decorator "latest"
+    $if wzCtx.Build.useBabel
+        $if wzCtx.Build.babel.useLoader
+            babel-loader "^8.0.6"
+        $if wzCtx.Build.babel.useParser
+            babel-plugin-parameter-decorator "latest"
     $if wzCtx.Build.useExpress
         body-parser "^1.18.3"
     $if wzCtx.Build.useBootstrap
@@ -150,7 +155,7 @@ $group
         css "^3.0.0"
     
     $if wzCtx.Build.utils.useDateFns || wzCtx.Build.useReact && wzCtx.Build.react.useDate
-        date-fns "^2.0.0"
+        date-fns "^2.28.0"
     $elif wzCtx.Build.useReact
         $if wzCtx.Build.react.useMaterialUI
             $if wzCtx.Build.react.materialUI.usePickers
@@ -202,7 +207,11 @@ $group
     $if wzCtx.Build.useGraphqlParser
         graphql "^15.5.0"
         graphql-request "^3.4.0"
+    $if wzCtx.Build.utils.useGrayMatter || wzCtx.Build.useMarkdownParser
+        gray-matter "^4.0.3"
     
+    $if wzCtx.Build.utils.useHastUtilToHtml
+        hast-util-to-html "latest"
     $if wzCtx.Build.useHelmet
         helmet "^5.1.1"
     $if wzCtx.Build.useReact
@@ -241,6 +250,8 @@ $group
     $if wzCtx.Build.useAuthorization
         jwks-rsa "^1.4.0"
     
+    $if wzCtx.Build.utils.useLeaflet
+        leaflet "^1.9.1"
     $if wzCtx.Build.utils.useLodash || wzCtx.Build.useMonacoEditor
         lodash "^4.17.21"
         $if wzCtx.Build.useBabel
@@ -272,6 +283,8 @@ $group
     
     $if wzCtx.Build.utils.useNanoId
         nanoid "^3.3.4"
+    $if wzCtx.Build.useNextjs
+        next "latest"
     $if wzCtx.Build.utils.useNodeCache
         node-cache "^5.1.2"
     $if wzCtx.Build.useGithub || wzCtx.Build.useFeatureGithub
@@ -311,7 +324,7 @@ $group
                 react "^17.0.1"
                 react-dom "^17.0.1"
             $else
-                $if wzCtx.Build.useVite
+                $if wzCtx.Build.useVite || wzCtx.Build.useNextjs
                     react "^18.2.0"
                     react-dom "^18.2.0"
                 $else
@@ -375,6 +388,9 @@ $group
         reflect-metadata "^0.1.13"
     $if wzCtx.Build.useRegeneratorRuntime
         regenerator-runtime "^0.13.7"
+    $if wzCtx.Build.useRemark
+        remark "^14.0.2"
+        remark-html "^15.0.1"
     $if wzCtx.Build.utils.useRimRaf
         rimraf "^3.0.2"
     

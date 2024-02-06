@@ -1,4 +1,4 @@
-wfjob wizzi.meta.wizzi/job
+wfjob wizzi.meta.js/job
     
     $
         var jobCtx = {

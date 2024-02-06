@@ -1,5 +1,4 @@
 {
-    productionName "tsExpressFeatureAuth"
     [ parameters
         {
             name "usePermissionFlag"

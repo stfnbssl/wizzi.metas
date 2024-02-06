@@ -1,11 +1,22 @@
 {
     productionName "jsVanillaWebpackGetStarted"
     [ parameters
-        params/use( webpackCss )
-            params/use( miniCssExtractor )
-        params/use( webpackSass )
-        params/use( webpackImages )
-        params/use( webpackHtml )
-        params/use( webpackJson )
-        params/use( webpackYaml )
-        params/use( webpackOutput
+        params/use(webpackCss)
+            params/use(miniCssExtract)
+        params/use(webpackSass)
+        params/use(webpackImages)
+        params/use(webpackFonts)
+        params/use(webpackYaml)
+        params/use(webpackFile)
+        params/use(webpackHtml)
+        params/use(webpackJson )
+        params/use(webpackOutput
+        params/object(webpackHtml)
+            params/string(title)
+            params/string(template)
+            params/string(filename)
+        params/array(webpackEntries)
+            params/object(webpackEntry)
+                params/string(name)
+                params/string(path)
+        

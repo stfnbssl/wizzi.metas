@@ -1,18 +1,3 @@
 $group
     $if metaCtx.useTsReactStoryboard
         $include wzCtxModel
-        $* Sample file templates
-        $file __dot__wizzi/tsReactStoryboard/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include tsReactStoryboard/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/tsReactStoryboard/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include tsReactStoryboard/tfolder/${item}.js
-        *$

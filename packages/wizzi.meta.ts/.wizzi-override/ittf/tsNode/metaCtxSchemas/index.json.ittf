@@ -1,5 +1,4 @@
 {
-    productionName "tsNode"
     [ parameters
         params/boolean(isLocal)
         params/boolean(isProduction)

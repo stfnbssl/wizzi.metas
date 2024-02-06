@@ -1,0 +1,31 @@
+$group
+    
+    $foreach item in metaCtx.webpackApp.items
+        
+        $if item.name == 'helloreact'
+        
+            $file __dot__wizzi/src/${pkgPath}site/webpacks/helloreact/src/index.js.ittf.ittf
+                module
+                    kind react
+                    ${'$'}include jsExpressWizziSite/webpacks/helloreact/src/index.js
+            
+            $file __dot__wizzi/src/${pkgPath}site/webpacks/helloreact/src/components/App.js.ittf.ittf
+                module
+                    kind react
+                    ${'$'}include jsExpressWizziSite/webpacks/helloreact/src/components/App.js
+
+            $file __dot__wizzi/src/${pkgPath}site/webpacks/helloreact/src/index.css.ittf.ittf
+                css
+                    ${'$'}include jsExpressWizziSite/webpacks/helloreact/src/index.css
+            
+            $file __dot__wizzi/${pkgPath}src/site/webpacks/helloreact/webpack.config.js.ittf.ittf
+                module
+                    kind es6
+                    ${'$'}include jsExpressWizziSite/webpacks/helloreact/webpack.config.js
+            
+            $file __dot__wizzi/${pkgPath}src/site/webpacks/helloreact/babel.config.js.ittf.ittf
+                module
+                    kind es6
+                    ${'$'}include jsExpressWizziSite/webpacks/helloreact/babel.config.js
+
+

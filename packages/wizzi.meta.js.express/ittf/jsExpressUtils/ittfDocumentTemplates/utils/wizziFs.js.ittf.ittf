@@ -1,18 +1,17 @@
 $group
-    import path from 'path'
-    import
-        @ verify
-        @ fSystem
-        @ crypto
-        from '@wizzi/utils'
-    import
-        @ promisify
-        from './functionWrappers'
-    export
-        const normalize
-            =>
-                param filepath
-                return verify.replaceAll(filepath, '\\', '/')
+    const path = require('path')
+    const verify = require('wizzi-utils').verify
+    const fSystem = require('wizzi-utils').fSystem
+    const crypto = require('wizzi-utils').crypto
+    const promisify = require('./functionWrappers').promisify
+    +
+    set module.exports = {}
+    +
+    set module.exports.normalize
+        =>
+            param filepath
+            return verify.replaceAll(filepath, '\\', '/')
+    +
     const file = fSystem.vfile()
     const promiseFileExists = promisify(file.exists, file)
     const promiseFileRead = promisify(file.read, file)
@@ -20,63 +19,64 @@ $group
     # TODO const promiseFileRename = promisify(file.rename, file)
     const promiseFileDelete = promisify(file.unlink, file)
     const promiseFileDuplicate = promisify(file.copyFile, file)
-    export
-        const joinPathFromArray
-            =>
-                param segments
-                var ret = segments[0]
-                for var i=1; i<segments.length; i++
-                    set ret
-                        _ path.join
-                            @ ret
-                            @ segments[i]
-                return ret
-    export
-        const fileInfoByPath
-            =>
-                param filePath
-                param baseFolder
-                param baseUri
-                set filePath = normalize(filePath)
-                set baseFolder = normalize(baseFolder)
-                var basename = path.basename(filePath)
-                var dirname = path.dirname(filePath)
-                var relFolder = path.dirname(filePath).length > baseFolder.length ? path.dirname(filePath).substr(baseFolder.length + 1) : ''
-                var fileUri
-                    _ filePath.substr
-                        @ baseFolder.length
-                var ss = basename.split('.')
-                if ss[ss.length-1] === 'ittf'
-                    return
-                        {
-                            @ uri (baseUri || '') + fileUri
-                            @ name ss.slice(0, ss.length-2).join('.')
-                            @ basename basename
-                            @ displayName (relFolder.length > 0 ? relFolder + '/' + basename : basename)
-                            @ isIttfDocument true
-                            @ isFragment filePath.indexOf('/t/') > -1
-                            @ schema ss[ss.length-2]
-                            @ mime ss[ss.length-2]
-                            @ relFolder relFolder
-                            @ fullPath filePath
-                            @ hash crypto.encrypt(filePath)
-                            @ content undefined
-                else
-                    return
-                        {
-                            @ uri fileUri
-                            @ name ss.slice(0, ss.length-1).join('.')
-                            @ basename basename
-                            @ displayName (relFolder.length > 0 ? relFolder + '/' + basename : basename)
-                            @ isIttfDocument false
-                            @ schema null
-                            @ mime ss[ss.length-1]
-                            @ relFolder relFolder
-                            @ fullPath filePath
-                            @ hash crypto.encrypt(filePath)
-                            @ content undefined
-    export
-        async-function getFolderFiles
+    +
+    set module.exports.joinPathFromArray
+        =>
+            param segments
+            var ret = segments[0]
+            for var i=1; i<segments.length; i++
+                set ret
+                    _ path.join
+                        @ ret
+                        @ segments[i]
+            return ret
+    +
+    set module.exports.fileInfoByPath
+        =>
+            param filePath
+            param baseFolder
+            param baseUri
+            set filePath = normalize(filePath)
+            set baseFolder = normalize(baseFolder)
+            var basename = path.basename(filePath)
+            var dirname = path.dirname(filePath)
+            var relFolder = path.dirname(filePath).length > baseFolder.length ? path.dirname(filePath).substr(baseFolder.length + 1) : ''
+            var fileUri
+                _ filePath.substr
+                    @ baseFolder.length
+            var ss = basename.split('.')
+            if ss[ss.length-1] === 'ittf'
+                return
+                    {
+                        @ uri (baseUri || '') + fileUri
+                        @ name ss.slice(0, ss.length-2).join('.')
+                        @ basename basename
+                        @ displayName (relFolder.length > 0 ? relFolder + '/' + basename : basename)
+                        @ isIttfDocument true
+                        @ isFragment filePath.indexOf('/t/') > -1
+                        @ schema ss[ss.length-2]
+                        @ mime ss[ss.length-2]
+                        @ relFolder relFolder
+                        @ fullPath filePath
+                        @ hash crypto.encrypt(filePath)
+                        @ content undefined
+            else
+                return
+                    {
+                        @ uri fileUri
+                        @ name ss.slice(0, ss.length-1).join('.')
+                        @ basename basename
+                        @ displayName (relFolder.length > 0 ? relFolder + '/' + basename : basename)
+                        @ isIttfDocument false
+                        @ schema null
+                        @ mime ss[ss.length-1]
+                        @ relFolder relFolder
+                        @ fullPath filePath
+                        @ hash crypto.encrypt(filePath)
+                        @ content undefined
+    +
+    set module.exports.getFolderFiles
+        async-function 
             param folderPath
             param baseFolderPath
             param baseUri
@@ -101,8 +101,9 @@ $group
                             { data
                                 @ items ret
                             @ message "Got folder files"
-    export
-        async-function getIttfFilesOfSchema
+    +
+    set module.exports.getIttfFilesOfSchema
+        async-function 
             param folderPath
             param schemaName
             r_promise${'('})
@@ -130,20 +131,23 @@ $group
                 return
                     _ resolve
                         @ ret
-    export
-        async-function fsItemExists
+    +
+    set module.exports.fsItemExists
+        async-function 
             param filePath
             return
                 _ promiseFileExists
                     @ filePath
-    export
-        async-function readFsItem
+    +
+    set module.exports.readFsItem
+        async-function 
             param filePath
             return
                 _ promiseFileRead
                     @ filePath
-    export
-        async-function readJsonObject
+    +
+    set module.exports.readJsonObject
+        async-function 
             param filePath
             r_promise${'('})
                 _ promiseFileRead
@@ -155,16 +159,18 @@ $group
                                 _ resolve
                                     _ JSON.parse
                                         @ content
-    export
-        async-function writeFsItem
+    +
+    set module.exports.writeFsItem
+        async-function 
             param filePath
             param content
             return
                 _ promiseFileWrite
                     @ filePath
                     @ content
-    export
-        async-function writeJsonObject
+    +
+    set module.exports.writeJsonObject
+        async-function 
             param filePath
             param content
             return
@@ -174,22 +180,25 @@ $group
                         @ content
                         @ null
                         @ 2
-    export
-        async-function deleteFsItem
+    +
+    set module.exports.deleteFsItem
+        async-function 
             param filePath
             return
                 _ promiseFileDelete
                     @ filePath
-    export
-        async-function duplicateFsItem
+    +
+    set module.exports.duplicateFsItem
+        async-function 
             param itemPath
             param newPath
             return
                 _ promiseFileDuplicate
                     @ itemPath
                     @ newPath
-    export
-        async-function renameFsItem
+    +
+    set module.exports.renameFsItem
+        async-function 
             param oldPath
             param newPath
             throw new Error("wizziFs.renameFsItem not implemented")

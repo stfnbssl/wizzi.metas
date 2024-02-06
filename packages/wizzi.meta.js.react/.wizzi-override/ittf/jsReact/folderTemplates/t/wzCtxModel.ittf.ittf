@@ -1,0 +1,21 @@
+$group
+    $file __dot__wizzi/models/t/jsReact.json.ittf.ittf
+        ${'$'}{'$'}group
+            useReact true
+            { react
+                useBabel true
+                { babel
+                useRouter true
+                { router 
+                useMui true
+                { mui 
+                    useBase false
+                    { base
+                    useIcons false
+                    { icons
+                    useJoy false
+                    { joy
+                    useMaterial true
+                    { material
+                    useSystem false
+                    { system

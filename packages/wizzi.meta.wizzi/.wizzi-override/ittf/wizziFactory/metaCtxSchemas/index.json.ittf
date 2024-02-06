@@ -1,5 +1,4 @@
 {
-    productionName "wizziFactory"
     [ parameters
         params/object(wizziFactory)
             params/array(plugins)

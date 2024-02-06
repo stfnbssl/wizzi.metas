@@ -1,19 +1,19 @@
 $group
     
-    import compression from 'compression'
+    const compression =  require('compression')
 
     # see other options here http://expressjs.com/en/resources/middleware/compression.html
     const options
         {
             @ filter shouldCompress
 
-    export 
-        const CompressionMiddleware
-            => 
-                param app
-                _ app.use
-                    _ compression
-                        @ options
+    set module.exports = {}
+    set module.exports.CompressionMiddleware
+        => 
+            param app
+            _ app.use
+                _ compression
+                    @ options
 
     function shouldCompress
         param req

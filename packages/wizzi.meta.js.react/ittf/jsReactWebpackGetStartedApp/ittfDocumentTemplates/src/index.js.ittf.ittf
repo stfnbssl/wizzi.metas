@@ -25,6 +25,7 @@ $group
             $foreach entry in metaCtx.jsReactWebpackGetStartedApp.webpackEntries
                 import ${entry.importName} from '${entry.importPath}'
 
+
     $if metaCtx.jsReactWebpackGetStartedApp.useWebpackJson
         info 'jsonData', jsonData
 

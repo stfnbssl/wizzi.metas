@@ -1,5 +1,4 @@
 {
-    productionName "wizziPlugin"
     [ parameters
         params/string(name)
         params/string(npnName)

@@ -23,6 +23,14 @@ Wizzi meta plugin for creating wizzi javascript express server packages
 </tr>
 <tr>
 <td>
+<a href https://github.com//wizzi.meta.js.express/tree/master/.wizzi/ittf/lib/wizzi/productions/jsExpressFeatureConfig.wfproduction.ittf>jsExpressFeatureConfig</a><td>jsExpressFeatureConfig wizzi meta production</td>
+</tr>
+<tr>
+<td>
+<a href https://github.com//wizzi.meta.js.express/tree/master/.wizzi/ittf/lib/wizzi/productions/jsExpressFeatureWizzi.wfproduction.ittf>jsExpressFeatureWizzi</a><td>jsExpressFeatureWizzi wizzi meta production</td>
+</tr>
+<tr>
+<td>
 <a href https://github.com//wizzi.meta.js.express/tree/master/.wizzi/ittf/lib/wizzi/productions/jsExpressStyles.wfproduction.ittf>jsExpressStyles</a><td>jsExpressStyles wizzi meta production</td>
 </tr>
 <tr>

@@ -1,3 +1,3 @@
 {
-    productionName "commonsWebpack"
-    params/string( outputPath )
+    [ parameters
+        params/string( outputPath )

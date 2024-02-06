@@ -29,6 +29,12 @@ $group
                 $if metaCtx.useJsExpressBasicApp
                     ${'$'}{'$'}include jsExpressBasicApp.json
                     
+                $if metaCtx.useJsExpressFeatureConfig
+                    ${'$'}{'$'}include jsExpressFeatureConfig.json
+                    
+                $if metaCtx.useJsExpressFeatureWizzi
+                    ${'$'}{'$'}include jsExpressFeatureWizzi.json
+                    
                 $if metaCtx.useJsExpressStyles
                     ${'$'}{'$'}include jsExpressStyles.json
                     

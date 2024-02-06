@@ -1,51 +1,47 @@
 $group
     
-    import jwt from 'express-jwt'
-    import jwksRsa from 'jwks-rsa'
-    import 
-        @ config
-        from '../features/config/index.js'
+    const jwt =  require('express-jwt')
+    const jwksRsa =  require('ejwks-rsa')
+    const config =  require('../features/config/index.js').config
     
-    export 
-        const checkJwt
-            _ jwt
-                { 
-                    # Dynamically provide a signing key based on the kid in the header and the singing keys
-                    # provided by the JWKS endpoint.
-                    @ secret
-                        _ jwksRsa.expressJwtSecret
-                            { 
-                                @ cache true
-                                @ rateLimit true
-                                @ jwksRequestsPerMinute 5
-                                @ jwksUri
-                                    `lit 
-                                        + https://
-                                        @ config.auth0Domain
-                                        + /.well-known/jwks.json
-                    # Validate the audience and the issuer.
-                    @ audience config.auth0PackiApiId
-                    @ issuer
-                        `lit 
-                            + https://
-                            @ config.auth0Domain
-                            + /
-                    [ algorithms
-                        @ 'RS256'
+    set module.exports = {}
+    set module.exports.checkJwt
+        _ jwt
+            { 
+                # Dynamically provide a signing key based on the kid in the header and the singing keys
+                # provided by the JWKS endpoint.
+                @ secret
+                    _ jwksRsa.expressJwtSecret
+                        { 
+                            @ cache true
+                            @ rateLimit true
+                            @ jwksRequestsPerMinute 5
+                            @ jwksUri
+                                `lit 
+                                    + https://
+                                    @ config.auth0Domain
+                                    + /.well-known/jwks.json
+                # Validate the audience and the issuer.
+                @ audience config.auth0PackiApiId
+                @ issuer
+                    `lit 
+                        + https://
+                        @ config.auth0Domain
+                        + /
+                [ algorithms
+                    @ 'RS256'
     
-    export 
-        const checkScopes
-            => 
-                param scopes
-                _ jwtAuthz(scopes)
+    set module.exports.checkScopes
+        => 
+            param scopes
+            _ jwtAuthz(scopes)
     
-    export 
-        const AuthorizationMiddleware
-            => 
-                param app
-                _ app.use(checkJwt)
+    set module.exports.AuthorizationMiddleware
+        => 
+            param app
+            _ app.use(checkJwt)
     
-    const jwtAuthz
+    set module.exports.jwtAuthz
         => 
             param expectedScopes
             param options

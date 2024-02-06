@@ -1,0 +1,8 @@
+module
+    kind es6
+    set module.exports
+        =>
+            param message
+            param exit
+            _ console.error(message)
+            _ exit && process.exit(1)

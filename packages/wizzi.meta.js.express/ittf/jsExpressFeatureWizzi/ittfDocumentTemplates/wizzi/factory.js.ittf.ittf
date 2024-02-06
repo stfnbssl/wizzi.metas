@@ -1,0 +1,259 @@
+$group
+
+    const path = require('path')
+    const wizzi = require('@wizzi/factory')
+    const fSystem = require('@wizzi/utils').fSystem
+    const JsonComponents = require('@wizzi/repo').JsonComponents
+    const JsonDocumentDto = require('@wizzi/repo').JsonDocumentDto
+    const JsonFs = require('@wizzi/repo').JsonFs
+    
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        const packiFilePrefix = require('../config/env').packiFilePrefix
+    
+    const appConfig = require('../config').config
+    const wizziMaps = require('./maps')
+    
+    +
+    const myname = 'features/wizzi/factory'
+    +
+    set module.exports = {}
+    +
+    function getWzCtxFactoryPlugins
+        return
+            {
+                [ items
+                    ${'$'}foreach item in wzCtx.Build.wizzi.plugins
+                        @ '${'$'}{item}'
+                ${'$'}if wzCtx.Build.wizzi.pluginsBaseFolder
+                    @ pluginsBaseFolder '${'$'}{wzCtx.Build.wizzi.pluginsBaseFolder}'
+
+    +
+    function getWzCtxMetaPlugins
+        $if metaCtx.jsExpressFeatureWizzi.useWizziMeta    
+            return
+                {
+                    [ items
+                        ${'$'}foreach item in wzCtx.Build.wizzi.metaPlugins
+                            @ '${'$'}{item}'
+                    ${'$'}if wzCtx.Build.wizzi.metaPluginsBaseFolder
+                        @ metaPluginsBaseFolder '${'$'}{wzCtx.Build.wizzi.metaPluginsBaseFolder}'
+        $else
+            return null
+    +
+    set module.exports.createFilesystemFactoryWithParameters
+        async-function
+            param pluginsBaseFolder
+            param plugins
+            param globalContext
+            r_promise${'('})
+                _ wizzi.fsFactory
+                    {
+                        { repo
+                            @ storeKind "filesystem"
+                        { plugins
+                            @ items plugins
+                            @ pluginsBaseFolder pluginsBaseFolder
+                        @ globalContext globalContext
+                    function
+                        param err
+                        param wf
+                        if err
+                            return reject(err)
+                        return resolve(wf)
+
+    set module.exports.createFilesystemFactory
+        async-function
+            param factoryPlugins
+            param metaPlugins
+            param globalContext
+            const gc
+                {
+            if appConfig.isWizziDev
+                set gc['isWizziStudio'] = true
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ wizzi.fsFactory
+                            {
+                                { repo
+                                    @ storeKind "filesystem"
+                                @ plugins
+                                    iif factoryPlugins
+                                        then factoryPlugins
+                                        else getWzCtxFactoryPlugins()
+                                @ metaPlugins
+                                    iif metaPlugins
+                                        then metaPlugins
+                                        else getWzCtxMetaPlugins()
+                                @ globalContext
+                                    _ Object.assign
+                                        {
+                                        @ gc
+                                        ||
+                                            + globalContext
+                                            {
+                            function
+                                param err
+                                param wf
+                                if err
+                                    return reject(err)
+                                _ resolve(wf)
+    +
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        set module.exports.packiFilesToJsonDocuments
+            function 
+                param files
+                const jsonDocuments
+                    [
+                _ Object.keys(files).map
+                    =>
+                        param value
+                        if files[value].type === 'CODE'
+                            const filePath = ensurePackiFilePrefix(value)
+                            _ jsonDocuments.push
+                                {
+                                    @ path filePath
+                                    @ content files[value].contents
+                return jsonDocuments
+        +
+        set module.exports.createJsonFsAndFactory
+            async-function 
+                param files
+                param factoryPlugins
+                param metaPlugins
+                param globalContext
+                const plugins
+                    [
+                const jsonDocuments
+                    [
+                _ Object.keys(files).map
+                    =>
+                        param value
+                        if files[value].type === 'CODE' && files[value].contents && files[value].contents.length > 0
+                            const filePath = ensurePackiFilePrefix(value)
+                            _ jsonDocuments.push
+                                {
+                                    @ path filePath
+                                    @ content files[value].contents
+                            const pluginList = wizziMaps.pluginsFor(filePath)
+                            _ pluginList.forEach
+                                =>
+                                    param item
+                                    if plugins.indexOf(item) < 0
+                                        _ plugins.push(item)
+                $$ loog myname, 'createFactory', plugins, 'jsonDocuments.length', jsonDocuments.length
+                return
+                    new Promise
+                        =>
+                            param resolve
+                            param reject
+                            _ JsonComponents.createJsonFs
+                                @ jsonDocuments
+                                =>
+                                    param err
+                                    param jsonFs
+                                    if err
+                                        return reject(err)
+                                    _ wizzi.jsonFactory
+                                        {
+                                            @ jsonFs
+                                            @ plugins
+                                                iif factoryPlugins
+                                                    then factoryPlugins
+                                                    else getWzCtxFactoryPlugins()
+                                            @ metaPlugins
+                                                iif metaPlugins
+                                                    then metaPlugins
+                                                    else getWzCtxMetaPlugins()
+                                            @ globalContext
+                                                _ Object.assign
+                                                    {
+                                                    ||
+                                                        + globalContext
+                                                        {
+                                        function
+                                            param err
+                                            param wf
+                                            if err
+                                                return reject(err)
+                                            $$ loog myname, 'createFactory', 'done'
+                                            _ resolve
+                                                {
+                                                    @ wf
+                                                    @ jsonFs
+        +
+        set module.exports.createJsonFs
+            async-function 
+                param files
+                const jsonDocuments
+                    [
+                _ Object.keys(files).map
+                    =>
+                        param value
+                        if files[value].type === 'CODE'
+                            const filePath = ensurePackiFilePrefix(value)
+                            _ jsonDocuments.push
+                                {
+                                    @ path filePath
+                                    @ content files[value].contents
+                $$ loog 'createJsonFs', 'jsonDocuments.length', jsonDocuments.length
+                return
+                    new Promise
+                        =>
+                            param resolve
+                            param reject
+                            _ JsonComponents.createJsonFs
+                                @ jsonDocuments
+                                =>
+                                    param err
+                                    param result
+                                    if err
+                                        return reject(err)
+                                    _ resolve(result)
+        +
+        set module.exports.extractGeneratedFiles
+            async-function 
+                param jsonFs
+                const files
+                    {
+                return
+                    new Promise
+                        =>
+                            param resolve
+                            param reject
+                            _ jsonFs.toFiles
+                                {
+                                    @ removeRoot packiFilePrefix
+                                =>
+                                    param err
+                                    param result
+                                    if err
+                                        _ reject(err)
+                                    _ result.forEach
+                                        =>
+                                            param value
+                                            $$ loog 'wizzi.factory.extractGeneratedFiles.value.fullPath', value.fullPath,
+                                            $$    \b value.fullPath.substr(packiFilePrefix.length)
+                                            if value.relPath.endsWith('.ittf') == false
+                                                set files[value.relPath] =
+                                                    {
+                                                        @ type 'CODE'
+                                                        @ contents
+                                                            @expr value.content
+                                                        @ generated true
+                                    _ resolve(files)
+        +
+        set module.exports.ensurePackiFilePrefix
+            function 
+                param filePath
+                var newFilePath = normalizePath(filePath)
+                return
+                    iif newFilePath.startsWith(packiFilePrefix)
+                        then newFilePath
+                        else packiFilePrefix + newFilePath
+
+        function normalizePath
+            param path
+            return path.replace(/\\/g, '/')

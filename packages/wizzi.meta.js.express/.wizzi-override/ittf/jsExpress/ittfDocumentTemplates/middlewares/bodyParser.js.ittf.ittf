@@ -1,17 +1,17 @@
 $group
     
-    import bodyParser from 'body-parser'
+    const bodyParser =  require('body-parser')
 
     ${'$'}hook imports
     
-    export 
-        const BodyParserMiddleware
-            => 
-                param app
-                _ app.use
-                    _ bodyParser.json
-                _ app.use
-                    _ bodyParser.urlencoded
-                        { 
-                            @ extended true
-                ${'$'}hook
+    set module.exports = {}
+    set module.exports.BodyParserMiddleware
+        => 
+            param app
+            _ app.use
+                _ bodyParser.json
+            _ app.use
+                _ bodyParser.urlencoded
+                    { 
+                        @ extended true
+            ${'$'}hook

@@ -1,9 +1,9 @@
 {
     $include versions
     name "wizzi.meta.wizzi"
-    npmName ""
+    npmName "@wizzi/meta.wizzi"
     pluginBasename ""
-    version '${versions['@next']}'
+    version '${versions['@wizzi/meta.wizzi@next']}'
     description "Wizzi meta plugin for creating wizzi wizzi packages"
     { author
         name "Stefano Bassoli"
@@ -33,18 +33,25 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+    [ Categories
+        {
+            name "wizzi"
     [ Productions
         {
             name "wizziJobs"
             title "wizziJobs wizzi meta production"
+            [ categories
         {
             name "wizziFactory"
             title "wizziFactory wizzi meta production"
+            [ categories
         {
             name "wizziPlugin"
             title "wizziPlugin wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "wizziMeta"
             title "wizziMeta wizzi meta production"
             isPackageMain true
+            [ categories

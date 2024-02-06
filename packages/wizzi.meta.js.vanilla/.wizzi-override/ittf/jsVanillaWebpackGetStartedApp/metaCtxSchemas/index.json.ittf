@@ -1,5 +1,4 @@
 {
-    productionName "jsVanillaWebpackGetStarted"
     [ parameters
         params/use(webpackCss)
             params/use(miniCssExtract)

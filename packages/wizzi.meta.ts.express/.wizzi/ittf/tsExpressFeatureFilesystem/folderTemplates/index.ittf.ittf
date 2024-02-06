@@ -1,18 +1,3 @@
 $group
     $if metaCtx.useTsExpressFeatureFilesystem
         $include wzCtxModel
-        $* Sample file templates
-        $file __dot__wizzi/tsExpressFeatureFilesystem/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include tsExpressFeatureFilesystem/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/tsExpressFeatureFilesystem/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include tsExpressFeatureFilesystem/tfolder/${item}.js
-        *$

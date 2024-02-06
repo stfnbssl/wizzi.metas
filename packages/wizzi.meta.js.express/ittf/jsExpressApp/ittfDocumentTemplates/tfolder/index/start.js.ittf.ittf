@@ -45,9 +45,6 @@ $group
                 @ ...accountControllers
             ${'$'}if wzCtx.Build.useBlog
                 @ ...postControllers
-            ${'$'}if wzCtx.Build.useWizzi
-                ${'$'}if wzCtx.Build.wizzi.useControllers
-                    @ ...wizziControllers
             ${'$'}if wzCtx.Build.features && wzCtx.Build.features.length > 0
                 ${'$'}foreach feature in wzCtx.Build.features
                         ${'$'}if feature.hasControllers

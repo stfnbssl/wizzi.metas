@@ -5,45 +5,43 @@ $group
         import { fileURLToPath } from 'url'
         const __dirname = dirname(fileURLToPath(import.meta.url))
 
-    import path from 'path'
-    import stringify from 'json-stringify-safe'
-    import 
-        @ wizziProds
-        from '../features/wizzi/index.js'
-
+    const path = require('path')
+    const stringify = require('json-stringify-safe')
+    const wizziProds = require('../features/wizzi/index.js').wizziProds
+    
     ${'$'}hook imports
     
-    export 
-        const WizziViewEngineMiddleware
-            => 
-                param app
-                _ app.engine
-                    @ 'ittf'
-                    async-function 
-                        param filePath
-                        param options
-                        param callback
-                        # define the template engine
-                        const twinJsonContext
-                            await 
-                                _ wizziProds.inferAndLoadContextFs(filePath, 'wzCtx')
-                        const context
-                            { 
-                                @ ...options
-                                @ locals options._locals
-                                @ ...twinJsonContext
-                        $$ loog 'WizziViewEngineMiddleware.context', stringify(context, null, 2)
-                        _ wizziProds.generateArtifactFs(filePath, context).then
+    set module.exports = {}
+    set module.exports.WizziViewEngineMiddleware
+        => 
+            param app
+            _ app.engine
+                @ 'ittf'
+                async-function 
+                    param filePath
+                    param options
+                    param callback
+                    # define the template engine
+                    const twinJsonContext
+                        await 
+                            _ wizziProds.inferAndLoadContextFs(filePath, 'wzCtx')
+                    const context
+                        { 
+                            @ ...options
+                            @ locals options._locals
+                            @ ...twinJsonContext
+                    $$ loog 'WizziViewEngineMiddleware.context', stringify(context, null, 2)
+                    _ wizziProds.generateArtifactFs(filePath, context).then
+                        => 
+                            param generated
+                            _ callback(null, generated.artifactContent)
+                        ._ catch
                             => 
-                                param generated
-                                _ callback(null, generated.artifactContent)
-                            ._ catch
-                                => 
-                                    param err
-                                    _ callback(err)
-                const viewsFolder = path.resolve(__dirname, '..', 'site', 'views')
-                success 'WizziViewEngineMiddleware.views folder', viewsFolder
-                # specify the views directory
-                _ app.set('views', viewsFolder)
-                # register the template engine
-                _ app.set('view engine', 'ittf')
+                                param err
+                                _ callback(err)
+            const viewsFolder = path.resolve(__dirname, '..', 'site', 'views')
+            success 'WizziViewEngineMiddleware.views folder', viewsFolder
+            # specify the views directory
+            _ app.set('views', viewsFolder)
+            # register the template engine
+            _ app.set('view engine', 'ittf')

@@ -1,2 +1,8 @@
-${'$'}group 
-   $include wizziMeta/ittf/tfolder/params/enum.json
+{
+    $params name
+    name "${name}"
+    type "string"
+    kind "enum"
+    $append extend
+    [ enumValues
+        $hook

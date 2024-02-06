@@ -1,14 +1,21 @@
 # wizzi.meta.js.react
 
-wizzi.meta.js.react
+Wizzi meta plugin for creating wizzi javascript react packages
+
 
 ## Features
 ### Implemented Wizzi meta productions
 
 <table>
 <tr>
-<th>Production</th>
-<th>Descriptionn</th>
+<th>Production<th>Descriptionn</tr>
+<tr>
+<td>
+<a href https://github.com//wizzi.meta.js.react/tree/master/.wizzi/ittf/lib/wizzi/productions/jsReact.wfproduction.ittf>jsReact</a><td>jsReact wizzi meta production</td>
+</tr>
+<tr>
+<td>
+<a href https://github.com//wizzi.meta.js.react/tree/master/.wizzi/ittf/lib/wizzi/productions/jsReactApp.wfproduction.ittf>jsReactApp</a><td>jsReactApp wizzi meta production</td>
 </tr>
 <tr>
 <td>
@@ -31,18 +38,20 @@ wizzi.meta.js.react
 ## Source and generation
 wizzi.meta.js.react is generated using Wizzi.
 
+
 ## Wizzi
 
 One machinery many productions.
 
 
+
 <p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
 
 ## Built With
-* [Nodejs](https://nodejs.org)
-
-* [Wizzi](https://github.com/stfnbssl/wizzi)
-
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
 

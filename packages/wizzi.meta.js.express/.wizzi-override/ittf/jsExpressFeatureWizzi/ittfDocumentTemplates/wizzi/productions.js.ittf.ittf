@@ -1,0 +1,61 @@
+$group
+
+    ${'$'}
+        var myname = 'features/wizzi/productions';
+
+    const path = require('path')
+    const fs = require('fs')
+    const stringify = require('json-stringify-safe')
+    const wizzi = require('@wizzi/factory')
+    const fSystem = require('@wizzi/utils').fSystem
+    const ittfScanner = require('@wizzi/utils').ittfScanner
+    const ittfGraph = require('@wizzi/utils').ittfGraph
+    const verify = require('@wizzi/utils').verify
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        +
+        const packiFilePrefix = require('../config/env').packiFilePrefix
+        const packiFilePrefixExtract = require('../config/env').packiFilePrefixExtract
+    +
+    const config = require('../config').config
+    +
+    const createFilesystemFactory = require('./factory').createFilesystemFactory
+    const createFilesystemFactoryWithParameters = require('./factory').createFilesystemFactoryWithParameters
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        const createJsonFsAndFactory = require('./factory').createJsonFsAndFactory
+        const ensurePackiFilePrefix = require('./factory').ensurePackiFilePrefix
+    const wizziMaps = require('./maps')
+    +    
+    const JsonFs = require('@wizzi/repo').JsonFs
+    +
+    const myname = '${'$'}{myname}'
+    +
+    set module.exports = {}
+    +
+    ${'$'}include productions/loadModel
+    ${'$'}include productions/generateArtifact
+    ${'$'}include productions/inferAndLoadContext
+    ${'$'}include productions/scanIttfDocument
+
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        function jsonFsToPackiFiles
+            param jsonFs
+            param folder
+            r_promise${'('})
+                const packiFiles
+                    {
+                _ jsonFs.toFiles
+                    {
+                        @ removeRoot packiFilePrefixExtract
+                    a_reject${'('}files, :ref, fSystem.FileDef[])
+                        _ files.forEach
+                            =>
+                                param file
+                                if file.relPath.startsWith(folder + '/')
+                                    set packiFiles[file.relPath] =
+                                        {
+                                            @ type 'CODE'
+                                            @ contents file.content
+                                            @ generated true
+                        _ resolve
+                            @ packiFiles
+

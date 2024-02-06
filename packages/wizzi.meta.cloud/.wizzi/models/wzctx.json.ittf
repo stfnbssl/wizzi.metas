@@ -4,15 +4,13 @@
     npmName "@wizzi/meta.cloud"
     pluginBasename ""
     version '${versions['@wizzi/meta.cloud@next']}'
-    description "wizzi.meta.cloud"
+    description "Wizzi meta plugin for creating wizzi cloud packages"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
-    { license
-        name "MIT"
-        copy "copy 2023"
+    license "MIT"
     metaNamespace "cloud"
     { Build
         useConfig true
@@ -20,7 +18,14 @@
         isWizziMeta true
         { wizziMeta
             [ plugins
+                "./wizzi.plugin.css/index.js"
+                "./wizzi.plugin.html/index.js"
                 "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.js/index.js"
+                "./wizzi.plugin.json/index.js"
+                "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.text/index.js"
+                "./wizzi.plugin.wzjob/index.js"
             pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
             { globalContext
                 wzConfigIsDevelopment true
@@ -28,10 +33,32 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "cloud"
     [ Productions
         {
             name "cloudAzure"
             title "cloudAzure wizzi meta production"
+            [ categories
+                {
+                    name "cloud"
         {
             name "cloudHeroku"
             title "cloudHeroku wizzi meta production"
+            [ categories
+                {
+                    name "cloud"

@@ -5,7 +5,7 @@ $group
         # If the user is not logged in, it stores the requested url in `returnTo` attribute
         # and then redirects to `/auth/login`.
     
-    export-default 
+    set module.exports
         function getSecured
             $$ loog 'middleware.getSecured called'
             return 

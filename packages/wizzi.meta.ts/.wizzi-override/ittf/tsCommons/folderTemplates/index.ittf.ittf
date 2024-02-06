@@ -3,4 +3,3 @@ $group
         
         $include config
         $include tfolder
-        $include ts

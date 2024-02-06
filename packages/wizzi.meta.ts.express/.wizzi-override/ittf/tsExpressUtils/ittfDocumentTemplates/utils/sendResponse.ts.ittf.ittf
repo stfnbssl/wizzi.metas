@@ -31,6 +31,21 @@ $group
                     @ res
                     @ 'text/html'
                     @ content
+
+    export 
+        const sendError
+            => 
+                param res
+                    :ref Response
+                param error
+                    :any
+                _ res.status(200)
+                _ res.type('application/json')
+                _ res.send
+                    {
+                        @ err error
+                        @ message error && error.message
+                        @ stack error && error.stack
     
     export 
         const sendFailure

@@ -1,16 +1,3 @@
 $group
     $if metaCtx.useDocumentsPpt
         $include wzCtxModel
-        $file __dot__wizzi/documentsPpt/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include documentsPpt/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/documentsPpt/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include documentsPpt/tfolder/${item}.js

@@ -1,0 +1,11 @@
+$group
+    $params result|notUsed, typen|@@null, typev|@@null, message|@@null
+    ._ then
+        =>
+            param ${result}
+                $if typen != null
+                    ${typen} ${typev!=null ? typev : ''}
+                $else
+                    :any
+            $hook
+    catch_fail( ${message} )

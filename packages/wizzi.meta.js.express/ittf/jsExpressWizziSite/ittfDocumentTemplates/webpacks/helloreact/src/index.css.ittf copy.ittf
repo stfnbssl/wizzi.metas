@@ -1,0 +1,6 @@
+$group
+
+    . panel
+        background-color #333333
+        color #00ffff
+

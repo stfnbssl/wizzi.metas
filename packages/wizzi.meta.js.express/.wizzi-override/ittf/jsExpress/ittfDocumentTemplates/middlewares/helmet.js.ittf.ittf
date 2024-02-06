@@ -1,13 +1,13 @@
 $group
     
-    import helmet from 'helmet'
+    const helmet =  require('helmet')
 
     # https://geshan.com.np/blog/2021/01/nodejs-express-helmet/
     # see https://expressjs.com/it/advanced/best-practice-security.html
     
-    export 
-        const HelmetMiddleware
-            => 
-                param app
-                _ app.use
-                    _ helmet
+    set module.exports = {}
+    set module.exports.HelmetMiddleware
+        => 
+            param app
+            _ app.use
+                _ helmet

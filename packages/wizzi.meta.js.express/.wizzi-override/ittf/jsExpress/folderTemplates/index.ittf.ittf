@@ -1,4 +1,7 @@
 $group
+    
     $if metaCtx.useJsExpress
         $include wzCtxModel
+        $include tfolder/v08
+        $include tfolder/html
         $include src/middlewares

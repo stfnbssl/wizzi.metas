@@ -29,7 +29,7 @@ $group
                 @ create${'$'}{md.Name}
                 @ update${'$'}{md.Name}
                 @ delete${'$'}{md.Name}
-                from '../api/${'$'}{md.name}'
+                from '../api/${'$'}{md.name}.js'
             ${'$'} 
                 var version = md.apiVersion ? md.apiVersion : '1';
             const myname = 'src/features/${'$'}{md.name}/controllers/apiv${'$'}{version}${'$'}{md.name}'

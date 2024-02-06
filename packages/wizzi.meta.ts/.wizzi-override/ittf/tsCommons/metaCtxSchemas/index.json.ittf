@@ -1,4 +1,3 @@
 {
-    productionName "tsCommons"
     [ parameters
         params/use(wizziViewEngine)

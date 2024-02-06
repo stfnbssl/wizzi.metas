@@ -1,9 +1,9 @@
 {
     "name": "wizzi.meta.js.vanilla",
-    "npnName": "@wizzi/meta.jsVanilla",
+    "npmName": "@wizzi/meta.js.vanilla",
     "pluginBasename": "",
-    "version": "",
-    "description": "wizzi.meta.js.vanilla",
+    "version": "0.0.2",
+    "description": "Wizzi meta plugin for creating wizzi javascript vanilla packages",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
@@ -11,18 +11,22 @@
     "github": {
         "userid": "stfnbssl"
     },
-    "license": {
-        "name": "MIT",
-        "copy": "copy 2023"
-    },
-    "metaNamespace": "jsVanilla",
+    "license": "MIT",
+    "metaNamespace": "js.vanilla",
     "Build": {
         "useConfig": true,
         "config": {},
         "isWizziMeta": true,
         "wizziMeta": {
             "plugins": [
-                "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.css/index.js",
+                "./wizzi.plugin.html/index.js",
+                "./wizzi.plugin.ittf/index.js",
+                "./wizzi.plugin.js/index.js",
+                "./wizzi.plugin.json/index.js",
+                "./wizzi.plugin.md/index.js",
+                "./wizzi.plugin.text/index.js",
+                "./wizzi.plugin.wzjob/index.js"
             ],
             "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
             "globalContext": {
@@ -33,16 +37,44 @@
         "useWizziJsonFactory": true,
         "utils": {
             "useStringifySafe": true
-        }
+        },
+        "scripts": [
+            {
+                "name": "x:1",
+                "action": "node examples/step_1"
+            },
+            {
+                "name": "x:2",
+                "action": "node examples/step_2"
+            },
+            {
+                "name": "x:3",
+                "action": "node examples/step_3"
+            },
+            {
+                "name": "x:4",
+                "action": "node examples/step_4"
+            }
+        ]
     },
+    "Categories": [
+        {
+            "name": "javascript"
+        },
+        {
+            "name": "vanillajs"
+        }
+    ],
     "Productions": [
         {
             "name": "jsVanillaWebpackGetStartedApp",
-            "title": "jsVanillaWebpackGetStartedApp wizzi meta production"
+            "title": "jsVanillaWebpackGetStartedApp wizzi meta production",
+            "categories": []
         },
         {
             "name": "jsVanillaUtils",
-            "title": "jsVanillaUtils wizzi meta production"
+            "title": "jsVanillaUtils wizzi meta production",
+            "categories": []
         }
     ]
 }

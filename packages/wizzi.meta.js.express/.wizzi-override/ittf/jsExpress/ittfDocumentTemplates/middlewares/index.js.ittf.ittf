@@ -1,43 +1,45 @@
 $group
 
     ${'$'}if wzCtx.Build.useAuthorization
-        import { AuthorizationMiddleware } from './authorization'
+        const AuthorizationMiddleware = require('./authorization').AuthorizationMiddleware
+
     ${'$'}if wzCtx.Build.useLogger
-        import { LoggerMiddleware } from './logger'
+        const LoggerMiddleware = require('./logger').LoggerMiddleware
     ${'$'}if wzCtx.Build.useCors
-        import { CorsMiddleware } from './cors'
+        const CorsMiddleware = require('./cors').CorsMiddleware
     ${'$'}if wzCtx.Build.useFlash
-        import { FlashMiddleware } from './flash'
+        const FlashMiddleware = require('./flash').FlashMiddleware
     ${'$'}if wzCtx.Build.useSession
-        import { SessionMiddleware } from './session'
-    ${'$'}if wzCtx.Build.useIttfStatic
-        import { IttfStaticMiddleware } from './ittfStatic'
+        const SessionMiddleware = require('./session').SessionMiddleware
+    ${'$'}if wzCtx.Build.useIttfStaticFiles
+        const IttfStaticFilesMiddleware = require('./ittfStaticFiles').IttfStaticFilesMiddleware
     ${'$'}if wzCtx.Build.usePackiStatic
-        import { PackiStaticMiddleware } from './packiStatic'
+        const PackiStaticMiddleware = require('./packiStatic').PackiStaticMiddleware
     ${'$'}if wzCtx.Build.usePackiBrowse
-        import { PackiBrowseMiddleware } from './packiBrowse'
-    import { BodyParserMiddleware } from './bodyParser'
-    import { CacheControlMiddleware } from './cacheControl'
+        const PackiBrowseMiddleware = require('./packiBrowse').PackiBrowseMiddleware
+    const BodyParserMiddleware = require('./bodyParser').BodyParserMiddleware
+    const CacheControlMiddleware = require('./cacheControl').CacheControlMiddleware
     ${'$'}if wzCtx.Build.useCompression
-        import {CompressionMiddleware} from './compression'
+        const CompressionMiddleware = require('./compression').CompressionMiddleware
     ${'$'}if wzCtx.Build.useHelmet
-        import {HelmetMiddleware} from './helmet'
+        const HelmetMiddleware = require('./helmet').HelmetMiddleware
     ${'$'}if wzCtx.Build.useNetlify
-        import { NetlifyServerMiddleware } from './netlifyServer'
+        const NetlifyServerMiddleware = require('./netlifyServer').NetlifyServerMiddleware
     ${'$'}if wzCtx.Build.useAuthentication || wzCtx.Build.useLocalUserFromConfig
-        import {UserInViewMiddleware} from './userInViews'
+        const UserInViewMiddleware = require('./userInViews').UserInViewMiddleware
     ${'$'}if wzCtx.Build.express.useStaticFiles
-        import { StaticFilesMiddleware } from './static'
+        const StaticFilesMiddleware = require('./static').StaticFilesMiddleware
     ${'$'}if wzCtx.Build.useWizziViewEngine
-        import { WizziViewEngineMiddleware } from './wizziViewEngine'
+        const WizziViewEngineMiddleware = require('./wizziViewEngine').WizziViewEngineMiddleware
     ${'$'}if wzCtx.Build.useWizziCdn
         import { WizziCdnMiddleware } from './wizziCdn'
+        const AuthorizationMiddleware = require('./authorization').AuthorizationMiddleware
     ${'$'}if wzCtx.Build.useWebpackApp
-        import { WebpackAppMiddleware } from './webpackApp'
+        const WebpackAppMiddleware = require('./webpackApp').WebpackAppMiddleware
     ${'$'}if wzCtx.Build.usePromiseMiddleware
-        import { PromiseMiddleware } from './promise'
+        const PromiseMiddleware = require('./promise').PromiseMiddleware
     ${'$'}if wzCtx.Build.express.useErrors
-        import { ErrorsMiddleware } from './errors'
+        const ErrorsMiddleware = require('./errors').ErrorsMiddleware
     const appMiddlewaresPre
         [
             ${'$'}if wzCtx.Build.useLogger
@@ -48,8 +50,8 @@ $group
                 @ FlashMiddleware
             ${'$'}if wzCtx.Build.useSession
                 @ SessionMiddleware
-            ${'$'}if wzCtx.Build.useIttfStatic
-                @ IttfStaticMiddleware
+            ${'$'}if wzCtx.Build.useIttfStaticFiles
+                @ IttfStaticFilesMiddleware
             ${'$'}if wzCtx.Build.usePackiBrowse
                 @ PackiBrowseMiddleware
             ${'$'}if wzCtx.Build.usePackiStatic
@@ -83,21 +85,23 @@ $group
                 @ ErrorsMiddleware
     
     ${'$'}if wzCtx.Build.useAuthorization
+        AuthorizationMiddleware = require('./authorization').AuthorizationMiddleware
         import
             @ checkJwt
             @ checkScopes
             from './authorization'
     
     ${'$'}if wzCtx.Build.useAuthentication
+        AuthorizationMiddleware = require('./authorization').AuthorizationMiddleware
         import webSecured from './webSecured'
         import apiSecured from './apiSecured'
     
-    export
-        @ appMiddlewaresPre
-        @ appMiddlewaresPost
-        ${'$'}if wzCtx.Build.useAuthorization
-            @ checkJwt
-            @ checkScopes
-        ${'$'}if wzCtx.Build.useAuthentication
-            @ webSecured
-            @ apiSecured
+    set module.exports = {}
+    set module.exports.appMiddlewaresPre = appMiddlewaresPre
+    set module.exports.appMiddlewaresPost = appMiddlewaresPost
+    ${'$'}if wzCtx.Build.useAuthorization
+        set module.exports.checkJwt = checkJwt
+        set module.exports.checkScopes = checkScopes
+    ${'$'}if wzCtx.Build.useAuthentication
+        set module.exports.webSecured = webSecured
+        set module.exports.apiSecured = apiSecured

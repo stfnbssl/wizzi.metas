@@ -1,6 +1,9 @@
-$group
-    $params name
-    {
-        name "${name}"
-        type "integer"
-        $hook
+{
+    $params name, defaultValue:boolean|false
+    name "${name}"
+    type "integer"
+    $if defaultValue == null
+        defaultValue null
+    $else
+        defaultValue ${defaultValue}
+    $hook

@@ -1,0 +1,108 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}ittf/models/sitectx.json.ittf.ittf
+        {
+            name "Wizzi"
+            version "0.0.1"
+            title "The artifact meta generation platform."
+            title2 "With Wizzi you set up model driven productions of code, packages, documents and data files."
+            [ subtitles
+                "A single machinery, many productions."
+                "Language agnostic."
+                "All productions are managed by plugins."
+            { author
+                name "Stefano Bassoli"
+                email "stfn.bssl@gmail.com"
+            ${'$'}{'$'}include ./sitectx/lab
+            [ demos
+                { 
+                    title "Pure html" 
+                    href "/public/pure.html"
+                { 
+                    title "Wizzi generated on the fly" 
+                    href "/ittf/demo.wizzi.html.ittf"
+                { 
+                    title "Ittf site" 
+                    href "/ittf/site/index.html.ittf"
+                { 
+                    title "Webapi" 
+                    href "/ittf/site/webapi/index.html.ittf"
+
+    $file __dot__wizzi/${pkgPath}ittf/models/t/sitectx/lab.json.ittf.ittf
+        ${'$'}{'$'}group
+            { Lab
+                [ groups
+                    {
+                        title "Getting started"
+                        [ items
+                            { 
+                                title "Playground"
+                                href "/ittf/playground/index.html.ittf"
+                    {
+                        title "Project"
+                        [ items
+                            {
+                                title "TODO" 
+                                href "/ittf/site/project/todo.html.ittf"
+                            { 
+                                title "Issues" 
+                                href "/ittf/site/project/issues.html.ittf"
+                    {
+                        title "Dev"
+                        [ items
+                            {
+                                title "Styles" 
+                                href "/ittf/styles"
+                            {
+                                title "Web API"
+                                href "/ittf/webapi/index.html.ittf"
+
+                    {
+                        { title "Work in progress" 
+                        [ items
+                            { 
+                                title "Demo - Target technologies" 
+                                href "/ittf/demo/ttech"
+                            { 
+                                title "Demo - Apps" 
+                                href "/ittf/demo/apps"
+                            {
+                                title "Lab" 
+                                href "/ittf/lab"
+                            { 
+                                title "Packi" 
+                                href "/public/packi/index.html"
+                            { 
+                                title "Productions" 
+                                href "/ittf/test/productions.html.ittf"
+                    { 
+                        title "Packi" 
+                        [ items
+                            {
+                                title "Html packi starter" 
+                                href "/~-/html.starter"
+                            { 
+                                title "Packi editor" 
+                                href "/~~/stfnbssl"
+                            { 
+                                title "Property editor" 
+                                href "/package/props"
+                    { 
+                        title "Demos" 
+                        [ items
+                            { 
+                                title "Pure html" 
+                                href "/static/pure.html"
+                            { 
+                                title "Wizzi static pre-generated" 
+                                href "/static/wizzi.html"
+                            { 
+                                title "Wizzi generated on the fly" 
+                                href "/ittf/demo.wizzi.html.ittf"
+                            { 
+                                title "Webpack hello" 
+                                href "/ittf/demo.hello.webpack.html.ittf"
+                            { 
+                                title "Monaco editor" 
+                                href "/ittf/demo/ttech"   
+

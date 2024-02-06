@@ -1,0 +1,43 @@
+$group
+    #
+        # taken+modifyed from https://github.com/IonicaBizau/proc-output/blob/master/lib/index.js
+        # params
+        # { proc        The process object (Process).
+        # function cb   The callback function.
+        # returns
+        # function cb   The process object {Process}.
+    set md.procOutput
+        =>
+            param proc
+            param options
+            param cb
+            if typeof options === "function"
+                set cb = options
+                set options =
+                    {
+            let
+                decl stdout = ""
+                decl stderr = ""
+            _ proc.on
+                @ "error"
+                =>
+                    param err
+                    _ cb(err)
+            _ proc.stdout.on
+                @ "data"
+                =>
+                    param chunk
+                    if options.res
+                    else
+                        set stdout += chunk
+            _ proc.stderr.on
+                @ "data"
+                =>
+                    param chunk
+                    set stderr += chunk
+            _ proc.on
+                @ "close"
+                =>
+                    param code
+                    _ cb(null, stdout, stderr, code)
+            return proc

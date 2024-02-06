@@ -1,6 +1,9 @@
 $group
-    ${'$'}params name
-    {
-        name "${'$'}{name}"
-        type "string"
-        ${'$'}hook
+    ${'$'}params name, defaultValue|@@null
+    name "${'$'}{name}"
+    type "string"
+    ${'$'}if defaultValue == null
+        defaultValue null
+    ${'$'}else
+        defaultValue "${'$'}{defaultValue}"
+    ${'$'}hook        

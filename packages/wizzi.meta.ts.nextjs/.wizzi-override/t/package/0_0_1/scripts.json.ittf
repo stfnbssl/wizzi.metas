@@ -69,6 +69,10 @@ $group
         dev "vite"
         build "tsc && vite build"
         preview "vite preview"
+    $elif wzCtx.Build.useNextjs
+        dev "next"
+        build "next build"
+        start "next start"
     $elif wzCtx.Build.useExpress
         $if wzCtx.Build.useNetlify
             $if wzCtx.Build.useLocalServer
@@ -101,6 +105,10 @@ $group
                 start "set NODE_ENV=development && nodemon src/index && start ${wzCtx.App.baseUrl}"
         $if wzCtx.Build.express.useSslCert
             certificate "C:\"Program Files"\Git\usr\ssl\openssl.exe req -nodes -new -x509 -keyout server.key -out server.cert"
+    $elif wzCtx.Build.useTypescript
+        $if wzCtx.Build.typescript.useTsc
+            build "tsc --build"
+            clean "tsc --build --clean"
     $if wzCtx.Build.useLint
         $ var debug = false;
         $if wzCtx.Build.useTypescript
@@ -127,17 +135,24 @@ $group
             prettier "prettier --write src/**/*.js"
     $if wzCtx.Build.useTailwindcss
         $if wzCtx.Build.isClientServer
-            build-css "tailwindcss build src/server/styles/tailwind.css -o static/styles/tailwind.css"
+            build-css "tailwindcss -i src/server/styles/tailwind.css -o static/styles/tailwind.css"
             postcss "postcss src/server/styles/tailwind.css -o static/styles/tailwind.css"
         $elif wzCtx.Build.isServer
-            build-css "tailwindcss build src/styles/tailwind.css -o static/styles/tailwind.css"
+            build-css "tailwindcss -i src/styles/tailwind.css -o static/styles/tailwind.css"
             postcss "postcss src/styles/tailwind.css -o static/styles/tailwind.css"
         $else
-            build-css "tailwindcss build src/styles/tailwind.css -o static/styles/tailwind.css"
-            postcss "postcss src/styles/tailwind.css -o static/styles/tailwind.css"
+            $if wzCtx.Build.isStaticSite
+                build-css "tailwindcss -i src/styles/tailwind.css -o dist/styles/tailwind.css"
+                postcss "postcss src/styles/tailwind.css -o dist/styles/tailwind.css"
+            $else
+                build-css "tailwindcss -i src/styles/tailwind.css -o static/styles/tailwind.css"
+                postcss "postcss src/styles/tailwind.css -o static/styles/tailwind.css"
     $if wzCtx.Build.useStorybook
         storybook "start-storybook -p 6006"
         build-storybook "build-storybook"
     $if wzCtx.Build.useSequelize
         sequelize:migrate "npx sequelize-cli db:migrate"
         sequelize:migrate:reset "npx sequelize-cli db:migrate:undo:all && npm run migrate"
+    $if _.isArray(wzCtx.Build.scripts)
+        $foreach item in wzCtx.Build.scripts
+            ${item.name} "${item.action}"

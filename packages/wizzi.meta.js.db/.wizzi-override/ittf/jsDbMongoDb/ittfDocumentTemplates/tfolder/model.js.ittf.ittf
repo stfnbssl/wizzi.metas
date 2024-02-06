@@ -1,11 +1,12 @@
 $group
     ${'$'}params &md
 
-    import 
-        @ Schema
-        @ Model
-        @ model
-        from "mongoose"
+    const mongoose = require('mongoose')
+    const Schema = mongoose.Schema
+    const model = mongoose.model
+    +
+    const md = module.exports = {}
+    +
     +
     # see https://mongoosejs.com/docs/schematypes.html
     +

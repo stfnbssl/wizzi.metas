@@ -1,2 +1,2 @@
 {
-    productionName "tsDbRedis"
+    [ parameters

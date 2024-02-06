@@ -3,6 +3,7 @@ $group
         var srcPath = metaCtx.useCloudAzure ? 'Build/src' : 'src';
         var ittfPath = metaCtx.useCloudAzure ? 'Build/ittf' : 'ittf';
         var publicPath = metaCtx.useCloudAzure ? 'Build/public' : 'public';
+        var tHtmlPath = metaCtx.useCloudAzure ? 'Build/t/html' : 't/html';
         var preDeployPath = metaCtx.useCloudAzure ? 'Build/predeploy' : 'predeploy';
         var rootPath = metaCtx.useCloudAzure ? 'Build' : '';
         var testsPath = metaCtx.useCloudAzure ? 'Tests' : 'tests';
@@ -18,6 +19,7 @@ $group
                     ittf_src_folder: path.join(__dirname, 'src'),
                     ittf_src_t_images: path.join(__dirname, 'src', 't', 'images'),
                     ittf_src_t_models: path.join(__dirname, 'src', 't', 'models'),
+                    ittf_t_html_folder: path.join(__dirname, 't', 'html'),
         		    ittf_root_folder: path.join(__dirname, 'root'),
                     ittf_tests_folder: path.join(__dirname, 'Tests'),
                     ittf_public_folder: path.join(__dirname, 'public'),
@@ -68,6 +70,7 @@ $group
         		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}
         
                 wfjobs${'$'}{'('}any_js, &jobCtx)
+                wfjobs${'$'}{'('}any_jsx, &jobCtx)
                 wfjobs${'$'}{'('}any_css, &jobCtx)
                 wfjobs${'$'}{'('}any_json, &jobCtx)
                 wfjobs${'$'}{'('}any_md, &jobCtx)
@@ -118,6 +121,13 @@ $group
                 wfjobs${'$'}{'('}any_plain, &jobCtx, css)
                 wfjobs${'$'}{'('}any_plain, &jobCtx, js)
                 wfjobs${'$'}{'('}any_plain_image, &jobCtx)
+        	$if metaCtx.useDemos
+                ---
+                line t-html
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_t_html_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${tHtmlPath}
+            
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, html.ittf)
         	---
             line ittf-ittf
                 cwd-folder ${'$'}{'$'}{jobCtx.ittf_ittf_folder}
@@ -166,6 +176,8 @@ $group
                     line-ref ittf-src-images
                     $if metaCtx.jsExpressWizziSite.useWizziDocs
                         line-ref ittf-src-models
+                $if metaCtx.useDemos
+                    line-ref t-html
                 line-ref ittf-ittf
                 line-ref ittf-tests
                 $if metaCtx.useCloudAzure

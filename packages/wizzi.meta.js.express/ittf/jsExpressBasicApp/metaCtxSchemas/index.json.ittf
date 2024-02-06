@@ -1,4 +1,3 @@
 {
-    productionName "jsExpressBasicApp"
     [ parameters
         params/boolean( usePackageVersion )

@@ -1,11 +1,11 @@
 $group
     ${'$'}params &md
 
-    import
-        @ Schema
-        @ Model
-        @ model
-        from "mongoose"
+    const mongoose = require('mongoose')
+    const Schema = mongoose.Schema
+    const model = mongoose.model
+    +
+    const md = module.exports = {}
     +
     const ${'$'}{md.Name}Schema
         new Schema
@@ -20,24 +20,23 @@ $group
     +
     let ${'$'}{md.Name}Model
     +
-    export
-        function Get${'$'}{md.Name}Model
+    set md.Get${'$'}{md.Name}Model
+        function 
             if !${'$'}{md.Name}Model
                 set ${'$'}{md.Name}Model
                     _ model
                         @ "${'$'}{md.Name}"
             return ${'$'}{md.Name}Model
     +
-    export
-        const ${'$'}{md.Name}ModelBuilder
-            {
-                @ buildModel
-                    =>
-                        param options
-                        set ${'$'}{md.Name}Model =
-                            _ model
-                                @ "${'$'}{md.Name}"
-                                @ ${'$'}{md.Name}Schema
-                @ applyExtraSetup
-                    =>
-                        param options
+    set md.${'$'}{md.Name}ModelBuilder
+        {
+            @ buildModel
+                =>
+                    param options
+                    set ${'$'}{md.Name}Model =
+                        _ model
+                            @ "${'$'}{md.Name}"
+                            @ ${'$'}{md.Name}Schema
+            @ applyExtraSetup
+                =>
+                    param options

@@ -1,2 +1,20 @@
 {
-    productionName "tsMongo"
+    productionName "tsDbMongoDb"
+    [ parameters
+        params/object(tsDbMongoDb)
+            params/use(featureTables)
+                params/array(tables)
+                    params/object(table)
+                        params/string(name)
+                        params/string(descr)
+                        params/string(prefix)
+                        params/string(prefix)
+                        params/boolean(created_at)
+                        params/boolean(updated_at)
+                        params/boolean(update_delete_by_id)
+                        params/array(fields)
+                            params/object(field)
+                                params/string(name)
+                                params/string(type)
+                                params/boolean(isKey)
+                                params/boolean(isListFilter)

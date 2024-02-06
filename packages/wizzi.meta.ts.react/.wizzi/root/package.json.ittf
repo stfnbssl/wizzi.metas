@@ -12,7 +12,7 @@
                 type "${wzCtx.license.type}"
                 url "${wzCtx.license.url}"
     main "${wzCtx.main}"
-    $if wzCtx.Build.useVite
+    $if wzCtx.Build.useVite || wzCtx.Build.useESM
         type "module"
     $else
         $if wzCtx.type

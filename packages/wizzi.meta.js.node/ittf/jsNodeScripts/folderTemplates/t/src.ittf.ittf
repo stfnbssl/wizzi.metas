@@ -1,0 +1,36 @@
+$group
+
+    $
+        var items = [
+            "scriptManager",
+            "spawn",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/services/${item}.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsNodeScripts/src/services/${item}.js
+
+    $
+        var items = [
+            "procOutput",
+            "psOutput",
+            "powershell",
+        ];
+    
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/services/t/${item}.js.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include jsNodeScripts/src/services/tfolder/${item}.js
+
+    $
+        var items = [
+            "powershell",
+        ];
+    
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}examples/${item}.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsNodeScripts/examples/${item}.js

@@ -1,9 +1,9 @@
 {
     $include versions
     name "wizzi.meta.ts"
-    npmName ""
+    npmName "@wizzi/meta.ts"
     pluginBasename ""
-    version '${versions['@next']}'
+    version '${versions['@wizzi/meta.ts@next']}'
     description "Wizzi meta plugin for creating wizzi typescript packages"
     { author
         name "Stefano Bassoli"
@@ -33,21 +33,42 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "typescript"
     [ Productions
         {
             name "tsCommons"
             title "tsCommons wizzi meta production"
+            [ categories
         {
             name "tsEsmWrapper"
             title "tsEsmWrapper wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsNode"
             title "tsNode wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsNodeFeatureGithub"
             title "tsNodeFeatureGithub wizzi meta production"
+            [ categories
         {
             name "tsUtils"
             title "tsUtils wizzi meta production"
+            [ categories

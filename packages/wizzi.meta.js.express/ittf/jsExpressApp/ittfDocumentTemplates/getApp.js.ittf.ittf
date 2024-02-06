@@ -5,7 +5,7 @@ $group
 
     app/appImports${'('}&md)
     ${'$'}if wzCtx.Build.useNetlify
-        import serverless from 'serverless-http'
+        const serverless = require('serverless-http')
         index/imports${'('}&md)
     ${'$'}else
         app/startImports${'('}&md)

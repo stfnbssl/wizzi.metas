@@ -21,12 +21,14 @@ $group
         catch ex
             error ex
 
+    
     ${'$'}if wzCtx.Build.useNetlify
         set module.exports = app.instance
         set module.exports.handler = serverless(app.instance)
     ${'$'}else
-        export
-            function close
+        set module.exports = {}
+        set module.exports.close
+            =>
                 param done
                 try
                     _ console.log

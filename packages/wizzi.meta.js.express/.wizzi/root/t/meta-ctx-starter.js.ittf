@@ -1,0 +1,43 @@
+$group
+    #
+        # Build and returns a packiFiles object with all the meta ittf documents
+        # of the WizziMetaProductions that have the property use<metaProduction>
+        # of the object options.metaCtx set to true.
+        # The packiFiles filepaths are built this way:
+        # - folderTemplates/<ProductionName><metaFilePath>
+        # - ittfDocumentTemplates/<ProductionName><metaFilePath>
+        # - plainDocuments/<ProductionName><metaFilePath>
+        # For each metaProduction used the returned packiFiles object must contain a document
+        # with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
+    m getMetaCtxStarter
+        param options
+        param callback
+        +
+        _ async.map
+            @ pluginMetaProductions
+            =>
+                param prod
+                param callback
+                _ this.getMetaCtx
+                    @ prod.name
+                    a_cb( metaCtx )
+                        r_cb( metaCtx )
+            =>
+                param err
+                param metaCtxs
+                const result
+                    {
+                foreach mp in metaCtxs
+                    for var k in mp.metaCtxSchema
+                        var newk = 'metaCtxSchema/' + mp.productionName + '/' + k
+                        set mp.metaCtxSchema[k].contents
+                            _ wizziUtils.verify.replaceAll
+                                @ mp.metaCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n"
+                        set result[newk] = mp.metaCtxSchema[k]
+                    for var k in mp.wzCtxSchema
+                        var newk = 'wzCtxSchema/' + mp.productionName + '/' + k
+                        set mp.wzCtxSchema[k].contents
+                            _ wizziUtils.verify.replaceAll
+                                @ mp.wzCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n"
+                        set result[newk] = mp.wzCtxSchema[k]
+                r_cb( result )

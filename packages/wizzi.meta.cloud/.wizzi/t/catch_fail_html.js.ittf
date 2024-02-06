@@ -1,0 +1,13 @@
+$group
+    $params method
+    ._ catch
+        =>
+            param err
+            error '${method}.error', err
+            var content = err
+            if typeof err === 'object' && err !== null
+                $hook
+                set content = '<html><body><pre><code>' + JSON.stringify(err, null, 4) + '</code></pre></body></html>'
+            _ sendHtml
+                @ response
+                @ content

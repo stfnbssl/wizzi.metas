@@ -4,13 +4,13 @@
     npmName "@wizzi/meta.js"
     pluginBasename ""
     version '${versions['@wizzi/meta.js@next']}'
-    description "Wizzi meta plugin for creating wizzi js packages"
+    description "Wizzi meta plugin for creating wizzi javascript packages"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
-    license "Mit"
+    license "MIT"
     metaNamespace "js"
     { Build
         useConfig true
@@ -18,7 +18,14 @@
         isWizziMeta true
         { wizziMeta
             [ plugins
+                "./wizzi.plugin.css/index.js"
+                "./wizzi.plugin.html/index.js"
                 "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.js/index.js"
+                "./wizzi.plugin.json/index.js"
+                "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.text/index.js"
+                "./wizzi.plugin.wzjob/index.js"
             pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
             { globalContext
                 wzConfigIsDevelopment true
@@ -26,14 +33,33 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "javascript"
     [ Productions
         {
             name "jsCLI"
             title "jsCLI wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "jsCommons"
             title "jsCommons wizzi meta production"
+            [ categories
         {
             name "jsUtils"
             title "jsUtils wizzi meta production"
+            [ categories

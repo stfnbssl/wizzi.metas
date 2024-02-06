@@ -19,15 +19,15 @@ $group
             { App
                 name "${metaCtx.App.name}"
                 title "${metaCtx.App.title}"
-                isLocal ${metaCtx.isLocal ? "true" : "false"}
-                isProduction ${metaCtx.isProduction ? "true" : "false"}
-                port "${metaCtx.port}"
-                useSsl ${metaCtx.useSsl ? "true" : "false"}
-                siteUrl "${metaCtx.siteUrl}"
-                baseUrl "${metaCtx.baseUrl}"
-                siteUrlLocal "${metaCtx.siteUrlLocal}"
-                baseUrlLocal "${metaCtx.baseUrlLocal}"
-                apiVersion "${metaCtx.apiVersion}"
+                isLocal ${metaCtx.App.isLocal ? "true" : "false"}
+                isProduction ${metaCtx.App.isProduction ? "true" : "false"}
+                port "${metaCtx.App.port}"
+                useSsl ${metaCtx.App.useSsl ? "true" : "false"}
+                siteUrl "${metaCtx.App.siteUrl}"
+                baseUrl "${metaCtx.App.baseUrl}"
+                siteUrlLocal "${metaCtx.App.siteUrlLocal}"
+                baseUrlLocal "${metaCtx.App.baseUrlLocal}"
+                apiVersion "${metaCtx.App.apiVersion}"
                 { constants
                     { preview
                         minWidth 700
@@ -36,6 +36,8 @@ $group
             { Styles
             ---
             { Build
+                $if metaCtx.useESM
+                    useESM true
                 [ features
                     $if metaCtx.useJsExpressFeatureAccount
                         {
@@ -92,7 +94,7 @@ $group
                         {
                             name "wizzi"
                             fileName "wizzi"
-                            hasControllers true
+                            hasControllers false
                             useMongoDb false
                         $if metaCtx.jsExpressFeatureWizzi.useWizziFs
                             {
@@ -194,11 +196,16 @@ $group
                 $if metaCtx.useJsExpressWizziSite
                     ${'$'}{'$'}include jsExpressWizziSite.json
                     ---
+                $* VIA
                 $if metaCtx.jsExpress.useReactPages || metaCtx.jsExpressApp.useWebpackApp
                     ${'$'}{'$'}include react.json
                     ---
+                *$
                 $if metaCtx.useJsDbMongoDb
                     ${'$'}{'$'}include jsdbmongodb.json
+                    ---
+                $if metaCtx.useJsReact
+                    ${'$'}{'$'}include jsreact.json
                     ---
                 $if metaCtx.useJsDbPostgres
                     ${'$'}{'$'}include jsdbpostgres.json
@@ -209,17 +216,19 @@ $group
                 $if metaCtx.useJsDbData
                     ${'$'}{'$'}include jsdbdata.json
                     ---
-                $if metaCtx.jsExpressApp.useWebpackApp
+                $if metaCtx.useWebpackApp
                     useBabel true
                     { babel
                         useLoader true
                         { loader
                         useReact true
                         { react
+                        useExtra true
+                        { extra
                     useWebpackApp true
                     { webpackApp
                         [ items
-                            $foreach item in metaCtx.jsExpressApp.webpackApp.items
+                            $foreach item in metaCtx.webpackApp.items
                                 {
                                     name "${item.name}"
                                     writeToDisk ${item.writeToDisk ? 'true' : 'false'}
@@ -256,6 +265,7 @@ $group
                 useLint true
                 { lint
     
+    $* VIA
     $if metaCtx.jsExpress.useReactPages || metaCtx.jsExpressApp.useWebpackApp
         $file __dot__wizzi/models/t/react.json.ittf.ittf
             ${'$'}{'$'}group
@@ -264,3 +274,4 @@ $group
                     $if metaCtx.jsExpress.useReactPages
                         usePages true
                         { pages
+    *$

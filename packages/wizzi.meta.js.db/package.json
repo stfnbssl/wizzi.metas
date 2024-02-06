@@ -13,7 +13,12 @@
         }
     ],
     "main": "",
-    "scripts": {},
+    "scripts": {
+        "x:1": "node examples/step_1",
+        "x:2": "node examples/step_2",
+        "x:3": "node examples/step_3",
+        "x:4": "node examples/step_4"
+    },
     "dependencies": {
         "@wizzi/plugin.ittf": "latest",
         "json-stringify-safe": "^5.0.1"

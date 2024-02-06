@@ -1,18 +1,3 @@
 $group
     $if metaCtx.useWizziJobs
         $include wzCtxModel
-        $* Sample file templates
-        $file __dot__wizzi/wizziJobs/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include wizziJobs/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/wizziJobs/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include wizziJobs/tfolder/${item}.js
-        *$

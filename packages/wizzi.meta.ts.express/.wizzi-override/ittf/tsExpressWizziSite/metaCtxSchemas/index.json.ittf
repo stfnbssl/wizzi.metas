@@ -1,5 +1,4 @@
 {
-    productionName "tsExpressWizziSite"
     [ parameters
         params/use( account
         params/use( authentication

@@ -1,21 +1,19 @@
 $group
 
-    import 
-        @ config
-        from '../features/config/index.js'
-
+    const config = require('../features/config/index.js').config
+    
     ${'$'}hook imports
     
-    export 
-        const CacheControlMiddleware
-            => 
-                param app
-                if config.noCache
-                    _ app.use
-                        => 
-                            param req
-                            param res
-                            param next
-                            _ res.set('Cache-Control', 'no-store')
-                            _ next
-                ${'$'}hook
+    set module.exports = {}
+    set module.exports.CacheControlMiddleware
+        => 
+            param app
+            if config.noCache
+                _ app.use
+                    => 
+                        param req
+                        param res
+                        param next
+                        _ res.set('Cache-Control', 'no-store')
+                        _ next
+            ${'$'}hook

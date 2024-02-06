@@ -1,0 +1,29 @@
+{
+    "name": "$wizzi.meta.js",
+    "version": "$ 0.0.1",
+    "author": {
+        "name": "$Stefano Bassoli",
+        "email": "$stfn.bssl@gmail.com"
+    },
+    "private": false,
+    "licenses": [
+        {
+            "type": "",
+            "url": "$TODO"
+        }
+    ],
+    "main": "",
+    "scripts": {
+        "upgrade_1": "node src/actions/upgrade_1",
+        "generate_all": "node src/actions/generate_all"
+    },
+    "dependencies": {
+        "async": "^3.2.4",
+        "chalk": "^5.2.0",
+        "minimist": "latest"
+    },
+    "devDependencies": {
+        "@wizzi/factory": "latest",
+        "@wizzi/utils": "latest"
+    }
+}

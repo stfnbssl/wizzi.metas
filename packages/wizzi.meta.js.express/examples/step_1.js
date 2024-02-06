@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.js.express\.wizzi-override\examples\step_1.js.ittf
-    utc time: Wed, 17 Jan 2024 06:23:14 GMT
+    utc time: Tue, 06 Feb 2024 10:14:14 GMT
 */
 'use strict';
 var async = require('async');
@@ -12,6 +12,8 @@ var productions = [
     "jsExpress", 
     "jsExpressApp", 
     "jsExpressBasicApp", 
+    "jsExpressFeatureConfig", 
+    "jsExpressFeatureWizzi", 
     "jsExpressStyles", 
     "jsExpressUtils", 
     "jsExpressWizziSite"

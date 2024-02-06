@@ -1,14 +1,16 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.8
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.js.react\.wizzi-override\examples\step_1.js.ittf
-    utc time: Mon, 17 Jul 2023 14:26:56 GMT
+    utc time: Tue, 06 Feb 2024 10:14:20 GMT
 */
 'use strict';
 var async = require('async');
 var stringify = require('json-stringify-safe');
 var metaIndex = require('../index');
 var productions = [
+    "jsReact", 
+    "jsReactApp", 
     "jsReactWebpackGetStartedApp", 
     "jsReactUtils"
 ];
@@ -30,7 +32,7 @@ metaIndex.createMetaPlugin({}, (err, mf) => {
     , (err, result) => {
     
         const dump = stringify(result, null, 2);
-        console.log('result', dump);
+        console.log('result', dump, __filename);
     }
     )
 }

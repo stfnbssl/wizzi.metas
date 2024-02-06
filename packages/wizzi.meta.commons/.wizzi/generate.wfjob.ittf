@@ -1,4 +1,5 @@
-wfjob wizziMeta/job
+wfjob wizzi.meta.commons/job
+    
     $
         var jobCtx = {
             ittf_models_folder: path.join(__dirname, 'models'),
@@ -10,16 +11,20 @@ wfjob wizziMeta/job
             dest_folder: path.join(__dirname, '..'),
             job_model: 'wzCtx'
         }
+    
     model ${jobCtx.job_model}
         schema json
         src ${jobCtx.ittf_models_folder}/wzctx.json.ittf
+    
     line ittf-models
         cwd-folder ${jobCtx.ittf_models_folder}
         wfjobs(any_json, &jobCtx)
+    
     line ittf-ittf
         cwd-folder ${jobCtx.ittf_ittf_folder}
         dest-folder ${jobCtx.dest_folder}/ittf
         wfjobs(any_plain, &jobCtx, ittf)
+    
     line ittf-root
         cwd-folder ${jobCtx.ittf_root_folder}
         wfjobs(any_js, &jobCtx)
@@ -28,12 +33,14 @@ wfjob wizziMeta/job
         wfjobs(any_text, &jobCtx)
         wfjobs(.gitignore, &jobCtx)
         wfjobs(any_plain, &jobCtx, ts)
+    
     line ittf-src
         cwd-folder ${jobCtx.ittf_src_folder}
         dest-folder ${jobCtx.dest_folder}/src
         wfjobs(any_js, &jobCtx)
         wfjobs(any_json, &jobCtx)
         wfjobs(any_md, &jobCtx)
+    
     line ittf-examples
         cwd-folder ${jobCtx.ittf_examples_folder}
         dest-folder ${jobCtx.dest_folder}/examples
@@ -46,10 +53,12 @@ wfjob wizziMeta/job
         wfjobs(any_plain, &jobCtx, css)
         wfjobs(any_plain, &jobCtx, js)
         wfjobs(any_examples__copy, &jobCtx, ittf)
+    
     line ittf-tests
         cwd-folder ${jobCtx.ittf_tests_folder}
         dest-folder ${jobCtx.dest_folder}/tests
         wfjobs(any_plain, &jobCtx, ittf)
+    
     production
         dest-folder ${jobCtx.dest_folder}
         line-ref ittf-models

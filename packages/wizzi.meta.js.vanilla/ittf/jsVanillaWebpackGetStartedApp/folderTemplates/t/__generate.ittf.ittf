@@ -12,7 +12,7 @@ $group
     $file __dot__wizzi/generate.wfjob.ittf.ittf
         wfjob ${'$'}{metaCtx.name}/job
             ---
-        	${"${'$'}"}
+        	${'$'}{'$'}
                 var jobCtx = {
         		    ittf_models_folder: path.join(__dirname, 'models'),
                     ittf_src_folder: path.join(__dirname, 'src'),
@@ -23,17 +23,17 @@ $group
                     job_model: 'wzCtx'
                 }
             ---
-            model ${"${'$'}"}{jobCtx.job_model}
+            model ${'$'}{'$'}{jobCtx.job_model}
                 schema json
-                src ${"${'$'}"}{jobCtx.ittf_models_folder}/wzctx.json.ittf
+                src ${'$'}{'$'}{jobCtx.ittf_models_folder}/wzctx.json.ittf
             ---
             line ittf-models
-                cwd-folder ${"${'$'}"}{jobCtx.ittf_models_folder}
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_models_folder}
                 wfjobs${'$'}{'('}any_json, &jobCtx)
             ---
         	line ittf-root
-        		cwd-folder ${"${'$'}"}{jobCtx.ittf_root_folder}
-                dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${rootPath}
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_root_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${rootPath}
         
         		wfjobs${'$'}{'('}any_js, &jobCtx)
                 wfjobs${'$'}{'('}any_ts, &jobCtx)
@@ -54,8 +54,8 @@ $group
                     wfjobs${'$'}{'('}.prettierignore, &jobCtx)
         	---
             line ittf-src
-        		cwd-folder ${"${'$'}"}{jobCtx.ittf_src_folder}
-        		dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${srcPath}
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_folder}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}
         
                 wfjobs${'$'}{'('}any_js, &jobCtx)
                 wfjobs${'$'}{'('}any_ts, &jobCtx)
@@ -74,8 +74,8 @@ $group
             ---
             $if metaCtx.useJsVanillaTests
                 line ittf-tests
-                    cwd-folder ${"${'$'}"}{jobCtx.ittf_tests_folder}
-                    dest-folder ${"${'$'}"}{jobCtx.dest_folder}/${testsPath}
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_tests_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${testsPath}
             
                     wfjobs${'$'}{'('}any_js, &jobCtx)
                     wfjobs${'$'}{'('}any_ts, &jobCtx)
@@ -93,7 +93,7 @@ $group
                 ---
 
             production
-        		dest-folder ${"${'$'}"}{jobCtx.dest_folder}
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}
                 line-ref ittf-models
                 line-ref ittf-root
         		line-ref ittf-src

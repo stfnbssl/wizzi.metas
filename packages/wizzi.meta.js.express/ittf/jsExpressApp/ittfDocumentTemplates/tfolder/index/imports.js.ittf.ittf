@@ -3,80 +3,59 @@ $group
     
     ${'$'} var baseDir = wzCtx.Build.useNetlify ? '..' : '.'
 
-    import 
-        @ config
-        from '${'$'}{baseDir}/features/config/index'
-
+    const config = require('${'$'}{baseDir}/features/config/index.js').config
+        
     ${'$'}if wzCtx.Build.useFilesystem
-        import filesystemStart from '${'$'}{baseDir}/services/filesystem'
+        const filesystemStart = require('${'$'}{baseDir}/services/filesystem.js').filesystemStart
     
     ${'$'}if wzCtx.Build.useMongoDb
-        import { mongodbStart } from '${'$'}{baseDir}/services/mongodb'
+        const mongodbStart = require('${'$'}{baseDir}/services/mongodb.js').mongodbStart
     
     ${'$'}if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useRunner
-        import wizziStart from '${'$'}{baseDir}/services/wizzi'
+        const wizziStart = require('${'$'}{baseDir}/services/wizzi.js').wizziStart
 
     ${'$'}if wzCtx.Build.useAuthorization
         $$ For now auth needs MongoDb
         ${'$'}if wzCtx.Build.useMongoDb
-            import 
-                @ authorizationControllers
-                ${'$'}if wzCtx.Build.useMongoDb
-                    @ authorizationModelBuilders
-                from './features/auth/index'
+            const authorizationControllers = require('./features/auth/index.js').authorizationControllers
+            const authorizationModelBuilders = require('./features/auth/index.js').authorizationModelBuilders
     
     ${'$'}if wzCtx.Build.useAccount
-        import 
-            @ accountControllers
-            @ accountModelBuilders
-            from './features/account/index'
+        const accountControllers = require('./features/account/index.js').accountControllers
+        const accountModelBuilders = require('./features/account/index.js').accountModelBuilders
     
     ${'$'}if wzCtx.Build.useBlog
-        import 
-            @ blogControllers
-            @ blogModelBuilders
-            from './features/blog/index'
+        const blogControllers = require('./features/blog/index.js').blogControllers
+        const blogModelBuilders = require('./features/blog/index.js').blogModelBuilders
     
     ${'$'}if wzCtx.Build.useSite
-        import 
-            @ siteControllers
-            from './site/index'
+        const siteControllers = require('./site/index.js').siteControllers
     
     ${'$'}if wzCtx.Build.useWizzi
         ${'$'}if wzCtx.Build.wizzi.useControllers
-            import 
-                @ wizziControllers
-                from './features/wizzi/index'
+            const wizziControllers = require('./features/wizzi/index.js').wizziControllers
 
     ${'$'}if wzCtx.Build.useWizziIttf
-        import 
-            @ ittfApi
-            from './features/ittf/index'
+        const ittfApi = require('./features/ittf/index.js').ittfApi
     
     ${'$'}if wzCtx.Build.features && wzCtx.Build.features.length > 0
         ${'$'}foreach feature in wzCtx.Build.features
             ${'$'}if feature.hasControllers || feature.useMongoDb
-                import 
-                    ${'$'}if feature.hasControllers
-                        @ ${'$'}{feature.name}Controllers
-                    ${'$'}if feature.useMongoDb
-                        @ ${'$'}{feature.name}ModelBuilders
-                    from './features/${'$'}{feature.name}/index'
+                ${'$'}if feature.hasControllers
+                    const ${'$'}{feature.name}Controllers = require('./features/${'$'}{feature.name}/index.js').${'$'}{feature.name}Controllers
+                ${'$'}if feature.useMongoDb
+                    const ${'$'}{feature.name}ModelBuilders = require('./features/${'$'}{feature.name}/index.js').${'$'}{feature.name}ModelBuilders
     
     ${'$'}if wzCtx.Build.examples && wzCtx.Build.examples.length > 0
         ${'$'}foreach example in wzCtx.Build.examples
             ${'$'}if example.hasControllers || example.useMongoDb
-                import 
-                    ${'$'}if example.hasControllers
-                        @ example${'$'}{_.capitalize(example.name)}Controllers
-                    ${'$'}if example.useMongoDb
-                        @ example${'$'}{_.capitalize(example.name)}ModelBuilders
-                    from './examples/${'$'}{example.name}/index'
+                ${'$'}if example.hasControllers
+                    const example${'$'}{_.capitalize(example.name)}Controllers = require('./features/${'$'}{feature.name}/index.js').${'$'}{feature.name}example${'$'}{_.capitalize(example.name)}Controllers
+                ${'$'}if example.useMongoDb
+                    const example${'$'}{_.capitalize(example.name)}ModelBuilders = require('./features/${'$'}{feature.name}/index.js').${'$'}{feature.name}example${'$'}{_.capitalize(example.name)}ModelBuilders
 
-    import 
-        @ appMiddlewaresPre
-        @ appMiddlewaresPost
-        from '${'$'}{baseDir}/middlewares/index'
+    const appMiddlewaresPre = require('${'$'}{baseDir}/middlewares/index.js').appMiddlewaresPre
+    const appMiddlewaresPost = require('${'$'}{baseDir}/middlewares/index.js').appMiddlewaresPost
     
     ${'$'}if !wzCtx.Build.useNetlify
-        import App from './App'
+        const App = require('./App.js')

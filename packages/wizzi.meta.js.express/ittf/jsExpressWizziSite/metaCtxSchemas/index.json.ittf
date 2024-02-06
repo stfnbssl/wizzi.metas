@@ -1,2 +1,9 @@
 {
-    productionName "jsExpressWizziSite"
+    [ parameters
+        params/use( account
+        params/use( authentication
+        params/use( demo
+        params/use( demoHome
+        params/use( demoWizzi
+        params/use( wizziDocs
+        params/use( packiProductions

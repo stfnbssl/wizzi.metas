@@ -1,15 +1,3 @@
 $group
     $if metaCtx.useTsDbMongoDb
-        $file __dot__wizzi/tsDbMongoDb/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include tsDbMongoDb/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/tsDbMongoDb/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include tsDbMongoDb/tfolder/${item}.js
+        $include wzCtxModel

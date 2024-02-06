@@ -1,15 +1,15 @@
 $group
 
-    import cors from 'cors'
+    const cors =  require('cors')
 
     # see options here https://expressjs.com/en/resources/middleware/cors.html
     const options
         {
     
-    export 
-        const CorsMiddleware
-            => 
-                param app
-                _ app.use
-                    _ cors
-                        @ options
+    set module.exports = {}
+    set module.exports.CorsMiddleware
+        => 
+            param app
+            _ app.use
+                _ cors
+                    @ options

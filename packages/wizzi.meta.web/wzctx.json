@@ -1,8 +1,8 @@
 {
     "name": "wizzi.meta.web",
-    "npmName": "",
+    "npmName": "@wizzi/meta.web",
     "pluginBasename": "",
-    "version": "",
+    "version": "0.0.2",
     "description": "Wizzi meta plugin for creating wizzi web packages",
     "author": {
         "name": "Stefano Bassoli",
@@ -37,57 +37,92 @@
         "useWizziJsonFactory": true,
         "utils": {
             "useStringifySafe": true
-        }
+        },
+        "scripts": [
+            {
+                "name": "x:1",
+                "action": "node examples/step_1"
+            },
+            {
+                "name": "x:2",
+                "action": "node examples/step_2"
+            },
+            {
+                "name": "x:3",
+                "action": "node examples/step_3"
+            },
+            {
+                "name": "x:4",
+                "action": "node examples/step_4"
+            }
+        ]
     },
+    "Categories": [
+        {
+            "name": "webdev"
+        }
+    ],
     "Productions": [
         {
             "name": "webAppCrud",
-            "title": "webAppCrud wizzi meta production"
+            "title": "webAppCrud wizzi meta production",
+            "categories": []
         },
         {
             "name": "webCss",
-            "title": "webCss wizzi meta production"
+            "title": "webCss wizzi meta production",
+            "categories": []
         },
         {
             "name": "webHtml",
-            "title": "webHtml wizzi meta production"
+            "title": "webHtml wizzi meta production",
+            "categories": []
         },
         {
             "name": "webIttfSite",
-            "title": "webIttfSite wizzi meta production"
+            "title": "webIttfSite wizzi meta production",
+            "categories": []
         },
         {
             "name": "webIttfStudioMeta",
-            "title": "webIttfStudioMeta wizzi meta production"
+            "title": "webIttfStudioMeta wizzi meta production",
+            "categories": []
         },
         {
             "name": "webJs",
-            "title": "webJs wizzi meta production"
+            "title": "webJs wizzi meta production",
+            "categories": []
         },
         {
             "name": "webJsWz",
-            "title": "webJsWz wizzi meta production"
+            "title": "webJsWz wizzi meta production",
+            "categories": []
         },
         {
             "name": "webSiteDemo",
-            "title": "webSiteDemo wizzi meta production"
+            "title": "webSiteDemo wizzi meta production",
+            "categories": []
         },
         {
             "name": "webSiteWebapi",
-            "title": "webSiteWebapi wizzi meta production"
+            "title": "webSiteWebapi wizzi meta production",
+            "categories": []
         },
         {
             "name": "webStaticSite",
             "title": "webStaticSite wizzi meta production",
-            "isPackageMain": true
+            "isPackageMain": true,
+            "categories": []
         },
         {
             "name": "webSvg",
-            "title": "webSvg wizzi meta production"
+            "title": "webSvg wizzi meta production",
+            "categories": []
         },
         {
             "name": "webWizziDocs",
-            "title": "webWizziDocs wizzi meta production"
+            "title": "webWizziDocs wizzi meta production",
+            "categories": []
         }
     ]
 }

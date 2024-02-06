@@ -1,15 +1,3 @@
 $group
     $if metaCtx.useCommonsPostcss
-        $file __dot__wizzi/commonsPostcss/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include commonsPostcss/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/commonsPostcss/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include commonsPostcss/tfolder/${item}.js
+        $include wzCtxModel

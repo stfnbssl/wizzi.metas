@@ -2,8 +2,8 @@
     "name": "wizzi.meta.wizzi",
     "npmName": "@wizzi/meta.wizzi",
     "pluginBasename": "",
-    "version": "0.0.1",
-    "description": "wizzi.meta.wizzi",
+    "version": "0.0.2",
+    "description": "Wizzi meta plugin for creating wizzi wizzi packages",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"
@@ -11,10 +11,7 @@
     "github": {
         "userid": "stfnbssl"
     },
-    "license": {
-        "name": "MIT",
-        "copy": "copy 2023"
-    },
+    "license": "MIT",
     "metaNamespace": "wizzi",
     "Build": {
         "useConfig": true,
@@ -22,7 +19,14 @@
         "isWizziMeta": true,
         "wizziMeta": {
             "plugins": [
-                "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.css/index.js",
+                "./wizzi.plugin.html/index.js",
+                "./wizzi.plugin.ittf/index.js",
+                "./wizzi.plugin.js/index.js",
+                "./wizzi.plugin.json/index.js",
+                "./wizzi.plugin.md/index.js",
+                "./wizzi.plugin.text/index.js",
+                "./wizzi.plugin.wzjob/index.js"
             ],
             "pluginsBaseFolder": "C:/My/wizzi/stfnbssl/wizzi.plugins/packages",
             "globalContext": {
@@ -35,24 +39,33 @@
             "useStringifySafe": true
         }
     },
+    "Categories": [
+        {
+            "name": "wizzi"
+        }
+    ],
     "Productions": [
         {
             "name": "wizziJobs",
-            "title": "wizziJobs wizzi meta production"
+            "title": "wizziJobs wizzi meta production",
+            "categories": []
         },
         {
             "name": "wizziFactory",
-            "title": "wizziFactory wizzi meta production"
+            "title": "wizziFactory wizzi meta production",
+            "categories": []
         },
         {
             "name": "wizziPlugin",
             "title": "wizziPlugin wizzi meta production",
-            "isPackageMain": true
+            "isPackageMain": true,
+            "categories": []
         },
         {
             "name": "wizziMeta",
             "title": "wizziMeta wizzi meta production",
-            "isPackageMain": true
+            "isPackageMain": true,
+            "categories": []
         }
     ]
 }

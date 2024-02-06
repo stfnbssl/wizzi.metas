@@ -4,7 +4,7 @@
     npmName "@wizzi/meta.ts.nextjs"
     pluginBasename ""
     version '${versions['@wizzi/meta.ts.nextjs@next']}'
-    description "Wizzi meta plugin for creating wizzi typescript nextjs packages"
+    description "Wizzi meta plugin for creating wizzi typescript next.js packages"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
@@ -33,11 +33,31 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "typescript"
+        {
+            name "nextjs"
     [ Productions
         {
             name "tsNextjsBasicApp"
             title "tsNextjsBasicApp wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsNextjsBlog"
             title "tsNextjsBlog wizzi meta production"
+            [ categories

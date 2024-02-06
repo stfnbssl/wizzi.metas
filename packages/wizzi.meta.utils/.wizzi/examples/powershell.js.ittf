@@ -1,0 +1,53 @@
+module
+    kind es6
+    const path = require("path")
+    const spawnUtils = require("../src/services/spawn")
+    var choice = process.argv[2] || '1'
+    if choice == '1'
+        const PowerShell = spawnUtils.PowerShell
+        let ps = new PowerShell("echo 'powershell is awesome'")
+        _ ps.on
+            @ "error"
+            =>
+                param err
+                _ console.error(err)
+        _ ps.on
+            @ "output"
+            =>
+                param data
+                _ console.log(data)
+        _ ps.on
+            @ "error-output"
+            =>
+                param data
+                _ console.error(data)
+        _ ps.on
+            @ "end"
+            =>
+                param code
+    if choice == '2'
+        const PowerShell = spawnUtils.PowerShell
+        let ps = new PowerShell("dir")
+        _ spawnUtils.psOutput
+            @ ps
+            {
+            =>
+                param err
+                param stdout
+                param stderr
+                log "powershell 2", err || stderr || stdout
+    if choice == '3'
+        const PowerShell = spawnUtils.PowerShell
+        let ps
+            new PowerShell
+                @ "wz override"
+                {
+                    @ cwd "C:/My/wizzi/stfnbssl/wizzi.cli/packages/wizzi.cli.hub"
+        _ spawnUtils.psOutput
+            @ ps
+            {
+            =>
+                param err
+                param stdout
+                param stderr
+                log "powershell 2", err || stderr || stdout

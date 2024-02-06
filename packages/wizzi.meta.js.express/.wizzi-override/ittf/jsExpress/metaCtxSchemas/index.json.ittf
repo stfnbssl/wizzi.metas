@@ -1,10 +1,13 @@
 {
-    productionName "jsExpress"
     [ parameters
-        params/use(sslCert)
-        params/object(jsExpress)
+        params/object(express)
+            params/use(sslCert)
             params/use(staticFiles)
+                params/string(publicPath)
+            params/use(ittfStaticFiles)
                 params/string(publicPath)
             params/object(cors)
                 params/array(clientOrigins)
                     params/string(clientOrigin)
+        params/object(Build)
+        params/use(demo)

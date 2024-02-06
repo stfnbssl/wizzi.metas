@@ -1,0 +1,14 @@
+$group
+
+	${'$'}
+        var opt = {
+		    section: 'Account',
+            title: 'Profile',
+        }
+
+    html/layouts/site${'('} &opt )
+        . flex-row justify-content-center
+            profile-sidebar${'('})
+
+            . flex-column
+                style width: 75%;

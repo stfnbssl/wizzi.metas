@@ -1,0 +1,36 @@
+md
+    h1 ${wzCtx.name}
+    br
+    p ${wzCtx.description}
+    br
+    h2 Features
+    $hook
+    br
+    p You can find a few samples in the /examples folder, but you can find more in the
+        a demo package
+            href https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo/.wizzi/ittf/examples/advanced/plugins
+        span .
+    h2 Source and generation
+    p ${wzCtx.name} is generated using Wizzi.
+    br
+    h2 Wizzi
+    br
+    p One machinery many productions.
+    br
+    p
+        a Project page
+            href https://stfnbssl.github.io/wizzi
+    h2 Built With
+    ul
+        li
+            a Nodejs
+                href https://nodejs.org
+        li
+            a Wizzi
+                href https://github.com/stfnbssl/wizzi
+    br
+    h2 License
+    p This project is licensed under the MIT License - see the
+        a license.txt
+            href license.txt
+        span for details.

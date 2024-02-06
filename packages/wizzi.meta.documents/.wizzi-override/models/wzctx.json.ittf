@@ -1,26 +1,31 @@
 {
     $include versions
-    name "wizzi.meta.documents"
-    npmName "@wizzi/meta.documents"
+    name "wizzi.meta.douments"
+    npmName "@wizzi/meta.douments"
     pluginBasename ""
-    version '${versions['@wizzi/meta.documents@next']}'
-    description "wizzi.meta.documents"
+    version '${versions['@wizzi/meta.douments@next']}'
+    description "Wizzi meta plugin for creating wizzi documents packages"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
-    { license
-        name "MIT"
-        copy "copy 2023"
-    metaNamespace "documents"
+    license "MIT"
+    metaNamespace "douments"
     { Build
         useConfig true
         { config
         isWizziMeta true
         { wizziMeta
             [ plugins
+                "./wizzi.plugin.css/index.js"
+                "./wizzi.plugin.html/index.js"
                 "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.js/index.js"
+                "./wizzi.plugin.json/index.js"
+                "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.text/index.js"
+                "./wizzi.plugin.wzjob/index.js"
             pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
             { globalContext
                 wzConfigIsDevelopment true
@@ -28,25 +33,48 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "documents"
     [ Productions
         {
             name "documentsApp"
             title "documentsApp wizzi meta production"
+            [ categories
         {
             name "documentsDocx"
             title "documentsDocx wizzi meta production"
+            [ categories
         {
             name "documentsHtmlSlide"
             title "documentsHtmlSlide wizzi meta production"
+            [ categories
         {
             name "documentsJson"
             title "documentsJson wizzi meta production"
+            [ categories
         {
             name "documentsPdf"
             title "documentsPdf wizzi meta production"
+            [ categories
         {
             name "documentsPpt"
             title "documentsPpt wizzi meta production"
+            [ categories
         {
             name "documentsUtils"
             title "documentsUtils wizzi meta production"
+            [ categories

@@ -1,13 +1,11 @@
 {
-    productionName "jsExpressApp"
     [ parameters
-        {
-            name "useXxx"
-            type "boolean"
-        {
-            name "Xxx"
-            type "string"
-            kind "enum"
-            [ enumValues
-                "aaa"
-                "bbb"
+        $*
+        params/use( ... )
+        params/string( ... )
+        params/boolean( ... )
+        params/integer( ... )
+        params/array( ... )
+        params/object( ... )
+        params/enum( ... )
+        *$

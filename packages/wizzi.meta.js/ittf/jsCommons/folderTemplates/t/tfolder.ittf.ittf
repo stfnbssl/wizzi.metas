@@ -1,0 +1,41 @@
+$group
+
+    $
+        var items = [
+            'a_cb_async_promise',
+            'a_cb_no_throw',
+            'a_cb_promise',
+            'a_cb_throw',
+            'a_cb',
+            'a_reject',
+            'a_then_async_catch_fail',
+            'a_then_async_catch_reject',
+            'a_then_async',
+            'a_then_catch_fail',
+            'a_then_catch_reject',
+            'a_then',
+            'authHandler',
+            'catch_error_page',
+            'catch_fail_html',
+            'catch_fail',
+            'catch',
+            'catch_reject',
+            'checked_call',
+            'checked_call_return',
+            'checked_call_return_set',
+            'error',
+            'repeater',
+            'repeater_increment',
+            'r_cb',
+            'r_cb_err',
+            'r_promise',
+            'r_promise_async',
+            'r_promise_try_catch',
+            'r_reject',
+            'r_resolve',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}t/${item}.js.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include jsCommons/tfolder/${item}.js

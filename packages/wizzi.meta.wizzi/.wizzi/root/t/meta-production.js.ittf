@@ -1,18 +1,18 @@
 $group
+    #
+        # Build, if not existent, and retrieve a WizziMetaProduction by its production name.
+        # Returns
+            # { metaProduction
+                # string productionName
+                # string metaNamespace
+                # { folderTemplates
+                # { ittfDocumentTemplates
+                # { plainDocuments
+                # { metaCtxSchema
+                # { wzCtxSchema
     m getMetaProduction
         param productionName
         param callback
-        #
-            # Build if not existent and retrieve a WizziMetaProduction by its production name.
-            # Returns
-            # { metaProduction
-            # string productionName
-            # string metaNamespace
-            # { folderTemplates
-            # { ittfDocumentTemplates
-            # { plainDocuments
-            # { metaCtxSchema
-            # { wzCtxSchema
         +
         var metaProduction = this.metaProductions[productionName] || null
         +
@@ -34,7 +34,6 @@ $group
         # enrich the metaProduction object with the folderTemplates property
         # that contains a packiFile object with the content of the ittf/<productionName>/folderTemplates folder.
         # Returns a chained call to the getIttfDocumentTemplates method.
-        #
     m getFolderTemplates
         param productionName
         param metaProduction
@@ -67,7 +66,6 @@ $group
         # enrich the metaProduction object with the ittfDocumentTemplates property
         # that contains a packiFile object with the content of the ittf/<productionName>/ittfDocumentTemplates folder.
         # Returns a chained call to the getPlainDocuments method.
-        #
     m getIttfDocumentTemplates
         param productionName
         param metaProduction
@@ -100,7 +98,6 @@ $group
         # enrich the metaProduction object with the plainDocuments property
         # that contains a packiFile object with the content of the ittf/<productionName>/plainDocuments folder.
         # Returns a chained call to the getMetaCtxSchema method.
-        #
     m getPlainDocuments
         param productionName
         param metaProduction
@@ -133,7 +130,6 @@ $group
         # Enrich the metaProduction object with the metaCtxSchema property
         # that contains a packiFile object with the content of the ittf/<productionName>/metaCtxSchema folder.
         # Returns a chained call to the getWzCtxSchema method.
-        #
     m getMetaCtxSchema
         param productionName
         param metaProduction
@@ -165,7 +161,6 @@ $group
         # If the ittf/<productionName>/wzCtxSchema folder exists
         # Enrich the metaProduction object with the wzCtxSchema property
         # that contains a packiFile object with the content of the ittf/<productionName>/wzCtxSchema folder.
-        #
     m getWzCtxSchema
         param productionName
         param metaProduction

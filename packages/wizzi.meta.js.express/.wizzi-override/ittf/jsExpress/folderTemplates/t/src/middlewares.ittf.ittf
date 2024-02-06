@@ -21,9 +21,12 @@ $group
             }
         }
         if (metaCtx.useJsExpressFeatureWizzi) {
-            mwItems.push("ittfStatic");
+            mwItems.push("ittfStaticFiles");
             mwItems.push("wizziViewEngine");
-            mwItems.push("wizziCdn");
+            // mwItems.push("wizziCdn");
+        }
+        if (metaCtx.useWebpackApp) {
+            mwItems.push("webpackApp");
         }
 
 

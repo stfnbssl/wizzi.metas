@@ -1,0 +1,29 @@
+module
+    $if wzCtx.Build.useCliCommandFileConfig
+        kind es6
+        const path = require('path')
+        const util = require('util')
+        const fs = require('fs')
+        set module.exports
+            {
+                @ getPath
+                    =>
+                        param name
+                        var configFilename = name ? '${wzCtx.App.configName}' + name + '.js' : '${wzCtx.App.configName}.js'
+                        let currentDir = process.cwd()
+                        let currentPath = null
+                        let configPath = null
+                        # loog 'searching ', configFilename
+                        while configPath == null && currentDir.length > 3
+                            set currentPath = path.join(currentDir, configFilename)
+                            try
+                                # loog 'wizzi-cli.generate.searching', currentPath
+                                const stat = fs.lstatSync(currentPath)
+                                if stat.isFile()
+                                    set configPath = currentPath
+                            catch ex
+                            set currentDir = path.dirname(currentDir)
+                        info 'Found config path', configPath
+                        return configPath
+    $else
+        $$TODO suppress file

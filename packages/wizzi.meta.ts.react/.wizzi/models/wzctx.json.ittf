@@ -1,9 +1,9 @@
 {
     $include versions
     name "wizzi.meta.ts.react"
-    npmName ""
+    npmName "@wizzi/meta.ts.react"
     pluginBasename ""
-    version '${versions['@next']}'
+    version '${versions['@wizzi/meta.ts.react@next']}'
     description "Wizzi meta plugin for creating wizzi typescript react packages"
     { author
         name "Stefano Bassoli"
@@ -33,67 +33,104 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "typescript"
+        {
+            name "react"
     [ Productions
         {
             name "tsReact"
             title "tsReact wizzi meta production"
+            [ categories
         {
             name "tsReactApp"
             title "tsReactApp wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsReactAssets"
             title "tsReactAssets wizzi meta production"
+            [ categories
         {
             name "tsReactBasicWebpack"
             title "tsReactBasicWebpack wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsReactBasicVite"
             title "tsReactBasicVite wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsReactComponents"
             title "tsReactComponents wizzi meta production"
+            [ categories
         {
             name "tsReactEditor"
             title "tsReactEditor wizzi meta production"
+            [ categories
         {
             name "tsReactFeatures"
             title "tsReactFeatures wizzi meta production"
+            [ categories
         {
             name "tsReactNextjsApp"
             title "tsReactNextjsApp wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsReactPageForms"
             title "tsReactPageForms wizzi meta production"
+            [ categories
         {
             name "tsReactRedux"
             title "tsReactRedux wizzi meta production"
+            [ categories
         {
             name "tsReactSiteWebpack"
             title "tsReactSiteWebpack wizzi meta production"
+            [ categories
         {
             name "tsReactStoryboard"
             title "tsReactStoryboard wizzi meta production"
+            [ categories
         {
             name "tsReactThemes"
             title "tsReactThemes wizzi meta production"
+            [ categories
         {
             name "tsReactTypings"
             title "tsReactTypings wizzi meta production"
+            [ categories
         {
             name "tsReactUtils"
             title "tsReactUtils wizzi meta production"
+            [ categories
         {
             name "tsReactWebpackGetStartedApp"
             title "tsReactWebpackGetStartedApp wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsReactWebpackWidgetsApp"
             title "tsReactWebpackWidgetsApp wizzi meta production"
             isPackageMain true
+            [ categories
         {
             name "tsReactWidgets"
             title "tsReactWidgets wizzi meta production"
+            [ categories

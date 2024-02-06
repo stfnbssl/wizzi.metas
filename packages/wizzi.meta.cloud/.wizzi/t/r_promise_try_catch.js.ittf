@@ -1,0 +1,16 @@
+$group
+    $params message|@@null
+    r_promise(
+        try
+            $hook
+        catch ex
+            $if message != null
+                error "Exception. ${message}"
+            return
+                _ reject
+                    $if message != null
+                        {
+                            @ message "Exception. ${message}"
+                            @ err ex
+                    $else
+                        @ ex

@@ -1,0 +1,6 @@
+$group
+    $params result|notUsed, message|@@null
+    ._ then
+        async=>
+            param ${result}
+            $hook

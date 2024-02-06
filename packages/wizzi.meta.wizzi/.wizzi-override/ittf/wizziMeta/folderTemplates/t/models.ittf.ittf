@@ -43,12 +43,30 @@ $group
                 useWizziJsonFactory true
                 { utils
                     useStringifySafe true
+                [ scripts
+                    {
+                        name "x:1"
+                        action "node examples/step_1"
+                    {
+                        name "x:2"
+                        action "node examples/step_2"
+                    {
+                        name "x:3"
+                        action "node examples/step_3"
+                    {
+                        name "x:4"
+                        action "node examples/step_4"
                 $if _.isArray(metaCtx.BuildVars)
                     $foreach bv in metaCtx.BuildVars
                         $if bv.type == 'string'
                             ${bv.name} "${bv.value}"
                         $else
                             ${bv.name} ${bv.value}
+            [ Categories
+                $if _.isArray(metaCtx.Categories)
+                    $foreach c in metaCtx.Categories
+                        {
+                            name "${c.name}"
             [ Productions
                 $foreach p in metaCtx.Productions
                     {
@@ -56,4 +74,10 @@ $group
                         title "${p.name} wizzi meta production"
                         $if p.isPackageMain
                             isPackageMain true
+                        [ categories
+                            $if _.isArray(p.categories)
+                                $foreach c in p.categories
+                                    {
+                                        name "${c.name}"
+
 

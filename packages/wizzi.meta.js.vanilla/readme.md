@@ -1,15 +1,14 @@
 # wizzi.meta.js.vanilla
 
-wizzi.meta.js.vanilla
+Wizzi meta plugin for creating wizzi javascript vanilla packages
+
 
 ## Features
 ### Implemented Wizzi meta productions
 
 <table>
 <tr>
-<th>Production</th>
-<th>Descriptionn</th>
-</tr>
+<th>Production<th>Descriptionn</tr>
 <tr>
 <td>
 <a href https://github.com//wizzi.meta.js.vanilla/tree/master/.wizzi/ittf/lib/wizzi/productions/jsVanillaWebpackGetStartedApp.wfproduction.ittf>jsVanillaWebpackGetStartedApp</a><td>jsVanillaWebpackGetStartedApp wizzi meta production</td>
@@ -31,18 +30,20 @@ wizzi.meta.js.vanilla
 ## Source and generation
 wizzi.meta.js.vanilla is generated using Wizzi.
 
+
 ## Wizzi
 
 One machinery many productions.
 
 
+
 <p><a href="https://stfnbssl.github.io/wizzi">Project page</a></p>
 
 ## Built With
-* [Nodejs](https://nodejs.org)
-
-* [Wizzi](https://github.com/stfnbssl/wizzi)
-
+    * [Nodejs](https://nodejs.org)
+    
+    * [Wizzi](https://github.com/stfnbssl/wizzi)
+    
 
 ## License
 

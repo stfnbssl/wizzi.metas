@@ -1,15 +1,3 @@
 $group
     $if metaCtx.useCommonsEslint
-        $file __dot__wizzi/commonsEslint/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include commonsEslint/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/commonsEslint/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include commonsEslint/tfolder/${item}.js
+        $include wzCtxModel

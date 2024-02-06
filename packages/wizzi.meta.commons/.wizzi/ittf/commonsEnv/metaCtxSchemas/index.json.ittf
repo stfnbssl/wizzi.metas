@@ -1,2 +1,11 @@
 {
-    productionName "commonsEnv"
+    [ parameters
+        $*
+        params/use( ... )
+        params/string( ... )
+        params/boolean( ... )
+        params/integer( ... )
+        params/array( ... )
+        params/object( ... )
+        params/enum( ... )
+        *$

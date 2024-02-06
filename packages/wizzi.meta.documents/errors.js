@@ -1,8 +1,8 @@
 /*
-    artifact generator: C:\My\wizzi\stfnbssl\wizzi.v07\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@0.7.8
+    artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
+    package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.documents\.wizzi-override\root\errors.js.ittf
-    utc time: Wed, 17 May 2023 16:22:16 GMT
+    utc time: Tue, 06 Feb 2024 10:14:10 GMT
 */
 'use strict';
 
@@ -11,7 +11,7 @@ var stringify = require('json-stringify-safe');
 var chalk = require('chalk');
 
 var md = module.exports = {};
-md.name = 'wizzi.meta.documents.errors';
+md.name = 'wizzi.meta.douments.errors';
 
 class WizziMetaError extends Error {
     constructor(message, model, other) {

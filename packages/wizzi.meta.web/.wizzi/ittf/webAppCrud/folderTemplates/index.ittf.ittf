@@ -1,18 +1,3 @@
 $group
     $if metaCtx.useWebAppCrud
         $include wzCtxModel
-        $* Sample file templates
-        $file __dot__wizzi/webAppCrud/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include webAppCrud/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/webAppCrud/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include webAppCrud/tfolder/${item}.js
-        *$

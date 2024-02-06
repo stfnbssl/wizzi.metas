@@ -1,5 +1,5 @@
-${'$'}group 
-   useWizziFactory true
-   { wizziFactory
-       [ plugins
-       pluginsBaseFolder ""
+$group
+    useWizziFactory true
+    { wizziFactory
+        [ plugins
+        pluginsBaseFolder ""

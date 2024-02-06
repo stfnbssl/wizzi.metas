@@ -1,0 +1,11 @@
+$group
+
+    const WizziFactory = require('./factory')
+    const wizziProds = require('./productions')
+    const wizziMaps = require('./maps')
+    
+    set module.exports
+        {
+            @ wizziProds 
+            @ WizziFactory
+            @ wizziMaps

@@ -1,0 +1,17 @@
+$group
+    $params result|notUsed, message|@@null
+    async=>
+        param err
+        param ${result}
+        if err
+            $if message != null
+                error "${message}", err
+            return
+                _ reject
+                    $if message != null
+                        {
+                            @ message "${message}"
+                            @ err
+                    $else
+                        @ err
+        $hook

@@ -1,0 +1,41 @@
+$group
+
+    ${'$'}if wzCtx.Build.useSite
+        const HomeController = require('./controllers/home').HomeController
+        ${'$'}if wzCtx.Build.site.useDemoHome
+            const DemoHomeController = require('./controllers/demoHome').DemoHomeController
+        ${'$'}if wzCtx.Build.useWizziViewEngine
+            ${'$'}if wzCtx.Build.site.useDemoWizzi
+                const DemoWizziController = require('./controllers/demoWizzi').DemoWizziController
+            ${'$'}if wzCtx.Build.site.useDemoWebpack
+                const DemoWebpackController = require('./controllers/demoWebpack').DemoWebpackController
+        ${'$'}if wzCtx.Build.site.useAccount
+            const AccountController = require('./controllers/account').AccountController
+        ${'$'}if wzCtx.Build.site.useAuthentication
+            const AuthController = require('./controllers/auth').AuthController
+        ${'$'}if wzCtx.Build.site.useWizziDocs
+            const DocsController = require('./controllers/auth').DocsController
+        ${'$'}hook imports
+    +
+    const md = module.exports = {}
+    +
+    set md.siteControllers
+        [ 
+            ${'$'}if wzCtx.Build.useSite
+                @ new HomeController()
+                ${'$'}if wzCtx.Build.site.useDemoHome
+                    @ new DemoHomeController()
+                ${'$'}if wzCtx.Build.useWizziViewEngine
+                    ${'$'}if wzCtx.Build.site.useDemoWizzi
+                        @ new DemoWizziController()
+                    ${'$'}if wzCtx.Build.site.useDemoWebpack
+                        @ new DemoWebpackController()
+                ${'$'}if wzCtx.Build.site.useAuthentication
+                    @ new AuthController()
+                ${'$'}if wzCtx.Build.site.useAccount
+                    @ new AccountController()
+                ${'$'}if wzCtx.Build.site.useWizziDocs
+                    @ new DocsController()
+                ${'$'}if wzCtx.Build.site.usePackiProductions
+                    @ new PackiProductionsController()
+            ${'$'}hook controllers  

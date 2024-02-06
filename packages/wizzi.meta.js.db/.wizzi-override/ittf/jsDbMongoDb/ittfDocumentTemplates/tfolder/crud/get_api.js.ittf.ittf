@@ -2,8 +2,8 @@ $group
     ${'$'}params &md
 
     +
-    export
-        async-function get${'$'}{md.Name}
+    set md.get${'$'}{md.Name}
+        async-function 
             ${'$'}foreach item in md.query
                 param ${'$'}{item.name}
             +

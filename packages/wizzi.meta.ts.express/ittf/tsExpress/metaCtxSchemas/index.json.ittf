@@ -1,5 +1,7 @@
 {
     [ parameters
+        params/use( examples
+            params/use( promise
         params/use( pages
         params/use( staticFiles
             params/string( publicPath

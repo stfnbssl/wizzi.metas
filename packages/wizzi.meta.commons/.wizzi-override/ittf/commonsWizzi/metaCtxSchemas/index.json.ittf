@@ -1,5 +1,3 @@
 {
     [ parameters
-        {
-            name "useJsCommons"
-            type "boolean"
+        params/use( jsCommons )

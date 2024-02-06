@@ -1,0 +1,25 @@
+$group
+
+    $
+        var items = [
+            "component",
+            "function",
+            "stories",
+            "story",
+            "styledelement",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/t/v08/js/react/${item}.js.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include jsReact/tfolder/v08/${item}.js
+
+    $
+        var items = [
+            "misc",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/t/v08/js/react/t/${item}.js.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include jsReact/tfolder/v08/tfolder/${item}.js

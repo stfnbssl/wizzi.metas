@@ -1,0 +1,22 @@
+$group
+
+    const metaList
+        [
+            @ "cloud"
+            $if true
+                @ "commons"
+                @ "docs"
+                @ "documents"
+                @ "js.db"
+                @ "js.express"
+                @ "js"
+                @ "js.node"
+                @ "js.react"
+                @ "js.vanilla"
+                @ "ts.db"
+                @ "ts.express"
+                @ "ts"
+                @ "ts.nextjs"
+                @ "ts.react"
+                @ "web"
+                $$ NO THIS ONE @ "wizzi"

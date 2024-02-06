@@ -5,7 +5,7 @@ $group
 
     $file __dot__wizzi/models/wzctx.json.ittf.ittf
         {
-            ${"${'$'}"}include v08/env/vars
+            ${'$'}{'$'}include v08/env/vars
             ---
             name "${metaCtx.name}"
             version "${metaCtx.version}"
@@ -38,7 +38,7 @@ $group
                     ---
 
     $file __dot__wizzi/models/t/code.json.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
         
             useTypescript false
             { typescript
@@ -59,7 +59,7 @@ $group
                 { lint
     
     $file __dot__wizzi/models/t/webpack.json.ittf.ittf
-        ${"${'$'}"}group
+        ${'$'}{'$'}group
 
             useWebpack true
             { webpack

@@ -1,0 +1,40 @@
+$group
+
+    ${'$'}
+        var ctrl = {
+            name: 'DemoWebpack',
+            path: '/demo/webpack',
+            kind: 'site'
+        }
+    $
+        var useDemos = {}
+        for (var i=0; i<metaCtx.webpackApp.items; i++) {
+            var name = metaCtx.webpackApp.items[i].name
+            useDemos[name] = true;
+        }
+
+    v08/js/controller${'('} &ctrl )
+        
+        $if useDemos['hello']
+        _ this.router.get(`/hello`, this.hello)
+
+        $if useDemos['helloreact']
+        _ this.router.get(`/helloreact`, this.helloreact)
+        
+        ${'$'}append handlers
+
+            $if useDemos['hello']
+        
+            v08/js/handler${'('} hello )
+                _ response.render
+                    @ 'demoWebpack/hello.html.ittf'
+                    {
+                        @ title 'Wizzi webpack hello'
+        
+            $if useDemos['helloreact']
+        
+            v08/js/handler${'('} helloreact )
+                _ response.render
+                    @ 'demoWebpack/helloreact.html.ittf'
+                    {
+                        @ title 'Wizzi webpack hello react'

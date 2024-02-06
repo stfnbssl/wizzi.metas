@@ -1,0 +1,12 @@
+$group
+    
+    $if metaCtx.jsExpressWizziSite.useAuthentication
+        
+        $file __dot__wizzi/${pkgPath}src/site/controllers/auth.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include jsExpressWizziSite/controllers/auth.js
+        
+        $file __dot__wizzi/${pkgPath}src/site/views/auth/login.html.ittf.ittf
+            html
+                ${'$'}include jsExpressWizziSite/views/auth/login.html

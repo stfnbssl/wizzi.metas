@@ -32,10 +32,8 @@ $group
         _ this.router.delete('/:id', this.delete${'$'}{md.Name})
         
         ${'$'}append imports
-            
-            import 
-                @ Get${'$'}{md.Name}Model
-                from '../mongo/${'$'}{md.name}'
+
+            const Get${'$'}{md.Name}Model = require('../mongo/${'$'}{md.name}').Get${'$'}{md.Name}Model
         
         ${'$'}append handlers
             

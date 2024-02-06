@@ -1,0 +1,47 @@
+$group
+
+    $file __dot__wizzi/${pkgPath}src/features/wizzi/index.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include jsExpressFeatureWizzi/wizzi/index.js
+    
+    $file __dot__wizzi/${pkgPath}src/features/wizzi/factory.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include jsExpressFeatureWizzi/wizzi/factory.js
+    
+    $file __dot__wizzi/${pkgPath}src/features/wizzi/maps.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include jsExpressFeatureWizzi/wizzi/maps.js
+
+    $file __dot__wizzi/${pkgPath}src/features/wizzi/productions.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include jsExpressFeatureWizzi/wizzi/productions.js
+
+    $
+        var items = [
+            "generateArtifact",
+            "scanIttfDocument",
+            "loadModel",
+            "inferAndLoadContext",
+            /*
+            "executeJob",
+            "metaGenerate",
+            "generateFolderArtifacts",
+            "generateWizziModelTypes",
+            "mTreeBuildupScript",
+            "mTree",
+            "transformModel",
+            "wizzify",
+            "getCodeAST",
+            "loadSiteJsonModel",
+            */
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/features/wizzi/t/productions/${item}.js.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include jsExpressFeatureWizzi/wizzi/t/productions/${item}.js
+    

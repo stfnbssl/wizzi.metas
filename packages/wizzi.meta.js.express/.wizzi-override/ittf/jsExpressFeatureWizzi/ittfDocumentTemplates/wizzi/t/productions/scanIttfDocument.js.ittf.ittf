@@ -1,0 +1,137 @@
+$group
+
+    ${'$'}if wzCtx.Build.useWizziJsonFactory
+        +
+        set module.exports.scanIttfDocument
+            async-function 
+                param mainIttf
+                param packiFiles
+                param rootFolder
+                throw new Error(myname + '.scanIttfDocument not yet implemented')
+    +
+    set module.exports.scanIttfDocumentFs
+        async-function 
+            param filePath
+            param rootFolder
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ ittfScanner.scanIttfDocument
+                            @ filePath
+                            {
+                                @ rootFolder
+                            =>
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                _ resolve(result)
+    +
+    set module.exports.scanIttfFolder
+        async-function 
+            param filePath
+            param rootFolder
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        _ ittfScanner.browseFolder
+                            @ filePath
+                            {
+                                @ rootFolder
+                            =>
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                _ resolve(result)
+    +
+    set module.exports.scanIttfDocumentDb
+        async-function 
+            param owner
+            param name
+            param rootFolder
+            throw new Error(myname + '.scanIttfDocumentDb not yet implemented')
+
+    +
+    set module.exports.folderBrowseToPackiFiles
+        async-function 
+            param folderBrowse
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        const packiFiles
+                            { 
+                        _ folderBrowse.fsitems.map
+                            => 
+                                param fsitem
+                                if fsitem.isFolder == false
+                                    set packiFiles[fsitem.uri] =
+                                        { 
+                                            @ type "CODE"
+                                            @ contents fsitem.content
+                        _ resolve(packiFiles)                                    
+    +
+    set module.exports.folderFsToPackiFiles
+        async-function 
+            param folderPath
+            r_promise${'('}
+                const fsfile = fSystem.vfile()
+                const packiFiles
+                    { 
+                try
+                    _  fsfile.getFiles
+                        @ folderPath
+                        {
+                            @ deep true
+                            @ documentContent true
+                        =>
+                            param err
+                            param result
+                            if (err)
+                                error "wizzi.productions.folderFsToPackiFiles", err
+                                r_reject${'('})
+                                    {
+                                        @ message "wizzi.productions.folderFsToPackiFiles"
+                                        @ err
+                            _ result.map
+                                =>
+                                    param fsitem
+                                    set packiFiles[fsitem.relPath]
+                                        {
+                                            @ type "CODE"
+                                            @ contents fsitem.content || ""
+                            $$ loog"packiFiles", Object.keys(packiFiles)    
+                            r_resolve${'('} packiFiles )
+                catch ex
+                    r_reject${'('})
+                        {
+                            @ message "wizzi.productions.folderFsToPackiFiles"
+                            @ err ex
+
+    +
+    set module.exports.packiFilesToFolderFs
+        async-function 
+            param folderPath
+            param files
+            r_promise_try_catch${'('} wizzi.productions.packiFilesTofolderFs )
+                const fsfile = fSystem.vfile()
+                _ fsfile.deleteFolder
+                    @ folderPath
+                    a_cb_promise${'('} result, wizzi.productions.packiFilesTofolderFs.fsfile.deleteFolder )
+                        for var k in files
+                            var contents = files[k].contents
+                            _  fsfile.write
+                                _ path.join
+                                    @ folderPath
+                                    @ k
+                                @ contents
+                                $$ NO a_cb_promise${'('} result, wizzi.productions.packiFilesTofolderFs.fsfile.write )
+                        r_resolve${'('} )
+                            {
+                                @ message "Folder replaced"

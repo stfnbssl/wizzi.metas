@@ -1,0 +1,13 @@
+$group
+    $params method
+    ._ catch
+        =>
+            param err
+            if typeof err === 'object' && err !== null
+                $hook
+            error '${method}.error', err
+            _ sendFailure
+                @ response
+                {
+                    @ err err
+                @ 501

@@ -1,17 +1,17 @@
 {
     $include versions
-    name "wizzi.meta.wizzi"
-    npmName "@wizzi/meta.wizzi"
+    name "wizzi.meta.js"
+    npmName "@wizzi/meta.js"
     pluginBasename ""
-    version '${versions['@wizzi/meta.wizzi@next']}'
-    description "Wizzi meta plugin for creating wizzi wizzi packages"
+    version '${versions['@wizzi/meta.js@next']}'
+    description "Wizzi meta plugin for creating wizzi javascript packages"
     { author
         name "Stefano Bassoli"
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
     license "MIT"
-    metaNamespace "wizzi"
+    metaNamespace "js"
     { Build
         useConfig true
         { config
@@ -33,18 +33,33 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "javascript"
     [ Productions
         {
-            name "wizziJobs"
-            title "wizziJobs wizzi meta production"
-        {
-            name "wizziFactory"
-            title "wizziFactory wizzi meta production"
-        {
-            name "wizziPlugin"
-            title "wizziPlugin wizzi meta production"
+            name "jsCLI"
+            title "jsCLI wizzi meta production"
             isPackageMain true
+            [ categories
         {
-            name "wizziMeta"
-            title "wizziMeta wizzi meta production"
-            isPackageMain true
+            name "jsCommons"
+            title "jsCommons wizzi meta production"
+            [ categories
+        {
+            name "jsUtils"
+            title "jsUtils wizzi meta production"
+            [ categories

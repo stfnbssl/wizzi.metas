@@ -1,0 +1,35 @@
+module
+    kind es6
+    const path = require('path')
+    const minimist = require('minimist')
+    $if wzCtx.Build.useCliCommandFileConfig
+        const config = require('./src/utils/config')
+    const error = require('./src/utils/error')
+    +
+    const args = minimist(process.argv.slice(2))
+    log 'args', args
+    let cmd = args._[0] || 'generate'
+    if args.version || args.v
+        set cmd = 'version'
+    if args.help || args.h || args['?']
+        set cmd = 'help'
+    log 'cmd', cmd
+    switch cmd
+        case 'first'
+            _ require('./src/commands/first')(args)
+            break
+        case 'help'
+            _ require('./src/commands/help')(args)
+            break
+        case 'version'
+            info 'Version 0.1'
+            break
+        default
+            $if wzCtx.Build.useCliCommandFileConfig
+                var configPath = config.getPath(cmd)
+                if configPath
+                    _ require('./src/commands/generate')(cmd)
+                    return
+            _ error(`"${cmd}" is not a valid command!`)
+            _ error(`try wizzi help`, true)
+            break

@@ -1,21 +1,13 @@
 $group
 
-    import 
-        @ Request
-        @ Response
-        from 'express'
-    import 
-        @ verify
-        from 'wizzi-utils'
-    import
-        @ sendFailure
-        from './sendResponse'
+    const verify = require('wizzi-utils').verify
+	const sendFailure = require('./sendResponse').sendFailure
 
-    export 
-        const restParamsCheck
-            => 
-                param request
-                return new ParamsCheck(request)
+    set module.exports = {}
+	set module.exports.restParamsCheck
+		=> 
+			param request
+			return new ParamsCheck(request)
 
 	class ParamsCheck
         p request 

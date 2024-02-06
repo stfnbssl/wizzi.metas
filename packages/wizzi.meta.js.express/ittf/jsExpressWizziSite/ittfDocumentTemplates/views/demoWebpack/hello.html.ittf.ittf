@@ -1,0 +1,10 @@
+$group
+    ${'$'}
+        var opt = {
+            title: 'Hello webpack'
+        }
+
+    html/layouts/demo${'('}&opt)
+        h1 The content is created by a javascript compiled by webpack
+        # root
+        js http://localhost:3016/webpacks/hello/hello.bundle.js

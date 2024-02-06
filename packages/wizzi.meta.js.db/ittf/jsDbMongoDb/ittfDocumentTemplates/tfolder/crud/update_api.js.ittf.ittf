@@ -2,8 +2,8 @@ $group
     ${'$'}params &md
 
     +
-    export
-        async-function update${'$'}{md.Name}
+    set md.update${'$'}{md.Name}
+        async-function
             ${'$'}if md.update_delete_by_id
                 param id
             ${'$'}foreach item in md.fields

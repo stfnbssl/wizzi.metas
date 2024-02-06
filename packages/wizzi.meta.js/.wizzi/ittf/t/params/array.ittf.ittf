@@ -1,2 +1,7 @@
-${'$'}group 
-   $include wizziMeta/ittf/tfolder/params/array.json
+{
+    $params name
+    name ${name}
+    type "array"
+    $append extend
+    { item
+        $hook

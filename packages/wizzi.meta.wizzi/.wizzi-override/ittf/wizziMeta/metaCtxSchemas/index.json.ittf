@@ -1,5 +1,4 @@
 {
-    productionName "wizziMeta"
     [ parameters
         params/array(globals)
             params/object(item)

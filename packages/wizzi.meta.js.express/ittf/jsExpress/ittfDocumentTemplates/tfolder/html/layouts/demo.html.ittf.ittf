@@ -1,0 +1,13 @@
+$group
+	${'$'}params &opt
+
+    head
+        title ${'$'}{opt.title}
+        ${'$'}hook styles
+
+    body
+        h1 ${'$'}{opt.title}
+        ${'$'}hook
+        ${'$'}hook scripts
+        footer
+            p meta ittf source file: ${__filename}

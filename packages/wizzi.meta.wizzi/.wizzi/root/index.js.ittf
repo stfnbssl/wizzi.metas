@@ -13,13 +13,30 @@ module
     var md = module.exports = {}
     set md.name = '${wzCtx.name}.index'
     +
-    #
-        # FactoryMeta class
+    var pluginCategories
+        [
+            $foreach category in wzCtx.Categories
+                {
+                    @ name '${category.name}'
+    var pluginMetaProductions
+        [
+            $foreach production in wzCtx.Productions
+                {
+                    @ name '${production.name}'
+                    @ title '${production.title}'
+                    $if production.isPackageMain
+                        @ isPackageMain true
+                    [ categories
+                        $foreach category in production.categories
+                            {
+                                @ name '${category.name}'
+    +
     class FactoryMeta
         ctor
             param provides
             set this.provides = provides
             set this.metaProductions = {}
+            set this.metaCtxs = {}
         +
         m initialize
             param options
@@ -39,8 +56,12 @@ module
         +
         $include meta-production
         $include meta-production-starter
+        $include meta-ctx
+        $include meta-ctx-starter
         +
     +
+    #
+        # Scan a filesystem folder and returns the content in a packiFiles object.
     function createPackifilesFromFs
         param folderPath
         param callback
@@ -79,10 +100,8 @@ module
             @ version '${wzCtx.version}'
             @ provides
                 {
-                    @ metaProductions
-                        [
-                            $foreach production in wzCtx.Productions
-                                @ '${production.name}'
+                    @ categories pluginCategories
+                    @ metaProductions pluginMetaProductions
             @ createMetaPlugin
                 function
                     param options

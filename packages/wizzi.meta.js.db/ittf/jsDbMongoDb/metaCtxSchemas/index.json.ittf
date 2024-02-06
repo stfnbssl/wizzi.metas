@@ -2,6 +2,9 @@
     productionName "jsDbMongoDb"
     [ parameters
         params/object(jsDbMongoDb)
+            params/use(connectWithRetry)
+                params/integer(maxRetries)
+                params/integer(retriesSeconds)
             params/use(featureTables)
                 params/array(tables)
                     params/object(table)

@@ -1,10 +1,7 @@
 $group
-    ${'$'}params name
-    {
-        name use"${'$'}{_.capitalize(name)}"
-        type "boolean"
-    { 
-        name ${'$'}{name}
-        type "object"
-        [ properties
-            ${'$'}hook
+    ${'$'}params name, defaultValue:boolean|false
+    name "use${'$'}{_.capitalize(name)}"
+    type "use"
+    defaultValue "${'$'}{defaultValue}"
+    [ parameters
+        $hook

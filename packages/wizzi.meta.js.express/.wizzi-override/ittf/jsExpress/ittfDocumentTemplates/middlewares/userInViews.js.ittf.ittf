@@ -3,17 +3,18 @@ $group
     #
         # The purpose of this middleware is to have the `user`
         # object available for all views.
-    export 
-        const UserInViewMiddleware
-            => 
-                param app
-                _ app.use
-                    => 
-                        param req
-                        param res
-                        param next
-                        ${'$'}if wzCtx.Build.useAuthentication
-                            set res.locals.user = req.oidc.user
-                        ${'$'}else
-                            set res.locals.user = req.user
-                        _ next
+    
+    set module.exports = {}
+    set module.exports.UserInViewMiddleware
+        => 
+            param app
+            _ app.use
+                => 
+                    param req
+                    param res
+                    param next
+                    ${'$'}if wzCtx.Build.useAuthentication
+                        set res.locals.user = req.oidc.user
+                    ${'$'}else
+                        set res.locals.user = req.user
+                    _ next

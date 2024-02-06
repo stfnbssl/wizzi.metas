@@ -1,0 +1,14 @@
+$group
+
+    $if metaCtx.useDemos
+
+        $
+            var items = [
+                'layouts/demo',
+                'layouts/site',
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/t/html/${item}.html.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include jsExpress/tfolder/html/${item}.html

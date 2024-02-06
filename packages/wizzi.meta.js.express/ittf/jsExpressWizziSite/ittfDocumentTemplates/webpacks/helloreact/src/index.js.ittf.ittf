@@ -1,0 +1,22 @@
+$group
+
+    ${'$'}if wzCtx.Build.useRegeneratorRuntime
+        $$ const regeneratorRuntime = require("regenerator-runtime")
+        import regeneratorRuntime from 'regenerator-runtime'
+    $$ const React = require("react")
+    import React from 'react'
+    $$ const createRoot = require("react-dom/client").createRoot
+    import 
+        @ createRoot 
+        from 'react-dom/client'
+    $$ const App = require("./components/App")
+    import App from './components/App'
+    $$ _ require('./index.css')
+    import './index.css'
+    +
+    const container = document.getElementById('root');
+    const root = createRoot(container); 
+    _ root.render
+        < React.StrictMode 
+            < App 
+                @ title {'Hello from a react component in webpack'}

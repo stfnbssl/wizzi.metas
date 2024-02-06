@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.commons\.wizzi-override\root\index.js.ittf
-    utc time: Tue, 16 Jan 2024 12:22:47 GMT
+    utc time: Tue, 06 Feb 2024 10:14:06 GMT
 */
 'use strict';
 
@@ -17,14 +17,118 @@ const vfile = wizziUtils.fSystem.vfile;
 
 var md = module.exports = {};
 md.name = 'wizzi.meta.commons.index';
+md.version = '0.0.2';
 
-/**
-     FactoryMeta class
-*/
+var pluginCategories = [
+    {
+        name: 'commons', 
+        productions: [
+            
+        ]
+     }
+];
+var pluginMetaProductions = [
+    {
+        name: 'commonsBabel', 
+        title: 'commonsBabel wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsBabelrc', 
+        title: 'commonsBabelrc wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsDeploy', 
+        title: 'commonsDeploy wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsEnv', 
+        title: 'commonsEnv wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsEslint', 
+        title: 'commonsEslint wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsGit', 
+        title: 'commonsGit wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsPackage', 
+        title: 'commonsPackage wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsPostcss', 
+        title: 'commonsPostcss wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsPrettier', 
+        title: 'commonsPrettier wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsServerCertificate', 
+        title: 'commonsServerCertificate wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsTailwind', 
+        title: 'commonsTailwind wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsWebpack', 
+        title: 'commonsWebpack wizzi meta production', 
+        categories: [
+            
+        ]
+     }, 
+    {
+        name: 'commonsWizzi', 
+        title: 'commonsWizzi wizzi meta production', 
+        categories: [
+            
+        ]
+     }
+];
+
 class FactoryMeta {
     constructor(provides) {
+        this.name = "wizzi.meta.commons";
+        this.version = "0.0.2";
         this.provides = provides;
+        this.metaCategories = {};
         this.metaProductions = {};
+        this.metaCtxs = {};
     }
     
     initialize(options, callback) {
@@ -44,6 +148,13 @@ class FactoryMeta {
         return this.provides;
     }
     
+    /**
+         Returns the categories of all the productions of the plugin
+    */
+    getMetaCategoryStarter(options, callback) {
+        
+        return callback(null, pluginCategories);
+    }
     /**
          Retrieve a WizziMetaProduction by its production name
     */
@@ -220,9 +331,133 @@ class FactoryMeta {
         }
         )
     }
+    /**
+         Build, if not existent, and retrieve the contexts of a WizziMetaProduction by its production name.
+            Returns
+                { metaCtxs
+                 string productionName
+                 { metaCtxSchema
+                 { wzCtxSchema
+    */
+    getMetaCtx(productionName, callback) {
+        
+        var metaCtx = this.metaCtxs[productionName] || null;
+        
+        if (metaCtx != null) {
+            return callback(null, metaCtx);
+        }
+        
+        metaCtx = {};
+        return this.getMetaCtxSchema(productionName, metaCtx, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                metaCtx.productionName = productionName;
+                this.metaCtxs[productionName] = metaCtx;
+                return callback(null, metaCtx);
+            }
+            );
+    }
+    /**
+         If the ittf/<productionName>/metaCtxSchema folder exists
+         Enrich the metaProduction object with the metaCtxSchema property
+         that contains a packiFile object with the content of the ittf/<productionName>/metaCtxSchema folder.
+         Returns a chained call to the getWzCtxSchema method.
+    */
+    getMetaCtxSchema(productionName, metaProduction, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'metaCtxSchemas');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                metaProduction.metaCtxSchema = result;
+                return this.getWzCtxSchema(productionName, metaProduction, callback);
+            }
+            )
+        }
+        else {
+            return this.getWzCtxSchema(productionName, metaProduction, callback);
+        }
+    }
+    /**
+         If the ittf/<productionName>/wzCtxSchema folder exists
+         Enrich the metaProduction object with the wzCtxSchema property
+         that contains a packiFile object with the content of the ittf/<productionName>/wzCtxSchema folder.
+    */
+    getWzCtxSchema(productionName, metaProduction, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'wzCtxSchemas');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                metaProduction.wzCtxSchema = result;
+                return callback(null);
+            }
+            )
+        }
+        else {
+            return callback(null);
+        }
+    }
+    /**
+         Build and returns a packiFiles object with all the meta ittf documents
+         of the WizziMetaProductions that have the property use<metaProduction>
+         of the object options.metaCtx set to true.
+         The packiFiles filepaths are built this way:
+         - folderTemplates/<ProductionName><metaFilePath>
+         - ittfDocumentTemplates/<ProductionName><metaFilePath>
+         - plainDocuments/<ProductionName><metaFilePath>
+         For each metaProduction used the returned packiFiles object must contain a document
+         with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
+    */
+    getMetaCtxStarter(options, callback) {
+        
+        async.map(pluginMetaProductions, (prod, callback) => 
+        
+            this.getMetaCtx(prod.name, (err, metaCtx) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                return callback(null, metaCtx);
+            }
+            )
+        , (err, metaCtxs) => {
+        
+            const result = {};
+            var i, i_items=metaCtxs, i_len=metaCtxs.length, mp;
+            for (i=0; i<i_len; i++) {
+                mp = metaCtxs[i];
+                for (var k in mp.metaCtxSchema) {
+                    var newk = 'metaCtxSchema/' + mp.productionName + '/' + k;
+                    mp.metaCtxSchema[k].contents = wizziUtils.verify.replaceAll(mp.metaCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n")
+                    ;
+                    result[newk] = mp.metaCtxSchema[k];
+                }
+                for (var k in mp.wzCtxSchema) {
+                    var newk = 'wzCtxSchema/' + mp.productionName + '/' + k;
+                    mp.wzCtxSchema[k].contents = wizziUtils.verify.replaceAll(mp.wzCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n")
+                    ;
+                    result[newk] = mp.wzCtxSchema[k];
+                }
+            }
+            return callback(null, result);
+        }
+        )
+    }
     
 }
 
+/**
+     Scan a filesystem folder and returns the content in a packiFiles object.
+*/
 function createPackifilesFromFs(folderPath, callback) {
     const fsFile = vfile();
     fsFile.getFiles(folderPath, {
@@ -257,23 +492,10 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
-    version: '0.0.1', 
+    version: '0.0.2', 
     provides: {
-        metaProductions: [
-            'commonsBabel', 
-            'commonsBabelrc', 
-            'commonsDeploy', 
-            'commonsEnv', 
-            'commonsEslint', 
-            'commonsGit', 
-            'commonsPackage', 
-            'commonsPostcss', 
-            'commonsPrettier', 
-            'commonsServerCertificate', 
-            'commonsTailwind', 
-            'commonsWebpack', 
-            'commonsWizzi'
-        ]
+        categories: pluginCategories, 
+        metaProductions: pluginMetaProductions
      }, 
     createMetaPlugin: function(options, callback) {
         var meta = new FactoryMeta(this.provides);

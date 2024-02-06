@@ -1,13 +1,10 @@
 {
-    productionName "jsExpressWizziSite"
+    productionName "tsExpressWizziSite"
     [ parameters
-        {
-            name "useXxx"
-            type "boolean"
-        {
-            name "Xxx"
-            type "string"
-            kind "enum"
-            [ enumValues
-                "aaa"
-                "bbb"
+        params/use( site )
+            params/use( demoHome )
+            params/use( demoWizzi )
+            params/use( account )
+            params/use( authentication )
+            params/use( wizziDocs )
+            params/use( packiProductions )

@@ -1,5 +1,4 @@
 {
-    productionName "documentsApp"
     [ parameters
         params/use( documentsApp
         params/use( documentsJson

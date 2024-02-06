@@ -1,7 +1,13 @@
 $group
-    import mongoose from 'mongoose'
+    const mongoose = require('mongoose')
+    $if metaCtx.jsDbMongoDb.useConnectWithRetry
+        const debug = require('debug')
+        const log
+            _ debug('app:mongoose-service')
     +
-    export
+    const md = module.exports = {}
+    +
+    set md.mongodbStart
         function mongodbStart
             param config
             param modelBuilders
@@ -31,8 +37,42 @@ $group
                         => 
                             param err
                             throw new Error('\n\nMongodb. \nCannot connect to \n"' + connectUrl + '". \n\n' + err.message + '\n\n')
+
+    # TODO
+    $if metaCtx.jsDbMongoDb.useConnectWithRetry
+        const maxRetries = ${metaCtx.jsDbMongoDb.connectWithRetry.maxRetries}
+        const retrySeconds = ${metaCtx.jsDbMongoDb.connectWithRetry.retriesSeconds}
+        let retries = 0
+        function connectWithRetry
+            param connectUrl
+            _ log('Attempting MongoDB connection (will retry if needed)')
+            _ mongoose.connect
+                @ connectUrl
+                ._ then
+                    => 
+                        success 'Mongodb. Connected to', mongoPath
+                        _ modelBuilders.forEach
+                            => 
+                                param builder
+                                _ builder.buildModel
+                        return 'Connected'
+                ._ catch
+                    => 
+                        param err
+                        set retries++
+                        if retries > maxRetries
+                            throw new Error('\n\nMongodb. \nCannot connect to \n"' + connectUrl + '". \n\n' + err.message + '\n\n')
+                        _ log
+                            `lit 
+                                + MongoDB connection unsuccessful (will retry #
+                                @ retries
+                                + &nbsp;after&nbsp;
+                                @ retrySeconds
+                                + &nbsp;seconds):
+                            @ err
+                        _ setTimeout(connectWithRetry, retrySeconds * 1000)
+
     +
-    export 
-        const close
-            => 
-                _ mongoose.connection.close()
+    set md.close
+        => 
+            _ mongoose.connection.close()

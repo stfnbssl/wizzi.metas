@@ -1,5 +1,4 @@
 {
-    productionName "tsExpressIttf"
     [ parameters
         params/use( wizziDocs
 

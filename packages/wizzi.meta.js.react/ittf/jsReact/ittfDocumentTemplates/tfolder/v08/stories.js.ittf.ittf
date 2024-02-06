@@ -1,0 +1,39 @@
+$group
+    ${'$'}params &md
+    ${'$'}
+        var name = md.name;
+        var title = md.title || md.name;
+        var from = md.from + '/' + md.name;
+        var hasTParam = !!md.TParam;
+        var TParam = md.TParam;
+    const React = require('react')
+    const Story = require('@storybook/react').Story
+    const Meta = require('@storybook/react').Meta
+    const ${'$'}{name} = require('${'$'}{from}').${'$'}{name}
+    const ${'$'}{name}Props = require('${'$'}{from}').${'$'}{name}Props
+    ${'$'}foreach ximport in md.imports
+        const ${'$'}{ximport} = require('${'$'}{from').${'$'}{ximport}
+    ${'$'}hook imports1
+    ${'$'}hook imports2
+    +
+    set module.exports
+        {
+            @ title '${'$'}{title}'
+            @ component ${'$'}{name}
+            [ decorators
+                =>
+                    param Story
+                    ${'$'}hook decorators
+            { argTypes
+                ${'$'}hook argTypes
+            { args
+                ${'$'}hook args
+            { parameters
+                { docs
+                    ${'$'}hook parameters.docs
+    +
+    const Template
+        =>
+            param args
+            ${'$'}hook template
+    ${'$'}hook
