@@ -1,5 +1,4 @@
 {
-    productionName "jsReactUtils"
     [ parameters
         params/object(jsReactUtils)
             params/boolean(lodash)

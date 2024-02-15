@@ -1,5 +1,4 @@
 {
-    productionName "jsReactWebpackGetStarted"
     [ parameters
         params/use(webpackCss)
             params/use(miniCssExtract)

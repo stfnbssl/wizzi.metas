@@ -1,5 +1,4 @@
 {
-    productionName "jsDbMongoDb"
     [ parameters
         params/object(jsDbMongoDb)
             params/use(connectWithRetry)

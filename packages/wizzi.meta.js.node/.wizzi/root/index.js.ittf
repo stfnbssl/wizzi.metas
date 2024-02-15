@@ -47,7 +47,7 @@ module
             set this.provides = provides
             set this.metaCategories = {}
             set this.metaProductions = {}
-            set this.metaCtxs = {}
+            set this.metaContextDefs = {}
         +
         m initialize
             param options

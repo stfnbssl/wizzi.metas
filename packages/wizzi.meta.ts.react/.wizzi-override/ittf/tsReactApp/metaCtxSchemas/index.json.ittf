@@ -6,7 +6,7 @@
         params/object( author )
             params/string( name )
             params/string( email )
-        params/number( port )
+        params/integer( port )
         params/boolean( isLocal )
         params/string( baseUrl )
         params/string( siteUrl )

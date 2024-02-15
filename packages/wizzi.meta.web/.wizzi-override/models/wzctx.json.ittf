@@ -54,48 +54,108 @@
             name "webAppCrud"
             title "webAppCrud wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "app"
+                {
+                    name "database"
         {
             name "webCss"
             title "webCss wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "css"
         {
             name "webHtml"
             title "webHtml wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "html"
         {
             name "webIttfSite"
             title "webIttfSite wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "site"
         {
             name "webIttfStudioMeta"
             title "webIttfStudioMeta wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "wizzi"
+                {
+                    name "wizzi-studio"
+                {
+                    name "ittf"
         {
             name "webJs"
             title "webJs wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "javascript"
         {
             name "webJsWz"
             title "webJsWz wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "javascript"
+                {
+                    name "wizzi"
         {
             name "webSiteDemo"
             title "webSiteDemo wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "site"
+                {
+                    name "demo"
         {
             name "webSiteWebapi"
             title "webSiteWebapi wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "site"
         {
             name "webStaticSite"
             title "webStaticSite wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "static-site"
         {
             name "webSvg"
             title "webSvg wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "svg"
         {
             name "webWizziDocs"
             title "webWizziDocs wizzi meta production"
             [ categories
+                {
+                    name "webdev"
+                {
+                    name "wizzi"
+                {
+                    name "wizzi-docs"

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.express\.wizzi-override\root\index.js.ittf
-    utc time: Tue, 06 Feb 2024 10:14:25 GMT
+    utc time: Thu, 15 Feb 2024 19:06:50 GMT
 */
 'use strict';
 
@@ -23,13 +23,152 @@ var pluginCategories = [
     {
         name: 'typescript', 
         productions: [
-            
+            {
+                name: "tsExpress"
+             }, 
+            {
+                name: "tsExpressApp"
+             }, 
+            {
+                name: "tsExpressData"
+             }, 
+            {
+                name: "tsExpressFeatureAccount"
+             }, 
+            {
+                name: "tsExpressFeatureAuth"
+             }, 
+            {
+                name: "tsExpressFeatureBlog"
+             }, 
+            {
+                name: "tsExpressFeatureConfig"
+             }, 
+            {
+                name: "tsExpressFeatureCdn"
+             }, 
+            {
+                name: "tsExpressFeatureFilesystem"
+             }, 
+            {
+                name: "tsExpressFeatureGithub"
+             }, 
+            {
+                name: "tsExpressFeaturePacki"
+             }, 
+            {
+                name: "tsExpressFeatureProject"
+             }, 
+            {
+                name: "tsExpressFeatureRepo"
+             }, 
+            {
+                name: "tsExpressFeatureUser"
+             }, 
+            {
+                name: "tsExpressFeatureWizzi"
+             }, 
+            {
+                name: "tsExpressFeatureWizziDocs"
+             }, 
+            {
+                name: "tsExpressFeatureWizziFs"
+             }, 
+            {
+                name: "tsExpressFeatureWizziGist"
+             }, 
+            {
+                name: "tsExpressFeatureWizziMeta"
+             }, 
+            {
+                name: "tsExpressFeatureWizziProduction"
+             }, 
+            {
+                name: "tsExpressIttf"
+             }, 
+            {
+                name: "tsExpressStyles"
+             }, 
+            {
+                name: "tsExpressTests"
+             }, 
+            {
+                name: "tsExpressUtils"
+             }, 
+            {
+                name: "tsExpressWizziSite"
+             }
         ]
      }, 
     {
         name: 'express', 
         productions: [
-            
+            {
+                name: "tsExpress"
+             }, 
+            {
+                name: "tsExpressApp"
+             }, 
+            {
+                name: "tsExpressData"
+             }, 
+            {
+                name: "tsExpressFeatureAccount"
+             }, 
+            {
+                name: "tsExpressFeatureAuth"
+             }, 
+            {
+                name: "tsExpressFeatureBlog"
+             }, 
+            {
+                name: "tsExpressFeatureConfig"
+             }, 
+            {
+                name: "tsExpressFeatureCdn"
+             }, 
+            {
+                name: "tsExpressFeatureFilesystem"
+             }, 
+            {
+                name: "tsExpressFeatureGithub"
+             }, 
+            {
+                name: "tsExpressFeaturePacki"
+             }, 
+            {
+                name: "tsExpressFeatureProject"
+             }, 
+            {
+                name: "tsExpressFeatureRepo"
+             }, 
+            {
+                name: "tsExpressFeatureUser"
+             }, 
+            {
+                name: "tsExpressFeatureWizzi"
+             }, 
+            {
+                name: "tsExpressFeatureWizziDocs"
+             }, 
+            {
+                name: "tsExpressFeatureWizziFs"
+             }, 
+            {
+                name: "tsExpressFeatureWizziGist"
+             }, 
+            {
+                name: "tsExpressFeatureWizziMeta"
+             }, 
+            {
+                name: "tsExpressFeatureWizziProduction"
+             }, 
+            {
+                name: "tsExpressTests"
+             }, 
+            {
+                name: "tsExpressWizziSite"
+             }
         ]
      }
 ];
@@ -38,7 +177,12 @@ var pluginMetaProductions = [
         name: 'tsExpress', 
         title: 'tsExpress wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }
         ]
      }, 
     {
@@ -46,168 +190,417 @@ var pluginMetaProductions = [
         title: 'tsExpressApp wizzi meta production', 
         isPackageMain: true, 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'webapp'
+             }
         ]
      }, 
     {
         name: 'tsExpressData', 
         title: 'tsExpressData wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureAccount', 
         title: 'tsExpressFeatureAccount wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'account'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureAuth', 
         title: 'tsExpressFeatureAuth wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'auth'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureBlog', 
         title: 'tsExpressFeatureBlog wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'blog'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureConfig', 
         title: 'tsExpressFeatureConfig wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'config'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureCdn', 
         title: 'tsExpressFeatureCdn wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'cdn'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureFilesystem', 
         title: 'tsExpressFeatureFilesystem wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'filesystem'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureGithub', 
         title: 'tsExpressFeatureGithub wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'github'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeaturePacki', 
         title: 'tsExpressFeaturePacki wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'packi'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureProject', 
         title: 'tsExpressFeatureProject wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'project'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureRepo', 
         title: 'tsExpressFeatureRepo wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'repo'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureUser', 
         title: 'tsExpressFeatureUser wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'user'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureWizzi', 
         title: 'tsExpressFeatureWizzi wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'wizzi'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureWizziDocs', 
         title: 'tsExpressFeatureWizziDocs wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'wizzi'
+             }, 
+            {
+                name: 'documentation'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureWizziFs', 
         title: 'tsExpressFeatureWizziFs wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'wizzi'
+             }, 
+            {
+                name: 'filesystem'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureWizziGist', 
         title: 'tsExpressFeatureWizziGist wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'wizzi'
+             }, 
+            {
+                name: 'gist'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureWizziMeta', 
         title: 'tsExpressFeatureWizziMeta wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'wizzi'
+             }, 
+            {
+                name: 'meta'
+             }
         ]
      }, 
     {
         name: 'tsExpressFeatureWizziProduction', 
         title: 'tsExpressFeatureWizziProduction wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'wizzi'
+             }, 
+            {
+                name: 'wizzi-production'
+             }
         ]
      }, 
     {
         name: 'tsExpressIttf', 
         title: 'tsExpressIttf wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'ittf'
+             }
         ]
      }, 
     {
         name: 'tsExpressStyles', 
         title: 'tsExpressStyles wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'styles'
+             }
         ]
      }, 
     {
         name: 'tsExpressTests', 
         title: 'tsExpressTests wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'tests'
+             }
         ]
      }, 
     {
         name: 'tsExpressUtils', 
         title: 'tsExpressUtils wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'utilities'
+             }
         ]
      }, 
     {
         name: 'tsExpressWizziSite', 
         title: 'tsExpressWizziSite wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'wizzi'
+             }, 
+            {
+                name: 'view-engine'
+             }
         ]
      }
 ];
@@ -219,7 +612,7 @@ class FactoryMeta {
         this.provides = provides;
         this.metaCategories = {};
         this.metaProductions = {};
-        this.metaCtxs = {};
+        this.metaContextDefs = {};
     }
     
     initialize(options, callback) {
@@ -437,38 +830,61 @@ class FactoryMeta {
     /**
          Build, if not existent, and retrieve the contexts of a WizziMetaProduction by its production name.
             Returns
-                { metaCtxs
+                { metaContextDefs
                  string productionName
                  { metaCtxSchema
                  { wzCtxSchema
     */
-    getMetaCtx(productionName, callback) {
+    getMetaContextDefs(productionName, callback) {
         
-        var metaCtx = this.metaCtxs[productionName] || null;
+        var metaContextDefs = this.metaContextDefs[productionName] || null;
         
-        if (metaCtx != null) {
-            return callback(null, metaCtx);
+        if (metaContextDefs != null) {
+            return callback(null, metaContextDefs);
         }
         
-        metaCtx = {};
-        return this.getMetaCtxSchema(productionName, metaCtx, (err, notUsed) => {
+        metaContextDefs = {};
+        return this.getTParams(productionName, metaContextDefs, (err, notUsed) => {
             
                 if (err) {
                     return callback(err);
                 }
-                metaCtx.productionName = productionName;
-                this.metaCtxs[productionName] = metaCtx;
-                return callback(null, metaCtx);
+                metaContextDefs.productionName = productionName;
+                this.metaContextDefs[productionName] = metaContextDefs;
+                return callback(null, metaContextDefs);
             }
             );
     }
     /**
+         Enrich the metaContextDefs object with the ittf/t/params folder
+         that contains the templates for declaring context parameters of meta productions.
+         Returns a chained call to the getMetaCtxSchema method.
+    */
+    getTParams(productionName, metaContextDefs, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', 't', 'params');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                metaContextDefs.ittfTParams = result;
+                return this.getMetaCtxSchema(productionName, metaContextDefs, callback);
+            }
+            )
+        }
+        else {
+            return this.getMetaCtxSchema(productionName, metaContextDefs, callback);
+        }
+    }
+    /**
          If the ittf/<productionName>/metaCtxSchema folder exists
-         Enrich the metaProduction object with the metaCtxSchema property
+         Enrich the metaContextDefs object with the metaCtxSchema property
          that contains a packiFile object with the content of the ittf/<productionName>/metaCtxSchema folder.
          Returns a chained call to the getWzCtxSchema method.
     */
-    getMetaCtxSchema(productionName, metaProduction, callback) {
+    getMetaCtxSchema(productionName, metaContextDefs, callback) {
         const fsFile = vfile();
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'metaCtxSchemas');
         if (fsFile.isDirectory(folderPath)) {
@@ -477,30 +893,7 @@ class FactoryMeta {
                 if (err) {
                     return callback(err);
                 }
-                metaProduction.metaCtxSchema = result;
-                return this.getWzCtxSchema(productionName, metaProduction, callback);
-            }
-            )
-        }
-        else {
-            return this.getWzCtxSchema(productionName, metaProduction, callback);
-        }
-    }
-    /**
-         If the ittf/<productionName>/wzCtxSchema folder exists
-         Enrich the metaProduction object with the wzCtxSchema property
-         that contains a packiFile object with the content of the ittf/<productionName>/wzCtxSchema folder.
-    */
-    getWzCtxSchema(productionName, metaProduction, callback) {
-        const fsFile = vfile();
-        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'wzCtxSchemas');
-        if (fsFile.isDirectory(folderPath)) {
-            createPackifilesFromFs(folderPath, (err, result) => {
-            
-                if (err) {
-                    return callback(err);
-                }
-                metaProduction.wzCtxSchema = result;
+                metaContextDefs.metaCtxSchema = result;
                 return callback(null);
             }
             )
@@ -511,44 +904,54 @@ class FactoryMeta {
     }
     /**
          Build and returns a packiFiles object with all the meta ittf documents
-         of the WizziMetaProductions that have the property use<metaProduction>
-         of the object options.metaCtx set to true.
+         of any WizziMetaProduction
          The packiFiles filepaths are built this way:
          - folderTemplates/<ProductionName><metaFilePath>
          - ittfDocumentTemplates/<ProductionName><metaFilePath>
          - plainDocuments/<ProductionName><metaFilePath>
-         For each metaProduction used the returned packiFiles object must contain a document
-         with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
+         For each metaProduction the returned packiFiles object must contain:
+         . a document with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
+         . a document with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
     */
-    getMetaCtxStarter(options, callback) {
+    getMetaContextDefsStarter(options, callback) {
         
-        async.map(pluginMetaProductions, (prod, callback) => 
+        async.map(pluginMetaProductions, (prod, callback) => {
         
-            this.getMetaCtx(prod.name, (err, metaCtx) => {
+            if (options && options.metaCtx) {
+                const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1);
+                if (!options.metaCtx[useProductionVar]) {
+                    return callback(null, {});
+                }
+                console.log('getMetaContextDefsStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar], __filename);
+            }
+            this.getMetaContextDefs(prod.name, (err, metaContextDefs) => {
             
                 if (err) {
                     return callback(err);
                 }
-                return callback(null, metaCtx);
+                return callback(null, metaContextDefs);
             }
             )
-        , (err, metaCtxs) => {
+        }
+        , (err, metaContextDefs) => {
         
             const result = {};
-            var i, i_items=metaCtxs, i_len=metaCtxs.length, mp;
+            var i, i_items=metaContextDefs, i_len=metaContextDefs.length, mp;
             for (i=0; i<i_len; i++) {
-                mp = metaCtxs[i];
-                for (var k in mp.metaCtxSchema) {
-                    var newk = 'metaCtxSchema/' + mp.productionName + '/' + k;
-                    mp.metaCtxSchema[k].contents = wizziUtils.verify.replaceAll(mp.metaCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n")
-                    ;
-                    result[newk] = mp.metaCtxSchema[k];
+                mp = metaContextDefs[i];
+                if (mp.ittfTParams) {
+                    for (var k in mp.ittfTParams) {
+                        var newk = 'metaCtxSchema/' + mp.productionName + '/t/params/' + k;
+                        result[newk] = mp.ittfTParams[k];
+                    }
                 }
-                for (var k in mp.wzCtxSchema) {
-                    var newk = 'wzCtxSchema/' + mp.productionName + '/' + k;
-                    mp.wzCtxSchema[k].contents = wizziUtils.verify.replaceAll(mp.wzCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n")
-                    ;
-                    result[newk] = mp.wzCtxSchema[k];
+                if (mp.metaCtxSchema) {
+                    for (var k in mp.metaCtxSchema) {
+                        var newk = 'metaCtxSchema/' + mp.productionName + '/' + k;
+                        mp.metaCtxSchema[k].contents = wizziUtils.verify.replaceAll(mp.metaCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n")
+                        ;
+                        result[newk] = mp.metaCtxSchema[k];
+                    }
                 }
             }
             return callback(null, result);

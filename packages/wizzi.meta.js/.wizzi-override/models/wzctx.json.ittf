@@ -55,11 +55,21 @@
             title "jsCLI wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "javascript"
+                {
+                    name "CLI"
         {
             name "jsCommons"
             title "jsCommons wizzi meta production"
             [ categories
+                {
+                    name "javascript"
         {
             name "jsUtils"
             title "jsUtils wizzi meta production"
             [ categories
+                {
+                    name "javascript"
+                {
+                    name "utilities"

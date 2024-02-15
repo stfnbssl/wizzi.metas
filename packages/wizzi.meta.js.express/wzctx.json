@@ -69,44 +69,130 @@
         {
             "name": "jsExpress",
             "title": "jsExpress wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "express"
+                },
+                {
+                    "name": "server"
+                }
+            ]
         },
         {
             "name": "jsExpressApp",
             "title": "jsExpressApp wizzi meta production",
             "isPackageMain": true,
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "express"
+                },
+                {
+                    "name": "server"
+                }
+            ]
         },
         {
             "name": "jsExpressBasicApp",
             "title": "jsExpressBasicApp wizzi meta production",
             "isPackageMain": true,
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "express"
+                },
+                {
+                    "name": "server"
+                }
+            ]
         },
         {
             "name": "jsExpressFeatureConfig",
             "title": "jsExpressFeatureConfig wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "express"
+                },
+                {
+                    "name": "server"
+                },
+                {
+                    "name": "config"
+                }
+            ]
         },
         {
             "name": "jsExpressFeatureWizzi",
             "title": "jsExpressFeatureWizzi wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "express"
+                },
+                {
+                    "name": "wizzi"
+                }
+            ]
         },
         {
             "name": "jsExpressStyles",
             "title": "jsExpressStyles wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "express"
+                },
+                {
+                    "name": "styles"
+                }
+            ]
         },
         {
             "name": "jsExpressUtils",
             "title": "jsExpressUtils wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "express"
+                },
+                {
+                    "name": "utilities"
+                }
+            ]
         },
         {
             "name": "jsExpressWizziSite",
             "title": "jsExpressWizziSite wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "express"
+                },
+                {
+                    "name": "wizzi"
+                },
+                {
+                    "name": "site"
+                }
+            ]
         }
     ]
 }

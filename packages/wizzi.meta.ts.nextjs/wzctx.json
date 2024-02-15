@@ -70,12 +70,41 @@
             "name": "tsNextjsBasicApp",
             "title": "tsNextjsBasicApp wizzi meta production",
             "isPackageMain": true,
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "react"
+                },
+                {
+                    "name": "nextjs"
+                },
+                {
+                    "name": "app"
+                },
+                {
+                    "name": "starter"
+                }
+            ]
         },
         {
             "name": "tsNextjsBlog",
             "title": "tsNextjsBlog wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "react"
+                },
+                {
+                    "name": "nextjs"
+                },
+                {
+                    "name": "blog"
+                }
+            ]
         }
     ]
 }

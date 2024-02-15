@@ -1,5 +1,4 @@
 {
-    productionName "webAppCrud"
     [ parameters]
         params/object(webAppCrud)
             params/string(name)

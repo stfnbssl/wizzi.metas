@@ -56,100 +56,286 @@
             name "tsExpress"
             title "tsExpress wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
         {
             name "tsExpressApp"
             title "tsExpressApp wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "webapp"
         {
             name "tsExpressData"
             title "tsExpressData wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
         {
             name "tsExpressFeatureAccount"
             title "tsExpressFeatureAccount wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "account"
         {
             name "tsExpressFeatureAuth"
             title "tsExpressFeatureAuth wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "auth"
         {
             name "tsExpressFeatureBlog"
             title "tsExpressFeatureBlog wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "blog"
         {
             name "tsExpressFeatureConfig"
             title "tsExpressFeatureConfig wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "config"
         {
             name "tsExpressFeatureCdn"
             title "tsExpressFeatureCdn wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "cdn"
         {
             name "tsExpressFeatureFilesystem"
             title "tsExpressFeatureFilesystem wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "filesystem"
         {
             name "tsExpressFeatureGithub"
             title "tsExpressFeatureGithub wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "github"
         {
             name "tsExpressFeaturePacki"
             title "tsExpressFeaturePacki wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "packi"
         {
             name "tsExpressFeatureProject"
             title "tsExpressFeatureProject wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "project"
         {
             name "tsExpressFeatureRepo"
             title "tsExpressFeatureRepo wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "repo"
         {
             name "tsExpressFeatureUser"
             title "tsExpressFeatureUser wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "user"
         {
             name "tsExpressFeatureWizzi"
             title "tsExpressFeatureWizzi wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "wizzi"
         {
             name "tsExpressFeatureWizziDocs"
             title "tsExpressFeatureWizziDocs wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "wizzi"
+                {
+                    name "documentation"
         {
             name "tsExpressFeatureWizziFs"
             title "tsExpressFeatureWizziFs wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "wizzi"
+                {
+                    name "filesystem"
         {
             name "tsExpressFeatureWizziGist"
             title "tsExpressFeatureWizziGist wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "wizzi"
+                {
+                    name "gist"
         {
             name "tsExpressFeatureWizziMeta"
             title "tsExpressFeatureWizziMeta wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "wizzi"
+                {
+                    name "meta"
         {
             name "tsExpressFeatureWizziProduction"
             title "tsExpressFeatureWizziProduction wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "feature"
+                {
+                    name "wizzi"
+                {
+                    name "wizzi-production"
         {
             name "tsExpressIttf"
             title "tsExpressIttf wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "ittf"
         {
             name "tsExpressStyles"
             title "tsExpressStyles wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "styles"
         {
             name "tsExpressTests"
             title "tsExpressTests wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "tests"
         {
             name "tsExpressUtils"
             title "tsExpressUtils wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "utilities"
         {
             name "tsExpressWizziSite"
             title "tsExpressWizziSite wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "wizzi"
+                {
+                    name "view-engine"

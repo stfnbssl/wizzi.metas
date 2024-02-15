@@ -1,4 +1,3 @@
 {
-    productionName "webSiteWebapi"
     [ parameters
         params/use(blog)

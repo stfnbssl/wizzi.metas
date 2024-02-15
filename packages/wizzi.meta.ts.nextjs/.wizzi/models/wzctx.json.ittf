@@ -57,7 +57,25 @@
             title "tsNextjsBasicApp wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "nextjs"
+                {
+                    name "app"
+                {
+                    name "starter"
         {
             name "tsNextjsBlog"
             title "tsNextjsBlog wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "nextjs"
+                {
+                    name "blog"

@@ -1,5 +1,4 @@
 {
-    productionName "tsDbMongoDb"
     [ parameters
         params/object(tsDbMongoDb)
             params/use(featureTables)

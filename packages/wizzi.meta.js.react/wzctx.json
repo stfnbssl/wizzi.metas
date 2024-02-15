@@ -75,12 +75,29 @@
             "name": "jsReactApp",
             "title": "jsReactApp wizzi meta production",
             "isPackageMain": true,
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "react"
+                }
+            ]
         },
         {
             "name": "jsReactWebpackGetStartedApp",
             "title": "jsReactWebpackGetStartedApp wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "react"
+                },
+                {
+                    "name": "webpack"
+                }
+            ]
         },
         {
             "name": "jsReactUtils",

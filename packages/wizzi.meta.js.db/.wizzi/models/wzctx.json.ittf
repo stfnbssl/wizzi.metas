@@ -56,15 +56,31 @@
             name "jsDbMongoDb"
             title "jsDbMongoDb wizzi meta production"
             [ categories
+                {
+                    name "database"
+                {
+                    name "mongodb"
         {
             name "jsDbPostgres"
             title "jsDbPostgres wizzi meta production"
             [ categories
+                {
+                    name "database"
+                {
+                    name "postgres"
         {
             name "jsDbRedis"
             title "jsDbRedis wizzi meta production"
             [ categories
+                {
+                    name "database"
+                {
+                    name "redis"
         {
             name "jsDbSequelize"
             title "jsDbSequelize wizzi meta production"
             [ categories
+                {
+                    name "database"
+                {
+                    name "sequelize"

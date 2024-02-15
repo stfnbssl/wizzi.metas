@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.utils\.wizzi-override\src\actions\upgrade_1.js.ittf
-    utc time: Tue, 06 Feb 2024 10:13:43 GMT
+    utc time: Tue, 06 Feb 2024 16:42:42 GMT
 */
 'use strict';
 const path = require("path");
@@ -57,6 +57,8 @@ function doUpgrade(ndx) {
 doUpgrade(0)
 function updateFiles(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
+    //
+    //
     const root_t_items = [
         "t/meta-category-starter.js", 
         "t/meta-ctx-starter.js", 
@@ -71,6 +73,8 @@ function updateFiles(metaName, callback) {
         const toFile = path.join(metaFolder, ".wizzi-override", "root", item + ".ittf");
         file.copy(fromFile, toFile)
     }
+    //
+    //
     const models = [
         "wzctx.json.ittf"
     ];
@@ -81,6 +85,8 @@ function updateFiles(metaName, callback) {
         const toFile = path.join(metaFolder, ".wizzi-override", "models", item);
         file.copy(fromFile, toFile)
     }
+    //
+    //
     const examples = [
         "step_1.js.ittf", 
         "step_2.js.ittf", 
@@ -94,6 +100,7 @@ function updateFiles(metaName, callback) {
         const toFile = path.join(metaFolder, ".wizzi-override", "examples", item);
         file.copy(fromFile, toFile)
     }
+    //
     //
     const tFolder = [
         "package/0_0_1/scripts.json.ittf"
@@ -110,7 +117,8 @@ function updateFiles(metaName, callback) {
 function updateFolders(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
     const folders = [
-        "t/package/0_0_1"
+        "t/package/0_0_1", 
+        "ittf/t/params"
     ];
     function exec(ndx) {
         const folderName = folders[ndx];

@@ -66,29 +66,67 @@
         {
             "name": "tsCommons",
             "title": "tsCommons wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "commons"
+                }
+            ]
         },
         {
             "name": "tsEsmWrapper",
             "title": "tsEsmWrapper wizzi meta production",
             "isPackageMain": true,
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "esm"
+                }
+            ]
         },
         {
             "name": "tsNode",
             "title": "tsNode wizzi meta production",
             "isPackageMain": true,
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "nodejs"
+                }
+            ]
         },
         {
             "name": "tsNodeFeatureGithub",
             "title": "tsNodeFeatureGithub wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "github"
+                },
+                {
+                    "name": "nodejs"
+                }
+            ]
         },
         {
             "name": "tsUtils",
             "title": "tsUtils wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "utilities"
+                }
+            ]
         }
     ]
 }

@@ -1,4 +1,3 @@
 {
-    productionName "jsCLI"
     [ parameters
         use( config )

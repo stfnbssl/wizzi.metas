@@ -8,10 +8,10 @@ module
         a_cb( mf )
             _ mf.getMetaCtxStarter
                 {
-                a_cb( metaCtx )
+                a_cb( metaCtxs )
                     const dump
                         _ stringify
-                            @ metaCtx
+                            @ metaCtxs
                             @ null
                             @ 2
-                    log 'metaCtx', dump
+                    log 'metaCtxs', dump

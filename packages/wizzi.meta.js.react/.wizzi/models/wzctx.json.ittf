@@ -61,10 +61,20 @@
             title "jsReactApp wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "javascript"
+                {
+                    name "react"
         {
             name "jsReactWebpackGetStartedApp"
             title "jsReactWebpackGetStartedApp wizzi meta production"
             [ categories
+                {
+                    name "javascript"
+                {
+                    name "react"
+                {
+                    name "webpack"
         {
             name "jsReactUtils"
             title "jsReactUtils wizzi meta production"

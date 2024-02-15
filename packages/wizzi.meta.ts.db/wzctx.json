@@ -69,22 +69,62 @@
         {
             "name": "tsDbMongoDb",
             "title": "tsDbMongoDb wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "database"
+                },
+                {
+                    "name": "mongodb"
+                }
+            ]
         },
         {
             "name": "tsDbPostgres",
             "title": "tsDbPostgres wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "database"
+                },
+                {
+                    "name": "postgres"
+                }
+            ]
         },
         {
             "name": "tsDbRedis",
             "title": "tsDbRedis wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "database"
+                },
+                {
+                    "name": "redis"
+                }
+            ]
         },
         {
             "name": "tsDbSequelize",
             "title": "tsDbSequelize wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "database"
+                },
+                {
+                    "name": "sequelize"
+                }
+            ]
         }
     ]
 }

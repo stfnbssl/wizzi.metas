@@ -4,4 +4,3 @@
     type "use"
     defaultValue "${defaultValue}"
     [ parameters
-        $hook

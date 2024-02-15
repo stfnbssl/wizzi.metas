@@ -66,37 +66,81 @@
         {
             "name": "documentsApp",
             "title": "documentsApp wizzi meta production",
-            "categories": []
+            "isPackageMain": true,
+            "categories": [
+                {
+                    "name": "documents"
+                }
+            ]
         },
         {
             "name": "documentsDocx",
             "title": "documentsDocx wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "documents"
+                },
+                {
+                    "name": "word"
+                }
+            ]
         },
         {
             "name": "documentsHtmlSlide",
             "title": "documentsHtmlSlide wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "documents"
+                },
+                {
+                    "name": "html"
+                }
+            ]
         },
         {
             "name": "documentsJson",
             "title": "documentsJson wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "documents"
+                },
+                {
+                    "name": "json"
+                }
+            ]
         },
         {
             "name": "documentsPdf",
             "title": "documentsPdf wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "documents"
+                },
+                {
+                    "name": "pdf"
+                }
+            ]
         },
         {
             "name": "documentsPpt",
             "title": "documentsPpt wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "documents"
+                },
+                {
+                    "name": "powerpoint"
+                }
+            ]
         },
         {
             "name": "documentsUtils",
             "title": "documentsUtils wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "documents"
+                }
+            ]
         }
     ]
 }

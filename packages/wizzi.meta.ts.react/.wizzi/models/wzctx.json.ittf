@@ -56,81 +56,193 @@
             name "tsReact"
             title "tsReact wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
         {
             name "tsReactApp"
             title "tsReactApp wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "app"
         {
             name "tsReactAssets"
             title "tsReactAssets wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "asset"
         {
             name "tsReactBasicWebpack"
             title "tsReactBasicWebpack wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "webpack"
+                {
+                    name "starter"
         {
             name "tsReactBasicVite"
             title "tsReactBasicVite wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "vite"
         {
             name "tsReactComponents"
             title "tsReactComponents wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "component"
         {
             name "tsReactEditor"
             title "tsReactEditor wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "editor"
         {
             name "tsReactFeatures"
             title "tsReactFeatures wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "features"
         {
             name "tsReactNextjsApp"
             title "tsReactNextjsApp wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "nextjs"
         {
             name "tsReactPageForms"
             title "tsReactPageForms wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
         {
             name "tsReactRedux"
             title "tsReactRedux wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "redux"
         {
             name "tsReactSiteWebpack"
             title "tsReactSiteWebpack wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "webpack"
         {
             name "tsReactStoryboard"
             title "tsReactStoryboard wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "storyboard"
         {
             name "tsReactThemes"
             title "tsReactThemes wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "theme"
         {
             name "tsReactTypings"
             title "tsReactTypings wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
         {
             name "tsReactUtils"
             title "tsReactUtils wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "utilities"
         {
             name "tsReactWebpackGetStartedApp"
             title "tsReactWebpackGetStartedApp wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "webpack"
         {
             name "tsReactWebpackWidgetsApp"
             title "tsReactWebpackWidgetsApp wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "webpack"
+                {
+                    name "widgets"
         {
             name "tsReactWidgets"
             title "tsReactWidgets wizzi meta production"
             [ categories
+                {
+                    name "typescript"
+                {
+                    name "react"
+                {
+                    name "widgets"

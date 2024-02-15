@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.react\.wizzi-override\root\index.js.ittf
-    utc time: Tue, 06 Feb 2024 10:14:32 GMT
+    utc time: Thu, 15 Feb 2024 19:06:56 GMT
 */
 'use strict';
 
@@ -23,13 +23,125 @@ var pluginCategories = [
     {
         name: 'typescript', 
         productions: [
-            
+            {
+                name: "tsReact"
+             }, 
+            {
+                name: "tsReactApp"
+             }, 
+            {
+                name: "tsReactAssets"
+             }, 
+            {
+                name: "tsReactBasicWebpack"
+             }, 
+            {
+                name: "tsReactBasicVite"
+             }, 
+            {
+                name: "tsReactComponents"
+             }, 
+            {
+                name: "tsReactEditor"
+             }, 
+            {
+                name: "tsReactFeatures"
+             }, 
+            {
+                name: "tsReactNextjsApp"
+             }, 
+            {
+                name: "tsReactPageForms"
+             }, 
+            {
+                name: "tsReactRedux"
+             }, 
+            {
+                name: "tsReactSiteWebpack"
+             }, 
+            {
+                name: "tsReactStoryboard"
+             }, 
+            {
+                name: "tsReactThemes"
+             }, 
+            {
+                name: "tsReactTypings"
+             }, 
+            {
+                name: "tsReactUtils"
+             }, 
+            {
+                name: "tsReactWebpackGetStartedApp"
+             }, 
+            {
+                name: "tsReactWebpackWidgetsApp"
+             }, 
+            {
+                name: "tsReactWidgets"
+             }
         ]
      }, 
     {
         name: 'react', 
         productions: [
-            
+            {
+                name: "tsReact"
+             }, 
+            {
+                name: "tsReactApp"
+             }, 
+            {
+                name: "tsReactAssets"
+             }, 
+            {
+                name: "tsReactBasicWebpack"
+             }, 
+            {
+                name: "tsReactBasicVite"
+             }, 
+            {
+                name: "tsReactComponents"
+             }, 
+            {
+                name: "tsReactEditor"
+             }, 
+            {
+                name: "tsReactFeatures"
+             }, 
+            {
+                name: "tsReactNextjsApp"
+             }, 
+            {
+                name: "tsReactPageForms"
+             }, 
+            {
+                name: "tsReactRedux"
+             }, 
+            {
+                name: "tsReactSiteWebpack"
+             }, 
+            {
+                name: "tsReactStoryboard"
+             }, 
+            {
+                name: "tsReactThemes"
+             }, 
+            {
+                name: "tsReactTypings"
+             }, 
+            {
+                name: "tsReactUtils"
+             }, 
+            {
+                name: "tsReactWebpackGetStartedApp"
+             }, 
+            {
+                name: "tsReactWebpackWidgetsApp"
+             }, 
+            {
+                name: "tsReactWidgets"
+             }
         ]
      }
 ];
@@ -38,7 +150,12 @@ var pluginMetaProductions = [
         name: 'tsReact', 
         title: 'tsReact wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }
         ]
      }, 
     {
@@ -46,14 +163,30 @@ var pluginMetaProductions = [
         title: 'tsReactApp wizzi meta production', 
         isPackageMain: true, 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'app'
+             }
         ]
      }, 
     {
         name: 'tsReactAssets', 
         title: 'tsReactAssets wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'asset'
+             }
         ]
      }, 
     {
@@ -61,7 +194,18 @@ var pluginMetaProductions = [
         title: 'tsReactBasicWebpack wizzi meta production', 
         isPackageMain: true, 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'webpack'
+             }, 
+            {
+                name: 'starter'
+             }
         ]
      }, 
     {
@@ -69,28 +213,60 @@ var pluginMetaProductions = [
         title: 'tsReactBasicVite wizzi meta production', 
         isPackageMain: true, 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'vite'
+             }
         ]
      }, 
     {
         name: 'tsReactComponents', 
         title: 'tsReactComponents wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'component'
+             }
         ]
      }, 
     {
         name: 'tsReactEditor', 
         title: 'tsReactEditor wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'editor'
+             }
         ]
      }, 
     {
         name: 'tsReactFeatures', 
         title: 'tsReactFeatures wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'features'
+             }
         ]
      }, 
     {
@@ -98,56 +274,114 @@ var pluginMetaProductions = [
         title: 'tsReactNextjsApp wizzi meta production', 
         isPackageMain: true, 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'nextjs'
+             }
         ]
      }, 
     {
         name: 'tsReactPageForms', 
         title: 'tsReactPageForms wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }
         ]
      }, 
     {
         name: 'tsReactRedux', 
         title: 'tsReactRedux wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'redux'
+             }
         ]
      }, 
     {
         name: 'tsReactSiteWebpack', 
         title: 'tsReactSiteWebpack wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'webpack'
+             }
         ]
      }, 
     {
         name: 'tsReactStoryboard', 
         title: 'tsReactStoryboard wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'storyboard'
+             }
         ]
      }, 
     {
         name: 'tsReactThemes', 
         title: 'tsReactThemes wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'theme'
+             }
         ]
      }, 
     {
         name: 'tsReactTypings', 
         title: 'tsReactTypings wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }
         ]
      }, 
     {
         name: 'tsReactUtils', 
         title: 'tsReactUtils wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'utilities'
+             }
         ]
      }, 
     {
@@ -155,7 +389,15 @@ var pluginMetaProductions = [
         title: 'tsReactWebpackGetStartedApp wizzi meta production', 
         isPackageMain: true, 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'webpack'
+             }
         ]
      }, 
     {
@@ -163,14 +405,33 @@ var pluginMetaProductions = [
         title: 'tsReactWebpackWidgetsApp wizzi meta production', 
         isPackageMain: true, 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'webpack'
+             }, 
+            {
+                name: 'widgets'
+             }
         ]
      }, 
     {
         name: 'tsReactWidgets', 
         title: 'tsReactWidgets wizzi meta production', 
         categories: [
-            
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'widgets'
+             }
         ]
      }
 ];
@@ -182,7 +443,7 @@ class FactoryMeta {
         this.provides = provides;
         this.metaCategories = {};
         this.metaProductions = {};
-        this.metaCtxs = {};
+        this.metaContextDefs = {};
     }
     
     initialize(options, callback) {
@@ -394,38 +655,61 @@ class FactoryMeta {
     /**
          Build, if not existent, and retrieve the contexts of a WizziMetaProduction by its production name.
             Returns
-                { metaCtxs
+                { metaContextDefs
                  string productionName
                  { metaCtxSchema
                  { wzCtxSchema
     */
-    getMetaCtx(productionName, callback) {
+    getMetaContextDefs(productionName, callback) {
         
-        var metaCtx = this.metaCtxs[productionName] || null;
+        var metaContextDefs = this.metaContextDefs[productionName] || null;
         
-        if (metaCtx != null) {
-            return callback(null, metaCtx);
+        if (metaContextDefs != null) {
+            return callback(null, metaContextDefs);
         }
         
-        metaCtx = {};
-        return this.getMetaCtxSchema(productionName, metaCtx, (err, notUsed) => {
+        metaContextDefs = {};
+        return this.getTParams(productionName, metaContextDefs, (err, notUsed) => {
             
                 if (err) {
                     return callback(err);
                 }
-                metaCtx.productionName = productionName;
-                this.metaCtxs[productionName] = metaCtx;
-                return callback(null, metaCtx);
+                metaContextDefs.productionName = productionName;
+                this.metaContextDefs[productionName] = metaContextDefs;
+                return callback(null, metaContextDefs);
             }
             );
     }
     /**
+         Enrich the metaContextDefs object with the ittf/t/params folder
+         that contains the templates for declaring context parameters of meta productions.
+         Returns a chained call to the getMetaCtxSchema method.
+    */
+    getTParams(productionName, metaContextDefs, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', 't', 'params');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                metaContextDefs.ittfTParams = result;
+                return this.getMetaCtxSchema(productionName, metaContextDefs, callback);
+            }
+            )
+        }
+        else {
+            return this.getMetaCtxSchema(productionName, metaContextDefs, callback);
+        }
+    }
+    /**
          If the ittf/<productionName>/metaCtxSchema folder exists
-         Enrich the metaProduction object with the metaCtxSchema property
+         Enrich the metaContextDefs object with the metaCtxSchema property
          that contains a packiFile object with the content of the ittf/<productionName>/metaCtxSchema folder.
          Returns a chained call to the getWzCtxSchema method.
     */
-    getMetaCtxSchema(productionName, metaProduction, callback) {
+    getMetaCtxSchema(productionName, metaContextDefs, callback) {
         const fsFile = vfile();
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'metaCtxSchemas');
         if (fsFile.isDirectory(folderPath)) {
@@ -434,30 +718,7 @@ class FactoryMeta {
                 if (err) {
                     return callback(err);
                 }
-                metaProduction.metaCtxSchema = result;
-                return this.getWzCtxSchema(productionName, metaProduction, callback);
-            }
-            )
-        }
-        else {
-            return this.getWzCtxSchema(productionName, metaProduction, callback);
-        }
-    }
-    /**
-         If the ittf/<productionName>/wzCtxSchema folder exists
-         Enrich the metaProduction object with the wzCtxSchema property
-         that contains a packiFile object with the content of the ittf/<productionName>/wzCtxSchema folder.
-    */
-    getWzCtxSchema(productionName, metaProduction, callback) {
-        const fsFile = vfile();
-        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'wzCtxSchemas');
-        if (fsFile.isDirectory(folderPath)) {
-            createPackifilesFromFs(folderPath, (err, result) => {
-            
-                if (err) {
-                    return callback(err);
-                }
-                metaProduction.wzCtxSchema = result;
+                metaContextDefs.metaCtxSchema = result;
                 return callback(null);
             }
             )
@@ -468,44 +729,54 @@ class FactoryMeta {
     }
     /**
          Build and returns a packiFiles object with all the meta ittf documents
-         of the WizziMetaProductions that have the property use<metaProduction>
-         of the object options.metaCtx set to true.
+         of any WizziMetaProduction
          The packiFiles filepaths are built this way:
          - folderTemplates/<ProductionName><metaFilePath>
          - ittfDocumentTemplates/<ProductionName><metaFilePath>
          - plainDocuments/<ProductionName><metaFilePath>
-         For each metaProduction used the returned packiFiles object must contain a document
-         with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
+         For each metaProduction the returned packiFiles object must contain:
+         . a document with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
+         . a document with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
     */
-    getMetaCtxStarter(options, callback) {
+    getMetaContextDefsStarter(options, callback) {
         
-        async.map(pluginMetaProductions, (prod, callback) => 
+        async.map(pluginMetaProductions, (prod, callback) => {
         
-            this.getMetaCtx(prod.name, (err, metaCtx) => {
+            if (options && options.metaCtx) {
+                const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1);
+                if (!options.metaCtx[useProductionVar]) {
+                    return callback(null, {});
+                }
+                console.log('getMetaContextDefsStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar], __filename);
+            }
+            this.getMetaContextDefs(prod.name, (err, metaContextDefs) => {
             
                 if (err) {
                     return callback(err);
                 }
-                return callback(null, metaCtx);
+                return callback(null, metaContextDefs);
             }
             )
-        , (err, metaCtxs) => {
+        }
+        , (err, metaContextDefs) => {
         
             const result = {};
-            var i, i_items=metaCtxs, i_len=metaCtxs.length, mp;
+            var i, i_items=metaContextDefs, i_len=metaContextDefs.length, mp;
             for (i=0; i<i_len; i++) {
-                mp = metaCtxs[i];
-                for (var k in mp.metaCtxSchema) {
-                    var newk = 'metaCtxSchema/' + mp.productionName + '/' + k;
-                    mp.metaCtxSchema[k].contents = wizziUtils.verify.replaceAll(mp.metaCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n")
-                    ;
-                    result[newk] = mp.metaCtxSchema[k];
+                mp = metaContextDefs[i];
+                if (mp.ittfTParams) {
+                    for (var k in mp.ittfTParams) {
+                        var newk = 'metaCtxSchema/' + mp.productionName + '/t/params/' + k;
+                        result[newk] = mp.ittfTParams[k];
+                    }
                 }
-                for (var k in mp.wzCtxSchema) {
-                    var newk = 'wzCtxSchema/' + mp.productionName + '/' + k;
-                    mp.wzCtxSchema[k].contents = wizziUtils.verify.replaceAll(mp.wzCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n")
-                    ;
-                    result[newk] = mp.wzCtxSchema[k];
+                if (mp.metaCtxSchema) {
+                    for (var k in mp.metaCtxSchema) {
+                        var newk = 'metaCtxSchema/' + mp.productionName + '/' + k;
+                        mp.metaCtxSchema[k].contents = wizziUtils.verify.replaceAll(mp.metaCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n")
+                        ;
+                        result[newk] = mp.metaCtxSchema[k];
+                    }
                 }
             }
             return callback(null, result);

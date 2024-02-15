@@ -69,7 +69,17 @@
         {
             "name": "jsNodeScripts",
             "title": "jsNodeScripts wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "javascript"
+                },
+                {
+                    "name": "nodejs"
+                },
+                {
+                    "name": "script"
+                }
+            ]
         }
     ]
 }

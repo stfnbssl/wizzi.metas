@@ -56,7 +56,19 @@
             name "jsVanillaWebpackGetStartedApp"
             title "jsVanillaWebpackGetStartedApp wizzi meta production"
             [ categories
+                {
+                    name "javascript"
+                {
+                    name "vanillajs"
+                {
+                    name "webpack"
         {
             name "jsVanillaUtils"
             title "jsVanillaUtils wizzi meta production"
             [ categories
+                {
+                    name "javascript"
+                {
+                    name "vanillajs"
+                {
+                    name "utilities"

@@ -12,12 +12,20 @@ module
     +
     var md = module.exports = {}
     set md.name = '${wzCtx.name}.index'
+    set md.version = '${wzCtx.version}'
     +
     var pluginCategories
         [
             $foreach category in wzCtx.Categories
                 {
                     @ name '${category.name}'
+                    [ productions
+                        $foreach production in wzCtx.Productions
+                            $if _.isArray(production.categories)
+                                $foreach pcategory in production.categories
+                                    $if pcategory.name == category.name
+                                        {
+                                            @ name "${production.name}"
     var pluginMetaProductions
         [
             $foreach production in wzCtx.Productions
@@ -34,9 +42,12 @@ module
     class FactoryMeta
         ctor
             param provides
+            set this.name = "${wzCtx.name}"
+            set this.version = "${wzCtx.version}"
             set this.provides = provides
+            set this.metaCategories = {}
             set this.metaProductions = {}
-            set this.metaCtxs = {}
+            set this.metaContextDefs = {}
         +
         m initialize
             param options
@@ -54,6 +65,7 @@ module
         m getProvides
             return this.provides
         +
+        $include meta-category-starter
         $include meta-production
         $include meta-production-starter
         $include meta-ctx

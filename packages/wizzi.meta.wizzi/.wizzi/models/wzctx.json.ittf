@@ -33,25 +33,56 @@
         useWizziJsonFactory true
         { utils
             useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
     [ Categories
         {
             name "wizzi"
+        {
+            name "wizzi-jobs"
     [ Productions
         {
             name "wizziJobs"
             title "wizziJobs wizzi meta production"
             [ categories
+                {
+                    name "wizzi"
+                {
+                    name "wizzi-jobs"
         {
             name "wizziFactory"
             title "wizziFactory wizzi meta production"
             [ categories
+                {
+                    name "wizzi"
+                {
+                    name "wizzi-factory"
         {
             name "wizziPlugin"
             title "wizziPlugin wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "wizzi"
+                {
+                    name "wizzi-plugin"
         {
             name "wizziMeta"
             title "wizziMeta wizzi meta production"
             isPackageMain true
             [ categories
+                {
+                    name "wizzi"
+                {
+                    name "wizzi-meta"

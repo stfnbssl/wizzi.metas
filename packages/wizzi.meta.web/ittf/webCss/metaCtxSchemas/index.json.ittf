@@ -1,5 +1,4 @@
 {
-    productionName "webCss"
     [ parameters
         params/use(tailwindcss)
         params/use(cheatsheet)

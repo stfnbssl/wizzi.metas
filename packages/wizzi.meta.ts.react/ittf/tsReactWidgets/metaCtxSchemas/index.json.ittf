@@ -1,5 +1,4 @@
 {
-    productionName "tsReactWidgets"
     [ parameters
         params/use( aphrodite
         params/use( muiBase

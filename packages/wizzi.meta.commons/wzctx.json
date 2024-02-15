@@ -66,67 +66,152 @@
         {
             "name": "commonsBabel",
             "title": "commonsBabel wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "babel"
+                }
+            ]
         },
         {
             "name": "commonsBabelrc",
             "title": "commonsBabelrc wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "babel"
+                }
+            ]
         },
         {
             "name": "commonsDeploy",
             "title": "commonsDeploy wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                }
+            ]
         },
         {
             "name": "commonsEnv",
             "title": "commonsEnv wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "env"
+                }
+            ]
         },
         {
             "name": "commonsEslint",
             "title": "commonsEslint wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "lint"
+                }
+            ]
         },
         {
             "name": "commonsGit",
             "title": "commonsGit wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "git"
+                }
+            ]
         },
         {
             "name": "commonsPackage",
             "title": "commonsPackage wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                }
+            ]
         },
         {
             "name": "commonsPostcss",
             "title": "commonsPostcss wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "css"
+                }
+            ]
         },
         {
             "name": "commonsPrettier",
             "title": "commonsPrettier wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "prettier"
+                }
+            ]
         },
         {
             "name": "commonsServerCertificate",
             "title": "commonsServerCertificate wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "ssl"
+                },
+                {
+                    "name": "security"
+                }
+            ]
         },
         {
             "name": "commonsTailwind",
             "title": "commonsTailwind wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "css"
+                }
+            ]
         },
         {
             "name": "commonsWebpack",
             "title": "commonsWebpack wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "jspackager"
+                }
+            ]
         },
         {
             "name": "commonsWizzi",
             "title": "commonsWizzi wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "package"
+                },
+                {
+                    "name": "wizzi"
+                }
+            ]
         }
     ]
 }
