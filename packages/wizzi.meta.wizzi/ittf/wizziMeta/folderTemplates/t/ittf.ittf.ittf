@@ -12,7 +12,7 @@ $group
             ];
 
     $foreach item in items
-        $file __dot__wizzi/ittf/t/params/${item}.ittf.ittf.ittf
+        $file __dot__wizzi/ittf/t/params/${item}.json.ittf.ittf
             {
                 ${'$'}include wizziMeta/ittf/tfolder/params/${item}.json
     

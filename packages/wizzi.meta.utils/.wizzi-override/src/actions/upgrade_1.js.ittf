@@ -18,13 +18,15 @@ module
         _ updateFiles
             @ metaName
             a_cb()
-                success "*** Upgrade of meta files of " + metaName + " DONE ***"
-                _ updateFolders
+                _ deleteFolders
                     @ metaName
                     a_cb()
-                        success "*** Upgrade of meta folders of  " + metaName + " DONE ***"
-                        _ doUpgrade
-                            @ ndx + 1
+                        _ updateFolders
+                            @ metaName
+                            a_cb()
+                                success "*** Upgrade of meta folders of  " + metaName + " DONE ***"
+                                _ doUpgrade
+                                    @ ndx + 1
     _ doUpgrade
         @ 0
 
@@ -35,6 +37,25 @@ module
             _ path.join
                 @ metasFolder
                 @ "wizzi.meta." + metaName
+        #
+        #
+        const gen_items
+            [
+                @ "generate.wfjob"
+        foreach item in gen_items
+            const fromFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi"
+                    @ item + ".ittf"
+            const toFile
+                _ path.join
+                    @ metaFolder
+                    @ ".wizzi-override"
+                    @ item + ".ittf"
+            _ file.copy
+                @ fromFile
+                @ toFile
         #
         #
         const root_t_items
@@ -129,6 +150,36 @@ module
         _ callback
             @ null
 
+    function deleteFolders
+        param metaName
+        param callback
+        const metaFolder 
+            _ path.join
+                @ metasFolder
+                @ "wizzi.meta." + metaName
+        const folders
+            [
+                @ ".wizzi-override/ittf"
+                $$ @ "ittf"
+        function exec
+            param ndx
+            const folderName = folders[ndx]
+            if !folderName
+                r_cb()
+            const folderPath
+                _ path.join
+                    @ metaFolder
+                    @ folderName 
+            _ file.deleteFolder
+                @ folderName
+                a_cb()
+                    log 'deleted folder', folderPath
+                    _ exec
+                        @ ndx + 1
+        _ exec
+            @ 0
+
+    
     function updateFolders
         param metaName
         param callback
@@ -165,23 +216,3 @@ module
         _ exec
             @ 0
 
-    function executeWizziGeneration
-        param metaName
-        param callback
-        log 'Starting production of ', metaName
-        const PowerShell = spawnUtils.PowerShell
-        let ps
-            new PowerShell
-                @ "wz meta meta." + metaName
-                {
-                    @ cwd "C:/My/wizzi/stfnbssl/wizzi.dev/packages/wizzi.dev/metas"
-        _ spawnUtils.psOutput
-            @ ps
-            {
-            =>
-                param err
-                param stdout
-                param stderr
-                log "powershell 2", err || stderr || stdout
-                _ callback
-                    @ null

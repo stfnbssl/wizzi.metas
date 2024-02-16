@@ -1,7 +1,10 @@
 $group
-    ${'$'}params name, defaultValue:boolean|false
+    ${'$'}params name, defaultValue|false
     name "use${'$'}{_.capitalize(name)}"
     type "use"
-    defaultValue "${'$'}{defaultValue}"
+    ${'$'}if defaultValue == 'false'
+        defaultValue false
+    ${'$'}else
+        defaultValue true
     [ parameters
-        $hook
+        ${'$'}hook        

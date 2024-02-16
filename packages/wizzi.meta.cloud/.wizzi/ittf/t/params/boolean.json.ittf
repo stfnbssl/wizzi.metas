@@ -1,6 +1,6 @@
 {
     $params name, defaultValue:boolean|false
-    name "use${_.capitalize(name)}"
-    type "use"
+    name "${name}"
+    type "boolean"
     defaultValue "${defaultValue}"
-    [ parameters
+    $hook

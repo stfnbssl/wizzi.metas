@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.utils\.wizzi-override\src\actions\upgrade_1.js.ittf
-    utc time: Tue, 06 Feb 2024 16:42:42 GMT
+    utc time: Fri, 16 Feb 2024 07:02:47 GMT
 */
 'use strict';
 const path = require("path");
@@ -41,14 +41,20 @@ function doUpgrade(ndx) {
         if (err) {
             return callback(err);
         }
-        console.log("[32m%s[0m", "*** Upgrade of meta files of " + metaName + " DONE ***");
-        updateFolders(metaName, (err, notUsed) => {
+        deleteFolders(metaName, (err, notUsed) => {
         
             if (err) {
                 return callback(err);
             }
-            console.log("[32m%s[0m", "*** Upgrade of meta folders of  " + metaName + " DONE ***");
-            doUpgrade(ndx + 1)
+            updateFolders(metaName, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                console.log("[32m%s[0m", "*** Upgrade of meta folders of  " + metaName + " DONE ***");
+                doUpgrade(ndx + 1)
+            }
+            )
         }
         )
     }
@@ -57,6 +63,18 @@ function doUpgrade(ndx) {
 doUpgrade(0)
 function updateFiles(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
+    //
+    //
+    const gen_items = [
+        "generate.wfjob"
+    ];
+    var i, i_items=gen_items, i_len=gen_items.length, item;
+    for (i=0; i<i_len; i++) {
+        item = gen_items[i];
+        const fromFile = path.join(metaFolder, ".wizzi", item + ".ittf");
+        const toFile = path.join(metaFolder, ".wizzi-override", item + ".ittf");
+        file.copy(fromFile, toFile)
+    }
     //
     //
     const root_t_items = [
@@ -114,6 +132,29 @@ function updateFiles(metaName, callback) {
     }
     callback(null)
 }
+function deleteFolders(metaName, callback) {
+    const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
+    const folders = [
+        ".wizzi-override/ittf"
+    ];
+    function exec(ndx) {
+        const folderName = folders[ndx];
+        if (!folderName) {
+            return callback(null);
+        }
+        const folderPath = path.join(metaFolder, folderName);
+        file.deleteFolder(folderName, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            console.log('deleted folder', folderPath, __filename);
+            exec(ndx + 1)
+        }
+        )
+    }
+    exec(0)
+}
 function updateFolders(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
     const folders = [
@@ -138,17 +179,4 @@ function updateFolders(metaName, callback) {
         )
     }
     exec(0)
-}
-function executeWizziGeneration(metaName, callback) {
-    console.log('Starting production of ', metaName, __filename);
-    const PowerShell = spawnUtils.PowerShell;
-    let ps = new PowerShell("wz meta meta." + metaName, {
-        cwd: "C:/My/wizzi/stfnbssl/wizzi.dev/packages/wizzi.dev/metas"
-     });
-    spawnUtils.psOutput(ps, {}, (err, stdout, stderr) => {
-    
-        console.log("powershell 2", err || stderr || stdout, __filename);
-        callback(null)
-    }
-    )
 }

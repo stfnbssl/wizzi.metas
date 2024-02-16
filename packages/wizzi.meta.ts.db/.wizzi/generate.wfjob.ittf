@@ -24,6 +24,7 @@ wfjob wizzi.meta.ts.db/job
         cwd-folder ${jobCtx.ittf_ittf_folder}
         dest-folder ${jobCtx.dest_folder}/ittf
         wfjobs(any_plain, &jobCtx, ittf)
+        wfjobs(any_plain, &jobCtx, json)
     
     line ittf-root
         cwd-folder ${jobCtx.ittf_root_folder}
