@@ -3,7 +3,7 @@ $group
     name "${'$'}{name}"
     type "string"
     kind "enum"
-    ${'$'}append extend
+    ${'$'}hook extend
     [ enumValues
         ${'$'}hook
 

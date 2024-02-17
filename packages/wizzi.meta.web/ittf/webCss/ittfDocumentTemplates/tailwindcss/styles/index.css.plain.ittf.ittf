@@ -1,2 +1,0 @@
-$group
-    contents @tailwind base;\n@tailwind components;\n@tailwind utilities;

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.docs\.wizzi-override\root\index.js.ittf
-    utc time: Thu, 15 Feb 2024 19:06:33 GMT
+    utc time: Fri, 16 Feb 2024 08:22:39 GMT
 */
 'use strict';
 
@@ -388,8 +388,6 @@ class FactoryMeta {
                 if (mp.metaCtxSchema) {
                     for (var k in mp.metaCtxSchema) {
                         var newk = 'metaCtxSchema/' + mp.productionName + '/' + k;
-                        mp.metaCtxSchema[k].contents = wizziUtils.verify.replaceAll(mp.metaCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n")
-                        ;
                         result[newk] = mp.metaCtxSchema[k];
                     }
                 }

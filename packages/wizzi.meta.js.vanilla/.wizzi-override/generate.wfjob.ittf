@@ -23,13 +23,6 @@ wfjob wizzi.meta.js.vanilla/job
     line ittf-ittf
         cwd-folder ${jobCtx.ittf_ittf_folder}
         dest-folder ${jobCtx.dest_folder}/ittf
-        wfjobs(any_plain, &jobCtx, ittf)
-    
-    line ittf-plain
-        cwd-folder ${jobCtx.ittf_ittf_folder}
-        dest-folder ${jobCtx.dest_folder}/ittf
-        artifact any_plain
-            src ./**/plainDocuments/**/*.*
     
     line ittf-root
         cwd-folder ${jobCtx.ittf_root_folder}
@@ -68,7 +61,5 @@ wfjob wizzi.meta.js.vanilla/job
     production
         dest-folder ${jobCtx.dest_folder}
         line-ref ittf-models
-        line-ref ittf-ittf
-        line-ref ittf-plain
         line-ref ittf-root
         line-ref ittf-examples

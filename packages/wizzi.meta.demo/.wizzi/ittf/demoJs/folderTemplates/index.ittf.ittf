@@ -1,0 +1,11 @@
+$group
+    $
+        var items = [
+            "file1",
+            "fileN",
+        ]
+        +++
+    $foreach item in items
+        $file __dot__wizzi/${item}.js.ittf.ittf
+            js
+                ${'$'}include demoJs/${item}.js

@@ -40,8 +40,5 @@ $group
                     if mp.metaCtxSchema
                         for var k in mp.metaCtxSchema
                             var newk = 'metaCtxSchema/' + mp.productionName + '/' + k
-                            set mp.metaCtxSchema[k].contents
-                                _ wizziUtils.verify.replaceAll
-                                    @ mp.metaCtxSchema[k].contents, "{\r\n    [ parameters\r\n", "{\r\n    metaProduction \"" + mp.productionName + "\"\r\n    [ parameters\r\n"
                             set result[newk] = mp.metaCtxSchema[k]
                 r_cb( result )

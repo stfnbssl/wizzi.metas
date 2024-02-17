@@ -15,10 +15,10 @@ module
         if !metaName
             success "All meta upgrades done"
             return
-        _ updateFiles
+        _ deleteFiles
             @ metaName
             a_cb()
-                _ deleteFolders
+                _ updateFiles
                     @ metaName
                     a_cb()
                         _ updateFolders
@@ -150,6 +150,57 @@ module
         _ callback
             @ null
 
+    function deleteFiles
+        param metaName
+        param callback
+        const metaFolder 
+            _ path.join
+                @ metasFolder
+                @ "wizzi.meta." + metaName
+        const files
+            [
+                @ "array.ittf.ittf"
+                @ "object.ittf.ittf"
+                @ "string.ittf.ittf"
+                @ "boolean.ittf.ittf"
+                @ "enum.ittf.ittf"
+                @ "integer.ittf.ittf"
+                @ "use.ittf.ittf"
+                $$ @ "ittf"
+        function exec
+            param ndx
+            const fileName = files[ndx]
+            if !fileName
+                r_cb()
+            let filePath
+                _ path.join
+                    @ metaFolder
+                    @ '.wizzi'
+                    @ 'ittf'
+                    @ 't'
+                    @ 'params'
+                    @ fileName 
+            _ file.deleteFile
+                @ filePath
+                a_cb()
+                    log 'deleted file', filePath
+                    set filePath
+                        _ path.join
+                            @ metaFolder
+                            @ '.wizzi-override'
+                            @ 'ittf'
+                            @ 't'
+                            @ 'params'
+                            @ fileName 
+                    _ file.deleteFile
+                        @ filePath
+                        a_cb()
+                            log 'deleted file', filePath
+                            _ exec
+                                @ ndx + 1
+        _ exec
+            @ 0
+
     function deleteFolders
         param metaName
         param callback
@@ -159,7 +210,7 @@ module
                 @ "wizzi.meta." + metaName
         const folders
             [
-                @ ".wizzi-override/ittf"
+                @ ".wizzi-override/ittf/t/params"
                 $$ @ "ittf"
         function exec
             param ndx
@@ -189,7 +240,7 @@ module
                 @ "wizzi.meta." + metaName
         const folders
             [
-                @ "t/package/0_0_1"
+                @ ".wizzi-override/t/package/0_0_1"
                 @ "ittf/t/params"
         function exec
             param ndx
@@ -204,7 +255,6 @@ module
             const toFolder
                 _ path.join
                     @ metaFolder
-                    @ ".wizzi-override"
                     @ folderName
             _ file.copyFolder
                 @ fromFolder

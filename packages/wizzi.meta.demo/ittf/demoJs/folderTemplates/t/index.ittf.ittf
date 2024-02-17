@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            "index",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/${item}.js.ittf.ittf
+            module
+                kind react
+                ${'$'}include demoJs/${item}.js

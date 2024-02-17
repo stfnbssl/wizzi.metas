@@ -1,8 +1,8 @@
-$group
+{
     $params name
-    { 
-        name ${name}
-        type "array"
-        $append extend
-        { item
+    name "${name}"
+    type "array"
+    $hook extend
+    { item
+        [ properties
             $hook

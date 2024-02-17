@@ -1,7 +1,0 @@
-$group
-    export 
-        @ SplitPane
-        from './lib/split-pane'
-    :export-type
-        @ SplitPaneProps
-        from './lib/split-pane'

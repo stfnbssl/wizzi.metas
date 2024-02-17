@@ -1,16 +1,3 @@
 $group
     $if metaCtx.useLabCss
         $include wzCtxModel
-        $file __dot__wizzi/labCss/yyy.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include labCss/xxx.js
-        $
-            var items = [
-                "alpha",
-                "beta",
-            ];
-        $foreach item in items
-            $file __dot__wizzi/t/labCss/${metaVer}/${item}.js.ittf.ittf
-                $group
-                    ${'$'}include labCss/tfolder/${item}.js

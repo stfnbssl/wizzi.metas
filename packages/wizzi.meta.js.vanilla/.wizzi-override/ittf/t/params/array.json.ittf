@@ -2,6 +2,6 @@
     $params name
     name ${name}
     type "array"
-    $append extend
+    $hook extend
     { item
         $hook

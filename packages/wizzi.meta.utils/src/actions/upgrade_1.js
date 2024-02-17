@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.utils\.wizzi-override\src\actions\upgrade_1.js.ittf
-    utc time: Fri, 16 Feb 2024 07:02:47 GMT
+    utc time: Fri, 16 Feb 2024 07:56:26 GMT
 */
 'use strict';
 const path = require("path");
@@ -36,12 +36,12 @@ function doUpgrade(ndx) {
         console.log("[32m%s[0m", "All meta upgrades done");
         return ;
     }
-    updateFiles(metaName, (err, notUsed) => {
+    deleteFiles(metaName, (err, notUsed) => {
     
         if (err) {
             return callback(err);
         }
-        deleteFolders(metaName, (err, notUsed) => {
+        updateFiles(metaName, (err, notUsed) => {
         
             if (err) {
                 return callback(err);
@@ -132,10 +132,49 @@ function updateFiles(metaName, callback) {
     }
     callback(null)
 }
+function deleteFiles(metaName, callback) {
+    const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
+    const files = [
+        "array.ittf.ittf", 
+        "object.ittf.ittf", 
+        "string.ittf.ittf", 
+        "boolean.ittf.ittf", 
+        "enum.ittf.ittf", 
+        "integer.ittf.ittf", 
+        "use.ittf.ittf"
+    ];
+    function exec(ndx) {
+        const fileName = files[ndx];
+        if (!fileName) {
+            return callback(null);
+        }
+        let filePath = path.join(metaFolder, '.wizzi', 'ittf', 't', 'params', fileName);
+        file.deleteFile(filePath, (err, notUsed) => {
+        
+            if (err) {
+                return callback(err);
+            }
+            console.log('deleted file', filePath, __filename);
+            filePath = path.join(metaFolder, '.wizzi-override', 'ittf', 't', 'params', fileName)
+            ;
+            file.deleteFile(filePath, (err, notUsed) => {
+            
+                if (err) {
+                    return callback(err);
+                }
+                console.log('deleted file', filePath, __filename);
+                exec(ndx + 1)
+            }
+            )
+        }
+        )
+    }
+    exec(0)
+}
 function deleteFolders(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
     const folders = [
-        ".wizzi-override/ittf"
+        ".wizzi-override/ittf/t/params"
     ];
     function exec(ndx) {
         const folderName = folders[ndx];
@@ -158,7 +197,7 @@ function deleteFolders(metaName, callback) {
 function updateFolders(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
     const folders = [
-        "t/package/0_0_1", 
+        ".wizzi-override/t/package/0_0_1", 
         "ittf/t/params"
     ];
     function exec(ndx) {
@@ -167,7 +206,7 @@ function updateFolders(metaName, callback) {
             return callback(null);
         }
         const fromFolder = path.join(metaFolder, ".wizzi", folderName);
-        const toFolder = path.join(metaFolder, ".wizzi-override", folderName);
+        const toFolder = path.join(metaFolder, folderName);
         file.copyFolder(fromFolder, toFolder, (err, notUsed) => {
         
             if (err) {

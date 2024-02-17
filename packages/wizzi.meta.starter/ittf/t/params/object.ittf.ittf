@@ -3,6 +3,6 @@ $group
     {
         name ${name}
         type "object"
-        $append extend
+        $hook extend
         [ properties
             $hook

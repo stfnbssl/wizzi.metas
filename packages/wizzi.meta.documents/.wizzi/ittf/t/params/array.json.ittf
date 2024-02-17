@@ -1,7 +1,8 @@
 {
     $params name
-    name ${name}
+    name "${name}"
     type "array"
-    $append extend
+    $hook extend
     { item
-        $hook
+        [ properties
+            $hook

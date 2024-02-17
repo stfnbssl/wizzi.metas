@@ -1,0 +1,23 @@
+$group
+    function loadWizziModel
+        param ittfDocumentUri
+        param context
+        param plugins
+        param callback
+        +
+        if !callback
+            set callback = plugins
+            set plugins = null
+        +
+        var fi = fileInfoByPath(ittfDocumentUri)
+        _ createWizziFactory
+            {
+            @ plugins
+            a_cb( wf )
+                _ wf.loadModel
+                    @ fi.schema
+                    @ ittfDocumentUri
+                    {
+                        @ mTreeBuildupContext context
+                        @ globalContext {}
+                    @ callback

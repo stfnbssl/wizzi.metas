@@ -1,0 +1,24 @@
+$group
+    function loadModelAndGenerateArtifact
+        param ittfDocumentUri
+        param context
+        param artifactName
+        param plugins
+        param callback
+        +
+        if !callback
+            set callback = plugins
+            set plugins = null
+        +
+        var fi = fileInfoByPath(ittfDocumentUri)
+        _ createWizziFactory
+            {
+            @ plugins
+            a_cb( wf )
+                _ wf.loadModelAndGenerateArtifact
+                    @ ittfDocumentUri
+                    {
+                        @ modelRequestContext context
+                        @ artifactRequestContext {}
+                    @ artifactName
+                    @ callback
