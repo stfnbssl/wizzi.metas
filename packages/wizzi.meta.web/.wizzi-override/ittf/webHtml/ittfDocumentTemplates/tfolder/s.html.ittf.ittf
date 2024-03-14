@@ -1,5 +1,0 @@
-$group
-    ${'$'}params url
-    link
-        href ${'$'}{url}
-        rel stylesheet

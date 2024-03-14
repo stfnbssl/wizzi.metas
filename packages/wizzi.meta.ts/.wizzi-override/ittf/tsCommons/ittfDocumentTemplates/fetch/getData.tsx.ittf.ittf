@@ -1,9 +1,0 @@
-$group
-
-    function getData
-        param url
-            :string
-
-        return
-            _ executeFetch
-                @ url

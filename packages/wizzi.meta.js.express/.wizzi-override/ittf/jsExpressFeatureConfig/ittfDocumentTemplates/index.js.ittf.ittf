@@ -1,9 +1,0 @@
-$group
-    
-    const create = require('./env').create
-    
-    const config
-        _ create
-    
-    set module.exports = {}
-    set module.exports.config = config

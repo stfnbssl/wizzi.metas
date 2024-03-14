@@ -1,8 +1,0 @@
-$group
-    
-    import UserDao from './user.dao'
-    import UserService from './user.service'
-
-    export
-        @ UserDao
-        @ UserService

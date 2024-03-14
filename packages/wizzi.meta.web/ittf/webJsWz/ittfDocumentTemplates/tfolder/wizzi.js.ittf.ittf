@@ -93,7 +93,7 @@ $group
                     _ wrb.toWizziRequest
                     @ callback
 
-		set wz.wizzi.mTreeBuildupScriptFromText
+		set wz.wizzi.mTreeBuildUpScriptFromText
 			function
                 param ittfText
                 param contextValue
@@ -112,7 +112,7 @@ $group
                 if contextValue
                     _ wrb.addJsonValueContext
                         @ contextValue
-                # loog 'wz.wizzi.mTreeBuildupScriptFromText.wizziRequest', wrb.toWizziRequest()
+                # loog 'wz.wizzi.mTreeBuildUpScriptFromText.wizziRequest', wrb.toWizziRequest()
                 _ wz.fetch.post
                     @ wz.wizzi.apiUrl + '/production/mtreescript'
                     [

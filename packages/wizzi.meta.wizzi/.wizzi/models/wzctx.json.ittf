@@ -24,6 +24,7 @@
                 "./wizzi.plugin.js/index.js"
                 "./wizzi.plugin.json/index.js"
                 "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.svg/index.js"
                 "./wizzi.plugin.text/index.js"
                 "./wizzi.plugin.wzjob/index.js"
             pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
@@ -76,6 +77,8 @@
                 {
                     name "wizzi"
                 {
+                    name "plugin"
+                {
                     name "wizzi-plugin"
         {
             name "wizziMeta"
@@ -86,3 +89,21 @@
                     name "wizzi"
                 {
                     name "wizzi-meta"
+        {
+            name "wizziHubStarters"
+            title "wizziHubStarters wizzi meta production"
+            [ categories
+                {
+                    name "wizzi"
+                {
+                    name "wizzi-hub"
+        {
+            name "wizziTutors"
+            title "wizziTutors wizzi meta production"
+            [ categories
+                {
+                    name "wizzi"
+                {
+                    name "tutorial"
+                {
+                    name "wizzi-tutorial"

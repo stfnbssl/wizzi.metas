@@ -1,6 +1,0 @@
-$group
-    
-    $if metaCtx.useWebpackApp
-        
-        $include webpacks/hello
-        $include webpacks/helloreact

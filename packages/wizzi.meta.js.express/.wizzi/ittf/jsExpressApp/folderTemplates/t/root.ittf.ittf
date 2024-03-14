@@ -4,4 +4,3 @@ $group
             ${'$'}include jsExpressApp/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-            ${'$'}include jsExpressApp/root/license.text

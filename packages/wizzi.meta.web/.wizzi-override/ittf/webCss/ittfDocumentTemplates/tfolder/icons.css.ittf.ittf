@@ -1,7 +1,0 @@
-$group
-
-    . octicon
-        fill currentColor
-        display inline-block
-        overflow visible!important
-        vertical-align text-bottom

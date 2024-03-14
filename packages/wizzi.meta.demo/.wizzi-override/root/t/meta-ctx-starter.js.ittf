@@ -1,14 +1,13 @@
 $group
     #
-        # Build and returns a packiFiles object with all the meta ittf documents
-        # of any WizziMetaProduction
+        # Build and returns a packiFiles object with all the metaCtxSchema documents
+        # of the selected WizziMetaProductions
         # The packiFiles filepaths are built this way:
-        # - folderTemplates/<ProductionName><metaFilePath>
-        # - ittfDocumentTemplates/<ProductionName><metaFilePath>
-        # - plainDocuments/<ProductionName><metaFilePath>
+        # - metaCtxSchema/<ProductionName><metaFilePath>
         # For each metaProduction the returned packiFiles object must contain:
-        # . a document with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
-        # . a document with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
+        # . a document with filePath 'metaCtxSchema/<ProductionName>/index.ittf.ittf'
+        # and can optionally contain 
+        # . a document with filePath 'folderTemplates/<ProductionName>/globals.ittf.ittf'
     m getMetaContextDefsStarter
         param options
         param callback

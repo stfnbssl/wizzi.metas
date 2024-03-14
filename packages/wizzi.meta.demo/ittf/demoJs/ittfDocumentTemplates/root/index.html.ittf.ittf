@@ -1,0 +1,5 @@
+$group
+    head
+    body
+        h1 Hello ${metaCtx.demoJs.yourName}
+        js ./index.js

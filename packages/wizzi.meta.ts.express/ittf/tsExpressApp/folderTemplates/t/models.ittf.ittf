@@ -83,17 +83,17 @@ $group
                             name "project"
                             hasControllers true
                             useMongoDb true
-                    $if metaCtx.useTsExpressFeatureWizziDocs
-                        {
-                            name "docs"
-                            hasControllers true
-                            useMongoDb false
                     $if metaCtx.useTsExpressFeatureWizzi
                         {
                             name "wizzi"
                             fileName "wizzi"
                             hasControllers true
                             useMongoDb false
+                        $if metaCtx.tsExpressFeatureWizzi.useWizziDocs
+                            {
+                                name "wizziDocs"
+                                hasControllers true
+                                useMongoDb false
                         $if metaCtx.tsExpressFeatureWizzi.useWizziFs
                             {
                                 name "wizziFs"

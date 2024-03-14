@@ -1,5 +1,0 @@
-$group
-    $if wzCtx.Build.babel.useVendor
-        {
-            @ test '${wzCtx.Build.babel.vendor.compactPath}'
-            @ compact true

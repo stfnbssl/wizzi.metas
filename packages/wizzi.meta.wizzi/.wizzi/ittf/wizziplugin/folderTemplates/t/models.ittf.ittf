@@ -32,4 +32,10 @@ $group
                 $if metaCtx.useWizziMeta
                     ${'$'}{'$'}include wizziMeta.json
                     
+                $if metaCtx.useWizziHubStarters
+                    ${'$'}{'$'}include wizziHubStarters.json
+                    
+                $if metaCtx.useWizziTutors
+                    ${'$'}{'$'}include wizziTutors.json
+                    
                 { utils

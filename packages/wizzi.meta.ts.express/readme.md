@@ -71,10 +71,6 @@ Wizzi meta plugin for creating wizzi typescript express server packages
 </tr>
 <tr>
 <td>
-<a href https://github.com//wizzi.meta.ts.express/tree/master/.wizzi/ittf/lib/wizzi/productions/tsExpressFeatureWizziDocs.wfproduction.ittf>tsExpressFeatureWizziDocs</a><td>tsExpressFeatureWizziDocs wizzi meta production</td>
-</tr>
-<tr>
-<td>
 <a href https://github.com//wizzi.meta.ts.express/tree/master/.wizzi/ittf/lib/wizzi/productions/tsExpressFeatureWizziFs.wfproduction.ittf>tsExpressFeatureWizziFs</a><td>tsExpressFeatureWizziFs wizzi meta production</td>
 </tr>
 <tr>

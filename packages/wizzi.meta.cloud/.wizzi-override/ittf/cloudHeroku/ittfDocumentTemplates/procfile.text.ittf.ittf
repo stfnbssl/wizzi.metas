@@ -1,2 +1,0 @@
-$group
-    web: node server.js

@@ -1,3 +1,0 @@
-$group
-    export
-        const APPNAME = "${metaCtx.name}"

@@ -1,7 +1,0 @@
-$group
-
-    $if metaCtx.tsReactThemes.useExpo
-        
-        $file __dot__wizzi/src/themes/ExpoThemeProvider.tsx.ittf.ittf
-            module
-                ${'$'}include tsReactThemes/ExpoThemeProvider.tsx

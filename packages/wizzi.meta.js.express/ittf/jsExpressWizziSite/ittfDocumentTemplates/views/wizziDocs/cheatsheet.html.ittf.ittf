@@ -42,7 +42,7 @@ $group
                                         a ${'$'}{item.title}
                                             href ${'$'}{item.url}
 
-		. container-70
+		. container-90
             . grid
                 style grid-template-columns: 1fr 8fr 1fr;
                 . mc-sidebar-left

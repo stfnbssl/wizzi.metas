@@ -1,6 +1,0 @@
-$group
-
-    $if metaCtx.useJsCommons
-        $include wzCtxModel
-        $include tfolder
-

@@ -25,7 +25,7 @@ $group
             "generateWizziModelTypes",
             "loadModel",
             "inferAndLoadContext",
-            "mTreeBuildupScript",
+            "mTreeBuildUpScript",
             "mTree",
             "scanIttfDocument",
             "transformModel",

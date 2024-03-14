@@ -1,5 +1,0 @@
-$group
-    ${'$'}params url
-    script
-        src ${'$'}{url}
-        crossorigin anonymous

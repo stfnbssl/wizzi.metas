@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.js.node\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 16 Feb 2024 08:22:49 GMT
+    utc time: Mon, 19 Feb 2024 15:44:45 GMT
 */
 'use strict';
 
@@ -254,7 +254,7 @@ class FactoryMeta {
     */
     getMetaProductionStarter(options, callback) {
         
-        async.map(metaProductions, (prod, callback) => {
+        async.map(pluginMetaProductions, (prod, callback) => {
         
             const prodName = prod.name;
             if (options && options.metaCtx) {
@@ -279,14 +279,20 @@ class FactoryMeta {
             var i, i_items=metaProductions, i_len=metaProductions.length, mp;
             for (i=0; i<i_len; i++) {
                 mp = metaProductions[i];
-                for (var k in mp.folderTemplates) {
-                    var newk = 'folderTemplates/' + mp.productionName + '/' + k;
-                    result[newk] = mp.folderTemplates[k];
+                if (mp.folderTemplates) {
+                    for (var k in mp.folderTemplates) {
+                        var newk = 'folderTemplates/' + mp.productionName + '/' + k;
+                        result[newk] = mp.folderTemplates[k];
+                    }
                 }
-                for (var k in mp.ittfDocumentTemplates) {
-                    var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k;
-                    result[newk] = mp.ittfDocumentTemplates[k];
+                if (mp.ittfDocumentTemplates) {
+                    for (var k in mp.ittfDocumentTemplates) {
+                        var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k;
+                        result[newk] = mp.ittfDocumentTemplates[k];
+                    }
                 }
+            }
+            if (mp.plainDocuments) {
                 for (var k in mp.plainDocuments) {
                     var newk = 'plainDocuments/' + mp.productionName + '/' + k;
                     result[newk] = mp.plainDocuments[k];

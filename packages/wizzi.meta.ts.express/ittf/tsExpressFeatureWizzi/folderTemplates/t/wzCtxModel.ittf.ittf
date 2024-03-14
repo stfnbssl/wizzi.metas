@@ -20,6 +20,10 @@ $group
                     wzConfigIsPackageDeploy false
                 useRunner false
 
+            $if metaCtx.tsExpressFeatureWizzi.useWizziCdn
+                useWizziCdn true
+                { wizziCdn
+
             $if metaCtx.tsExpressFeatureWizzi.useWizziDocs
                 useWizziDocs true
                 { wizziDocs
@@ -28,6 +32,13 @@ $group
                 useWizziFs true
                 { wizziFs
             
+            $if metaCtx.tsExpressFeatureWizzi.useWizziGist
+                useWizziGist true
+                { wizziGist
+
+            $if metaCtx.tsExpressFeatureWizzi.useWizziMeta
+                useWizziMeta true
+                { wizziMeta
 
             $if metaCtx.tsExpressFeatureWizzi.usePacki
                 usePacki true
@@ -44,9 +55,6 @@ $group
             useWizziViewEngine true
             { wizziViewEngine
 
-            $if metaCtx.tsExpressFeatureWizzi.useWizziCdn
-                useWizziCdn true
-                { wizziCdn
 
             useWizziJsonFactory true
             { wizziJsonFactory

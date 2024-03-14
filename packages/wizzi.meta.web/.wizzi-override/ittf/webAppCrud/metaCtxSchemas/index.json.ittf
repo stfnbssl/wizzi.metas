@@ -1,5 +1,0 @@
-{
-    [ parameters]
-        params/object(webAppCrud)
-            params/string(name)
-            params/string(Name)

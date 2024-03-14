@@ -1,9 +1,0 @@
-$group
-
-    $file __dot__wizzi/${pkgPath}src/index.ts.ittf.ittf
-        module
-            ${'$'}include wz/v08/ts/node/cli/index.ts.ittf.ittf
-
-    $file __dot__wizzi/${pkgPath}src/App.ts.ittf.ittf
-        module
-            ${'$'}include wz/v08/ts/node/app/App.ts.ittf.ittf

@@ -12,12 +12,9 @@ $group
         ${'$'}{'$'}append plugins
             [ items
                 @ './wizzi.plugin.${schema.name}/index.js'
+                @ './wizzi.plugin.json/index.js'
                 $foreach include in schema.includes
                     @ './wizzi.plugin.${include.name}/index.js'
-                ${'$'}{'$'}*
-                    $foreach include in schema.includes
-                        @ '@wizzi/plugin.${include.name}'
-                *${'$'}{'$'}
             @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
 
         let arg = process.argv[2]
@@ -68,7 +65,7 @@ $group
                         _ path.join
                             @ __dirname
                             @ 'results'
-                            @ module + '.${schema.name}.document.html'
+                            @ module + '.document.${schema.name}'
                     
                     _ loadWizziModel
                         @ ittfDocumentUri

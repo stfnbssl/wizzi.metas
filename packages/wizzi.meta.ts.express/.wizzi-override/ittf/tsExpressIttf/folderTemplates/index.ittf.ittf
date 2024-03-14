@@ -1,4 +1,0 @@
-$group
-    $if metaCtx.useTsExpressIttf
-        $include wzCtxModel
-        $include tfolder

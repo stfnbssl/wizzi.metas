@@ -1,0 +1,18 @@
+$group
+    
+    $if metaCtx.tsExpressFeatureWizzi.useWizziDocs
+        $include wzCtxModel
+
+        $
+            var items = [
+                'index',
+                'types',
+                'api/cheatsheet',
+                'controllers/apiv1cheatsheet',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}/src/features/wizziDocs/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include tsExpressFeatureWizzi/wizzi-docs/${item}.ts
+

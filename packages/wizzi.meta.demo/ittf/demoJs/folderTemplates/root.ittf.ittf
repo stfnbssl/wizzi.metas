@@ -1,0 +1,14 @@
+$group
+    $
+        var items = [
+            "index",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/${item}.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include demoJs/root/${item}.js
+        $file __dot__wizzi/${item}.html.ittf.ittf
+            html
+                ${'$'}include demoJs/root/${item}.html

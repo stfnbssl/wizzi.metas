@@ -5,6 +5,7 @@ $group
         $include wzCtxModel
         $include wizzi
         $include wizzi-cdn
+        $include wizzi-docs
         $include wizzi-fs
         $include wizzi-gist
         $include wizzi-meta

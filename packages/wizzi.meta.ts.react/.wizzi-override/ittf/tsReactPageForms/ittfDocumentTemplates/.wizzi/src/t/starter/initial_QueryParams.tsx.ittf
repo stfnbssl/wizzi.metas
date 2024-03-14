@@ -1,4 +1,0 @@
-$group
-    $params name|@@null
-
-    { ${name}

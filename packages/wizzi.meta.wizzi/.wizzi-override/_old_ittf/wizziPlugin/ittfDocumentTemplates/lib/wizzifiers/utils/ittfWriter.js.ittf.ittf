@@ -169,7 +169,7 @@ $group
     function formatName
         param name
         if verify.isObject(name)
-            _ log('ittfwriter.formatName', name)
+            _ log('ittfWriter.formatName', name)
         return 
             iif name && name.trim
                 then name.trim()

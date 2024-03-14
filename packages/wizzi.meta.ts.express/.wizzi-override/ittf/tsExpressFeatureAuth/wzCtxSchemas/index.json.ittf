@@ -1,5 +1,0 @@
-{
-    [ parameters
-        {
-            name "usePermissionFlag"
-            type "boolean"

@@ -1,5 +1,6 @@
 {
     [ parameters
+        params/string( yourName )
         $*
         params/use( ... )
         params/string( ... )

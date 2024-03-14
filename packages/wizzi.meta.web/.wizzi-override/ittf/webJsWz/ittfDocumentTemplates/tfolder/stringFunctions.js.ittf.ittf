@@ -1,8 +1,0 @@
-﻿$group
-
-	set String.prototype.replaceAll
-		function
-			param search
-			param replacement
-			var target = this
-			return target.replace(new RegExp(search, 'g'), replacement)

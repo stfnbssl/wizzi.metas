@@ -23,7 +23,7 @@ $group
 	${'$'}${'$'} Declare vars that the mixer can set or not,
 	${'$'}${'$'} so that in any case the API methods can use them
 	${'$'}${'$'} avoiding a variable not declared exception.
-	var mTreeBuildupContext = {}
+	var mTreeBuildUpContext = {}
 	var artifactContext = {}
 	var globalContext = {}
 

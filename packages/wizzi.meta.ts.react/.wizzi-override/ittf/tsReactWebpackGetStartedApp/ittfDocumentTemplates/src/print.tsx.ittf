@@ -1,4 +1,0 @@
-$group
-    export-default 
-        function printMe
-            _ console.log('I get called from print.js!')

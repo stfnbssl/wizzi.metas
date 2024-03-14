@@ -74,7 +74,7 @@ function generate(configPath) {
                 verbose: 2, 
                 dumps: {
                     dumpsBaseFolder: path.join(__dirname, '_dumps'), 
-                    mTreeBuildupJsWizziScript: {
+                    mTreeBuildUpJsWizziScript: {
                         dump: false
                      }
                  }

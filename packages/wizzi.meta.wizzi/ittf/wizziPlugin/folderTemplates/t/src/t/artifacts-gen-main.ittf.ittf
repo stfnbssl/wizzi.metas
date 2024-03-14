@@ -7,6 +7,7 @@ $group
             name: 'document',
             schema: '${schema.name}',
             rootElement: '${schema.rootElement}',
+            rootTag: '${schema.rootTag}',
             checkSchema: true,
             isAsync: true,
         };

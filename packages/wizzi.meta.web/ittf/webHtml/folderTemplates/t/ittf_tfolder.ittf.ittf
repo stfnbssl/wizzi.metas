@@ -16,7 +16,7 @@ $group
             ];
 
         $foreach item in items
-            $file __dot__wizzi/${pkgPath}ittf/t/${item}.html.ittf.ittf
+            $file __dot__wizzi/${pkgPath}ittf/t/html/${item}.html.ittf.ittf
                 ${'$'}{'$'}group
                     ${'$'}include webHtml/tfolder/${item}.html
             

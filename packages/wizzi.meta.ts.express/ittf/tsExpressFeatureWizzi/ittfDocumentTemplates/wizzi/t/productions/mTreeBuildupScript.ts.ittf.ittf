@@ -2,7 +2,7 @@ $group
     ${'$'}if wzCtx.Build.useWizziJsonFactory
         +
         export
-            async-function mTreeBuildupScript
+            async-function mTreeBuildUpScript
                 param filePath
                     :string
                 param files
@@ -22,7 +22,7 @@ $group
                                 return
                                     _ reject
                                         {
-                                            @ action 'wizzi.productions.mTreeBuildupScript'
+                                            @ action 'wizzi.productions.mTreeBuildUpScript'
                                             @ message 'files parameter must be an object of type PackiFiles'
                                             @ files
                             const ittfDocumentUri
@@ -51,7 +51,7 @@ $group
                                         @ buildUpScript
     +
     export
-        async-function mTreeBuildupScriptFs
+        async-function mTreeBuildUpScriptFs
             param filePath
                 :string
             param context
@@ -60,10 +60,10 @@ $group
                 :ref Promise
                     :param
                         :any
-            throw new Error(myname + '.mTreeBuildupScriptFs not yet implemented')
+            throw new Error(myname + '.mTreeBuildUpScriptFs not yet implemented')
     +
     export 
-        async-function mTreeBuildupScriptDb
+        async-function mTreeBuildUpScriptDb
             param owner
                 :string 
             param name
@@ -75,4 +75,4 @@ $group
                 :ref Promise
                     :param 
                         :ref GeneratedArtifact
-            throw new Error(myname + '.mTreeBuildupScriptDB not yet implemented')
+            throw new Error(myname + '.mTreeBuildUpScriptDB not yet implemented')

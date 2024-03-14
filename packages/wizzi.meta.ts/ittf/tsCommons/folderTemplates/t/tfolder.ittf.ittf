@@ -25,7 +25,7 @@ $group
             ];
 
     $foreach item in items
-        $file __dot__wizzi/${pkgPath}src/t/${item}.ittf.ittf
+        $file __dot__wizzi/${pkgPath}t/${item}.ittf.ittf
             ${'$'}{'$'}group
                 ${'$'}include tsCommons/tfolder/${item}.ts
     
@@ -43,55 +43,4 @@ $group
                 ${'$'}{'$'}group
                     ${'$'}include wz/v08/ts/express/tfolder/${item}.ts
 
-        $$ Controllers
-        $file __dot__wizzi/${pkgPath}src/t/controller.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/ts/tfolder/controller.ts
-        $file __dot__wizzi/${pkgPath}src/t/handler.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/ts/tfolder/handler.ts    
-        $file __dot__wizzi/${pkgPath}src/t/route.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/ts/tfolder/route.ts    
-        $file __dot__wizzi/${pkgPath}src/t/route_api_secured.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/ts/tfolder/route_api_secured.ts    
-        $file __dot__wizzi/${pkgPath}src/t/route_web_secured.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/ts/tfolder/route_web_secured.ts    
-
-
-    $if false $$ metaCtx.useWizziViewEngine
-        $$ Views
-        $$ Here in src/t because accessed by:
-        $$ src/site/views/** and 
-        $$ src/pages/** 
-        $file __dot__wizzi/${pkgPath}src/t/a.html.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/html/tfolder/a.html
-        
-        $file __dot__wizzi/${pkgPath}src/t/j.html.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/html/tfolder/j.html
-        
-        $file __dot__wizzi/${pkgPath}src/t/s.html.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/html/tfolder/s.html
-
-        $file __dot__wizzi/${pkgPath}src/t/js_wz.html.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/html/tfolder/js_wz.html
-        
-        $file __dot__wizzi/${pkgPath}src/t/css_wz.html.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/html/tfolder/css_wz.html
-
-        $file __dot__wizzi/${pkgPath}src/t/a.tsx.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/html/tfolder/a.html
-
-
-        $file __dot__wizzi/${pkgPath}src/t/demo_layout.html.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include wz/v08/html/views/tfolder/demo_layout.html
 

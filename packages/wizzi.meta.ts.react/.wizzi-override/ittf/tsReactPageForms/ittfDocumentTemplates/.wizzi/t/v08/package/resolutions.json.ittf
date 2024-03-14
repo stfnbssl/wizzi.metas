@@ -1,8 +1,0 @@
-$group
-    
-    $if wzCtx.Build.useResolutions
-        { resolutions
-            $if wzCtx.Build.useBabel
-                $if wzCtx.Build.babel.useResolutions
-                    $foreach item in wzCtx.Build.babel.resolutions
-                        ${item.name} "${item.value}"

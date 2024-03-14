@@ -1,3 +1,0 @@
-$group
-  $include form 
-  $include control 

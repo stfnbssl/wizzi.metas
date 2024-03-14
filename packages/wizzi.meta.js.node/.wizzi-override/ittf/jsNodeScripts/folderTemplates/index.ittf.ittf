@@ -1,4 +1,0 @@
-$group
-    $if metaCtx.useJsNodeScripts
-        $include wzCtxModel
-        $include src

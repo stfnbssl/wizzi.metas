@@ -1,6 +1,0 @@
-$group
-    $if metaCtx.useTsReactTypings
-        $include wzCtxModel
-        
-        $plain __dot__wizzi/typings/prettier.d.ts
-            $from plainDocuments/tsReactTypings/prettier.d.ts

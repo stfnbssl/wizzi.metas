@@ -8,17 +8,27 @@ $group
             'catch_fail',
             'catch_reject',
             'catch_send_fail',
-            'controller',
             'catch_send_error',
             'else_send_fail',
             'else_send_error',
-            'handler',
-            'route_api_secured',
-            'route_web_secured',
-            'route',
         ];
 
     $foreach item in items
         $file __dot__wizzi/t/v08/ts/${item}.ittf.ittf
             ${'$'}{'$'}group
                 ${'$'}include tsExpress/tfolder/${item}.ts
+
+    $
+        var items = [
+            'controller',
+            'handler',
+            'route',
+            'route_api_secured',
+            'route_web_secured',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}/t/v08/ts/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsExpress/tfolder/${item}.ts
+

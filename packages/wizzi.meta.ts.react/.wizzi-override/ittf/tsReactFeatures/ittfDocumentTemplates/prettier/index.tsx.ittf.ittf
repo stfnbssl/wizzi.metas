@@ -1,7 +1,0 @@
-$group
-
-    import prettierCode
-        from './prettierCode'
-    +
-    export
-        @ prettierCode

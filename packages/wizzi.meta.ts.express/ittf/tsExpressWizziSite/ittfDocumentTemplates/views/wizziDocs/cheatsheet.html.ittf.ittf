@@ -21,8 +21,8 @@ $group
                     + ${'$'}{JSON.stringify(cs, null, 2)}
 
 		${'$'}append head-styles-2
-            s${'('} /ittf/site/docs/styles/docs.css.ittf )
-            s${'('} /ittf/css/cheatsheet.css.ittf )
+            html/s${'('} /ittf/site/docs/styles/docs.css.ittf )
+            html/s${'('} /ittf/css/cheatsheet.css.ittf )
         div
             id main-container
             . bg-color-main-content
@@ -42,7 +42,7 @@ $group
                                         a ${'$'}{item.title}
                                             href ${'$'}{item.url}
 
-		. container-70
+		. container-90
             . grid
                 style grid-template-columns: 1fr 8fr 1fr;
                 . mc-sidebar-left

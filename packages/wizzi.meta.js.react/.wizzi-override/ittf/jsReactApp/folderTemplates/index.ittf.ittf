@@ -1,6 +1,0 @@
-$group
-    $if metaCtx.useJsReactApp
-        $include wzCtxModel
-        $include generate
-        $include models
-        $include root

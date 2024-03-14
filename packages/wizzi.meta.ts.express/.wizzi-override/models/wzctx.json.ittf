@@ -224,20 +224,6 @@
                 {
                     name "wizzi"
         {
-            name "tsExpressFeatureWizziDocs"
-            title "tsExpressFeatureWizziDocs wizzi meta production"
-            [ categories
-                {
-                    name "typescript"
-                {
-                    name "express"
-                {
-                    name "feature"
-                {
-                    name "wizzi"
-                {
-                    name "documentation"
-        {
             name "tsExpressFeatureWizziFs"
             title "tsExpressFeatureWizziFs wizzi meta production"
             [ categories

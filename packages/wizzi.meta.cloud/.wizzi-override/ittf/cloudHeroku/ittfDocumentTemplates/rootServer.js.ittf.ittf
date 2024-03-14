@@ -1,2 +1,0 @@
-$group
-    var server = require("./src/index")

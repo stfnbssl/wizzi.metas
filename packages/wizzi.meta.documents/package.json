@@ -1,6 +1,6 @@
 {
-    "name": "@wizzi/meta.douments",
-    "version": "",
+    "name": "@wizzi/meta.documents",
+    "version": "0.0.2",
     "author": {
         "name": "Stefano Bassoli",
         "email": "stfn.bssl@gmail.com"

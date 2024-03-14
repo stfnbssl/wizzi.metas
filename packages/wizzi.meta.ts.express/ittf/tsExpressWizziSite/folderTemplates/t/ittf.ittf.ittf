@@ -5,11 +5,15 @@ $group
             name "Wizzi"
             version "0.0.1"
             title "The artifact meta generation platform."
-            title2 "With Wizzi you set up model driven productions of code, packages, documents and data files."
+            title2 "With Wizzi you set up data driven productions of code, packages, documents, configuration and data files."
             [ subtitles
                 "A single machinery, many productions."
                 "Language agnostic."
                 "All productions are managed by plugins."
+                "-"
+                "Became a meta analist and meta programmer."
+                "-"
+                "Tap big data and IA and teach machines to trasform data into software."
             { author
                 name "Stefano Bassoli"
                 email "stfn.bssl@gmail.com"

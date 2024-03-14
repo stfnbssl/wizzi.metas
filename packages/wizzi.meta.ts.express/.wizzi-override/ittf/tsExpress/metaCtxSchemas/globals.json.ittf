@@ -1,4 +1,0 @@
-{
-    [ parameters
-        params/use( sslCert
-        params/use( pages

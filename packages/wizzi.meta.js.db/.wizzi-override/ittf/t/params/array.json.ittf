@@ -1,7 +1,0 @@
-{
-    $params name
-    name ${name}
-    type "array"
-    $hook extend
-    { item
-        $hook

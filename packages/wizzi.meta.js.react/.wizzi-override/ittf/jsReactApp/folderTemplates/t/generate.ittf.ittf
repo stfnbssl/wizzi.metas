@@ -1,4 +1,0 @@
-$group
-    $file __dot__wizzi/generate.wfjob.ittf.ittf
-        wfjob jsReactApp/job
-            TODO $include generate.wfjob

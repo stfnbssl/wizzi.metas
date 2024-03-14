@@ -1,5 +1,3 @@
 $group
     $if metaCtx.useDemoJs
         $include wzCtxModel
-
-    $file __dot__wizzi/index/js.ittf.ittf

@@ -1,7 +1,0 @@
-{
-    $params name
-    name ${name}
-    type "object"
-    $hook extend
-    [ properties
-        $hook

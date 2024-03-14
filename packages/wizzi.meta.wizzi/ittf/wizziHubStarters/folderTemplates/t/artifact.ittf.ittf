@@ -1,0 +1,2 @@
+$group
+    $if metaCtx.wizziHubStarters.useArtifact

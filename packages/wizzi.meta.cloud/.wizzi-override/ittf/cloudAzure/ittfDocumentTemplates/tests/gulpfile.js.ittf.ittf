@@ -1,8 +1,0 @@
-$group
-
-    var gulp = require('gulp')
-    var ncp = require('child_process')
-
-    ${'$'}include v08/azure/tests/gulp/unitTest.js
-    ${'$'}include v08/azure/tests/gulp/functionalTest.js
-    

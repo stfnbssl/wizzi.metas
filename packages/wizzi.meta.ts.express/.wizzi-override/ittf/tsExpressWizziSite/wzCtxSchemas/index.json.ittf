@@ -1,9 +1,0 @@
-{
-    [ parameters
-        params/use( site )
-            params/use( demoHome )
-            params/use( demoWizzi )
-            params/use( account )
-            params/use( authentication )
-            params/use( wizziDocs )
-            params/use( packiProductions )

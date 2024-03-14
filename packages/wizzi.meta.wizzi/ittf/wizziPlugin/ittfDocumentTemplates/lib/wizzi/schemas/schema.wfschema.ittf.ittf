@@ -11,22 +11,44 @@ $group
         $$ mtree-is-preprocessed true
         $$ unknown-element-replacer item
 
-    $if schema.plugin_type == 'syntax_structure'
+    $if schema.plugin_type == 'sgml_structure'
+    $elif schema.plugin_type == 'syntax_structure'
     $else
         ---
         export-to json
         ${'$'}${'$'} export-to xml
         ${'$'}${'$'} export-to prettify
 
-    $if schema.plugin_type == 'syntax_structure'
-
+    $if schema.plugin_type == 'sgml_structure'
         ---
         e node
             r node/s
-
         ---
         e ${schema.name} : node
             is-root
+    $elif schema.plugin_type == 'syntax_structure'
+        e statement
+            # A statement line node with unlimited depth.
+            # Is the schema base node.
+            # In itself works as a comment line.
+            tag #
+            r statement/s
+
+        e codeline : statement
+
+        e ${schema.name} : statement
+            is-root
+            any codeline/statements
+
+        e param
+
+        e function : statement
+            a rtype
+                # return type
+            r param/s
+            any codeline/statements
+        
+        e return : statement
 
     $else
         ---

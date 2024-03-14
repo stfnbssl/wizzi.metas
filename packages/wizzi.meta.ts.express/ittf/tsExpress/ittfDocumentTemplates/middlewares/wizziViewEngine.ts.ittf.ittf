@@ -13,6 +13,7 @@ $group
         import
             @ wizziProds
             from '../features/wizzi'
+        import stringify from 'json-stringify-safe'
         export
             const WizziViewEngineMiddleware
                 :ref MiddlewareType
@@ -66,7 +67,13 @@ $group
                                             =>
                                                 param err
                                                 error 'WizziViewEngineMiddleware. wizziProds.generateArtifactFs error', err
-                                                return callback(err)
+                                                return
+                                                    _ callback
+                                                        _ stringify
+                                                            @ err
+                                                            @ null
+                                                            @ 4
+
                                 catch ex
                                     error 'WizziViewEngineMiddleware. Exception', ex
                                     _ callback(ex)

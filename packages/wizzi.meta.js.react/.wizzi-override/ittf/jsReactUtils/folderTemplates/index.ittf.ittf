@@ -1,3 +1,0 @@
-$group
-    $if metaCtx.useJsReactUtils
-        $include wzCtxModel

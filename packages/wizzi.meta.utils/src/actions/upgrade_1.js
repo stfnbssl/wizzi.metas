@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.utils\.wizzi-override\src\actions\upgrade_1.js.ittf
-    utc time: Fri, 16 Feb 2024 07:56:26 GMT
+    utc time: Mon, 19 Feb 2024 14:45:05 GMT
 */
 'use strict';
 const path = require("path");
@@ -81,6 +81,8 @@ function updateFiles(metaName, callback) {
         "t/meta-category-starter.js", 
         "t/meta-ctx-starter.js", 
         "t/meta-ctx.js", 
+        "t/meta-production-starter.js", 
+        "t/meta-production.js", 
         "index.js", 
         "package.json"
     ];

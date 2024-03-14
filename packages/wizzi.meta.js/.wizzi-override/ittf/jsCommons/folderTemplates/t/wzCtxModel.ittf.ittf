@@ -1,5 +1,0 @@
-$group
-    $file __dot__wizzi/models/t/jsCommons.json.ittf.ittf
-        ${'$'}{'$'}group
-            useXxx true
-            { xxx

@@ -1,7 +1,0 @@
-$group
-    $file __dot__wizzi/root/readme.md.ittf.ittf
-        md
-            ${'$'}include jsReactApp/root/readme.md
-    $file __dot__wizzi/root/license.text.ittf.ittf
-        text
-            ${'$'}include jsReactApp/root/license.text

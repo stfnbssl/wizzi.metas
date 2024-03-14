@@ -22,7 +22,7 @@ $group
             const myname = 'features/packi/controllers/productions'
         
         _ this.router.post(`/mtree/:id`, this.mTree)
-        _ this.router.post(`/mtreescript/:id`, this.mTreeBuildupScript)
+        _ this.router.post(`/mtreescript/:id`, this.mTreeBuildUpScript)
         _ this.router.post(`/artifact/:id`, this.generateArtifact)
         _ this.router.post(`/transform/:id/:transformer`, this.transformModel)
         _ this.router.post(`/job`, this.executeJob)
@@ -56,31 +56,31 @@ $group
                                                 @ mTreeIttf value
                                 v08/ts/catch_fail${'('} features.packi.controllers.productions.mTree )
 
-            v08/ts/handler${'('} mTreeBuildupScript )
+            v08/ts/handler${'('} mTreeBuildUpScript )
                 const id = request.params.id
                 const req_files
                     :ref PackiFiles
                     = request.body
-                $$ loog myname, 'mTreeBuildupScript.received files', Object.keys(req_files)
+                $$ loog myname, 'mTreeBuildUpScript.received files', Object.keys(req_files)
                 _ artifactApi.prepareGenerationFromWizziJson
                     @ req_files
                     ._ then
                         =>
                             param result
                                 :any
-                            _ wizziProds.mTreeBuildupScript
+                            _ wizziProds.mTreeBuildUpScript
                                 @ id
                                 @ result.packiFiles
                                 @ result.context
                                 ._ then
                                     =>
                                         param value
-                                        $$ loog myname, 'mTreeBuildupScript.result', value
+                                        $$ loog myname, 'mTreeBuildUpScript.result', value
                                         _ sendSuccess
                                             @ response
                                             {
-                                                @ mTreeBuildupScript value
-                                v08/ts/catch_fail${'('} features.packi.controllers.productions.mTreeBuildupScript )
+                                                @ mTreeBuildUpScript value
+                                v08/ts/catch_fail${'('} features.packi.controllers.productions.mTreeBuildUpScript )
             
             v08/ts/handler${'('} generateArtifact )
                 const id = request.params.id

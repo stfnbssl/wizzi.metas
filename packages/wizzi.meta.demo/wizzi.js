@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: json:/___template/wizzi.js.ittf
-    utc time: Sat, 17 Feb 2024 13:07:13 GMT
+    utc time: Sun, 18 Feb 2024 12:50:19 GMT
 */
 'use strict';
 const path = require('path');
@@ -74,7 +74,7 @@ function generate(configPath) {
                 verbose: 2, 
                 dumps: {
                     dumpsBaseFolder: path.join(__dirname, '_dumps'), 
-                    mTreeBuildupJsWizziScript: {
+                    mTreeBuildUpJsWizziScript: {
                         dump: false
                      }
                  }

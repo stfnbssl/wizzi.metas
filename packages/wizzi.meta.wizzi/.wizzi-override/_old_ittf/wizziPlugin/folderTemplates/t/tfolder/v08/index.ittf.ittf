@@ -5,10 +5,10 @@ $group
             ${'$'}include wizziPlugin/tfolder/examples/plugin.js
     
     $*
-    $file __dot__wizzi/t/wizziplugin/lib/wizzi/models/mtree-preprocessor.js.ittf.ittf
+    $file __dot__wizzi/t/v08/lib/wizzi/models/mtree-preprocessor.js.ittf.ittf
         ${'$'}{'$'}group
             ${'$'}include wizziPlugin/tfolder/lib/wizzi/models/mtree-preprocessor.js
-    $file __dot__wizzi/t/wizziplugin/wizzi/plugin/artifacts/types/syntax_structure/artifact-gen-main.js.ittf.ittf
+    $file __dot__wizzi/t/v08/wizzi/plugin/artifacts/types/syntax_structure/artifact-gen-main.js.ittf.ittf
         ${'$'}{'$'}group
             ${'$'}include wizziPlugin/artifacts/types/syntax_structure/artifact-gen-main.js
     *$

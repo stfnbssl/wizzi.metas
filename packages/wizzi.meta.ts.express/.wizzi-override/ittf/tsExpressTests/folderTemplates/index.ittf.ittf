@@ -1,8 +1,0 @@
-$group
-    $if metaCtx.useTsExpressTests
-        
-        $include wzCtxModel
-        
-        $file __dot__wizzi/${pkgPath}/tests/index.ts.ittf.ittf
-            module
-                ${'$'}include tsExpressTests/index.ts

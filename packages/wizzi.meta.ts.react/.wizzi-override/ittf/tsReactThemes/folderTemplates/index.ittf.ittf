@@ -1,4 +1,0 @@
-$group
-    $if metaCtx.useTsReactThemes
-        $include wzCtxModel
-        $include src/expo

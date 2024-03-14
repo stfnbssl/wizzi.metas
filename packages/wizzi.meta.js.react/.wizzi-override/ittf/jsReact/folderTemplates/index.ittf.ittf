@@ -1,4 +1,0 @@
-$group
-    $if metaCtx.useJsReact
-        $include wzCtxModel
-        $include tfolder/v08

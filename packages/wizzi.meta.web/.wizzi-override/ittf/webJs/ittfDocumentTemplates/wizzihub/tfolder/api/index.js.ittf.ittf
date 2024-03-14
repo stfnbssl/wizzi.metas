@@ -1,4 +1,0 @@
-$group
-  $include fetch
-  $include wizzi
-  $include packiManager

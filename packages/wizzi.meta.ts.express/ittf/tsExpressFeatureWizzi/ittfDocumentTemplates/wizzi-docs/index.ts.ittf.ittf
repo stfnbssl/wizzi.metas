@@ -1,0 +1,25 @@
+$group
+    import
+        @ ControllerType
+        from '../app/types'
+    import
+        as wizziDocsTypes
+        from './types'
+    import
+        as cheatsheetApi
+        from './api/cheatsheet'
+    import
+        @ ApiV1CheatsheetController
+        from './controllers/apiv1cheatsheet'
+    +
+    const wizziDocsControllers
+        :[
+            :ref ControllerType
+        =
+            [
+                @ new ApiV1CheatsheetController()
+    +
+    export
+        @ wizziDocsTypes
+        @ wizziDocsControllers
+        @ cheatsheetApi

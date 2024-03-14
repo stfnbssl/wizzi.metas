@@ -1,7 +1,0 @@
-$group
-    $if metaCtx.useJsExpressBasicApp
-        $include wzCtxModel
-        $include generate
-        $include models
-        $include root
-

@@ -1,6 +1,0 @@
-$group
-    
-    $if metaCtx.useTsExpressFeatureAccount
-        
-        $include wzCtxModel
-        $include account

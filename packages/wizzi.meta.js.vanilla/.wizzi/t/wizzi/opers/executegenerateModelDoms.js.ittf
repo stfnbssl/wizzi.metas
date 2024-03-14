@@ -3,7 +3,7 @@ $group
         param wfschemaIttfDocumentUri
         param outputPackagePath
         param wfschemaName
-        param mTreeBuildupContext
+        param mTreeBuildUpContext
         param plugins
         param callback
         +
@@ -19,5 +19,5 @@ $group
                     @ wfschemaIttfDocumentUri
                     @ outputPackagePath
                     @ wfschemaName
-                    @ mTreeBuildupContext
+                    @ mTreeBuildUpContext
                     @ callback

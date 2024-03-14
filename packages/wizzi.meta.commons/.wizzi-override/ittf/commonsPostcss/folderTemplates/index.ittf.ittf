@@ -1,8 +1,0 @@
-$group
-    
-    $if metaCtx.useCommonsPostcss
-
-        $file __dot__wizzi/${pkgPath}root/postcss.config.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include commonsPostcss/postcss.config.js

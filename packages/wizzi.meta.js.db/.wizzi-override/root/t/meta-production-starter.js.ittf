@@ -13,22 +13,19 @@ $group
         param options
         param callback
         +
-        var productions
-            [
-                $foreach prod in wzCtx.Productions
-                    @ "${prod.name}"
         _ async.map
-            @ productions
+            @ pluginMetaProductions
             =>
                 param prod
                 param callback
+                const prodName = prod.name
                 if options && options.metaCtx
-                    const useProductionVar = 'use' + prod[0].toUpperCase() + prod.substring(1)
+                    const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1)
                     if !options.metaCtx[useProductionVar]
                         r_cb( {} )
                     log 'getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]
                 _ this.getMetaProduction
-                    @ prod
+                    @ prodName
                     a_cb( metaProduction )
                         r_cb( metaProduction )
             =>
@@ -37,12 +34,15 @@ $group
                 const result
                     {
                 foreach mp in metaProductions
-                    for var k in mp.folderTemplates
-                        var newk = 'folderTemplates/' + mp.productionName + '/' + k
-                        set result[newk] = mp.folderTemplates[k]
-                    for var k in mp.ittfDocumentTemplates
-                        var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k
-                        set result[newk] = mp.ittfDocumentTemplates[k]
+                    if mp.folderTemplates
+                        for var k in mp.folderTemplates
+                            var newk = 'folderTemplates/' + mp.productionName + '/' + k
+                            set result[newk] = mp.folderTemplates[k]
+                    if mp.ittfDocumentTemplates
+                        for var k in mp.ittfDocumentTemplates
+                            var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k
+                            set result[newk] = mp.ittfDocumentTemplates[k]
+                if mp.plainDocuments
                     for var k in mp.plainDocuments
                         var newk = 'plainDocuments/' + mp.productionName + '/' + k
                         set result[newk] = mp.plainDocuments[k]

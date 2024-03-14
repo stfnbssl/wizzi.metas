@@ -1,0 +1,121 @@
+$group
+    $params &schema
+	+
+	var myname = 'wizzi.plugins.${schema.name}.lib.artifacts.module.gen.writers.index'
+	+
+    var verify = require('wizzi-utils').verify
+	+
+	var xfunction = require('./function')
+    $$ var xclass = require('./class')
+	+
+	var md = module.exports = {}
+	set md.statementsContainer = {}
+    set md.statementsContainer.codeline
+        function
+            param model
+            param ctx
+            param callback
+            _ ctx.w(model.wzTag + ' ' + model.wzName)
+            _ md.genItems(model.statements, ctx, callback)    
+    set md.statementsContainer.statement
+        function
+            param model
+            param ctx
+            param callback
+            _ ctx.w('// ' + model.wzName)
+            _ md.genItems(model.statements, ctx, callback)    
+	set md.gen
+		function
+			param model
+			param ctx
+			param callback
+			_ md.genItem(model, ctx, callback)
+
+	set md.genMany
+		function
+			param models
+			param ctx
+			param callback
+
+            var item_count = 0
+            iife next
+                var item = models[item_count++]
+                if !item
+                    r_cb${'$'}{'('})
+				_ md.genItem
+					@ item
+					@ ctx
+					a_cb${'$'}{'('})
+						_ next
+
+	set md.genItem
+		function
+			param model
+			param ctx
+			param callback
+			
+            var stm = md.statementsContainer[model.wzElement]
+            if stm
+                _ stm(model, ctx, callback)
+            else 
+                error myname + '. Unknown statement tag/element: ' + model.wzTag + '/' + model.wzElement, model
+                return
+                    _ callback
+                        _ ctx.error(myname + '. Unknown statement tag/element: ' + model.wzTag + '/' + model.wzElement, model)
+	
+	set md.genItemAs
+		function
+			param model
+			param asWzElement
+			param ctx
+			param callback
+
+			var save = model.wzElement
+			set model.wzElement = asWzElement
+			_ md.genItem
+				@ model
+				@ ctx
+				a_cb${'$'}{'('})
+					set model.wzElement = save
+					r_cb${'$'}{'('})
+
+	set md.genItems
+		function
+			param statements
+			param ctx
+			param options
+			param callback
+
+			if typeof callback === 'undefined'
+				set callback = options
+				set options = {}
+
+			var
+				decl opt = options || {}
+				decl from = opt.from || 0
+				decl indent = typeof opt.indent === 'undefined' ? true : opt.indent
+				decl first = true
+
+			if indent
+				_ ctx.indent()
+
+            var item_count = 0
+            iife next
+                var item = statements[item_count++]
+                if !item
+					if indent
+						_ ctx.deindent()
+                    r_cb${'$'}{'('})
+				if options.sep && !first
+					_ ctx.write(options.sep)
+				_ md.genItem
+					@ item
+					@ ctx
+					a_cb${'$'}{'('})
+                        set first = false
+						_ next
+
+	+
+	_ xfunction.loadStatementWriters(md)
+    $$ _ xclass.loadStatementWriters(md)
+	+

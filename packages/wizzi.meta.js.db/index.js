@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: wizzi-js@
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.js.db\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 16 Feb 2024 08:22:43 GMT
+    utc time: Mon, 19 Feb 2024 15:44:39 GMT
 */
 'use strict';
 
@@ -285,22 +285,17 @@ class FactoryMeta {
     */
     getMetaProductionStarter(options, callback) {
         
-        var productions = [
-            "jsDbMongoDb", 
-            "jsDbPostgres", 
-            "jsDbRedis", 
-            "jsDbSequelize"
-        ];
-        async.map(productions, (prod, callback) => {
+        async.map(pluginMetaProductions, (prod, callback) => {
         
+            const prodName = prod.name;
             if (options && options.metaCtx) {
-                const useProductionVar = 'use' + prod[0].toUpperCase() + prod.substring(1);
+                const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1);
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
                 console.log('getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar], __filename);
             }
-            this.getMetaProduction(prod, (err, metaProduction) => {
+            this.getMetaProduction(prodName, (err, metaProduction) => {
             
                 if (err) {
                     return callback(err);
@@ -315,14 +310,20 @@ class FactoryMeta {
             var i, i_items=metaProductions, i_len=metaProductions.length, mp;
             for (i=0; i<i_len; i++) {
                 mp = metaProductions[i];
-                for (var k in mp.folderTemplates) {
-                    var newk = 'folderTemplates/' + mp.productionName + '/' + k;
-                    result[newk] = mp.folderTemplates[k];
+                if (mp.folderTemplates) {
+                    for (var k in mp.folderTemplates) {
+                        var newk = 'folderTemplates/' + mp.productionName + '/' + k;
+                        result[newk] = mp.folderTemplates[k];
+                    }
                 }
-                for (var k in mp.ittfDocumentTemplates) {
-                    var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k;
-                    result[newk] = mp.ittfDocumentTemplates[k];
+                if (mp.ittfDocumentTemplates) {
+                    for (var k in mp.ittfDocumentTemplates) {
+                        var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k;
+                        result[newk] = mp.ittfDocumentTemplates[k];
+                    }
                 }
+            }
+            if (mp.plainDocuments) {
                 for (var k in mp.plainDocuments) {
                     var newk = 'plainDocuments/' + mp.productionName + '/' + k;
                     result[newk] = mp.plainDocuments[k];

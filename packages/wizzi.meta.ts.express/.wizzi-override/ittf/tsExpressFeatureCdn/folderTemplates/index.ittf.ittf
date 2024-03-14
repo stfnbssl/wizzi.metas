@@ -1,4 +1,0 @@
-$group
-    $if metaCtx.useTsExpressFeatureCdn
-        $include wzCtxModel
-        $include cdn

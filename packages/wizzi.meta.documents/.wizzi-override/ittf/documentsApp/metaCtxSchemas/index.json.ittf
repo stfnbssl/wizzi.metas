@@ -1,5 +1,0 @@
-{
-    [ parameters
-        params/use( documentsApp
-        params/use( documentsJson
-        params/use( documentsPpt

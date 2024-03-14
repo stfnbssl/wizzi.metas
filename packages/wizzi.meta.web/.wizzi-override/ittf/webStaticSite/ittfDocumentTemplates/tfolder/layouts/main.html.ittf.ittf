@@ -1,6 +1,0 @@
-$group
-    head
-        css /dist/styles/tailwind.css
-    body
-        h1 Main layout
-        ${'$'}hook

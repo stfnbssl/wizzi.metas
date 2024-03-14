@@ -65,7 +65,7 @@ $group
                 $if metaCtx.useTsExpressFeatureWizzi
                     ${'$'}{'$'}include tsExpressFeatureWizzi.json
                     
-                $if metaCtx.useTsExpressFeatureWizziDocs
+                $if metaCtx.tsExpressFeatureWizzi.useWizziDocs
                     ${'$'}{'$'}include tsExpressFeatureWizziDocs.json
                     
                 $if metaCtx.useTsExpressFeatureWizziFs

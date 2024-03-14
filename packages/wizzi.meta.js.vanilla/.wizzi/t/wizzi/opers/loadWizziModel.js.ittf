@@ -18,6 +18,6 @@ $group
                     @ fi.schema
                     @ ittfDocumentUri
                     {
-                        @ mTreeBuildupContext context
+                        @ mTreeBuildUpContext context
                         @ globalContext {}
                     @ callback

@@ -24,6 +24,7 @@
                 "./wizzi.plugin.js/index.js"
                 "./wizzi.plugin.json/index.js"
                 "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.svg/index.js"
                 "./wizzi.plugin.text/index.js"
                 "./wizzi.plugin.wzjob/index.js"
             pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
@@ -56,3 +57,7 @@
             name "demoJs"
             title "demoJs wizzi meta production"
             [ categories
+                {
+                    name "demo"
+                {
+                    name "wizzi-starter"

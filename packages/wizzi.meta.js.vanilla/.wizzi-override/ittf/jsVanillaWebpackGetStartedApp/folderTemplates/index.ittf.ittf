@@ -1,6 +1,0 @@
-$group
-    $if metaCtx.useJsVanillaWebpackGetStartedApp
-        $include __generate
-        $include models
-        $include root
-        $include src

@@ -1,2 +1,0 @@
-$group
-    contents .markdown {\n  @apply text-lg leading-relaxed;\n}\n\n.markdown p,\n.markdown ul,\n.markdown ol,\n.markdown blockquote {\n  @apply my-6;\n}\n\n.markdown h2 {\n  @apply text-3xl mt-12 mb-4 leading-snug;\n}\n\n.markdown h3 {\n  @apply text-2xl mt-8 mb-4 leading-snug;\n}\n

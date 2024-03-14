@@ -2,10 +2,12 @@ $group
     $if metaCtx.useTsExpress
         
         $include wzCtxModel
+        $include tfolder
         $include src/common
         $include src/features
         $include src/middlewares
         $include src/pages
+        $include src/views
         $include src/tfolder
         $include tests/utils
         $*

@@ -1,7 +1,0 @@
-$group
-    $if metaCtx.useTsReactPageForms
-        $include wzCtxModel
-        $include src/assets
-        $include src/components
-        $include src/pages
-        $include src/tfolder

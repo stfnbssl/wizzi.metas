@@ -42,7 +42,7 @@ $group
                             _ jsonwf.wf.loadModel
                                 @ ittfDocumentUri
                                 {
-                                    @ mTreeBuildupContext context
+                                    @ mTreeBuildUpContext context
                                 =>
                                     param err
                                         :any
@@ -94,7 +94,7 @@ $group
                             @ schemaName
                             @ filePath
                             {
-                                @ mTreeBuildupContext context
+                                @ mTreeBuildUpContext context
                             =>
                                 param err
                                 param result
@@ -126,7 +126,7 @@ $group
                         @ schemaName
                         @ filePath
                         {
-                            @ mTreeBuildupContext context
+                            @ mTreeBuildUpContext context
                         =>
                             param err
                             param result

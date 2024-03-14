@@ -53,7 +53,7 @@ $group
     const myname = '${'$'}{myname}'
 
     ${'$'}include productions/loadModel
-    ${'$'}include productions/mTreeBuildupScript
+    ${'$'}include productions/mTreeBuildUpScript
     ${'$'}include productions/mTree
     ${'$'}include productions/generateArtifact
     ${'$'}include productions/generateFolderArtifacts

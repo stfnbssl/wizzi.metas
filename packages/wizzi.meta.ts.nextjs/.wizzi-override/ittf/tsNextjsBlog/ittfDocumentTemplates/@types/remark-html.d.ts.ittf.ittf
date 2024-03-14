@@ -1,3 +1,0 @@
-$group
-    :declare 
-        :module 'remark-html'

@@ -63,6 +63,8 @@ module
                 @ "t/meta-category-starter.js"
                 @ "t/meta-ctx-starter.js"
                 @ "t/meta-ctx.js"
+                @ "t/meta-production-starter.js"
+                @ "t/meta-production.js"
                 @ "index.js"
                 @ "package.json"
         foreach item in root_t_items

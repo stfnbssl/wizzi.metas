@@ -42,12 +42,12 @@ $group
         ${'$'}if wzCtx.Build.useAuthentication
             v08/ts/route_api_secured${'('} post, /artifact, this.artifact)
             v08/ts/route_api_secured${'('} post, /mtree, this.mTree)
-            v08/ts/route_api_secured${'('} post, /mtreescript, this.mTreeBuildupScript)
+            v08/ts/route_api_secured${'('} post, /mtreescript, this.mTreeBuildUpScript)
             v08/ts/route_api_secured${'('} post, /mtreescan, this.mTreeScan)
         ${'$'}else
             v08/ts/route${'('} post, /artifact, this.artifact)
             v08/ts/route${'('} post, /mtree, this.mTree)
-            v08/ts/route${'('} post, /mtreescript, this.mTreeBuildupScript)
+            v08/ts/route${'('} post, /mtreescript, this.mTreeBuildUpScript)
             v08/ts/route${'('} post, /mtreescan, this.mTreeScan)
         
         ${'$'}if wzCtx.Build.useWizziJsonFactory
@@ -174,62 +174,62 @@ $group
                                     v08/ts/catch_fail${'('} ${'$'}{myname}.handler.mTree.wizziProds.mTreeDb )
                     v08/ts/catch_fail${'('}} ${'$'}{myname}.handler.mTree.resolveContexts )
 
-            v08/ts/handler${'('} mTreeBuildupScript )
+            v08/ts/handler${'('} mTreeBuildUpScript )
                 const artifactRequest
                     :ref ArtifactRequest
                     = request.body
-                $$ loog myname + '.handler.mTreeBuildupScript.received request (keys)', Object.keys(artifactRequest)
+                $$ loog myname + '.handler.mTreeBuildUpScript.received request (keys)', Object.keys(artifactRequest)
                 _ resolveContexts
                     @ artifactRequest.contextItems
                     ._ then
                         =>
                             param context
                                 :any
-                            $$ loog myname, 'handler.mTreeBuildupScript.resolvedContext', Object.keys(context)
+                            $$ loog myname, 'handler.mTreeBuildUpScript.resolvedContext', Object.keys(context)
                             if artifactRequest.ittfDocument.source == 'fs'
-                                _ wizziProds.mTreeBuildupScriptFs
+                                _ wizziProds.mTreeBuildUpScriptFs
                                     _ path.join
                                         @ config.ittfPath
                                         @ artifactRequest.ittfDocument.path as string
                                     @ context
                                     ._ then
                                         =>
-                                            param mTreeBuildupScript
-                                            $$ loog myname, '.handle.mTreeBuildupScriptFs.result', mTreeBuildupScript
+                                            param mTreeBuildUpScript
+                                            $$ loog myname, '.handle.mTreeBuildUpScriptFs.result', mTreeBuildUpScript
                                             _ sendSuccess
                                                 @ response
-                                                @ mTreeBuildupScript
-                                    v08/ts/catch_fail${'('} ${'$'}{myname}.handler.mTreeBuildupScript.wizziProds.mTreeBuildupScriptFs )
+                                                @ mTreeBuildUpScript
+                                    v08/ts/catch_fail${'('} ${'$'}{myname}.handler.mTreeBuildUpScript.wizziProds.mTreeBuildUpScriptFs )
                             ${'$'}if wzCtx.Build.useWizziJsonFactory
                                 elif artifactRequest.ittfDocument.source == 'packi'
-                                    _ wizziProds.mTreeBuildupScript
+                                    _ wizziProds.mTreeBuildUpScript
                                         @ artifactRequest.ittfDocument.mainIttf as string 
                                         @ artifactRequest.ittfDocument.packiFiles as packiTypes.PackiFiles
                                         @ context
                                         ._ then
                                             =>
-                                                param mTreeBuildupScript
+                                                param mTreeBuildUpScript
                                                     :any
-                                                $$ loog myname, '.handle.mTreeBuildupScript.result', mTreeBuildupScript
+                                                $$ loog myname, '.handle.mTreeBuildUpScript.result', mTreeBuildUpScript
                                                 _ sendSuccess
                                                     @ response
-                                                    @ mTreeBuildupScript
-                                        v08/ts/catch_fail${'('} ${'$'}{myname}.handler.mTreeBuildupScript.wizziProds.mTreeBuildupScript )
+                                                    @ mTreeBuildUpScript
+                                        v08/ts/catch_fail${'('} ${'$'}{myname}.handler.mTreeBuildUpScript.wizziProds.mTreeBuildUpScript )
                             elif artifactRequest.ittfDocument.source == 'db'
-                                _ wizziProds.mTreeBuildupScriptDb
+                                _ wizziProds.mTreeBuildUpScriptDb
                                     @ artifactRequest.ittfDocument.mainIttf as string
                                     @ artifactRequest.ittfDocument.path as string
                                     @ context
                                     ._ then
                                         =>
-                                            param mTreeBuildupScript
+                                            param mTreeBuildUpScript
                                                 :any
-                                            $$ loog myname, '.handle.mTreeBuildupScriptDb.result', mTreeBuildupScript
+                                            $$ loog myname, '.handle.mTreeBuildUpScriptDb.result', mTreeBuildUpScript
                                             _ sendSuccess
                                                 @ response
-                                                @ mTreeBuildupScript
-                                    v08/ts/catch_fail${'('} ${'$'}{myname}.handler.mTreeBuildupScript.wizziProds.mTreeBuildupScriptDb )
-                    v08/ts/catch_fail${'('} ${'$'}{myname}.handler.mTreeBuildupScript.resolveContexts )
+                                                @ mTreeBuildUpScript
+                                    v08/ts/catch_fail${'('} ${'$'}{myname}.handler.mTreeBuildUpScript.wizziProds.mTreeBuildUpScriptDb )
+                    v08/ts/catch_fail${'('} ${'$'}{myname}.handler.mTreeBuildUpScript.resolveContexts )
 
             v08/ts/handler${'('} mTreeScan )
                 const artifactRequest

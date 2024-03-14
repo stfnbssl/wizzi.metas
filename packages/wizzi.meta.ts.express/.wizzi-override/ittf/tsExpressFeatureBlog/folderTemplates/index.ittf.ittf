@@ -1,5 +1,0 @@
-$group
-    
-    $if metaCtx.useTsExpressFeatureBlog
-        $include wzCtxModel
-        $include blog

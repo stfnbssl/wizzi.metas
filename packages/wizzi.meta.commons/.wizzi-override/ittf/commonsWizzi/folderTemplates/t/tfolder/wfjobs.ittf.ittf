@@ -1,7 +1,0 @@
-$group
-
-    $file __dot__wizzi/t/wfjobs.ittf.ittf
-        ${'$'}{'$'}group
-            ${'$'}{'$'}params name, &jobCtx, ext|@@null
-        
-            ${'$'}include commonsWizzi/tfolder/wfjob/commons.wfjob

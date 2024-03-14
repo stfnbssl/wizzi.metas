@@ -26,7 +26,7 @@ module
         =>
             param name
             $if wzCtx.Build.useCliCommandFileConfig
-                let configPath = config.getPath(name, true)
+                let configPath = config.getPath(name)
                 if !configPath
                     _ console.error(`meta config file "wizzi.meta.config.${(name ? name + '.' : '')}js" not found`)
                     return

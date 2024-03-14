@@ -1,9 +1,9 @@
 {
     $include versions
-    name "wizzi.meta.douments"
-    npmName "@wizzi/meta.douments"
+    name "wizzi.meta.documents"
+    npmName "@wizzi/meta.documents"
     pluginBasename ""
-    version '${versions['@wizzi/meta.douments@next']}'
+    version '${versions['@wizzi/meta.documents@next']}'
     description "Wizzi meta plugin for creating wizzi documents packages"
     { author
         name "Stefano Bassoli"
@@ -11,7 +11,7 @@
     { github
         userid "stfnbssl"
     license "MIT"
-    metaNamespace "douments"
+    metaNamespace "documents"
     { Build
         useConfig true
         { config
@@ -24,6 +24,7 @@
                 "./wizzi.plugin.js/index.js"
                 "./wizzi.plugin.json/index.js"
                 "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.svg/index.js"
                 "./wizzi.plugin.text/index.js"
                 "./wizzi.plugin.wzjob/index.js"
             pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
@@ -64,6 +65,8 @@
                 {
                     name "documents"
                 {
+                    name "documents-words"
+                {
                     name "word"
         {
             name "documentsHtmlSlide"
@@ -71,6 +74,8 @@
             [ categories
                 {
                     name "documents"
+                {
+                    name "documents-html"
                 {
                     name "html"
         {
@@ -80,6 +85,8 @@
                 {
                     name "documents"
                 {
+                    name "documents-json"
+                {
                     name "json"
         {
             name "documentsPdf"
@@ -88,6 +95,8 @@
                 {
                     name "documents"
                 {
+                    name "documents-pdf"
+                {
                     name "pdf"
         {
             name "documentsPpt"
@@ -95,6 +104,8 @@
             [ categories
                 {
                     name "documents"
+                {
+                    name "documents-powerpoint"
                 {
                     name "powerpoint"
         {

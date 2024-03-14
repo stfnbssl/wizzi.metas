@@ -1,5 +1,0 @@
-{
-    [ parameters
-        params/use( scripts )
-        params/use( wizziFs )
-        $$ TODO params/use( diffMatchPatch )

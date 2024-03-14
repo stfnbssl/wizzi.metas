@@ -1,7 +1,0 @@
-$group
-    ${'$'}params queryBody, name
-
-    var ${'$'}{name}
-        _ __check.optional
-            @ '${'$'}{queryBody}'
-            @ '${'$'}{name}'

@@ -1,11 +1,22 @@
 $group
 
-	#
-		# Retrieve a Wizzifier by its name
-		# Wizzifiers are searched in this package
-		# No search up in "node_modules" folders.
-	m getWizzifier
-		param wizzifierName
+    #
+        # Map a file extension to Retrieve a Wizzifier by its name
+    m mapExtensionToSchema
+        param extension
+        $foreach schema in wzCtx.Schemas
+            $foreach ext in schema.fileExtensions
+                if extension == '${ext}'
+                    return '${schema.name}'
+        return null
+    #
+        # Retrieve a Wizzifier by its name
+        # Wizzifiers are searched in this package
+        # No search up in "node_modules" folders.
+    m getWizzifier
+        param wizzifierName
+        +
+        set wizzifierName = this.mapExtensionToSchema(wizzifierName)
 		+
 		var wizzifier = this.wizzifiers[wizzifierName] || null
 		if wizzifier == null

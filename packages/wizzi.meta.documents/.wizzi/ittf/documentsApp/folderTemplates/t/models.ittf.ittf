@@ -3,8 +3,8 @@ $group
         {
             ${'$'}if metaCtx.usePackageVersion
                 ${'$'}{'$'}include versions
-            name "${'$'}wizzi.meta.douments"
-            npmName "${'$'}@wizzi/meta.douments"
+            name "${'$'}wizzi.meta.documents"
+            npmName "${'$'}@wizzi/meta.documents"
             description ${'$'}Wizzi meta plugin for creating wizzi documents packages
             version "${'$'}0.0.1"
             ${'$'}if metaCtx.author

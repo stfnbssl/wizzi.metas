@@ -7,7 +7,7 @@ $group
             name: '${schema.name}',
         };
 
-    v08/examples/plugin${'$'}{'('} &md )
+    wizziplugin/examples/plugin${'$'}{'('} &md )
         ${'$'}{'$'}append plugins
             [ items
                 @ './wizzi.plugin.${schema.name}/index.js'

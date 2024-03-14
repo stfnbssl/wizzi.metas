@@ -7,7 +7,7 @@ $group
             r_promise_async${'('}
                 $$ loog 'wizziProds.generateWizziModelTypes.request', request
 			    const storeKind = request.storeKind || 'filesystem'
-                const mTreeBuildupContext = Object.assign({}, request.mTreeBuildupContext)
+                const mTreeBuildUpContext = Object.assign({}, request.mTreeBuildUpContext)
 			    const globalContext = Object.assign({}, request.globalContext)
                 +
                 var plugins 
@@ -19,8 +19,8 @@ $group
                 else
                     _ plugins.push('wizzi-core')
                 info 'wizziProds.generateWizziModelTypes.plugins', plugins
-                for var k in mTreeBuildupContext
-                    info '- mTreeBuildupContext property', k, mTreeBuildupContext[k]
+                for var k in mTreeBuildUpContext
+                    info '- mTreeBuildUpContext property', k, mTreeBuildUpContext[k]
                 for var k in globalContext
                     info '- globalContext property', k, globalContext[k]
                 +
@@ -36,7 +36,7 @@ $group
                         @ request.wfschemaIttfDocumentUri
                         @ request.wfschemaOutputPackageFolder
                         @ request.wfschemaName
-                        @ mTreeBuildupContext
+                        @ mTreeBuildUpContext
                         =>
                             param err
                                 :any

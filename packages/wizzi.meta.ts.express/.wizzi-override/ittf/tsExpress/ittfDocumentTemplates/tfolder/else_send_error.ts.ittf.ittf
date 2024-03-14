@@ -1,8 +1,0 @@
-$group
-    ${'$'}params method, err|err
-    
-    else
-        error '${'$'}{method}.error', ${'$'}{err}
-        _ sendError
-            @ response
-            @ ${'$'}{err}

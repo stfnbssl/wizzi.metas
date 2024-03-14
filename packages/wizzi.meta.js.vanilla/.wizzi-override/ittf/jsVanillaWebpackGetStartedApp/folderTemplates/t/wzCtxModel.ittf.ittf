@@ -1,3 +1,0 @@
-$group
-    $file __dot__wizzi/models/t/jsVanillaWebpackGetStarted.json.ittf.ittf
-        ${'$'}{'$'}group

@@ -1,7 +1,0 @@
-$group
-
-    import lodashSet from 'lodash/set'
-    import FormObject from './widgets/FormObject'
-    import
-        @ getData
-        from '../../fetch'

@@ -8,7 +8,7 @@ $group
 	var lineParser = require('../utils/lineParser')
 	var file = require('wizzi-utils').file
     var cloner = require('../utils/cloner')
-    var ittfwriter = require("../utils/ittfwriter")
+    var ittfWriter = require("../utils/ittfWriter")
 
 	${'$'}hook imports
 
@@ -89,7 +89,7 @@ $group
 							set result = cloner(result, options)
 							_ callback
 								@ null
-								_ ittfwriter.stringify(result, options)
+								_ ittfWriter.stringify(result, options)
 
 	# ovveridable
 	set md.getWizzifierIncludes

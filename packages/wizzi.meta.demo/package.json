@@ -1,0 +1,27 @@
+{
+    "name": "@wizzi/meta.demo",
+    "version": "",
+    "author": {
+        "name": "Stefano Bassoli",
+        "email": "stfn.bssl@gmail.com"
+    },
+    "private": false,
+    "licenses": [
+        {
+            "type": "",
+            "url": ""
+        }
+    ],
+    "main": "",
+    "scripts": {
+        "x:1": "node examples/step_1",
+        "x:2": "node examples/step_2",
+        "x:3": "node examples/step_3",
+        "x:4": "node examples/step_4"
+    },
+    "dependencies": {
+        "@wizzi/plugin.ittf": "latest",
+        "json-stringify-safe": "^5.0.1"
+    },
+    "devDependencies": {}
+}

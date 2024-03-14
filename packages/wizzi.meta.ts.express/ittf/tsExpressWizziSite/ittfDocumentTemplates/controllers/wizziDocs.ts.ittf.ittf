@@ -14,7 +14,7 @@ $group
         ${'$'}append imports
             import
                 @ cheatsheetApi
-                from '../../features/docs'
+                from '../../features/wizziDocs'
         
         ${'$'}if wzCtx.Build.useAuthentication
             v08/ts/route_web_secured${'('} get, /cheatsheet/:name, this.cheatsheet)

@@ -1,6 +1,0 @@
-$group
-    $include app
-    $include env
-    $include ts
-    $include tfolder/mongo
-    $include tfolder/package

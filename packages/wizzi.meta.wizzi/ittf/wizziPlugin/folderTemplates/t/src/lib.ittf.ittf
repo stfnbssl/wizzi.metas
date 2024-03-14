@@ -17,6 +17,19 @@ $group
                 kind es6
                 artifacts-gen-main(&schema)
 
+        $ _.log('schema.plugin_type', schema.plugin_type)
+
+        $if schema.plugin_type == 'syntax_structure'
+            $file __dot__wizzi/lib/artifacts/${schema.name}/document/gen/writers/index.js.ittf.ittf
+                module wizzi.plugins.${schema.name}.lib.artifacts.module.gen.writers.index
+                    kind es6
+                    artifacts-gen-writers-index(&schema)
+            
+            $file __dot__wizzi/lib/artifacts/${schema.name}/document/gen/writers/function.js.ittf.ittf
+                module wizzi.plugins.${schema.name}.lib.artifacts.module.gen.writers.function
+                    kind es6
+                    artifacts-gen-writers-function(&schema)
+
         $if schema.includes && schema.includes.length > 0
             $file __dot__wizzi/lib/artifacts/${schema.name}/document/gen/included_writers.js.ittf.ittf
                 module

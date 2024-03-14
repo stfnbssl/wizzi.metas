@@ -1,6 +1,0 @@
-$group
-    ${'$'}params title
-    {
-        kind "section-title"
-        text "${'$'}{title}"
-    ${'$'}hook

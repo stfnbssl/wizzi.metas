@@ -4,4 +4,3 @@ $group
             ${'$'}include documentsApp/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-            ${'$'}include documentsApp/root/license.text

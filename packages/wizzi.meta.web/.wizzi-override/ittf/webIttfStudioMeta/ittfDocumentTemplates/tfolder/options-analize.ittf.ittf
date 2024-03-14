@@ -1,6 +1,0 @@
-$group
-	
-	${'$'}
-		if (opt.sidebar_1) {
-			opt.fa_1 = true;
-		}

@@ -1,8 +1,0 @@
-﻿$group
-	${'$'}params result|@@null
-	
-	return
-		_ resolve
-			${'$'}if result !== null
-				@ ${'$'}{result}
-			${'$'}hook

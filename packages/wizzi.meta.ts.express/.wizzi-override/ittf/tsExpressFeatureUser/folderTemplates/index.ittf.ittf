@@ -1,5 +1,0 @@
-$group
-    $if metaCtx.useTsExpressFeatureUser
-        
-        $include wzCtxModel
-        $include user

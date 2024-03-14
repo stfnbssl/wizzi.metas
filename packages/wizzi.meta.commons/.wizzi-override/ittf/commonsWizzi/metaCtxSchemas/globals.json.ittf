@@ -1,9 +1,0 @@
-{
-    [ parameters
-        params/use( useWizziV08 )
-            params/array( plugins )
-                params/string( pluginName )
-        params/array( Schemas )
-            params/object( pluginName )
-                params/string( name )
-                params/boolean( hasBuiltinWizziModel

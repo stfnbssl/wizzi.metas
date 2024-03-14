@@ -10,6 +10,9 @@ $group
             'array',
             'enum',
             ];
+        function checkFolder(name) {
+            return name == 'index' ? 'xindex' : name;
+        }
 
     $foreach item in items
         $file __dot__wizzi/ittf/t/params/${item}.json.ittf.ittf
@@ -40,9 +43,11 @@ $group
                         useXxx true
                         { xxx
 
+        $*
         $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/sample.json.ittf.ittf
             ${'$'}{'$'}group
                 ${'$'}include wizziMeta/ittf/ittfDocumentTemplates/sample.json
+        *$
 
         $if prod.isPackageMain
             
@@ -79,22 +84,23 @@ $group
                         
         $if prod.hints
             $if _.isArray(prod.hints.folders)
-                $foreach item in prod.hints.folders
-                    $file __dot__wizzi/ittf/${prod.name}/folderTemplates/${item.name}.ittf.ittf.ittf
+                $foreach f in prod.hints.folders
+                    $file __dot__wizzi/ittf/${prod.name}/folderTemplates/${checkFolder(f.name)}.ittf.ittf.ittf
                         ${'$'}{'$'}group
                             ${'$'}{'$'}
                                 var items = [
                                     "file1",
                                     "fileN",
                                 ]
-                                +++
+                            ---
+                            ---
                             ${'$'}{'$'}foreach item in items
-                                ${'$'}{'$'}file __dot__wizzi/${'$'}{'$'}{item}.${item.schema}.ittf.ittf
-                                    ${item.schema}
-                                        ${'$'}{'$'}{'$'}include ${prod.name}/${'$'}{'$'}{item}.${item.schema}                                
-                    $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/${item.name}/file1.${item.schema}.ittf.ittf
+                                ${'$'}{'$'}file __dot__wizzi/${'$'}{'$'}{item}.${f.schema}.ittf.ittf
+                                    ${f.schema}
+                                        ${'$'}{'$'}{'$'}include ${prod.name}/${checkFolder(f.name)}/${'$'}{'$'}{item}.${f.schema}
+                    $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/${checkFolder(f.name)}/file1.${f.schema}.ittf.ittf.ittf
                         ${'$'}{'$'}group
-                    $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/${item.name}/fileN.${item.schema}.ittf.ittf
+                    $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/${checkFolder(f.name)}/fileN.${f.schema}.ittf.ittf.ittf
                         ${'$'}{'$'}group
             
         $file __dot__wizzi/ittf/${prod.name}/wzCtxSchemas/index.json.ittf.ittf

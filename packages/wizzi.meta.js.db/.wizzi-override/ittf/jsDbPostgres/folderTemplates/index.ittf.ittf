@@ -1,3 +1,0 @@
-$group
-    $if metaCtx.useJsDbPostgres
-        $include wzCtxModel

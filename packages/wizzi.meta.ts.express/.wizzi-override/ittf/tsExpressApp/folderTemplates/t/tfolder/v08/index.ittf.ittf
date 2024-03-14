@@ -1,8 +1,0 @@
-$group
-    $include express
-    $include features
-    $$ $include react
-    $$ $include services
-    $$ $include site
-    $$ $include styles
-    $$ $include ts

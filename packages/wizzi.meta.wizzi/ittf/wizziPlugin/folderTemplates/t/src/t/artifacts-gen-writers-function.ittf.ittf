@@ -1,0 +1,38 @@
+$group
+    $params &schema
+
+    statements-writer${'$'}{'('}function)
+
+        # $append imports
+                
+        statement${'$'}{'('} xfunction
+            var name = model.wzName.trim()
+            _ ctx.write('func ' + name + '(')
+            var param_count = 0
+            iife next
+                var param = model.params[param_count++]
+                if !param
+                    _ ctx.write(')')
+                    if model.rtype && model.rtype.length > 0
+                        _ ctx.write(' ' + model.rtype)
+                    _ ctx.w(' {')
+                    return
+                        _ body
+                if param_count > 1
+                    _ ctx.write(', ')
+                _ ctx.write(param.wzName)
+                _ next
+            function body
+                _ mainWriter.genItems
+                    @ model.statements
+                    @ ctx
+                    {
+                        @ indent true
+                    a_cb${'$'}{'('})
+                        _ ctx.w('}')
+                        r_cb${'$'}{'('})
+
+        statement${'$'}{'('} xreturn
+            var name = model.wzName.trim()
+            _ ctx.w('return ' + name)
+            r_cb${'$'}{'('})

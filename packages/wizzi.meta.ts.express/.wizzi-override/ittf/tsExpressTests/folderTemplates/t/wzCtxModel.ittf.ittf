@@ -1,7 +1,0 @@
-$group
-    
-    $file __dot__wizzi/models/t/tsExpressTests.json.ittf.ittf
-        ${'$'}{'$'}group
-            
-            useJest false
-            { jest

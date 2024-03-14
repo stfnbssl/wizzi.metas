@@ -25,6 +25,7 @@
                 "./wizzi.plugin.js/index.js",
                 "./wizzi.plugin.json/index.js",
                 "./wizzi.plugin.md/index.js",
+                "./wizzi.plugin.svg/index.js",
                 "./wizzi.plugin.text/index.js",
                 "./wizzi.plugin.wzjob/index.js"
             ],
@@ -66,27 +67,77 @@
         {
             "name": "docsHtml",
             "title": "docsHtml wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "html"
+                },
+                {
+                    "name": "documentation"
+                },
+                {
+                    "name": "documentation.html"
+                }
+            ]
         },
         {
             "name": "docsMarkdown",
             "title": "docsMarkdown wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "markdown"
+                },
+                {
+                    "name": "documentation"
+                },
+                {
+                    "name": "documentation.markdown"
+                }
+            ]
         },
         {
             "name": "docsPdf",
             "title": "docsPdf wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "pdf"
+                },
+                {
+                    "name": "documentation"
+                },
+                {
+                    "name": "documentation.markdown"
+                }
+            ]
         },
         {
             "name": "docsPpt",
             "title": "docsPpt wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "ppt"
+                },
+                {
+                    "name": "documentation"
+                },
+                {
+                    "name": "documentation.ppt"
+                }
+            ]
         },
         {
             "name": "docsWord",
             "title": "docsWord wizzi meta production",
-            "categories": []
+            "categories": [
+                {
+                    "name": "word"
+                },
+                {
+                    "name": "documentation"
+                },
+                {
+                    "name": "documentation.word"
+                }
+            ]
         }
     ]
 }

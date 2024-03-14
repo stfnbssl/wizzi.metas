@@ -1,5 +1,0 @@
-$group
-
-    $file __dot__wizzi/root/index.html.ittf.ittf
-        html
-            ${'$'}include jsReactWebpackGetStartedApp/index.html

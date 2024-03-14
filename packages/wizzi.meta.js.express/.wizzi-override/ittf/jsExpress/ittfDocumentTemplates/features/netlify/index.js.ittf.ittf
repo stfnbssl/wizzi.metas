@@ -1,5 +1,0 @@
-$group
-
-    import NetlifyRouter from './router.js'
-    export 
-        @ NetlifyRouter

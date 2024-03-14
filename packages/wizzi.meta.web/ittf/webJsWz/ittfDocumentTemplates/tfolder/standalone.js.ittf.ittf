@@ -172,7 +172,7 @@ $group
                             _ callback
                                 @ err
 
-        set wz.mTreeBuildupScript
+        set wz.mTreeBuildUpScript
 			function
 				param filePath
 				param packiFiles
@@ -197,7 +197,7 @@ $group
                                 return
                                     _ callback
                                         @ null
-                                        @ result.mTreeBuildupScript
+                                        @ result.mTreeBuildUpScript
                     ._ catch
                         => 
                             param err

@@ -156,6 +156,7 @@ $group
             @vitejs/plugin-react "^2.1.0"
     ${'$'}if (wzCtx.Build.isWizziPlugin && wzCtx.Build.useWizziV08) || wzCtx.Build.useWizziFactory
         @wizzi/factory "latest"
+    ${'$'}if wzCtx.Build.useWizziFactory
         @wizzi/utils "latest"
 
     ${'$'}if wzCtx.Build.useTailwindcss

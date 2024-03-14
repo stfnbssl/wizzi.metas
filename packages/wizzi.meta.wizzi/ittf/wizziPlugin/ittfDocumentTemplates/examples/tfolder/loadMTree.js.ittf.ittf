@@ -57,7 +57,7 @@ $group
 									@ __dirname
 									@ 'step_${'$'}{step}'
 									@ 'dumps'
-							@ mTreeBuildupJsWizziScript
+							@ mTreeBuildUpJsWizziScript
 								{
 									@ dump true
 		a_cb_throw${'('} wf )

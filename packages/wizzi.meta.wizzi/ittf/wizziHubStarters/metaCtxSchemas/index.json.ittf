@@ -1,0 +1,17 @@
+{
+    [ parameters
+        params/use( artifact )
+        params/use( package )
+        params/use( plugin )
+        params/use( meta )
+        params/use( tFolder )
+        params/use( job )
+        $*
+        params/use( ... )
+        params/string( ... )
+        params/boolean( ... )
+        params/integer( ... )
+        params/array( ... )
+        params/object( ... )
+        params/enum( ... )
+        *$

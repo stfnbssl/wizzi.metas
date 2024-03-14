@@ -1,3 +1,0 @@
-$group
-    $file __dot__wizzi/models/t/webStaticSite.json.ittf.ittf
-        ${'$'}{'$'}group

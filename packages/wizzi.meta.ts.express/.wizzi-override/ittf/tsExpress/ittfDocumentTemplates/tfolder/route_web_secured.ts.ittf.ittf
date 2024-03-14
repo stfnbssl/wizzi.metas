@@ -1,7 +1,0 @@
-$group
-    ${'$'}params method, path, handler
-
-    _ this.router.${'$'}{method}
-        @ "${'$'}{path}"
-        _ makeHandlerAwareOfAsyncErrors(webSecured)
-        _ makeHandlerAwareOfAsyncErrors(${'$'}{handler})
