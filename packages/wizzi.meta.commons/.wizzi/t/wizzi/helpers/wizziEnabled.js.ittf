@@ -45,7 +45,7 @@ $group
                 @ callback
     +
     $include wizzi/opers/loadMTree.js
-    $include wizzi/opers/loadMTreeBuildupScript.js
+    $include wizzi/opers/loadMTreeBuildUpScript.js
     $include wizzi/opers/loadWizziModel.js
     $include wizzi/opers/loadWizziModelAndSaveToJson.js
     $include wizzi/opers/loadModelAndGenerateArtifact.js

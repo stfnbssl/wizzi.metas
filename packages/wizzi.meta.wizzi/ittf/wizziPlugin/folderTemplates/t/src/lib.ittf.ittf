@@ -161,6 +161,7 @@ $group
     $
         var items = [
             "a_flag",
+            "a_tag_flag",
             "a_tag",
             "e_tag",
             "a_true",

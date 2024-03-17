@@ -1,5 +1,5 @@
 $group
-    function loadMTreeBuildupScript
+    function loadMTreeBuildUpScript
         param ittfDocumentUri
         param context
         param plugins
@@ -13,7 +13,7 @@ $group
             {
             @ plugins
             a_cb( wf )
-                _ wf.loadMTreeBuildupScript
+                _ wf.loadMTreeBuildUpScript
                     @ ittfDocumentUri
                     @ context
                     @ callback

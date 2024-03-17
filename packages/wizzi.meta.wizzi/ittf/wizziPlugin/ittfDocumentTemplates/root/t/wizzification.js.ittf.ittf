@@ -4,10 +4,10 @@ $group
         # Map a file extension to Retrieve a Wizzifier by its name
     m mapExtensionToSchema
         param extension
-        $foreach schema in wzCtx.Schemas
-            $foreach ext in schema.fileExtensions
-                if extension == '${ext}'
-                    return '${schema.name}'
+        ${'$'}foreach schema in wzCtx.Schemas
+            ${'$'}foreach ext in schema.fileExtensions
+                if extension == '${'$'}{ext}'
+                    return '${'$'}{schema.name}'
         return null
     #
         # Retrieve a Wizzifier by its name

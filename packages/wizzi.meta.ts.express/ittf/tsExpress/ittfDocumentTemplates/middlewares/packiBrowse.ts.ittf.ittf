@@ -201,7 +201,7 @@ $group
                         _ response.send(result.content)
                 v08/ts/catch_fail_html${'('}' + myname + '_executeBrowse.artifactApi.getArtifactMTree )
         elif request.query.meta && (request.query.meta as string).toLowerCase() == 'script'
-            _ productionApi.getArtifactMTreeBuildupScript_withPrepare
+            _ productionApi.getArtifactMTreeBuildUpScript_withPrepare
                 @ owner
                 @ productionName
                 @ request.query.context as string
@@ -211,7 +211,7 @@ $group
                     => 
                         param result
                             :any
-                        ${'$'}${'$'} loog myname + 'getArtifactMTreeBuildupScript_withPrepare.result.length:', result.length
+                        ${'$'}${'$'} loog myname + 'getArtifactMTreeBuildUpScript_withPrepare.result.length:', result.length
                         _ response.status(200)
                         _ response.set('Content-Type', result.contentType)
                         _ response.set('Content-Length', result.contentLength.toString())

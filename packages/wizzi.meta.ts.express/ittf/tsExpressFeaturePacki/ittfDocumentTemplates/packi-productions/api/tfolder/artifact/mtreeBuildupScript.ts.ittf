@@ -2,7 +2,7 @@ $group
 
     +
     export
-        async-function getArtifactMTreeBuildupScript
+        async-function getArtifactMTreeBuildUpScript
             param owner
                 :string
             param productionName
@@ -29,19 +29,19 @@ $group
                                             => 
                                                 param result
                                                     :any
-                                                $$ loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildUpScript
+                                                $$ loog 'getArtifactMTreeBuildUpScript', productionName, result.mTreeBuildUpScript
                                                 const response
                                                     { 
                                                         @ content result.mTreeBuildUpScript
                                                         @ contentLength result.mTreeBuildUpScript.length
                                                         @ contentType wizziMaps.contentTypeFor('x.ittf.ittf')
                                                 return resolve(response)
-                                        v08/ts/catch_reject${'('} getArtifactMTreeBuildupScript.mTree )
+                                        v08/ts/catch_reject${'('} getArtifactMTreeBuildUpScript.mTree )
                                             set err.parameter
                                                 {
                                                     @ artifactOwner owner
                                                     @ artifactName productionName
-                            v08/ts/catch_reject${'('} getArtifactMTreeBuildupScript.getArtifactProduction )
+                            v08/ts/catch_reject${'('} getArtifactMTreeBuildUpScript.getArtifactProduction )
                                 set err.parameter
                                     {
                                         @ artifactOwner owner
@@ -49,7 +49,7 @@ $group
 
     +
     export
-        async-function getArtifactMTreeBuildupScript_withPrepare
+        async-function getArtifactMTreeBuildUpScript_withPrepare
             param owner
                 :string
             param productionName
@@ -58,7 +58,7 @@ $group
                 :string
             param rootContext
                 :any
-            # loog 'getArtifactMTreeBuildupScript_withPrepare',
+            # loog 'getArtifactMTreeBuildUpScript_withPrepare',
                 \b 'owner', owner,
                 \b 'productionName', productionName,
                 \b 'queryContext', queryContext,
@@ -86,19 +86,19 @@ $group
                                             => 
                                                 param result
                                                     :any
-                                                $$ loog 'getArtifactMTreeBuildupScript', productionName, result.mTreeBuildUpScript
+                                                $$ loog 'getArtifactMTreeBuildUpScript', productionName, result.mTreeBuildUpScript
                                                 const response
                                                     { 
                                                         @ content result.mTreeBuildUpScript
                                                         @ contentLength result.mTreeBuildUpScript.length
                                                         @ contentType wizziMaps.contentTypeFor('x.ittf.ittf')
                                                 return resolve(response)
-                                        v08/ts/catch_reject${'('} getArtifactMTreeBuildupScript.mTree )
+                                        v08/ts/catch_reject${'('} getArtifactMTreeBuildUpScript.mTree )
                                             set err.parameter
                                                 {
                                                     @ artifactOwner owner
                                                     @ artifactName productionName
-                            v08/ts/catch_reject${'('} getArtifactMTreeBuildupScript.getArtifactProduction )
+                            v08/ts/catch_reject${'('} getArtifactMTreeBuildUpScript.getArtifactProduction )
                                 set err.parameter
                                     {
                                         @ artifactOwner owner

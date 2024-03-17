@@ -25,4 +25,4 @@ $group
                             @ 'gen'
                             @ 'The model parameter must be an object${'$'}{md.modelIsObjectOrArray ? ' or an array' : ''}. Received: ' + model
                             @ model
-            $hook
+            ${'$'}hook
