@@ -21,7 +21,7 @@ $group
 							set content
 								[
 									@ 'module'
-									@ '\tkind jsfile'
+									@ '\tkind es6'
 									@ '\t_ go'
 									@ '\t\t@ "stefi"'
 									@ '\tfunction go'

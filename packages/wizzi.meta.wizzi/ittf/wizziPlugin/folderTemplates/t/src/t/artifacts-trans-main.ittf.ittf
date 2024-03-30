@@ -10,7 +10,7 @@ $group
             checkSchema: true
         };
 
-    trans${"${'('}"} &md )
+    trans${'$'}{'('} &md )
         
         ${'$'}{'$'}append main
 

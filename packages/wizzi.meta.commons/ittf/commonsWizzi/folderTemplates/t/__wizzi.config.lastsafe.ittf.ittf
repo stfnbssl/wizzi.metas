@@ -1,0 +1,38 @@
+$group
+    $file wizzi.config.lastsafe.js.ittf
+        module
+            kind es6
+            ${'$'}
+                var development = true;
+            const path = require('path')
+            set module.exports
+                { 
+                    @ wfjobName "${'$'}{metaCtx.name}-override/job"
+                    @ wfjobPath path.join(__dirname, '.wizzi-override', 'generate.wfjob.ittf')
+                    @ destPath __dirname
+                    [ plugins
+                        @ "./wizzi.plugin.css/index.js"
+                        @ "./wizzi.plugin.html/index.js"
+                        @ "./wizzi.plugin.ittf/index.js"
+                        @ "./wizzi.plugin.js/index.js"
+                        @ "./wizzi.plugin.json/index.js"
+                        @ "./wizzi.plugin.md/index.js"
+                        @ "./wizzi.plugin.text/index.js"
+                        @ "./wizzi.plugin.wzjob/index.js"
+                        @ "./wizzi.plugin.wfschema/index.js"
+                    @ pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.lastsafe.plugins/packages" 
+                    [ schemas
+                        $if metaCtx.Schemas
+                            $foreach schema in metaCtx.Schemas
+                                $if !schema.hasBuiltinWizziModel
+                                    @ '${schema.name}'
+                    { globalContext
+                        @ wzConfigIsDevelopment true
+                        @ wzConfigIsPackageDeploy false
+                        @ wzConfigIsDocumentation true
+                        $if _.isArray(metaCtx.globals)
+                            $foreach item in metaCtx.globals
+                                $if item.type == 'string'
+                                    @ ${item.name} "${item.value}"
+                                $else
+                                    @ ${item.name} ${item.value}

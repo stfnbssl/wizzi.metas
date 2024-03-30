@@ -49,6 +49,8 @@ $group
                             builtin false
                         $if schema.hasWizzifier
                             hasWizzifier true
+                        $if schema.hasCheatsheetFolder
+                            hasCheatsheetFolder true
                         [ modelTransformers
                             $foreach trans in schema.transformers
                                 {

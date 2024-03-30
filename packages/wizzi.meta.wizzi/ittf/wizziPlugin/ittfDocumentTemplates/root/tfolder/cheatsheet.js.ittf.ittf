@@ -1,0 +1,34 @@
+$group
+
+	#
+		# Retrieve a Cheatsheet definitions folder packed in a packiFiles object.
+	m getCheatsheetFolder
+		param schemaName
+		param callback
+		var definition = this.schemaCheatsheetDefinitions[schemaName] || null
+		if definition == null
+			var cheatsheetFolderUri
+				_ path.resolve
+					@ __dirname
+					@ 'ittf'
+					@ 'cheatsheets'
+					@ schemaName
+			if this.file.exists(cheatsheetFolderUri)
+				try
+					_ createPackifilesFromFs
+						@ cheatsheetFolderUri
+						a_cb${'('} result )
+							set this.schemaCheatsheetDefinitions[schemaName] = result
+							r_cb${'('}result)
+				catch ex
+					return
+						_ callback
+							_ error
+								@ 'WizziPluginError'
+								@ 'getCheatsheetFolder'
+								@ 'Error loading wizzi cheatsheet definition: ' + cheatsheetFolderUri + ', in plugin: ' + this.getFilename()
+								@ ex
+			else
+				r_cb${'('}null)
+		else
+			r_cb${'('}definition)

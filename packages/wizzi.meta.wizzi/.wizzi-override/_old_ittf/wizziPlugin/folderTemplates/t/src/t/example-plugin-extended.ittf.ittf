@@ -7,7 +7,7 @@
             bif: 1
         };
     
-    wizziplugin/examples/plugin${"${'('}"} &md )
+    wizziplugin/examples/plugin${'$'}{'('} &md )
 
         ${'$'}{'$'}append plugins
             [ items
@@ -34,14 +34,14 @@
                 @ '..'
                 @ '.wizzi-override'
                 @ 'models'
-            a_cb_no_throw${"${'('}"} wzCtx )
+            a_cb_no_throw${'$'}{'('} wzCtx )
                 if err
                     error err
                     return
                 _ executeGenerateModules
                     [
                         @ moduleName
-                    a_cb_no_throw${"${'('}"} result )
+                    a_cb_no_throw${'$'}{'('} result )
                         if err
                             error '${schema.name}.examples.executeGenerateModules.err', err
                             error '${schema.name}.examples.executeGenerateModules.err.toString()', err.toString()
@@ -83,7 +83,7 @@
                     _ loadWizziModel
                         @ ittfDocumentUri
                         {
-                        a_cb${"${'('}"} model )
+                        a_cb${'$'}{'('} model )
                             $$ loog '${schema.name}.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
                             if model.toJson && verify.isFunction(model.toJson)
                                 _ file.write
@@ -96,7 +96,7 @@
                                 @ ittfDocumentUri
                                 {
                                 @ "${schema.name}/extended"
-                                a_cb${"${'('}"} model )
+                                a_cb${'$'}{'('} model )
                                     $$ loog '${schema.name}.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
                                     _ file.write
                                         @ outputExtendedPath
@@ -104,5 +104,5 @@
                                             @ model
                                             @ null
                                             @ 4
-                                    r_cb${"${'('}"} )
+                                    r_cb${'$'}{'('} )
                 @ callback

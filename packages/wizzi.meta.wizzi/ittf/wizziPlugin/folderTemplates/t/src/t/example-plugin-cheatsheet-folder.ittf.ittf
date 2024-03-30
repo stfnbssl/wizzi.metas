@@ -1,0 +1,16 @@
+$group
+    $params &schema
+    kind es6
+
+    ${'$'}{'$'}
+        var md = {
+            name: '${schema.name}',
+        };
+
+    wizziplugin/examples/plugin${'$'}{'('} &md )
+        _ createPluginFactory
+            a_cb${'$'}{'('} plugin )
+                _ plugin.getCheatsheetFolder
+                    @ 'ittf'
+                    a_cb${'$'}{'('} csFolder )
+                        log "csFolder", csFolder

@@ -1,6 +1,6 @@
 $group
 	${'$'}params &md
-	kind jsfile
+	kind es6
 
 	# imports available to every examples
 	import path

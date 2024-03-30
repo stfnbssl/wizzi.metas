@@ -1,5 +1,5 @@
 $group
-	kind jsfile
+	kind es6
 
 	var verify = require('wizzi-utils').verify
 

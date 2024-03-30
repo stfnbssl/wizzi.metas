@@ -47,6 +47,12 @@ $group
                 text
                     example-data(&schema)
 
+        $if schema.hasCheatsheetFolder
+
+            $file __dot__wizzi/examples/${schema.name}_cheatsheetFolder.js.ittf.ittf
+                module
+                    example-plugin-cheatsheet-folder(&schema)
+
     $
         var items = [
             "example_helpers",

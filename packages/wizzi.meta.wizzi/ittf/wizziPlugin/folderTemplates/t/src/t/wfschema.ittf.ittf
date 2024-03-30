@@ -51,8 +51,6 @@ $group
                 include ${include.name} ${item.root}
 
     ---
-    $if schema.name == 'svg'
-        ${'$'}include wizziplugin/lib/wizzi/schemas/svg.wfschema
     $*
     ---
     $if schema.plugin_type == 'prettify'

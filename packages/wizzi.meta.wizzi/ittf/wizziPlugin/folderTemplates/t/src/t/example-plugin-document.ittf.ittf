@@ -7,7 +7,7 @@ $group
             bif: 1
         };
     
-    wizziplugin/examples/plugin${"${'('}"} &md )
+    wizziplugin/examples/plugin${'$'}{'('} &md )
 
         ${'$'}{'$'}append plugins
             [ items
@@ -25,7 +25,7 @@ $group
                 @ '..'
                 @ '.wizzi-override'
                 @ 'models'
-            a_cb_no_throw${"${'('}"} wzCtx )
+            a_cb_no_throw${'$'}{'('} wzCtx )
                 if err
                     error err
                     return
@@ -33,7 +33,7 @@ $group
                     [
                         @ moduleName
                     @ wzCtx
-                    a_cb_no_throw${"${'('}"} result )
+                    a_cb_no_throw${'$'}{'('} result )
                         if err
                             error '${schema.name}.examples.executeGenerateModules.err', err
                             error '${schema.name}.examples.executeGenerateModules.err.toString()', err.toString()
@@ -71,7 +71,7 @@ $group
                         @ ittfDocumentUri
                         {
                             @ wzCtx wzCtx
-                        a_cb${"${'('}"} wizziModel )
+                        a_cb${'$'}{'('} wizziModel )
                             if wizziModel.toJson
                                 _ file.write
                                     @ outputPath + '.json'
@@ -84,10 +84,10 @@ $group
                                 {
                                     @ wzCtx wzCtx
                                 @ '${schema.name}/document'
-                                a_cb${"${'('}"} artifactText )
+                                a_cb${'$'}{'('} artifactText )
                                     $$ loog '${schema.name}.example.executeGenerateModules.outputPath: ' + outputPath
                                     _ file.write
                                         @ outputPath
                                         @ artifactText
-                                    r_cb${"${'('}"} artifactText )
+                                    r_cb${'$'}{'('} artifactText )
                 @ callback

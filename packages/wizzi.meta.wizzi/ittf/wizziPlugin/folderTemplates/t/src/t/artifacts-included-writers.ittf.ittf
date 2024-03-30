@@ -16,7 +16,7 @@ $group
                 param callback
                 # loog myname, 'enter writeInclude${include.Name}'
                 _ element.get_${include.name}
-                    a_cb${"${'('}"} ${include.name}Model )
+                    a_cb${'$'}{'('} ${include.name}Model )
                         $$ loog myname, '${include.name}Model', ${include.name}Model
                         _ ctx.wizziFactory.generateArtifact
                             @ ${include.name}Model
@@ -28,7 +28,7 @@ $group
                                         @ ${option.name} "${option.value}"
                                     $else
                                         @ ${option.name} ${option.value}
-                            a_cb${"${'('}"} artifactText )
+                            a_cb${'$'}{'('} artifactText )
                                 $$ loog myname, '${include.name} module artifactText', artifactText
                                 _ ctx.indent
                                 _ ctx.writeAligned(artifactText)

@@ -2,7 +2,7 @@ $group
     $params &schema
 
     $foreach include in schema.includes
-        async-md${"${'('}"} ${include.name}Include )
+        async-md${'$'}{'('} ${include.name}Include )
             _ ctx.write('<script')
             foreach a in getAttrs(model)
                 if (a.name in attrsneedsvalue) || (a.value && a.value.length > 0)
@@ -14,9 +14,9 @@ $group
                 _ included_writers.writeInclude${include.Name}
                     @ ctx
                     @ model
-                    a_cb${"${'('}"} notUsed )
+                    a_cb${'$'}{'('} notUsed )
                         _ ctx.w("</script>")
-                        r_cb${"${'('}"} true )
+                        r_cb${'$'}{'('} true )
             else
                 _ ctx.w("</script>")
-                r_cb${"${'('}"} true )
+                r_cb${'$'}{'('} true )

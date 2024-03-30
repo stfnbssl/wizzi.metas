@@ -1,6 +1,6 @@
 $group
     $params &schema
-    kind jsfile
+    kind es6
 
     ${'$'}{'$'}
         var md = {

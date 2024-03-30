@@ -12,7 +12,7 @@ $group
             isAsync: true,
         };
 
-    gen${"${'('}"} &md )
+    gen${'$'}{'('} &md )
 
         ${'$'}{'$'}append imports
             $if schema.includes && schema.includes.length > 0
@@ -25,14 +25,14 @@ $group
             _ md.${schema.name}
                 @ model
                 @ ctx
-                a_cb${"${'('}"} )
+                a_cb${'$'}{'('} )
                     if ctx.artifactGenerationErrors.length > 0
-                        r_cb_err${"${'('}"} ctx.artifactGenerationErrors )
+                        r_cb_err${'$'}{'('} ctx.artifactGenerationErrors )
                     else
                         # generation OK
-                        r_cb${"${'('}"} ctx )
+                        r_cb${'$'}{'('} ctx )
 
-        async-md${"${'('}"} ${schema.name} )
+        async-md${'$'}{'('} ${schema.name} )
             _ ctx.w('<${schema.name}>')
             _ md.genItems
                 $if schema.plugin_type == 'syntax_structure'
@@ -42,12 +42,9 @@ $group
                 @ ctx
                 {
                     @ indent true
-                a_cb${"${'('}"})
+                a_cb${'$'}{'('})
                     _ ctx.w('</${schema.name}>')
-                    r_cb${"${'('}"})
-
-        $if schema.name == 'svg'
-            ${'$'}include wizziplugin/lib/artifacts/gen/svg.js       
+                    r_cb${'$'}{'('})
 
 
         $if schema.includes && schema.includes.length > 0

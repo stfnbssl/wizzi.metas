@@ -17,10 +17,21 @@ $group
 	
 	var errors = wizziUtils.exampleErrors
 	var stringify = require('json-stringify-safe')
+    var packageIndex = require('../index.js')
+
 	${'$'}hook imports
 
 	function executeExample
 		${'$'}hook
+
+    function createPluginFactory
+        param callback
+        return
+            _ packageIndex.createFactoryPlugin            
+                {
+                    @ file file
+                {
+                @ callback
 
     function createWizziFactory
         param globalContext

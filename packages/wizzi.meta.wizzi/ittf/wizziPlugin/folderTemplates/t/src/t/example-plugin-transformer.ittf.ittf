@@ -6,7 +6,7 @@ $group
             name: '${schema.name}',
         };
     
-    wizziplugin/examples/plugin${"${'('}"} &md )
+    wizziplugin/examples/plugin${'$'}{'('} &md )
 
         ${'$'}{'$'}append plugins
             [ items
@@ -29,7 +29,7 @@ $group
         _ executeGenerateModules
             [
                 @ moduleName
-            a_cb_no_throw${"${'('}"} result )
+            a_cb_no_throw${'$'}{'('} result )
                 if err
                     error '${schema.name}.examples.executeGenerateModules.err', err
                     error '${schema.name}.examples.executeGenerateModules.err.toString()', err.toString()
@@ -71,7 +71,7 @@ $group
                     _ loadWizziModel
                         @ ittfDocumentUri
                         {
-                        a_cb${"${'('}"} model )
+                        a_cb${'$'}{'('} model )
                             $$ loog '${schema.name}.example.executeGenerateModules.outputLoadedPath: ' + outputLoadedPath
                             _ file.write
                                 @ outputLoadedPath
@@ -83,7 +83,7 @@ $group
                                 @ ittfDocumentUri
                                 {
                                 @ "${schema.name}/${schema.transformer}"
-                                a_cb${"${'('}"} model )
+                                a_cb${'$'}{'('} model )
                                     $$ loog '${schema.name}.example.executeGenerateModules.outputExtendedPath: ' + outputExtendedPath
                                     _ file.write
                                         @ outputExtendedPath
@@ -91,5 +91,5 @@ $group
                                             @ model
                                             @ null
                                             @ 4
-                                    r_cb${"${'('}"} )
+                                    r_cb${'$'}{'('} )
                 @ callback

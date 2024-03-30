@@ -3,7 +3,10 @@ $group
 	var util = require('util')
 	var path = require('path')
 	var stringify = require('json-stringify-safe')
+    var wizziUtils = require('@wizzi/utils')
     var errors = require('./errors')
+	+
+    const vfile = wizziUtils.fSystem.vfile
 	+
 	var md = module.exports = {}
 	set md.name = '${'$'}{wzCtx.name}.index'
@@ -21,6 +24,7 @@ $group
 			set this.artifactGenerators = {}
             set this.wizzifiers = {}
 			set this.schemaDefinitions = {}
+            set this.schemaCheatsheetDefinitions = {}
 		+
         m initialize
 			param options
@@ -32,6 +36,14 @@ $group
         m getName
 			return '${'$'}{wzCtx.name}'
 		
+		+
+        m getNpmName
+			return '${'$'}{wzCtx.npmName}'
+
+		+
+        m getVersion
+			return '${'$'}{wzCtx.version}'
+
 		+
         m getFilename
 			return __filename
@@ -50,7 +62,29 @@ $group
         ${'$'}include wizzification
 		+
         ${'$'}include schema-definition
+		+
+        ${'$'}include cheatsheet
 	+
+    #
+        # Scan a filesystem folder and returns the content in a packiFiles object.
+    function createPackifilesFromFs
+        param folderPath
+        param callback
+        const fsFile = vfile()
+        _ fsFile.getFiles
+            @ folderPath
+            {
+                @ deep true
+                @ documentContent true
+            a_cb${'('} files )
+                const packiFiles = {}
+                foreach file in files
+                    set packiFiles[file.relPath]
+                        {
+                            @ type 'CODE'
+                            @ contents file.content
+                r_cb${'('} packiFiles )
+    +
 	function error
         param errorName
         param method
@@ -112,6 +146,11 @@ $group
                         [
                             ${'$'}foreach schema in wzCtx.Schemas
                                 ${'$'}if schema.hasWizzifier
+                                    @ '${'$'}{schema.name}'
+                    @ cheatsheetFolders
+                        [
+                            ${'$'}foreach schema in wzCtx.Schemas
+                                ${'$'}if schema.hasCheatsheetFolder
                                     @ '${'$'}{schema.name}'
 			@ createFactoryPlugin
 				function

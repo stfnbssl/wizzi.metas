@@ -1,5 +1,5 @@
 module
-	kind jsfile
+	kind es6
 
 	import path
 	import util
