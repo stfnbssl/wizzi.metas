@@ -1,31 +1,40 @@
 $group
-	kind es6
-    
-	var verify = require('wizzi-utils').verify
-    
-	function clone
-		param obj
+    kind es6
+    # usefull: https://github.com/douglascrockford/JSON-js/blob/master/cycle.js
+    var verify = require('@wizzi/utils').verify
+    function clone
+        param obj
+        param objects
+        param path
+        var objects = objects || new WeakMap()
         if verify.isArray(obj)
             var ret
-                [ 
+                [
             foreach item in obj
                 var value
                     _ clone
                         @ item
+                        @ objects
+                        @ path + "[" + i + "]"
                 if value !== null
                     _ ret.push(value)
             return ret
         elif verify.isObject(obj)
+            var old_path = objects.get(obj)
+            if old_path !== undefined
+                return 
+                    { 
+                        @ $ref old_path
+            _ objects.set(obj, path)
             var ret
-                { 
+                {
             for var prop in obj
                 if obj.hasOwnProperty(prop)
-                    set ret[prop] = clone(obj[prop])
+                    set ret[prop] = clone(obj[prop], objects, path + "[" + JSON.stringify(prop) + "]")
             return ret
-        else 
+        else
             return obj
-    
-	set module.exports
-        function 
+    set module.exports
+        function
             param ast
-			return clone(ast)
+            return clone(ast, null, '')            

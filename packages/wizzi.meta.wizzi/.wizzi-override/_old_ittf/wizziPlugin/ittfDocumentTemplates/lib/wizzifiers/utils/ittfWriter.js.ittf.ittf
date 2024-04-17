@@ -2,8 +2,8 @@ $group
     kind es6
     var chalk = require('chalk')
     var util = require('util')
-    var file = require('wizzi-utils').file
-    var verify = require('wizzi-utils').verify
+    var file = require('@wizzi/utils').file
+    var verify = require('@wizzi/utils').verify
     var StringWriter = require("./stringWriter")
     function log
         param label

@@ -19,16 +19,16 @@ $group
         @uiw/react-markdown-preview "latest"
     ---
     ${'$'}if wzCtx.Build.isWizziPlugin
-        @wizzi/mtree "latest"
-        @wizzi/utils "latest"
+        @wizzi/mtree "^0.8.17"
+        @wizzi/utils "^0.8.17"
         ${'$'}foreach schema in wzCtx.Schemas
             ${'$'}foreach include in schema.includes
-                @wizzi/plugin.${'$'}{include.name} "latest"
+                @wizzi/plugin.${'$'}{include.name} "${'$'}{include.version}"
     ${'$'}elif wzCtx.Build.isWizziMeta
         @wizzi/plugin.ittf "latest"
     ${'$'}elif wzCtx.Build.useWizzi
-        @wizzi/factory "latest"
-        @wizzi/utils "latest"
+        @wizzi/factory "^0.8.27"
+        @wizzi/utils "^0.8.17"
         ${'$'}foreach item in wzCtx.Build.wizzi.plugins
             ${'$'}if item[0] != '.'
                 @wizzi/plugin.${'$'}{item} "latest"

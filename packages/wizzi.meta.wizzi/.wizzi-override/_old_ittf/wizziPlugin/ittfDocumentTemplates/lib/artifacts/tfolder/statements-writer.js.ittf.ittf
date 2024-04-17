@@ -2,9 +2,9 @@
 	${'$'}params name
 
 	var util = require('util')
-	var verify = require('wizzi-utils').verify
-	var node = require('wizzi-utils').node
-    var errors = require('wizzi-utils').errors
+	var verify = require('@wizzi/utils').verify
+	var node = require('@wizzi/utils').node
+    var errors = require('@wizzi/utils').errors
 	${'$'}hook imports
 	+
 	var myname = '${'$'}{name}';

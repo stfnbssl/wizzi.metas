@@ -4,7 +4,7 @@ $group
 	+
 	var myname = '${schema.name}.document.included_writers'
 	+
-	var verify = require('wizzi-utils').verify
+	var verify = require('@wizzi/utils').verify
 	+
 	var md = module.exports = {}
 

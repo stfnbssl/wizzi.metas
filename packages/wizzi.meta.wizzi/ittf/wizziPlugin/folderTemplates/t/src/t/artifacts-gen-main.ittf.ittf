@@ -18,7 +18,7 @@ $group
             $if schema.includes && schema.includes.length > 0
                 var included_writers = require('./included_writers')
             $if metaCtx.wizzi_plugin_type == 'prettify'
-                var pretty = require('wizzi-utils').pretty
+                var pretty = require('@wizzi/utils').pretty
                 ${'$'}{'$'}${'$'}{'$'} var highlightCode = require('./highlightCode')
 
         ${'$'}{'$'}append main

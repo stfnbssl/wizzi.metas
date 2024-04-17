@@ -155,9 +155,9 @@ $group
         ${'$'}if wzCtx.Build.useReact
             @vitejs/plugin-react "^2.1.0"
     ${'$'}if (wzCtx.Build.isWizziPlugin && wzCtx.Build.useWizziV08) || wzCtx.Build.useWizziFactory
-        @wizzi/factory "latest"
+        @wizzi/factory "^0.8.27"
     ${'$'}if wzCtx.Build.useWizziFactory
-        @wizzi/utils "latest"
+        @wizzi/utils "^0.8.17"
 
     ${'$'}if wzCtx.Build.useTailwindcss
         autoprefixer "^10.4.7"

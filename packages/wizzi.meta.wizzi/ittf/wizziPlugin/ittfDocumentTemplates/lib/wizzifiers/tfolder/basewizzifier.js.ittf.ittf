@@ -4,9 +4,9 @@ $group
 	var async = require('async')
     var stringify = require('json-stringify-safe')
     
-    var verify = require('wizzi-utils').verify
+    var verify = require('@wizzi/utils').verify
 	var lineParser = require('../utils/lineParser')
-	var file = require('wizzi-utils').file
+	var file = require('@wizzi/utils').file
     var cloner = require('../utils/cloner')
     var ittfWriter = require("../utils/ittfWriter")
 

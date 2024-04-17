@@ -22,6 +22,7 @@ $group
                         { 
                             type "${'$'}{'$'}{wzCtx.license.type}"
                             url "${'$'}{'$'}{wzCtx.license.url}"
+                            copy "${'$'}{'$'}{wzCtx.license.copy}"
                 main "${'$'}{'$'}{wzCtx.main}"
                 
                 ${'$'}{'$'}if wzCtx.Build.useVite || wzCtx.Build.useESM

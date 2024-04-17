@@ -17,7 +17,7 @@ $group
 	import util
 	+
 	var ${schema.name}wizzifier = require('../lib/wizzifiers/${schema.name}/wizzifier')
-	var file = require('wizzi-utils').file
+	var file = require('@wizzi/utils').file
     var stringify = require('json-stringify-safe');
 	+
     let arg = process.argv[2]

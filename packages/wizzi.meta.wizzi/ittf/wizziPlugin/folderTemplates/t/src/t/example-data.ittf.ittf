@@ -1,5 +1,3 @@
 $group
     $params &schema
 
-    $if schema.name == 'graphql'
-        ${'$'}include wizziplugin/examples/data/graphql

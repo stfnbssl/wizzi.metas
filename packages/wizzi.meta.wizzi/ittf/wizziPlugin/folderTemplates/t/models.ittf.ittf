@@ -12,13 +12,15 @@ $group
             $else
                 version "0.0.1"
             description "${metaCtx.description}"
+            main "index.js"
             { author
                 name "${metaCtx.author.name}"
                 email "${metaCtx.author.email}"
             { github
                 userid "${metaCtx.github.userid}"
             { license
-                name "${metaCtx.license.name}"
+                type "${metaCtx.license.type}"
+                url "${metaCtx.license.url}"
                 copy "${metaCtx.license.copy}"
             { Build
                 isWizziPlugin true
@@ -79,6 +81,7 @@ $group
                                     {
                                         Name "${include.Name}"
                                         name "${include.name}"
+                                        version "${include.version}"
                                         [ options
                                             $foreach option in include.options
                                                 {
