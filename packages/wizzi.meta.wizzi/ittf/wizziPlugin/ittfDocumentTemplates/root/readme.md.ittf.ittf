@@ -8,32 +8,33 @@ $group
 	h2 Features
 	h3 Implemented Wizzi models
 	table
-		tr
+		thead
 			th Schema
 			th Descriptionn
             th Builtin
 			th Model transformers
 			th Artifacts
-		${'$'}foreach schema in wzCtx.Schemas
-			tr
-				td
-                    span <a href https://github.com/${'$'}{wzCtx.github.userId}/${'$'}{wzCtx.name}/tree/master/.wizzi/ittf/lib/wizzi/schemas/${'$'}{schema.name}.wfschema.ittf>${'$'}{schema.name}</a>
-				td ${'$'}{schema.title}
-				td
-                    ${'$'}if schema.builtin
-                        span yes
-                    ${'$'}else
-                        span no
-                td
-					table
-						${'$'}foreach transformer in schema.modelTransformers
-							tr
-								td ${'$'}{transformer.name}
-				td
-					table
-						${'$'}foreach artifact in schema.artifactGenerators
-							tr
-								td ${'$'}{artifact.name}
+		tbody
+			${'$'}foreach schema in wzCtx.Schemas
+				tr
+					td
+						span <a href https://github.com/${'$'}{wzCtx.github.userId}/${'$'}{wzCtx.name}/tree/master/.wizzi/ittf/lib/wizzi/schemas/${'$'}{schema.name}.wfschema.ittf>${'$'}{schema.name}</a>
+					td ${'$'}{schema.title}
+					td
+						${'$'}if schema.builtin
+							span yes
+						${'$'}else
+							span no
+					td
+						table
+							${'$'}foreach transformer in schema.modelTransformers
+								tr
+									td ${'$'}{transformer.name}
+					td
+						table
+							${'$'}foreach artifact in schema.artifactGenerators
+								tr
+									td ${'$'}{artifact.name}
 
 	${'$'}hook
 

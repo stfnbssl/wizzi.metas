@@ -1,0 +1,5 @@
+$group
+    $if metaCtx.useTsRemixApp
+        $include wzCtxModel
+        $include root
+        $include app

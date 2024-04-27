@@ -1,0 +1,43 @@
+$group
+    #
+        # Build and returns a packiFiles object with all the metaCtxSchema documents
+        # of the selected WizziMetaProductions
+        # The packiFiles filepaths are built this way:
+        # - metaCtxSchema/<ProductionName><metaFilePath>
+        # For each metaProduction the returned packiFiles object must contain:
+        # . a document with filePath 'metaCtxSchema/<ProductionName>/index.ittf.ittf'
+        # and can optionally contain
+        # . a document with filePath 'folderTemplates/<ProductionName>/globals.ittf.ittf'
+    m getMetaContextDefsStarter
+        param options
+        param callback
+        +
+        _ async.map
+            @ pluginMetaProductions
+            =>
+                param prod
+                param callback
+                if options && options.metaCtx
+                    const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1)
+                    if !options.metaCtx[useProductionVar]
+                        r_cb( {} )
+                    log 'getMetaContextDefsStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]
+                _ this.getMetaContextDefs
+                    @ prod.name
+                    a_cb( metaContextDefs )
+                        r_cb( metaContextDefs )
+            =>
+                param err
+                param metaContextDefs
+                const result
+                    {
+                foreach mp in metaContextDefs
+                    if mp.ittfTParams
+                        for var k in mp.ittfTParams
+                            var newk = 'metaCtxSchema/' + mp.productionName + '/t/params/' + k
+                            set result[newk] = mp.ittfTParams[k]
+                    if mp.metaCtxSchema
+                        for var k in mp.metaCtxSchema
+                            var newk = 'metaCtxSchema/' + mp.productionName + '/' + k
+                            set result[newk] = mp.metaCtxSchema[k]
+                r_cb( result )

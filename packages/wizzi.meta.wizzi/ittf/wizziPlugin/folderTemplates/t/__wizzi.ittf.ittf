@@ -131,7 +131,7 @@ $group
                                 @ configOptions options
                                 { wfschema
                                     @ name schemaName
-                                    @ ittfDocumentUri path.join(wfJobFolder, 'lib', 'wizzi', 'schemas', schemaName + '.wfschema.ittf')
+                                    @ ittfDocumentUri path.join(wfJobFolder, 'lib', 'wizzi', 'schemas', schemaName + '.wzschema.ittf')
                                     @ outputPackageFolder destPath
                             function 
                                 param err

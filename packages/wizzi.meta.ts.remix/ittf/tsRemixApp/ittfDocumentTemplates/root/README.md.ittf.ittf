@@ -1,0 +1,48 @@
+$group
+   h1 Welcome to Remix + Vite!
+   br
+   p
+       + 📖 See the \b
+       a Remix docs
+           href https://remix.run/docs
+       + \b and the \b
+       a Remix Vite docs
+           href https://remix.run/docs/en/main/guides/vite
+       + \b for details on supported features.
+   br
+   h2 Development
+   br
+   p Run the Vite dev server:
+   br
+   code
+       lang shellscript
+       + npm run dev
+   br
+   h2 Deployment
+   br
+   p First, build your app for production:
+   br
+   code
+       lang sh
+       + npm run build
+   br
+   p Then run the app in production mode:
+   br
+   code
+       lang sh
+       + npm start
+   br
+   p Now you'll need to pick a host to deploy it to.
+   br
+   h3 DIY
+   br
+   p If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+   br
+   p Make sure to deploy the output of \b
+       codespan npm run build
+   br
+   ul
+       li
+           codespan build/server
+       li
+           codespan build/client

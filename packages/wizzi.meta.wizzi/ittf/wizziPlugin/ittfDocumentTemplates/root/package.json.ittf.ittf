@@ -1,25 +1,33 @@
 $group
-
-	name  "${'$'}{wzCtx.name}"
-	
-	version  "${'$'}{wzCtx.version}"
-	
-	description "${'$'}{wzCtx.description}"
     
-	author
-		{
-			name "${'$'}{wzCtx.author.name}"
-			email "${'$'}{wzCtx.author.email}"
-	
+	name "${'$'}{wzCtx.npmName ? wzCtx.npmName : wzCtx.name}"
+    
+	version "${'$'}{wzCtx.version}"
+    
+	description "${'$'}{wzCtx.description}"
+
+	${'$'}if wzCtx.author
+        { author
+            name "${'$'}{wzCtx.author.name}"
+            email "${'$'}{wzCtx.author.email}"
+    
 	private false
-	
-	licenses
-		[
-			${'$'}if wzCtx.license.name == 'MIT'
-                {
-                    type "MIT"
-                    url "https://github.com/${'$'}{wzCtx.github.userId}/${'$'}{wzCtx.name}/tree/master/license.txt"
-	
+
+    ${'$'}if wzCtx.license
+        [ licenses
+            {
+                type "${'$'}{wzCtx.license.type}"
+                url "${'$'}{wzCtx.license.url}"
+                copy "${'$'}{wzCtx.license.copy}"
+    
+	main "${'$'}{wzCtx.main}"
+    
+	${'$'}if wzCtx.Build.useVite || wzCtx.Build.useESM
+        type "module"
+    ${'$'}else
+        ${'$'}if wzCtx.type
+            type "${'$'}{wzCtx.type}"
+
 	repository
 		{
 			type "git"
@@ -30,26 +38,24 @@ $group
 			node ">=0.10.28"
 			npm ">=1.4.28"
 	
-	scripts
-		{
-			test "mocha tests/**/*.js --full-trace"
-            ${'$'}hook scripts
+	{ scripts
+		test "mocha tests/**/*.js --full-trace"
+		${'$'}hook scripts
 	
-	dependencies
-		{
-			async "^3.2.0"
-			chalk "^4.1.0"
-			i "^0.3.7"
-			iconv-lite "^0.6.2"
-			json-stringify-safe "^5.0.1"
-			lodash "^4.17.21"
-            wizzi-mtree "^0.7.10"
-            wizzi-utils "^0.7.12"
-			${'$'}hook dependencies
-	
-	devDependencies
-		{
-            del "^6.0.0"
-            expect.js "^0.3.1"
-            mocha "^8.3.0"
-			${'$'}hook devDependencies
+    { dependencies
+        @wizzi/mtree "^0.8.23"
+        @wizzi/utils "^0.8.21"
+        ${'$'}foreach schema in wzCtx.Schemas
+            ${'$'}foreach include in schema.includes
+                @wizzi/plugin.${'$'}{include.name} "${'$'}{include.version}"
+        async "^3.2.4"
+        i "^0.3.7"
+        iconv-lite "^0.6.3"
+        json-stringify-safe "^5.0.1"
+        object-inspect "^1.12.3"
+    
+	{ devDependencies
+        @wizzi/factory "^0.8.35"
+        del "^7.0.0"
+        expect.js "^0.3.1"
+        mocha "^10.1.0"

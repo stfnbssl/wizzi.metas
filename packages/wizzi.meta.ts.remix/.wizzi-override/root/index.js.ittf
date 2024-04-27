@@ -1,0 +1,130 @@
+module
+    kind es6
+    +
+    var util = require('util')
+    var path = require('path')
+    var async = require('async')
+    var stringify = require('json-stringify-safe')
+    var wizziUtils = require('@wizzi/utils')
+    var errors = require('./errors')
+    +
+    const vfile = wizziUtils.fSystem.vfile
+    +
+    var md = module.exports = {}
+    set md.name = '${wzCtx.name}.index'
+    set md.version = '${wzCtx.version}'
+    +
+    var pluginCategories
+        [
+            $foreach category in wzCtx.Categories
+                {
+                    @ name '${category.name}'
+                    [ productions
+                        $foreach production in wzCtx.Productions
+                            $if _.isArray(production.categories)
+                                $foreach pcategory in production.categories
+                                    $if pcategory.name == category.name
+                                        {
+                                            @ name "${production.name}"
+    var pluginMetaProductions
+        [
+            $foreach production in wzCtx.Productions
+                {
+                    @ name '${production.name}'
+                    @ title '${production.title}'
+                    $if production.isPackageMain
+                        @ isPackageMain true
+                    [ categories
+                        $foreach category in production.categories
+                            {
+                                @ name '${category.name}'
+    +
+    class FactoryMeta
+        ctor
+            param provides
+            set this.name = "${wzCtx.name}"
+            set this.version = "${wzCtx.version}"
+            set this.provides = provides
+            set this.metaCategories = {}
+            set this.metaProductions = {}
+            set this.metaContextDefs = {}
+        +
+        m initialize
+            param options
+            param callback
+            # TODO
+            return
+                _ callback(null)
+        +
+        m getName
+            return '${wzCtx.name}'
+        +
+        m getFilename
+            return __filename
+        +
+        m getProvides
+            return this.provides
+        +
+        $include meta-category-starter
+        $include meta-production
+        $include meta-production-starter
+        $include meta-ctx
+        $include meta-ctx-starter
+        +
+    +
+    #
+        # Scan a filesystem folder and returns the content in a packiFiles object.
+    function createPackifilesFromFs
+        param folderPath
+        param callback
+        const fsFile = vfile()
+        _ fsFile.getFiles
+            @ folderPath
+            {
+                @ deep true
+                @ documentContent true
+            a_cb( files )
+                const packiFiles = {}
+                foreach file in files
+                    set packiFiles[file.relPath]
+                        {
+                            @ type 'CODE'
+                            @ contents file.content
+                r_cb( packiFiles )
+    +
+    function error
+        param errorName
+        param method
+        param message
+        param innerError
+        return
+            new errors.WizziMetaError
+                @ message
+                @ null
+                {
+                    @ errorName errorName
+                    @ method md.name + '.' + method
+                    @ sourcePath __filename
+                    @ inner innerError
+    +
+    set module.exports
+        {
+            @ version '${wzCtx.version}'
+            @ provides
+                {
+                    @ categories pluginCategories
+                    @ metaProductions pluginMetaProductions
+            @ createMetaPlugin
+                function
+                    param options
+                    param callback
+                    var meta
+                        new FactoryMeta
+                            @ this.provides
+                    _ meta.initialize
+                        @ options
+                        a_cb( notUsed )
+                            return
+                                _ callback
+                                    @ null
+                                    @ meta

@@ -1,0 +1,76 @@
+{
+    $include versions
+    name "wizzi.meta.ts.remix"
+    npmName "@wizzi/meta.ts.remix"
+    pluginBasename ""
+    version '${versions['@wizzi/meta.ts.remix@next']}'
+    description "Wizzi meta plugin for creating wizzi typescript remix packages"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    license "MIT"
+    metaNamespace "ts.remix"
+    { Build
+        useConfig true
+        { config
+        isWizziMeta true
+        { wizziMeta
+            [ plugins
+                "./wizzi.plugin.css/index.js"
+                "./wizzi.plugin.html/index.js"
+                "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.js/index.js"
+                "./wizzi.plugin.json/index.js"
+                "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.svg/index.js"
+                "./wizzi.plugin.text/index.js"
+                "./wizzi.plugin.wzjob/index.js"
+            pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+            { globalContext
+                wzConfigIsDevelopment true
+                wzConfigIsPackageDeploy false
+        useWizziJsonFactory true
+        { utils
+            useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "typescript"
+        {
+            name "remix"
+        {
+            name "react"
+    [ Productions
+        {
+            name "tsRemix"
+            title "tsRemix wizzi meta production"
+            [ categories
+                {
+                    name "typescript"
+                {
+                    name "remix"
+        {
+            name "tsRemixApp"
+            title "tsRemixApp wizzi meta production"
+            isPackageMain true
+            [ categories
+                {
+                    name "typescript"
+                {
+                    name "remix"
+                {
+                    name "app"

@@ -18,6 +18,10 @@ $group
             kind es6
             ${'$'}include wizziPlugin/root/index.js
     
+    $file __dot__wizzi/root/package.json.ittf.ittf
+        {
+            ${'$'}include wizziPlugin/root/package.json
+
     $
         var items = [
             "model-factory",

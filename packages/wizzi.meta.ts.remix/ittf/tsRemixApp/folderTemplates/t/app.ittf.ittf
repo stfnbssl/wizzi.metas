@@ -1,0 +1,11 @@
+$group
+    $include routes
+    $file __dot__wizzi/app/entry.client.tsx.ittf.ittf
+       module
+           ${'$'}include tsRemixApp/app/entry.client.tsx
+    $file __dot__wizzi/app/entry.server.tsx.ittf.ittf
+       module
+           ${'$'}include tsRemixApp/app/entry.server.tsx
+    $file __dot__wizzi/app/root.tsx.ittf.ittf
+       module
+           ${'$'}include tsRemixApp/app/root.tsx

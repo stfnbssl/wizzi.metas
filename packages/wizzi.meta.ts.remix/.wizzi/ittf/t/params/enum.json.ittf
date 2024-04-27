@@ -1,0 +1,8 @@
+{
+    $params name
+    name "${name}"
+    type "string"
+    kind "enum"
+    $hook extend
+    [ enumValues
+        $hook

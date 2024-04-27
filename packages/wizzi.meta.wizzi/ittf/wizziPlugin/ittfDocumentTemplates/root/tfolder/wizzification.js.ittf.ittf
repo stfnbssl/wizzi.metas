@@ -1,7 +1,8 @@
 $group
 
     #
-        # Map a file extension to Retrieve a Wizzifier by its name
+        # Map a file extension to a schema
+		# Useful for retrieving a Wizzifier by a file extension
     m mapExtensionToSchema
         param extension
         ${'$'}foreach schema in wzCtx.Schemas
@@ -10,7 +11,7 @@ $group
                     return '${'$'}{schema.name}'
         return null
     #
-        # Retrieve a Wizzifier by its name
+        # Retrieve a Wizzifier by its name (a schema name)
         # Wizzifiers are searched in this package
         # No search up in "node_modules" folders.
     m getWizzifier

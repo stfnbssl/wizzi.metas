@@ -1,0 +1,8 @@
+{
+    $params name, defaultValue:integer|-1
+    name "${name}"
+    type "integer"
+    $if defaultValue == null
+        defaultValue null
+    $else
+        defaultValue ${defaultValue}

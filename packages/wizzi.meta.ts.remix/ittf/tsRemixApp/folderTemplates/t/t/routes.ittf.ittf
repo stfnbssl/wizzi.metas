@@ -1,0 +1,4 @@
+$group
+    $file __dot__wizzi/app/routes/_index.tsx.ittf.ittf
+       module
+           ${'$'}include tsRemixApp/app/routes/_index.tsx

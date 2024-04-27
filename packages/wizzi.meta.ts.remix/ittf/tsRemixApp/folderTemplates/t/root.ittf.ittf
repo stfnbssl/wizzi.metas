@@ -1,0 +1,16 @@
+$group
+    $file __dot__wizzi/root/.eslintrc.cjs.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/root/.eslintrc.cjs
+    $file __dot__wizzi/root/package.json.ittf.ittf
+        {
+            ${'$'}include tsRemixApp/root/package.json
+    $file __dot__wizzi/root/README.md.ittf.ittf
+        md
+            ${'$'}include tsRemixApp/root/README.md
+    $file __dot__wizzi/root/tsconfig.json.ittf.ittf
+        {
+            ${'$'}include tsRemixApp/root/tsconfig.json
+    $file __dot__wizzi/root/vite.config.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/root/vite.config.ts

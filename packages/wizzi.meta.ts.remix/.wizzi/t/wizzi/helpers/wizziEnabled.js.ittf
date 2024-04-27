@@ -1,0 +1,70 @@
+$group
+    var path = require('path')
+    var fs = require('fs')
+    var async = require('async')
+    var wizzi = null
+    var wizziUtils = require('@wizzi/utils')
+    var mtree = require('@wizzi/mtree')
+    var verify = wizziUtils.verify
+    var file = wizziUtils.file
+    var stringify = require('json-stringify-safe')
+    +
+    $hook imports
+    +
+    function executeMain
+        $hook
+    +
+    function createWizziFactory
+        param globalContext
+        param plugins
+        param callback
+        +
+        if !callback
+            set callback = plugins
+            set plugins = null
+        +
+        if wizzi == null
+            $$ Override this to use the version under development
+            $virtual requireWizzi
+                # The wizzi package will be the npm version from wizzi/node_modules
+                set wizzi = require('@wizzi/factory')
+        info '"wizzi" package version', wizzi.version
+        +
+        if plugins
+            _ wizzi.fsFactory
+                {
+                    @ plugins plugins
+                    @ globalContext globalContext || {}
+                @ callback
+        else
+            _ wizzi.fsFactory
+                {
+                    { plugins
+                        $hook plugins
+                    @ globalContext globalContext || {}
+                @ callback
+    +
+    $include wizzi/opers/loadMTree.js
+    $include wizzi/opers/loadMTreeBuildUpScript.js
+    $include wizzi/opers/loadWizziModel.js
+    $include wizzi/opers/loadWizziModelAndSaveToJson.js
+    $include wizzi/opers/loadModelAndGenerateArtifact.js
+    $include wizzi/opers/loadModelAndGenerateArtifactFromText.js
+    $include wizzi/opers/loadModelAndTransform.js
+    $include wizzi/opers/executeWizziJob.js
+    $include wizzi/opers/executegenerateModelDoms.js
+    $include wizzi/opers/getWizziIttf.js
+    $include wizzi/opers/getWizziTree.js
+    $include wizzi/opers/getCodeAst.js
+    $include wizzi/opers/getIttfFilesBySchema.js
+    $include wizzi/opers/fileInfoByPath.js
+    $include wizzi/globals/defaultMimeTypes.js
+    +
+    function normalize
+        param filepath
+        return verify.replaceAll(filepath, '\\', '/')
+    +
+    set module.exports = executeMain
+    +
+    if require.main === module
+        _ executeMain()

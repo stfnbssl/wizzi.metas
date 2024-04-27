@@ -1,0 +1,37 @@
+$group
+    function getCodeAst
+        param documentUri
+        param wizzifierName
+        param plugins
+        param callback
+        +
+        if !callback
+            set callback = plugins
+            set plugins = null
+        +
+        _ createWizziFactory
+            {
+            @ plugins
+            a_cb( wf )
+                _ wf.getCodeAst
+                    @ documentUri
+                    @ wizzifierName
+                    @ callback
+    function getCodeAstFromText
+        param documentText
+        param wizzifierName
+        param plugins
+        param callback
+        +
+        if !callback
+            set callback = plugins
+            set plugins = null
+        +
+        _ createWizziFactory
+            {
+            @ plugins
+            a_cb( wf )
+                _ wf.getCodeAstFromText
+                    @ documentText
+                    @ wizzifierName
+                    @ callback

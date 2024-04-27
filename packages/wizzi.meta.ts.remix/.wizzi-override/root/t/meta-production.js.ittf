@@ -1,0 +1,182 @@
+$group
+    #
+        # Build, if not existent, and retrieve a WizziMetaProduction by its production name.
+        # Returns
+            # { metaProduction
+                # string productionName
+                # string metaNamespace
+                # { folderTemplates
+                # { ittfDocumentTemplates
+                # { plainDocuments
+                # { metaCtxSchema
+                # { wzCtxSchema
+    m getMetaProduction
+        param productionName
+        param callback
+        +
+        var metaProduction = this.metaProductions[productionName] || null
+        +
+        if metaProduction != null
+            r_cb( metaProduction )
+        +
+        set metaProduction = {}
+        return
+            _ this.getFolderTemplates
+                @ productionName
+                @ metaProduction
+                a_cb()
+                    set metaProduction.productionName = productionName
+                    set metaProduction.metaNamespace = "${wzCtx.metaNamespace}"
+                    set this.metaProductions[productionName] = metaProduction
+                    r_cb( metaProduction )
+    #
+        # If the ittf/<productionName>/folderTemplates folder exists
+        # enrich the metaProduction object with the folderTemplates property
+        # that contains a packiFile object with the content of the ittf/<productionName>/folderTemplates folder.
+        # Returns a chained call to the getIttfDocumentTemplates method.
+    m getFolderTemplates
+        param productionName
+        param metaProduction
+        param callback
+        const fsFile = vfile()
+        var folderPath
+            _ path.resolve
+                @ __dirname
+                @ 'ittf'
+                @ productionName
+                @ 'folderTemplates'
+        if fsFile.isDirectory(folderPath)
+            _ createPackifilesFromFs
+                @ folderPath
+                a_cb( result )
+                    set metaProduction.folderTemplates = result
+                    return
+                        _ this.getIttfDocumentTemplates
+                            @ productionName
+                            @ metaProduction
+                            @ callback
+        else
+            return
+                _ this.getIttfDocumentTemplates
+                    @ productionName
+                    @ metaProduction
+                    @ callback
+    #
+        # If the ittf/<productionName>/ittfDocumentTemplates folder exists
+        # enrich the metaProduction object with the ittfDocumentTemplates property
+        # that contains a packiFile object with the content of the ittf/<productionName>/ittfDocumentTemplates folder.
+        # Returns a chained call to the getPlainDocuments method.
+    m getIttfDocumentTemplates
+        param productionName
+        param metaProduction
+        param callback
+        const fsFile = vfile()
+        var folderPath
+            _ path.resolve
+                @ __dirname
+                @ 'ittf'
+                @ productionName
+                @ 'ittfDocumentTemplates'
+        if fsFile.isDirectory(folderPath)
+            _ createPackifilesFromFs
+                @ folderPath
+                a_cb( result )
+                    set metaProduction.ittfDocumentTemplates = result
+                    return
+                        _ this.getPlainDocuments
+                            @ productionName
+                            @ metaProduction
+                            @ callback
+        else
+            return
+                _ this.getPlainDocuments
+                    @ productionName
+                    @ metaProduction
+                    @ callback
+    #
+        # If the ittf/<productionName>/plainDocuments folder exists
+        # enrich the metaProduction object with the plainDocuments property
+        # that contains a packiFile object with the content of the ittf/<productionName>/plainDocuments folder.
+        # Returns a chained call to the getMetaCtxSchema method.
+    m getPlainDocuments
+        param productionName
+        param metaProduction
+        param callback
+        const fsFile = vfile()
+        var folderPath
+            _ path.resolve
+                @ __dirname
+                @ 'ittf'
+                @ productionName
+                @ 'plainDocuments'
+        if fsFile.isDirectory(folderPath)
+            _ createPackifilesFromFs
+                @ folderPath
+                a_cb( result )
+                    set metaProduction.plainDocuments = result
+                    return
+                        _ this.getMetaCtxSchema
+                            @ productionName
+                            @ metaProduction
+                            @ callback
+        else
+            return
+                _ this.getMetaCtxSchema
+                    @ productionName
+                    @ metaProduction
+                    @ callback
+    #
+        # If the ittf/<productionName>/metaCtxSchema folder exists
+        # Enrich the metaProduction object with the metaCtxSchema property
+        # that contains a packiFile object with the content of the ittf/<productionName>/metaCtxSchema folder.
+        # Returns a chained call to the getWzCtxSchema method.
+    m getMetaCtxSchema
+        param productionName
+        param metaProduction
+        param callback
+        const fsFile = vfile()
+        var folderPath
+            _ path.resolve
+                @ __dirname
+                @ 'ittf'
+                @ productionName
+                @ 'metaCtxSchema'
+        if fsFile.isDirectory(folderPath)
+            _ createPackifilesFromFs
+                @ folderPath
+                a_cb( result )
+                    set metaProduction.metaCtxSchema = result
+                    return
+                        _ this.getWzCtxSchema
+                            @ productionName
+                            @ metaProduction
+                            @ callback
+        else
+            return
+                _ this.getWzCtxSchema
+                    @ productionName
+                    @ metaProduction
+                    @ callback
+    #
+        # If the ittf/<productionName>/wzCtxSchema folder exists
+        # Enrich the metaProduction object with the wzCtxSchema property
+        # that contains a packiFile object with the content of the ittf/<productionName>/wzCtxSchema folder.
+    m getWzCtxSchema
+        param productionName
+        param metaProduction
+        param callback
+        const fsFile = vfile()
+        var folderPath
+            _ path.resolve
+                @ __dirname
+                @ 'ittf'
+                @ productionName
+                @ 'wzCtxSchema'
+        if fsFile.isDirectory(folderPath)
+            _ createPackifilesFromFs
+                @ folderPath
+                a_cb( result )
+                    set metaProduction.wzCtxSchema = result
+                    r_cb()
+        else
+            r_cb()
