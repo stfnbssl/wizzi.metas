@@ -4,4 +4,4 @@ $group
             ${'$'}include tsNode/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-            ${'$'}include tsNode/root/license.text
+

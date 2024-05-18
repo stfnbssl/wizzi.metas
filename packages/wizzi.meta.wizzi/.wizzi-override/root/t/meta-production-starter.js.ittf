@@ -19,7 +19,7 @@ $group
                     const useProductionVar = 'use' + prod[0].toUpperCase() + prod.substring(1)
                     if !options.metaCtx[useProductionVar]
                         r_cb( {} )
-                    log 'using meta production', useProductionVar, options.metaCtx[useProductionVar]
+                    success 'using meta production', useProductionVar
                 _ this.getMetaProduction
                     @ prod
                     a_cb( metaProduction )

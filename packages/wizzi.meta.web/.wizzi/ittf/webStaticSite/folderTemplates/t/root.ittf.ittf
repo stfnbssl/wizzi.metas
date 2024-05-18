@@ -4,4 +4,4 @@ $group
             ${'$'}include webStaticSite/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-            ${'$'}include webStaticSite/root/license.text
+

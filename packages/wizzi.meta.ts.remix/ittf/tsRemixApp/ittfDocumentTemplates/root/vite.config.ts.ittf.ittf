@@ -1,19 +1,129 @@
 $group
-   import
-       @ vitePlugin
-           as remix
-       from "@remix-run/dev"
-   import
-       @ installGlobals
-       from "@remix-run/node"
-   import
-       @ defineConfig
-       from "vite"
-   import tsconfigPaths from "vite-tsconfig-paths"
-   _ installGlobals()
-   export-default
-       _ defineConfig
-           {
-               [ plugins
-                   @ remix()
-                   @ tsconfigPaths()
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxScript ('build','remix vite:build');
+        $if metaCtx.tsRemixApp.useExpress
+            setCtxScript ('dev','node ./server/dev-server.js');
+        $else
+            setCtxScript ('dev','remix vite:dev');
+            setCtxDevDep ('@remix-run/dev', '^2.9.1');
+        setCtxScript ('start','remix-serve ./build/server/index.js');
+        setCtxDep ('@remix-run/node', '^2.9.1');
+        setCtxDep ('@remix-run/react', '^2.9.1');
+        $if !!metaCtx.tsRemixApp.useExpress == false
+            setCtxDep ('@remix-run/serve', '^2.9.1');
+        setCtxDep ('isbot', '^4.4.0');
+        setCtxDep ('react', '^18.3.1');
+        setCtxDep ('react-dom', '^18.3.1');
+        setCtxDevDep ('@types/react', '^18.2.20');
+        setCtxDevDep ('@types/react-dom','^18.2.7');
+        setCtxDevDep ('vite', '^5.2.11');
+        setCtxDevDep ('vite-tsconfig-paths','^4.2.1');
+        $if metaCtx.tsRemixApp.useSentry
+            setCtxDep ('@sentry/vite-plugin', '^2.16.1');
+        $if metaCtx.tsRemixApp.useEpic
+            setCtxDep ('@epic-web/client-hints', '^1.3.0');
+            setCtxDep ('@epic-web/invariant', '^1.0.0');
+            setCtxDep ('@epic-web/cachified', '^5.1.2');
+            setCtxDep ('@epic-web/remember', '^1.0.2');
+            setCtxDep ('@epic-web/totp', '^1.1.2');
+            setCtxDep ('glob', '^10.3.12');
+            setCtxDevDep ('@types/glob', '^8.1.0');
+            setCtxDep ('remix-flat-routes', '^0.6.4');
+
+    import
+        @ vitePlugin
+            as remix
+        from "@remix-run/dev"
+
+    $if metaCtx.tsRemixApp.useSentry
+        import
+            @ sentryVitePlugin
+            from '@sentry/vite-plugin'
+
+    $if metaCtx.tsRemixApp.useEpic
+        import
+            @ glob
+            from 'glob'
+        import
+            @ flatRoutes
+            from 'remix-flat-routes'
+    $else
+        import
+            @ installGlobals
+            from "@remix-run/node"
+    import
+        @ defineConfig
+        from "vite"
+    
+    import tsconfigPaths from "vite-tsconfig-paths"
+    
+    $if metaCtx.tsRemixApp.useEpic
+        const MODE = process.env.NODE_ENV
+    $else
+        _ installGlobals()
+    
+    export-default
+        _ defineConfig
+            {
+                $if metaCtx.tsRemixApp.useEpic
+                    { build
+                        @ cssMinify MODE === 'production'
+                        { rollupOptions
+                            [ external
+                                @ /node:.*/
+                                @ 'stream'
+                                @ 'crypto'
+                                @ 'fsevents'
+                        @ sourcemap true
+                [ plugins
+                    $if metaCtx.tsRemixApp.useEpic
+                        _ remix
+                            {
+                                [ ignoredRouteFiles
+                                    @ '**/*'
+                                @ serverModuleFormat 'esm'
+                                @ routes
+                                    async=>
+                                        param defineRoutes
+                                        return
+                                            _ flatRoutes
+                                                @ 'routes'
+                                                @ defineRoutes
+                                                {
+                                                    [ ignoredRouteFiles
+                                                        @ '.*'
+                                                        @ '**/*.css'
+                                                        @ '**/*.test.{js,jsx,ts,tsx}'
+                                                        @ '**/__*.*'
+                                                        @ '**/*.server.*'
+                                                            # This is for server-side utilities you want to colocate
+                                                            # next to your routes without making an additional
+                                                            # directory. If you need a route that includes "server" or
+                                                            # "client" in the filename, use the escape brackets like:
+                                                            # my-route.[server].tsx
+                                                        @ '**/*.client.*'
+                        $if metaCtx.tsRemixApp.useSentry
+                            iif process.env.SENTRY_AUTH_TOKEN
+                                then
+                                    _ sentryVitePlugin
+                                        {
+                                            @ disable MODE !== 'production'
+                                            @ authToken process.env.SENTRY_AUTH_TOKEN
+                                            @ org process.env.SENTRY_ORG
+                                            @ project process.env.SENTRY_PROJECT
+                                            { release
+                                                @ name process.env.COMMIT_SHA
+                                                { setCommits
+                                                    @ auto true
+                                            { sourcemaps
+                                                @ filesToDeleteAfterUpload
+                                                    await
+                                                        _ glob
+                                                            [
+                                                                @ './build/**/*.map'
+                                                                @ '.server-build/**/*.map'
+                                else null
+                    $else
+                        @ remix()
+                        @ tsconfigPaths()

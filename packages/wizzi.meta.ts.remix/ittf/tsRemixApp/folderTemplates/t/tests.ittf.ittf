@@ -1,0 +1,17 @@
+$group
+    $$ $include e2e
+    $$ $include fixtures
+    $include mocks
+    $$ $include setup
+    
+    $file __dot__wizzi/tests/db-utils.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/tests/db-utils.ts
+    
+    $file __dot__wizzi/tests/playwright-utils.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/tests/playwright-utils.ts
+    
+    $file __dot__wizzi/tests/utils.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/tests/utils.ts

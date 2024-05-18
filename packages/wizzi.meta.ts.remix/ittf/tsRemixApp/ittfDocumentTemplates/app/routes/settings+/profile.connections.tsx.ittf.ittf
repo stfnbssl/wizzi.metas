@@ -1,0 +1,333 @@
+$group
+    import
+        @ invariantResponse
+        from '@epic-web/invariant'
+    import
+        :type SEOHandle
+        from '@nasa-gcn/remix-seo'
+    import
+        @ json
+        :type LoaderFunctionArgs
+        :type ActionFunctionArgs
+        :type SerializeFrom
+        :type HeadersFunction
+        from '@remix-run/node'
+    import
+        @ useFetcher
+        @ useLoaderData
+        from '@remix-run/react'
+    import
+        @ useState
+        from 'react'
+    import
+        @ Icon
+        from '#app/components/ui/icon.tsx'
+    import
+        @ StatusButton
+        from '#app/components/ui/status-button.tsx'
+    import
+        @ Tooltip
+        @ TooltipContent
+        @ TooltipProvider
+        @ TooltipTrigger
+        from '#app/components/ui/tooltip.tsx'
+    import
+        @ requireUserId
+        from '#app/utils/auth.server.ts'
+    import
+        @ resolveConnectionData
+        from '#app/utils/connections.server.ts'
+    import
+        @ ProviderConnectionForm
+        :type ProviderName
+        @ ProviderNameSchema
+        @ providerIcons
+        @ providerNames
+        from '#app/utils/connections.tsx'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    import
+        @ makeTimings
+        from '#app/utils/timing.server.ts'
+    import
+        @ createToastHeaders
+        from '#app/utils/toast.server.ts'
+    import
+        :type BreadcrumbHandle
+        from './profile.tsx'
+    export
+        const handle
+            :intersect
+                :ref BreadcrumbHandle
+                :ref SEOHandle
+            =
+                {
+                    @ breadcrumb
+                        < Icon
+                            @ name "link-2"
+                            + Connections
+                    @ getSitemapEntries
+                        =>
+                            + null
+    async-function userCanDeleteConnections
+        param userId
+            :string
+        const user
+            await
+                _ prisma.user.findUnique
+                    {
+                        { select
+                            { password
+                                { select
+                                    @ userId true
+                            { _count
+                                { select
+                                    @ connections true
+                        { where
+                            @ id userId
+        # user can delete their connections if they have a password
+        if user?.password
+            return true
+        return Boolean(user?._count?.connections && user?._count?.connections > 1)
+            # users have to have more than one remaining connection to delete one
+    export
+        async-function loader
+            {
+                @ request
+                :ref LoaderFunctionArgs
+            const userId
+                await
+                    _ requireUserId(request)
+            const timings = makeTimings('profile connections loader')
+            const rawConnections
+                await
+                    _ prisma.connection.findMany
+                        {
+                            { select
+                                @ id true
+                                @ providerName true
+                                @ providerId true
+                                @ createdAt true
+                            { where
+                                @ userId
+            const connections
+                :ref Array
+                    :param
+                        :{
+                            :p providerName
+                                :ref ProviderName
+                            :p id
+                                :string
+                            :p displayName
+                                :string
+                            :p link
+                                :optional
+                                :union
+                                    :string
+                                    :null
+                            :p createdAtFormatted
+                                :string
+                = []
+            for
+                left
+                    const connection
+                of rawConnections
+                const r = ProviderNameSchema.safeParse(connection.providerName)
+                if !r.success
+                    continue
+                const providerName = r.data
+                const connectionData
+                    await
+                        _ resolveConnectionData
+                            @ providerName
+                            @expr connection.providerId
+                            {
+                                @ timings
+                _ connections.push
+                    {
+                        @ ...connectionData
+                        @ providerName
+                        @ id connection.id
+                        @ createdAtFormatted connection.createdAt.toLocaleString()
+            return
+                _ json
+                    {
+                        @ connections
+                        @ canDeleteConnections
+                            await
+                                _ userCanDeleteConnections(userId)
+                    {
+                        { headers
+                            @ 'Server-Timing' timings.toString()
+    export
+        const headers
+            :ref HeadersFunction
+            =
+                =>
+                    {
+                        @ loaderHeaders
+                    const headers
+                        {
+                            @ 'Server-Timing' loaderHeaders.get('Server-Timing') ?? ''
+                    return headers
+    export
+        async-function action
+            {
+                @ request
+                :ref ActionFunctionArgs
+            const userId
+                await
+                    _ requireUserId(request)
+            const formData
+                await
+                    _ request.formData()
+            _ invariantResponse(formData.get('intent') === 'delete-connection', 'Invalid intent')
+            _ invariantResponse
+                await
+                    _ userCanDeleteConnections(userId)
+                @ 'You cannot delete your last connection unless you have a password.'
+            const connectionId = formData.get('connectionId')
+            _ invariantResponse(typeof connectionId === 'string', 'Invalid connectionId')
+            await
+                _ prisma.connection.delete
+                    {
+                        { where
+                            @ id connectionId
+                            @ userId
+            const toastHeaders
+                await
+                    _ createToastHeaders
+                        {
+                            @ title 'Deleted'
+                            @ description 'Your connection has been deleted.'
+            return
+                _ json
+                    @expr
+                        {
+                            @ status 'success'
+                        :as
+                            :ref const
+                    {
+                        @ headers toastHeaders
+    export-default
+        function Connections
+            const data
+                _ useLoaderData
+                    :param
+                        :typeof loader
+            return
+                div
+                    @ className "mx-auto max-w-md"
+                    {
+                        iif data.connections.length
+                            then
+                                div
+                                    @ className "flex flex-col gap-2"
+                                    p
+                                        + Here are your current connections:
+                                    ul
+                                        @ className "flex flex-col gap-4"
+                                        {
+                                            _ data.connections.map
+                                                =>
+                                                    param c
+                                                    li
+                                                        @ key {c.id}
+                                                        < Connection
+                                                            @ connection {c}
+                                                            @ canDelete {data.canDeleteConnections}
+                            else
+                                p
+                                    + You don't have any connections yet.
+                    div
+                        @ className "mt-5 flex flex-col gap-5 border-b-2 border-t-2 border-border py-3"
+                        {
+                            _ providerNames.map
+                                =>
+                                    param providerName
+                                    < ProviderConnectionForm
+                                        @ key {providerName}
+                                        @ type "Connect"
+                                        @ providerName {providerName}
+    function Connection
+        {
+            @ connection
+            @ canDelete
+            :{
+                :p connection
+                    :[]
+                        :[]
+                            :ref SerializeFrom
+                                :param
+                                    :typeof loader
+                            :literal 'connections'
+                        :number
+                :p canDelete
+                    :boolean
+        const deleteFetcher
+            _ useFetcher
+                :param
+                    :typeof action
+        const [infoOpen, setInfoOpen] = useState(false)
+        const icon = providerIcons[connection.providerName]
+        return
+            div
+                @ className "flex justify-between gap-2"
+                span
+                    @ className
+                        template
+                            + inline-flex items-center gap-1.5
+                    + {icon}
+                    span
+                        {
+                            iif connection.link
+                                then
+                                    a
+                                        @ href {connection.link}
+                                        @ className "underline"
+                                        + {connection.displayName}
+                                else connection.displayName
+                        + {' '}
+                        + (
+                        + {connection.createdAtFormatted}
+                        + )
+                {
+                    iif canDelete
+                        then
+                            < deleteFetcher.Form
+                                @ method "POST"
+                                input
+                                    @ name "connectionId"
+                                    @ value {connection.id}
+                                    @ type "hidden"
+                                < TooltipProvider
+                                    < Tooltip
+                                        < TooltipTrigger
+                                            @ asChild
+                                            < StatusButton
+                                                @ name "intent"
+                                                @ value "delete-connection"
+                                                @ variant "destructive"
+                                                @ size "sm"
+                                                @ status
+                                                    iif deleteFetcher.state !== 'idle'
+                                                        then 'pending'
+                                                        else deleteFetcher.data?.status ?? 'idle'
+                                                < Icon
+                                                    @ name "cross-1"
+                                        < TooltipContent
+                                            + Disconnect this account
+                        else
+                            < TooltipProvider
+                                < Tooltip
+                                    @ open {infoOpen}
+                                    @ onOpenChange {setInfoOpen}
+                                    < TooltipTrigger
+                                        @ onClick
+                                            =>
+                                                _ setInfoOpen(true)
+                                        < Icon
+                                            @ name "question-mark-circled"
+                                    < TooltipContent
+                                        + You cannot delete your last connection unless you have a password.

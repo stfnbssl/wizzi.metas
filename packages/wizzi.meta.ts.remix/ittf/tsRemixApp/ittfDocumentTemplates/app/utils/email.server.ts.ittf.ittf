@@ -1,0 +1,166 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('@react-email/components', '0.0.17');
+
+    import
+        @ renderAsync
+        from '@react-email/components'
+    import
+        :type ReactElement
+        from 'react'
+    import
+        @ z
+        from 'zod'
+    const resendErrorSchema
+        _ z.union
+            [
+                _ z.object
+                    {
+                        @ name z.string()
+                        @ message z.string()
+                        @ statusCode z.number()
+                _ z.object
+                    {
+                        @ name z.literal('UnknownError')
+                        @ message z.literal('Unknown Error')
+                        @ statusCode z.literal(500)
+                        @ cause z.any()
+    :type ResendError
+        :ref z.infer
+            :param
+                :typeof resendErrorSchema
+    const resendSuccessSchema
+        _ z.object
+            {
+                @ id z.string()
+    export
+        async-function sendEmail
+            {
+                @ react
+                ... options
+                :intersect
+                    :{
+                        :p to
+                            :string
+                        :p subject
+                            :string
+                    :paren
+                        :union
+                            :{
+                                :p html
+                                    :string
+                                :p text
+                                    :string
+                                :p react
+                                    :optional
+                                    :never
+                            :{
+                                :p react
+                                    :ref ReactElement
+                                :p html
+                                    :optional
+                                    :never
+                                :p text
+                                    :optional
+                                    :never
+            const from = 'hello@epicstack.dev'
+            const email
+                {
+                    @ from
+                    @ ...options
+                    ...
+                        ${'('}
+                            iif react
+                                then
+                                    await
+                                        _ renderReactEmail(react)
+                                else null
+            # feel free to remove this condition once you've set up resend
+            if !process.env.RESEND_API_KEY && !process.env.MOCKS
+                _ console.error
+                    template
+                        + RESEND_API_KEY not set and we're not in mocks mode.
+                _ console.error
+                    template
+                        + To send emails, set the RESEND_API_KEY environment variable.
+                _ console.error
+                    template
+                        + Would have sent the following email:
+                    _ JSON.stringify(email)
+                return
+                    @expr
+                        {
+                            @ status 'success'
+                            { data
+                                @ id 'mocked'
+                        :as
+                            :ref const
+            const response
+                await
+                    _ fetch
+                        @ 'https://api.resend.com/emails'
+                        {
+                            @ method 'POST'
+                            @ body JSON.stringify(email)
+                            { headers
+                                @ Authorization
+                                    template
+                                        + Bearer&nbsp;
+                                        @ process.env.RESEND_API_KEY
+                                        +
+                                @ 'Content-Type' 'application/json'
+            const data
+                await
+                    _ response.json()
+            const parsedData = resendSuccessSchema.safeParse(data)
+            if response.ok && parsedData.success
+                return
+                    @expr
+                        {
+                            @ status 'success'
+                            @ data parsedData
+                        :as
+                            :ref const
+            else
+                const parseResult = resendErrorSchema.safeParse(data)
+                if parseResult.success
+                    return
+                        @expr
+                            {
+                                @ status 'error'
+                                @ error parseResult.data
+                            :as
+                                :ref const
+                else
+                    return
+                        @expr
+                            {
+                                @ status 'error'
+                                @ error
+                                    satisfies
+                                        {
+                                            @ name 'UnknownError'
+                                            @ message 'Unknown Error'
+                                            @ statusCode 500
+                                            @ cause data
+                                        :ref ResendError
+                            :as
+                                :ref const
+    async-function renderReactEmail
+        param react
+            :ref ReactElement
+        const [html, text]
+            await
+                _ Promise.all
+                    [
+                        @ renderAsync(react)
+                        _ renderAsync
+                            @ react
+                            {
+                                @ plainText true
+        return
+            {
+                @ html
+                @ text

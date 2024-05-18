@@ -1,11 +1,15 @@
 $group
+    
+    $include components
     $include routes
+    $include utils
+    
     $file __dot__wizzi/app/entry.client.tsx.ittf.ittf
-       module
-           ${'$'}include tsRemixApp/app/entry.client.tsx
+        module
+            ${'$'}include tsRemixApp/app/entry.client.tsx
     $file __dot__wizzi/app/entry.server.tsx.ittf.ittf
-       module
-           ${'$'}include tsRemixApp/app/entry.server.tsx
+        module
+            ${'$'}include tsRemixApp/app/entry.server.tsx
     $file __dot__wizzi/app/root.tsx.ittf.ittf
-       module
-           ${'$'}include tsRemixApp/app/root.tsx
+        module
+            ${'$'}include tsRemixApp/app/root.tsx 

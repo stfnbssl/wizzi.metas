@@ -1,0 +1,16 @@
+$group
+    $file __dot__wizzi/tests/mocks/github.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/tests/mocks/github.ts
+    $file __dot__wizzi/tests/mocks/index.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/tests/mocks/index.ts
+    $file __dot__wizzi/tests/mocks/README.md.ittf.ittf
+        md
+            ${'$'}include tsRemixApp/tests/mocks/README.md
+    $file __dot__wizzi/tests/mocks/resend.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/tests/mocks/resend.ts
+    $file __dot__wizzi/tests/mocks/utils.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/tests/mocks/utils.ts

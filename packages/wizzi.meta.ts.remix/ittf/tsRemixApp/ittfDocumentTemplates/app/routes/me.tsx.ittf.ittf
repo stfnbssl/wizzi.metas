@@ -1,0 +1,56 @@
+$group
+    import
+        @ redirect
+        :type LoaderFunctionArgs
+        from '@remix-run/node'
+    import
+        @ requireUserId
+        @ logout
+        from '#app/utils/auth.server.ts'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    export
+        async-function loader
+            {
+                @ request
+                :ref LoaderFunctionArgs
+            const userId
+                await
+                    _ requireUserId(request)
+            const user
+                await
+                    _ prisma.user.findUnique
+                        {
+                            { where
+                                @ id userId
+            if !user
+                const requestUrl = new URL(request.url)
+                const loginParams
+                    new URLSearchParams
+                        [
+                            [
+                                @ 'redirectTo'
+                                template
+                                    +
+                                    @ requestUrl.pathname
+                                    +
+                                    @ requestUrl.search
+                                    +
+                const redirectTo
+                    template
+                        + /login?
+                        @ loginParams
+                        +
+                await
+                    _ logout
+                        {
+                            @ request
+                            @ redirectTo
+                return redirect(redirectTo)
+            return
+                _ redirect
+                    template
+                        + /users/
+                        @ user.username
+                        +

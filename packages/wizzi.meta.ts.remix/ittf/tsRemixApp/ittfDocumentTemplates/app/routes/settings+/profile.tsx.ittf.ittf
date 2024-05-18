@@ -1,0 +1,144 @@
+$group
+    import
+        @ invariantResponse
+        from '@epic-web/invariant'
+    import
+        :type SEOHandle
+        from '@nasa-gcn/remix-seo'
+    import
+        @ json
+        :type LoaderFunctionArgs
+        from '@remix-run/node'
+    import
+        @ Link
+        @ Outlet
+        @ useMatches
+        from '@remix-run/react'
+    import
+        @ z
+        from 'zod'
+    import
+        @ Spacer
+        from '#app/components/spacer.tsx'
+    import
+        @ Icon
+        from '#app/components/ui/icon.tsx'
+    import
+        @ requireUserId
+        from '#app/utils/auth.server.ts'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    import
+        @ cn
+        from '#app/utils/misc.tsx'
+    import
+        @ useUser
+        from '#app/utils/user.ts'
+    export
+        const BreadcrumbHandle
+            _ z.object
+                {
+                    @ breadcrumb z.any()
+    export
+        :type BreadcrumbHandle
+            :ref z.infer
+                :param
+                    :typeof BreadcrumbHandle
+    export
+        const handle
+            :intersect
+                :ref BreadcrumbHandle
+                :ref SEOHandle
+            =
+                {
+                    @ breadcrumb
+                        < Icon
+                            @ name "file-text"
+                            + Edit Profile
+                    @ getSitemapEntries
+                        =>
+                            + null
+    export
+        async-function loader
+            {
+                @ request
+                :ref LoaderFunctionArgs
+            const userId
+                await
+                    _ requireUserId(request)
+            const user
+                await
+                    _ prisma.user.findUnique
+                        {
+                            { where
+                                @ id userId
+                            { select
+                                @ username true
+            _ invariantResponse
+                @ user
+                @ 'User not found'
+                {
+                    @ status 404
+            return
+                _ json
+                    {
+    const BreadcrumbHandleMatch
+        _ z.object
+            {
+                @ handle BreadcrumbHandle
+    export-default
+        function EditUserProfile
+            const user = useUser()
+            const matches = useMatches()
+            const breadcrumbs
+                _ matches.map
+                    =>
+                        param m
+                        const result = BreadcrumbHandleMatch.safeParse(m)
+                        if !result.success || !result.data.handle.breadcrumb
+                            return null
+                        return
+                            < Link
+                                @ key {m.id}
+                                @ to {m.pathname}
+                                @ className "flex items-center"
+                                + {result.data.handle.breadcrumb}
+                    ._ filter
+                        @ Boolean
+            return
+                div
+                    @ className "m-auto mb-24 mt-16 max-w-3xl"
+                    div
+                        @ className "container"
+                        ul
+                            @ className "flex gap-3"
+                            li
+                                < Link
+                                    @ className "text-muted-foreground"
+                                    @ to
+                                        template
+                                            + /users/
+                                            @ user.username
+                                            +
+                                    + Profile
+                            {
+                                _ breadcrumbs.map
+                                    =>
+                                        param breadcrumb
+                                        param i
+                                        param arr
+                                        li
+                                            @ key {i}
+                                            @ className
+                                                _ cn
+                                                    @ 'flex items-center gap-3'
+                                                    {
+                                                        @ 'text-muted-foreground' i < arr.length - 1
+                                            + ▶️
+                                            + {breadcrumb}
+                    < Spacer
+                        @ size "xs"
+                    main
+                        @ className "mx-auto bg-muted px-6 py-8 md:container md:rounded-3xl"
+                        < Outlet

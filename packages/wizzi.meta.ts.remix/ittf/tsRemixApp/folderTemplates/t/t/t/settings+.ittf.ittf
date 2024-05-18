@@ -1,0 +1,22 @@
+$group
+
+    $
+        var items = [
+            "profile.change-email.server.tsx",
+            "profile.change-email.tsx",
+            "profile.connections.tsx",
+            "profile.index.tsx",
+            "profile.password_.create.tsx",
+            "profile.password.tsx",
+            "profile.photo.tsx",
+            "profile.tsx",
+            "profile.two-factor.disable.tsx",
+            "profile.two-factor.index.tsx",
+            "profile.two-factor.tsx",
+            "profile.two-factor.verify.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/app/routes/settings+/${item}.ittf.ittf
+            module
+            	${'$'}include tsRemixApp/app/routes/settings+/${item}

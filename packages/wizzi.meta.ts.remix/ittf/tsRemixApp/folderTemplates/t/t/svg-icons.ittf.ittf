@@ -1,0 +1,43 @@
+$group
+
+    $
+        var items = [
+            "arrow-left.svg",
+            "arrow-right.svg",
+            "avatar.svg",
+            "camera.svg",
+            "check.svg",
+            "clock.svg",
+            "cross-1.svg",
+            "dots-horizontal.svg",
+            "download.svg",
+            "envelope-closed.svg",
+            "exit.svg",
+            "file-text.svg",
+            "github-logo.svg",
+            "laptop.svg",
+            "link-2.svg",
+            "lock-closed.svg",
+            "lock-open-1.svg",
+            "magnifying-glass.svg",
+            "moon.svg",
+            "pencil-1.svg",
+            "pencil-2.svg",
+            "plus.svg",
+            "question-mark-circled.svg",
+            "reset.svg",
+            "sun.svg",
+            "trash.svg",
+            "update.svg",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/other/svg-icons/${item}.ittf.ittf
+            svg
+                ${'$'}include tsRemixApp/other/svg-icons/${item}
+
+
+    $file __dot__wizzi/other/svg-icons/README.md.ittf.ittf
+       md
+           ${'$'}include tsRemixApp/other/svg-icons/README.md
+

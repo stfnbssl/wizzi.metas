@@ -1,0 +1,479 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('crypto-js', '^4.2.0');
+        setCtxDep ('@remix-run/express', '^2.8.1');
+        setCtxDep ('address', '^2.0.2');
+        $if metaCtx.tsRemixApp.useSentry
+            setCtxDep ('@sentry/remix', '2.8.1');
+        setCtxDep ('chalk', '^5.3.0');
+        setCtxDep ('close-with-grace', '^1.3.0');
+        $if metaCtx.tsRemixApp.useCompression
+            setCtxDep ('compression', '^1.7.4');
+            setCtxDevDep ('@types/compression', '^1.7.5');
+        setCtxDep ('express', '^4.18.3');
+        setCtxDevDep ('@types/express', '^4.17.21');
+        $if metaCtx.tsRemixApp.useRateLimit
+            setCtxDep ('express-rate-limit', '^7.2.0');
+        setCtxDep ('get-port', '^7.0.0');
+        $if metaCtx.tsRemixApp.useHelmet
+            setCtxDep ('helmet', '^7.1.0');
+        $if metaCtx.tsRemixApp.useMorgan
+            setCtxDep ('morgan', '^1.10.0');
+            setCtxDevDep ('@types/morgan', '^1.9.9');
+
+    import crypto from 'crypto'
+    import 
+        @ createRequestHandler
+            $if metaCtx.tsRemixApp.useSentry
+                as _createRequestHandler
+        from '@remix-run/express'
+    import 
+        :type ServerBuild
+        @ installGlobals
+        from '@remix-run/node'
+    $if metaCtx.tsRemixApp.useSentry
+        import 
+            as Sentry
+            from '@sentry/remix'
+    import 
+        @ ip
+            as ipAddress
+        from 'address'
+    import chalk from 'chalk'
+    import closeWithGrace from 'close-with-grace'
+    $if metaCtx.tsRemixApp.useCompression
+        import compression from 'compression'
+    import express from 'express'
+    $if metaCtx.tsRemixApp.useRateLimit
+        import rateLimit from 'express-rate-limit'
+    import getPort
+        @ portNumbers
+        from 'get-port'
+    $if metaCtx.tsRemixApp.useHelmet
+        import helmet from 'helmet'
+    $if metaCtx.tsRemixApp.useMorgan
+        import morgan from 'morgan'
+    +
+    _ installGlobals()
+    +
+    const MODE = process.env.NODE_ENV ?? 'development'
+    const IS_PROD = MODE === 'production'
+    const IS_DEV = MODE === 'development'
+    const ALLOW_INDEXING = process.env.ALLOW_INDEXING !== 'false'
+    +
+    $if metaCtx.tsRemixApp.useSentry    
+        const createRequestHandler
+            iif IS_PROD
+                then Sentry.wrapExpressCreateRequestHandler(_createRequestHandler)
+                else _createRequestHandler
+        +
+    const viteDevServer
+        iif IS_PROD
+            then undefined
+            else
+                await 
+                    _ import
+                        @ 'vite'
+                        ._ then
+                            => 
+                                param vite
+                                _ vite.createServer
+                                    { 
+                                        { server
+                                            @ middlewareMode true
+    +
+    const app = express()
+    +
+    const getHost
+        => 
+            param req
+                :{ 
+                    :p get
+                        :=> 
+                            :union 
+                                :string 
+                                :undefined 
+                            param key
+                                :string 
+            @expr req.get('X-Forwarded-Host') ?? req.get('host') ?? ''
+    +
+    _ app.set('trust proxy', true)
+        # fly is our proxy
+    +
+    _ app.use
+        => 
+            param req
+            param res
+            param next
+            const proto = req.get('X-Forwarded-Proto')
+            const host = getHost(req)
+            if proto === 'http'
+                _ res.set('X-Forwarded-Proto', 'https')
+                _ res.redirect
+                    template 
+                        + https://
+                        @ host
+                        + 
+                        @ req.originalUrl
+                        + 
+                return 
+            _ next()
+        # ensure HTTPS only (X-Forwarded-Proto comes from Fly)
+    +
+    _ app.get
+        @ '*'
+        => 
+            param req
+            param res
+            param next
+            if req.path.endsWith('/') && req.path.length > 1
+                const query = req.url.slice(req.path.length)
+                const safepath = req.path.slice(0, -1).replace(/\/+/g, '/')
+                _ res.redirect(302, safepath + query)
+            else
+                _ next()
+        # no ending slashes for SEO reasons
+        # https://github.com/epicweb-dev/epic-stack/discussions/108
+    $if metaCtx.tsRemixApp.useCompression
+        _ app.use(compression())
+    _ app.disable('x-powered-by')
+        # http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
+    
+    $if metaCtx.tsRemixApp.useSentry    
+        _ app.use(Sentry.Handlers.requestHandler())
+        _ app.use(Sentry.Handlers.tracingHandler())
+    +
+    +
+    +
+    if viteDevServer
+        _ app.use(viteDevServer.middlewares)
+    else
+        _ app.use
+            @ '/assets'
+            _ express.static
+                @ 'build/client/assets'
+                { 
+                    @ immutable true
+                    @ maxAge '1y'
+            # Remix fingerprints its assets so we can cache forever.
+        _ app.use
+            _ express.static
+                @ 'build/client'
+                { 
+                    @ maxAge '1h'
+            # Everything else (like favicon.ico) is cached for an hour. You may want to be
+            # more aggressive with this caching.
+    +
+    +
+    +
+    _ app.get
+        [ 
+            @ '/img/*'
+            @ '/favicons/*'
+        => 
+            param _req
+            param res
+            return res.status(404).send('Not found')
+                # if we made it past the express.static for these, then we're missing something.
+                # So we'll just send a 404 and won't bother calling other middleware.
+    
+    $if metaCtx.tsRemixApp.useMorgan
+        +
+        +
+        +
+        _ morgan.token
+            @ 'url'
+            => 
+                param req
+                _ decodeURIComponent(req.url ?? '')
+        _ app.use
+            _ morgan
+                @ 'tiny'
+                { 
+                    @ skip
+                        => 
+                            param req
+                            param res
+                            @expr res.statusCode === 200 && (req.url?.startsWith?.('/resources/note-images') || req.url?.startsWith?.('/resources/user-images') || req.url?.startsWith?.('/resources/healthcheck'))
+    +
+    +
+    +
+    _ app.use
+        => 
+            param _
+            param res
+            param next
+            set res.locals.cspNonce = crypto.randomBytes(16).toString('hex')
+            _ next()
+    
+    $if metaCtx.tsRemixApp.useHelmet
+        +
+        +
+        +
+        _ app.use
+            _ helmet
+                { 
+                    @ xPoweredBy false
+                    { referrerPolicy
+                        @ policy 'same-origin'
+                    @ crossOriginEmbedderPolicy false
+                    { contentSecurityPolicy
+                        @ reportOnly true
+                            # NOTE: Remove reportOnly when you're ready to enforce this CSP
+                        { directives
+                            [ 'connect-src'
+                                iif MODE === 'development'
+                                    then 'ws:'
+                                    else null
+                                iif process.env.SENTRY_DSN
+                                    then '*.sentry.io'
+                                    else null
+                                @ "'self'"
+                                ._ filter
+                                    @ Boolean
+                            [ 'font-src'
+                                @ "'self'"
+                            [ 'frame-src'
+                                @ "'self'"
+                            [ 'img-src'
+                                @ "'self'"
+                                @ 'data:'
+                            [ 'script-src'
+                                @ "'strict-dynamic'"
+                                @ "'self'"
+                                => 
+                                    param _
+                                    param res
+                                    template 
+                                        + 'nonce-
+                                        @ res.locals.cspNonce
+                                        + '
+                                    # @ts-expect-error
+                            [ 'script-src-attr'
+                                => 
+                                    param _
+                                    param res
+                                    template 
+                                        + 'nonce-
+                                        @ res.locals.cspNonce
+                                        + '
+                                    # @ts-expect-error
+                            @ 'upgrade-insecure-requests' null
+    
+    $if metaCtx.tsRemixApp.useRateLimit
+        +
+        +
+        +
+        const maxMultiple
+            iif !IS_PROD || process.env.PLAYWRIGHT_TEST_BASE_URL
+                then 10000
+                else 1
+            # When running tests or running in development, we want to effectively disable
+            # rate limiting because playwright tests are very fast and we don't want to
+            # have to wait for the rate limit to reset between tests.
+        const rateLimitDefault
+            { 
+                @ windowMs 60 * 1000
+                @ max 1000 * maxMultiple
+                @ standardHeaders true
+                @ legacyHeaders false
+                { validate
+                    @ trustProxy false
+                    # Fly.io prevents spoofing of X-Forwarded-For
+                    # so no need to validate the trustProxy config
+        const strongestRateLimit
+            _ rateLimit
+                { 
+                    @ ...rateLimitDefault
+                    @ windowMs 60 * 1000
+                    @ max 10 * maxMultiple
+        const strongRateLimit
+            _ rateLimit
+                { 
+                    @ ...rateLimitDefault
+                    @ windowMs 60 * 1000
+                    @ max 100 * maxMultiple
+        const generalRateLimit = rateLimit(rateLimitDefault)
+        _ app.use
+            => 
+                param req
+                param res
+                param next
+                const strongPaths
+                    [ 
+                        @ '/login'
+                        @ '/signup'
+                        @ '/verify'
+                        @ '/admin'
+                        @ '/onboarding'
+                        @ '/reset-password'
+                        @ '/settings/profile'
+                        @ '/resources/login'
+                        @ '/resources/verify'
+                if req.method !== 'GET' && req.method !== 'HEAD'
+                    if 
+                        test
+                            _ strongPaths.some
+                                => 
+                                    param p
+                                    _ req.path.includes(p)
+                        return strongestRateLimit(req, res, next)
+                    return strongRateLimit(req, res, next)
+                # the verify route is a special case because it's a GET route that
+                # can have a token in the query string
+                if req.path.includes('/verify')
+                    return strongestRateLimit(req, res, next)
+                return generalRateLimit(req, res, next)
+    +
+    +
+    +
+    async-function getBuild
+        const build
+            iif viteDevServer
+                then viteDevServer.ssrLoadModule('virtual:remix/server-build')
+                else
+                    await 
+                        _ import
+                            @ '#build/server/index.js'
+                        # @ts-ignore this should exist before running the server
+                        # but it may not exist just yet.
+        return 
+            @expr
+                + build
+                    :as 
+                        :unknown 
+                :as 
+                    :ref ServerBuild
+            # not sure how to make this happy 🤷‍♂️
+    +
+    +
+    +
+    if !ALLOW_INDEXING
+        _ app.use
+            => 
+                param _
+                param res
+                param next
+                _ res.set('X-Robots-Tag', 'noindex, nofollow')
+                _ next()
+    +
+    +
+    +
+    _ app.all
+        @ '*'
+        _ createRequestHandler
+            { 
+                @ getLoadContext
+                    => 
+                        param _
+                            :any 
+                        param res
+                            :any 
+                        (
+                            { 
+                                @ cspNonce res.locals.cspNonce
+                                @ serverBuild getBuild()
+                @ mode MODE
+                @ build getBuild
+    +
+    +
+    +
+    const desiredPort = Number(process.env.PORT || 3000)
+    const portToUse
+        await 
+            _ getPort
+                { 
+                    @ port portNumbers(desiredPort, desiredPort + 100)
+    const portAvailable = desiredPort === portToUse
+    if !portAvailable && !IS_DEV
+        _ console.log
+            template 
+                + ⚠️ Port&nbsp;
+                @ desiredPort
+                + &nbsp;is not available.
+        _ process.exit(1)
+    +
+    +
+    +
+    const server
+        _ app.listen
+            @ portToUse
+            => 
+                if !portAvailable
+                    _ console.warn
+                        _ chalk.yellow
+                            template 
+                                + ⚠️  Port&nbsp;
+                                @ desiredPort
+                                + &nbsp;is not available, using&nbsp;
+                                @ portToUse
+                                + &nbsp;instead.
+                _ console.log
+                    template 
+                        + 🚀  We have liftoff!
+                const localUrl
+                    template 
+                        + http://localhost:
+                        @ portToUse
+                        + 
+                let lanUrl
+                    :union 
+                        :string 
+                        :null 
+                    = null
+                const localIp = ipAddress() ?? 'Unknown'
+                # Check if the address is a private ip
+                # https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
+                # https://github.com/facebook/create-react-app/blob/d960b9e38c062584ff6cfb1a70e1512509a966e7/packages/react-dev-utils/WebpackDevServerUtils.js#LL48C9-L54C10
+                if /^10[.]|^172[.](1[6-9]|2[0-9]|3[0-1])[.]|^192[.]168[.]/.test(localIp)
+                    set lanUrl =
+                        template 
+                            + http://
+                            @ localIp
+                            + :
+                            @ portToUse
+                            + 
+                _ console.log
+                    _ 
+                        template 
+                            + &lf;
+                            + 
+                            _ chalk.bold('Local:')
+                            + &nbsp;          &nbsp;
+                            _ chalk.cyan(localUrl)
+                            + &lf;
+                            + 
+                            iif lanUrl
+                                then
+                                    template 
+                                        + 
+                                        _ chalk.bold('On Your Network:')
+                                        + &nbsp;&nbsp;
+                                        _ chalk.cyan(lanUrl)
+                                        + 
+                                else ''
+                            + &lf;
+                            + 
+                            _ chalk.bold('Press Ctrl+C to stop')
+                            + &lf;
+                            + 
+                        ._ trim
+    +
+    +
+    +
+    _ closeWithGrace
+        async=> 
+            await 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ server.close
+                            => 
+                                param e
+                                ( 
+                                    iif e
+                                        then reject(e)
+                                        else resolve('ok')

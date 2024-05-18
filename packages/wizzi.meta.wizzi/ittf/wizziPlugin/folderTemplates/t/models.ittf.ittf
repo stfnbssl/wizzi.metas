@@ -3,12 +3,15 @@ $group
     $file __dot__wizzi/models/wzctx.json.ittf.ittf
         {
             $if metaCtx.usePackageVersion 
-                ${'${"$"}'}include versions
+                ${'$'}{'$'}include versions
             name "${metaCtx.name}"
             npmName "${metaCtx.npmName}"
             pluginBasename "${metaCtx.pluginBasename}"
             $if metaCtx.usePackageVersion 
-                version '${'${"$"}'}{versions['${metaCtx.npmName}@next']}'
+                version '${'$'}{'$'}{versions['${metaCtx.npmName}@next']}'
+                version_wizzi_factory '${'$'}{'$'}{versions['@wizzi/factory']}'
+                version_wizzi_mtree '${'$'}{'$'}{versions['@wizzi/mtree']}'
+                version_wizzi_utils '${'$'}{'$'}{versions['@wizzi/utils']}'
             $else
                 version "0.0.1"
             description "${metaCtx.description}"
@@ -53,6 +56,8 @@ $group
                             hasWizzifier true
                         $if schema.hasCheatsheetFolder
                             hasCheatsheetFolder true
+                        $if schema.isForBinaryFile
+                            isForBinaryFile true
                         [ modelTransformers
                             $foreach trans in schema.transformers
                                 {

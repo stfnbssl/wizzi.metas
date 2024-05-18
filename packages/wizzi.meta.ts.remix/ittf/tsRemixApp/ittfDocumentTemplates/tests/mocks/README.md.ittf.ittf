@@ -1,0 +1,16 @@
+$group
+    h1 Mocks
+    br
+    p
+        + Use this to mock any third party HTTP resources that you don't have running
+        + locally and want to have mocked for local development as well as tests.
+    br
+    p Learn more about how to use this at \b
+        a mswjs.io
+            href https://mswjs.io/
+    br
+    p
+        + For an extensive example, see the
+        +
+        a source code for kentcdodds.com
+            href https://github.com/kentcdodds/kentcdodds.com/blob/main/mocks/index.ts

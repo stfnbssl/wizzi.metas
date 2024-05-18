@@ -1,0 +1,38 @@
+$group
+    import
+        as cookie
+        from 'cookie'
+    const key = 'redirectTo'
+    export
+        const destroyRedirectToHeader
+            _ cookie.serialize
+                @ key
+                @ ''
+                {
+                    @ maxAge -1
+    export
+        function getRedirectCookieHeader
+            param redirectTo
+                :string
+                :optional
+            return
+                iif redirectTo && redirectTo !== '/'
+                    then
+                        _ cookie.serialize
+                            @ key
+                            @ redirectTo
+                            {
+                                @ maxAge 60 * 10
+                    else null
+    export
+        function getRedirectCookieValue
+            param request
+                :ref Request
+            const rawCookie = request.headers.get('cookie')
+            const parsedCookies
+                iif rawCookie
+                    then cookie.parse(rawCookie)
+                    else
+                        {
+            const redirectTo = parsedCookies[key]
+            return redirectTo || null

@@ -4,4 +4,4 @@ $group
             ${'$'}include tsReactApp/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-            ${'$'}include tsReactApp/root/license.text
+

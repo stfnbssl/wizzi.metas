@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.utils\.wizzi-override\src\actions\upgrade_1.js.ittf
-    utc time: Mon, 19 Feb 2024 14:45:05 GMT
+    utc time: Wed, 08 May 2024 04:38:54 GMT
 */
 'use strict';
 const path = require("path");
@@ -16,17 +16,19 @@ const metaList = [
     "commons", 
     "docs", 
     "documents", 
+    "js", 
     "js.db", 
     "js.express", 
-    "js", 
     "js.node", 
     "js.react", 
     "js.vanilla", 
     "ts.db", 
     "ts.express", 
     "ts", 
+    "ts.db", 
     "ts.nextjs", 
     "ts.react", 
+    "ts.remix", 
     "web"
 ];
 
@@ -65,27 +67,17 @@ function updateFiles(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
     //
     //
-    const gen_items = [
-        "generate.wfjob"
-    ];
+    const gen_items = [];
     var i, i_items=gen_items, i_len=gen_items.length, item;
     for (i=0; i<i_len; i++) {
         item = gen_items[i];
-        const fromFile = path.join(metaFolder, ".wizzi", item + ".ittf");
-        const toFile = path.join(metaFolder, ".wizzi-override", item + ".ittf");
+        const fromFile = path.join(metaFolder, ".wizzi", "models", item + ".ittf");
+        const toFile = path.join(metaFolder, ".wizzi-override", "models", item + ".ittf");
         file.copy(fromFile, toFile)
     }
     //
     //
-    const root_t_items = [
-        "t/meta-category-starter.js", 
-        "t/meta-ctx-starter.js", 
-        "t/meta-ctx.js", 
-        "t/meta-production-starter.js", 
-        "t/meta-production.js", 
-        "index.js", 
-        "package.json"
-    ];
+    const root_t_items = [];
     var i, i_items=root_t_items, i_len=root_t_items.length, item;
     for (i=0; i<i_len; i++) {
         item = root_t_items[i];
@@ -107,12 +99,7 @@ function updateFiles(metaName, callback) {
     }
     //
     //
-    const examples = [
-        "step_1.js.ittf", 
-        "step_2.js.ittf", 
-        "step_3.js.ittf", 
-        "step_4.js.ittf"
-    ];
+    const examples = [];
     var i, i_items=examples, i_len=examples.length, item;
     for (i=0; i<i_len; i++) {
         item = examples[i];
@@ -122,9 +109,7 @@ function updateFiles(metaName, callback) {
     }
     //
     //
-    const tFolder = [
-        "package/0_0_1/scripts.json.ittf"
-    ];
+    const tFolder = [];
     var i, i_items=tFolder, i_len=tFolder.length, item;
     for (i=0; i<i_len; i++) {
         item = tFolder[i];
@@ -136,15 +121,7 @@ function updateFiles(metaName, callback) {
 }
 function deleteFiles(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
-    const files = [
-        "array.ittf.ittf", 
-        "object.ittf.ittf", 
-        "string.ittf.ittf", 
-        "boolean.ittf.ittf", 
-        "enum.ittf.ittf", 
-        "integer.ittf.ittf", 
-        "use.ittf.ittf"
-    ];
+    const files = [];
     function exec(ndx) {
         const fileName = files[ndx];
         if (!fileName) {
@@ -175,9 +152,7 @@ function deleteFiles(metaName, callback) {
 }
 function deleteFolders(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
-    const folders = [
-        ".wizzi-override/ittf/t/params"
-    ];
+    const folders = [];
     function exec(ndx) {
         const folderName = folders[ndx];
         if (!folderName) {
@@ -198,10 +173,7 @@ function deleteFolders(metaName, callback) {
 }
 function updateFolders(metaName, callback) {
     const metaFolder = path.join(metasFolder, "wizzi.meta." + metaName);
-    const folders = [
-        ".wizzi-override/t/package/0_0_1", 
-        "ittf/t/params"
-    ];
+    const folders = [];
     function exec(ndx) {
         const folderName = folders[ndx];
         if (!folderName) {

@@ -4,4 +4,4 @@ $group
             ${'$'}include tsNextjsBasicApp/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-            ${'$'}include tsNextjsBasicApp/root/license.text
+

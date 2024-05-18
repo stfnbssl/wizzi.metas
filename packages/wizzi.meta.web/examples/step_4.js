@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.web\.wizzi-override\examples\step_4.js.ittf
-    utc time: Mon, 19 Feb 2024 15:45:00 GMT
+    utc time: Wed, 08 May 2024 04:40:00 GMT
 */
 'use strict';
 var async = require('async');

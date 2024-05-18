@@ -1,0 +1,28 @@
+$group
+    import
+        @ Honeypot
+        @ SpamError
+        from 'remix-utils/honeypot/server'
+    export
+        const honeypot
+            new Honeypot
+                {
+                    @ validFromFieldName
+                        iif process.env.NODE_ENV === 'test'
+                            then null
+                            else undefined
+                    @ encryptionSeed process.env.HONEYPOT_SECRET
+    export
+        function checkHoneypot
+            param formData
+                :ref FormData
+            try
+                _ honeypot.check(formData)
+            catch error
+                if error instanceof SpamError
+                    throw
+                        new Response
+                            @ 'Form not submitted properly'
+                            {
+                                @ status 400
+                throw error

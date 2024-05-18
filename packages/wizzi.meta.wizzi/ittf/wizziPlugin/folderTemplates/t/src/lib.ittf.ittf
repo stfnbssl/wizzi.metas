@@ -73,9 +73,13 @@ $group
         $if schema.hasWizzifier
                 $file __dot__wizzi/lib/wizzifiers/${schema.name}/wizzifier.js.ittf.ittf
                     module
-                        ${'${"$"}'}
+                        ${'$'}{'$'}
                             var schemaName = '${schema.name}';
                         ${'$'}
+                            $if schema.isForBinaryFile
+                                var schemaIsForBinaryFile = true
+                            $else
+                                var schemaIsForBinaryFile = false
                             var parserImportCode = [
                                 $foreach line in schema.wizzifier.parserImportCode
                                     "${line}",

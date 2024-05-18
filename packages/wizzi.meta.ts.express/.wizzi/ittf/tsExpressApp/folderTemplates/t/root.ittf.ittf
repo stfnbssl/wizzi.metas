@@ -4,4 +4,4 @@ $group
             ${'$'}include tsExpressApp/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-            ${'$'}include tsExpressApp/root/license.text
+

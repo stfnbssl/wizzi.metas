@@ -1,0 +1,371 @@
+$group
+    import
+        @ getFormProps
+        @ getInputProps
+        @ useForm
+        from '@conform-to/react'
+    import
+        @ getZodConstraint
+        @ parseWithZod
+        from '@conform-to/zod'
+    import
+        @ json
+        @ redirect
+        :type LoaderFunctionArgs
+        :type ActionFunctionArgs
+        :type MetaFunction
+        from '@remix-run/node'
+    import
+        @ Form
+        @ useActionData
+        @ useLoaderData
+        @ useSearchParams
+        from '@remix-run/react'
+    import
+        @ HoneypotInputs
+        from 'remix-utils/honeypot/react'
+    import
+        @ safeRedirect
+        from 'remix-utils/safe-redirect'
+    import
+        @ z
+        from 'zod'
+    import
+        @ CheckboxField
+        @ ErrorList
+        @ Field
+        from '#app/components/forms.tsx'
+    import
+        @ Spacer
+        from '#app/components/spacer.tsx'
+    import
+        @ StatusButton
+        from '#app/components/ui/status-button.tsx'
+    import
+        @ requireAnonymous
+        @ sessionKey
+        @ signup
+        from '#app/utils/auth.server.ts'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    import
+        @ checkHoneypot
+        from '#app/utils/honeypot.server.ts'
+    import
+        @ useIsPending
+        from '#app/utils/misc.tsx'
+    import
+        @ authSessionStorage
+        from '#app/utils/session.server.ts'
+    import
+        @ redirectWithToast
+        from '#app/utils/toast.server.ts'
+    import
+        @ NameSchema
+        @ PasswordAndConfirmPasswordSchema
+        @ UsernameSchema
+        from '#app/utils/user-validation.ts'
+    import
+        @ verifySessionStorage
+        from '#app/utils/verification.server.ts'
+    export
+        const onboardingEmailSessionKey = 'onboardingEmail'
+    const SignupFormSchema
+        _ z.object
+            {
+                @ username UsernameSchema
+                @ name NameSchema
+                @ agreeToTermsOfServiceAndPrivacyPolicy
+                    _ z.boolean
+                        {
+                            @ required_error 'You must agree to the terms of service and privacy policy'
+                @ remember z.boolean().optional()
+                @ redirectTo z.string().optional()
+            ._ and
+                @ PasswordAndConfirmPasswordSchema
+    async-function requireOnboardingEmail
+        param request
+            :ref Request
+        await
+            _ requireAnonymous(request)
+        const verifySession
+            await
+                _ verifySessionStorage.getSession(request.headers.get('cookie'))
+        const email = verifySession.get(onboardingEmailSessionKey)
+        if typeof email !== 'string' || !email
+            throw redirect('/signup')
+        return email
+    export
+        async-function loader
+            {
+                @ request
+                :ref LoaderFunctionArgs
+            const email
+                await
+                    _ requireOnboardingEmail(request)
+            return
+                _ json
+                    {
+                        @ email
+    export
+        async-function action
+            {
+                @ request
+                :ref ActionFunctionArgs
+            const email
+                await
+                    _ requireOnboardingEmail(request)
+            const formData
+                await
+                    _ request.formData()
+            _ checkHoneypot(formData)
+            const submission
+                await
+                    _ parseWithZod
+                        @ formData
+                        {
+                            @ schema
+                                =>
+                                    param intent
+                                    _ SignupFormSchema.superRefine
+                                        async=>
+                                            param data
+                                            param ctx
+                                            const existingUser
+                                                await
+                                                    _ prisma.user.findUnique
+                                                        {
+                                                            { where
+                                                                @ username data.username
+                                                            { select
+                                                                @ id true
+                                            if existingUser
+                                                _ ctx.addIssue
+                                                    {
+                                                        [ path
+                                                            @ 'username'
+                                                        @ code z.ZodIssueCode.custom
+                                                        @ message 'A user already exists with this username'
+                                                return
+                                        ._ transform
+                                            async=>
+                                                param data
+                                                if intent !== null
+                                                    return
+                                                        {
+                                                            @ ...data
+                                                            @ session null
+                                                const session
+                                                    await
+                                                        _ signup
+                                                            {
+                                                                @ ...data
+                                                                @ email
+                                                return
+                                                    {
+                                                        @ ...data
+                                                        @ session
+                            @ async true
+            if submission.status !== 'success' || !submission.value.session
+                return
+                    _ json
+                        {
+                            @ result submission.reply()
+                        {
+                            @ status
+                                iif submission.status === 'error'
+                                    then 400
+                                    else 200
+            const
+                {
+                    @ session
+                    @ remember
+                    @ redirectTo
+                = submission.value
+            const authSession
+                await
+                    _ authSessionStorage.getSession(request.headers.get('cookie'))
+            _ authSession.set(sessionKey, session.id)
+            const verifySession
+                await
+                    _ verifySessionStorage.getSession()
+            const headers = new Headers()
+            _ headers.append
+                @ 'set-cookie'
+                await
+                    _ authSessionStorage.commitSession
+                        @ authSession
+                        {
+                            @ expires
+                                iif remember
+                                    then session.expirationDate
+                                    else undefined
+            _ headers.append
+                @ 'set-cookie'
+                await
+                    _ verifySessionStorage.destroySession(verifySession)
+            return
+                _ redirectWithToast
+                    _ safeRedirect(redirectTo)
+                    {
+                        @ title 'Welcome'
+                        @ description 'Thanks for signing up!'
+                    {
+                        @ headers
+    export
+        const meta
+            :ref MetaFunction
+            =
+                =>
+                    return
+                        [
+                            {
+                                @ title 'Setup Epic Notes Account'
+    export-default
+        function SignupRoute
+            const data
+                _ useLoaderData
+                    :param
+                        :typeof loader
+            const actionData
+                _ useActionData
+                    :param
+                        :typeof action
+            const isPending = useIsPending()
+            const [searchParams] = useSearchParams()
+            const redirectTo = searchParams.get('redirectTo')
+            const [form, fields]
+                _ useForm
+                    {
+                        @ id 'onboarding-form'
+                        @ constraint getZodConstraint(SignupFormSchema)
+                        { defaultValue
+                            @ redirectTo
+                        @ lastResult actionData?.result
+                        m onValidate
+                            {
+                                @ formData
+                            return
+                                _ parseWithZod
+                                    @ formData
+                                    {
+                                        @ schema SignupFormSchema
+                        @ shouldRevalidate 'onBlur'
+            return
+                div
+                    @ className "container flex min-h-full flex-col justify-center pb-32 pt-20"
+                    div
+                        @ className "mx-auto w-full max-w-lg"
+                        div
+                            @ className "flex flex-col gap-3 text-center"
+                            h1
+                                @ className "text-h1"
+                                + Welcome aboard
+                                + {data.email}
+                                + !
+                            p
+                                @ className "text-body-md text-muted-foreground"
+                                + Please enter your details.
+                        < Spacer
+                            @ size "xs"
+                        < Form
+                            @ method "POST"
+                            @ className "mx-auto min-w-full max-w-sm sm:min-w-[368px]"
+                            ... getFormProps(form)
+                            < HoneypotInputs
+                            < Field
+                                @ labelProps
+                                    {
+                                        @ htmlFor fields.username.id
+                                        @ children 'Username'
+                                @ inputProps
+                                    {
+                                        _ ...getInputProps
+                                            @expr fields.username
+                                            {
+                                                @ type 'text'
+                                        @ autoComplete 'username'
+                                        @ className 'lowercase'
+                                @ errors {fields.username.errors}
+                            < Field
+                                @ labelProps
+                                    {
+                                        @ htmlFor fields.name.id
+                                        @ children 'Name'
+                                @ inputProps
+                                    {
+                                        _ ...getInputProps
+                                            @expr fields.name
+                                            {
+                                                @ type 'text'
+                                        @ autoComplete 'name'
+                                @ errors {fields.name.errors}
+                            < Field
+                                @ labelProps
+                                    {
+                                        @ htmlFor fields.password.id
+                                        @ children 'Password'
+                                @ inputProps
+                                    {
+                                        _ ...getInputProps
+                                            @expr fields.password
+                                            {
+                                                @ type 'password'
+                                        @ autoComplete 'new-password'
+                                @ errors {fields.password.errors}
+                            < Field
+                                @ labelProps
+                                    {
+                                        @ htmlFor fields.confirmPassword.id
+                                        @ children 'Confirm Password'
+                                @ inputProps
+                                    {
+                                        _ ...getInputProps
+                                            @expr fields.confirmPassword
+                                            {
+                                                @ type 'password'
+                                        @ autoComplete 'new-password'
+                                @ errors {fields.confirmPassword.errors}
+                            < CheckboxField
+                                @ labelProps
+                                    {
+                                        @ htmlFor fields.agreeToTermsOfServiceAndPrivacyPolicy.id
+                                        @ children 'Do you agree to our Terms of Service and Privacy Policy?'
+                                @ buttonProps
+                                    _ getInputProps
+                                        @expr fields.agreeToTermsOfServiceAndPrivacyPolicy
+                                        {
+                                            @ type 'checkbox'
+                                @ errors {fields.agreeToTermsOfServiceAndPrivacyPolicy.errors}
+                            < CheckboxField
+                                @ labelProps
+                                    {
+                                        @ htmlFor fields.remember.id
+                                        @ children 'Remember me'
+                                @ buttonProps
+                                    _ getInputProps
+                                        @expr fields.remember
+                                        {
+                                            @ type 'checkbox'
+                                @ errors {fields.remember.errors}
+                            input
+                                ...
+                                    _ getInputProps
+                                        @expr fields.redirectTo
+                                        {
+                                            @ type 'hidden'
+                            < ErrorList
+                                @ errors {form.errors}
+                                @ id {form.errorId}
+                            div
+                                @ className "flex items-center justify-between gap-6"
+                                < StatusButton
+                                    @ className "w-full"
+                                    @ status
+                                        iif isPending
+                                            then 'pending'
+                                            else form.status ?? 'idle'
+                                    @ type "submit"
+                                    @ disabled {isPending}
+                                    + Create an account

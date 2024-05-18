@@ -1,0 +1,52 @@
+$group
+    import
+        as setCookieParser
+        from 'set-cookie-parser'
+    import
+        @ sessionKey
+        from '#app/utils/auth.server.ts'
+    import
+        @ authSessionStorage
+        from '#app/utils/session.server.ts'
+    export
+        const BASE_URL = 'https://www.epicstack.dev'
+    export
+        function convertSetCookieToCookie
+            param setCookie
+                :string
+            const parsedCookie = setCookieParser.parseString(setCookie)
+            return
+                new URLSearchParams
+                    {
+                        @ [parsedCookie.name] parsedCookie.value
+                    ._ toString
+    export
+        async-function getSessionSetCookieHeader
+            param session
+                :{
+                    :p id
+                        :string
+            param existingCookie
+                :string
+                :optional
+            const authSession
+                await
+                    _ authSessionStorage.getSession(existingCookie)
+            _ authSession.set(sessionKey, session.id)
+            const setCookieHeader
+                await
+                    _ authSessionStorage.commitSession(authSession)
+            return setCookieHeader
+    export
+        async-function getSessionCookieHeader
+            param session
+                :{
+                    :p id
+                        :string
+            param existingCookie
+                :string
+                :optional
+            const setCookieHeader
+                await
+                    _ getSessionSetCookieHeader(session, existingCookie)
+            return convertSetCookieToCookie(setCookieHeader)

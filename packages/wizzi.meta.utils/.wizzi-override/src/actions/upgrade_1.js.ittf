@@ -41,17 +41,21 @@ module
         #
         const gen_items
             [
-                @ "generate.wfjob"
+                $*
+                @ "wzctx.json"
+                *$
         foreach item in gen_items
             const fromFile
                 _ path.join
                     @ metaFolder
                     @ ".wizzi"
+                    @ "models"
                     @ item + ".ittf"
             const toFile
                 _ path.join
                     @ metaFolder
                     @ ".wizzi-override"
+                    @ "models"
                     @ item + ".ittf"
             _ file.copy
                 @ fromFile
@@ -60,6 +64,7 @@ module
         #
         const root_t_items
             [
+                $*
                 @ "t/meta-category-starter.js"
                 @ "t/meta-ctx-starter.js"
                 @ "t/meta-ctx.js"
@@ -67,6 +72,7 @@ module
                 @ "t/meta-production.js"
                 @ "index.js"
                 @ "package.json"
+                *$
         foreach item in root_t_items
             const fromFile
                 _ path.join
@@ -108,10 +114,12 @@ module
         #
         const examples
             [
+                $*
                 @ "step_1.js.ittf"
                 @ "step_2.js.ittf"
                 @ "step_3.js.ittf"
                 @ "step_4.js.ittf"
+                *$
         foreach item in examples
             const fromFile
                 _ path.join
@@ -132,7 +140,9 @@ module
         #
         const tFolder
             [
+                $*
                 @ "package/0_0_1/scripts.json.ittf"
+                *$
         foreach item in tFolder
             const fromFile
                 _ path.join
@@ -161,6 +171,7 @@ module
                 @ "wizzi.meta." + metaName
         const files
             [
+                $*
                 @ "array.ittf.ittf"
                 @ "object.ittf.ittf"
                 @ "string.ittf.ittf"
@@ -168,7 +179,7 @@ module
                 @ "enum.ittf.ittf"
                 @ "integer.ittf.ittf"
                 @ "use.ittf.ittf"
-                $$ @ "ittf"
+                *$
         function exec
             param ndx
             const fileName = files[ndx]
@@ -212,8 +223,9 @@ module
                 @ "wizzi.meta." + metaName
         const folders
             [
+                $*
                 @ ".wizzi-override/ittf/t/params"
-                $$ @ "ittf"
+                *$
         function exec
             param ndx
             const folderName = folders[ndx]
@@ -242,8 +254,10 @@ module
                 @ "wizzi.meta." + metaName
         const folders
             [
+                $*
                 @ ".wizzi-override/t/package/0_0_1"
                 @ "ittf/t/params"
+                *$
         function exec
             param ndx
             const folderName = folders[ndx]

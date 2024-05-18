@@ -156,3 +156,4 @@ $group
     $if _.isArray(wzCtx.Build.scripts)
         $foreach item in wzCtx.Build.scripts
             ${item.name} "${item.action}"
+

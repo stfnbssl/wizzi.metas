@@ -1,0 +1,482 @@
+$group
+    import
+        @ useFormAction
+        @ useNavigation
+        from '@remix-run/react'
+    import
+        @ clsx
+        :type ClassValue
+        from 'clsx'
+    import
+        @ useEffect
+        @ useMemo
+        @ useRef
+        @ useState
+        from 'react'
+    import
+        @ useSpinDelay
+        from 'spin-delay'
+    import
+        @ extendTailwindMerge
+        from 'tailwind-merge'
+    import
+        @ extendedTheme
+        from './extended-theme.ts'
+    export
+        function getUserImgSrc
+            param imageId
+                :union
+                    :string
+                    :null
+                :optional
+            return
+                iif imageId
+                    then
+                        template
+                            + /resources/user-images/
+                            @ imageId
+                            +
+                    else '/img/user.png'
+    export
+        function getNoteImgSrc
+            param imageId
+                :string
+            return
+                template
+                    + /resources/note-images/
+                    @ imageId
+                    +
+    export
+        function getErrorMessage
+            param error
+                :unknown
+            if typeof error === 'string'
+                return error
+            if error && typeof error === 'object' && 'message' in error && typeof error.message === 'string'
+                return error.message
+            _ console.error('Unable to get error message for error', error)
+            return 'Unknown Error'
+    function formatColors
+        const colors = []
+        for
+            left
+                const [key, color]
+            of Object.entries(extendedTheme.colors)
+            if typeof color === 'string'
+                _ colors.push(key)
+            else
+                const colorGroup
+                    _ Object.keys(color).map
+                        =>
+                            param subKey
+                            iif subKey === 'DEFAULT'
+                                then ''
+                                else subKey
+                _ colors.push
+                    {
+                        @ [key] colorGroup
+        return colors
+    const customTwMerge
+        _ extendTailwindMerge
+            :param string
+            :param string
+            {
+                { extend
+                    { theme
+                        @ colors formatColors()
+                        @ borderRadius Object.keys(extendedTheme.borderRadius)
+                    { classGroups
+                        [ 'font-size'
+                            {
+                                @ text Object.keys(extendedTheme.fontSize)
+    export
+        function cn
+            param ...inputs
+                :[
+                    :ref ClassValue
+            return customTwMerge(clsx(inputs))
+    export
+        function getDomainUrl
+            param request
+                :ref Request
+            const host = request.headers.get('X-Forwarded-Host') ?? request.headers.get('host') ?? new URL(request.url).host
+            const protocol
+                iif host.includes('localhost')
+                    then 'http'
+                    else 'https'
+            return
+                template
+                    +
+                    @ protocol
+                    + ://
+                    @ host
+                    +
+    export
+        function getReferrerRoute
+            param request
+                :ref Request
+            const referrer = request.headers.get('referer') ?? request.headers.get('referrer') ?? request.referrer
+                # spelling errors and whatever makes this annoyingly inconsistent
+                # in my own testing, `referer` returned the right value, but 🤷‍♂️
+            const domain = getDomainUrl(request)
+            if referrer?.startsWith?.(domain)
+                return referrer.slice(domain.length)
+            else
+                return '/'
+    export
+        function mergeHeaders
+            param ...headers
+                :ref Array
+                    :param
+                        :union
+                            :[]
+                                :ref ResponseInit
+                                :literal 'headers'
+                            :null
+                            :undefined
+            const merged = new Headers()
+            for
+                left
+                    const header
+                of headers
+                if !header
+                    continue
+                for
+                    left
+                        const [key, value]
+                    of new Headers(header).entries()
+                    _ merged.set(key, value)
+            return merged
+        #
+            # *
+            # Merge multiple headers objects into one (uses set so headers are overridden)
+            #
+    export
+        function combineHeaders
+            param ...headers
+                :ref Array
+                    :param
+                        :union
+                            :[]
+                                :ref ResponseInit
+                                :literal 'headers'
+                            :null
+                            :undefined
+            const combined = new Headers()
+            for
+                left
+                    const header
+                of headers
+                if !header
+                    continue
+                for
+                    left
+                        const [key, value]
+                    of new Headers(header).entries()
+                    _ combined.append(key, value)
+            return combined
+        #
+            # *
+            # Combine multiple header objects into one (uses append so headers are not overridden)
+            #
+    export
+        function combineResponseInits
+            param ...responseInits
+                :ref Array
+                    :param
+                        :union
+                            :ref ResponseInit
+                            :null
+                            :undefined
+            let combined
+                :ref ResponseInit
+                =
+                    {
+            for
+                left
+                    const responseInit
+                of responseInits
+                set combined =
+                    {
+                        @ ...responseInit
+                        @ headers combineHeaders(combined.headers, responseInit?.headers)
+            return combined
+        #
+            # *
+            # Combine multiple response init objects into one (uses combineHeaders)
+            #
+    export
+        function useIsPending
+            {
+                @ formAction
+                @ formMethod
+                    = 'POST'
+                @ state
+                    = 'non-idle'
+                :{
+                    :p formAction
+                        :optional
+                        :string
+                    :p formMethod
+                        :optional
+                        :union
+                            :literal 'POST'
+                            :literal 'GET'
+                            :literal 'PUT'
+                            :literal 'PATCH'
+                            :literal 'DELETE'
+                    :p state
+                        :optional
+                        :union
+                            :literal 'submitting'
+                            :literal 'loading'
+                            :literal 'non-idle'
+                =
+                    {
+            const contextualFormAction = useFormAction()
+            const navigation = useNavigation()
+            const isPendingState
+                iif state === 'non-idle'
+                    then navigation.state !== 'idle'
+                    else navigation.state === state
+            return (isPendingState && navigation.formAction === (formAction ?? contextualFormAction) && navigation.formMethod === formMethod)
+        #
+            # *
+            # Returns true if the current navigation is submitting the current route's
+            # form. Defaults to the current route's form action and method POST.
+            #
+            # Defaults state to 'non-idle'
+            #
+            # NOTE: the default formAction will include query params, but the
+            # navigation.formAction will not, so don't use the default formAction if you
+            # want to know if a form is submitting without specific query params.
+            #
+    export
+        function useDelayedIsPending
+            {
+                @ formAction
+                @ formMethod
+                @ delay
+                    = 400
+                @ minDuration
+                    = 300
+                :intersect
+                    :[]
+                        :ref Parameters
+                            :param
+                                :typeof useIsPending
+                        :literal 0
+                    :[]
+                        :ref Parameters
+                            :param
+                                :typeof useSpinDelay
+                        :literal 1
+                =
+                    {
+            const isPending
+                _ useIsPending
+                    {
+                        @ formAction
+                        @ formMethod
+            const delayedIsPending
+                _ useSpinDelay
+                    @ isPending
+                    {
+                        @ delay
+                        @ minDuration
+            return delayedIsPending
+        #
+            # *
+            # This combines useSpinDelay (from https://npm.im/spin-delay) and useIsPending
+            # from our own utilities to give you a nice way to show a loading spinner for
+            # a minimum amount of time, even if the request finishes right after the delay.
+            #
+            # This avoids a flash of loading state regardless of how fast or slow the
+            # request is.
+            #
+    function callAll
+        :< Args
+            :ref Array
+                :param unknown
+        param ...fns
+            :ref Array
+                :param
+                    :union
+                        :paren
+                            :=>
+                                :unknown
+                                param ...args
+                                    :ref Args
+                        :undefined
+        return
+            =>
+                param args
+                    :ref Args
+                _ fns.forEach
+                    =>
+                        param fn
+                        _ fn?.(...args)
+    export
+        function useDoubleCheck
+            const [doubleCheck, setDoubleCheck] = useState(false)
+            function getButtonProps
+                param props
+                    :ref React.ButtonHTMLAttributes
+                        :param
+                            :ref HTMLButtonElement
+                    :optional
+                const onBlur
+                    :[]
+                        :ref React.ButtonHTMLAttributes
+                            :param
+                                :ref HTMLButtonElement
+                        :literal 'onBlur'
+                    =
+                        =>
+                            _ setDoubleCheck(false)
+                const onClick
+                    :[]
+                        :ref React.ButtonHTMLAttributes
+                            :param
+                                :ref HTMLButtonElement
+                        :literal 'onClick'
+                    =
+                        iif doubleCheck
+                            then undefined
+                            else
+                                =>
+                                    param e
+                                    _ e.preventDefault()
+                                    _ setDoubleCheck(true)
+                const onKeyUp
+                    :[]
+                        :ref React.ButtonHTMLAttributes
+                            :param
+                                :ref HTMLButtonElement
+                        :literal 'onKeyUp'
+                    =
+                        =>
+                            param e
+                            if e.key === 'Escape'
+                                _ setDoubleCheck(false)
+                return
+                    {
+                        @ ...props
+                        @ onBlur callAll(onBlur, props?.onBlur)
+                        @ onClick callAll(onClick, props?.onClick)
+                        @ onKeyUp callAll(onKeyUp, props?.onKeyUp)
+            return
+                {
+                    @ doubleCheck
+                    @ getButtonProps
+        #
+            # *
+            # Use this hook with a button and it will make it so the first click sets a
+            # `doubleCheck` state to true, and the second click will actually trigger the
+            # `onClick` handler. This allows you to have a button that can be like a
+            # "are you sure?" experience for the user before doing destructive operations.
+            #
+    function debounce
+        :< Callback
+            :=>
+                :void
+                param ...args
+                    :ref Parameters
+                        :param
+                            :ref Callback
+        param fn
+            :ref Callback
+        param delay
+            :number
+        let timer
+            :union
+                :ref ReturnType
+                    :param
+                        :typeof setTimeout
+                :null
+            = null
+        return
+            =>
+                param args
+                    :ref Parameters
+                        :param
+                            :ref Callback
+                if timer
+                    _ clearTimeout(timer)
+                set timer =
+                    _ setTimeout
+                        =>
+                            _ fn(...args)
+                        @ delay
+        #
+            # *
+            # Simple debounce implementation
+            #
+    export
+        function useDebounce
+            :< Callback
+                :=>
+                    :ref ReturnType
+                        :param
+                            :ref Callback
+                    param ...args
+                        :ref Parameters
+                            :param
+                                :ref Callback
+            param callback
+                :ref Callback
+            param delay
+                :number
+            const callbackRef = useRef(callback)
+            _ useEffect
+                =>
+                    set callbackRef.current = callback
+            return
+                _ useMemo
+                    =>
+                        _ debounce
+                            =>
+                                param args
+                                    :ref Parameters
+                                        :param
+                                            :ref Callback
+                                _ callbackRef.current(...args)
+                            @ delay
+                    [
+                        @ delay
+        #
+            # *
+            # Debounce a callback function
+            #
+    export
+        async-function downloadFile
+            param url
+                :string
+            param retries
+                :number
+                = 0
+            const MAX_RETRIES = 3
+            try
+                const response
+                    await
+                        _ fetch(url)
+                if !response.ok
+                    throw
+                        new Error
+                            template
+                                + Failed to fetch image with status&nbsp;
+                                @ response.status
+                                +
+                const contentType = response.headers.get('content-type') ?? 'image/jpg'
+                const blob
+                    _ Buffer.from
+                        await
+                            _ response.arrayBuffer()
+                return
+                    {
+                        @ contentType
+                        @ blob
+            catch e
+                if retries > MAX_RETRIES
+                    throw e
+                return downloadFile(url, retries + 1)

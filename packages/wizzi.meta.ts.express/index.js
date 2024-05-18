@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.express\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 08 Mar 2024 13:39:59 GMT
+    utc time: Wed, 08 May 2024 04:39:48 GMT
 */
 'use strict';
 
@@ -67,6 +67,9 @@ var pluginCategories = [
              }, 
             {
                 name: "tsExpressFeatureWizzi"
+             }, 
+            {
+                name: "tsExpressFeatureWizziDocs"
              }, 
             {
                 name: "tsExpressFeatureWizziFs"
@@ -144,6 +147,9 @@ var pluginCategories = [
              }, 
             {
                 name: "tsExpressFeatureWizzi"
+             }, 
+            {
+                name: "tsExpressFeatureWizziDocs"
              }, 
             {
                 name: "tsExpressFeatureWizziFs"
@@ -420,6 +426,27 @@ var pluginMetaProductions = [
              }, 
             {
                 name: 'wizzi'
+             }
+        ]
+     }, 
+    {
+        name: 'tsExpressFeatureWizziDocs', 
+        title: 'tsExpressFeatureWizziDocs wizzi meta production', 
+        categories: [
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'express'
+             }, 
+            {
+                name: 'feature'
+             }, 
+            {
+                name: 'wizzi'
+             }, 
+            {
+                name: 'documentation'
              }
         ]
      }, 
@@ -785,7 +812,7 @@ class FactoryMeta {
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
-                console.log('getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar], __filename);
+                console.log("[32m%s[0m", 'using meta production', useProductionVar);
             }
             this.getMetaProduction(prodName, (err, metaProduction) => {
             

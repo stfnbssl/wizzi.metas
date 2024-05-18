@@ -1,0 +1,90 @@
+$group
+    import
+        @ z
+        from 'zod'
+    export
+        const UsernameSchema
+            _ z.string
+                {
+                    @ required_error 'Username is required'
+                ._ min
+                    @ 3
+                    {
+                        @ message 'Username is too short'
+                ._ max
+                    @ 20
+                    {
+                        @ message 'Username is too long'
+                ._ regex
+                    @ /^[a-zA-Z0-9_]+$/
+                    {
+                        @ message 'Username can only include letters, numbers, and underscores'
+                ._ transform
+                    =>
+                        param value
+                        _ value.toLowerCase()
+    export
+        const PasswordSchema
+            _ z.string
+                {
+                    @ required_error 'Password is required'
+                ._ min
+                    @ 6
+                    {
+                        @ message 'Password is too short'
+                ._ max
+                    @ 100
+                    {
+                        @ message 'Password is too long'
+    export
+        const NameSchema
+            _ z.string
+                {
+                    @ required_error 'Name is required'
+                ._ min
+                    @ 3
+                    {
+                        @ message 'Name is too short'
+                ._ max
+                    @ 40
+                    {
+                        @ message 'Name is too long'
+    export
+        const EmailSchema
+            _ z.string
+                {
+                    @ required_error 'Email is required'
+                ._ email
+                    {
+                        @ message 'Email is invalid'
+                ._ min
+                    @ 3
+                    {
+                        @ message 'Email is too short'
+                ._ max
+                    @ 100
+                    {
+                        @ message 'Email is too long'
+                ._ transform
+                    =>
+                        param value
+                        _ value.toLowerCase()
+    export
+        const PasswordAndConfirmPasswordSchema
+            _ z.object
+                {
+                    @ password PasswordSchema
+                    @ confirmPassword PasswordSchema
+                ._ superRefine
+                    =>
+                        {
+                            @ confirmPassword
+                            @ password
+                        param ctx
+                        if confirmPassword !== password
+                            _ ctx.addIssue
+                                {
+                                    [ path
+                                        @ 'confirmPassword'
+                                    @ code 'custom'
+                                    @ message 'The passwords must match'

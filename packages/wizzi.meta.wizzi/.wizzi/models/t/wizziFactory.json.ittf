@@ -3,3 +3,4 @@ $group
     { wizziFactory
         [ plugins
         pluginsBaseFolder ""
+

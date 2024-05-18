@@ -1,0 +1,55 @@
+$group
+    import
+        :type Strategy
+        from 'remix-auth'
+    import
+        :type Timings
+        from '../timing.server.ts'
+    export
+        :type ProviderUser
+            :{
+                :p id
+                    :string
+                :p email
+                    :string
+                :p username
+                    :optional
+                    :string
+                :p name
+                    :optional
+                    :string
+                :p imageUrl
+                    :optional
+                    :string
+        # Define a user type for cleaner typing
+    export
+        :interface AuthProvider
+            :m getAuthStrategy
+                :ref Strategy
+                    :param
+                        :ref ProviderUser
+                    :param any
+            :m handleMockAction
+                :ref Promise
+                    :param void
+                param request
+                    :ref Request
+            :m resolveConnectionData
+                :ref Promise
+                    :param
+                        :{
+                            :p displayName
+                                :string
+                            :p link
+                                :optional
+                                :union
+                                    :string
+                                    :null
+                param providerId
+                    :string
+                param options
+                    :{
+                        :p timings
+                            :optional
+                            :ref Timings
+                    :optional

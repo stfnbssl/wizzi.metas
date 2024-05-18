@@ -5,3 +5,4 @@ $group
             param ${result}
             $hook
     catch_fail( ${message} )
+

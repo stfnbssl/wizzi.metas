@@ -1,0 +1,162 @@
+$group
+    import
+        @ createId
+            as cuid
+        from '@paralleldrive/cuid2'
+    import
+        @ redirect
+        from '@remix-run/node'
+    import
+        @ GitHubStrategy
+        from 'remix-auth-github'
+    import
+        @ z
+        from 'zod'
+    import
+        @ cache
+        @ cachified
+        from '../cache.server.ts'
+    import
+        @ connectionSessionStorage
+        from '../connections.server.ts'
+    import
+        :type Timings
+        from '../timing.server.ts'
+    import
+        :type AuthProvider
+        from './provider.ts'
+    const GitHubUserSchema
+        _ z.object
+            {
+                @ login z.string()
+    const GitHubUserParseResult
+        _ z.object
+            {
+                @ success z.literal(true)
+                @ data GitHubUserSchema
+            ._ or
+                _ z.object
+                    {
+                        @ success z.literal(false)
+    const shouldMock = process.env.GITHUB_CLIENT_ID?.startsWith?.('MOCK_')
+    export
+        class GitHubProvider
+            :implements AuthProvider
+            m getAuthStrategy
+                return
+                    new GitHubStrategy
+                        {
+                            @ clientID process.env.GITHUB_CLIENT_ID
+                            @ clientSecret process.env.GITHUB_CLIENT_SECRET
+                            @ callbackURL '/auth/github/callback'
+                        async=>
+                            {
+                                @ profile
+                            const email = profile.emails[0].value.trim().toLowerCase()
+                            const username = profile.displayName
+                            const imageUrl = profile.photos[0].value
+                            return
+                                {
+                                    @ email
+                                    @ id profile.id
+                                    @ username
+                                    @ name profile.name.givenName
+                                    @ imageUrl
+            m resolveConnectionData
+                async
+                param providerId
+                    :string
+                param
+                    {
+                        @ timings
+                        :{
+                            :p timings
+                                :optional
+                                :ref Timings
+                    =
+                        {
+                const result
+                    await
+                        _ cachified
+                            {
+                                @ key
+                                    template
+                                        + connection-data:github:
+                                        @ providerId
+                                        +
+                                @ cache
+                                @ timings
+                                @ ttl 1000 * 60
+                                @ swr 1000 * 60 * 60 * 24 * 7
+                                m getFreshValue
+                                    async
+                                    param context
+                                    const response
+                                        await
+                                            _ fetch
+                                                template
+                                                    + https://api.github.com/user/
+                                                    @ providerId
+                                                    +
+                                                {
+                                                    { headers
+                                                        @ Authorization
+                                                            template
+                                                                + token&nbsp;
+                                                                @ process.env.GITHUB_TOKEN
+                                                                +
+                                    const rawJson
+                                        await
+                                            _ response.json()
+                                    const result = GitHubUserSchema.safeParse(rawJson)
+                                    if !result.success
+                                        set context.metadata.ttl = 0
+                                            # if it was unsuccessful, then we should kick it out of the cache
+                                            # asap and try again.
+                                    return result
+                                @ checkValue GitHubUserParseResult
+                return
+                    @expr
+                        {
+                            @ displayName
+                                iif result.success
+                                    then result.data.login
+                                    else 'Unknown'
+                            @ link
+                                iif result.success
+                                    then
+                                        template
+                                            + https://github.com/
+                                            @ result.data.login
+                                            +
+                                    else null
+                        :as
+                            :ref const
+            m handleMockAction
+                async
+                param request
+                    :ref Request
+                if !shouldMock
+                    return
+                const connectionSession
+                    await
+                        _ connectionSessionStorage.getSession(request.headers.get('cookie'))
+                const state = cuid()
+                _ connectionSession.set('oauth2:state', state)
+                const code = 'MOCK_CODE_GITHUB_KODY'
+                const searchParams
+                    new URLSearchParams
+                        {
+                            @ code
+                            @ state
+                throw
+                    _ redirect
+                        template
+                            + /auth/github/callback?
+                            @ searchParams
+                            +
+                        {
+                            { headers
+                                @ 'set-cookie'
+                                    await
+                                        _ connectionSessionStorage.commitSession(connectionSession)

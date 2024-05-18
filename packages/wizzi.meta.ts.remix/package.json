@@ -8,9 +8,9 @@
     "private": false,
     "licenses": [
         {
-            "type": "",
-            "url": "",
-            "copy": ""
+            "type": "MIT",
+            "url": "https://github.com/stfnbssl/wizzi.metas/tree/main/packages/wizzi.meta.ts.remix/license.text",
+            "copy": "copy 2024"
         }
     ],
     "main": "",

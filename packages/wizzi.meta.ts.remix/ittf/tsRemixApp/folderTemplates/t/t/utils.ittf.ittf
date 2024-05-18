@@ -1,0 +1,41 @@
+$group
+    $include providers
+
+    $
+        var items = [
+            "auth.server.ts",
+            "cache.server.ts",
+            "client-hints.tsx",
+            "connections.server.ts",
+            "connections.tsx",
+            "db.server.ts",
+            "email.server.ts",
+            "env.server.ts",
+            "extended-theme.ts",
+            "honeypot.server.ts",
+            "litefs.server.ts",
+            "misc.error-message.test.ts",
+            "misc.use-double-check.test.tsx",
+            "misc.tsx",
+            "monitoring.client.tsx",
+            "monitoring.server.ts",
+            "nonce-provider.ts",
+            "permissions.server.ts",
+            "redirect-cookie.server.ts",
+            "request-info.ts",
+            "session.server.ts",
+            "theme.server.ts",
+            "timing.server.ts",
+            "toast.server.ts",
+            "totp.server.ts",            
+            "user-validation.ts",
+            "user.ts",
+            "verification.server.ts",
+        ];
+        var items_stop = [
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/app/utils/${item}.ittf.ittf
+            module
+                ${'$'}include tsRemixApp/app/utils/${item}

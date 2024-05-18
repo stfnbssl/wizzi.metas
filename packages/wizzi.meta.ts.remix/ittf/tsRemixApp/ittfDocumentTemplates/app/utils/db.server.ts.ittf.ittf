@@ -1,0 +1,64 @@
+$group
+    import
+        @ remember
+        from '@epic-web/remember'
+    import
+        @ PrismaClient
+        from '@prisma/client'
+    import chalk from 'chalk'
+    export
+        const prisma
+            _ remember
+                @ 'prisma'
+                =>
+                    const logThreshold = 20
+                        # NOTE: if you change anything in this function you'll need to restart
+                        # the dev server to see your changes.
+                        # Feel free to change this log threshold to something that makes sense for you
+                    const client
+                        new PrismaClient
+                            {
+                                [ log
+                                    {
+                                        @ level 'query'
+                                        @ emit 'event'
+                                    {
+                                        @ level 'error'
+                                        @ emit 'stdout'
+                                    {
+                                        @ level 'warn'
+                                        @ emit 'stdout'
+                    _ client.$on
+                        @ 'query'
+                        async=>
+                            param e
+                            if e.duration < logThreshold
+                                return
+                            const color
+                                iif e.duration < logThreshold * 1.1
+                                    then 'green'
+                                    else
+                                        iif e.duration < logThreshold * 1.2
+                                            then 'blue'
+                                            else
+                                                iif e.duration < logThreshold * 1.3
+                                                    then 'yellow'
+                                                    else
+                                                        iif e.duration < logThreshold * 1.4
+                                                            then 'redBright'
+                                                            else 'red'
+                            const dur
+                                _ chalk[color]
+                                    template
+                                        +
+                                        @ e.duration
+                                        + ms
+                            _ console.info
+                                template
+                                    + prisma:query -&nbsp;
+                                    @ dur
+                                    + &nbsp;-&nbsp;
+                                    @ e.query
+                                    +
+                    _ client.$connect()
+                    return client

@@ -1,32 +1,45 @@
 $group
-   [ include
-       "**/*.ts"
-       "**/*.tsx"
-       "**/.server/**/*.ts"
-       "**/.server/**/*.tsx"
-       "**/.client/**/*.ts"
-       "**/.client/**/*.tsx"
-   { compilerOptions
-       [ lib
-           "DOM"
-           "DOM.Iterable"
-           "ES2022"
-       [ types
-           "@remix-run/node"
-           "vite/client"
-       isolatedModules true
-       esModuleInterop true
-       jsx "react-jsx"
-       module "ESNext"
-       moduleResolution "Bundler"
-       resolveJsonModule true
-       target "ES2022"
-       strict true
-       allowJs true
-       skipLibCheck true
-       forceConsistentCasingInFileNames true
-       baseUrl "."
-       { paths
-           [ ~/*
-               "./app/*"
-       noEmit true
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxScript ('typecheck','tsc');
+        setCtxDevDep ('tsx', '^4.8.2');
+        setCtxDevDep ('typescript', '^5.1.6');
+
+    [ include
+        "**/*.ts"
+        "**/*.tsx"
+        $if true
+            "**/.server/**/*.ts"
+            "**/.server/**/*.tsx"
+            "**/.client/**/*.ts"
+            "**/.client/**/*.tsx"
+    { compilerOptions
+        [ lib
+            "DOM"
+            "DOM.Iterable"
+            "ES2022"
+        [ types
+            "@remix-run/node"
+            "vite/client"
+        isolatedModules true
+        esModuleInterop true
+        jsx "react-jsx"
+        module "ESNext"
+        moduleResolution "Bundler"
+        resolveJsonModule true
+        target "ES2022"
+        strict true
+        allowJs true
+        skipLibCheck true
+        forceConsistentCasingInFileNames true
+        baseUrl "."
+        { paths
+            [ ~/*
+                "./app/*"
+            $if false
+                [ @/icon-name
+                    "./app/components/ui/icons/name.d.ts" 
+                    "./types/icon-name.d.ts" 
+        noImplicitAny true
+        allowImportingTsExtensions true
+        noEmit true

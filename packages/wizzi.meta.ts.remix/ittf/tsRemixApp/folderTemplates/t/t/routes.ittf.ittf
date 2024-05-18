@@ -1,4 +1,21 @@
 $group
+    $include _auth+
+    $include _marketing+
+    $include _seo+
+    $include admin+
+    $include resources+
+    $include settings+
+    $include users+
+    
+    $file __dot__wizzi/app/routes/$.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/$.tsx
+    
+    $file __dot__wizzi/app/routes/me.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/me.tsx    
+    
+    
     $file __dot__wizzi/app/routes/_index.tsx.ittf.ittf
-       module
-           ${'$'}include tsRemixApp/app/routes/_index.tsx
+        module
+            ${'$'}include tsRemixApp/app/routes/_index.tsx

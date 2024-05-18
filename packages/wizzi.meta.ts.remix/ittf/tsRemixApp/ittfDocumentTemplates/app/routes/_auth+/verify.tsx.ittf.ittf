@@ -1,0 +1,216 @@
+$group
+    import
+        @ getFormProps
+        @ getInputProps
+        @ useForm
+        from '@conform-to/react'
+    import
+        @ getZodConstraint
+        @ parseWithZod
+        from '@conform-to/zod'
+    import
+        :type ActionFunctionArgs
+        from '@remix-run/node'
+    import
+        @ Form
+        @ useActionData
+        @ useSearchParams
+        from '@remix-run/react'
+    import
+        @ HoneypotInputs
+        from 'remix-utils/honeypot/react'
+    import
+        @ z
+        from 'zod'
+    import
+        @ GeneralErrorBoundary
+        from '#app/components/error-boundary.tsx'
+    import
+        @ ErrorList
+        @ OTPField
+        from '#app/components/forms.tsx'
+    import
+        @ Spacer
+        from '#app/components/spacer.tsx'
+    import
+        @ StatusButton
+        from '#app/components/ui/status-button.tsx'
+    import
+        @ checkHoneypot
+        from '#app/utils/honeypot.server.ts'
+    import
+        @ useIsPending
+        from '#app/utils/misc.tsx'
+    import
+        @ validateRequest
+        from './verify.server.ts'
+    export
+        const codeQueryParam = 'code'
+    export
+        const targetQueryParam = 'target'
+    export
+        const typeQueryParam = 'type'
+    export
+        const redirectToQueryParam = 'redirectTo'
+    const types
+        @expr
+            [
+                @ 'onboarding'
+                @ 'reset-password'
+                @ 'change-email'
+                @ '2fa'
+            :as
+                :ref const
+    const VerificationTypeSchema = z.enum(types)
+    export
+        :type VerificationTypes
+            :ref z.infer
+                :param
+                    :typeof VerificationTypeSchema
+    export
+        const VerifySchema
+            _ z.object
+                {
+                    @ [codeQueryParam] z.string().min(6).max(6)
+                    @ [typeQueryParam] VerificationTypeSchema
+                    @ [targetQueryParam] z.string()
+                    @ [redirectToQueryParam] z.string().optional()
+    export
+        async-function action
+            {
+                @ request
+                :ref ActionFunctionArgs
+            const formData
+                await
+                    _ request.formData()
+            _ checkHoneypot(formData)
+            return validateRequest(request, formData)
+    export-default
+        function VerifyRoute
+            const [searchParams] = useSearchParams()
+            const isPending = useIsPending()
+            const actionData
+                _ useActionData
+                    :param
+                        :typeof action
+            const parseWithZoddType = VerificationTypeSchema.safeParse(searchParams.get(typeQueryParam))
+            const type
+                iif parseWithZoddType.success
+                    then parseWithZoddType.data
+                    else null
+            const checkEmail
+                <
+                    h1
+                        @ className "text-h1"
+                        + Check your email
+                    p
+                        @ className "mt-3 text-body-md text-muted-foreground"
+                        + We've sent you a code to verify your email address.
+            const headings
+                :ref Record
+                    :param
+                        :ref VerificationTypes
+                    :param
+                        :ref React.ReactNode
+                =
+                    {
+                        @ onboarding checkEmail
+                        @ 'reset-password' checkEmail
+                        @ 'change-email' checkEmail
+                        @ '2fa'
+                            <
+                                h1
+                                    @ className "text-h1"
+                                    + Check your 2FA app
+                                p
+                                    @ className "mt-3 text-body-md text-muted-foreground"
+                                    + Please enter your 2FA code to verify your identity.
+            const [form, fields]
+                _ useForm
+                    {
+                        @ id 'verify-form'
+                        @ constraint getZodConstraint(VerifySchema)
+                        @ lastResult actionData?.result
+                        m onValidate
+                            {
+                                @ formData
+                            return
+                                _ parseWithZod
+                                    @ formData
+                                    {
+                                        @ schema VerifySchema
+                        { defaultValue
+                            @ code searchParams.get(codeQueryParam)
+                            @ type
+                            @ target searchParams.get(targetQueryParam)
+                            @ redirectTo searchParams.get(redirectToQueryParam)
+            return
+                main
+                    @ className "container flex flex-col justify-center pb-32 pt-20"
+                    div
+                        @ className "text-center"
+                        {
+                            iif type
+                                then headings[type]
+                                else 'Invalid Verification Type'
+                    < Spacer
+                        @ size "xs"
+                    div
+                        @ className "mx-auto flex w-72 max-w-full flex-col justify-center gap-1"
+                        div
+                            < ErrorList
+                                @ errors {form.errors}
+                                @ id {form.errorId}
+                        div
+                            @ className "flex w-full gap-2"
+                            < Form
+                                @ method "POST"
+                                ... getFormProps(form)
+                                @ className "flex-1"
+                                < HoneypotInputs
+                                div
+                                    @ className "flex items-center justify-center"
+                                    < OTPField
+                                        @ labelProps
+                                            {
+                                                @ htmlFor fields[codeQueryParam].id
+                                                @ children 'Code'
+                                        @ inputProps
+                                            {
+                                                _ ...getInputProps
+                                                    @expr fields[codeQueryParam]
+                                                    {
+                                                        @ type 'text'
+                                                @ autoComplete 'one-time-code'
+                                        @ errors {fields[codeQueryParam].errors}
+                                input
+                                    ...
+                                        _ getInputProps
+                                            @expr fields[typeQueryParam]
+                                            {
+                                                @ type 'hidden'
+                                input
+                                    ...
+                                        _ getInputProps
+                                            @expr fields[targetQueryParam]
+                                            {
+                                                @ type 'hidden'
+                                input
+                                    ...
+                                        _ getInputProps
+                                            @expr fields[redirectToQueryParam]
+                                            {
+                                                @ type 'hidden'
+                                < StatusButton
+                                    @ className "w-full"
+                                    @ status
+                                        iif isPending
+                                            then 'pending'
+                                            else form.status ?? 'idle'
+                                    @ type "submit"
+                                    @ disabled {isPending}
+                                    + Submit
+    export
+        function ErrorBoundary
+            return
+                < GeneralErrorBoundary

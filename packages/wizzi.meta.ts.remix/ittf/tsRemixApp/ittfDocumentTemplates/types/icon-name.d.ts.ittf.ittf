@@ -1,0 +1,5 @@
+$group
+    export
+        :type IconName
+            :string
+        # This file is a fallback until you run npm run build:icons

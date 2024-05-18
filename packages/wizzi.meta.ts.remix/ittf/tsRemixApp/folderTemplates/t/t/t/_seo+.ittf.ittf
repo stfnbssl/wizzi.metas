@@ -1,0 +1,9 @@
+$group
+
+    $file __dot__wizzi/app/routes/_seo+/robots[.]txt.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/_seo+/robots[.]txt.ts
+    
+    $file __dot__wizzi/app/routes/_seo+/sitemap[.]xml.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/_seo+/sitemap[.]xml.ts

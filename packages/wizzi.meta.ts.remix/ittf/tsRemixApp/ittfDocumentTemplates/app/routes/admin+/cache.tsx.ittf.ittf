@@ -1,0 +1,365 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('@nasa-gcn/remix-seo', '^2.0.0');
+
+    import
+        @ invariantResponse
+        from '@epic-web/invariant'
+    import
+        :type SEOHandle
+        from '@nasa-gcn/remix-seo'
+    import
+        @ json
+        @ redirect
+        :type LoaderFunctionArgs
+        :type ActionFunctionArgs
+        from '@remix-run/node'
+    import
+        @ Form
+        @ Link
+        @ useFetcher
+        @ useLoaderData
+        @ useSearchParams
+        @ useSubmit
+        from '@remix-run/react'
+    import
+        @ GeneralErrorBoundary
+        from '#app/components/error-boundary'
+    import
+        @ Field
+        from '#app/components/forms.tsx'
+    import
+        @ Spacer
+        from '#app/components/spacer.tsx'
+    import
+        @ Button
+        from '#app/components/ui/button.tsx'
+    import
+        @ cache
+        @ getAllCacheKeys
+        @ lruCache
+        @ searchCacheKeys
+        from '#app/utils/cache.server.ts'
+    import
+        @ ensureInstance
+        @ getAllInstances
+        @ getInstanceInfo
+        from '#app/utils/litefs.server.ts'
+    import
+        @ useDebounce
+        @ useDoubleCheck
+        from '#app/utils/misc.tsx'
+    import
+        @ requireUserWithRole
+        from '#app/utils/permissions.server.ts'
+    export
+        const handle
+            :ref SEOHandle
+            =
+                {
+                    @ getSitemapEntries
+                        =>
+                            + null
+    export
+        async-function loader
+            {
+                @ request
+                :ref LoaderFunctionArgs
+            await
+                _ requireUserWithRole(request, 'admin')
+            const searchParams = new URL(request.url).searchParams
+            const query = searchParams.get('query')
+            if query === ''
+                _ searchParams.delete('query')
+                return
+                    _ redirect
+                        template
+                            + /admin/cache?
+                            _ searchParams.toString()
+                            +
+            const limit = Number(searchParams.get('limit') ?? 100)
+            const currentInstanceInfo
+                await
+                    _ getInstanceInfo()
+            const instance = searchParams.get('instance') ?? currentInstanceInfo.currentInstance
+            const instances
+                await
+                    _ getAllInstances()
+            await
+                _ ensureInstance(instance)
+            let cacheKeys
+                :{
+                    :p sqlite
+                        :ref Array
+                            :param string
+                    :p lru
+                        :ref Array
+                            :param string
+            if typeof query === 'string'
+                set cacheKeys =
+                    await
+                        _ searchCacheKeys(query, limit)
+            else
+                set cacheKeys =
+                    await
+                        _ getAllCacheKeys(limit)
+            return
+                _ json
+                    {
+                        @ cacheKeys
+                        @ instance
+                        @ instances
+                        @ currentInstanceInfo
+    export
+        async-function action
+            {
+                @ request
+                :ref ActionFunctionArgs
+            await
+                _ requireUserWithRole(request, 'admin')
+            const formData
+                await
+                    _ request.formData()
+            const key = formData.get('cacheKey')
+            const
+                {
+                    @ currentInstance
+                =
+                    await
+                        _ getInstanceInfo()
+            const instance = formData.get('instance') ?? currentInstance
+            const type = formData.get('type')
+            _ invariantResponse(typeof key === 'string', 'cacheKey must be a string')
+            _ invariantResponse(typeof type === 'string', 'type must be a string')
+            _ invariantResponse(typeof instance === 'string', 'instance must be a string')
+            await
+                _ ensureInstance(instance)
+            switch type
+                case 'sqlite'
+                    await
+                        _ cache.delete(key)
+                    break
+                case 'lru'
+                    _ lruCache.delete(key)
+                    break
+                default
+                    throw
+                        new Error
+                            template
+                                + Unknown cache type:&nbsp;
+                                @ type
+                                +
+            return
+                _ json
+                    {
+                        @ success true
+    export-default
+        function CacheAdminRoute
+            const data
+                _ useLoaderData
+                    :param
+                        :typeof loader
+            const [searchParams] = useSearchParams()
+            const submit = useSubmit()
+            const query = searchParams.get('query') ?? ''
+            const limit = searchParams.get('limit') ?? '100'
+            const instance = searchParams.get('instance') ?? data.instance
+            const handleFormChange
+                _ useDebounce
+                    =>
+                        param form
+                            :ref HTMLFormElement
+                        _ submit(form)
+                    @ 400
+            return
+                div
+                    @ className "container"
+                    h1
+                        @ className "text-h1"
+                        + Cache Admin
+                    < Spacer
+                        @ size "2xs"
+                    < Form
+                        @ method "get"
+                        @ className "flex flex-col gap-4"
+                        @ onChange
+                            =>
+                                param e
+                                _ handleFormChange(e.currentTarget)
+                        div
+                            @ className "flex-1"
+                            div
+                                @ className "flex flex-1 gap-4"
+                                button
+                                    @ type "submit"
+                                    @ className "flex h-16 items-center justify-center"
+                                    + 🔎
+                                < Field
+                                    @ className "flex-1"
+                                    @ labelProps
+                                        {
+                                            @ children 'Search'
+                                    @ inputProps
+                                        {
+                                            @ type 'search'
+                                            @ name 'query'
+                                            @ defaultValue query
+                                div
+                                    @ className "flex h-16 w-14 items-center text-lg font-medium text-muted-foreground"
+                                    span
+                                        @ title "Total results shown"
+                                        + {data.cacheKeys.sqlite.length + data.cacheKeys.lru.length}
+                        div
+                            @ className "flex flex-wrap items-center gap-4"
+                            < Field
+                                @ labelProps
+                                    {
+                                        @ children 'Limit'
+                                @ inputProps
+                                    {
+                                        @ name 'limit'
+                                        @ defaultValue limit
+                                        @ type 'number'
+                                        @ step '1'
+                                        @ min '1'
+                                        @ max '10000'
+                                        @ placeholder 'results limit'
+                            select
+                                @ name "instance"
+                                @ defaultValue {instance}
+                                {
+                                    _ Object.entries(data.instances).map
+                                        =>
+                                            [
+                                            option
+                                                @ key {inst}
+                                                @ value {inst}
+                                                {
+                                                    [
+                                                        @ inst
+                                                        template
+                                                            + (
+                                                            @ region
+                                                            + )
+                                                        iif inst === data.currentInstanceInfo.currentInstance
+                                                            then '(current)'
+                                                            else ''
+                                                        iif inst === data.currentInstanceInfo.primaryInstance
+                                                            then ' (primary)'
+                                                            else ''
+                                                        ._ filter
+                                                            @ Boolean
+                                                        ._ join
+                                                            @ ' '
+                    < Spacer
+                        @ size "2xs"
+                    div
+                        @ className "flex flex-col gap-4"
+                        h2
+                            @ className "text-h2"
+                            + LRU Cache:
+                        {
+                            _ data.cacheKeys.lru.map
+                                =>
+                                    param key
+                                    < CacheKeyRow
+                                        @ key {key}
+                                        @ cacheKey {key}
+                                        @ instance {instance}
+                                        @ type "lru"
+                    < Spacer
+                        @ size "3xs"
+                    div
+                        @ className "flex flex-col gap-4"
+                        h2
+                            @ className "text-h2"
+                            + SQLite Cache:
+                        {
+                            _ data.cacheKeys.sqlite.map
+                                =>
+                                    param key
+                                    < CacheKeyRow
+                                        @ key {key}
+                                        @ cacheKey {key}
+                                        @ instance {instance}
+                                        @ type "sqlite"
+    function CacheKeyRow
+        {
+            @ cacheKey
+            @ instance
+            @ type
+            :{
+                :p cacheKey
+                    :string
+                :p instance
+                    :optional
+                    :string
+                :p type
+                    :union
+                        :literal 'sqlite'
+                        :literal 'lru'
+        const fetcher
+            _ useFetcher
+                :param
+                    :typeof action
+        const dc = useDoubleCheck()
+        const encodedKey = encodeURIComponent(cacheKey)
+        const valuePage
+            template
+                + /admin/cache/
+                @ type
+                + /
+                @ encodedKey
+                + ?instance=
+                @ instance
+                +
+        return
+            div
+                @ className "flex items-center gap-2 font-mono"
+                < fetcher.Form
+                    @ method "POST"
+                    input
+                        @ type "hidden"
+                        @ name "cacheKey"
+                        @ value {cacheKey}
+                    input
+                        @ type "hidden"
+                        @ name "instance"
+                        @ value {instance}
+                    input
+                        @ type "hidden"
+                        @ name "type"
+                        @ value {type}
+                    < Button
+                        @ size "sm"
+                        @ variant "secondary"
+                        ...
+                            _ dc.getButtonProps
+                                {
+                                    @ type 'submit'
+                        {
+                            iif fetcher.state === 'idle'
+                                then
+                                    iif dc.doubleCheck
+                                        then 'You sure?'
+                                        else 'Delete'
+                                else 'Deleting...'
+                < Link
+                    @ reloadDocument
+                    @ to {valuePage}
+                    + {cacheKey}
+    export
+        function ErrorBoundary
+            return
+                < GeneralErrorBoundary
+                    @ statusHandlers
+                        {
+                            @ 403
+                                =>
+                                    {
+                                        @ error
+                                    p
+                                        + You are not allowed to do that:
+                                        + {error?.data?.message}

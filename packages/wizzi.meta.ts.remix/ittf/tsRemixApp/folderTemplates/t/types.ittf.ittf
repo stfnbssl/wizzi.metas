@@ -1,0 +1,13 @@
+$group
+    $file __dot__wizzi/types/deps.d.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/types/deps.d.ts
+    $file __dot__wizzi/types/env.env.d.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/types/env.env.d.ts
+    $file __dot__wizzi/types/icon-name.d.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/types/icon-name.d.ts
+    $file __dot__wizzi/types/reset.d.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/types/reset.d.ts

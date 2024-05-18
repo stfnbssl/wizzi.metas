@@ -1,0 +1,320 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('lru-cache', '^10.2.2');
+        setCtxDep ('better-sqlite3', '^9.4.3');
+        setCtxDevDep ('@types/better-sqlite3', '^7.6.10');
+
+    import fs from 'fs'
+    import
+        @ cachified
+            as baseCachified
+        @ verboseReporter
+        @ mergeReporters
+        :type CacheEntry
+        :type Cache
+            as CachifiedCache
+        :type CachifiedOptions
+        :type Cache
+        @ totalTtl
+        :type CreateReporter
+        from '@epic-web/cachified'
+    import
+        @ remember
+        from '@epic-web/remember'
+    import Database from 'better-sqlite3'
+    import
+        @ LRUCache
+        from 'lru-cache'
+    import
+        @ z
+        from 'zod'
+    import
+        @ updatePrimaryCacheValue
+        from '#app/routes/admin+/cache_.sqlite.server.ts'
+    import
+        @ getInstanceInfo
+        @ getInstanceInfoSync
+        from './litefs.server.ts'
+    import
+        @ cachifiedTimingReporter
+        :type Timings
+        from './timing.server.ts'
+    const CACHE_DATABASE_PATH = process.env.CACHE_DATABASE_PATH
+    const cacheDb = remember('cacheDb', createDatabase)
+    function createDatabase
+        param tryAgain = true
+        :return
+            :ref Database.Database
+        const db = new Database(CACHE_DATABASE_PATH)
+        const
+            {
+                @ currentIsPrimary
+            = getInstanceInfoSync()
+        if !currentIsPrimary
+            return db
+        try
+            _ db.exec
+                template
+                    + &lf;
+                    + CREATE TABLE IF NOT EXISTS cache (&lf;
+                    + key TEXT PRIMARY KEY,&lf;
+                    + metadata TEXT,&lf;
+                    + value TEXT&lf;
+                    + )&lf;
+                    +
+                # create cache table with metadata JSON column and value JSON column if it does not exist already
+        catch error
+            _ fs.unlinkSync(CACHE_DATABASE_PATH)
+            if tryAgain
+                _ console.error
+                    template
+                        + Error creating cache database, deleting the file at "
+                        @ CACHE_DATABASE_PATH
+                        + " and trying again...
+                return createDatabase(false)
+            throw error
+        return db
+    const lru
+        _ remember
+            @ 'lru-cache'
+            =>
+                new LRUCache
+                    :param string
+                    :param
+                        :ref CacheEntry
+                            :param unknown
+                    {
+                        @ max 5000
+    export
+        const lruCache
+            satisfies
+                {
+                    @ name 'app-memory-cache'
+                    @ set
+                        =>
+                            param key
+                            param value
+                            const ttl = totalTtl(value?.metadata)
+                            _ lru.set
+                                @ key
+                                @ value
+                                {
+                                    @ ttl
+                                        iif ttl === Infinity
+                                            then undefined
+                                            else ttl
+                                    @ start value?.metadata?.createdTime
+                            return value
+                    @ get
+                        =>
+                            param key
+                            _ lru.get(key)
+                    @ delete
+                        =>
+                            param key
+                            _ lru.delete(key)
+                :ref Cache
+    const cacheEntrySchema
+        _ z.object
+            {
+                @ metadata
+                    _ z.object
+                        {
+                            @ createdTime z.number()
+                            @ ttl z.number().nullable().optional()
+                            @ swr z.number().nullable().optional()
+                @ value z.unknown()
+    const cacheQueryResultSchema
+        _ z.object
+            {
+                @ metadata z.string()
+                @ value z.string()
+    export
+        const cache
+            :ref CachifiedCache
+            =
+                {
+                    @ name 'SQLite cache'
+                    m get
+                        param key
+                        const result = cacheDb.prepare('SELECT value, metadata FROM cache WHERE key = ?').get(key)
+                        const parseResult = cacheQueryResultSchema.safeParse(result)
+                        if !parseResult.success
+                            return null
+                        const parsedEntry
+                            _ cacheEntrySchema.safeParse
+                                {
+                                    @ metadata JSON.parse(parseResult.data.metadata)
+                                    @ value JSON.parse(parseResult.data.value)
+                        if !parsedEntry.success
+                            return null
+                        const
+                            {
+                                @ metadata
+                                @ value
+                            = parsedEntry.data
+                        if !value
+                            return null
+                        return
+                            {
+                                @ metadata
+                                @ value
+                    m set
+                        async
+                        param key
+                        param entry
+                        const
+                            {
+                                @ currentIsPrimary
+                                @ primaryInstance
+                            =
+                                await
+                                    _ getInstanceInfo()
+                            # eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                        if currentIsPrimary
+                            _ cacheDb.prepare('INSERT OR REPLACE INTO cache (key, value, metadata) VALUES (@key, @value, @metadata)').run
+                                {
+                                    @ key
+                                    @ value JSON.stringify(entry.value)
+                                    @ metadata JSON.stringify(entry.metadata)
+                        else
+                            void
+                                _ updatePrimaryCacheValue
+                                    {
+                                        @ key
+                                        @ cacheValue entry
+                                    ._ then
+                                        =>
+                                            param response
+                                            if !response.ok
+                                                _ console.error
+                                                    template
+                                                        + Error updating cache value for key "
+                                                        @ key
+                                                        + " on primary instance (
+                                                        @ primaryInstance
+                                                        + ):&nbsp;
+                                                        @ response.status
+                                                        + &nbsp;
+                                                        @ response.statusText
+                                                        +
+                                                    {
+                                                        @ entry
+                                # fire-and-forget cache update
+                    m delete
+                        async
+                        param key
+                        const
+                            {
+                                @ currentIsPrimary
+                                @ primaryInstance
+                            =
+                                await
+                                    _ getInstanceInfo()
+                        if currentIsPrimary
+                            _ cacheDb.prepare('DELETE FROM cache WHERE key = ?').run(key)
+                        else
+                            void
+                                _ updatePrimaryCacheValue
+                                    {
+                                        @ key
+                                        @ cacheValue undefined
+                                    ._ then
+                                        =>
+                                            param response
+                                            if !response.ok
+                                                _ console.error
+                                                    template
+                                                        + Error deleting cache value for key "
+                                                        @ key
+                                                        + " on primary instance (
+                                                        @ primaryInstance
+                                                        + ):&nbsp;
+                                                        @ response.status
+                                                        + &nbsp;
+                                                        @ response.statusText
+                                                        +
+                                # fire-and-forget cache update
+    export
+        async-function getAllCacheKeys
+            param limit
+                :number
+            return
+                {
+                    @ sqlite
+                        _ cacheDb.prepare('SELECT key FROM cache LIMIT ?').all(limit).map
+                            =>
+                                param row
+                                +
+                                    @expr
+                                        ${'('}
+                                            + row
+                                                :as
+                                                    :{
+                                                        :p key
+                                                            :string
+                                        . key
+                    [ lru
+                        @ ...lru.keys()
+    export
+        async-function searchCacheKeys
+            param search
+                :string
+            param limit
+                :number
+            return
+                {
+                    @ sqlite
+                        _ cacheDb.prepare('SELECT key FROM cache WHERE key LIKE ? LIMIT ?').all
+                            template
+                                + %
+                                @ search
+                                + %
+                            @ limit
+                            ._ map
+                                =>
+                                    param row
+                                    +
+                                        @expr
+                                            ${'('}
+                                                + row
+                                                    :as
+                                                        :{
+                                                            :p key
+                                                                :string
+                                            . key
+                    [ lru
+                        @ ...lru.keys()
+                        ._ filter
+                            =>
+                                param key
+                                _ key.includes(search)
+    export
+        async-function cachified
+            :< Value
+            {
+                @ timings
+                ... options
+                :intersect
+                    :ref CachifiedOptions
+                        :param
+                            :ref Value
+                    :{
+                        :p timings
+                            :optional
+                            :ref Timings
+            param reporter
+                :ref CreateReporter
+                    :param
+                        :ref Value
+                =
+                    _ verboseReporter
+                        :param
+                            :ref Value
+            :return
+                :ref Promise
+                    :param
+                        :ref Value
+            return baseCachified(options, mergeReporters(cachifiedTimingReporter(timings), reporter))

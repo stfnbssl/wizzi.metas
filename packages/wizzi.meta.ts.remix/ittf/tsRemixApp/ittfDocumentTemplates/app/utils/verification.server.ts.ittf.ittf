@@ -1,0 +1,18 @@
+$group
+    import
+        @ createCookieSessionStorage
+        from '@remix-run/node'
+    export
+        const verifySessionStorage
+            _ createCookieSessionStorage
+                {
+                    { cookie
+                        @ name 'en_verification'
+                        @ sameSite 'lax'
+                        @ path '/'
+                            # CSRF protection is advised if changing to 'none'
+                        @ httpOnly true
+                        @ maxAge 60 * 10
+                        @ secrets process.env.SESSION_SECRET.split(',')
+                            # 10 minutes
+                        @ secure process.env.NODE_ENV === 'production'

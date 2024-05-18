@@ -1,5 +1,17 @@
 {
     [ parameters
+        params/use( express )
+        params/use( sentry )
+        params/use( compression )
+        params/use( morgan )
+        params/use( helmet )
+        params/use( rateLimit )
+        params/use( env )
+        params/use( eslint )
+        params/use( test )
+            params/use( mocks )
+        params/use( epic )
+        
         $*
         params/use( ... )
         params/string( ... )

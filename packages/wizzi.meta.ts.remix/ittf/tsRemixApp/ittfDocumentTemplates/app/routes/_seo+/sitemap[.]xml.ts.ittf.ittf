@@ -1,0 +1,35 @@
+$group
+    import
+        @ generateSitemap
+        from '@nasa-gcn/remix-seo'
+    import
+        :type ServerBuild
+        :type LoaderFunctionArgs
+        from '@remix-run/node'
+    import
+        @ getDomainUrl
+        from '#app/utils/misc.tsx'
+    export
+        async-function loader
+            {
+                @ request
+                @ context
+                :ref LoaderFunctionArgs
+            const serverBuild
+                @expr
+                    await
+                        @expr context.serverBuild
+                    :as
+                        :ref ServerBuild
+            return
+                _ generateSitemap
+                    @ request
+                    @expr serverBuild.routes
+                    {
+                        @ siteUrl getDomainUrl(request)
+                        { headers
+                            @ 'Cache-Control'
+                                template
+                                    + public, max-age=
+                                    @ 60 * 5
+                                    +

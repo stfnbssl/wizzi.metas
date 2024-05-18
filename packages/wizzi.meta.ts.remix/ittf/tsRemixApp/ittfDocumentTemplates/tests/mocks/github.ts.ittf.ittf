@@ -1,0 +1,292 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('msw', '2.2.8');
+
+    import path from 'node:path'
+    import
+        @ fileURLToPath
+        from 'node:url'
+    import
+        @ faker
+        from '@faker-js/faker'
+    import fsExtra from 'fs-extra'
+    import
+        @ HttpResponse
+        @ passthrough
+        @ http
+        :type HttpHandler
+        from 'msw'
+    const
+        {
+            @ json
+        = HttpResponse
+    const __dirname = path.dirname(fileURLToPath(import.meta.url))
+    const here
+        =>
+            param s
+                :ref Array
+                    :param string
+            _ path.join(__dirname, ...s)
+    const githubUserFixturePath
+        _ path.join
+            _ here
+                @ '..'
+                @ 'fixtures'
+                @ 'github'
+                template
+                    + users.
+                    @ process.env.VITEST_POOL_ID || 0
+                    + .local.json
+    await
+        _ fsExtra.ensureDir(path.dirname(githubUserFixturePath))
+    function createGitHubUser
+        param code
+            :union
+                :string
+                :null
+            :optional
+        const createEmail
+            =>
+                ${'('}
+                    {
+                        @ email faker.internet.email()
+                        @ verified faker.datatype.boolean()
+                        @ primary false
+                        @ visibility
+                            _ faker.helpers.arrayElement
+                                [
+                                    @ 'public'
+                                    @ null
+                            # <-- can only have one of these
+        const primaryEmail
+            {
+                @ ...createEmail()
+                @ verified true
+                @ primary true
+        const emails
+            [
+                {
+                    @ email faker.internet.email()
+                    @ verified false
+                    @ primary false
+                    @ visibility 'public'
+                {
+                    @ email faker.internet.email()
+                    @ verified true
+                    @ primary false
+                    @ visibility null
+                @ primaryEmail
+        set code ??= faker.string.uuid()
+        return
+            {
+                @ code
+                @ accessToken
+                    template
+                        +
+                        @ code
+                        + _mock_access_token
+                { profile
+                    @ login faker.internet.userName()
+                    @ id faker.string.uuid()
+                    @ name faker.person.fullName()
+                    @ avatar_url 'https://github.com/ghost.png'
+                    @ emails
+                        _ emails.map
+                            =>
+                                param e
+                                +
+                                    @expr e.email
+                @ emails
+                @ primaryEmail primaryEmail.email
+    :type GitHubUser
+        :ref ReturnType
+            :param
+                :typeof createGitHubUser
+    async-function getGitHubUsers
+        try
+            if
+                test
+                    await
+                        _ fsExtra.pathExists(githubUserFixturePath)
+                const json
+                    await
+                        _ fsExtra.readJson(githubUserFixturePath)
+                return
+                    + json
+                        :as
+                            :ref Array
+                                :param
+                                    :ref GitHubUser
+            return []
+        catch error
+            _ console.error(error)
+            return []
+    export
+        async-function deleteGitHubUsers
+            await
+                _ fsExtra.remove(githubUserFixturePath)
+    async-function setGitHubUsers
+        param users
+            :ref Array
+                :param
+                    :ref GitHubUser
+        await
+            _ fsExtra.writeJson
+                @ githubUserFixturePath
+                @ users
+                {
+                    @ spaces 2
+    export
+        async-function insertGitHubUser
+            param code
+                :union
+                    :string
+                    :null
+                :optional
+            const githubUsers
+                await
+                    _ getGitHubUsers()
+            let user
+                _ githubUsers.find
+                    =>
+                        param u
+                        set u.code === code
+            if user
+                _ Object.assign(user, createGitHubUser(code))
+            else
+                set user = createGitHubUser(code)
+                _ githubUsers.push(user)
+            await
+                _ setGitHubUsers(githubUsers)
+            return user
+    async-function getUser
+        param request
+            :ref Request
+        const accessToken = request.headers.get('authorization')?.slice?.('token '.length)
+        if !accessToken
+            return
+                new Response
+                    @ 'Unauthorized'
+                    {
+                        @ status 401
+        const user
+            _
+                _ getGitHubUsers()
+                ._ find
+                    =>
+                        param u
+                        set u.accessToken === accessToken
+        if !user
+            return
+                new Response
+                    @ 'Not Found'
+                    {
+                        @ status 404
+        return user
+    const passthroughGitHub = !process.env.GITHUB_CLIENT_ID.startsWith('MOCK_') && process.env.NODE_ENV !== 'test'
+    export
+        const handlers
+            :ref Array
+                :param
+                    :ref HttpHandler
+            =
+                [
+                    _ http.post
+                        @ 'https://github.com/login/oauth/access_token'
+                        async=>
+                            {
+                                @ request
+                            if passthroughGitHub
+                                return passthrough()
+                            const params
+                                new URLSearchParams
+                                    await
+                                        _ request.text()
+                            const code = params.get('code')
+                            const githubUsers
+                                await
+                                    _ getGitHubUsers()
+                            let user
+                                _ githubUsers.find
+                                    =>
+                                        param u
+                                        set u.code === code
+                            if !user
+                                set user =
+                                    await
+                                        _ insertGitHubUser(code)
+                            return
+                                new Response
+                                    new URLSearchParams
+                                        {
+                                            @ access_token user.accessToken
+                                            @ token_type '__MOCK_TOKEN_TYPE__'
+                                        ._ toString
+                                    {
+                                        { headers
+                                            @ 'content-type' 'application/x-www-form-urlencoded'
+                    _ http.get
+                        @ 'https://api.github.com/user/emails'
+                        async=>
+                            {
+                                @ request
+                            if passthroughGitHub
+                                return passthrough()
+                            const user
+                                await
+                                    _ getUser(request)
+                            if user instanceof Response
+                                return user
+                            return json(user.emails)
+                    _ http.get
+                        @ 'https://api.github.com/user/:id'
+                        async=>
+                            {
+                                @ params
+                            if passthroughGitHub
+                                return passthrough()
+                            const mockUser
+                                _
+                                    _ getGitHubUsers()
+                                    ._ find
+                                        =>
+                                            param u
+                                            set u.profile.id === params.id
+                            if mockUser
+                                return json(mockUser.profile)
+                            return
+                                new Response
+                                    @ 'Not Found'
+                                    {
+                                        @ status 404
+                    _ http.get
+                        @ 'https://api.github.com/user'
+                        async=>
+                            {
+                                @ request
+                            if passthroughGitHub
+                                return passthrough()
+                            const user
+                                await
+                                    _ getUser(request)
+                            if user instanceof Response
+                                return user
+                            return json(user.profile)
+                    _ http.get
+                        @ 'https://github.com/ghost.png'
+                        async=>
+                            if passthroughGitHub
+                                return passthrough()
+                            const buffer
+                                await
+                                    _ fsExtra.readFile('./tests/fixtures/github/ghost.jpg')
+                            return
+                                new Response
+                                    @ buffer
+                                    {
+                                        { headers
+                                            @ 'content-type' 'image/jpg'
+                                            # the .png is not a mistake even though it looks like it... It's really a jpg
+                                            # but the ghost image URL really has a png extension 😅

@@ -1,0 +1,15 @@
+$group
+    h1 shadcn/ui
+    br
+    p
+        + Some components in this directory are downloaded via the
+        +
+        a shadcn/ui
+            href https://ui.shadcn.com
+        + \b \b
+        a CLI
+            href https://ui.shadcn.com/docs/cli
+        + . Feel
+        + free to customize them to your needs. It's important to know that shadcn/ui is
+        + not a library of components you install, but instead it's a registry of prebuilt
+        + components which you can download and customize.

@@ -309,6 +309,17 @@ $group
                 model-ref ${jobCtx.job_model}
                     export-name ${jobCtx.job_model}
             $hook
+    $elif name == '.eslintrc.cjs'
+        artifact .eslintrc
+            src .eslintrc.cjs.ittf
+            schema js
+            generator js/module
+            dest-path .eslintrc.cjs
+            extension cjs
+            $if jobCtx.job_model
+                model-ref ${jobCtx.job_model}
+                    export-name ${jobCtx.job_model}
+            $hook
     $elif name == '.eslintignore'
         artifact .eslintignore
             src .eslintignore.text.ittf
@@ -419,4 +430,4 @@ $group
             src ${jobCtx.ittf_lib_folder}/**/*__copy/**/*.${ext}
             extension ${ext}
     $else
-        $throw wfjob name not managed: ${name}
+

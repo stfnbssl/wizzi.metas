@@ -48,3 +48,4 @@ $group
                         iif relFolder.length > 0
                             then relFolder + '/' + basename
                             else basename
+

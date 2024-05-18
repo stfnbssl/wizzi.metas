@@ -1,0 +1,17 @@
+$group
+
+    $file __dot__wizzi/app/routes/resources+/download-user-data.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/resources+/download-user-data.tsx
+
+    $file __dot__wizzi/app/routes/resources+/healthcheck.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/resources+/healthcheck.tsx
+
+    $file __dot__wizzi/app/routes/resources+/note-images.$imageId.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/resources+/note-images.$imageId.tsx
+
+    $file __dot__wizzi/app/routes/resources+/user-images.$imageId.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/resources+/user-images.$imageId.tsx

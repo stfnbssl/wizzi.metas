@@ -1,0 +1,88 @@
+$group
+    import
+        @ useNavigation
+        from '@remix-run/react'
+    import
+        @ useEffect
+        @ useRef
+        @ useState
+        from 'react'
+    import
+        @ useSpinDelay
+        from 'spin-delay'
+    import
+        @ cn
+        from '#app/utils/misc.tsx'
+    import
+        @ Icon
+        from './ui/icon.tsx'
+    function EpicProgress
+        const transition = useNavigation()
+        const busy = transition.state !== 'idle'
+        const delayedPending
+            _ useSpinDelay
+                @ busy
+                {
+                    @ delay 600
+                    @ minDuration 400
+        const ref
+            _ useRef
+                :param
+                    :ref HTMLDivElement
+                @ null
+        const [animationComplete, setAnimationComplete] = useState(true)
+        _ useEffect
+            =>
+                if !ref.current
+                    return
+                if delayedPending
+                    _ setAnimationComplete(false)
+                const animationPromises
+                    _ ref.current.getAnimations().map
+                        =>
+                            {
+                                @ finished
+                            + finished
+                _ Promise.allSettled(animationPromises).then
+                    =>
+                        if !delayedPending
+                            _ setAnimationComplete(true)
+            [
+                @ delayedPending
+        return
+            div
+                @ role "progressbar"
+                @ aria-hidden
+                    iif delayedPending
+                        then undefined
+                        else true
+                @ aria-valuetext
+                    iif delayedPending
+                        then 'Loading'
+                        else undefined
+                @ className "fixed inset-x-0 left-0 top-0 z-50 h-[0.20rem] animate-pulse"
+                div
+                    @ ref {ref}
+                    @ className
+                        _ cn
+                            @ 'h-full w-0 bg-foreground duration-500 ease-in-out'
+                            &&
+                                + transition.state === 'idle'
+                                ${'('}
+                                    iif animationComplete
+                                        then 'transition-none'
+                                        else 'w-full opacity-0 transition-all'
+                            @expr delayedPending && transition.state === 'submitting' && 'w-5/12'
+                            @expr delayedPending && transition.state === 'loading' && 'w-8/12'
+                {
+                    &&
+                        + delayedPending
+                        div
+                            @ className "absolute flex items-center justify-center"
+                            < Icon
+                                @ name "update"
+                                @ size "md"
+                                @ className "m-1 animate-spin text-foreground"
+                                @ aria-hidden
+    export
+        @ EpicProgress

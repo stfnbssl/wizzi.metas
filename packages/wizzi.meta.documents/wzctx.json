@@ -11,7 +11,11 @@
     "github": {
         "userid": "stfnbssl"
     },
-    "license": "MIT",
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/stfnbssl/wizzi.metas/tree/main/packages/wizzi.meta.documents/license.text",
+        "copy": "copy 2024"
+    },
     "metaNamespace": "documents",
     "Build": {
         "useConfig": true,

@@ -1,0 +1,24 @@
+$group
+    $if metaCtx.tsRemixApp.useSly
+        $include sly
+    
+    $if metaCtx.tsRemixApp.useEpic
+    
+        $if metaCtx.tsRemixApp.epic.useSvgIcons
+            $include svg-icons
+            $file __dot__wizzi/other/build-icons.ts.ittf.ittf
+                module
+                    ${'$'}include tsRemixApp/other/build-icons.ts
+        
+        $file __dot__wizzi/other/build-server.ts.ittf.ittf
+            module
+                ${'$'}include tsRemixApp/other/build-server.ts
+        
+        $if metaCtx.tsRemixApp.epic.useSqlLite
+            $file __dot__wizzi/other/litefs.yml.ittf.ittf
+                {
+                    ${'$'}include tsRemixApp/other/litefs.yml
+        
+        $file __dot__wizzi/other/README.md.ittf.ittf
+            md
+                ${'$'}include tsRemixApp/other/README.md

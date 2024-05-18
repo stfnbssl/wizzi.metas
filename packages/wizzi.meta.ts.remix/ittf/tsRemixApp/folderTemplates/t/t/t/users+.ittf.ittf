@@ -1,0 +1,14 @@
+$group
+    $include $username_+
+    
+    $file __dot__wizzi/app/routes/users+/$username.test.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/users+/$username.test.tsx
+    
+    $file __dot__wizzi/app/routes/users+/$username.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/users+/$username.tsx
+    
+    $file __dot__wizzi/app/routes/users+/index.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/users+/index.tsx

@@ -14,7 +14,7 @@ $group
             ${'$'}if metaCtx.license
                 { license
                     type "${'$'}MIT"
-                    email "${'$'}copy 2023"
+                    email "${'$'}copy 2024"
             ${'$'}if metaCtx.github
                 { github
                     userid "${'$'}stfnbssl"
@@ -42,3 +42,4 @@ $group
                     ${'$'}{'$'}include documentsUtils.json
                     
                 { utils
+

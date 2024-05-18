@@ -4,3 +4,4 @@ $group
         $hook
     if ${varName} && ${varName}.__is_error
         return ${varName}
+

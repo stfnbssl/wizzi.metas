@@ -11,7 +11,11 @@
     "github": {
         "userid": "stfnbssl"
     },
-    "license": "MIT",
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/stfnbssl/wizzi.metas/tree/main/packages/wizzi.meta.web/license.text",
+        "copy": "copy 2024"
+    },
     "metaNamespace": "web",
     "Build": {
         "useConfig": true,
@@ -25,6 +29,7 @@
                 "./wizzi.plugin.js/index.js",
                 "./wizzi.plugin.json/index.js",
                 "./wizzi.plugin.md/index.js",
+                "./wizzi.plugin.svg/index.js",
                 "./wizzi.plugin.text/index.js",
                 "./wizzi.plugin.wzjob/index.js"
             ],

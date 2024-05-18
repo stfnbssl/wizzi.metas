@@ -1,0 +1,83 @@
+$group
+    function UserDropdown
+        const user = useUser()
+        const submit = useSubmit()
+        const formRef
+            _ useRef
+                :param
+                    :ref HTMLFormElement
+                @ null
+        return
+            < DropdownMenu
+                < DropdownMenuTrigger
+                    @ asChild
+                    < Button
+                        @ asChild
+                        @ variant "secondary"
+                        < Link
+                            @ to
+                                template
+                                    + /users/
+                                    @ user.username
+                                    +
+                            @ onClick
+                                =>
+                                    param e
+                                    _ e.preventDefault()
+                                # this is for progressive enhancement
+                            @ className "flex items-center gap-2"
+                            img
+                                @ className "h-8 w-8 rounded-full object-cover"
+                                @ alt {user.name ?? user.username}
+                                @ src {getUserImgSrc(user.image?.id)}
+                            span
+                                @ className "text-body-sm font-bold"
+                                + {user.name ?? user.username}
+                < DropdownMenuPortal
+                    < DropdownMenuContent
+                        @ sideOffset {8}
+                        @ align "start"
+                        < DropdownMenuItem
+                            @ asChild
+                            < Link
+                                @ prefetch "intent"
+                                @ to
+                                    template
+                                        + /users/
+                                        @ user.username
+                                        +
+                                < Icon
+                                    @ className "text-body-md"
+                                    @ name "avatar"
+                                    + Profile
+                        < DropdownMenuItem
+                            @ asChild
+                            < Link
+                                @ prefetch "intent"
+                                @ to
+                                    template
+                                        + /users/
+                                        @ user.username
+                                        + /notes
+                                < Icon
+                                    @ className "text-body-md"
+                                    @ name "pencil-2"
+                                    + Notes
+                        < DropdownMenuItem
+                            @ asChild
+                            @ onSelect
+                                =>
+                                    param event
+                                    _ event.preventDefault()
+                                    _ submit(formRef.current)
+                                # this prevents the menu from closing before the form submission is completed
+                            < Form
+                                @ action "/logout"
+                                @ method "POST"
+                                @ ref {formRef}
+                                < Icon
+                                    @ className "text-body-md"
+                                    @ name "exit"
+                                    button
+                                        @ type "submit"
+                                        + Logout

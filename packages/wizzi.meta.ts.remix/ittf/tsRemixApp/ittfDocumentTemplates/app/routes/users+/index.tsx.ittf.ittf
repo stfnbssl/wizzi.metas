@@ -1,0 +1,169 @@
+$group
+    import
+        @ json
+        @ redirect
+        :type LoaderFunctionArgs
+        from '@remix-run/node'
+    import
+        @ Link
+        @ useLoaderData
+        from '@remix-run/react'
+    import
+        @ z
+        from 'zod'
+    import
+        @ GeneralErrorBoundary
+        from '#app/components/error-boundary.tsx'
+    import
+        @ ErrorList
+        from '#app/components/forms.tsx'
+    import
+        @ SearchBar
+        from '#app/components/search-bar.tsx'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    import
+        @ cn
+        @ getUserImgSrc
+        @ useDelayedIsPending
+        from '#app/utils/misc.tsx'
+    const UserSearchResultSchema
+        _ z.object
+            {
+                @ id z.string()
+                @ username z.string()
+                @ name z.string().nullable()
+                @ imageId z.string().nullable()
+    const UserSearchResultsSchema = z.array(UserSearchResultSchema)
+    export
+        async-function loader
+            {
+                @ request
+                :ref LoaderFunctionArgs
+            const searchTerm = new URL(request.url).searchParams.get('search')
+            if searchTerm === ''
+                return redirect('/users')
+            const like
+                template
+                    + %
+                    @ searchTerm ?? ''
+                    + %
+            const rawUsers
+                await
+                    _` prisma.$queryRaw
+                        + &lf;
+                        + SELECT User.id, User.username, User.name, UserImage.id AS imageId&lf;
+                        + FROM User&lf;
+                        + LEFT JOIN UserImage ON User.id = UserImage.userId&lf;
+                        + WHERE User.username LIKE&nbsp;
+                        @ like
+                        + &lf;
+                        + OR User.name LIKE&nbsp;
+                        @ like
+                        + &lf;
+                        + ORDER BY (&lf;
+                        + SELECT Note.updatedAt&lf;
+                        + FROM Note&lf;
+                        + WHERE Note.ownerId = User.id&lf;
+                        + ORDER BY Note.updatedAt DESC&lf;
+                        + LIMIT 1&lf;
+                        + ) DESC&lf;
+                        + LIMIT 50&lf;
+                        +
+            const result = UserSearchResultsSchema.safeParse(rawUsers)
+            if !result.success
+                return
+                    _ json
+                        @expr
+                            {
+                                @ status 'error'
+                                @ error result.error.message
+                            :as
+                                :ref const
+                        {
+                            @ status 400
+            return
+                _ json
+                    @expr
+                        {
+                            @ status 'idle'
+                            @ users result.data
+                        :as
+                            :ref const
+    export-default
+        function UsersRoute
+            const data
+                _ useLoaderData
+                    :param
+                        :typeof loader
+            const isPending
+                _ useDelayedIsPending
+                    {
+                        @ formMethod 'GET'
+                        @ formAction '/users'
+            if data.status === 'error'
+                _ console.error(data.error)
+            return
+                div
+                    @ className "container mb-48 mt-36 flex flex-col items-center justify-center gap-6"
+                    h1
+                        @ className "text-h1"
+                        + Epic Notes Users
+                    div
+                        @ className "w-full max-w-[700px]"
+                        < SearchBar
+                            @ status {data.status}
+                            @ autoFocus
+                            @ autoSubmit
+                    main
+                        {
+                            iif data.status === 'idle'
+                                then
+                                    ${'('}
+                                        iif data.users.length
+                                            then
+                                                ul
+                                                    @ className
+                                                        _ cn
+                                                            @ 'flex w-full flex-wrap items-center justify-center gap-4 delay-200'
+                                                            {
+                                                                @ 'opacity-50' isPending
+                                                    {
+                                                        _ data.users.map
+                                                            =>
+                                                                param user
+                                                                li
+                                                                    @ key {user.id}
+                                                                    < Link
+                                                                        @ to {user.username}
+                                                                        @ className "flex h-36 w-44 flex-col items-center justify-center rounded-lg bg-muted px-5 py-3"
+                                                                        img
+                                                                            @ alt {user.name ?? user.username}
+                                                                            @ src {getUserImgSrc(user.imageId)}
+                                                                            @ className "h-16 w-16 rounded-full"
+                                                                        {
+                                                                            iif user.name
+                                                                                then
+                                                                                    span
+                                                                                        @ className "w-full overflow-hidden text-ellipsis whitespace-nowrap text-center text-body-md"
+                                                                                        + {user.name}
+                                                                                else null
+                                                                        span
+                                                                            @ className "w-full overflow-hidden text-ellipsis text-center text-body-sm text-muted-foreground"
+                                                                            + {user.username}
+                                            else
+                                                p
+                                                    + No users found
+                                else
+                                    iif data.status === 'error'
+                                        then
+                                            < ErrorList
+                                                @ errors
+                                                    [
+                                                        @ 'There was an error parsing the results'
+                                        else null
+    export
+        function ErrorBoundary
+            return
+                < GeneralErrorBoundary

@@ -19,3 +19,4 @@ $group
     set ${name}Error.prototype.constructor = ${name}Error
     set md.${name}Error = ${name}Error
     +
+

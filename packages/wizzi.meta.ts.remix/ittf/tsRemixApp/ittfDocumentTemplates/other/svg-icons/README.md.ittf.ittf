@@ -1,0 +1,24 @@
+$group
+   h1 Icons
+   br
+   p
+       + These icons were downloaded from \b
+       a https://icons.radix-ui.com/
+           href https://icons.radix-ui.com/
+       + \b which is licensed
+       + under MIT: \b
+       a https://github.com/radix-ui/icons/blob/master/LICENSE
+           href https://github.com/radix-ui/icons/blob/master/LICENSE
+   br
+   p
+       + It's important that you only add icons to this directory that the application
+       + actually needs as there's no "tree-shaking" for sprites. If you wish to manually
+       + split up your SVG sprite into multiple files, you'll need to update the
+       +
+       codespan build-icons.ts
+       + \b script to do that.
+   br
+   p
+       + Run \b
+       codespan npm run build:icons
+       + \b to update the sprite.

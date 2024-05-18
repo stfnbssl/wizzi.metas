@@ -23,7 +23,7 @@ $group
                     const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1)
                     if !options.metaCtx[useProductionVar]
                         r_cb( {} )
-                    log 'getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar]
+                    success 'using meta production', useProductionVar
                 _ this.getMetaProduction
                     @ prodName
                     a_cb( metaProduction )
@@ -46,4 +46,5 @@ $group
                     for var k in mp.plainDocuments
                         var newk = 'plainDocuments/' + mp.productionName + '/' + k
                         set result[newk] = mp.plainDocuments[k]
-            r_cb( result )
+                r_cb( result )
+

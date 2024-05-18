@@ -45,7 +45,7 @@ $group
                 @ callback
     +
     $include wizzi/opers/loadMTree.js
-    $include wizzi/opers/loadmTreeBuildUpScript.js
+    $include wizzi/opers/loadMTreeBuildUpScript.js
     $include wizzi/opers/loadWizziModel.js
     $include wizzi/opers/loadWizziModelAndSaveToJson.js
     $include wizzi/opers/loadModelAndGenerateArtifact.js
@@ -68,3 +68,4 @@ $group
     +
     if require.main === module
         _ executeMain()
+

@@ -32,7 +32,7 @@ $group
 				${'$'}if couldBeText
 					set options.couldBeText = true
 
-				info 'node : ${'$'}{name} ----------------------------------------- parent ittf tag : ', parent.tag
+				# loog 'node : ${'$'}{name} ----------------------------------------- parent ittf tag : ', parent.tag
 				foreach item in Object.keys(node)
 					if ['kind', 'start', 'end', 'loc'].indexOf(item) < 0
 						if verify.isNotEmpty(node[item])

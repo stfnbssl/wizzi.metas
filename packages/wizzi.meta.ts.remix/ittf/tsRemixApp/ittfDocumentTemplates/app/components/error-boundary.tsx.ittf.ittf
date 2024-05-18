@@ -1,0 +1,83 @@
+$group
+    import
+        :type ErrorResponse
+        @ isRouteErrorResponse
+        @ useParams
+        @ useRouteError
+        from '@remix-run/react'
+    $if metaCtx.tsRemixApp.useSentry
+        import
+            @ captureRemixErrorBoundaryError
+            from '@sentry/remix'
+    import
+        @ getErrorMessage
+        from '#app/utils/misc.tsx'
+    :type StatusHandler
+        :=>
+            :union
+                :ref JSX.Element
+                :null
+            param info
+                :{
+                    :p error
+                        :ref ErrorResponse
+                    :p params
+                        :ref Record
+                            :param string
+                            :param
+                                :union
+                                    :string
+                                    :undefined
+    export
+        function GeneralErrorBoundary
+            {
+                @ defaultStatusHandler
+                    =
+                        =>
+                            {
+                                @ error
+                            p
+                                + {error.status}
+                                + {error.data}
+                @ statusHandlers
+                @ unexpectedErrorHandler
+                    =
+                        =>
+                            param error
+                            p
+                                + {getErrorMessage(error)}
+                :{
+                    :p defaultStatusHandler
+                        :optional
+                        :ref StatusHandler
+                    :p statusHandlers
+                        :optional
+                        :ref Record
+                            :param number
+                            :param
+                                :ref StatusHandler
+                    :p unexpectedErrorHandler
+                        :optional
+                        :=>
+                            :union
+                                :ref JSX.Element
+                                :null
+                            param error
+                                :unknown
+            const error = useRouteError()
+            $if metaCtx.tsRemixApp.useSentry
+                _ captureRemixErrorBoundaryError(error)
+            const params = useParams()
+            if typeof document !== 'undefined'
+                _ console.error(error)
+            return
+                div
+                    @ className "container flex items-center justify-center p-20 text-h2"
+                    {
+                        iif isRouteErrorResponse(error)
+                            then
+                                _ (statusHandlers?.[error.status] ?? defaultStatusHandler)
+                                    {
+                                        @ error
+                                        @ params
+                            else unexpectedErrorHandler(error)                            

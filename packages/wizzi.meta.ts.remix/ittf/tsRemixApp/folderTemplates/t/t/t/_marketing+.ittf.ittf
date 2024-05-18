@@ -1,0 +1,18 @@
+$group
+    $include logos
+
+    $
+        var items = [
+            "about.tsx",
+            "index.tsx",
+            "privacy.tsx",
+            "support.tsx",
+            "tailwind-preset.ts",
+            "tos.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/app/routes/_marketing+/${item}.ittf.ittf
+            module
+                ${'$'}include tsRemixApp/app/routes/_marketing+/${item}
+	

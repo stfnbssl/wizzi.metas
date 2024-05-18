@@ -145,8 +145,9 @@ $group
         $if wzCtx.Build.useReact
             @vitejs/plugin-react "^2.1.0"
     $if (wzCtx.Build.isWizziPlugin && wzCtx.Build.useWizziV08) || wzCtx.Build.useWizziFactory
-        @wizzi/factory "latest"
-        @wizzi/utils "latest"
+        @wizzi/factory "^0.8.35"
+    $if wzCtx.Build.useWizziFactory
+        @wizzi/utils "^0.8.21"
     $if wzCtx.Build.useTailwindcss
         autoprefixer "^10.4.7"
     $if wzCtx.Build.useLint
@@ -325,3 +326,4 @@ $group
     $if wzCtx.Build.useWebpack
         $if wzCtx.Build.webpack.useWorker
             worker-plugin "^5.0.0"
+

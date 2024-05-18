@@ -1,0 +1,235 @@
+$group
+    import
+        :type CreateReporter
+        from '@epic-web/cachified'
+    export
+        :type Timings
+            :ref Record
+                :param string
+                :param
+                    :ref Array
+                        :param
+                            :intersect
+                                :{
+                                    :p desc
+                                        :optional
+                                        :string
+                                :paren
+                                    :union
+                                        :{
+                                            :p time
+                                                :number
+                                            :p start
+                                                :optional
+                                                :never
+                                        :{
+                                            :p time
+                                                :optional
+                                                :never
+                                            :p start
+                                                :number
+    export
+        function makeTimings
+            param type
+                :string
+            param desc
+                :string
+                :optional
+            const timings
+                :ref Timings
+                =
+                    {
+                        [ [type]
+                            {
+                                @ desc
+                                @ start performance.now()
+            _ Object.defineProperty
+                @ timings
+                @ 'toString'
+                {
+                    @ value
+                        function
+                            return getServerTimeHeader(timings)
+                    @ enumerable false
+            return timings
+    function createTimer
+        param type
+            :string
+        param desc
+            :string
+            :optional
+        const start = performance.now()
+        return
+            {
+                m end
+                    param timings
+                        :ref Timings
+                    let timingType = timings[type]
+                    if !timingType
+                        set timingType =
+                            set timings[type] = []
+                            # eslint-disable-next-line no-multi-assign
+                    _ timingType.push
+                        {
+                            @ desc
+                            @ time performance.now() - start
+    export
+        async-function time
+            :< ReturnType
+            param fn
+                :union
+                    :ref Promise
+                        :param
+                            :ref ReturnType
+                    :paren
+                        :=>
+                            :union
+                                :ref ReturnType
+                                :ref Promise
+                                    :param
+                                        :ref ReturnType
+            {
+                @ type
+                @ desc
+                @ timings
+                :{
+                    :p type
+                        :string
+                    :p desc
+                        :optional
+                        :string
+                    :p timings
+                        :optional
+                        :ref Timings
+            :return
+                :ref Promise
+                    :param
+                        :ref ReturnType
+            const timer = createTimer(type, desc)
+            const promise
+                iif typeof fn === 'function'
+                    then fn()
+                    else fn
+            if !timings
+                return promise
+            const result
+                await
+                    @id promise
+            _ timer.end(timings)
+            return result
+    export
+        function getServerTimeHeader
+            param timings
+                :ref Timings
+                :optional
+            if !timings
+                return ''
+            return
+                _ Object.entries(timings).map
+                    =>
+                        param [key, timingInfos]
+                        const dur
+                            _ timingInfos.reduce
+                                =>
+                                    param acc
+                                    param timingInfo
+                                    const time = timingInfo.time ?? performance.now() - timingInfo.start
+                                    return acc + time
+                                @ 0
+                                ._ toFixed
+                                    @ 1
+                        const desc
+                            _ timingInfos.map
+                                =>
+                                    param t
+                                    +
+                                        @expr t.desc
+                                ._ filter
+                                    @ Boolean
+                                ._ join
+                                    @ ' & '
+                        return
+                            [
+                                @ key.replaceAll(/(:| |@|=|;|,|\/|\\)/g, '_')
+                                iif desc
+                                    then
+                                        template
+                                            + desc=
+                                            _ JSON.stringify(desc)
+                                            +
+                                    else null
+                                template
+                                    + dur=
+                                    @ dur
+                                    +
+                                ._ filter
+                                    @ Boolean
+                                ._ join
+                                    @ ';'
+                    ._ join
+                        @ ','
+    export
+        function combineServerTimings
+            param headers1
+                :ref Headers
+            param headers2
+                :ref Headers
+            const newHeaders = new Headers(headers1)
+            _ newHeaders.append('Server-Timing', headers2.get('Server-Timing') ?? '')
+            return newHeaders.get('Server-Timing') ?? ''
+    export
+        function cachifiedTimingReporter
+            :< Value
+            param timings
+                :ref Timings
+                :optional
+            :return
+                :union
+                    :undefined
+                    :ref CreateReporter
+                        :param
+                            :ref Value
+            if !timings
+                return
+            return
+                =>
+                    {
+                        @ key
+                    const cacheRetrievalTimer
+                        _ createTimer
+                            template
+                                + cache:
+                                @ key
+                                +
+                            template
+                                +
+                                @ key
+                                + &nbsp;cache retrieval
+                    let getFreshValueTimer
+                        :union
+                            :ref ReturnType
+                                :param
+                                    :typeof createTimer
+                            :undefined
+                    return
+                        =>
+                            param event
+                            switch event.name
+                                case 'getFreshValueStart'
+                                    set getFreshValueTimer =
+                                        _ createTimer
+                                            template
+                                                + getFreshValue:
+                                                @ key
+                                                +
+                                            template
+                                                + request forced to wait for a fresh&nbsp;
+                                                @ key
+                                                + &nbsp;value
+                                    break
+                                case 'getFreshValueSuccess'
+                                    _ getFreshValueTimer?.end?.(timings)
+                                    break
+                                case 'done'
+                                    _ cacheRetrievalTimer.end(timings)
+                                    break

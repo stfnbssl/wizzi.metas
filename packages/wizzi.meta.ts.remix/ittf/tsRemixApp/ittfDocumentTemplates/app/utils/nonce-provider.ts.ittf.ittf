@@ -1,0 +1,15 @@
+$group
+    import
+        as React
+        from 'react'
+    export
+        const NonceContext
+            _ React.createContext
+                :param string
+                @ ''
+    export
+        const NonceProvider = NonceContext.Provider
+    export
+        const useNonce
+            =>
+                _ React.useContext(NonceContext)

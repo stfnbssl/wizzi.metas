@@ -1,0 +1,32 @@
+$group
+    import
+        @ faker
+        from '@faker-js/faker'
+    import
+        @ expect
+        @ test
+        from 'vitest'
+    import
+        @ consoleError
+        from '#tests/setup/setup-test-env.ts'
+    import
+        @ getErrorMessage
+        from './misc.tsx'
+    _ test
+        @ 'Error object returns message'
+        =>
+            const message = faker.lorem.words(2)
+            _ expect(getErrorMessage(Error(message))).toBe(message)
+    _ test
+        @ 'String returns itself'
+        =>
+            const message = faker.lorem.words(2)
+            _ expect(getErrorMessage(message)).toBe(message)
+    _ test
+        @ 'undefined falls back to Unknown'
+        =>
+            _ consoleError.mockImplementation
+                =>
+            _ expect(getErrorMessage(undefined)).toBe('Unknown Error')
+            _ expect(consoleError).toHaveBeenCalledWith('Unable to get error message for error', undefined)
+            _ expect(consoleError).toHaveBeenCalledTimes(1)

@@ -1,0 +1,110 @@
+$group
+    import path from 'node:path'
+    import
+        @ fileURLToPath
+        from 'node:url'
+    import fsExtra from 'fs-extra'
+    import
+        @ z
+        from 'zod'
+    const __dirname = path.dirname(fileURLToPath(import.meta.url))
+    const fixturesDirPath = path.join(__dirname, '..', 'fixtures')
+    export
+        async-function readFixture
+            param subdir
+                :string
+            param name
+                :string
+            return
+                _ fsExtra.readJSON
+                    _ path.join
+                        @ fixturesDirPath
+                        @ subdir
+                        template
+                            +
+                            @ name
+                            + .json
+    export
+        async-function createFixture
+            param subdir
+                :string
+            param name
+                :string
+            param data
+                :unknown
+            const dir = path.join(fixturesDirPath, subdir)
+            await
+                _ fsExtra.ensureDir(dir)
+            return
+                _ fsExtra.writeJSON
+                    _ path.join
+                        @ dir
+                        template
+                            + ./
+                            @ name
+                            + .json
+                    @ data
+    export
+        const EmailSchema
+            _ z.object
+                {
+                    @ to z.string()
+                    @ from z.string()
+                    @ subject z.string()
+                    @ text z.string()
+                    @ html z.string()
+    export
+        async-function writeEmail
+            param rawEmail
+                :unknown
+            const email = EmailSchema.parse(rawEmail)
+            await
+                _ createFixture('email', email.to, email)
+            return email
+    export
+        async-function requireEmail
+            param recipient
+                :string
+            const email
+                await
+                    _ readEmail(recipient)
+            if !email
+                throw
+                    new Error
+                        template
+                            + Email to&nbsp;
+                            @ recipient
+                            + &nbsp;not found
+            return email
+    export
+        async-function readEmail
+            param recipient
+                :string
+            try
+                const email
+                    await
+                        _ readFixture('email', recipient)
+                return EmailSchema.parse(email)
+            catch error
+                _ console.error
+                    template
+                        + Error reading email
+                    @ error
+                return null
+    export
+        function requireHeader
+            param headers
+                :ref Headers
+            param header
+                :string
+            if !headers.has(header)
+                const headersString = JSON.stringify(Object.fromEntries(headers.entries()), null, 2)
+                throw
+                    new Error
+                        template
+                            + Header "
+                            @ header
+                            + " required, but not found in&nbsp;
+                            @ headersString
+                            +
+            return headers.get(header)

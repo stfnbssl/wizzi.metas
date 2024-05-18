@@ -1,0 +1,50 @@
+$group
+    import
+        @ redirect
+        :type ActionFunctionArgs
+        from '@remix-run/node'
+    import
+        @ authenticator
+        from '#app/utils/auth.server.ts'
+    import
+        @ handleMockAction
+        from '#app/utils/connections.server.ts'
+    import
+        @ ProviderNameSchema
+        from '#app/utils/connections.tsx'
+    import
+        @ getReferrerRoute
+        from '#app/utils/misc.tsx'
+    import
+        @ getRedirectCookieHeader
+        from '#app/utils/redirect-cookie.server.ts'
+    export
+        async-function loader
+            return redirect('/login')
+    export
+        async-function action
+            {
+                @ request
+                @ params
+                :ref ActionFunctionArgs
+            const providerName = ProviderNameSchema.parse(params.provider)
+            try
+                await
+                    _ handleMockAction(providerName, request)
+                return
+                    await
+                        _ authenticator.authenticate(providerName, request)
+            catch error
+                if error instanceof Response
+                    const formData
+                        await
+                            _ request.formData()
+                    const rawRedirectTo = formData.get('redirectTo')
+                    const redirectTo
+                        iif typeof rawRedirectTo === 'string'
+                            then rawRedirectTo
+                            else getReferrerRoute(request)
+                    const redirectToCookie = getRedirectCookieHeader(redirectTo)
+                    if redirectToCookie
+                        _ error.headers.append('set-cookie', redirectToCookie)
+                throw error

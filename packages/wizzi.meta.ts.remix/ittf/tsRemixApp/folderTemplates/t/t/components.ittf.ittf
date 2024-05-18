@@ -1,0 +1,20 @@
+$group
+    $include ui
+
+    $
+        var items = [
+            "error-boundary.tsx",
+            "floating-toolbar.tsx",
+            "forms.tsx",
+            "progress-bar.tsx",
+            "search-bar.tsx",
+            "spacer.tsx",
+            "toaster.tsx",
+        ];
+        var items_stop = [
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/app/components/${item}.ittf.ittf
+            module
+                ${'$'}include tsRemixApp/app/components/${item}

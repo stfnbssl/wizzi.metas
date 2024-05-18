@@ -1,0 +1,356 @@
+$group
+    import
+        @ useInputControl
+        from '@conform-to/react'
+    import
+        @ REGEXP_ONLY_DIGITS_AND_CHARS
+        :type OTPInputProps
+        from 'input-otp'
+    import React
+        @ useId
+        from 'react'
+    import
+        @ Checkbox
+        :type CheckboxProps
+        from './ui/checkbox.tsx'
+    import
+        @ InputOTP
+        @ InputOTPGroup
+        @ InputOTPSeparator
+        @ InputOTPSlot
+        from './ui/input-otp.tsx'
+    import
+        @ Input
+        from './ui/input.tsx'
+    import
+        @ Label
+        from './ui/label.tsx'
+    import
+        @ Textarea
+        from './ui/textarea.tsx'
+    export
+        :type ListOfErrors
+            :union
+                :ref Array
+                    :param
+                        :union
+                            :string
+                            :null
+                            :undefined
+                :null
+                :undefined
+    export
+        function ErrorList
+            {
+                @ id
+                @ errors
+                :{
+                    :p errors
+                        :optional
+                        :ref ListOfErrors
+                    :p id
+                        :optional
+                        :string
+            const errorsToRender = errors?.filter?.(Boolean)
+            if !errorsToRender?.length
+                return null
+            return
+                ul
+                    @ id {id}
+                    @ className "flex flex-col gap-1"
+                    {
+                        _ errorsToRender.map
+                            =>
+                                param e
+                                li
+                                    @ key {e}
+                                    @ className "text-[10px] text-foreground-destructive"
+                                    + {e}
+    export
+        function Field
+            {
+                @ labelProps
+                @ inputProps
+                @ errors
+                @ className
+                :{
+                    :p labelProps
+                        :ref React.LabelHTMLAttributes
+                            :param
+                                :ref HTMLLabelElement
+                    :p inputProps
+                        :ref React.InputHTMLAttributes
+                            :param
+                                :ref HTMLInputElement
+                    :p errors
+                        :optional
+                        :ref ListOfErrors
+                    :p className
+                        :optional
+                        :string
+            const fallbackId = useId()
+            const id = inputProps.id ?? fallbackId
+            const errorId
+                iif errors?.length
+                    then
+                        template
+                            +
+                            @ id
+                            + -error
+                    else undefined
+            return
+                div
+                    @ className {className}
+                    < Label
+                        @ htmlFor {id}
+                        ... labelProps
+                    < Input
+                        @ id {id}
+                        @ aria-invalid
+                            iif errorId
+                                then true
+                                else undefined
+                        @ aria-describedby {errorId}
+                        ... inputProps
+                    div
+                        @ className "min-h-[32px] px-4 pb-3 pt-1"
+                        {
+                            iif errorId
+                                then
+                                    < ErrorList
+                                        @ id {errorId}
+                                        @ errors {errors}
+                                else null
+    export
+        function OTPField
+            {
+                @ labelProps
+                @ inputProps
+                @ errors
+                @ className
+                :{
+                    :p labelProps
+                        :ref React.LabelHTMLAttributes
+                            :param
+                                :ref HTMLLabelElement
+                    :p inputProps
+                        :ref Partial
+                            :param
+                                :intersect
+                                    :ref OTPInputProps
+                                    :{
+                                        :p render
+                                            :never
+                    :p errors
+                        :optional
+                        :ref ListOfErrors
+                    :p className
+                        :optional
+                        :string
+            const fallbackId = useId()
+            const id = inputProps.id ?? fallbackId
+            const errorId
+                iif errors?.length
+                    then
+                        template
+                            +
+                            @ id
+                            + -error
+                    else undefined
+            return
+                div
+                    @ className {className}
+                    < Label
+                        @ htmlFor {id}
+                        ... labelProps
+                    < InputOTP
+                        @ pattern {REGEXP_ONLY_DIGITS_AND_CHARS}
+                        @ maxLength {6}
+                        @ id {id}
+                        @ aria-invalid
+                            iif errorId
+                                then true
+                                else undefined
+                        @ aria-describedby {errorId}
+                        ... inputProps
+                        < InputOTPGroup
+                            < InputOTPSlot
+                                @ index {0}
+                            < InputOTPSlot
+                                @ index {1}
+                            < InputOTPSlot
+                                @ index {2}
+                        < InputOTPSeparator
+                        < InputOTPGroup
+                            < InputOTPSlot
+                                @ index {3}
+                            < InputOTPSlot
+                                @ index {4}
+                            < InputOTPSlot
+                                @ index {5}
+                    div
+                        @ className "min-h-[32px] px-4 pb-3 pt-1"
+                        {
+                            iif errorId
+                                then
+                                    < ErrorList
+                                        @ id {errorId}
+                                        @ errors {errors}
+                                else null
+    export
+        function TextareaField
+            {
+                @ labelProps
+                @ textareaProps
+                @ errors
+                @ className
+                :{
+                    :p labelProps
+                        :ref React.LabelHTMLAttributes
+                            :param
+                                :ref HTMLLabelElement
+                    :p textareaProps
+                        :ref React.TextareaHTMLAttributes
+                            :param
+                                :ref HTMLTextAreaElement
+                    :p errors
+                        :optional
+                        :ref ListOfErrors
+                    :p className
+                        :optional
+                        :string
+            const fallbackId = useId()
+            const id = textareaProps.id ?? textareaProps.name ?? fallbackId
+            const errorId
+                iif errors?.length
+                    then
+                        template
+                            +
+                            @ id
+                            + -error
+                    else undefined
+            return
+                div
+                    @ className {className}
+                    < Label
+                        @ htmlFor {id}
+                        ... labelProps
+                    < Textarea
+                        @ id {id}
+                        @ aria-invalid
+                            iif errorId
+                                then true
+                                else undefined
+                        @ aria-describedby {errorId}
+                        ... textareaProps
+                    div
+                        @ className "min-h-[32px] px-4 pb-3 pt-1"
+                        {
+                            iif errorId
+                                then
+                                    < ErrorList
+                                        @ id {errorId}
+                                        @ errors {errors}
+                                else null
+    export
+        function CheckboxField
+            {
+                @ labelProps
+                @ buttonProps
+                @ errors
+                @ className
+                :{
+                    :p labelProps
+                        :[]
+                            :ref JSX.IntrinsicElements
+                            :literal 'label'
+                    :p buttonProps
+                        :intersect
+                            :ref CheckboxProps
+                            :{
+                                :p name
+                                    :string
+                                :p form
+                                    :string
+                                :p value
+                                    :optional
+                                    :string
+                    :p errors
+                        :optional
+                        :ref ListOfErrors
+                    :p className
+                        :optional
+                        :string
+            const
+                {
+                    @ key
+                    @ defaultChecked
+                    ... checkboxProps
+                = buttonProps
+            const fallbackId = useId()
+            const checkedValue = buttonProps.value ?? 'on'
+            const input
+                _ useInputControl
+                    {
+                        @ key
+                        @ name buttonProps.name
+                        @ formId buttonProps.form
+                        @ initialValue
+                            iif defaultChecked
+                                then checkedValue
+                                else undefined
+            const id = buttonProps.id ?? fallbackId
+            const errorId
+                iif errors?.length
+                    then
+                        template
+                            +
+                            @ id
+                            + -error
+                    else undefined
+            return
+                div
+                    @ className {className}
+                    div
+                        @ className "flex gap-2"
+                        < Checkbox
+                            ... checkboxProps
+                            @ id {id}
+                            @ aria-invalid
+                                iif errorId
+                                    then true
+                                    else undefined
+                            @ aria-describedby {errorId}
+                            @ checked {input.value === checkedValue}
+                            @ onCheckedChange
+                                =>
+                                    param state
+                                    _ input.change
+                                        iif state.valueOf()
+                                            then checkedValue
+                                            else ''
+                                    _ buttonProps.onCheckedChange?.(state)
+                            @ onFocus
+                                =>
+                                    param event
+                                    _ input.focus()
+                                    _ buttonProps.onFocus?.(event)
+                            @ onBlur
+                                =>
+                                    param event
+                                    _ input.blur()
+                                    _ buttonProps.onBlur?.(event)
+                            @ type "button"
+                        label
+                            @ htmlFor {id}
+                            ... labelProps
+                            @ className "self-center text-body-xs text-muted-foreground"
+                    div
+                        @ className "px-4 pb-3 pt-1"
+                        {
+                            iif errorId
+                                then
+                                    < ErrorList
+                                        @ id {errorId}
+                                        @ errors {errors}
+                                else null

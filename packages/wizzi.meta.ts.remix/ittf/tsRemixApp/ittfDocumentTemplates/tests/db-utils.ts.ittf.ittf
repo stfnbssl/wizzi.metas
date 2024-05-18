@@ -1,0 +1,208 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDevDep ('enforce-unique', '^1.3.0');
+
+    import fs from 'node:fs'
+    import
+        @ faker
+        from '@faker-js/faker'
+    import
+        :type PrismaClient
+        from '@prisma/client'
+    import bcrypt from 'bcryptjs'
+    import
+        @ UniqueEnforcer
+        from 'enforce-unique'
+    const uniqueUsernameEnforcer = new UniqueEnforcer()
+    export
+        function createUser
+            const firstName = faker.person.firstName()
+            const lastName = faker.person.lastName()
+            const username
+                _ uniqueUsernameEnforcer.enforce
+                    =>
+                        return
+                            op+
+                                op+
+                                    _ faker.string.alphanumeric
+                                        {
+                                            @ length 2
+                                    + '_'
+                                _ faker.internet.userName
+                                    {
+                                        @ firstName firstName.toLowerCase()
+                                        @ lastName lastName.toLowerCase()
+                    ._ slice
+                        @ 0
+                        @ 20
+                    ._ toLowerCase
+                    ._ replace
+                        @ /[^a-z0-9_]/g
+                        @ '_'
+            return
+                {
+                    @ username
+                    @ name
+                        template
+                            +
+                            @ firstName
+                            + &nbsp;
+                            @ lastName
+                            +
+                    @ email
+                        template
+                            +
+                            @ username
+                            + @example.com
+    export
+        function createPassword
+            param password
+                :string
+                = faker.internet.password()
+            return
+                {
+                    @ hash bcrypt.hashSync(password, 10)
+    let noteImages
+        :union
+            :ref Array
+                :param
+                    :ref Awaited
+                        :param
+                            :ref ReturnType
+                                :param
+                                    :typeof img
+            :undefined
+    export
+        async-function getNoteImages
+            if noteImages
+                return noteImages
+            set noteImages =
+                await
+                    _ Promise.all
+                        [
+                            _ img
+                                {
+                                    @ altText 'a nice country house'
+                                    @ filepath './tests/fixtures/images/notes/0.png'
+                            _ img
+                                {
+                                    @ altText 'a city scape'
+                                    @ filepath './tests/fixtures/images/notes/1.png'
+                            _ img
+                                {
+                                    @ altText 'a sunrise'
+                                    @ filepath './tests/fixtures/images/notes/2.png'
+                            _ img
+                                {
+                                    @ altText 'a group of friends'
+                                    @ filepath './tests/fixtures/images/notes/3.png'
+                            _ img
+                                {
+                                    @ altText 'friends being inclusive of someone who looks lonely'
+                                    @ filepath './tests/fixtures/images/notes/4.png'
+                            _ img
+                                {
+                                    @ altText 'an illustration of a hot air balloon'
+                                    @ filepath './tests/fixtures/images/notes/5.png'
+                            _ img
+                                {
+                                    @ altText 'an office full of laptops and other office equipment that look like it was abandoned in a rush out of the building in an emergency years ago.'
+                                    @ filepath './tests/fixtures/images/notes/6.png'
+                            _ img
+                                {
+                                    @ altText 'a rusty lock'
+                                    @ filepath './tests/fixtures/images/notes/7.png'
+                            _ img
+                                {
+                                    @ altText 'something very happy in nature'
+                                    @ filepath './tests/fixtures/images/notes/8.png'
+                            _ img
+                                {
+                                    @ altText
+                                        template
+                                            + someone at the end of a cry session who's starting to feel a little better.
+                                    @ filepath './tests/fixtures/images/notes/9.png'
+            return noteImages
+    let userImages
+        :union
+            :ref Array
+                :param
+                    :ref Awaited
+                        :param
+                            :ref ReturnType
+                                :param
+                                    :typeof img
+            :undefined
+    export
+        async-function getUserImages
+            if userImages
+                return userImages
+            set userImages =
+                await
+                    _ Promise.all
+                        _ Array.from
+                            {
+                                @ length 10
+                            =>
+                                param _
+                                param index
+                                _ img
+                                    {
+                                        @ filepath
+                                            template
+                                                + ./tests/fixtures/images/user/
+                                                @ index
+                                                + .jpg
+            return userImages
+    export
+        async-function img
+            {
+                @ altText
+                @ filepath
+                :{
+                    :p altText
+                        :optional
+                        :string
+                    :p filepath
+                        :string
+            return
+                {
+                    @ altText
+                    @ contentType
+                        iif filepath.endsWith('.png')
+                            then 'image/png'
+                            else 'image/jpeg'
+                    @ blob
+                        await
+                            _ fs.promises.readFile(filepath)
+    export
+        async-function cleanupDb
+            param prisma
+                :ref PrismaClient
+            const tables
+                await
+                    _` prisma.$queryRaw
+                        + SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_prisma_migrations';
+            await
+                _ prisma.$transaction
+                    [
+                        _ prisma.$executeRawUnsafe
+                            template
+                                + PRAGMA foreign_keys = OFF
+                            # Disable FK constraints to avoid relation conflicts during deletion
+                        ...
+                            _ tables.map
+                                =>
+                                    {
+                                        @ name
+                                    _ prisma.$executeRawUnsafe
+                                        template
+                                            + DELETE from "
+                                            @ name
+                                            + "
+                            # Delete all rows from each table, preserving table structures
+                        _ prisma.$executeRawUnsafe
+                            template
+                                + PRAGMA foreign_keys = ON

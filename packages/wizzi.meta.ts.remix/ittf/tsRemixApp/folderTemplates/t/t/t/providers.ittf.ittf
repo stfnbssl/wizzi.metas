@@ -1,0 +1,9 @@
+$group
+    
+    $file __dot__wizzi/app/utils/providers/github.server.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/utils/providers/github.server.ts
+    
+    $file __dot__wizzi/app/utils/providers/provider.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/utils/providers/provider.ts

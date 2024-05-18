@@ -1,0 +1,26 @@
+$group
+
+    $
+        var items = [
+            "auth.$provider.callback.test.ts",
+            "auth.$provider.callback.ts",
+            "auth.$provider.ts",
+            "forgot-password.tsx",
+            "login.server.ts",
+            "login.tsx",
+            "logout.tsx",
+            "onboarding_.$provider.server.ts",
+            "onboarding_.$provider.tsx",
+            "onboarding.server.ts",
+            "onboarding.tsx",
+            "reset-password.server.ts",
+            "reset-password.tsx",
+            "signup.tsx",
+            "verify.server.ts",
+            "verify.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/app/routes/_auth+/${item}.ittf.ittf
+            module
+            	${'$'}include tsRemixApp/app/routes/_auth+/${item}

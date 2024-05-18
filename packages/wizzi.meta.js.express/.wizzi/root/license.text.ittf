@@ -1,7 +1,7 @@
 text
     $if !wzCtx.license
         $throw The wzCtx.license object is required in wzCtx.json.ittf
-    $if wzCtx.license.name === 'MIT'
+    $if wzCtx.license.type === 'MIT'
         MIT License
         br
         Copyright (c) ${wzCtx.license.copy}
@@ -24,4 +24,5 @@ text
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
         THE SOFTWARE.
     $else
-        $throw Property wzCtx.license.name = '${wzCtx.license.name}' not managed.
+        $throw Property wzCtx.license.type = '${wzCtx.license.type}' not managed.
+

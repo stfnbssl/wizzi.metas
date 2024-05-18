@@ -1,5 +1,13 @@
 $group
     $if metaCtx.useTsRemixApp
         $include wzCtxModel
+        $include __generate
+        $include models
         $include root
         $include app
+        $include other
+        $include prisma
+        $include tests
+        $include types
+        $if metaCtx.tsRemixApp.useExpress
+            $include server

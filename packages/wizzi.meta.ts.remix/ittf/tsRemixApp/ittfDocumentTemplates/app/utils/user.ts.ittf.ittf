@@ -1,0 +1,150 @@
+$group
+    import
+        :type SerializeFrom
+        from '@remix-run/node'
+    import
+        @ useRouteLoaderData
+        from '@remix-run/react'
+    import
+        :type loader
+            as rootLoader
+        from '#app/root.tsx'
+    function isUser
+        param user
+            :any
+        :return
+            :predicate user
+                :[]
+                    :ref SerializeFrom
+                        :param
+                            :typeof rootLoader
+                    :literal 'user'
+        return user && typeof user === 'object' && typeof user.id === 'string'
+    export
+        function useOptionalUser
+            const data
+                _ useRouteLoaderData
+                    :param
+                        :typeof rootLoader
+                    @ 'root'
+            if !data || !isUser(data.user)
+                return undefined
+            return data.user
+    export
+        function useUser
+            const maybeUser = useOptionalUser()
+            if !maybeUser
+                throw new Error('No user found in root loader, but user is required by useUser. If user is optional, try useOptionalUser instead.')
+            return maybeUser
+    :type Action
+        :union
+            :literal 'create'
+            :literal 'read'
+            :literal 'update'
+            :literal 'delete'
+    :type Entity
+        :union
+            :literal 'user'
+            :literal 'note'
+    :type Access
+        :union
+            :literal 'own'
+            :literal 'any'
+            :literal 'own,any'
+            :literal 'any,own'
+    export
+        :type PermissionString
+            :union
+                template
+                    +
+                    :ref Action
+                    + :
+                    :ref Entity
+                    +
+                template
+                    +
+                    :ref Action
+                    + :
+                    :ref Entity
+                    + :
+                    :ref Access
+                    +
+    export
+        function parsePermissionString
+            param permissionString
+                :ref PermissionString
+            const [action, entity, access]
+                _ permissionString.split(':')
+                    :as
+                        :tuple
+                            :ref Action
+                            :ref Entity
+                            :union
+                                :ref Access
+                                :undefined
+            return
+                {
+                    @ action
+                    @ entity
+                    @ access
+                        iif access
+                            then
+                                ${'('}
+                                    _ access.split(',')
+                                        :as
+                                            :ref Array
+                                                :param
+                                                    :ref Access
+                            else undefined
+    export
+        function userHasPermission
+            param user
+                :union
+                    :ref Pick
+                        :param
+                            :ref ReturnType
+                                :param
+                                    :typeof useUser
+                        :param
+                            :literal 'roles'
+                    :null
+                    :undefined
+            param permission
+                :ref PermissionString
+            if !user
+                return false
+            const
+                {
+                    @ action
+                    @ entity
+                    @ access
+                = parsePermissionString(permission)
+            return
+                _ user.roles.some
+                    =>
+                        param role
+                        _ role.permissions.some
+                            =>
+                                param permission
+                                @expr permission.entity === entity && permission.action === action && (!access || access.includes(permission.access))
+    export
+        function userHasRole
+            param user
+                :union
+                    :ref Pick
+                        :param
+                            :ref ReturnType
+                                :param
+                                    :typeof useUser
+                        :param
+                            :literal 'roles'
+                    :null
+            param role
+                :string
+            if !user
+                return false
+            return
+                _ user.roles.some
+                    =>
+                        param r
+                        set r.name === role

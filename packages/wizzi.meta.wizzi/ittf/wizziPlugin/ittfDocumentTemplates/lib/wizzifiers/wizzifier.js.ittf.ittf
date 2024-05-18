@@ -38,6 +38,13 @@ $group
                         _ callback
                             @ ex
                 
+        +
+        set md.isForBinaryFile
+            function
+                $if schemaIsForBinaryFile
+                    return true
+                $else
+                    return false
         $if useFormatAstMethods
             +
             var format

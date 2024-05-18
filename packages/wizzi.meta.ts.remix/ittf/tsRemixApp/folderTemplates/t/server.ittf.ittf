@@ -1,0 +1,8 @@
+$group
+    $file __dot__wizzi/server/index.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/server/index.ts
+    $file __dot__wizzi/server/dev-server.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include tsRemixApp/server/dev-server.js

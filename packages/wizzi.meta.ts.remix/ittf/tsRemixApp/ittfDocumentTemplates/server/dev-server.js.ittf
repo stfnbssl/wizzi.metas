@@ -1,0 +1,29 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('execa', '^8.0.1');
+
+    import 
+        @ execa
+        from 'execa'
+    if process.env.NODE_ENV === 'production'
+        await 
+            _ import
+                @ './index.js'
+    else
+        const command = 'tsx watch --clear-screen=false --ignore ".cache/**" --ignore "app/**" --ignore "vite.config.ts.timestamp-*" --ignore "build/**" --ignore "node_modules/**" --inspect ./index.js'
+        _ execa
+            @ command
+            { 
+                [ stdio
+                    @ 'ignore'
+                    @ 'inherit'
+                    @ 'inherit'
+                @ shell true
+                { env
+                    @ FORCE_COLOR true
+                    @ MOCKS true
+                    @ ...process.env
+                @ windowsHide false
+                    # https://github.com/sindresorhus/execa/issues/433

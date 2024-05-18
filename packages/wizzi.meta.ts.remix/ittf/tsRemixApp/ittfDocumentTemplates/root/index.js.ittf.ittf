@@ -1,0 +1,56 @@
+$group
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('source-map-support','^0.5.21');
+        setCtxDevDep ('@types/source-map-support', '^0.5.10');
+    kind react
+    import 'dotenv/config'
+    import
+        as fs
+        from 'fs'
+    import chalk from 'chalk'
+    import closeWithGrace from 'close-with-grace'
+    import sourceMapSupport from 'source-map-support'
+    _ sourceMapSupport.install
+        {
+            @ retrieveSourceMap
+                function
+                    param source
+                    const match = source.match(/^file:\/\/(.*)\?t=[.\d]+$/)
+                        # get source file without the `file://` prefix or `?t=...` suffix
+                    if match
+                        return
+                            {
+                                @ url source
+                                @ map
+                                    _ fs.readFileSync
+                                        template
+                                            +
+                                            @ match[1]
+                                            + .map
+                                        @ 'utf8'
+                    return null
+    _ closeWithGrace
+        async=>
+            {
+                @ err
+            if err
+                _ console.error(chalk.red(err))
+                _ console.error(chalk.red(err.stack))
+                _ process.exit(1)
+    
+    $if metaCtx.tsRemixApp.useTest
+        $if metaCtx.tsRemixApp.test.useMocks
+            if process.env.MOCKS === 'true'
+                await
+                    _ import
+                        @ './tests/mocks/index.ts'
+    
+    if process.env.NODE_ENV === 'production'
+        await
+            _ import
+                @ './server-build/index.js'
+    else
+        await
+            _ import
+                @ './server/index.ts'

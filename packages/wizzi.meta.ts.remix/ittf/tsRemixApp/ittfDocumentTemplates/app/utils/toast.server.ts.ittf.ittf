@@ -1,0 +1,118 @@
+$group
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('@paralleldrive/cuid2', '^2.2.2');
+    
+    import
+        @ createId
+            as cuid
+        from '@paralleldrive/cuid2'
+    import
+        @ createCookieSessionStorage
+        @ redirect
+        from '@remix-run/node'
+    import
+        @ z
+        from 'zod'
+    import
+        @ combineHeaders
+        from './misc.tsx'
+    export
+        const toastKey = 'toast'
+    const ToastSchema
+        _ z.object
+            {
+                @ description z.string()
+                @ id
+                    _ z.string().default
+                        =>
+                            _ cuid()
+                @ title z.string().optional()
+                @ type
+                    _ z.enum
+                        [
+                            @ 'message'
+                            @ 'success'
+                            @ 'error'
+                        ._ default
+                            @ 'message'
+    export
+        :type Toast
+            :ref z.infer
+                :param
+                    :typeof ToastSchema
+    export
+        :type ToastInput
+            :ref z.input
+                :param
+                    :typeof ToastSchema
+    export
+        const toastSessionStorage
+            _ createCookieSessionStorage
+                {
+                    { cookie
+                        @ name 'en_toast'
+                        @ sameSite 'lax'
+                        @ path '/'
+                        @ httpOnly true
+                        @ secrets process.env.SESSION_SECRET.split(',')
+                        @ secure process.env.NODE_ENV === 'production'
+    export
+        async-function redirectWithToast
+            param url
+                :string
+            param toast
+                :ref ToastInput
+            param init
+                :ref ResponseInit
+                :optional
+            return
+                _ redirect
+                    @ url
+                    {
+                        @ ...init
+                        @ headers
+                            _ combineHeaders
+                                @expr init?.headers
+                                await
+                                    _ createToastHeaders(toast)
+    export
+        async-function createToastHeaders
+            param toastInput
+                :ref ToastInput
+            const session
+                await
+                    _ toastSessionStorage.getSession()
+            const toast = ToastSchema.parse(toastInput)
+            _ session.flash(toastKey, toast)
+            const cookie
+                await
+                    _ toastSessionStorage.commitSession(session)
+            return
+                new Headers
+                    {
+                        @ 'set-cookie' cookie
+    export
+        async-function getToast
+            param request
+                :ref Request
+            const session
+                await
+                    _ toastSessionStorage.getSession(request.headers.get('cookie'))
+            const result = ToastSchema.safeParse(session.get(toastKey))
+            const toast
+                iif result.success
+                    then result.data
+                    else null
+            return
+                {
+                    @ toast
+                    @ headers
+                        iif toast
+                            then
+                                new Headers
+                                    {
+                                        @ 'set-cookie'
+                                            await
+                                                _ toastSessionStorage.destroySession(session)
+                            else null

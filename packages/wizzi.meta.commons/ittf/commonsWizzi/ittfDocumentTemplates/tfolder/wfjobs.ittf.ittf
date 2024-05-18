@@ -161,6 +161,15 @@ $group
                 model-ref ${'$'}{jobCtx.job_model}
                     export-name ${'$'}{jobCtx.job_model}
             ${'$'}hook
+        artifact any_yaml
+            src ./**/*.yaml.ittf
+            schema yaml
+            generator yaml/document
+            extension yaml
+            ${'$'}if jobCtx.job_model
+                model-ref ${'$'}{jobCtx.job_model}
+                    export-name ${'$'}{jobCtx.job_model}
+            ${'$'}hook
 
     ${'$'}elif name == 'any_yaml'
         artifact any_yaml
@@ -172,6 +181,15 @@ $group
                 model-ref ${'$'}{jobCtx.job_model}
                     export-name ${'$'}{jobCtx.job_model}
             ${'$'}hook
+        artifact any_yml
+            src ./**/*.yml.ittf
+            schema yaml
+            generator yaml/document
+            extension yml
+            ${'$'}if jobCtx.job_model
+                model-ref ${'$'}{jobCtx.job_model}
+                    export-name ${'$'}{jobCtx.job_model}
+            ${'$'}hook
 
     ${'$'}elif name == 'any_md'
         artifact any_md
@@ -179,6 +197,28 @@ $group
             schema md
             generator md/document
             extension md
+            ${'$'}if jobCtx.job_model
+                model-ref ${'$'}{jobCtx.job_model}
+                    export-name ${'$'}{jobCtx.job_model}
+            ${'$'}hook
+
+    ${'$'}elif name == 'any_toml'
+        artifact any_toml
+            src ./**/*.toml.ittf
+            schema toml
+            generator toml/document
+            extension toml
+            ${'$'}if jobCtx.job_model
+                model-ref ${'$'}{jobCtx.job_model}
+                    export-name ${'$'}{jobCtx.job_model}
+            ${'$'}hook
+
+    ${'$'}elif name == 'any_prisma'
+        artifact any_prisma
+            src ./**/*.prisma.ittf
+            schema prisma
+            generator prisma/document
+            extension prisma
             ${'$'}if jobCtx.job_model
                 model-ref ${'$'}{jobCtx.job_model}
                     export-name ${'$'}{jobCtx.job_model}
@@ -273,6 +313,18 @@ $group
                     export-name ${'$'}{jobCtx.job_model}
             ${'$'}hook
 
+    ${'$'}elif name == '.env.example'
+        artifact .env.example
+            src .env.example.text.ittf
+            schema text
+            generator text/document
+            dest-path .env.example
+            extension example
+            ${'$'}if jobCtx.job_model
+                model-ref ${'$'}{jobCtx.job_model}
+                    export-name ${'$'}{jobCtx.job_model}
+            ${'$'}hook
+
     ${'$'}elif name == 'www'
         artifact www
             src bin/www.js.ittf
@@ -320,6 +372,19 @@ $group
                     export-name ${'$'}{jobCtx.job_model}
             ${'$'}hook
 
+    ${'$'}elif name == '.prettierrc.js'
+        artifact .prettierrc
+            src .prettierrc.js.ittf
+            schema js
+            generator js/module
+            dest-path .prettierrc.js
+            extension js
+            ${'$'}if jobCtx.job_model
+                model-ref ${'$'}{jobCtx.job_model}
+                    export-name ${'$'}{jobCtx.job_model}
+            ${'$'}hook
+
+
     ${'$'}elif name == '.prettierignore'
         artifact .prettierignore
             src .prettierignore.text.ittf
@@ -339,6 +404,18 @@ $group
             generator js/module
             dest-path .eslintrc.js
             extension js
+            ${'$'}if jobCtx.job_model
+                model-ref ${'$'}{jobCtx.job_model}
+                    export-name ${'$'}{jobCtx.job_model}
+            ${'$'}hook
+
+    ${'$'}elif name == '.eslintrc.cjs'
+        artifact .eslintrc
+            src .eslintrc.cjs.ittf
+            schema js
+            generator js/module
+            dest-path .eslintrc.cjs
+            extension cjs
             ${'$'}if jobCtx.job_model
                 model-ref ${'$'}{jobCtx.job_model}
                     export-name ${'$'}{jobCtx.job_model}
@@ -466,5 +543,6 @@ $group
 			extension ${'$'}{ext}
 
     ${'$'}else
-        
-        ${'$'}throw wfjob name not managed: ${'$'}{name}
+        $if false
+            $$ TODO finish to implement this in wizzi-mtree
+            ${'$'}throw wfjob name not managed: ${'$'}{name}

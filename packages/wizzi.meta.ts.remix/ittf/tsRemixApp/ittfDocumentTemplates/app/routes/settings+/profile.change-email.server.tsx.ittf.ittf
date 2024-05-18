@@ -1,0 +1,150 @@
+$group
+    import
+        @ invariant
+        from '@epic-web/invariant'
+    import
+        as E
+        from '@react-email/components'
+    import
+        @ json
+        from '@remix-run/node'
+    import
+        @ requireRecentVerification
+        :type VerifyFunctionArgs
+        from '#app/routes/_auth+/verify.server.ts'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    import
+        @ sendEmail
+        from '#app/utils/email.server.ts'
+    import
+        @ redirectWithToast
+        from '#app/utils/toast.server.ts'
+    import
+        @ verifySessionStorage
+        from '#app/utils/verification.server.ts'
+    import
+        @ newEmailAddressSessionKey
+        from './profile.change-email'
+    export
+        async-function handleVerification
+            {
+                @ request
+                @ submission
+                :ref VerifyFunctionArgs
+            await
+                _ requireRecentVerification(request)
+            _ invariant(submission.status === 'success', 'Submission should be successful by now')
+            const verifySession
+                await
+                    _ verifySessionStorage.getSession(request.headers.get('cookie'))
+            const newEmail = verifySession.get(newEmailAddressSessionKey)
+            if !newEmail
+                return
+                    _ json
+                        {
+                            @ result
+                                _ submission.reply
+                                    {
+                                        [ formErrors
+                                            @ 'You must submit the code on the same device that requested the email change.'
+                        {
+                            @ status 400
+            const preUpdateUser
+                await
+                    _ prisma.user.findFirstOrThrow
+                        {
+                            { select
+                                @ email true
+                            { where
+                                @ id submission.value.target
+            const user
+                await
+                    _ prisma.user.update
+                        {
+                            { where
+                                @ id submission.value.target
+                            { select
+                                @ id true
+                                @ email true
+                                @ username true
+                            { data
+                                @ email newEmail
+            void
+                _ sendEmail
+                    {
+                        @ to preUpdateUser.email
+                        @ subject 'Epic Stack email changed'
+                        @ react
+                            < EmailChangeNoticeEmail
+                                @ userId {user.id}
+            return
+                _ redirectWithToast
+                    @ '/settings/profile'
+                    {
+                        @ title 'Email Changed'
+                        @ type 'success'
+                        @ description
+                            template
+                                + Your email has been changed to&nbsp;
+                                @ user.email
+                                +
+                    {
+                        { headers
+                            @ 'set-cookie'
+                                await
+                                    _ verifySessionStorage.destroySession(verifySession)
+    export
+        function EmailChangeEmail
+            {
+                @ verifyUrl
+                @ otp
+                :{
+                    :p verifyUrl
+                        :string
+                    :p otp
+                        :string
+            return
+                < E.Html
+                    @ lang "en"
+                    @ dir "ltr"
+                    < E.Container
+                        h1
+                            < E.Text
+                                + Epic Notes Email Change
+                        p
+                            < E.Text
+                                + Here's your verification code:
+                                strong
+                                    + {otp}
+                        p
+                            < E.Text
+                                + Or click the link:
+                        < E.Link
+                            @ href {verifyUrl}
+                            + {verifyUrl}
+    function EmailChangeNoticeEmail
+        {
+            @ userId
+            :{
+                :p userId
+                    :string
+        return
+            < E.Html
+                @ lang "en"
+                @ dir "ltr"
+                < E.Container
+                    h1
+                        < E.Text
+                            + Your Epic Notes email has been changed
+                    p
+                        < E.Text
+                            + We're writing to let you know that your Epic Notes email has been&lf;						changed.
+                    p
+                        < E.Text
+                            + If you changed your email address, then you can safely ignore this.&lf;						But if you did not change your email address, then please contact&lf;						support immediately.
+                    p
+                        < E.Text
+                            + Your Account ID:
+                            + {userId}

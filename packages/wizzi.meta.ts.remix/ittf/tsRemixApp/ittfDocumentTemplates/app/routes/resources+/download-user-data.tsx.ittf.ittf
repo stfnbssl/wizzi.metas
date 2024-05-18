@@ -1,0 +1,92 @@
+$group
+    import
+        @ json
+        :type LoaderFunctionArgs
+        from '@remix-run/node'
+    import
+        @ requireUserId
+        from '#app/utils/auth.server.ts'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    import
+        @ getDomainUrl
+        from '#app/utils/misc.tsx'
+    export
+        async-function loader
+            {
+                @ request
+                :ref LoaderFunctionArgs
+            const userId
+                await
+                    _ requireUserId(request)
+            const user
+                await
+                    _ prisma.user.findUniqueOrThrow
+                        {
+                            { where
+                                @ id userId
+                            { include
+                                { image
+                                    { select
+                                        @ id true
+                                        @ createdAt true
+                                        @ updatedAt true
+                                        @ contentType true
+                                { notes
+                                    { include
+                                        { images
+                                            { select
+                                                @ id true
+                                                @ createdAt true
+                                                @ updatedAt true
+                                                @ contentType true
+                                @ password false
+                                @ sessions true
+                                    # <-- intentionally omit password
+                                @ roles true
+                                # this is one of the *few* instances where you can use "include" because
+                                # the goal is to literally get *everything*. Normally you should be
+                                # explicit with "select". We're using select for images because we don't
+                                # want to send back the entire blob of the image. We'll send a URL they can
+                                # use to download it instead.
+            const domain = getDomainUrl(request)
+            return
+                _ json
+                    {
+                        { user
+                            @ ...user
+                            @ image
+                                iif user.image
+                                    then
+                                        {
+                                            @ ...user.image
+                                            @ url
+                                                template
+                                                    +
+                                                    @ domain
+                                                    + /resources/user-images/
+                                                    @ user.image.id
+                                                    +
+                                    else null
+                            @ notes
+                                _ user.notes.map
+                                    =>
+                                        param note
+                                        ${'('}
+                                            {
+                                                @ ...note
+                                                @ images
+                                                    _ note.images.map
+                                                        =>
+                                                            param image
+                                                            ${'('}
+                                                                {
+                                                                    @ ...image
+                                                                    @ url
+                                                                        template
+                                                                            +
+                                                                            @ domain
+                                                                            + /resources/note-images/
+                                                                            @ image.id
+                                                                            +

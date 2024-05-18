@@ -6,3 +6,4 @@ $group
                 $if wzCtx.Build.babel.useResolutions
                     $foreach item in wzCtx.Build.babel.resolutions
                         ${item.name} "${item.value}"
+

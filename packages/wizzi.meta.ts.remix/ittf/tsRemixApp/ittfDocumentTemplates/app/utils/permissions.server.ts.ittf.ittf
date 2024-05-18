@@ -1,0 +1,91 @@
+$group
+    import
+        @ json
+        from '@remix-run/node'
+    import
+        @ requireUserId
+        from './auth.server.ts'
+    import
+        @ prisma
+        from './db.server.ts'
+    import
+        :type PermissionString
+        @ parsePermissionString
+        from './user.ts'
+    export
+        async-function requireUserWithPermission
+            param request
+                :ref Request
+            param permission
+                :ref PermissionString
+            const userId
+                await
+                    _ requireUserId(request)
+            const permissionData = parsePermissionString(permission)
+            const user
+                await
+                    _ prisma.user.findFirst
+                        {
+                            { select
+                                @ id true
+                            { where
+                                @ id userId
+                                { roles
+                                    { some
+                                        { permissions
+                                            { some
+                                                @ ...permissionData
+                                                @ access
+                                                    iif permissionData.access
+                                                        then
+                                                            {
+                                                                @ in permissionData.access
+                                                        else undefined
+            if !user
+                throw
+                    _ json
+                        {
+                            @ error 'Unauthorized'
+                            @ requiredPermission permissionData
+                            @ message
+                                template
+                                    + Unauthorized: required permissions:&nbsp;
+                                    @ permission
+                                    +
+                        {
+                            @ status 403
+            return user.id
+    export
+        async-function requireUserWithRole
+            param request
+                :ref Request
+            param name
+                :string
+            const userId
+                await
+                    _ requireUserId(request)
+            const user
+                await
+                    _ prisma.user.findFirst
+                        {
+                            { select
+                                @ id true
+                            { where
+                                @ id userId
+                                { roles
+                                    { some
+                                        @ name
+            if !user
+                throw
+                    _ json
+                        {
+                            @ error 'Unauthorized'
+                            @ requiredRole name
+                            @ message
+                                template
+                                    + Unauthorized: required role:&nbsp;
+                                    @ name
+                                    +
+                        {
+                            @ status 403
+            return user.id

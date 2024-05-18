@@ -1,0 +1,395 @@
+$group
+    import
+        :type Connection
+        :type Password
+        :type User
+        from '@prisma/client'
+    import
+        @ redirect
+        from '@remix-run/node'
+    import bcrypt from 'bcryptjs'
+    import
+        @ Authenticator
+        from 'remix-auth'
+    import
+        @ safeRedirect
+        from 'remix-utils/safe-redirect'
+    import
+        @ connectionSessionStorage
+        @ providers
+        from './connections.server.ts'
+    import
+        @ prisma
+        from './db.server.ts'
+    import
+        @ combineHeaders
+        @ downloadFile
+        from './misc.tsx'
+    import
+        :type ProviderUser
+        from './providers/provider.ts'
+    import
+        @ authSessionStorage
+        from './session.server.ts'
+    export
+        const SESSION_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 30
+    export
+        const getSessionExpirationDate
+            =>
+                new Date(Date.now() + SESSION_EXPIRATION_TIME)
+    export
+        const sessionKey = 'sessionId'
+    export
+        const authenticator
+            new Authenticator
+                :param
+                    :ref ProviderUser
+                @ connectionSessionStorage
+    for
+        left
+            const [providerName, provider]
+        of Object.entries(providers)
+        _ authenticator.use(provider.getAuthStrategy(), providerName)
+    export
+        async-function getUserId
+            param request
+                :ref Request
+            const authSession
+                await
+                    _ authSessionStorage.getSession(request.headers.get('cookie'))
+            const sessionId = authSession.get(sessionKey)
+            if !sessionId
+                return null
+            const session
+                await
+                    _ prisma.session.findUnique
+                        {
+                            { select
+                                { user
+                                    { select
+                                        @ id true
+                            { where
+                                @ id sessionId
+                                { expirationDate
+                                    @ gt new Date()
+            if !session?.user
+                throw
+                    _ redirect
+                        @ '/'
+                        {
+                            { headers
+                                @ 'set-cookie'
+                                    await
+                                        _ authSessionStorage.destroySession(authSession)
+            return session.user.id
+    export
+        async-function requireUserId
+            param request
+                :ref Request
+            {
+                @ redirectTo
+                :{
+                    :p redirectTo
+                        :optional
+                        :union
+                            :string
+                            :null
+                =
+                    {
+            const userId
+                await
+                    _ getUserId(request)
+            if !userId
+                const requestUrl = new URL(request.url)
+                set redirectTo =
+                    iif redirectTo === null
+                        then null
+                        else
+                            ??
+                                + redirectTo
+                                template
+                                    +
+                                    @ requestUrl.pathname
+                                    +
+                                    @ requestUrl.search
+                                    +
+                const loginParams
+                    iif redirectTo
+                        then
+                            new URLSearchParams
+                                {
+                                    @ redirectTo
+                        else null
+                const loginRedirect
+                    [
+                        @ '/login'
+                        @ loginParams?.toString?.()
+                        ._ filter
+                            @ Boolean
+                        ._ join
+                            @ '?'
+                throw redirect(loginRedirect)
+            return userId
+    export
+        async-function requireAnonymous
+            param request
+                :ref Request
+            const userId
+                await
+                    _ getUserId(request)
+            if userId
+                throw redirect('/')
+    export
+        async-function login
+            {
+                @ username
+                @ password
+                :{
+                    :p username
+                        :[]
+                            :ref User
+                            :literal 'username'
+                    :p password
+                        :string
+            const user
+                await
+                    _ verifyUserPassword
+                        {
+                            @ username
+                        @ password
+            if !user
+                return null
+            const session
+                await
+                    _ prisma.session.create
+                        {
+                            { select
+                                @ id true
+                                @ expirationDate true
+                                @ userId true
+                            { data
+                                @ expirationDate getSessionExpirationDate()
+                                @ userId user.id
+            return session
+    export
+        async-function resetUserPassword
+            {
+                @ username
+                @ password
+                :{
+                    :p username
+                        :[]
+                            :ref User
+                            :literal 'username'
+                    :p password
+                        :string
+            const hashedPassword
+                await
+                    _ getPasswordHash(password)
+            return
+                _ prisma.user.update
+                    {
+                        { where
+                            @ username
+                        { data
+                            { password
+                                { update
+                                    @ hash hashedPassword
+    export
+        async-function signup
+            {
+                @ email
+                @ username
+                @ password
+                @ name
+                :{
+                    :p email
+                        :[]
+                            :ref User
+                            :literal 'email'
+                    :p username
+                        :[]
+                            :ref User
+                            :literal 'username'
+                    :p name
+                        :[]
+                            :ref User
+                            :literal 'name'
+                    :p password
+                        :string
+            const hashedPassword
+                await
+                    _ getPasswordHash(password)
+            const session
+                await
+                    _ prisma.session.create
+                        {
+                            { data
+                                @ expirationDate getSessionExpirationDate()
+                                { user
+                                    { create
+                                        @ email email.toLowerCase()
+                                        @ username username.toLowerCase()
+                                        @ name
+                                        { roles
+                                            { connect
+                                                @ name 'user'
+                                        { password
+                                            { create
+                                                @ hash hashedPassword
+                            { select
+                                @ id true
+                                @ expirationDate true
+            return session
+    export
+        async-function signupWithConnection
+            {
+                @ email
+                @ username
+                @ name
+                @ providerId
+                @ providerName
+                @ imageUrl
+                :{
+                    :p email
+                        :[]
+                            :ref User
+                            :literal 'email'
+                    :p username
+                        :[]
+                            :ref User
+                            :literal 'username'
+                    :p name
+                        :[]
+                            :ref User
+                            :literal 'name'
+                    :p providerId
+                        :[]
+                            :ref Connection
+                            :literal 'providerId'
+                    :p providerName
+                        :[]
+                            :ref Connection
+                            :literal 'providerName'
+                    :p imageUrl
+                        :optional
+                        :string
+            const session
+                await
+                    _ prisma.session.create
+                        {
+                            { data
+                                @ expirationDate getSessionExpirationDate()
+                                { user
+                                    { create
+                                        @ email email.toLowerCase()
+                                        @ username username.toLowerCase()
+                                        @ name
+                                        { roles
+                                            { connect
+                                                @ name 'user'
+                                        { connections
+                                            { create
+                                                @ providerId
+                                                @ providerName
+                                        @ image
+                                            iif imageUrl
+                                                then
+                                                    {
+                                                        @ create
+                                                            await
+                                                                _ downloadFile(imageUrl)
+                                                else undefined
+                            { select
+                                @ id true
+                                @ expirationDate true
+            return session
+    export
+        async-function logout
+            {
+                @ request
+                @ redirectTo
+                    = '/'
+                :{
+                    :p request
+                        :ref Request
+                    :p redirectTo
+                        :optional
+                        :string
+            param responseInit
+                :ref ResponseInit
+                :optional
+            const authSession
+                await
+                    _ authSessionStorage.getSession(request.headers.get('cookie'))
+            const sessionId = authSession.get(sessionKey)
+            # if this fails, we still need to delete the session from the user's browser
+            # and it doesn't do any harm staying in the db anyway.
+            if sessionId
+                void
+                    _ prisma.session.deleteMany
+                        {
+                            { where
+                                @ id sessionId
+                        ._ catch
+                            =>
+                    # the .catch is important because that's what triggers the query.
+                    # learn more about PrismaPromise: https://www.prisma.io/docs/orm/reference/prisma-client-reference#prismapromise-behavior
+            throw
+                _ redirect
+                    _ safeRedirect(redirectTo)
+                    {
+                        @ ...responseInit
+                        @ headers
+                            _ combineHeaders
+                                {
+                                    @ 'set-cookie'
+                                        await
+                                            _ authSessionStorage.destroySession(authSession)
+                                @expr responseInit?.headers
+    export
+        async-function getPasswordHash
+            param password
+                :string
+            const hash
+                await
+                    _ bcrypt.hash(password, 10)
+            return hash
+    export
+        async-function verifyUserPassword
+            param where
+                :union
+                    :ref Pick
+                        :param
+                            :ref User
+                        :param
+                            :literal 'username'
+                    :ref Pick
+                        :param
+                            :ref User
+                        :param
+                            :literal 'id'
+            param password
+                :[]
+                    :ref Password
+                    :literal 'hash'
+            const userWithPassword
+                await
+                    _ prisma.user.findUnique
+                        {
+                            @ where
+                            { select
+                                @ id true
+                                { password
+                                    { select
+                                        @ hash true
+            if !userWithPassword || !userWithPassword.password
+                return null
+            const isValid
+                await
+                    _ bcrypt.compare(password, userWithPassword.password.hash)
+            if !isValid
+                return null
+            return
+                {
+                    @ id userWithPassword.id

@@ -1,0 +1,47 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('@radix-ui/react-label', '^2.0.2');
+        setCtxDep ('class-variance-authority', '^0.7.0');
+
+    import
+        as LabelPrimitive
+        from '@radix-ui/react-label'
+    import
+        @ cva
+        :type VariantProps
+        from 'class-variance-authority'
+    import
+        as React
+        from 'react'
+    import
+        @ cn
+        from '#app/utils/misc.tsx'
+    const labelVariants = cva('text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70')
+    const Label
+        _ React.forwardRef
+            :param
+                :ref React.ElementRef
+                    :param
+                        :typeof LabelPrimitive.Root
+            :param
+                :intersect
+                    :ref React.ComponentPropsWithoutRef
+                        :param
+                            :typeof LabelPrimitive.Root
+                    :ref VariantProps
+                        :param
+                            :typeof labelVariants
+            =>
+                {
+                    @ className
+                    ... props
+                param ref
+                < LabelPrimitive.Root
+                    @ ref {ref}
+                    @ className {cn(labelVariants(), className)}
+                    ... props
+    set Label.displayName = LabelPrimitive.Root.displayName
+    export
+        @ Label

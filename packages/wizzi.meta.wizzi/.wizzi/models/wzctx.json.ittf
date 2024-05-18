@@ -10,7 +10,10 @@
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
-    license "MIT"
+    { license
+        type "MIT"
+        url "https://github.com/stfnbssl/wizzi.metas/tree/main/packages/wizzi.meta.wizzi/license.text"
+        copy "copy 2024"
     metaNamespace "wizzi"
     { Build
         useConfig true
@@ -107,3 +110,4 @@
                     name "tutorial"
                 {
                     name "wizzi-tutorial"
+

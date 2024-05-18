@@ -1,0 +1,48 @@
+$group
+    import
+        as cookie
+        from 'cookie'
+    const cookieName = 'en_theme'
+    export
+        :type Theme
+            :union
+                :literal 'light'
+                :literal 'dark'
+    export
+        function getTheme
+            param request
+                :ref Request
+            :return
+                :union
+                    :ref Theme
+                    :null
+            const cookieHeader = request.headers.get('cookie')
+            const parsed
+                iif cookieHeader
+                    then cookie.parse(cookieHeader)[cookieName]
+                    else 'light'
+            if parsed === 'light' || parsed === 'dark'
+                return parsed
+            return null
+    export
+        function setTheme
+            param theme
+                :union
+                    :ref Theme
+                    :literal 'system'
+            if theme === 'system'
+                return
+                    _ cookie.serialize
+                        @ cookieName
+                        @ ''
+                        {
+                            @ path '/'
+                            @ maxAge -1
+            else
+                return
+                    _ cookie.serialize
+                        @ cookieName
+                        @ theme
+                        {
+                            @ path '/'
+                            @ maxAge 31536000

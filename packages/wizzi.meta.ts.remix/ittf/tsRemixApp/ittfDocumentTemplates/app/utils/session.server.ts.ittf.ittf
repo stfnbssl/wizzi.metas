@@ -1,0 +1,46 @@
+$group
+    import
+        @ createCookieSessionStorage
+        from '@remix-run/node'
+    export
+        const authSessionStorage
+            _ createCookieSessionStorage
+                {
+                    { cookie
+                        @ name 'en_session'
+                        @ sameSite 'lax'
+                        @ path '/'
+                            # CSRF protection is advised if changing to 'none'
+                        @ httpOnly true
+                        @ secrets process.env.SESSION_SECRET.split(',')
+                        @ secure process.env.NODE_ENV === 'production'
+    const originalCommitSession = authSessionStorage.commitSession
+        # we have to do this because every time you commit the session you overwrite it
+        # so we store the expiration time in the cookie and reset it every time we commit
+    _ Object.defineProperty
+        @ authSessionStorage
+        @ 'commitSession'
+        {
+            @ value
+                async-function commitSession
+                    param args
+                        :ref Parameters
+                            :param
+                                :typeof originalCommitSession
+                    const [session, options] = args
+                    if options?.expires
+                        _ session.set('expires', options.expires)
+                    if options?.maxAge
+                        _ session.set('expires', Date(Date.now() + options.maxAge * 1000))
+                    const expires
+                        iif session.has('expires')
+                            then new Date(session.get('expires'))
+                            else undefined
+                    const setCookieHeader
+                        await
+                            _ originalCommitSession
+                                @ session
+                                {
+                                    @ ...options
+                                    @ expires
+                    return setCookieHeader

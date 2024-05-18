@@ -1,7 +1,7 @@
 $group
 	kind es6
 
-	import util
+    var util = require('util')
 	+
 	var md = module.exports = {}
 	+

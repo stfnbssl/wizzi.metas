@@ -1,0 +1,82 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxScript ('build:server','tsx ./other/build-server.ts');
+        setCtxDevDep ('esbuild', '^0.20.2');
+        setCtxDevDep ('fs-extra', '^11.2.0');
+
+    import path from 'path'
+    import
+        @ fileURLToPath
+        from 'url'
+    import esbuild from 'esbuild'
+    import fsExtra from 'fs-extra'
+    import
+        @ globSync
+        from 'glob'
+    const pkg = fsExtra.readJsonSync(path.join(process.cwd(), 'package.json'))
+    const __dirname = path.dirname(fileURLToPath(import.meta.url))
+    const here
+        =>
+            param s
+                :ref Array
+                    :param string
+            _ path.join(__dirname, ...s)
+    const globsafe
+        =>
+            param s
+                :string
+            _ s.replace(/\\/g, '/')
+    const allFiles
+        _ globSync
+            _ globsafe(here('../server/**/*.*'))
+            {
+                [ ignore
+                    @ 'server/dev-server.js'
+                    @ '**/tsconfig.json'
+                        # for development only
+                    @ '**/eslint*'
+                    @ '**/__tests__/**'
+    const entries = []
+    for
+        left
+            const file
+        of allFiles
+        if /\.(ts|js|tsx|jsx)$/.test(file)
+            _ entries.push(file)
+        else
+            const dest = file.replace(here('../server'), here('../server-build'))
+            _ fsExtra.ensureDirSync(path.parse(dest).dir)
+            _ fsExtra.copySync(file, dest)
+            _ console.log
+                template
+                    + copied:&nbsp;
+                    _ file.replace
+                        template
+                            +
+                            _ here('../server')
+                            + /
+                        @ ''
+                    +
+    _ console.log()
+    _ console.log('building...')
+    _ esbuild.build
+        {
+            @ entryPoints entries
+            @ outdir here('../server-build')
+            [ target
+                template
+                    + node
+                    @ pkg.engines.node
+                    +
+            @ platform 'node'
+            @ sourcemap true
+            @ format 'esm'
+            @ logLevel 'info'
+        ._ catch
+            =>
+                param error
+                    :unknown
+                _ console.error(error)
+                _ process.exit(1)

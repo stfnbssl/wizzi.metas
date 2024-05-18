@@ -1,0 +1,51 @@
+$group
+    import
+        @ getInstanceInfo
+        @ getInternalInstanceDomain
+        from '#app/utils/litefs.server'
+    export
+        async-function updatePrimaryCacheValue
+            {
+                @ key
+                @ cacheValue
+                :{
+                    :p key
+                        :string
+                    :p cacheValue
+                        :any
+            const
+                {
+                    @ currentIsPrimary
+                    @ primaryInstance
+                =
+                    await
+                        _ getInstanceInfo()
+            if currentIsPrimary
+                throw
+                    new Error
+                        template
+                            + updatePrimaryCacheValue should not be called on the primary instance (
+                            @ primaryInstance
+                            + )}
+            const domain = getInternalInstanceDomain(primaryInstance)
+            const token = process.env.INTERNAL_COMMAND_TOKEN
+            return
+                _ fetch
+                    template
+                        +
+                        @ domain
+                        + /admin/cache/sqlite
+                    {
+                        @ method 'POST'
+                        { headers
+                            @ Authorization
+                                template
+                                    + Bearer&nbsp;
+                                    @ token
+                                    +
+                            @ 'Content-Type' 'application/json'
+                        @ body
+                            _ JSON.stringify
+                                {
+                                    @ key
+                                    @ cacheValue

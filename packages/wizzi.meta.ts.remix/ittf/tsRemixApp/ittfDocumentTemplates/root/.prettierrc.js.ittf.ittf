@@ -1,0 +1,43 @@
+$group
+    kind react
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxScript ('format','prettier --write .');
+        setCtxDevDep ('prettier', '^3.2.5');
+        $if metaCtx.tsRemixApp.useSql
+            setCtxDevDep ('prettier-plugin-sql', '^0.18.0');
+        $if metaCtx.tsRemixApp.useTailwindcss
+            setCtxDevDep ('prettier-plugin-tailwindcss', '^0.5.14');
+
+    export-default
+        {
+            @ arrowParens 'avoid'
+            @ bracketSameLine false
+            @ bracketSpacing true
+            @ embeddedLanguageFormatting 'auto'
+            @ endOfLine 'lf'
+            @ htmlWhitespaceSensitivity 'css'
+            @ insertPragma false
+            @ jsxSingleQuote false
+            @ printWidth 80
+            @ proseWrap 'always'
+            @ quoteProps 'as-needed'
+            @ requirePragma false
+            @ semi false
+            @ singleAttributePerLine false
+            @ singleQuote true
+            @ tabWidth 2
+            @ trailingComma 'all'
+            @ useTabs true
+            [ overrides
+                {
+                    [ files
+                        @ '**/*.json'
+                    { options
+                        @ useTabs false
+            $if metaCtx.tsRemixApp.useTailwindcss
+                [ plugins
+                    @ 'prettier-plugin-tailwindcss'
+        $if false
+            ## @type {import("prettier").Options}

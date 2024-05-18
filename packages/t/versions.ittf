@@ -2,6 +2,10 @@ $group
     
     $
         var versions = {};
+        versions['@wizzi/factory'] = '0.8.38';
+        versions['@wizzi/mtree'] = '0.8.25';
+        versions['@wizzi/utils'] = '0.8.23';
+        //
         versions['@wizzi/meta.cloud'] = '0.0.1';
         versions['@wizzi/meta.cloud@next'] = '0.0.2';
         versions['@wizzi/meta.commons'] = '0.0.1';

@@ -1,0 +1,149 @@
+$group
+    import
+        :type SEOHandle
+        from '@nasa-gcn/remix-seo'
+    import
+        @ json
+        @ redirect
+        :type LoaderFunctionArgs
+        :type ActionFunctionArgs
+        from '@remix-run/node'
+    import
+        @ Link
+        @ useFetcher
+        @ useLoaderData
+        from '@remix-run/react'
+    import
+        @ Icon
+        from '#app/components/ui/icon.tsx'
+    import
+        @ StatusButton
+        from '#app/components/ui/status-button.tsx'
+    import
+        @ requireUserId
+        from '#app/utils/auth.server.ts'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    import
+        @ generateTOTP
+        from '#app/utils/totp.server.ts'
+    import
+        @ twoFAVerificationType
+        from './profile.two-factor.tsx'
+    import
+        @ twoFAVerifyVerificationType
+        from './profile.two-factor.verify.tsx'
+    export
+        const handle
+            :ref SEOHandle
+            =
+                {
+                    @ getSitemapEntries
+                        =>
+                            + null
+    export
+        async-function loader
+            {
+                @ request
+                :ref LoaderFunctionArgs
+            const userId
+                await
+                    _ requireUserId(request)
+            const verification
+                await
+                    _ prisma.verification.findUnique
+                        {
+                            { where
+                                { target_type
+                                    @ type twoFAVerificationType
+                                    @ target userId
+                            { select
+                                @ id true
+            return
+                _ json
+                    {
+                        @ is2FAEnabled Boolean(verification)
+    export
+        async-function action
+            {
+                @ request
+                :ref ActionFunctionArgs
+            const userId
+                await
+                    _ requireUserId(request)
+            const
+                {
+                    @ otp _otp
+                    ... config
+                = generateTOTP()
+            const verificationData
+                {
+                    @ ...config
+                    @ type twoFAVerifyVerificationType
+                    @ target userId
+            await
+                _ prisma.verification.upsert
+                    {
+                        { where
+                            { target_type
+                                @ target userId
+                                @ type twoFAVerifyVerificationType
+                        @ create verificationData
+                        @ update verificationData
+            return redirect('/settings/profile/two-factor/verify')
+    export-default
+        function TwoFactorRoute
+            const data
+                _ useLoaderData
+                    :param
+                        :typeof loader
+            const enable2FAFetcher
+                _ useFetcher
+                    :param
+                        :typeof action
+            return
+                div
+                    @ className "flex flex-col gap-4"
+                    {
+                        iif data.is2FAEnabled
+                            then
+                                <
+                                    p
+                                        @ className "text-lg"
+                                        < Icon
+                                            @ name "check"
+                                            + You have enabled two-factor authentication.
+                                    < Link
+                                        @ to "disable"
+                                        < Icon
+                                            @ name "lock-open-1"
+                                            + Disable 2FA
+                            else
+                                <
+                                    p
+                                        < Icon
+                                            @ name "lock-open-1"
+                                            + You have not enabled two-factor authentication yet.
+                                    p
+                                        @ className "text-sm"
+                                        + Two factor authentication adds an extra layer of security to your&lf;						account. You will need to enter a code from an authenticator app&lf;						like
+                                        + {' '}
+                                        a
+                                            @ className "underline"
+                                            @ href "https://1password.com/"
+                                            + 1Password
+                                        + {' '}
+                                        + to log in.
+                                    < enable2FAFetcher.Form
+                                        @ method "POST"
+                                        < StatusButton
+                                            @ type "submit"
+                                            @ name "intent"
+                                            @ value "enable"
+                                            @ status
+                                                iif enable2FAFetcher.state === 'loading'
+                                                    then 'pending'
+                                                    else 'idle'
+                                            @ className "mx-auto"
+                                            + Enable 2FA

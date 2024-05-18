@@ -1,0 +1,60 @@
+$group
+    import
+        @ createCookieSessionStorage
+        from '@remix-run/node'
+    import
+        :type ProviderName
+        from './connections.tsx'
+    import
+        @ GitHubProvider
+        from './providers/github.server.ts'
+    import
+        :type AuthProvider
+        from './providers/provider.ts'
+    import
+        :type Timings
+        from './timing.server.ts'
+    export
+        const connectionSessionStorage
+            _ createCookieSessionStorage
+                {
+                    { cookie
+                        @ name 'en_connection'
+                        @ sameSite 'lax'
+                        @ path '/'
+                            # CSRF protection is advised if changing to 'none'
+                        @ httpOnly true
+                        @ maxAge 60 * 10
+                        @ secrets process.env.SESSION_SECRET.split(',')
+                            # 10 minutes
+                        @ secure process.env.NODE_ENV === 'production'
+    export
+        const providers
+            :ref Record
+                :param
+                    :ref ProviderName
+                :param
+                    :ref AuthProvider
+            =
+                {
+                    @ github new GitHubProvider()
+    export
+        function handleMockAction
+            param providerName
+                :ref ProviderName
+            param request
+                :ref Request
+            return providers[providerName].handleMockAction(request)
+    export
+        function resolveConnectionData
+            param providerName
+                :ref ProviderName
+            param providerId
+                :string
+            param options
+                :{
+                    :p timings
+                        :optional
+                        :ref Timings
+                :optional
+            return providers[providerName].resolveConnectionData(providerId, options)

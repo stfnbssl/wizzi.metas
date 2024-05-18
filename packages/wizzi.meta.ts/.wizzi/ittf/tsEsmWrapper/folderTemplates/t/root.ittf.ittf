@@ -4,4 +4,4 @@ $group
             ${'$'}include tsEsmWrapper/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-            ${'$'}include tsEsmWrapper/root/license.text
+

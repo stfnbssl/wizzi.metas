@@ -5,3 +5,4 @@ $group
     if ${varName} && ${varName}.__is_error
         error '__is_error ${message}', ${varName}
         return callback(${varName})
+

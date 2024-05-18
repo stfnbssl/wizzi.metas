@@ -1,0 +1,8 @@
+$group
+    $include migrations
+    $file __dot__wizzi/prisma/schema.prisma.ittf.ittf
+        prisma
+            ${'$'}include tsRemixApp/prisma/schema.prisma
+    $file __dot__wizzi/prisma/seed.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/prisma/seed.ts

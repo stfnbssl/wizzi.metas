@@ -9,6 +9,7 @@ $group
 	var file = require('@wizzi/utils').file
     var cloner = require('../utils/cloner')
     var ittfWriter = require("../utils/ittfWriter")
+    var ittfMacro = require('@wizzi/utils').helpers.ittfMacro
 
 	${'$'}hook imports
 

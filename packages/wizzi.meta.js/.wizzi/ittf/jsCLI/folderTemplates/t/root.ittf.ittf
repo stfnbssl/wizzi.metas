@@ -4,4 +4,4 @@ $group
             ${'$'}include jsCLI/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-            ${'$'}include jsCLI/root/license.text
+

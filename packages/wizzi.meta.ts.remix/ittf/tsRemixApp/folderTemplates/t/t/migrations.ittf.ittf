@@ -1,0 +1,4 @@
+$group
+    $file __dot__wizzi/prisma/migrations/migration_lock.toml.ittf.ittf
+        {
+            ${'$'}include tsRemixApp/prisma/migrations/migration_lock.toml

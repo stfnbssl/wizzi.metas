@@ -1,0 +1,108 @@
+$group
+    import
+        as React
+        from 'react'
+    import
+        @ useSpinDelay
+        from 'spin-delay'
+    import
+        @ cn
+        from '#app/utils/misc.tsx'
+    import
+        @ Button
+        :type ButtonProps
+        from './button.tsx'
+    import
+        @ Icon
+        from './icon.tsx'
+    import
+        @ Tooltip
+        @ TooltipContent
+        @ TooltipProvider
+        @ TooltipTrigger
+        from './tooltip.tsx'
+    export
+        const StatusButton
+            _ React.forwardRef
+                :param
+                    :ref HTMLButtonElement
+                :param
+                    :intersect
+                        :ref ButtonProps
+                        :{
+                            :p status
+                                :union
+                                    :literal 'pending'
+                                    :literal 'success'
+                                    :literal 'error'
+                                    :literal 'idle'
+                            :p message
+                                :optional
+                                :union
+                                    :string
+                                    :null
+                            :p spinDelay
+                                :optional
+                                :[]
+                                    :ref Parameters
+                                        :param
+                                            :typeof useSpinDelay
+                                    :literal 1
+                =>
+                    {
+                        @ message
+                        @ status
+                        @ className
+                        @ children
+                        @ spinDelay
+                        ... props
+                    param ref
+                    const delayedPending
+                        _ useSpinDelay
+                            set status === 'pending'
+                            {
+                                @ delay 400
+                                @ minDuration 300
+                                @ ...spinDelay
+                    const companion
+                        {
+                            @ pending
+                                iif delayedPending
+                                    then
+                                        div
+                                            @ className "inline-flex h-6 w-6 items-center justify-center"
+                                            < Icon
+                                                @ name "update"
+                                                @ className "animate-spin"
+                                    else null
+                            @ success
+                                div
+                                    @ className "inline-flex h-6 w-6 items-center justify-center"
+                                    < Icon
+                                        @ name "check"
+                            @ error
+                                div
+                                    @ className "inline-flex h-6 w-6 items-center justify-center rounded-full bg-destructive"
+                                    < Icon
+                                        @ name "cross-1"
+                                        @ className "text-destructive-foreground"
+                            @ idle null
+                            .[ status
+                    return
+                        < Button
+                            @ ref {ref}
+                            @ className {cn('flex justify-center gap-4', className)}
+                            @ {...props}
+                            div
+                                + {children}
+                            {
+                                iif message
+                                    then
+                                        < TooltipProvider
+                                            < Tooltip
+                                                < TooltipTrigger
+                                                    + {companion}
+                                                < TooltipContent
+                                                    + {message}
+                                    else companion
+    set StatusButton.displayName = 'Button'

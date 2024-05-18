@@ -15,7 +15,7 @@ $group
 	
 	licenses
 		[
-			${'$'}if wzCtx.license.name == 'MIT'
+			${'$'}if wzCtx.license.type == 'MIT'
                 {
                     type "MIT"
                     url "https://github.com/${'$'}{wzCtx.github.userId}/${'$'}{wzCtx.name}/tree/master/license.txt"

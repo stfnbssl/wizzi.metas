@@ -1,0 +1,48 @@
+$group
+    import
+        :type LoaderFunctionArgs
+        from '@remix-run/node'
+        # learn more: https://fly.io/docs/reference/configuration/#services-http_checks
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    export
+        async-function loader
+            {
+                @ request
+                :ref LoaderFunctionArgs
+            const host = request.headers.get('X-Forwarded-Host') ?? request.headers.get('host')
+            try
+                await
+                    _ Promise.all
+                        [
+                            @ prisma.user.count()
+                            _ fetch
+                                template
+                                    +
+                                    @ new URL(request.url).protocol
+                                    +
+                                    @ host
+                                    +
+                                {
+                                    @ method 'HEAD'
+                                    { headers
+                                        @ 'X-Healthcheck' 'true'
+                                ._ then
+                                    =>
+                                        param r
+                                        if !r.ok
+                                            return Promise.reject(r)
+                    # if we can connect to the database and make a simple query
+                    # and make a HEAD request to ourselves, then we're good.
+                return new Response('OK')
+            catch error
+                _ console.log
+                    @ 'healthcheck ❌'
+                    {
+                        @ error
+                return
+                    new Response
+                        @ 'ERROR'
+                        {
+                            @ status 500

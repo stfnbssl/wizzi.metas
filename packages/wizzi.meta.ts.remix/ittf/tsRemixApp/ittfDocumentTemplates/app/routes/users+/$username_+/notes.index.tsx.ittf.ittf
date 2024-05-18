@@ -1,0 +1,59 @@
+$group
+    import
+        :type MetaFunction
+        from '@remix-run/react'
+    import
+        :type loader
+            as notesLoader
+        from './notes.tsx'
+    export-default
+        function NotesIndexRoute
+            return
+                div
+                    @ className "container pt-12"
+                    p
+                        @ className "text-body-md"
+                        + Select a note
+    export
+        const meta
+            :ref MetaFunction
+                :param null
+                :param
+                    :{
+                        :p 'routes/users+/$username_+/notes'
+                            :typeof notesLoader
+            =
+                =>
+                    {
+                        @ params
+                        @ matches
+                    const notesMatch
+                        _ matches.find
+                            =>
+                                param m
+                                set m.id === 'routes/users+/$username_+/notes'
+                    const displayName = notesMatch?.data?.owner?.name ?? params.username
+                    const noteCount = notesMatch?.data?.owner?.notes?.length ?? 0
+                    const notesText
+                        iif noteCount === 1
+                            then 'note'
+                            else 'notes'
+                    return
+                        [
+                            {
+                                @ title
+                                    template
+                                        +
+                                        @ displayName
+                                        + 's Notes | Epic Notes
+                            {
+                                @ name 'description'
+                                @ content
+                                    template
+                                        + Checkout&nbsp;
+                                        @ displayName
+                                        + 's&nbsp;
+                                        @ noteCount
+                                        + &nbsp;
+                                        @ notesText
+                                        + &nbsp;on Epic Notes

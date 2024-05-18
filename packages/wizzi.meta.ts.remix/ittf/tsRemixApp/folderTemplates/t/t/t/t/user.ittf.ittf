@@ -1,0 +1,4 @@
+$group
+    $file __dot__wizzi/tests/fixtures/images/user/README.md.ittf.ittf
+        md
+            ${'$'}include tsRemixApp/tests/fixtures/images/user/README.md

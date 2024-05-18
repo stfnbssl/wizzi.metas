@@ -7,3 +7,4 @@ $group
                 $hook
             error '${method}.error', err
             return reject(err)
+

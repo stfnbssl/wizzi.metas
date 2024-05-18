@@ -1,0 +1,336 @@
+$group
+    import
+        :type Submission
+        from '@conform-to/react'
+    import
+        @ parseWithZod
+        from '@conform-to/zod'
+    import
+        @ json
+        from '@remix-run/node'
+    import
+        @ z
+        from 'zod'
+    import
+        @ handleVerification
+            as handleChangeEmailVerification
+        from '#app/routes/settings+/profile.change-email.server.tsx'
+    import
+        @ twoFAVerificationType
+        from '#app/routes/settings+/profile.two-factor.tsx'
+    import
+        @ requireUserId
+        from '#app/utils/auth.server.ts'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    import
+        @ ensurePrimary
+        from '#app/utils/litefs.server.ts'
+    import
+        @ getDomainUrl
+        from '#app/utils/misc.tsx'
+    import
+        @ redirectWithToast
+        from '#app/utils/toast.server.ts'
+    import
+        @ generateTOTP
+        @ verifyTOTP
+        from '#app/utils/totp.server.ts'
+    import
+        :type twoFAVerifyVerificationType
+        from '../settings+/profile.two-factor.verify.tsx'
+    import
+        @ handleVerification
+            as handleLoginTwoFactorVerification
+        @ shouldRequestTwoFA
+        from './login.server.ts'
+    import
+        @ handleVerification
+            as handleOnboardingVerification
+        from './onboarding.server.ts'
+    import
+        @ handleVerification
+            as handleResetPasswordVerification
+        from './reset-password.server.ts'
+    import
+        @ VerifySchema
+        @ codeQueryParam
+        @ redirectToQueryParam
+        @ targetQueryParam
+        @ typeQueryParam
+        :type VerificationTypes
+        from './verify.tsx'
+    export
+        :type VerifyFunctionArgs
+            :{
+                :p request
+                    :ref Request
+                :p submission
+                    :ref Submission
+                        :param
+                            :ref z.input
+                                :param
+                                    :typeof VerifySchema
+                        :param
+                            :[
+                                :string
+                        :param
+                            :ref z.output
+                                :param
+                                    :typeof VerifySchema
+                :p body
+                    :union
+                        :ref FormData
+                        :ref URLSearchParams
+    export
+        function getRedirectToUrl
+            {
+                @ request
+                @ type
+                @ target
+                @ redirectTo
+                :{
+                    :p request
+                        :ref Request
+                    :p type
+                        :ref VerificationTypes
+                    :p target
+                        :string
+                    :p redirectTo
+                        :optional
+                        :string
+            const redirectToUrl
+                new URL
+                    template
+                        +
+                        _ getDomainUrl(request)
+                        + /verify
+            _ redirectToUrl.searchParams.set(typeQueryParam, type)
+            _ redirectToUrl.searchParams.set(targetQueryParam, target)
+            if redirectTo
+                _ redirectToUrl.searchParams.set(redirectToQueryParam, redirectTo)
+            return redirectToUrl
+    export
+        async-function requireRecentVerification
+            param request
+                :ref Request
+            const userId
+                await
+                    _ requireUserId(request)
+            const shouldReverify
+                await
+                    _ shouldRequestTwoFA(request)
+            if shouldReverify
+                const reqUrl = new URL(request.url)
+                const redirectUrl
+                    _ getRedirectToUrl
+                        {
+                            @ request
+                            @ target userId
+                            @ type twoFAVerificationType
+                            @ redirectTo reqUrl.pathname + reqUrl.search
+                throw
+                    await
+                        _ redirectWithToast
+                            _ redirectUrl.toString()
+                            {
+                                @ title 'Please Reverify'
+                                @ description 'Please reverify your account before proceeding'
+    export
+        async-function prepareVerification
+            {
+                @ period
+                @ request
+                @ type
+                @ target
+                :{
+                    :p period
+                        :number
+                    :p request
+                        :ref Request
+                    :p type
+                        :ref VerificationTypes
+                    :p target
+                        :string
+            const verifyUrl
+                _ getRedirectToUrl
+                    {
+                        @ request
+                        @ type
+                        @ target
+            const redirectTo = new URL(verifyUrl.toString())
+            const
+                {
+                    @ otp
+                    ... verificationConfig
+                =
+                    _ generateTOTP
+                        {
+                            @ algorithm 'SHA256'
+                            @ charSet 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'
+                                # Leaving off 0 and O on purpose to avoid confusing users.
+                            @ period
+            const verificationData
+                {
+                    @ type
+                    @ target
+                    @ ...verificationConfig
+                    @ expiresAt new Date(Date.now() + verificationConfig.period * 1000)
+            await
+                _ prisma.verification.upsert
+                    {
+                        { where
+                            { target_type
+                                @ target
+                                @ type
+                        @ create verificationData
+                        @ update verificationData
+            _ verifyUrl.searchParams.set(codeQueryParam, otp)
+                # add the otp to the url we'll email the user.
+            return
+                {
+                    @ otp
+                    @ redirectTo
+                    @ verifyUrl
+    export
+        async-function isCodeValid
+            {
+                @ code
+                @ type
+                @ target
+                :{
+                    :p code
+                        :string
+                    :p type
+                        :union
+                            :ref VerificationTypes
+                            :typeof twoFAVerifyVerificationType
+                    :p target
+                        :string
+            const verification
+                await
+                    _ prisma.verification.findUnique
+                        {
+                            { where
+                                { target_type
+                                    @ target
+                                    @ type
+                                [ OR
+                                    {
+                                        { expiresAt
+                                            @ gt new Date()
+                                    {
+                                        @ expiresAt null
+                            { select
+                                @ algorithm true
+                                @ secret true
+                                @ period true
+                                @ charSet true
+            if !verification
+                return false
+            const result
+                _ verifyTOTP
+                    {
+                        @ otp code
+                        @ ...verification
+            if !result
+                return false
+            return true
+    export
+        async-function validateRequest
+            param request
+                :ref Request
+            param body
+                :union
+                    :ref URLSearchParams
+                    :ref FormData
+            const submission
+                await
+                    _ parseWithZod
+                        @ body
+                        {
+                            @ schema
+                                _ VerifySchema.superRefine
+                                    async=>
+                                        param data
+                                        param ctx
+                                        const codeIsValid
+                                            await
+                                                _ isCodeValid
+                                                    {
+                                                        @ code data[codeQueryParam]
+                                                        @ type data[typeQueryParam]
+                                                        @ target data[targetQueryParam]
+                                        if !codeIsValid
+                                            _ ctx.addIssue
+                                                {
+                                                    [ path
+                                                        @ 'code'
+                                                    @ code z.ZodIssueCode.custom
+                                                    @ message
+                                                        template
+                                                            + Invalid code
+                                            return
+                            @ async true
+            if submission.status !== 'success'
+                return
+                    _ json
+                        {
+                            @ result submission.reply()
+                        {
+                            @ status
+                                iif submission.status === 'error'
+                                    then 400
+                                    else 200
+            await
+                _ ensurePrimary()
+                # this code path could be part of a loader (GET request), so we need to make
+                # sure we're running on primary because we're about to make writes.
+            const
+                {
+                    @ value submissionValue
+                = submission
+            async-function deleteVerification
+                await
+                    _ prisma.verification.delete
+                        {
+                            { where
+                                { target_type
+                                    @ type submissionValue[typeQueryParam]
+                                    @ target submissionValue[targetQueryParam]
+            switch submissionValue[typeQueryParam]
+                case 'reset-password'
+                    await
+                        _ deleteVerification()
+                    return
+                        _ handleResetPasswordVerification
+                            {
+                                @ request
+                                @ body
+                                @ submission
+                case 'onboarding'
+                    await
+                        _ deleteVerification()
+                    return
+                        _ handleOnboardingVerification
+                            {
+                                @ request
+                                @ body
+                                @ submission
+                case 'change-email'
+                    await
+                        _ deleteVerification()
+                    return
+                        _ handleChangeEmailVerification
+                            {
+                                @ request
+                                @ body
+                                @ submission
+                case '2fa'
+                    return
+                        _ handleLoginTwoFactorVerification
+                            {
+                                @ request
+                                @ body
+                                @ submission

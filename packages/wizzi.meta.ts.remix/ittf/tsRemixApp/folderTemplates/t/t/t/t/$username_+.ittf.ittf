@@ -1,0 +1,17 @@
+$group
+
+    $
+        var items = [
+            "__note-editor.server.tsx",
+            "__note-editor.tsx",
+            "notes.$noteId_.edit.tsx",
+            "notes.$noteId.tsx",
+            "notes.index.tsx",
+            "notes.new.tsx",
+            "notes.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/app/routes/users+/$username_+/${item}.ittf.ittf
+            module
+            	${'$'}include tsRemixApp/app/routes/users+/$username_+/${item}

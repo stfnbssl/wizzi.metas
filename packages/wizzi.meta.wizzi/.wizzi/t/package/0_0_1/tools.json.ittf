@@ -16,3 +16,4 @@ $group
             [ *.(js|jsx)
                 "npm run lint:write"
                 "git add"
+

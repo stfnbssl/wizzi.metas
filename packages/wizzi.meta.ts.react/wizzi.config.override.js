@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
+    package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: json:/___template/wizzi.config.override.js.ittf
-    utc time: Fri, 16 Feb 2024 08:59:40 GMT
+    utc time: Wed, 08 May 2024 04:21:34 GMT
 */
 'use strict';
 const path = require('path');
@@ -17,6 +17,7 @@ module.exports = {
         "./wizzi.plugin.js/index.js", 
         "./wizzi.plugin.json/index.js", 
         "./wizzi.plugin.md/index.js", 
+        "./wizzi.plugin.svg/index.js", 
         "./wizzi.plugin.text/index.js", 
         "./wizzi.plugin.wzjob/index.js"
     ], 
@@ -30,3 +31,4 @@ module.exports = {
         wzConfigIsDocumentation: true
      }
  };
+

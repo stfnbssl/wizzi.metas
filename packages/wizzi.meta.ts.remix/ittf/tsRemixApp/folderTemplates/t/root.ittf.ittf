@@ -1,16 +1,88 @@
 $group
-    $file __dot__wizzi/root/.eslintrc.cjs.ittf.ittf
-        module
-            ${'$'}include tsRemixApp/root/.eslintrc.cjs
+
+    $*
+        $
+            var items = [
+                ".eslintrc.cjs",
+                ".prettierrc.js",
+                "components.json",
+                "fly.toml",
+                "index.js",
+                "package-lock.json",
+                "package.json",
+                "playwright.config.ts",
+                "postcss.config.js",
+                "README.md",
+                "tailwind.config.ts",
+                "tsconfig.json",
+                "vite.config.ts",
+                "vitest.config.ts",
+            ]
+        $foreach item in items
+            $file __dot__wizzi/${item}.ittf.ittf
+                module
+    *$
+
+    $if metaCtx.tsRemixApp.useEslint
+        $file __dot__wizzi/root/.eslintrc.cjs.ittf.ittf
+            module
+                ${'$'}include tsRemixApp/root/.eslintrc.cjs
+
+    $if metaCtx.tsRemixApp.usePrettier
+        $file __dot__wizzi/root/.prettierrc.js.ittf.ittf
+            module
+                ${'$'}include tsRemixApp/root/.prettierrc.js
+
+    $file __dot__wizzi/root/components.json.ittf.ittf
+        {
+            ${'$'}include tsRemixApp/root/components.json
+
+    $file __dot__wizzi/root/fly.toml.ittf.ittf
+        {
+            ${'$'}include tsRemixApp/root/fly.toml
+
     $file __dot__wizzi/root/package.json.ittf.ittf
         {
             ${'$'}include tsRemixApp/root/package.json
+    
+    $file __dot__wizzi/root/playwright.config.ts.ittf.ittf
+        {
+            ${'$'}include tsRemixApp/root/playwright.config.ts
+
+    $if metaCtx.tsRemixApp.useTailwindcss
+        $file __dot__wizzi/root/postcss.config.js.ittf.ittf
+            {
+                ${'$'}include tsRemixApp/root/postcss.config.js
+
     $file __dot__wizzi/root/README.md.ittf.ittf
         md
             ${'$'}include tsRemixApp/root/README.md
+    
     $file __dot__wizzi/root/tsconfig.json.ittf.ittf
         {
             ${'$'}include tsRemixApp/root/tsconfig.json
+
+    $if metaCtx.tsRemixApp.useExpress
+        $file __dot__wizzi/root/index.js.ittf.ittf
+            module
+                kind es6
+                ${'$'}include tsRemixApp/root/index.js
+
+    $if metaCtx.tsRemixApp.useEnv
+        $file __dot__wizzi/root/__dot__env.example.text.ittf.ittf
+            text
+                ${'$'}include tsRemixApp/root/env.example.text
+
+    $if metaCtx.tsRemixApp.useTailwindcss
+        $file __dot__wizzi/root/tailwind.config.ts.ittf.ittf
+           module
+               ${'$'}include tsRemixApp/root/tailwind.config.ts
+
     $file __dot__wizzi/root/vite.config.ts.ittf.ittf
         module
             ${'$'}include tsRemixApp/root/vite.config.ts
+
+    $if metaCtx.tsRemixApp.useEpic
+        $file __dot__wizzi/root/vitest.config.ts.ittf.ittf
+            module
+                ${'$'}include tsRemixApp/root/vitest.config.ts

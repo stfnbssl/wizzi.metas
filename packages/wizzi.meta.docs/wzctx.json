@@ -11,7 +11,11 @@
     "github": {
         "userid": "stfnbssl"
     },
-    "license": "MIT",
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/stfnbssl/wizzi.metas/tree/main/packages/wizzi.meta.docs/license.text",
+        "copy": "copy 2024"
+    },
     "metaNamespace": "docs",
     "Build": {
         "useConfig": true,
@@ -114,13 +118,13 @@
             "title": "docsPpt wizzi meta production",
             "categories": [
                 {
-                    "name": "ppt"
+                    "name": "powerpoint"
                 },
                 {
                     "name": "documentation"
                 },
                 {
-                    "name": "documentation.ppt"
+                    "name": "documentation.powerpoint"
                 }
             ]
         },

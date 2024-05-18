@@ -43,8 +43,8 @@ $group
 		${'$'}hook scripts
 	
     { dependencies
-        @wizzi/mtree "^0.8.23"
-        @wizzi/utils "^0.8.21"
+        @wizzi/mtree "^${'$'}{wzCtx.version_wizzi_mtree}"
+        @wizzi/utils "^${'$'}{wzCtx.version_wizzi_utils}"
         ${'$'}foreach schema in wzCtx.Schemas
             ${'$'}foreach include in schema.includes
                 @wizzi/plugin.${'$'}{include.name} "${'$'}{include.version}"
@@ -55,7 +55,7 @@ $group
         object-inspect "^1.12.3"
     
 	{ devDependencies
-        @wizzi/factory "^0.8.35"
+        @wizzi/factory "^${'$'}{wzCtx.version_wizzi_factory}"
         del "^7.0.0"
         expect.js "^0.3.1"
         mocha "^10.1.0"

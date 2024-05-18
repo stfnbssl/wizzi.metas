@@ -8,8 +8,8 @@
     "private": false,
     "licenses": [
         {
-            "type": "",
-            "url": ""
+            "type": "MIT",
+            "url": "https://github.com/stfnbssl/wizzi.metas/tree/main/packages/wizzi.meta.ts.react/license.text"
         }
     ],
     "main": "",

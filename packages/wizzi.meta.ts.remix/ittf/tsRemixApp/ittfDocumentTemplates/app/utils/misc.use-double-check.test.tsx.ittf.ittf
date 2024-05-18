@@ -1,0 +1,106 @@
+$group
+    import
+        @ render
+        @ screen
+        from '@testing-library/react'
+        #
+            # *
+            # @vitest-environment jsdom
+            #
+    import
+        @ userEvent
+        from '@testing-library/user-event'
+    import
+        @ useState
+        from 'react'
+    import
+        @ expect
+        @ test
+        from 'vitest'
+    import
+        @ useDoubleCheck
+        from './misc.tsx'
+    function TestComponent
+        const [defaultPrevented, setDefaultPrevented]
+            _ useState
+                :param
+                    :union
+                        :literal 'idle'
+                        :literal 'no'
+                        :literal 'yes'
+                @ 'idle'
+        const dc = useDoubleCheck()
+        return
+            div
+                output
+                    + Default Prevented:
+                    + {defaultPrevented}
+                button
+                    ...
+                        _ dc.getButtonProps
+                            {
+                                @ onClick
+                                    =>
+                                        param e
+                                        _ setDefaultPrevented
+                                            iif e.defaultPrevented
+                                                then 'yes'
+                                                else 'no'
+                    {
+                        iif dc.doubleCheck
+                            then 'You sure?'
+                            else 'Click me'
+    _ test
+        @ 'prevents default on the first click, and does not on the second'
+        async=>
+            const user = userEvent.setup()
+            _ render
+                < TestComponent
+            const status = screen.getByRole('status')
+            const button = screen.getByRole('button')
+            _ expect(status).toHaveTextContent('Default Prevented: idle')
+            _ expect(button).toHaveTextContent('Click me')
+            await
+                _ user.click(button)
+            _ expect(button).toHaveTextContent('You sure?')
+            _ expect(status).toHaveTextContent('Default Prevented: yes')
+            await
+                _ user.click(button)
+            _ expect(button).toHaveTextContent('You sure?')
+            _ expect(status).toHaveTextContent('Default Prevented: no')
+    _ test
+        @ 'blurring the button starts things over'
+        async=>
+            const user = userEvent.setup()
+            _ render
+                < TestComponent
+            const status = screen.getByRole('status')
+            const button = screen.getByRole('button')
+            await
+                _ user.click(button)
+            _ expect(button).toHaveTextContent('You sure?')
+            _ expect(status).toHaveTextContent('Default Prevented: yes')
+            await
+                _ user.click(document.body)
+            _ expect(button).toHaveTextContent('Click me')
+                # button goes back to click me
+            _ expect(status).toHaveTextContent('Default Prevented: yes')
+                # our callback wasn't called, so the status doesn't change
+    _ test
+        @ 'hitting "escape" on the input starts things over'
+        async=>
+            const user = userEvent.setup()
+            _ render
+                < TestComponent
+            const status = screen.getByRole('status')
+            const button = screen.getByRole('button')
+            await
+                _ user.click(button)
+            _ expect(button).toHaveTextContent('You sure?')
+            _ expect(status).toHaveTextContent('Default Prevented: yes')
+            await
+                _ user.keyboard('{Escape}')
+            _ expect(button).toHaveTextContent('Click me')
+                # button goes back to click me
+            _ expect(status).toHaveTextContent('Default Prevented: yes')
+                # our callback wasn't called, so the status doesn't change

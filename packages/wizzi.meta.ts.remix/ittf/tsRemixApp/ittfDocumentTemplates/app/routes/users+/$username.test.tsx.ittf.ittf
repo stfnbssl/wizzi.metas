@@ -1,0 +1,218 @@
+$group
+    import
+        @ faker
+        from '@faker-js/faker'
+        #
+            # *
+            # @vitest-environment jsdom
+            #
+    import
+        @ createRemixStub
+        from '@remix-run/testing'
+    import
+        @ render
+        @ screen
+        from '@testing-library/react'
+    import setCookieParser from 'set-cookie-parser'
+    import
+        @ test
+        from 'vitest'
+    import
+        @ loader
+            as rootLoader
+        from '#app/root.tsx'
+    import
+        @ getSessionExpirationDate
+        @ sessionKey
+        from '#app/utils/auth.server.ts'
+    import
+        @ prisma
+        from '#app/utils/db.server.ts'
+    import
+        @ authSessionStorage
+        from '#app/utils/session.server.ts'
+    import
+        @ createUser
+        @ getUserImages
+        from '#tests/db-utils.ts'
+    import
+        @ default
+            as UsernameRoute
+        @ loader
+        from './$username.tsx'
+    _ test
+        @ 'The user profile when not logged in as self'
+        async=>
+            const userImages
+                await
+                    _ getUserImages()
+            const userImage
+                @expr userImages
+                    .[
+                        _ faker.number.int
+                            {
+                                @ min 0
+                                @ max userImages.length - 1
+            const user
+                await
+                    _ prisma.user.create
+                        {
+                            { select
+                                @ id true
+                                @ username true
+                                @ name true
+                            { data
+                                @ ...createUser()
+                                { image
+                                    @ create userImage
+            const App
+                _ createRemixStub
+                    [
+                        {
+                            @ path '/users/:username'
+                            @ Component UsernameRoute
+                            @ loader
+            const routeUrl
+                template
+                    + /users/
+                    @ user.username
+                    +
+            _ render
+                < App
+                    @ initialEntries
+                        [
+                            @ routeUrl
+            await
+                _ screen.findByRole
+                    @ 'heading'
+                    {
+                        @ level 1
+                        @ name
+                            :!
+                                @expr user.name
+            await
+                _ screen.findByRole
+                    @ 'img'
+                    {
+                        @ name
+                            :!
+                                @expr user.name
+            await
+                _ screen.findByRole
+                    @ 'link'
+                    {
+                        @ name
+                            template
+                                +
+                                @ user.name
+                                + 's notes
+    _ test
+        @ 'The user profile when logged in as self'
+        async=>
+            const userImages
+                await
+                    _ getUserImages()
+            const userImage
+                @expr userImages
+                    .[
+                        _ faker.number.int
+                            {
+                                @ min 0
+                                @ max userImages.length - 1
+            const user
+                await
+                    _ prisma.user.create
+                        {
+                            { select
+                                @ id true
+                                @ username true
+                                @ name true
+                            { data
+                                @ ...createUser()
+                                { image
+                                    @ create userImage
+            const session
+                await
+                    _ prisma.session.create
+                        {
+                            { select
+                                @ id true
+                            { data
+                                @ expirationDate getSessionExpirationDate()
+                                @ userId user.id
+            const authSession
+                await
+                    _ authSessionStorage.getSession()
+            _ authSession.set(sessionKey, session.id)
+            const setCookieHeader
+                await
+                    _ authSessionStorage.commitSession(authSession)
+            const parsedCookie = setCookieParser.parseString(setCookieHeader)
+            const cookieHeader
+                new URLSearchParams
+                    {
+                        @ [parsedCookie.name] parsedCookie.value
+                    ._ toString
+            const App
+                _ createRemixStub
+                    [
+                        {
+                            @ id 'root'
+                            @ path '/'
+                            @ loader
+                                async=>
+                                    param args
+                                    _ args.request.headers.set('cookie', cookieHeader)
+                                        # add the cookie header to the request
+                                    return rootLoader(args)
+                            [ children
+                                {
+                                    @ path 'users/:username'
+                                    @ Component UsernameRoute
+                                    @ loader
+                                        async=>
+                                            param args
+                                            _ args.request.headers.set('cookie', cookieHeader)
+                                                # add the cookie header to the request
+                                            return loader(args)
+            const routeUrl
+                template
+                    + /users/
+                    @ user.username
+                    +
+            await
+                _ render
+                    < App
+                        @ initialEntries
+                            [
+                                @ routeUrl
+            await
+                _ screen.findByRole
+                    @ 'heading'
+                    {
+                        @ level 1
+                        @ name
+                            :!
+                                @expr user.name
+            await
+                _ screen.findByRole
+                    @ 'img'
+                    {
+                        @ name
+                            :!
+                                @expr user.name
+            await
+                _ screen.findByRole
+                    @ 'button'
+                    {
+                        @ name /logout/i
+            await
+                _ screen.findByRole
+                    @ 'link'
+                    {
+                        @ name /my notes/i
+            await
+                _ screen.findByRole
+                    @ 'link'
+                    {
+                        @ name /edit profile/i

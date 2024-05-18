@@ -1,0 +1,342 @@
+$group
+    # This is your Prisma schema file,
+    # learn more about it in the docs: https://pris.ly/d/prisma-schema
+    generator client
+        config provider
+            = "prisma-client-js"
+    datasource db
+        config provider
+            = "sqlite"
+        config url
+            _ env
+                @ "DATABASE_URL"
+    model User
+        field id
+            :string
+            @ id
+            @ default
+                _ cuid
+        field email
+            :string
+            @ unique
+        field username
+            :string
+            @ unique
+        field name
+            :string
+            :optional
+        field createdAt
+            :dateTime
+            @ default
+                _ now
+        field updatedAt
+            :dateTime
+            @ updatedAt
+        field image
+            :ref UserImage
+            :optional
+        field password
+            :ref Password
+            :optional
+        field notes
+            :[
+                :ref Note
+        field roles
+            :[
+                :ref Role
+        field sessions
+            :[
+                :ref Session
+        field connections
+            :[
+                :ref Connection
+    model Note
+        field id
+            :string
+            @ id
+            @ default
+                _ cuid
+        field title
+            :string
+        field content
+            :string
+        field createdAt
+            :dateTime
+            @ default
+                _ now
+        field updatedAt
+            :dateTime
+            @ updatedAt
+        field owner
+            :ref User
+            @ relation
+                fields
+                    [
+                        @ ownerId
+                references
+                    [
+                        @ id
+                onDelete Cascade
+                onUpdate Cascade
+        field ownerId
+            :string
+        field images
+            :[
+                :ref NoteImage
+        # non-unique foreign key
+        @@ index
+            [
+                @ ownerId
+        # This helps our order by in the user search a LOT
+        @@ index
+            [
+                @ ownerId
+                @ updatedAt
+    model NoteImage
+        field id
+            :string
+            @ id
+            @ default
+                _ cuid
+        field altText
+            :string
+            :optional
+        field contentType
+            :string
+        field blob
+            :bytes
+        field createdAt
+            :dateTime
+            @ default
+                _ now
+        field updatedAt
+            :dateTime
+            @ updatedAt
+        field note
+            :ref Note
+            @ relation
+                fields
+                    [
+                        @ noteId
+                references
+                    [
+                        @ id
+                onDelete Cascade
+                onUpdate Cascade
+        field noteId
+            :string
+        # non-unique foreign key
+        @@ index
+            [
+                @ noteId
+    model UserImage
+        field id
+            :string
+            @ id
+            @ default
+                _ cuid
+        field altText
+            :string
+            :optional
+        field contentType
+            :string
+        field blob
+            :bytes
+        field createdAt
+            :dateTime
+            @ default
+                _ now
+        field updatedAt
+            :dateTime
+            @ updatedAt
+        field user
+            :ref User
+            @ relation
+                fields
+                    [
+                        @ userId
+                references
+                    [
+                        @ id
+                onDelete Cascade
+                onUpdate Cascade
+        field userId
+            :string
+            @ unique
+    model Password
+        field hash
+            :string
+        field user
+            :ref User
+            @ relation
+                fields
+                    [
+                        @ userId
+                references
+                    [
+                        @ id
+                onDelete Cascade
+                onUpdate Cascade
+        field userId
+            :string
+            @ unique
+    model Session
+        field id
+            :string
+            @ id
+            @ default
+                _ cuid
+        field expirationDate
+            :dateTime
+        field createdAt
+            :dateTime
+            @ default
+                _ now
+        field updatedAt
+            :dateTime
+            @ updatedAt
+        field user
+            :ref User
+            @ relation
+                fields
+                    [
+                        @ userId
+                references
+                    [
+                        @ id
+                onDelete Cascade
+                onUpdate Cascade
+        field userId
+            :string
+        # non-unique foreign key
+        @@ index
+            [
+                @ userId
+    model Permission
+        field id
+            :string
+            @ id
+            @ default
+                _ cuid
+        field action
+            :string
+        field entity
+            :string
+        field access
+            :string
+        field description
+            :string
+            @ default ""
+        field createdAt
+            :dateTime
+            @ default
+                _ now
+        field updatedAt
+            :dateTime
+            @ updatedAt
+        field roles
+            :[
+                :ref Role
+        @@ unique
+            [
+                @ action
+                @ entity
+                @ access
+    model Role
+        field id
+            :string
+            @ id
+            @ default
+                _ cuid
+        field name
+            :string
+            @ unique
+        field description
+            :string
+            @ default ""
+        field createdAt
+            :dateTime
+            @ default
+                _ now
+        field updatedAt
+            :dateTime
+            @ updatedAt
+        field users
+            :[
+                :ref User
+        field permissions
+            :[
+                :ref Permission
+    model Verification
+        field id
+            :string
+            @ id
+            @ default
+                _ cuid
+        field createdAt
+            :dateTime
+            @ default
+                _ now
+        ### The type of verification, e.g. "email" or "phone"
+        field type
+            :string
+        ### The thing we're trying to verify, e.g. a user's email or phone number
+        field target
+            :string
+        ### The secret key used to generate the otp
+        field secret
+            :string
+        ### The algorithm used to generate the otp
+        field algorithm
+            :string
+        ### The number of digits in the otp
+        field digits
+            :int
+        ### The number of seconds the otp is valid for
+        field period
+            :int
+        ### The valid characters for the otp
+        field charSet
+            :string
+        ### When it's safe to delete this verification
+        field expiresAt
+            :dateTime
+            :optional
+        @@ unique
+            [
+                @ target
+                @ type
+    model Connection
+        field id
+            :string
+            @ id
+            @ default
+                _ cuid
+        field providerName
+            :string
+        field providerId
+            :string
+        field createdAt
+            :dateTime
+            @ default
+                _ now
+        field updatedAt
+            :dateTime
+            @ updatedAt
+        field user
+            :ref User
+            @ relation
+                fields
+                    [
+                        @ userId
+                references
+                    [
+                        @ id
+                onDelete Cascade
+                onUpdate Cascade
+        field userId
+            :string
+        @@ unique
+            [
+                @ providerName
+                @ providerId

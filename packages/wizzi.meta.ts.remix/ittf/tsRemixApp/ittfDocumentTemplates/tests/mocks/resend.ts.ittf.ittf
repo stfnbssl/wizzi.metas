@@ -1,0 +1,45 @@
+$group
+    import
+        @ faker
+        from '@faker-js/faker'
+    import
+        @ HttpResponse
+        @ http
+        :type HttpHandler
+        from 'msw'
+    import
+        @ requireHeader
+        @ writeEmail
+        from './utils.ts'
+    const
+        {
+            @ json
+        = HttpResponse
+    export
+        const handlers
+            :ref Array
+                :param
+                    :ref HttpHandler
+            =
+                [
+                    _ http.post
+                        template
+                            + https://api.resend.com/emails
+                        async=>
+                            {
+                                @ request
+                            _ requireHeader(request.headers, 'Authorization')
+                            const body
+                                await
+                                    _ request.json()
+                            _ console.info('🔶 mocked email contents:', body)
+                            const email
+                                await
+                                    _ writeEmail(body)
+                            return
+                                _ json
+                                    {
+                                        @ id faker.string.uuid()
+                                        @ from email.from
+                                        @ to email.to
+                                        @ created_at new Date().toISOString()

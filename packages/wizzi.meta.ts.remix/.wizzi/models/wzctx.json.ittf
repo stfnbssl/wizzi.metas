@@ -10,7 +10,10 @@
         email "stfn.bssl@gmail.com"
     { github
         userid "stfnbssl"
-    license "MIT"
+    { license
+        type "MIT"
+        url "https://github.com/stfnbssl/wizzi.metas/tree/main/packages/wizzi.meta.ts.remix/license.text"
+        copy "copy 2024"
     metaNamespace "ts.remix"
     { Build
         useConfig true
@@ -74,3 +77,4 @@
                     name "remix"
                 {
                     name "app"
+

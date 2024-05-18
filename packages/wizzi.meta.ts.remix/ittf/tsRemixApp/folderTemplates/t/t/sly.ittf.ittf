@@ -1,0 +1,9 @@
+$group
+    
+    $file __dot__wizzi/other/sly/sly.json.ittf.ittf
+       {
+           ${'$'}include tsRemixApp/other/sly/sly.json
+    
+    $file __dot__wizzi/other/sly/transform-icon.ts.ittf.ittf
+       module
+           ${'$'}include tsRemixApp/other/sly/transform-icon.ts

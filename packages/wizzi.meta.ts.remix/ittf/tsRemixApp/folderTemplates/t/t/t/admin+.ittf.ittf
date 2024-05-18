@@ -1,0 +1,16 @@
+$group
+    $file __dot__wizzi/app/routes/admin+/cache_.lru.$cacheKey.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/admin+/cache_.lru.$cacheKey.ts
+    $file __dot__wizzi/app/routes/admin+/cache_.sqlite.$cacheKey.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/admin+/cache_.sqlite.$cacheKey.ts
+    $file __dot__wizzi/app/routes/admin+/cache_.sqlite.server.ts.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/admin+/cache_.sqlite.server.ts
+    $file __dot__wizzi/app/routes/admin+/cache_.sqlite.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/admin+/cache_.sqlite.tsx
+    $file __dot__wizzi/app/routes/admin+/cache.tsx.ittf.ittf
+        module
+            ${'$'}include tsRemixApp/app/routes/admin+/cache.tsx

@@ -1,0 +1,31 @@
+$group
+    import
+        @ useEffect
+        from 'react'
+    import
+        @ toast
+            as showToast
+        from 'sonner'
+    import
+        :type Toast
+        from '#app/utils/toast.server.ts'
+    export
+        function useToast
+            param toast
+                :union
+                    :ref Toast
+                    :null
+                :optional
+            _ useEffect
+                =>
+                    if toast
+                        _ setTimeout
+                            =>
+                                _ showToast[toast.type]
+                                    @expr toast.title
+                                    {
+                                        @ id toast.id
+                                        @ description toast.description
+                            @ 0
+                [
+                    @ toast

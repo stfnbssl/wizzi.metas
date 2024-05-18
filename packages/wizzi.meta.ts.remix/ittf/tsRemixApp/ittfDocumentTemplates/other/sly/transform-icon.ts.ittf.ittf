@@ -1,0 +1,40 @@
+$group
+   import
+       :type Meta
+       from '@sly-cli/sly'
+   export-default
+       function transformIcon
+           param input
+               :string
+           param meta
+               :ref Meta
+           set input = prependLicenseInfo(input, meta)
+           return input
+       #
+           # *
+           # @type {import('@sly-cli/sly/dist').Transformer}
+           #
+   function prependLicenseInfo
+       param input
+           :string
+       param meta
+           :ref Meta
+       :return
+           :string
+       return
+           [
+               template
+                   + <!-- Downloaded from&nbsp;
+                   @ meta.name
+                   + &nbsp;-->
+               template
+                   + <!-- License&nbsp;
+                   @ meta.license
+                   + &nbsp;-->
+               template
+                   + <!--&nbsp;
+                   @ meta.source
+                   + &nbsp;-->
+               @ input
+               ._ join
+                   @ '\n'

@@ -6,3 +6,4 @@ $group
             $if result !== null
                 @ ${result}
             $hook
+

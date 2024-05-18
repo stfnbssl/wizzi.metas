@@ -1,0 +1,31 @@
+$group
+
+    $
+        var items = [
+            "docker.svg",
+            "eslint.svg",
+            "faker.svg",
+            "fly.svg",
+            "github.svg",
+            "logos.ts",
+            "msw.svg",
+            "playwright.svg",
+            "prettier.svg",
+            "prisma.svg",
+            "radix.svg",
+            "react-email.svg",
+            "remix.svg",
+            "resend.svg",
+            "sentry.svg",
+            "shadcn-ui.svg",
+            "sqlite.svg",
+            "tailwind.svg",
+            "typescript.svg",
+            "vitest.svg",
+            "zod.svg",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/app/routes/_marketing+/logos/${item}.ittf.ittf
+            svg
+                ${'$'}include tsRemixApp/app/routes/_marketing+/logos/${item}
