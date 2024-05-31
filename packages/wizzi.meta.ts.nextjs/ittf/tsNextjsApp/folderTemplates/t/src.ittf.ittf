@@ -1,0 +1,5 @@
+$group
+    $include app
+    $file __dot__wizzi/src/instrumentation.ts.ittf.ittf
+        module
+            ${'$'}include tsNextjsApp/src/instrumentation.ts

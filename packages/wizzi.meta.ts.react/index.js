@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.react\.wizzi-override\root\index.js.ittf
-    utc time: Wed, 08 May 2024 04:39:56 GMT
+    utc time: Wed, 22 May 2024 18:10:59 GMT
 */
 'use strict';
 
@@ -52,6 +52,9 @@ var pluginCategories = [
              }, 
             {
                 name: "tsReactPageForms"
+             }, 
+            {
+                name: "tsReactRadixUi"
              }, 
             {
                 name: "tsReactRedux"
@@ -114,6 +117,9 @@ var pluginCategories = [
              }, 
             {
                 name: "tsReactPageForms"
+             }, 
+            {
+                name: "tsReactRadixUi"
              }, 
             {
                 name: "tsReactRedux"
@@ -294,6 +300,21 @@ var pluginMetaProductions = [
              }, 
             {
                 name: 'react'
+             }
+        ]
+     }, 
+    {
+        name: 'tsReactRadixUi', 
+        title: 'tsReactRadixUi wizzi meta production', 
+        categories: [
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'radixui'
              }
         ]
      }, 

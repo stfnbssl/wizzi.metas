@@ -1,0 +1,134 @@
+$group
+    +
+    import
+        @ Document
+        from "mongoose"
+    +
+    export
+        :type PackiProduction
+            :union
+                :literal 'artifact'
+                :literal 'package'
+                :literal 'meta'
+                :literal 'plugin'
+                :literal 'tfolder'
+                :literal 'job'
+    ${'$'}
+        var md = {
+            Name: 'ArtifactProduction'
+        }
+    v08/mongo/crud/modeltype${'('} &md)
+        ${'$'}append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p mainIttf
+                :string
+            :p wizziSchema
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date
+    ${'$'}
+        md = {
+            Name: 'PackageProduction'
+        }
+    v08/mongo/crud/modeltype${'('} &md)
+        ${'$'}append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date
+    ${'$'}
+        md = {
+            Name: 'PluginProduction'
+        }
+    v08/mongo/crud/modeltype${'('} &md)
+        ${'$'}append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date
+    ${'$'}
+        md = {
+            Name: 'MetaProduction'
+        }
+    v08/mongo/crud/modeltype${'('} &md)
+        ${'$'}append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date
+    ${'$'}
+        md = {
+            Name: 'TFolder'
+        }
+    v08/mongo/crud/modeltype${'('} &md)
+        ${'$'}append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date
+    ${'$'}
+        md = {
+            Name: 'Job'
+        }
+    v08/mongo/crud/modeltype${'('} &md)
+        ${'$'}append fields
+            :p owner
+                :string
+            :p name
+                :string
+            :p description
+                :string
+            :p packiFiles
+                :string
+            :p created_at
+                :ref Date
+            :p updated_at
+                :ref Date
+    export
+        :type WizziInMemoryMetaRef
+            :{
+                :p owner
+                    :string
+                :p name
+                    :string

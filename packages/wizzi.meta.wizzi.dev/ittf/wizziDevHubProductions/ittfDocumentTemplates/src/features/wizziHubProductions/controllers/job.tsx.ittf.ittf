@@ -1,0 +1,116 @@
+$group
+    ${'$'}
+        var ctrl = {
+            name: 'Job',
+            path: '/job',
+            webSecured: wzCtx.Build.useAuthentication,
+        }
+    v08/ts/controller${'('} &ctrl )
+        ${'$'}append imports
+            import ReactDOMServer
+                from 'react-dom/server'
+            import PageFormDocument
+                from '../../../pages/PageFormDocument'
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ getTemplatePackiFiles
+                from '../api/meta'
+            import
+                @ createJob
+                @ updateJob
+                @ deleteJob
+                @ getJobObject
+                @ getJobObjectById
+                from '../api/job'
+            import
+                @ mergePackiFiles
+                from '../utils'
+            import
+                @ packiTypes
+                from '../../packi'
+            +
+            const myname = 'features/production/controllers/job'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+            ${'$'}include defaults/job_packifiles
+        v08/ts/route${'('} get, /new, this.getNewJobForm)
+        v08/ts/route${'('} post, /new, this.postJob)
+        v08/ts/route${'('} get, /update/:id, this.getUpdateJobForm)
+        v08/ts/route${'('} post, /update, this.putJob)
+        v08/ts/route${'('} get, /delete/:id, this.getDeleteJobForm)
+        v08/ts/route${'('} post, /delete, this.deleteJob)
+        ${'$'}append handlers
+            v08/ts/handler${'('} getNewJobForm )
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreateJob'
+                        { formData
+                            @ owner (request.session as any).user.username
+                    {
+            v08/ts/handler${'('} postJob )
+                _ getTemplatePackiFiles
+                    @ request.body.meta_id
+                    @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
+                    @ request.query.context as string
+                    @ request.body.context ? JSON.parse(request.body.context) : {}
+                    {
+                        @ wizziSchema "js"
+                        @ mainIttf "index.js.ittf"
+                    ._ then
+                        =>
+                            param packiFiles
+                                :ref packiTypes.PackiFiles
+                            _ createJob
+                                @ (request.session as any).user.username
+                                @ request.body.job_name
+                                @ request.body.job_description
+                                _ JSON.stringify
+                                    _ mergePackiFiles
+                                        @ packiFiles
+                                        _ getPackiConfigFile
+                                ._ then
+                                    =>
+                                        param result
+                                            :ref CRUDResult
+                                        if result.ok
+                                            _ response.redirect
+                                                @ '/~~/j/' + (request.session as any).user.username + '/' + request.body.job_name
+                                        else
+                                            _ response.render
+                                                @ 'error.html.ittf'
+                                                {
+                                                    @ message 'creating a new job production'
+                                                    @ error result
+                                v08/ts/catch_error_page${'('} creating a new job production )
+                    v08/ts/catch_error_page${'('} getting template packi files while creating a new job production )
+            v08/ts/handler${'('} getUpdateJobForm )
+                update_get_form${'('} job )
+            v08/ts/handler${'('} putJob )
+                update_put${'('} job )
+            v08/ts/handler${'('} getDeleteJobForm )
+                delete_get_form${'('} job )
+            v08/ts/handler${'('} deleteJob )
+                delete_delete${'('} job )

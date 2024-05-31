@@ -1,0 +1,128 @@
+$group
+    ${'$'}
+        var ctrl = {
+            name: 'ApiV1MetaProduction',
+            path: '/api/v1/production/meta',
+            apiSecured: wzCtx.Build.useAuthentication,
+            Production: 'Meta',
+            production: 'meta',
+        }
+    v08/ts/controller${'('} &ctrl )
+        ${'$'}append imports
+            apiv1_imports${'('} &ctrl )
+            import
+                @ generateMetaProduction
+                from '../api/meta'
+            import
+                @ artifactApi
+                @ productionApi
+                from '../../packiProductions'
+            const myname = 'features/production/controllers/apiv1metaproduction'
+        v08/ts/route${'('} get, /:owner, this.getMetaProductions)
+        v08/ts/route${'('} get, /props/:id, this.getMetaProperties)
+        v08/ts/route${'('} get, /checkname/:owner/:name, this.getCheckMetaName)
+        v08/ts/route${'('} get, /:owner/:name, this.getMetaProduction)
+        v08/ts/route${'('} put, /:id, this.putMetaProduction)
+        v08/ts/route${'('} put, /packidiffs/:id, this.putMetaProductionPackiDiffs)
+        v08/ts/route${'('} post, '/:owner/:name, this.postMetaProduction)
+        v08/ts/route${'('} post, '/generate/:owner/:name, this.generateMetaProductionByName)
+        ${'$'}append handlers
+            v08/ts/handler${'('} getMetaProductions )
+                _ getMetaProductionList
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            if result.ok
+                                _ sendSuccess
+                                    @ response
+                                    @ result
+                            v08/ts/else_send_fail${'('} getMetaProductions, result)
+                    v08/ts/catch_send_fail${'('} getMetaProductions )
+            v08/ts/handler${'('} getMetaProperties )
+                _ productionApi.prepareProductionById
+                    @ 'meta'
+                    @ request.params.id
+                    @ ''
+                    {
+                    ._ then
+                        =>
+                            param metaProductionSet
+                                :any
+                            _ wizziProds.generateArtifact
+                                @ 'properties/index.json.ittf'
+                                @ metaProductionSet.packiFiles
+                                @ metaProductionSet.context
+                                ._ then
+                                    =>
+                                        param value
+                                        ${'$'}$ loog myname, 'getMetaProperties.generateArtifact.result', value
+                                        _ sendSuccess
+                                            @ response
+                                            {
+                                                @ meta JSON.parse(value.artifactContent)
+                                v08/ts/catch_send_fail${'('} features.packi.controllers.production.generateArtifact )
+                    v08/ts/catch_send_fail${'('} getMetaProperties.prepareProductionById )
+            v08/ts/handler${'('} getCheckMetaName )
+                check_name${'('} meta )
+            v08/ts/handler${'('} getMetaProduction )
+                _ getMetaProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} getMetaProduction )
+            v08/ts/handler${'('} postMetaProduction )
+                ${'$'}$ loog 'postMetaProduction.request.params', request.params
+                ${'$'}$ loog 'postMetaProduction.request.body', request.body
+                _ createMetaProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} postMetaProduction )
+            v08/ts/handler${'('} putMetaProduction )
+                _ updateMetaProduction
+                    @ request.params.id
+                    @ request.body.owner
+                    @ request.body.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} putMetaProduction )
+            apiv1_put${'('} &ctrl )
+            v08/ts/handler${'('} generateMetaProductionByName )
+                _ generateMetaProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.metaCtx
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} generateMetaProductionByName )
+    apiv1_exec_update${'('} &ctrl )

@@ -1,0 +1,14 @@
+$group
+
+    $
+        var items = [
+            "env.ts",
+            "index.ts",
+            "types.ts",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/config/${item}.ittf.ittf
+            module
+                ${'$'}include tsCLI/src/features/config/${item}
+

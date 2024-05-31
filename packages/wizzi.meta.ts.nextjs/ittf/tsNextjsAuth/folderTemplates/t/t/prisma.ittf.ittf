@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "schema.prisma",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/prisma/${item}.ittf.ittf
+            prisma
+                ${'$'}include tsNextjsAuth/src/prisma/${item}

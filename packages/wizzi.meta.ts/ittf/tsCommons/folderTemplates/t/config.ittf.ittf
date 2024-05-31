@@ -1,13 +1,20 @@
 $group
 
-    $
-        var items = [
-            'tsconfig_server',
-            'tsconfig',
-            'tsconfig.node',
-        ];
+    $if metaCtx.useTsCLI
+        
+        $file __dot__wizzi/root/tsconfig.json.ittf.ittf
+            {
+                ${'$'}include tsCommons/config/tsconfig.cli.json
 
-    $foreach item in items
-        $file __dot__wizzi/t/v08/ts/${item}.ittf.ittf
-            ${'$'}{'$'}group
-                ${'$'}include tsCommons/config/${item}.json
+    $else
+        $
+            var items = [
+                'tsconfig_server',
+                'tsconfig',
+                'tsconfig.node',
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/t/v08/ts/${item}.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include tsCommons/config/${item}.json

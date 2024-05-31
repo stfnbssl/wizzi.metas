@@ -1,9 +1,0 @@
-module
-    kind react
-    const 
-        { 
-            @ withContentlayer
-        = require('next-contentlayer')
-    set module.exports =
-        _ withContentlayer
-            { 

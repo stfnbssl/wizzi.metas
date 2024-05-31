@@ -27,20 +27,4 @@ $group
     $foreach item in items
         $file __dot__wizzi/${pkgPath}t/${item}.ittf.ittf
             ${'$'}{'$'}group
-                ${'$'}include tsCommons/tfolder/${item}.ts
-    
-    $if false  
-        $
-            var items = [
-                'check-params',
-                'not-empty',
-                'not-undefined',
-                'optional',
-                ];
-
-        $foreach item in items
-            $file __dot__wizzi/${pkgPath}src/t/${item}.ts.ittf.ittf
-                ${'$'}{'$'}group
-                    ${'$'}include wz/v08/ts/express/tfolder/${item}.ts
-
-
+                ${'$'}include tsCommons/tfolder/${item}.ts   

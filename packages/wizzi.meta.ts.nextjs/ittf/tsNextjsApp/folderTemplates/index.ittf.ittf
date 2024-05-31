@@ -1,0 +1,8 @@
+$group
+    $if metaCtx.useTsNextjsApp
+        $include wzCtxModel
+        $include __generate
+        $include models
+        $include public
+        $include root
+        $include src

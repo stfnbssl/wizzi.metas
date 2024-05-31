@@ -1,0 +1,8 @@
+$group
+    $file __dot__wizzi/models/t/tsCLI.json.ittf.ittf
+        ${'$'}{'$'}group
+            $*
+            useXxx true
+            { xxx
+            *$
+

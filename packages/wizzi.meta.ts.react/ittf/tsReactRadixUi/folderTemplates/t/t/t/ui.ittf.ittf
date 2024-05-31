@@ -1,0 +1,15 @@
+$group
+
+    $
+        var items = [
+            "avatar.tsx",
+            "button.tsx",
+            "dropdown-menu.tsx",
+            "input.tsx",
+            "navigation-menu.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/components/ui/${item}.ittf.ittf
+            module
+                ${'$'}include tsReactRadixUi/src/components/ui/${item}

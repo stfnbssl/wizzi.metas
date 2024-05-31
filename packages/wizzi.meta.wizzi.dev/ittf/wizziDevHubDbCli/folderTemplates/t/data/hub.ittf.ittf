@@ -1,0 +1,16 @@
+$group
+
+    $
+        var hubProductions = [{
+            name: "artifact"
+        },{
+            name: "package"
+        },{
+            name: "plugin"
+        },{
+            name: "meta"
+        },{
+            name: "job"
+        },{
+            name: "tFolder"
+        }];

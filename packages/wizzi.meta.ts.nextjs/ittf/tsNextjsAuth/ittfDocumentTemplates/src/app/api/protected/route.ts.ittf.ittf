@@ -1,0 +1,23 @@
+$group
+    import
+        @ auth
+        from "#/auth"
+    export
+        const GET
+            @expr
+                _ auth
+                    =>
+                        param req
+                        if req.auth
+                            return
+                                _ Response.json
+                                    {
+                                        @ data "Protected data"
+                        return
+                            _ Response.json
+                                {
+                                    @ message "Not authenticated"
+                                {
+                                    @ status 401
+                :as
+                    :any

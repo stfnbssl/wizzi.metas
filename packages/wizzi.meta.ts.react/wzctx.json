@@ -223,6 +223,21 @@
             ]
         },
         {
+            "name": "tsReactRadixUi",
+            "title": "tsReactRadixUi wizzi meta production",
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "react"
+                },
+                {
+                    "name": "radixui"
+                }
+            ]
+        },
+        {
             "name": "tsReactRedux",
             "title": "tsReactRedux wizzi meta production",
             "categories": [

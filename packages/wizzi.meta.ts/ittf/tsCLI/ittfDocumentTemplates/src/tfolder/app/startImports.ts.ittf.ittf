@@ -1,0 +1,32 @@
+$group
+
+    $if _.isArray(metaCtx.tsCLI.features) || metaCtx.tsCLI.useMongoDb
+        import 
+            @ ConfigType
+            @ config
+            from '#/src/features/config/index'
+    
+    $if metaCtx.tsCLI.useMongoDb
+        import 
+            @ ModelBuilderType
+            from '#/src/features/app'
+
+    $if metaCtx.tsCLI.useFilesystem
+        import filesystemStart from '#/src/services/filesystem'
+    
+    $if metaCtx.tsCLI.useMongoDb
+        import
+            @ mongodbStart
+            @ close
+                as mongodbClose
+            from '#/src/services/mongodb'
+    
+    $if _.isArray(metaCtx.tsCLI.features)
+        $foreach feature in metaCtx.tsCLI.features
+            $if feature.hasControllers || feature.useMongoDb
+                $
+                    var fileName = feature.fileName ? feature.fileName : feature.name
+                import 
+                    $if feature.useMongoDb
+                        @ ${feature.name}ModelBuilders
+                    from '#/src/features/${fileName}/index'

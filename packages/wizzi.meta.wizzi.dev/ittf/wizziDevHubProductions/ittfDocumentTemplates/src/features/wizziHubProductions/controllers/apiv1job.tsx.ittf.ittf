@@ -1,0 +1,79 @@
+$group
+    ${'$'}
+        var ctrl = {
+            name: 'ApiV1Job',
+            path: '/api/v1/production/job',
+            apiSecured: wzCtx.Build.useAuthentication,
+            Production: 'Job',
+            production: 'job',
+        }
+    v08/ts/controller${'('} &ctrl )
+        ${'$'}append imports
+            apiv1_imports${'('} &ctrl )
+            +
+            const myname = 'features/production/controllers/apiv1job'
+        v08/ts/route${'('} get, /:owner, this.getJobs)
+        v08/ts/route${'('} get, /checkname/:owner/:name, this.getCheckJobName)
+        v08/ts/route${'('} get, /:owner/:name, this.getJob)
+        v08/ts/route${'('} put, /:id, this.putJob)
+        v08/ts/route${'('} put, /packidiffs/:id, this.putJobPackiDiffs)
+        v08/ts/route${'('} post, /:post, this.postJob)
+        ${'$'}append handlers
+            v08/ts/handler${'('} getJobs )
+                _ getJobList
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} getJobs )
+            v08/ts/handler${'('} getCheckJobName )
+                check_name${'('} job )
+            v08/ts/handler${'('} getJob )
+                _ getJob
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} getJob )
+            v08/ts/handler${'('} postJob )
+                _ createJob
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} postJob )
+            v08/ts/handler${'('} putJob )
+                _ updateJob
+                    @ request.params.id
+                    @ request.body.owner
+                    @ request.body.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} putJob )
+            apiv1_put${'('} &ctrl )
+    apiv1_exec_update${'('} &ctrl )

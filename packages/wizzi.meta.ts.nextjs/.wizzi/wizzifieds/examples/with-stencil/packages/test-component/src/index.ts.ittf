@@ -1,4 +1,0 @@
-module
-    kind react
-    export *
-        from './components'

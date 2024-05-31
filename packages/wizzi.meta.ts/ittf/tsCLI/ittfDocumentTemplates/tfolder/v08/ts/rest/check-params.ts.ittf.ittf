@@ -1,0 +1,7 @@
+$group
+
+	var __check = restParamsCheck(request)
+	${'$'}hook
+	if __check.hasErrors()
+		return __check.sendErrors(response)
+

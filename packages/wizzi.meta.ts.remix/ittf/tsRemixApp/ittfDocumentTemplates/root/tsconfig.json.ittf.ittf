@@ -37,7 +37,7 @@ $group
             [ ~/*
                 "./app/*"
             $if false
-                [ @/icon-name
+                [ #/icon-name
                     "./app/components/ui/icons/name.d.ts" 
                     "./types/icon-name.d.ts" 
         noImplicitAny true

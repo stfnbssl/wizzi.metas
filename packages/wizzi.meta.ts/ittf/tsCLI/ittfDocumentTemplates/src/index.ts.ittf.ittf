@@ -1,0 +1,47 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('commander', '^12.0.0');
+        setCtxDep ('figlet', '^1.7.0');
+    
+    import path from 'path'
+    
+    $if metaCtx.tsCLI.useCommander
+        const 
+            { 
+                @ Command
+            = require("commander")
+        $foreach command in metaCtx.tsCLI.commander.commands            
+            const ${command.function} = require("./commands/${command.function}")
+    
+    $if metaCtx.tsCLI.useFiglet
+        const figlet = require("figlet")
+    
+    ${'$'}include ./app/startImports
+    
+    $if metaCtx.tsCLI.useCommander
+        const program = new Command()
+    
+    $if metaCtx.tsCLI.useFiglet
+        log figlet.textSync("${metaCtx.tsCLI.figlet.title}")
+    
+    $if metaCtx.tsCLI.useCommander
+        _ program.description("${metaCtx.tsCLI.commander.title}")
+            ${'\\b'} .option("--help", "Show help")
+            $foreach command in metaCtx.tsCLI.commander.commands
+                ${'\\b'} .option("--${command.name}", "${command.label}").parse(process.argv)
+        const options = program.opts()
+        log 'choice', options
+    
+    +
+    ${'$'}include ./app/startServices
+    +
+    $if metaCtx.tsCLI.useCommander
+        if options.help
+            _ program.help()
+        $foreach command in metaCtx.tsCLI.commander.commands
+            elif options.${command.name}
+                _ ${command.function}
+        else
+            _ program.help()

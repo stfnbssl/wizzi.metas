@@ -1,0 +1,88 @@
+$group
+
+    $if metaCtx.tsCLI.useExpress
+        import express from 'express'
+    
+    $if _.isArray(metaCtx.tsCLI.features) || metaCtx.tsCLI.useMongoDb
+        import 
+            @ ConfigType
+            from '#/src/features/config'
+    
+    $if metaCtx.tsCLI.useFilesystem
+        import 
+            @ fsTypes
+            from '#/src/features/filesystem'
+    
+    $if metaCtx.tsCLI.useMongoDb || metaCtx.tsCLI.useSequelize
+        :export-type ModelBuilderType
+            :{ 
+                :p buildModel
+                    :=> 
+                        :void 
+                        param options
+                            :any
+                            :optional
+                :p applyExtraSetup
+                    :=> 
+                        :void 
+                        param options
+                            :any
+                            :optional
+    
+    :export-type ApiType
+        :{ 
+            :p name
+                :string 
+            :p initialize
+                :=> 
+                    :void
+                    $if metaCtx.tsCLI.useExpress 
+                        param app
+                            :ref express.Application
+                    param initValues
+                        :ref AppInitializerType
+
+    $if metaCtx.tsCLI.useExpress 
+        :export-type ControllerType
+            :{ 
+                :p path
+                    :string 
+                :p router
+                    :ref express.Router
+                :p initialize
+                    :=> 
+                        :void 
+                        param app
+                            :ref express.Application
+                        param initValues
+                            :ref AppInitializerType
+    
+        :export-type MiddlewareType
+            :=> 
+                :void 
+                param app
+                    :ref express.Application
+    
+    :export-type AppInitializerType
+        :{ 
+            $if _.isArray(metaCtx.tsCLI.features) || metaCtx.tsCLI.useMongoDb
+                :p config
+                    :ref ConfigType
+            :p globalApi
+                :any 
+            :p apis
+                :[ 
+                    :ref ApiType
+            $if metaCtx.tsCLI.useExpress
+                :p controllers
+                    :[ 
+                        :ref ControllerType
+                :p middlewaresPre
+                    :[ 
+                        :ref MiddlewareType
+                :p middlewaresPost
+                    :[ 
+                        :ref MiddlewareType
+            $if metaCtx.tsCLI.useFilesystem
+                :p fsDb
+                    :ref fsTypes.FsDb

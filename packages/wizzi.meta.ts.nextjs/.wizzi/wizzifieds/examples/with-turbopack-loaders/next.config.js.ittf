@@ -1,9 +1,0 @@
-module
-    kind react
-    set module.exports =
-        { 
-            { experimental
-                { turbo
-                    { loaders
-                        [ '.svg'
-                            @ '@svgr/webpack'

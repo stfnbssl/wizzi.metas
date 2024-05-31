@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.nextjs\.wizzi-override\root\index.js.ittf
-    utc time: Wed, 08 May 2024 04:39:54 GMT
+    utc time: Thu, 23 May 2024 03:56:33 GMT
 */
 'use strict';
 
@@ -24,6 +24,12 @@ var pluginCategories = [
         name: 'typescript', 
         productions: [
             {
+                name: "tsNextjsApp"
+             }, 
+            {
+                name: "tsNextjsAuth"
+             }, 
+            {
                 name: "tsNextjsBasicApp"
              }, 
             {
@@ -35,6 +41,12 @@ var pluginCategories = [
         name: 'nextjs', 
         productions: [
             {
+                name: "tsNextjsApp"
+             }, 
+            {
+                name: "tsNextjsAuth"
+             }, 
+            {
                 name: "tsNextjsBasicApp"
              }, 
             {
@@ -44,6 +56,44 @@ var pluginCategories = [
      }
 ];
 var pluginMetaProductions = [
+    {
+        name: 'tsNextjsApp', 
+        title: 'tsNextjsApp wizzi meta production', 
+        isPackageMain: true, 
+        categories: [
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'nextjs'
+             }, 
+            {
+                name: 'app'
+             }
+        ]
+     }, 
+    {
+        name: 'tsNextjsAuth', 
+        title: 'tsNextjsAuth wizzi meta production', 
+        isPackageMain: true, 
+        categories: [
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'nextjs'
+             }, 
+            {
+                name: 'auth'
+             }
+        ]
+     }, 
     {
         name: 'tsNextjsBasicApp', 
         title: 'tsNextjsBasicApp wizzi meta production', 

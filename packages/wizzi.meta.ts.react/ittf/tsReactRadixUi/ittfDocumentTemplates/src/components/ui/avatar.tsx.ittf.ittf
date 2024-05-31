@@ -1,0 +1,81 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('@radix-ui/react-avatar', '^1.0.3');
+        setCtxRequire ('lib.utils.cn');
+
+    directive use client
+    import
+        as React
+        from "react"
+    import
+        as AvatarPrimitive
+        from "@radix-ui/react-avatar"
+    import
+        @ cn
+        from "#/lib/utils"
+    const Avatar
+        _ React.forwardRef
+            :param
+                :ref React.ElementRef
+                    :param
+                        :typeof AvatarPrimitive.Root
+            :param
+                :ref React.ComponentPropsWithoutRef
+                    :param
+                        :typeof AvatarPrimitive.Root
+            =>
+                {
+                    @ className
+                    ... props
+                param ref
+                < AvatarPrimitive.Root
+                    @ ref {ref}
+                    @ className {cn("relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full", className)}
+                    ... props
+    set Avatar.displayName = AvatarPrimitive.Root.displayName
+    const AvatarImage
+        _ React.forwardRef
+            :param
+                :ref React.ElementRef
+                    :param
+                        :typeof AvatarPrimitive.Image
+            :param
+                :ref React.ComponentPropsWithoutRef
+                    :param
+                        :typeof AvatarPrimitive.Image
+            =>
+                {
+                    @ className
+                    ... props
+                param ref
+                < AvatarPrimitive.Image
+                    @ ref {ref}
+                    @ className {cn("aspect-square h-full w-full", className)}
+                    ... props
+    set AvatarImage.displayName = AvatarPrimitive.Image.displayName
+    const AvatarFallback
+        _ React.forwardRef
+            :param
+                :ref React.ElementRef
+                    :param
+                        :typeof AvatarPrimitive.Fallback
+            :param
+                :ref React.ComponentPropsWithoutRef
+                    :param
+                        :typeof AvatarPrimitive.Fallback
+            =>
+                {
+                    @ className
+                    ... props
+                param ref
+                < AvatarPrimitive.Fallback
+                    @ ref {ref}
+                    @ className {cn("flex h-full w-full items-center justify-center rounded-full bg-muted", className)}
+                    ... props
+    set AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
+    export
+        @ Avatar
+        @ AvatarImage
+        @ AvatarFallback

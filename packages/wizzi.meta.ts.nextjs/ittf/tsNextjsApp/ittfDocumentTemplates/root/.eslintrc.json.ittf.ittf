@@ -1,0 +1,6 @@
+$group
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDevDep ('eslint', '^8');
+        setCtxDevDep ('eslint-config-next', '14.2.3');
+    extends "next/core-web-vitals"

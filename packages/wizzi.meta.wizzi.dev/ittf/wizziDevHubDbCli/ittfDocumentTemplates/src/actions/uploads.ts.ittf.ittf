@@ -1,0 +1,74 @@
+$group
+
+    import path from 'path'
+    import
+        @ PackiFiles
+        from '#/src/features/packi/types'
+    import 
+        $foreach hp in hubProductions
+            @ ${hp.name}Api
+        from '#/src/features/wizziProductions'
+    import 
+        @ resourceApi
+        from '#/src/features/wizziCdn'
+    import
+        @ getFileContents
+        @ getFilteredPackiFiles
+        from './fsrepo'
+
+    $foreach hp in hubProductions
+        export
+            function upload${_.capitalize(hp.name)}
+                param owner
+                    :string
+                param name
+                    :string
+                param options
+                    :any
+                :return
+                    :ref Promise
+                        :param any
+                r_promise${'('})
+                    $$ loog 'upload${_.capitalize(hp.name)}.options', options
+                    _ getFilteredPackiFiles
+                        @ options
+                        a_then_catch_reject${'('} packiFiles, :ref, PackiFiles, upload.upload${_.capitalize(hp.name)}.getFilteredPackiFiles )
+                            if options.merge
+                                _ ${hp.name}Api.merge${_.capitalize(hp.name)}ProductionFiles
+                                    @ owner
+                                    @ name
+                                    @ packiFiles
+                                    @ options
+                                    a_then_catch_reject${'('} result, :any, , upload.upload${_.capitalize(hp.name)}.${hp.name}Api.merge${_.capitalize(hp.name)}ProductionFiles )
+                                        _ resolve
+                                            @ result
+                            elif options.create
+                                _ ${hp.name}Api.create${_.capitalize(hp.name)}Production
+                                    @ owner
+                                    @ name
+                                    @ description
+                                    @ mainIttf
+                                    @ wizziSchema
+                                    _ JSON.stringify(packiFiles)
+                                    a_then_catch_reject${'('} result, :any, , upload.upload${_.capitalize(hp.name)}.${hp.name}Api.create${_.capitalize(hp.name)}Production )
+                                        _ resolve
+                                            @ result
+                            elif options.update
+                                _ ${hp.name}Api.get${_.capitalize(hp.name)}Production
+                                    @ owner
+                                    @ name
+                                    a_then_catch_reject${'('} ap, :any, , upload.upload${_.capitalize(hp.name)}.${hp.name}Api.get${_.capitalize(hp.name)}Production )
+                                        $$ loog 'upload.upload${_.capitalize(hp.name)}.${hp.name}Api.get${_.capitalize(hp.name)}Production', Object.keys(ap.item._doc)
+                                        _ ${hp.name}Api.update${_.capitalize(hp.name)}Production
+                                            @ ap.item._doc._id
+                                            @ owner
+                                            @ name
+                                            @ description
+                                            @ mainIttf
+                                            @ wizziSchema
+                                            _ JSON.stringify(packiFiles)
+                                            a_then_catch_reject${'('} result, :any, , upload.upload${_.capitalize(hp.name)}.${hp.name}Api.create${_.capitalize(hp.name)}Production )
+                                                _ resolve
+                                                    @ result
+
+        +

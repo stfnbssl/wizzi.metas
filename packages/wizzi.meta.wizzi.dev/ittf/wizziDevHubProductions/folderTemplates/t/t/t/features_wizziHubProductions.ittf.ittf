@@ -1,0 +1,16 @@
+$group
+    $include wizziHubProductions_api
+    $include wizziHubProductions_controllers
+    $include wizziHubProductions_mongo
+
+    $
+        var items = [
+            "index.ts",
+            "types.ts",
+            "utils.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/${item}

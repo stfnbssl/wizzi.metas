@@ -1,0 +1,22 @@
+$group
+
+    $
+        var items = [
+            "globals.css",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/app/${item}.ittf.ittf
+            css
+                ${'$'}include tsNextjsApp/src/app/${item}
+
+    $
+        var items = [
+            "layout.tsx",
+            "page.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/app/${item}.ittf.ittf
+            module
+                ${'$'}include tsNextjsApp/src/app/${item}

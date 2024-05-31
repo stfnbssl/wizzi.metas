@@ -50,6 +50,9 @@ $group
                 $if metaCtx.useTsReactPageForms
                     ${'$'}{'$'}include tsReactPageForms.json
                     
+                $if metaCtx.useTsReactRadixUi
+                    ${'$'}{'$'}include tsReactRadixUi.json
+                    
                 $if metaCtx.useTsReactRedux
                     ${'$'}{'$'}include tsReactRedux.json
                     

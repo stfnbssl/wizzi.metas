@@ -1,0 +1,112 @@
+$group
+    ${'$'}
+        var ctrl = {
+            name: 'ApiV1ArtifactProduction',
+            path: '/api/v1/production/artifact',
+            apiSecured: wzCtx.Build.useAuthentication,
+            Production: 'Artifact',
+            production: 'artifact',
+        }
+    v08/ts/controller${'('} &ctrl )
+        ${'$'}append imports
+            apiv1_imports${'('} &ctrl )
+            const myname = 'features/production/controllers/apiv1artifact'
+        v08/ts/route${'('} get, /:owner, this.getArtifactProductions)
+        v08/ts/route${'('} get, /checkname/:owner/:name, this.getCheckArtifactName)
+        v08/ts/route${'('} get, /:owner/:name, this.getArtifactProduction)
+        v08/ts/route${'('} put, /:id, this.putArtifactProduction)
+        v08/ts/route${'('} put, /packidiffs/:id, this.putArtifactProductionPackiDiffs)
+        v08/ts/route${'('} post, /:owner/:name, this.postArtifactProduction)
+        ${'$'}append handlers
+            v08/ts/handler${'('} getArtifactProductions )
+                _ getArtifactProductionList
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} getArtifactProductions )
+            v08/ts/handler${'('} getCheckArtifactName )
+                check_name${'('} artifact )
+            v08/ts/handler${'('} getArtifactProduction )
+                _ getArtifactProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} getArtifactProduction )
+            v08/ts/handler${'('} postArtifactProduction )
+                _ createArtifactProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ request.body.mainIttf
+                    @ request.body.wizziSchema
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            ${'$'}$ loog 'postArtifactProduction.create.result', result
+                            _ invalidateCache
+                                @ request.params.owner
+                                @ request.params.name
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} postArtifactProduction )
+            v08/ts/handler${'('} putArtifactProduction )
+                log 'putArtifactProduction.request.params', request.params
+                log 'putArtifactProduction.request.body', Object.keys(request.body)
+                if request.body.packiFiles
+                    log 'putArtifactProduction.request.body.packiFiles', Object.keys(request.body.packiFiles)
+                const options = request.body.options || {}
+                if options.wizzify
+                    _ wizziProds.wizzify
+                        @ request.body.packiFiles
+                        ._ then
+                            =>
+                                param resultPackiFiles
+                                    :any
+                                log 'putArtifactProduction.wizzify.resultPackiFiles', Object.keys(resultPackiFiles)
+                                return
+                                    _ exec_updateArtifactProduction
+                                        @ request
+                                        @ response
+                                        @ resultPackiFiles
+                        v08/ts/catch_send_fail${'('} putArtifactProduction.wizzify )
+                elif options.merge
+                    _ getArtifactProductionObjectById
+                        @ request.params.id
+                        ._ then
+                            =>
+                                param prevArtifact
+                                    :any
+                                const resultPackiFiles
+                                    _ mergePackiFiles
+                                        @ prevArtifact.packiFiles
+                                        @ request.body.packiFiles
+                                log 'putArtifactProduction.merge.resultPackiFiles', Object.keys(resultPackiFiles)
+                                return
+                                    _ exec_updateArtifactProduction
+                                        @ request
+                                        @ response
+                                        @ resultPackiFiles
+                        v08/ts/catch_send_fail${'('} putArtifactProduction.merge.getArtifactProductionById )
+                else
+                    _ exec_updateArtifactProduction
+                        @ request
+                        @ response
+                        @ request.body.packiFiles
+            apiv1_put${'('} &ctrl )
+    apiv1_exec_update${'('} &ctrl )

@@ -1,0 +1,13 @@
+$group
+
+    $if metaCtx.tsCLI.useMongoDb
+    
+        $
+            var items = [
+                'mongodb.ts'
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/src/services/${item}.ittf.ittf
+                module
+                    ${'$'}include tsCLI/src/services/${item}

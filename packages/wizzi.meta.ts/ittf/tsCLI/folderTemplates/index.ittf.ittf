@@ -1,0 +1,8 @@
+$group
+    $if metaCtx.useTsCLI
+        $include wzCtxModel
+        $include __generate
+        $include models
+        $include tfolder
+        $include src
+        $include root

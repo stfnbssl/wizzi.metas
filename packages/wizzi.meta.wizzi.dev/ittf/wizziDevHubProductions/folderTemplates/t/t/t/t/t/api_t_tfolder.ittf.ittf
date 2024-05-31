@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "cached_get_save.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/api/t/tfolder/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/api/tfolder/tfolder/${item}

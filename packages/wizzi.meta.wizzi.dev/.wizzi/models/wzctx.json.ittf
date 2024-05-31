@@ -1,0 +1,105 @@
+{
+    $include versions
+    name "wizzi.meta.wizzi.dev"
+    npmName "@wizzi/meta.wizzi.dev"
+    pluginBasename ""
+    version '${versions['@wizzi/meta.wizzi.dev@next']}'
+    description "Wizzi meta plugin for creating wizzi wizzi development meta productions packages"
+    { author
+        name "Stefano Bassoli"
+        email "stfn.bssl@gmail.com"
+    { github
+        userid "stfnbssl"
+    { license
+        type "MIT"
+        url "https://github.com/stfnbssl/wizzi.metas/tree/main/packages/wizzi.meta.wizzi.dev/license.text"
+        copy "copy 2024"
+    metaNamespace "wizzi.dev"
+    { Build
+        useConfig true
+        { config
+        isWizziMeta true
+        { wizziMeta
+            [ plugins
+                "./wizzi.plugin.css/index.js"
+                "./wizzi.plugin.html/index.js"
+                "./wizzi.plugin.ittf/index.js"
+                "./wizzi.plugin.js/index.js"
+                "./wizzi.plugin.json/index.js"
+                "./wizzi.plugin.md/index.js"
+                "./wizzi.plugin.svg/index.js"
+                "./wizzi.plugin.text/index.js"
+                "./wizzi.plugin.wzjob/index.js"
+            pluginsBaseFolder "C:/My/wizzi/stfnbssl/wizzi.plugins/packages"
+            { globalContext
+                wzConfigIsDevelopment true
+                wzConfigIsPackageDeploy false
+        useWizziJsonFactory true
+        { utils
+            useStringifySafe true
+        [ scripts
+            {
+                name "x:1"
+                action "node examples/step_1"
+            {
+                name "x:2"
+                action "node examples/step_2"
+            {
+                name "x:3"
+                action "node examples/step_3"
+            {
+                name "x:4"
+                action "node examples/step_4"
+    [ Categories
+        {
+            name "wizzi"
+        {
+            name "wizzi.hub"
+    [ Productions
+        {
+            name "wizziDevProductions"
+            title "wizziDevProductions wizzi meta production"
+            [ categories
+                {
+                    name "wizzi"
+        {
+            name "wizziDevPacki"
+            title "wizziDevPacki wizzi meta production"
+            [ categories
+                {
+                    name "wizzi"
+        {
+            name "wizziDevHubProductions"
+            title "wizziDevHubProductions wizzi meta production"
+            [ categories
+                {
+                    name "wizzi"
+                {
+                    name "wizzi.hub"
+        {
+            name "wizziDevHubDbCli"
+            title "wizziDevHubDbCli wizzi meta production"
+            [ categories
+                {
+                    name "wizzi"
+                {
+                    name "wizzi.hub"
+                {
+                    name "CLI"
+                {
+                    name "database"
+                {
+                    name "mongodb"
+        {
+            name "wizziDevHubRestCli"
+            title "wizziDevHubRestCli wizzi meta production"
+            [ categories
+                {
+                    name "wizzi"
+                {
+                    name "wizzi.hub"
+                {
+                    name "CLI"
+                {
+                    name "REST"
+

@@ -1,0 +1,61 @@
+$group
+    import
+        @ packiTypes
+        from '../packi'
+    export
+        function createInitialPackiFiles
+            param contexts
+                :string
+            param tfolders
+                :string
+            param wizziSchema
+                :string
+            param mainIttf
+                :string
+            const packiFiles
+                :ref packiTypes.PackiFiles
+                = {}
+            if wizziSchema && mainIttf
+                set packiFiles[mainIttf]
+                    {
+                        @ type 'CODE'
+                        @ contents wizziSchema
+            set packiFiles['.packi/config.json.ittf']
+                {
+                    @ type 'CODE'
+                    @ contents createPackiConfigContents(contexts, tfolders)
+            return packiFiles
+    export
+        function createPackiConfigContents
+            param contexts
+                :string
+            param tfolders
+                :string
+            const tfoldersObj = JSON.parse(tfolders || '[]')
+            const contextsObj = JSON.parse(contexts || '[]')
+            const sb = []
+            _ sb.push('{')
+            _ sb.push('\t[ tfolders')
+            foreach tf in tfoldersObj
+                _ sb.push('\t\t{')
+                _ sb.push('\t\t\tname "' + tf.name + '"')
+            _ sb.push('\t[ contexts')
+            foreach ctx in contextsObj
+                _ sb.push('\t\t{')
+                _ sb.push('\t\t\tpropertyName "' + ctx.propertyName + '"')
+                _ sb.push('\t\t\tartifactName "' + ctx.artifactName + '"')
+            return sb.join('\n')
+    export
+        function mergePackiFiles
+            param a
+                :any
+            param b
+                :any
+            var ret
+                :any
+                {
+            for var k in a
+                set ret[k] = a[k]
+            for var k in b
+                set ret[k] = b[k]
+            return ret

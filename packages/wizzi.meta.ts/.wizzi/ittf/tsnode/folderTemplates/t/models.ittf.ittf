@@ -20,6 +20,9 @@ $group
                     userid "${'$'}stfnbssl"
             
             { Build
+                $if metaCtx.useTsCLI
+                    ${'$'}{'$'}include tsCLI.json
+                    
                 $if metaCtx.useTsCommons
                     ${'$'}{'$'}include tsCommons.json
                     

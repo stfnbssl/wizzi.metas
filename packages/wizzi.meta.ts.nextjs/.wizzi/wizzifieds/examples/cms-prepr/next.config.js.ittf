@@ -1,9 +1,0 @@
-module
-    kind react
-    set module.exports =
-        { 
-            { images
-                [ domains
-                    @ 'b-cdn.net'
-        #
-            # * @type {import('next').NextConfig}

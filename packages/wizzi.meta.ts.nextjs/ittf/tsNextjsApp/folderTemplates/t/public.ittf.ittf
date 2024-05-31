@@ -1,0 +1,7 @@
+$group
+    $file __dot__wizzi/public/next.svg.ittf.ittf
+        svg
+            ${'$'}include tsNextjsApp/public/next.svg
+    $file __dot__wizzi/public/vercel.svg.ittf.ittf
+        svg
+            ${'$'}include tsNextjsApp/public/vercel.svg

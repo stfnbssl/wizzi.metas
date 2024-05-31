@@ -1,0 +1,164 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('prisma', '^5.13.0');
+        setCtxScript ('prisma:studio', 'prisma studio');
+        setCtxScript ('prisma:generate', 'prisma generate');
+
+    datasource db
+        config provider
+            = "mongodb"
+        config url
+            _ env
+                @ "DATABASE_URL"
+    generator client
+        config provider
+            = "prisma-client-js"
+    model User
+        field id
+            :string 
+            @ id
+            @ default
+                _ auto
+            @ map "_id"
+            @ db.ObjectId
+        field name
+            :string 
+            :optional 
+        field email
+            :string 
+            :optional 
+            @ unique
+        field emailVerified
+            :dateTime 
+            :optional 
+        field image
+            :string 
+            :optional 
+        field accounts
+            :[ 
+                :ref Account
+        field sessions
+            :[ 
+                :ref Session
+        field createdAt
+            :dateTime 
+            @ default
+                _ now
+        field updatedAt
+            :dateTime 
+            @ updatedAt
+    model Account
+        field id
+            :string 
+            @ id
+            @ default
+                _ auto
+            @ map "_id"
+            @ db.ObjectId
+        field userId
+            :string 
+            @ db.ObjectId
+        field type
+            :string 
+        field provider
+            :string 
+        field providerAccountId
+            :string 
+        field refresh_token
+            :string 
+            :optional 
+            @ db.String
+        field access_token
+            :string 
+            :optional 
+            @ db.String
+        field expires_at
+            :int 
+            :optional 
+        field token_type
+            :string 
+            :optional 
+        field scope
+            :string 
+            :optional 
+        field id_token
+            :string 
+            :optional 
+            @ db.String
+        field session_state
+            :string 
+            :optional 
+        field createdAt
+            :dateTime 
+            @ default
+                _ now
+        field updatedAt
+            :dateTime 
+            @ updatedAt
+        field user
+            :ref User
+            @ relation
+                fields 
+                    [ 
+                        @ userId
+                references 
+                    [ 
+                        @ id
+                onDelete Cascade
+        @@ unique
+            [ 
+                @ provider
+                @ providerAccountId
+    model Session
+        field id
+            :string 
+            @ id
+            @ default
+                _ auto
+            @ map "_id"
+            @ db.ObjectId
+        field sessionToken
+            :string 
+            @ unique
+        field userId
+            :string 
+            @ db.ObjectId
+        field expires
+            :dateTime 
+        field user
+            :ref User
+            @ relation
+                fields 
+                    [ 
+                        @ userId
+                references 
+                    [ 
+                        @ id
+                onDelete Cascade
+        field createdAt
+            :dateTime 
+            @ default
+                _ now
+        field updatedAt
+            :dateTime 
+            @ updatedAt
+    model VerificationToken
+        field id
+            :string 
+            @ id
+            @ default
+                _ auto
+            @ map "_id"
+            @ db.ObjectId
+        field identifier
+            :string 
+        field token
+            :string 
+        field expires
+            :dateTime 
+        @@ unique
+            [ 
+                @ identifier
+                @ token

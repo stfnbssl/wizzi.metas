@@ -1,0 +1,25 @@
+$group
+    ${'$'}params &ctrl
+    ${'$'}
+        var suffix = ctrl.Production == 'TFolder' || ctrl.Production == 'Job' ? '' : 'Production';
+    import
+        @ wizziTypes
+        @ wizziProds
+        @ wizziFactory
+        from '../../wizzi'
+    import
+        @ packiTypes
+        @ PackiBuilder
+        from '../../packi'
+    import
+        @ mergePackiFiles
+        from '../utils'
+    import
+        @ get${'$'}{ctrl.Production}${'$'}{suffix}List
+        @ validate${'$'}{ctrl.Production}${'$'}{suffix}
+        @ get${'$'}{ctrl.Production}${'$'}{suffix}
+        @ get${'$'}{ctrl.Production}${'$'}{suffix}ObjectById
+        @ update${'$'}{ctrl.Production}${'$'}{suffix}
+        @ create${'$'}{ctrl.Production}${'$'}{suffix}
+        @ invalidateCache
+        from '../api/${'$'}{ctrl.production}'

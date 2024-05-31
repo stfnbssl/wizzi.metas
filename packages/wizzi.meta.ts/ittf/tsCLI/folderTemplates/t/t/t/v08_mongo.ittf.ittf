@@ -1,0 +1,34 @@
+$group
+    
+    $
+        var items = [
+            "model",
+            "modelcontroller",
+            "type",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/t/v08/mongo/${item}.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsCLI/tfolder/v08/mongo/${item}.ts
+
+    $
+        var items = [
+            "get_api",
+            "get_list_api",
+            "create_api",
+            "update_api",
+            "delete_api",
+            "model",
+            "modeltype",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/t/v08/mongo/crud/${item}.ts.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsCLI/tfolder/v08/mongo/crud/${item}.ts
+
+
+
+                
+        

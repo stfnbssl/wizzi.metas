@@ -1,0 +1,49 @@
+$group
+
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            name "${metaCtx.name}"
+            version "${metaCtx.version}"
+            description "${metaCtx.description}"
+            $if metaCtx.author
+                { author
+                    name "${metaCtx.author.name}"
+                    email "${metaCtx.author.email}"
+            $if metaCtx.licence
+                { license
+                    type "${metaCtx.license}"
+                    url "${metaCtx.license_url}"            
+            ---
+            { App
+                name "${metaCtx.App.name}"
+                title "${metaCtx.App.title}"
+                { Constants
+                [ Components
+            ---
+            { Styles
+            ---
+            { Build
+                [ features
+                [ examples
+
+    $file __dot__wizzi/models/t/code.json.ittf.ittf
+        ${'$'}{'$'}group
+        
+            useTypescript true
+            { typescript
+                ${'$'}${'$'} for webpack client
+                useBabelLoader true
+                useTsxFiles false
+                
+            $if metaCtx.useCommonsEslint
+                usePrettier true
+                { prettier
+        
+            $if metaCtx.useCommonsPrismjs
+                usePrismjs false
+                { prismjs
+                    [ modes
+        
+            $if metaCtx.useCommonsEslint
+                useLint true
+                { lint

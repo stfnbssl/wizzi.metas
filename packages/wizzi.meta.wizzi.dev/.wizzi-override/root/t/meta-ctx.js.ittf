@@ -1,0 +1,82 @@
+$group
+    #
+        # Build, if not existent, and retrieve the contexts of a WizziMetaProduction by its production name.
+        # Returns
+            # { metaContextDefs
+                # string productionName
+                # { metaCtxSchema
+                # { wzCtxSchema
+    m getMetaContextDefs
+        param productionName
+        param callback
+        +
+        var metaContextDefs = this.metaContextDefs[productionName] || null
+        +
+        if metaContextDefs != null
+            r_cb( metaContextDefs )
+        +
+        set metaContextDefs = {}
+        return
+            _ this.getTParams
+                @ productionName
+                @ metaContextDefs
+                a_cb()
+                    set metaContextDefs.productionName = productionName
+                    set this.metaContextDefs[productionName] = metaContextDefs
+                    r_cb( metaContextDefs )
+    #
+        # Enrich the metaContextDefs object with the ittf/t/params folder
+        # that contains the templates for declaring context parameters of meta productions.
+        # Returns a chained call to the getMetaCtxSchema method.
+    m getTParams
+        param productionName
+        param metaContextDefs
+        param callback
+        const fsFile = vfile()
+        var folderPath
+            _ path.resolve
+                @ __dirname
+                @ 'ittf'
+                @ 't'
+                @ 'params'
+        if fsFile.isDirectory(folderPath)
+            _ createPackifilesFromFs
+                @ folderPath
+                a_cb( result )
+                    set metaContextDefs.ittfTParams = result
+                    return
+                        _ this.getMetaCtxSchema
+                            @ productionName
+                            @ metaContextDefs
+                            @ callback
+        else
+            return
+                _ this.getMetaCtxSchema
+                    @ productionName
+                    @ metaContextDefs
+                    @ callback
+    #
+        # If the ittf/<productionName>/metaCtxSchema folder exists
+        # Enrich the metaContextDefs object with the metaCtxSchema property
+        # that contains a packiFile object with the content of the ittf/<productionName>/metaCtxSchema folder.
+        # Returns a chained call to the getWzCtxSchema method.
+    m getMetaCtxSchema
+        param productionName
+        param metaContextDefs
+        param callback
+        const fsFile = vfile()
+        var folderPath
+            _ path.resolve
+                @ __dirname
+                @ 'ittf'
+                @ productionName
+                @ 'metaCtxSchemas'
+        if fsFile.isDirectory(folderPath)
+            _ createPackifilesFromFs
+                @ folderPath
+                a_cb( result )
+                    set metaContextDefs.metaCtxSchema = result
+                    r_cb()
+        else
+            r_cb()
+

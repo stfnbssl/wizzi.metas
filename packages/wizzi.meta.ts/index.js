@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts\.wizzi-override\root\index.js.ittf
-    utc time: Wed, 08 May 2024 04:39:50 GMT
+    utc time: Wed, 29 May 2024 13:36:28 GMT
 */
 'use strict';
 
@@ -24,6 +24,9 @@ var pluginCategories = [
         name: 'typescript', 
         productions: [
             {
+                name: "tsCLI"
+             }, 
+            {
                 name: "tsCommons"
              }, 
             {
@@ -42,6 +45,18 @@ var pluginCategories = [
      }
 ];
 var pluginMetaProductions = [
+    {
+        name: 'tsCLI', 
+        title: 'tsCLI wizzi meta production', 
+        categories: [
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'CLI'
+             }
+        ]
+     }, 
     {
         name: 'tsCommons', 
         title: 'tsCommons wizzi meta production', 

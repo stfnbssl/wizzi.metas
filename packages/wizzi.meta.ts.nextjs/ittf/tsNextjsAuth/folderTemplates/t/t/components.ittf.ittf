@@ -1,0 +1,30 @@
+$group
+
+    $
+        var items = [
+            "access-denied.tsx",
+            "auth-components.tsx",
+            "client-example.tsx",
+            "custom-link.tsx",
+            "footer.tsx",
+            "header.tsx",
+            "layout.tsx",
+            "main-nav.tsx",
+            "session-data.tsx",
+            "user-button.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/components/${item}.ittf.ittf
+            module
+                ${'$'}include tsNextjsAuth/src/components/${item}
+    $
+        var items = [
+            "footer.module.css",
+            "header.module.css",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/components/${item}.ittf.ittf
+            css
+                ${'$'}include tsNextjsAuth/src/components/${item}

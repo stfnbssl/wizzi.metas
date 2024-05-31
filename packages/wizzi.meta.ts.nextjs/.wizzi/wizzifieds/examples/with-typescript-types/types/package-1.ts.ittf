@@ -1,7 +1,0 @@
-module
-    kind react
-    export 
-        :type TypeA
-            :{ 
-                :p name
-                    :string 

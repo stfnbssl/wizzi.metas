@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "route.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/app/api/auth/[...nextauth]/${item}.ittf.ittf
+            module
+                ${'$'}include tsNextjsAuth/src/app/api/auth/[...nextauth]/${item}

@@ -1,0 +1,19 @@
+$group
+    import
+        @ signIn
+        from "next-auth/react"
+    export-default
+        function AccessDenied
+            return
+                <
+                    h1
+                        + Access Denied
+                    p
+                        a
+                            @ href "/api/auth/signin"
+                            @ onClick
+                                =>
+                                    param e
+                                    _ e.preventDefault()
+                                    _ signIn()
+                            + You must be signed in to view this page

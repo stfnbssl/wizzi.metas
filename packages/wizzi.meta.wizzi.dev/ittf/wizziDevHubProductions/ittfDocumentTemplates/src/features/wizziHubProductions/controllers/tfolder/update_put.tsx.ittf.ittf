@@ -1,0 +1,40 @@
+$group
+    ${'$'}params prod
+    ${'$'}
+        var Prod = _.capitalize(prod);
+        var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
+        var prefix =
+            prod == 'tFolder' ? 'tf'
+            : prod == 'meta' ? 'mp'
+            : prod == 'package' ? 'pp'
+            : prod == 'plugin' ? 'pl'
+            : prod == 'job' ? 'job'
+            : 'ap';
+        var redirect =
+            prod == 'tFolder' ? '/productions/tfolders'
+            : prod == 'meta' ? '/productions/metas'
+            : prod == 'package' ? '/productions/packages'
+            : prod == 'plugin' ? '/productions/plugins'
+            : prod == 'job' ? '/productions/job'
+            : '/packi/productions/artifacts';
+    const obj = request.body
+    _ update${'$'}{Prod}${'$'}{suffix}
+        @ obj.${'$'}{prefix}_id
+        @ obj.${'$'}{prefix}_owner
+        @ obj.${'$'}{prefix}_name
+        @ obj.${'$'}{prefix}_description
+        ${'$'}if prod == 'artifact'
+            @ obj.${'$'}{prefix}_mainIttf
+            @ obj.${'$'}{prefix}_wizziSchema
+        ._ then
+            =>
+                param result
+                    :any
+                if result.ok
+                    _ response.redirect('${'$'}{redirect}')
+                else
+                    _ response.render
+                        @ 'error.html.ittf'
+                        {
+                            @ message 'updating a ${'$'}{prod} production'
+                            @ error result

@@ -1,0 +1,18 @@
+module
+    kind es6
+    var async = require('async')
+    var stringify = require('json-stringify-safe');
+    var metaIndex = require('../index')
+    _ metaIndex.createMetaPlugin
+        {
+        a_cb( mf )
+            _ mf.getMetaProductionStarter
+                {
+                a_cb( metaProductions )
+                    const dump
+                        _ stringify
+                            @ metaProductions
+                            @ null
+                            @ 2
+                    log 'metaProductions', dump
+

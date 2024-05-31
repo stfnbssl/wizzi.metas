@@ -1,0 +1,15 @@
+$group
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('@vercel/otel', '^1.8.2');
+    import
+        @ registerOTel
+        from '@vercel/otel'
+    export
+        async-function register
+            # await import('package-with-side-effect')
+            if process.env.NEXT_RUNTIME === 'nodejs'
+                # await import('./instrumentation-node')
+            if process.env.NEXT_RUNTIME === 'edge'
+                # await import('./instrumentation-edge')
+            # _ registerOTel('next-app')

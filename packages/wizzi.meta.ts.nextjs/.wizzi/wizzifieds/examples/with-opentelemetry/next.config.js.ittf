@@ -1,7 +1,0 @@
-module
-    kind react
-    set module.exports =
-        { 
-            { experimental
-                @ instrumentationHook true
-                @ appDir true

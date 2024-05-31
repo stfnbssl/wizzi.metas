@@ -1,0 +1,53 @@
+$group
+    +
+    export
+        async-function getPluginProduction_withCache
+            param owner
+                :string
+            param name
+                :string
+            var cacheKey = owner + '|' + name
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                            let ppValue = pluginProductionCache.get(cacheKey)
+                            if ppValue
+                                return resolve(ppValue)
+                        ${'$'}else
+                            let ppValue
+                                {
+                                    { packiFiles
+                        _ getPluginProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IPluginProductionModel
+                                        = result.item
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    set ppValue
+                                        {
+                                            @ packiFiles tf_packiFiles_object
+                                    ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                                        _ pluginProductionCache.set(cacheKey, ppValue)
+                                    return resolve(ppValue)
+                            v08/ts/catch_reject${'('} getPluginProduction_withCache.getArtifactProduction )
+    +
+    export
+        function invalidateCache
+            param owner
+                :string
+            param name
+                :string
+                :optional
+            var cacheKey = owner + '|' + name
+            _ pluginProductionCache.del(cacheKey)

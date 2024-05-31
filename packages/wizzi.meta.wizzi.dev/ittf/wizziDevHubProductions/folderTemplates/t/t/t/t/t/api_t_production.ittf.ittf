@@ -1,0 +1,14 @@
+$group
+
+    $
+        var items = [
+            "ctx_from_production_object.ts",
+            "ctx_from_query_string.ts",
+            "ctx_get.ts",
+            "metaCtx_from_packi_config.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/api/t/production/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/api/tfolder/production/${item}

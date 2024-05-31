@@ -1,0 +1,186 @@
+$group
+    quote
+        p
+            + The example repository is maintained from a \b
+            a monorepo
+                href https://github.com/nextauthjs/next-auth/tree/main/apps/examples/nextjs
+            + . Pull Requests should be opened against \b
+            a
+                href https://github.com/nextauthjs/next-auth
+                codespan nextauthjs/next-auth
+            + .
+    html
+        p
+            align center
+            br
+            a
+                href https://authjs.dev
+                target _blank
+                img
+                    width 150px
+                    src https://authjs.dev/img/logo-sm.png
+            h3 NextAuth.js Example App
+                align center
+            p
+                align center
+                ++ Open Source. Full Stack. Own Your Data.
+            p
+                align center
+                style align: center;
+                a
+                    href https://npm.im/next-auth
+                    img
+                        alt npm
+                        src https://img.shields.io/npm/v/next-auth?color=green&label=next-auth
+                a
+                    href https://bundlephobia.com/result?p=next-auth-example
+                    img
+                        src https://img.shields.io/bundlephobia/minzip/next-auth?label=next-auth
+                        alt Bundle Size
+                a
+                    href https://www.npmtrends.com/next-auth
+                    img
+                        src https://img.shields.io/npm/dm/next-auth?label=next-auth%20downloads
+                        alt Downloads
+                a
+                    href https://npm.im/next-auth
+                    img
+                        src https://img.shields.io/badge/npm-TypeScript-blue
+                        alt TypeScript
+    br
+    h2 Overview
+    br
+    p NextAuth.js is a complete open source authentication solution.
+    br
+    p
+        + This is an example application that shows how \b
+        codespan next-auth
+        + \b is applied to a basic Next.js app.
+    br
+    p The deployed version can be found at \b
+        a
+            href https://next-auth-example.vercel.app
+            codespan next-auth-example.vercel.app
+    br
+    h3 About NextAuth.js
+    br
+    p
+        + NextAuth.js is an easy to implement, full-stack (client/server) open source authentication library originally designed for \b
+        a Next.js
+            href https://nextjs.org
+        + \b and \b
+        a Serverless
+            href https://vercel.com
+        + . Our goal is to \b
+        a support even more frameworks
+            href https://github.com/nextauthjs/next-auth/issues/2294
+        + \b in the future.
+    br
+    p
+        + Go to \b
+        a next-auth.js.org
+            href https://authjs.dev
+        + \b for more information and documentation.
+    br
+    quote
+        p
+            em NextAuth.js is not officially associated with Vercel or Next.js.
+    h2 Getting Started
+    br
+    h3 1. Clone the repository and install dependencies
+    br
+    code
+        + git clone https://github.com/nextauthjs/next-auth-example.git
+        + cd next-auth-example
+        + pnpm install
+    br
+    h3 2. Configure your local environment
+    br
+    p Copy the .env.local.example file in this directory to .env.local (which will be ignored by Git):
+    br
+    code
+        + cp .env.local.example .env.local
+    br
+    p Add details for one or more providers (e.g. Google, Twitter, GitHub, Email, etc).
+    br
+    h4 Database
+    br
+    p
+        + A database is needed to persist user accounts and to support email sign in. However, you can still use NextAuth.js for authentication without a database by using OAuth for authentication. If you do not specify a database, \b
+        a JSON Web Tokens
+            href https://jwt.io/introduction
+        + \b will be enabled by default.
+    br
+    p
+        + You \b
+        b can
+        + \b skip configuring a database and come back to it later if you want.
+    br
+    p For more information about setting up a database, please check out the following links:
+    br
+    ul
+        li Docs: \b
+            a authjs.dev/reference/core/adapters
+                href https://authjs.dev/reference/core/adapters
+    br
+    h3 3. Configure Authentication Providers
+    br
+    ol
+        loose
+        li
+            loose
+            + Review and update options in \b
+            codespan auth.ts
+            + \b as needed.
+        li
+            loose
+            + When setting up OAuth, in the developer admin page for each of your OAuth services, you should configure the callback URL to use a callback path of \b
+            codespan {server}/api/auth/callback/{provider}
+            + .
+    br
+    p e.g. For Google OAuth you would use: \b
+        codespan http://localhost:3000/api/auth/callback/google
+    br
+    p
+        + A list of configured providers and their callback URLs is available from the endpoint \b
+        codespan api/auth/providers
+        + . You can find more information at \b
+        a https://authjs.dev/getting-started/providers/oauth-tutorial
+            href https://authjs.dev/getting-started/providers/oauth-tutorial
+    br
+    ol
+        li You can also choose to specify an SMTP server for passwordless sign in via email.
+    br
+    h3 4. Start the application
+    br
+    p To run your site locally, use:
+    br
+    code
+        + pnpm run dev
+    br
+    p To run it in production mode, use:
+    br
+    code
+        + pnpm run build
+        + pnpm run start
+    br
+    h3 5. Preparing for Production
+    br
+    p Follow the \b
+        a Deployment documentation
+            href https://authjs.dev/getting-started/deployment
+    br
+    h2 Acknowledgements
+    br
+    html
+        html __dummy_root__
+            a
+                href https://vercel.com?utm_source=nextauthjs&utm_campaign=oss
+                img
+                    width 170px
+                    src https://raw.githubusercontent.com/nextauthjs/next-auth/main/docs/public/img/etc/powered-by-vercel.svg
+                    alt Powered By Vercel
+    br
+    h2 License
+    br
+    p ISC

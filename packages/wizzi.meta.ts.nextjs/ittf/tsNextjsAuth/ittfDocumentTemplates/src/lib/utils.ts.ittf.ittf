@@ -1,0 +1,14 @@
+$group
+    import
+        :type ClassValue
+        @ clsx
+        from "clsx"
+    import
+        @ twMerge
+        from "tailwind-merge"
+    export
+        function cn
+            param ...inputs
+                :[
+                    :ref ClassValue
+            return twMerge(clsx(inputs))

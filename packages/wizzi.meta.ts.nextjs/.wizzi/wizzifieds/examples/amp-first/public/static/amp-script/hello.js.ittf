@@ -1,7 +1,0 @@
-module
-    kind react
-    const btn = document.querySelector('button')
-    _ btn.addEventListener
-        @ 'click'
-        => 
-            set document.body.textContent = 'Hello World!'

@@ -1,0 +1,6 @@
+$group
+    useWizziFactory true
+    { wizziFactory
+        [ plugins
+        pluginsBaseFolder ""
+

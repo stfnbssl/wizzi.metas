@@ -1,0 +1,27 @@
+$group
+    $include app
+    $include components
+    $include lib
+    $if metaCtx.tsNextjsAuth.useDatabase
+        $if metaCtx.tsNextjsAuth.database.usePrisma
+            $include prisma
+
+    $
+        var items = [
+            "auth.ts",
+            "middleware.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/${item}.ittf.ittf
+            module
+                ${'$'}include tsNextjsAuth/src/${item}
+    $
+        var items = [
+            "components.json",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/${item}.ittf.ittf
+            {
+                ${'$'}include tsNextjsAuth/src/${item}

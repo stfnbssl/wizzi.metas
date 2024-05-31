@@ -1,0 +1,24 @@
+$group
+    import CustomLink from "#/components/custom-link"
+    export-default
+        function Page
+            return
+                div
+                    @ className "space-y-2"
+                    h1
+                        @ className "text-3xl font-bold"
+                        + Middleware usage
+                    p
+                        + This page is protected by using the universal
+                        + {" "}
+                        < CustomLink
+                            @ href "https://nextjs.authjs.dev#auth"
+                            code
+                                + auth()
+                        + {" "}
+                        + method in
+                        + {" "}
+                        < CustomLink
+                            @ href "https://nextjs.org/docs/app/building-your-application/routing/middleware"
+                            + Next.js Middleware
+                        + .

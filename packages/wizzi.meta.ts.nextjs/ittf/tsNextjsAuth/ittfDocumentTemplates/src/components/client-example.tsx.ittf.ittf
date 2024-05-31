@@ -1,0 +1,152 @@
+$group
+    directive use client
+    import
+        @ useSession
+        from "next-auth/react"
+    import
+        @ Button
+        from "./ui/button"
+    import
+        @ Input
+        from "./ui/input"
+    import
+        @ useState
+        from "react"
+    import SessionData from "./session-data"
+    import CustomLink from "./custom-link"
+    const UpdateForm
+        =>
+            const
+                {
+                    @ data session
+                    @ update
+                = useSession()
+            const [name, setName]
+                _ useState
+                    ??
+                        template
+                            + New&nbsp;
+                            @ session?.user?.name
+                            +
+                        + ""
+            if !session?.user
+                return null
+            return
+                <
+                    h2
+                        @ className "text-xl font-bold"
+                        + Updating the session client-side
+                    div
+                        @ className "flex items-center space-x-2 w-full max-w-sm"
+                        < Input
+                            @ type "text"
+                            @ placeholder "New name"
+                            @ value {name}
+                            @ onChange
+                                =>
+                                    param e
+                                    _ setName(e.target.value)
+                        < Button
+                            @ onClick
+                                =>
+                                    _ update
+                                        {
+                                            { user
+                                                @ name
+                            @ type "submit"
+                            + Update
+    export-default
+        function ClientExample
+            const
+                {
+                    @ data session
+                    @ status
+                = useSession()
+            const [apiResponse, setApiResponse] = useState("")
+            const makeRequestWithToken
+                async=>
+                    try
+                        const response
+                            await
+                                _ fetch("/api/authenticated/greeting")
+                        const data
+                            await
+                                _ response.json()
+                        _ setApiResponse(JSON.stringify(data, null, 2))
+                    catch error
+                        _ setApiResponse("Failed to fetch data: " + error)
+            return
+                div
+                    @ className "flex flex-col gap-4"
+                    h1
+                        @ className "text-3xl font-bold"
+                        + Client Side Rendering
+                    p
+                        + This page fetches session data client side using the
+                        + {" "}
+                        < CustomLink
+                            @ href "https://nextjs.authjs.dev/react#usesession"
+                            code
+                                + useSession
+                        + {" "}
+                        + React Hook.
+                    p
+                        + It needs the
+                        + {" "}
+                        < CustomLink
+                            @ href "https://react.dev/reference/rsc/use-client"
+                            code
+                                + 'use client'
+                        + {" "}
+                        + directive at the top of the file to enable client side rendering, and&lf;        the
+                        + {" "}
+                        < CustomLink
+                            @ href "https://nextjs.authjs.dev/react#sessionprovider"
+                            code
+                                + SessionProvider
+                        + {" "}
+                        + component in
+                        + {" "}
+                        strong
+                            code
+                                + client-example/page.tsx
+                        + {" "}
+                        + to provide the session data.
+                    div
+                        @ className "flex flex-col gap-4 p-4 bg-gray-100 rounded-md"
+                        h2
+                            @ className "text-xl font-bold"
+                            + Third-party backend integration
+                        p
+                            + Press the button to send a request to our
+                            + {" "}
+                            < CustomLink
+                                @ href "https://github.com/nextauthjs/authjs-third-party-backend"
+                                code
+                                    + example backend
+                            + . Read more
+                            + {" "}
+                            < CustomLink
+                                @ href "https://authjs.dev/guides/integrating-third-party-backends"
+                                code
+                                    + here
+                        div
+                            @ className "flex flex-col"
+                            < Button
+                                @ disabled {!session?.accessToken}
+                                @ onClick {makeRequestWithToken}
+                                + Make API Request
+                        pre
+                            + {apiResponse}
+                        p
+                            @ className "italic"
+                            + Note: This example only works when using the Keycloak provider.
+                    {
+                        iif status === "loading"
+                            then
+                                div
+                                    + Loading...
+                            else
+                                < SessionData
+                                    @ session {session}
+                    < UpdateForm

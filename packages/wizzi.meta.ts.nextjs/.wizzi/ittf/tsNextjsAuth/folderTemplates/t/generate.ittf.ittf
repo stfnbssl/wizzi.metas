@@ -1,0 +1,5 @@
+$group
+    $file __dot__wizzi/generate.wfjob.ittf.ittf
+        wfjob tsNextjsAuth/job
+            TODO $include generate.wfjob
+

@@ -1,7 +1,0 @@
-module
-    kind react
-    const Bar
-        => 
-            strong 
-                + bar
-    export-default Bar

@@ -1,7 +1,0 @@
-md
-    p 
-        + This example has been moved to
-        a 
-            href /examples/with-firebase-authentication
-            title 
-            + with-firebase-authentication

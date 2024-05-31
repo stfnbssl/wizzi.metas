@@ -1,5 +1,0 @@
-md
-    h1 
-        + MDX as a Server Component
-    p 
-        + This is a demo for rendering MDX as a server component.

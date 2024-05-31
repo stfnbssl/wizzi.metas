@@ -1,7 +1,0 @@
-module
-    kind react
-    export-default 
-        function LeftHalf
-            return 
-                span 
-                    + Modularize

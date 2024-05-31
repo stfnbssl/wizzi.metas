@@ -5,6 +5,8 @@ Wizzi meta plugin for creating wizzi typescript next.js packages
 ## Features
 ### Implemented Wizzi meta productions
 |Production|Descriptionn|
+|<a href https://github.com//wizzi.meta.ts.nextjs/tree/master/.wizzi/ittf/lib/wizzi/productions/tsNextjsApp.wfproduction.ittf>tsNextjsApp</a>|tsNextjsApp wizzi meta production|
+|<a href https://github.com//wizzi.meta.ts.nextjs/tree/master/.wizzi/ittf/lib/wizzi/productions/tsNextjsAuth.wfproduction.ittf>tsNextjsAuth</a>|tsNextjsAuth wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.nextjs/tree/master/.wizzi/ittf/lib/wizzi/productions/tsNextjsBasicApp.wfproduction.ittf>tsNextjsBasicApp</a>|tsNextjsBasicApp wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.nextjs/tree/master/.wizzi/ittf/lib/wizzi/productions/tsNextjsBlog.wfproduction.ittf>tsNextjsBlog</a>|tsNextjsBlog wizzi meta production|
 

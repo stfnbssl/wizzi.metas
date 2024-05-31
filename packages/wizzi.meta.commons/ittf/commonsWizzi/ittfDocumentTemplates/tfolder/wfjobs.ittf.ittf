@@ -29,6 +29,18 @@ $group
                     export-name ${'$'}{jobCtx.job_model}
             ${'$'}hook
 
+    ${'$'}if name == 'any_cjs'
+        artifact any_cjs
+            src ./**/*.cjs.ittf
+            schema js
+            generator js/module
+            extension cjs
+            ignore /**/bin/**/*.cjs
+            ${'$'}if jobCtx.job_model
+                model-ref ${'$'}{jobCtx.job_model}
+                    export-name ${'$'}{jobCtx.job_model}
+            ${'$'}hook
+
     ${'$'}elif name == 'any_jsx'
         artifact any_js
             src ./**/*.jsx.ittf

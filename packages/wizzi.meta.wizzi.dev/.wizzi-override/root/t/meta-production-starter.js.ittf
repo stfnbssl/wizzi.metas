@@ -1,0 +1,50 @@
+$group
+    #
+        # Build and returns a packiFiles object with all the meta ittf documents
+        # of the WizziMetaProductions that have the property use<metaProduction>
+        # of the object options.metaCtx set to true.
+        # The packiFiles filepaths are built this way:
+        # - folderTemplates/<ProductionName><metaFilePath>
+        # - ittfDocumentTemplates/<ProductionName><metaFilePath>
+        # - plainDocuments/<ProductionName><metaFilePath>
+        # For each metaProduction used the returned packiFiles object must contain a document
+        # with filePath 'folderTemplates/<ProductionName>/index.ittf.ittf'
+    m getMetaProductionStarter
+        param options
+        param callback
+        +
+        _ async.map
+            @ pluginMetaProductions
+            =>
+                param prod
+                param callback
+                const prodName = prod.name
+                if options && options.metaCtx
+                    const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1)
+                    if !options.metaCtx[useProductionVar]
+                        r_cb( {} )
+                    success 'using meta production', useProductionVar
+                _ this.getMetaProduction
+                    @ prodName
+                    a_cb( metaProduction )
+                        r_cb( metaProduction )
+            =>
+                param err
+                param metaProductions
+                const result
+                    {
+                foreach mp in metaProductions
+                    if mp.folderTemplates
+                        for var k in mp.folderTemplates
+                            var newk = 'folderTemplates/' + mp.productionName + '/' + k
+                            set result[newk] = mp.folderTemplates[k]
+                    if mp.ittfDocumentTemplates
+                        for var k in mp.ittfDocumentTemplates
+                            var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k
+                            set result[newk] = mp.ittfDocumentTemplates[k]
+                if mp.plainDocuments
+                    for var k in mp.plainDocuments
+                        var newk = 'plainDocuments/' + mp.productionName + '/' + k
+                        set result[newk] = mp.plainDocuments[k]
+                r_cb( result )
+

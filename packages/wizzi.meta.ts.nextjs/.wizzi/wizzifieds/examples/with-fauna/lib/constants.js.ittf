@@ -1,8 +1,0 @@
-module
-    kind react
-    const resolveDbDomain
-        => 
-            return process.env.FAUNA_DB_DOMAIN ?? 'db.fauna.com'
-    set module.exports =
-        { 
-            @ resolveDbDomain

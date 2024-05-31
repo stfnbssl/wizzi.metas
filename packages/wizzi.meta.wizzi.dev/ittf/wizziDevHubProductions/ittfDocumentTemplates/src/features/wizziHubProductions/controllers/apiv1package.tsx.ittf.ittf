@@ -1,0 +1,96 @@
+$group
+    ${'$'}
+        var ctrl = {
+            name: 'ApiV1PackageProduction',
+            path: '/api/v1/production/package',
+            apiSecured: wzCtx.Build.useAuthentication,
+            Production: 'Package',
+            production: 'package',
+        }
+    v08/ts/controller${'('} &ctrl )
+        ${'$'}append imports
+            apiv1_imports${'('} &ctrl )
+            import
+                @ getWizziMetaFolderById
+                from '../api/package'
+            +
+            const myname = 'features/production/controllers/apiv1packageproduction'
+        v08/ts/route${'('} get, /checkname/:owner/:name, this.getCheckPackageName)
+        v08/ts/route${'('} get, /meta/:id, this.getWizziMetaFolder)
+        v08/ts/route${'('} get, /:owner, this.getPackageProductions)
+        v08/ts/route${'('} get, /:owner/:name, this.getPackageProduction)
+        v08/ts/route${'('} put, /:id, this.putPackageProduction)
+        v08/ts/route${'('} put, /packidiffs/:id, this.putPackageProductionPackiDiffs)
+        v08/ts/route${'('} post, /:owner/:name, this.postPackageProduction)
+        ${'$'}append handlers
+            v08/ts/handler${'('} getPackageProductions )
+                _ getPackageProductionList
+                    {
+                        { query
+                            @ owner request.params.owner
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} getPackageProductions )
+            v08/ts/handler${'('} getCheckPackageName )
+                check_name${'('} package )
+            v08/ts/handler${'('} getPackageProduction )
+                _ getPackageProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} getPackageProduction )
+            v08/ts/handler${'('} postPackageProduction )
+                _ createPackageProduction
+                    @ request.params.owner
+                    @ request.params.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} postPackageProduction )
+            v08/ts/handler${'('} putPackageProduction )
+                _ updatePackageProduction
+                    @ request.params.id
+                    @ request.body.owner
+                    @ request.body.name
+                    @ request.body.description
+                    @ JSON.stringify(request.body.packiFiles)
+                    ._ then
+                        =>
+                            param result
+                                :any
+                            _ sendSuccess
+                                @ response
+                                @ result
+                    v08/ts/catch_send_fail${'('} putPackageProduction )
+            apiv1_put${'('} &ctrl )
+            v08/ts/handler${'('} getWizziMetaFolder  )
+                ${'$'}$ loog 'getWizziMetaFolder.request.params', request.params
+                _ getWizziMetaFolderById
+                    @ request.params.id
+                    {
+                    ._ then
+                        =>
+                            param packiFiles
+                                :ref packiTypes.PackiFiles
+                            _ sendSuccess
+                                @ response
+                                @ packiFiles
+                    v08/ts/catch_send_fail${'('} getWizziMetaFolder )
+    apiv1_exec_update${'('} &ctrl )

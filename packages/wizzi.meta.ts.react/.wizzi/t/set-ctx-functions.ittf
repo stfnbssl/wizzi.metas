@@ -1,0 +1,15 @@
+$group
+    $
+        function setCtxScript(name, value) {
+            $.setCtx ('package.scripts.' + name + '.name', name);
+            $.setCtx ('package.scripts.' + name + '.value', value);
+        }
+        function setCtxDep(name, version) {
+            $.setCtx ('package.dependencies.' + name + '.name', name);
+            $.setCtx ('package.dependencies.' + name + '.version', version);
+        }
+        function setCtxDevDep(name, version) {
+            $.setCtx ('package.devDependencies.' + name + '.name', name);
+            $.setCtx ('package.devDependencies.' + name + '.version', version);
+        }
+

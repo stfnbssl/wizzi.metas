@@ -1,9 +1,0 @@
-module
-    kind react
-    export 
-        :type Author
-            :{ 
-                :p name
-                    :string 
-                :p picture
-                    :string 

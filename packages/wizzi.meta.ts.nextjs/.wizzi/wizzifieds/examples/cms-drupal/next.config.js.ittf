@@ -1,9 +1,0 @@
-module
-    kind react
-    set module.exports =
-        { 
-            { images
-                [ domains
-                    @ process.env.NEXT_IMAGE_DOMAIN
-        #
-            # * @type {import('next').NextConfig}

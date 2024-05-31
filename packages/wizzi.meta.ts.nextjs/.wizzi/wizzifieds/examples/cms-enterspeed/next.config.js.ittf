@@ -1,7 +1,0 @@
-module
-    kind react
-    set module.exports =
-        { 
-            { images
-                [ domains
-                    @ 'res.cloudinary.com'

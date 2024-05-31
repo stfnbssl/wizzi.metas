@@ -5,6 +5,7 @@ Wizzi meta plugin for creating wizzi typescript packages
 ## Features
 ### Implemented Wizzi meta productions
 |Production|Descriptionn|
+|<a href https://github.com//wizzi.meta.ts/tree/master/.wizzi/ittf/lib/wizzi/productions/tsCLI.wfproduction.ittf>tsCLI</a>|tsCLI wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts/tree/master/.wizzi/ittf/lib/wizzi/productions/tsCommons.wfproduction.ittf>tsCommons</a>|tsCommons wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts/tree/master/.wizzi/ittf/lib/wizzi/productions/tsEsmWrapper.wfproduction.ittf>tsEsmWrapper</a>|tsEsmWrapper wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts/tree/master/.wizzi/ittf/lib/wizzi/productions/tsNode.wfproduction.ittf>tsNode</a>|tsNode wizzi meta production|

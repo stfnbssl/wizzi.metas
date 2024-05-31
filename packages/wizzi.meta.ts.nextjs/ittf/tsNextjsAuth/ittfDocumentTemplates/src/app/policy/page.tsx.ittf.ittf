@@ -1,0 +1,20 @@
+$group
+    export-default
+        function PolicyPage
+            return
+                div
+                    @ className "space-y-2"
+                    section
+                        h2
+                            @ className "text-xl font-bold"
+                            + Terms of Service
+                        p
+                            + THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,&lf;          EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF&lf;          MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.&lf;          IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY&lf;          CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,&lf;          TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE&lf;          SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+                    section
+                        h2
+                            @ className "text-xl font-bold"
+                            + Privacy Policy
+                        p
+                            + This site uses JSON Web Tokens and a Key-Value database for sessions&lf;          and WebAuthn authenticators which resets every 2 hours.
+                        p
+                            + Data provided to this site is exclusively used to support signing in&lf;          and is not passed to any third party services, other than via SMTP or&lf;          OAuth for the purposes of authentication. And Vercel KV / Upstash for&lf;          hosting the Key Value store. This data is deleted every 2 hours via&lf;          cron job.

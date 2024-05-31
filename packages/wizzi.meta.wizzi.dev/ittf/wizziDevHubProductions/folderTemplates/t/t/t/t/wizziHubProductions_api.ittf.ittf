@@ -1,0 +1,36 @@
+$group
+    $include api_t_artifact
+    $include api_t_job
+    $include api_t_meta
+    $include api_t_package
+    $include api_t_plugin
+    $include api_t_production
+    $include api_t_tfolder
+
+    $
+        var items = [
+            "get_object_api.ts",
+            "imports_and_validate_api.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/api/t/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/api/tfolder/${item}
+
+
+    $
+        var items = [
+            "artifact.ts",
+            "job.ts",
+            "meta.ts",
+            "package.ts",
+            "plugin.ts",
+            "production.ts",
+            "tfolder.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/api/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/api/${item}

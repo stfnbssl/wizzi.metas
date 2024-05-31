@@ -1,0 +1,20 @@
+$group
+
+    ./app/startImports.ts${'('})
+    +
+    ./app/startServices.ts${'('})
+    +
+    async-function start
+
+        const services
+            await 
+                _ startServices
+                    $if _.isArray(metaCtx.tsCLI.features) || metaCtx.tsCLI.useMongoDb
+                        @ config
+        return 
+            {
+                @ services
+    +
+    export-default
+        { 
+            @ start

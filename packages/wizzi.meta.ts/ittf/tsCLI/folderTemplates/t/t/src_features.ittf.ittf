@@ -1,0 +1,6 @@
+$group
+
+    $if _.isArray(metaCtx.tsCLI.features) || metaCtx.tsCLI.useMongoDb
+        $include features.app
+        $include features.config
+    

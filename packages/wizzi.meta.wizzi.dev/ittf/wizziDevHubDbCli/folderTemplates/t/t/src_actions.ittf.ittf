@@ -1,0 +1,20 @@
+$group
+
+    $include data/hub
+
+    $
+        var items = [
+            "downloads.ts",
+            "uploads.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/actions/${item}.ittf.ittf
+            module
+                ${'$'}
+                    var hubProductions = []
+                    $foreach hp in hubProductions
+                        hubProductions.push (
+                            { name: "${hp.name}" }
+                        );
+                ${'$'}include wizziDevHubDbCli/src/actions/${item}

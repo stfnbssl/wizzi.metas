@@ -1,0 +1,6 @@
+$group
+    $file __dot__wizzi/models/t/wizziDevPacki.json.ittf.ittf
+        ${'$'}{'$'}group
+            useXxx true
+            { xxx
+

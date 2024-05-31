@@ -1,0 +1,19 @@
+$group
+    import Header from "./header"
+    import Footer from "./footer"
+    :import-type
+        @ ReactNode
+        from "react"
+    export-default
+        function Layout
+            {
+                @ children
+                :{
+                    :p children
+                        :ref ReactNode
+            return
+                <
+                    < Header
+                    main
+                        + {children}
+                    < Footer

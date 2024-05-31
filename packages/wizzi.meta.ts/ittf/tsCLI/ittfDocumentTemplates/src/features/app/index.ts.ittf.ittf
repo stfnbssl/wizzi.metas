@@ -1,0 +1,11 @@
+$group
+    
+    :export-type
+        @ ApiType
+        $if metaCtx.tsCLI.useExpress
+            @ MiddlewareType
+            @ ControllerType
+        $if metaCtx.tsCLI.useMongoDb
+            @ ModelBuilderType
+        @ AppInitializerType
+        from './types'

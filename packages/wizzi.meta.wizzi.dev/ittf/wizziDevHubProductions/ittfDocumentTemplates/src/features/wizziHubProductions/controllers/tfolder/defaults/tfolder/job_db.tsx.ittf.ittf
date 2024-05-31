@@ -1,0 +1,19 @@
+$group
+    { ['.db/metaProductionSelections.json']
+        @ type 'CODE'
+        @ contents
+            [
+                @ '{'
+                @ '    "metaCategories": ['
+                @ '       {'
+                @ '          "name": "..."'
+                @ '       }'
+                @ '    ],'
+                @ '    "metaProductions": ['
+                @ '       {'
+                @ '          "name": "..."'
+                @ '       }'
+                @ '    ]'
+                @ '}'
+                ._ join
+                    @ '\n'

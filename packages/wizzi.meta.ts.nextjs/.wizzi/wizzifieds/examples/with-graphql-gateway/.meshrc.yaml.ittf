@@ -1,8 +1,0 @@
-yaml
-    [ 
-        { 
-            name PetStore
-            { 
-                { 
-                    baseUrl https://petstore.swagger.io/v2/
-                    oasFilePath https://petstore.swagger.io/v2/swagger.json

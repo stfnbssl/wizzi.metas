@@ -1,0 +1,31 @@
+$group
+    
+    async-function startServices
+        $if _.isArray(metaCtx.tsCLI.features) || metaCtx.tsCLI.useMongoDb
+            param config
+                :ref ConfigType
+
+        $if metaCtx.tsCLI.useMongoDb
+            let modelBuilders
+                :[ 
+                    :ref ModelBuilderType
+                =
+                    [ 
+                        $if _.isArray(metaCtx.tsCLI.features)
+                            $foreach feature in metaCtx.tsCLI.features
+                                    $if feature.useMongoDb
+                                        @ ...${feature.name}ModelBuilders
+
+            await mongodbStart(config, modelBuilders)
+
+        $if metaCtx.tsCLI.useFilesystem
+            const fsDb
+                await 
+                    _ filesystemStart(config)
+        
+        return
+            {
+                $if metaCtx.tsCLI.useMongoDb
+                    @ mongodbClose
+                $if metaCtx.tsCLI.useFilesystem
+                    @ fsDb

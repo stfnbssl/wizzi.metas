@@ -1,6 +1,0 @@
-module
-    kind react
-    export 
-        @ Document
-            as default
-        from '@makeswift/runtime/next'

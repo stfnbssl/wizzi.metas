@@ -1,0 +1,13 @@
+$group
+
+    $
+        var items = [
+            "artifact_generation.ts",
+            "cached_get_save.ts",
+            "get_wizzi_meta_folder.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/api/t/package/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/api/tfolder/package/${item}

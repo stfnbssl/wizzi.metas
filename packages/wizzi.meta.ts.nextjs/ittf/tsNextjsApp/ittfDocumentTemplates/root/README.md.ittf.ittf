@@ -1,0 +1,74 @@
+$group
+    p
+        + This is a \b
+        a Next.js
+            href https://nextjs.org/
+        + \b project bootstrapped with \b
+        a
+            href https://github.com/vercel/next.js/tree/canary/packages/create-next-app
+            codespan create-next-app
+        + .
+    br
+    h2 Getting Started
+    br
+    p First, run the development server:
+    br
+    code
+        lang bash
+        + npm run dev
+        + # or
+        + yarn dev
+        + # or
+        + pnpm dev
+        + # or
+        + bun dev
+    br
+    p
+        + Open \b
+        a http://localhost:3000
+            href http://localhost:3000
+        + \b with your browser to see the result.
+    br
+    p
+        + You can start editing the page by modifying \b
+        codespan app/page.tsx
+        + . The page auto-updates as you edit the file.
+    br
+    p
+        + This project uses \b
+        a
+            href https://nextjs.org/docs/basic-features/font-optimization
+            codespan next/font
+        + \b to automatically optimize and load Inter, a custom Google Font.
+    br
+    h2 Learn More
+    br
+    p To learn more about Next.js, take a look at the following resources:
+    br
+    ul
+        li \b - learn about Next.js features and API.
+            a Next.js Documentation
+                href https://nextjs.org/docs
+        li \b - an interactive Next.js tutorial.
+            a Learn Next.js
+                href https://nextjs.org/learn
+    br
+    p
+        + You can check out \b
+        a the Next.js GitHub repository
+            href https://github.com/vercel/next.js/
+        + \b - your feedback and contributions are welcome!
+    br
+    h2 Deploy on Vercel
+    br
+    p
+        + The easiest way to deploy your Next.js app is to use the \b
+        a Vercel Platform
+            href https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme
+        + \b from the creators of Next.js.
+    br
+    p
+        + Check out our \b
+        a Next.js deployment documentation
+            href https://nextjs.org/docs/deployment
+        + \b for more details.

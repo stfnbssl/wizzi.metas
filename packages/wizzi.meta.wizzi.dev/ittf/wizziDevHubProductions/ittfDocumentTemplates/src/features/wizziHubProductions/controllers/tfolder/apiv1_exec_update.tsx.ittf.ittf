@@ -1,0 +1,31 @@
+$group
+    ${'$'}params &ctrl
+    ${'$'}
+        var suffix = ctrl.Production == 'TFolder' || ctrl.Production == 'Job' ? '' : 'Production';
+    function exec_update${'$'}{ctrl.Production}${'$'}{suffix}
+        param request
+            :any
+        param response
+            :any
+        param packiFiles
+            :any
+        _ update${'$'}{ctrl.Production}${'$'}{suffix}
+            @ request.params.id
+            @ request.body.owner
+            @ request.body.name
+            @ request.body.description
+            ${'$'}if ctrl.Production == 'Artifact'
+                @ request.body.mainIttf
+                @ request.body.wizziSchema
+            @ JSON.stringify(packiFiles)
+            ._ then
+                =>
+                    param result
+                        :any
+                    ${'$'}$ loog 'put${'$'}{ctrl.Production}${'$'}{suffix}.update.result', result
+                    _ invalidateCache
+                        @ request.params.id
+                    _ sendSuccess
+                        @ response
+                        @ result
+            v08/ts/catch_send_fail${'('} exec_update${'$'}{ctrl.Production}${'$'}{suffix}.update${'$'}{ctrl.Production}${'$'}{suffix} )

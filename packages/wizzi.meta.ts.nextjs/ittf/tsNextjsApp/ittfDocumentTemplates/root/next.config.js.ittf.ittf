@@ -1,0 +1,25 @@
+$group
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxScript ('dev','next dev');
+        setCtxScript ('build','next build');
+        setCtxScript ('start','next start');
+        setCtxScript ('lint','next lint');
+        setCtxDep ('next', '14.2.3');
+        setCtxDep ('react', '^18.2.0');
+        setCtxDep ('react-dom', '^18.2.0');
+        setCtxDevDep ('@types/node', '^20.12.8');
+        setCtxDevDep ('@types/react', '^18.2.23');
+        setCtxDevDep ('@types/react-dom', '^18.2.8');
+    kind es6
+    $if metaCtx.App.useEsModule
+        + /** @type {import('next').NextConfig} */
+    const nextConfig
+        {
+            $if metaCtx.App.isStandalone
+                @ output "standalone"
+    $if metaCtx.App.useEsModule
+        export-default nextConfig
+    $else
+        set module.exports = nextConfig
+

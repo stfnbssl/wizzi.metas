@@ -1,8 +1,0 @@
-module
-    kind react
-    const nextConfig
-        { 
-            @ basePath '/blog'
-        #
-            # * @type {import('next').NextConfig}
-    set module.exports = nextConfig

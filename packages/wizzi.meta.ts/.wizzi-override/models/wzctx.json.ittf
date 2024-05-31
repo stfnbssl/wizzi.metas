@@ -55,6 +55,14 @@
             name "typescript"
     [ Productions
         {
+            name "tsCLI"
+            title "tsCLI wizzi meta production"
+            [ categories
+                {
+                    name "typescript"
+                {
+                    name "CLI"
+        {
             name "tsCommons"
             title "tsCommons wizzi meta production"
             [ categories

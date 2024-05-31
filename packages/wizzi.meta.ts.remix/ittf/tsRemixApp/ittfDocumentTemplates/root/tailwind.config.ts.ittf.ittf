@@ -2,10 +2,10 @@ $group
 
     ${'$'}include set-ctx-functions
     ${'$'}
-        setCtxDep ('tailwind-merge', '^2.3.0');
-        setCtxDep ('tailwindcss', '^3.4.3');
-        setCtxDep ('tailwindcss-animate', '^1.0.7');
-        setCtxDep ('tailwindcss-radix', '^3.0.3');
+        setCtxDevDep ('tailwind-merge', '^2.3.0');
+        setCtxDevDep ('tailwindcss', '^3.4.3');
+        setCtxDevDep ('tailwindcss-animate', '^1.0.7');
+        setCtxDevDep ('tailwindcss-radix', '^3.0.3');
 
     import
         :type Config

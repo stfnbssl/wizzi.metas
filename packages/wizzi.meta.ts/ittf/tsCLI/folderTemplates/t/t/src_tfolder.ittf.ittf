@@ -1,0 +1,13 @@
+$group
+
+    $include tfolder.app
+
+    $
+        var items = [
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/t/${item}.ittf.ittf
+            module
+                ${'$'}include tsCLI/src/tfolder/${item}
+

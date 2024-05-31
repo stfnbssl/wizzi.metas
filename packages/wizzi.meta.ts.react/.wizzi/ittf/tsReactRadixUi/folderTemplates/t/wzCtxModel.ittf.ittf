@@ -1,0 +1,6 @@
+$group
+    $file __dot__wizzi/models/t/tsReactRadixUi.json.ittf.ittf
+        ${'$'}{'$'}group
+            useXxx true
+            { xxx
+

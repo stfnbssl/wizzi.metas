@@ -1,0 +1,42 @@
+$group
+    $include controllers_t_defaults
+
+    $
+        var items = [
+            "apiv1_exec_update.tsx",
+            "apiv1_imports.tsx",
+            "apiv1_put.tsx",
+            "check_name.tsx",
+            "delete_delete.tsx",
+            "delete_get_form.tsx",
+            "update_get_form.tsx",
+            "update_put.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/controllers/t/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/controllers/tfolder/${item}
+
+
+    $
+        var items = [
+            "apiv1artifact.tsx",
+            "apiv1generations.ts",
+            "apiv1job.tsx",
+            "apiv1meta.tsx",
+            "apiv1package.tsx",
+            "apiv1plugin.tsx",
+            "apiv1tfolder.tsx",
+            "artifact.tsx",
+            "job.tsx",
+            "meta.tsx",
+            "package.tsx",
+            "plugin.tsx",
+            "tfolder.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/controllers/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/controllers/${item}

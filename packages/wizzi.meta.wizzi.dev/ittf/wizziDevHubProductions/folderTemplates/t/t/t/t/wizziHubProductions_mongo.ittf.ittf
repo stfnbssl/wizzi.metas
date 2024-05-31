@@ -1,0 +1,16 @@
+$group
+
+    $
+        var items = [
+            "artifact.ts",
+            "job.ts",
+            "meta.ts",
+            "package.ts",
+            "plugin.ts",
+            "tfolder.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/mongo/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/mongo/${item}

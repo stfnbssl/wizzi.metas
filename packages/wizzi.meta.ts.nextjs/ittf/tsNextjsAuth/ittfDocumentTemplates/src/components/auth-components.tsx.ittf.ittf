@@ -1,0 +1,50 @@
+$group
+    import
+        @ signIn
+        @ signOut
+        from "#/auth"
+    import
+        @ Button
+        from "./ui/button"
+    export
+        function SignIn
+            {
+                @ provider
+                ... props
+                :intersect
+                    :{
+                        :p provider
+                            :optional
+                            :string
+                    :ref React.ComponentPropsWithRef
+                        :param
+                            :typeof Button
+            return
+                form
+                    @ action
+                        async=>
+                            directive use server
+                            await
+                                _ signIn(provider)
+                    < Button
+                        ... props
+                        + Sign In
+    export
+        function SignOut
+            param props
+                :ref React.ComponentPropsWithRef
+                    :param
+                        :typeof Button
+            return
+                form
+                    @ action
+                        async=>
+                            directive use server
+                            await
+                                _ signOut()
+                    @ className "w-full"
+                    < Button
+                        @ variant "ghost"
+                        @ className "w-full p-0"
+                        ... props
+                        + Sign Out

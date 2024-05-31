@@ -1,0 +1,4 @@
+$group
+    $if metaCtx.useTsCLI
+        $include wzCtxModel
+

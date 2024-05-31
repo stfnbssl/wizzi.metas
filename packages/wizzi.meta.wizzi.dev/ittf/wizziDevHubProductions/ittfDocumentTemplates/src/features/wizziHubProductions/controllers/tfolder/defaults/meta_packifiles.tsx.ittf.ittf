@@ -1,0 +1,21 @@
+$group
+    function getPackiConfigFile
+        :return
+            :ref packiTypes.PackiFiles
+        return
+            {
+                { ['.packi/config.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    [ tfolders'
+                            @ '        {'
+                            @ '            ${'$'}{'$'}${'$'}{'$'} name "..."'
+                            @ '    [ contexts'
+                            @ '        {'
+                            @ '            ${'$'}{'$'}${'$'}{'$'} propertyName "..."'
+                            @ '            ${'$'}{'$'}${'$'}{'$'} artifactName "..."'
+                            ._ join
+                                @ '\n'
+                ${'$'}include parameters

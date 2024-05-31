@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "page.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/app/client-example/${item}.ittf.ittf
+            module
+                ${'$'}include tsNextjsAuth/src/app/client-example/${item}

@@ -72,6 +72,44 @@
     ],
     "Productions": [
         {
+            "name": "tsNextjsApp",
+            "title": "tsNextjsApp wizzi meta production",
+            "isPackageMain": true,
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "react"
+                },
+                {
+                    "name": "nextjs"
+                },
+                {
+                    "name": "app"
+                }
+            ]
+        },
+        {
+            "name": "tsNextjsAuth",
+            "title": "tsNextjsAuth wizzi meta production",
+            "isPackageMain": true,
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "react"
+                },
+                {
+                    "name": "nextjs"
+                },
+                {
+                    "name": "auth"
+                }
+            ]
+        },
+        {
             "name": "tsNextjsBasicApp",
             "title": "tsNextjsBasicApp wizzi meta production",
             "isPackageMain": true,

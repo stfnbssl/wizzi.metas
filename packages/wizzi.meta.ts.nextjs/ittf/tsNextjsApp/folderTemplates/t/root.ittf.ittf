@@ -1,0 +1,50 @@
+$group
+
+    $
+        var items = [
+            "components.json",
+            "docker-compose.yml",
+            ".eslintrc.json",
+            "package.json",
+            "tsconfig.json",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            {
+                ${'$'}include tsNextjsApp/root/${item}
+    $
+        var items = [
+            "next-env.d.ts",
+            "next.config.js",
+            "postcss.config.js",
+            "tailwind.config.ts",
+        ]
+
+    $foreach item in items
+        $ var itemEx = (item == 'next.config.js' && metaCtx.App.useEsModule) ? 'next.config.mjs' : item
+        $ itemEx = (item == 'postcss.config.js' && metaCtx.App.useEsModule) ? 'postcss.config.mjs' : item
+
+        $file __dot__wizzi/root/${itemEx}.ittf.ittf
+            module
+                ${'$'}include tsNextjsApp/root/${item}
+
+    $
+        var items = [
+            "env.example.text",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            text
+                ${'$'}include tsNextjsApp/root/${item}
+
+    $
+        var items = [
+            "README.md",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            md
+                ${'$'}include tsNextjsApp/root/${item}

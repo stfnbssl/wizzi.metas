@@ -1,0 +1,37 @@
+$group
+    ${'$'}params prod
+    ${'$'}
+        var Prod = _.capitalize(prod);
+        var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
+        var prefix =
+            prod == 'tFolder' ? 'tf'
+            : prod == 'meta' ? 'mp'
+            : prod == 'package' ? 'pp'
+            : prod == 'plugin' ? 'pl'
+            : prod == 'job' ? 'job'
+            : 'ap';
+        var redirect =
+            prod == 'tFolder' ? '/productions/tfolders'
+            : prod == 'meta' ? '/productions/metas'
+            : prod == 'package' ? '/productions/packages'
+            : prod == 'plugin' ? '/productions/plugins'
+            : prod == 'job' ? '/productions/job'
+            : '/packi/productions/artifacts';
+    ${'$'}$ loogg myname + '.delete${'$'}{Prod}.request.path', request.path
+    const obj = request.body
+    _ delete${'$'}{Prod}${'$'}{suffix}
+        @ obj.${'$'}{prefix}_id
+        @ obj.${'$'}{prefix}_owner
+        @ obj.${'$'}{prefix}_name
+        ._ then
+            =>
+                param result
+                    :any
+                if result.ok
+                    _ response.redirect('${'$'}{redirect}')
+                else
+                    _ response.render
+                        @ 'error.html.ittf'
+                        {
+                            @ message 'deleting a ${'$'}{prod} production'
+                            @ error result

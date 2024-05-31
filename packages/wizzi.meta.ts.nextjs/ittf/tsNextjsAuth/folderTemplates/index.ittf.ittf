@@ -1,0 +1,4 @@
+$group
+    $if metaCtx.useTsNextjsAuth
+        $include wzCtxModel
+        $include src

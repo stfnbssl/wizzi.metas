@@ -1,0 +1,53 @@
+$group
+    +
+    export
+        async-function getMetaProduction_withCache
+            param owner
+                :string
+            param name
+                :string
+            var cacheKey = owner + '|' + name
+            return
+                new Promise
+                    =>
+                        param resolve
+                        param reject
+                        ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                            let mpValue = metaProductionCache.get(cacheKey)
+                            if mpValue
+                                return resolve(mpValue)
+                        ${'$'}else
+                            let mpValue
+                                {
+                                    { packiFiles
+                        _ getMetaProduction
+                            @ owner
+                            @ name
+                            ._ then
+                                =>
+                                    param result
+                                    if !result.ok
+                                        return reject(result)
+                                    const tf
+                                        :ref IMetaProductionModel
+                                        = result.item
+                                    const tf_packiFiles_object
+                                        :ref packiTypes.PackiFiles
+                                        _ JSON.parse(tf.packiFiles)
+                                    set mpValue
+                                        {
+                                            @ packiFiles tf_packiFiles_object
+                                    ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                                        _ metaProductionCache.set(cacheKey, mpValue)
+                                    return resolve(mpValue)
+                            v08/ts/catch_reject${'('} getMetaProduction_withCache.getArtifactProduction )
+    +
+    export
+        function invalidateCache
+            param owner
+                :string
+            param name
+                :string
+                :optional
+            var cacheKey = owner + '|' + name
+            _ metaProductionCache.del(cacheKey)

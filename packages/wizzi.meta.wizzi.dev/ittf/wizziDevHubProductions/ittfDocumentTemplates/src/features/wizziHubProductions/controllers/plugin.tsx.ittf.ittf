@@ -1,0 +1,160 @@
+$group
+    ${'$'}
+        var ctrl = {
+            name: 'PluginProduction',
+            path: '/plugin',
+            webSecured: wzCtx.Build.useAuthentication,
+        }
+    v08/ts/controller${'('} &ctrl )
+        ${'$'}append imports
+            import ReactDOMServer
+                from 'react-dom/server'
+            import PageFormDocument
+                from '../../../pages/PageFormDocument'
+            import
+                @ CRUDResult
+                from '../../types'
+            import
+                @ getTemplatePackiFiles
+                from '../api/meta'
+            import
+                @ createPluginProduction
+                @ updatePluginProduction
+                @ deletePluginProduction
+                @ getPluginProductionObject
+                @ getPluginProductionObjectById
+                from '../api/plugin'
+            import
+                @ mergePackiFiles
+                from '../utils'
+            import
+                @ packiTypes
+                from '../../packi'
+            +
+            const myname = 'features/production/controllers/plugin'
+            +
+            function renderPageForm
+                param req
+                    :ref Request
+                param res
+                    :ref Response
+                param data
+                    :object
+                param queryParams
+                    :object
+                const index
+                    op+
+                        + '<!DOCTYPE html>'
+                        _ ReactDOMServer.renderToStaticMarkup
+                            < PageFormDocument
+                                @ data {data}
+                                @ queryParams {queryParams}
+                _ res.set('Content-Type', 'text/html')
+                _ res.set('Content-Length', index.length.toString())
+                _ res.send(index)
+            ${'$'}include defaults/plugin_packifiles
+        v08/ts/route${'('} get, /new, this.getNewPluginForm)
+        v08/ts/route${'('} post, /new, this.postPlugin)
+        v08/ts/route${'('} get, /update/:id, this.getUpdatePluginForm)
+        v08/ts/route${'('} post, /update, this.putPlugin)
+        v08/ts/route${'('} get, /delete/:id, this.getDeletePluginForm)
+        v08/ts/route${'('} post, /delete, this.deletePlugin)
+        v08/ts/route${'('} get, /props, this.getPluginProperties)
+        ${'$'}append handlers
+            v08/ts/handler${'('} getNewPluginForm )
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'CreatePluginProduction'
+                        { formData
+                            @ owner (request.session as any).user.username
+                    {
+            v08/ts/handler${'('} postPlugin )
+                _ getTemplatePackiFiles
+                    @ request.body.meta_id
+                    @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
+                    @ request.query.context as string
+                    @ request.body.context ? JSON.parse(request.body.context) : {}
+                    {
+                        @ wizziSchema "js"
+                        @ mainIttf "index.js.ittf"
+                    ._ then
+                        =>
+                            param packiFiles
+                                :ref packiTypes.PackiFiles
+                            _ createPluginProduction
+                                @ (request.session as any).user.username
+                                @ request.body.pl_name
+                                @ request.body.pl_description
+                                _ JSON.stringify
+                                    _ mergePackiFiles
+                                        @ packiFiles
+                                        _ getPackiConfigFile
+                                ._ then
+                                    =>
+                                        param result
+                                            :ref CRUDResult
+                                        if result.ok
+                                            _ response.redirect
+                                                @ '/~~/l/' + (request.session as any).user.username + '/' + request.body.pl_name
+                                        else
+                                            _ response.render
+                                                @ 'error.html.ittf'
+                                                {
+                                                    @ message 'creating a new plugin production'
+                                                    @ error result
+                                v08/ts/catch_error_page${'('} creating a new plugin production )
+                    v08/ts/catch_error_page${'('} getting template packi files while creating a new plugin production )
+            v08/ts/handler${'('} getUpdatePluginForm )
+                update_get_form${'('} plugin )
+            v08/ts/handler${'('} putPlugin )
+                update_put${'('} plugin )
+            v08/ts/handler${'('} getDeletePluginForm )
+                delete_get_form${'('} plugin )
+            v08/ts/handler${'('} deletePlugin )
+                delete_delete${'('} plugin )
+            v08/ts/handler${'('} getPluginProperties )
+                _ renderPageForm
+                    @ request
+                    @ response
+                    {
+                        @ type 'success'
+                        @ formName 'PropertyEditor'
+                        { formData
+                            @ owner request.query.owner
+                            @ name request.query.name
+                            { schema
+                                [ properties
+                                    {
+                                        @ name 'name'
+                                        @ type 'string'
+                                    {
+                                        @ name 'age'
+                                        @ type 'number'
+                                    {
+                                        @ name 'jobs'
+                                        @ type 'array'
+                                        [ properties
+                                            {
+                                                @ name 'title'
+                                                @ type 'string'
+                                            {
+                                                @ name 'year'
+                                                @ type 'number'
+                                    {
+                                        @ name 'react'
+                                        @ type 'object'
+                                        [ properties
+                                            {
+                                                @ name 'useReact'
+                                                @ type 'boolean'
+                                                @ isCondition true
+                                            {
+                                                @ name 'useRouter'
+                                                @ type 'boolean'
+                                            {
+                                                @ name 'useRedux'
+                                                @ type 'boolean'
+                    {

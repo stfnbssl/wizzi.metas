@@ -1,0 +1,28 @@
+$group
+
+    $
+        var items = [
+            "job_db.tsx",
+            "parameters.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/controllers/t/defaults/t/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/controllers/tfolder/defaults/tfolder/${item}
+
+
+    $
+        var items = [
+            "artifact_packifiles.tsx",
+            "job_packifiles.tsx",
+            "meta_packifiles.tsx",
+            "package_packifiles.tsx",
+            "plugin_packifiles.tsx",
+            "tfolder_packifiles.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziHubProductions/controllers/t/defaults/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziDevHubProductions/src/features/wizziHubProductions/controllers/tfolder/defaults/${item}

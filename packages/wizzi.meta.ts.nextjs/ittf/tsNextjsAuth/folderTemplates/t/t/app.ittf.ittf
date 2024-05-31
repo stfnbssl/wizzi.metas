@@ -1,0 +1,29 @@
+$group
+    $include [...proxy]
+    $include api-example
+    $include api
+    $include auth
+    $include client-example
+    $include middleware-example
+    $include policy
+    $include server-example
+
+    $
+        var items = [
+            "globals.css",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/app/${item}.ittf.ittf
+            css
+                ${'$'}include tsNextjsAuth/src/app/${item}
+    $
+        var items = [
+            "layout.tsx",
+            "page.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/app/${item}.ittf.ittf
+            module
+                ${'$'}include tsNextjsAuth/src/app/${item}

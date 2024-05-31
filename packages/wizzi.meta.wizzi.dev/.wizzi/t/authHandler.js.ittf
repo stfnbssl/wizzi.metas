@@ -1,0 +1,10 @@
+$group
+    $params name
+    +
+    p ${name}
+        :private
+        async=>
+            param request
+            param response
+            $hook
+

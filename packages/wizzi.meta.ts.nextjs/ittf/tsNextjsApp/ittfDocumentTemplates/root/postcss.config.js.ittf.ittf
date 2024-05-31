@@ -1,0 +1,17 @@
+$group
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDevDep ('autoprefixer', '^10.4.19');
+        setCtxDevDep ('postcss', '^8');
+    kind react
+    $if metaCtx.App.useEsModule
+        + /** @type {import('postcss-load-config').Config} */
+    const config
+        {
+            { plugins
+                { tailwindcss
+                { autoprefixer
+    $if metaCtx.App.useEsModule
+        export-default config
+    $else
+        set module.exports = config

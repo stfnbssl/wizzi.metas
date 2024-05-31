@@ -1,0 +1,13 @@
+$group
+
+    $
+        var items = [
+            "startImports.ts",
+            "startServices.ts",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/t/app/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsCLI/src/tfolder/app/${item}
+

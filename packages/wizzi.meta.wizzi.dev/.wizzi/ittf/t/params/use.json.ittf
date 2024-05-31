@@ -1,0 +1,11 @@
+{
+    $params name, defaultValue|false
+    name "use${_.capitalize(name)}"
+    type "use"
+    $if defaultValue == 'false'
+        defaultValue false
+    $else
+        defaultValue true
+    [ parameters
+        $hook
+

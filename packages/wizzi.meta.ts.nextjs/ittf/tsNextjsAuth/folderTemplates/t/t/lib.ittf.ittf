@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "utils.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/lib/${item}.ittf.ittf
+            module
+                ${'$'}include tsNextjsAuth/src/lib/${item}

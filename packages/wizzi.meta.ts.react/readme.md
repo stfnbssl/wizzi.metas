@@ -15,6 +15,7 @@ Wizzi meta plugin for creating wizzi typescript react packages
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactFeatures.wfproduction.ittf>tsReactFeatures</a>|tsReactFeatures wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactNextjsApp.wfproduction.ittf>tsReactNextjsApp</a>|tsReactNextjsApp wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactPageForms.wfproduction.ittf>tsReactPageForms</a>|tsReactPageForms wizzi meta production|
+|<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactRadixUi.wfproduction.ittf>tsReactRadixUi</a>|tsReactRadixUi wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactRedux.wfproduction.ittf>tsReactRedux</a>|tsReactRedux wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactSiteWebpack.wfproduction.ittf>tsReactSiteWebpack</a>|tsReactSiteWebpack wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactStoryboard.wfproduction.ittf>tsReactStoryboard</a>|tsReactStoryboard wizzi meta production|

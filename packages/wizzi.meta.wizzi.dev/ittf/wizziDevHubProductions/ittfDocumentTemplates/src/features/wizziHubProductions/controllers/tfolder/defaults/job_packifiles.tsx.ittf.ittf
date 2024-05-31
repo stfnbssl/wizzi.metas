@@ -1,0 +1,33 @@
+$group
+    function getPackiConfigFile
+        :return
+            :ref packiTypes.PackiFiles
+        return
+            {
+                { ['.packi/config.json.ittf']
+                    @ type 'CODE'
+                    @ contents
+                        [
+                            @ '{'
+                            @ '    { meta'
+                            @ '        ${'$'}{'$'}${'$'}{'$'} name "..name.."'
+                            @ '        { metaCtx"'
+                            @ '            kind "artifact" ${'$'}{'$'}${'$'}{'$'} file|artifact'
+                            @ '            ${'$'}{'$'}${'$'}{'$'} filePath ".packi/metaCtx.json.ittf" ${'$'}{'$'}${'$'}{'$'} when kind = "file"'
+                            @ '            { artifact'
+                            @ '                ${'$'}{'$'}${'$'}{'$'} name "..name.." ${'$'}{'$'}${'$'}{'$'} when kind = "artifact"'
+                            @ '            [ contexts'
+                            @ '                {'
+                            @ '                    ${'$'}{'$'}${'$'}{'$'} propertyName "..name.."'
+                            @ '                    ${'$'}{'$'}${'$'}{'$'} artifactName "..name.."'
+                            @ '    [ tfolders'
+                            @ '        {'
+                            @ '            ${'$'}{'$'}${'$'}{'$'} name "..name.."'
+                            @ '    [ contexts'
+                            @ '        {'
+                            @ '            ${'$'}{'$'}${'$'}{'$'} propertyName "..name.."'
+                            @ '            ${'$'}{'$'}${'$'}{'$'} artifactName "..name.."'
+                            ._ join
+                                @ '\n'
+                ${'$'}include parameters
+                ${'$'}include job_db
