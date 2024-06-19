@@ -1,0 +1,45 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('compression', '^1.7.4');
+        setCtxDevDep ('@types/compression', '^1.7.5');
+
+    import 
+        @ Application
+        @ Request
+        @ Response
+        from 'express'
+    import compression from 'compression'
+    import 
+        @ MiddlewareType
+        from '#/src/features/app/types'
+    +
+    # see other options here http://expressjs.com/en/resources/middleware/compression.html
+    const shouldCompress
+        =>
+            param request
+                :ref Request
+            param response
+                :ref Response
+            if request.headers['x-no-compression']
+                # don't compress responses with this request header
+                return false;
+            # fallback to standard filter function
+            return compression.filter(request, response)
+    const options
+        {
+            @ filter shouldCompress
+            @ level ${'$'}{wzCtx.Build.express.compression.level} || 6
+    +
+    export 
+        const CompressionMiddleware
+            :ref MiddlewareType
+            =
+                => 
+                    param app
+                        :ref Application
+                    _ app.use
+                        _ compression
+                            @ options
+                    success 'CompressionMiddleware installed'

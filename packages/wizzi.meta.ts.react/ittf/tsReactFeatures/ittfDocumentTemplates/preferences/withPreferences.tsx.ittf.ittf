@@ -38,7 +38,7 @@ $group
                                 :ref PreferencesContextType
                 p displayName
                     static
-                    `lit 
+                    `tag 
                         + withPreferences(
                         @ Comp.displayName ?? Comp.name
                         + )

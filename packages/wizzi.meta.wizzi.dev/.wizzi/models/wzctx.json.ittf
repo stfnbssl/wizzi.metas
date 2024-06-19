@@ -34,7 +34,6 @@
             { globalContext
                 wzConfigIsDevelopment true
                 wzConfigIsPackageDeploy false
-        useWizziJsonFactory true
         { utils
             useStringifySafe true
         [ scripts
@@ -57,14 +56,20 @@
             name "wizzi.hub"
     [ Productions
         {
+            name "wizziDev"
+            title "wizziDev wizzi meta production"
+            [ categories
+                {
+                    name "wizzi"
+        {
             name "wizziDevProductions"
             title "wizziDevProductions wizzi meta production"
             [ categories
                 {
                     name "wizzi"
         {
-            name "wizziDevPacki"
-            title "wizziDevPacki wizzi meta production"
+            name "wizziDevMeta"
+            title "wizziDevMeta wizzi meta production"
             [ categories
                 {
                     name "wizzi"

@@ -1,0 +1,45 @@
+$group
+    import
+        @ render
+        @ screen
+        from '@testing-library/react'
+    import user from '@testing-library/user-event'
+    import App from './App'
+    _ describe
+        @ 'Render the app correctly'
+        =>
+            _ test
+                @ 'should render the title'
+                async=>
+                    _ render
+                        < App
+                    const header
+                        await
+                            _ screen.findByText(/ViteRC/)
+                    _ expect(header).toBeInTheDocument()
+            _ test
+                @ 'should render the button and counter'
+                async=>
+                    _ render
+                        < App
+                    const button
+                        await
+                            _ screen.findByRole('button')
+                    _ expect(button).toBeInTheDocument()
+                    _ expect(button.innerHTML).toBe('count is 0')
+                    await
+                        _ user.click(button)
+                    await
+                        _ user.click(button)
+                    await
+                        _ user.click(button)
+                    _ expect(button.innerHTML).toBe('count is 3')
+            _ test
+                @ 'should render the `read the docs` row'
+                async=>
+                    _ render
+                        < App
+                    const readTheDocs
+                        await
+                            _ screen.findByTestId('read-the-docs')
+                    _ expect(readTheDocs).toBeInTheDocument()

@@ -1,7 +1,9 @@
 $group
     ${'$'}params &ctrl
     ${'$'}
-        var suffix = ctrl.Production == 'TFolder' || ctrl.Production == 'Job' ? '' : 'Production';
+        $$ old var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
+        var suffix = 'Production';
+
     function exec_update${'$'}{ctrl.Production}${'$'}{suffix}
         param request
             :any
@@ -9,14 +11,24 @@ $group
             :any
         param packiFiles
             :any
-        _ update${'$'}{ctrl.Production}${'$'}{suffix}
-            @ request.params.id
-            @ request.body.owner
-            @ request.body.name
-            @ request.body.description
+
+        rest/check-params${'('} )
+            rest/not-empty${'('} params , id )
+            rest/not-empty${'('} body , owner )
+            rest/not-empty${'('} body , name )
+            rest/not-empty${'('} body , description )
             ${'$'}if ctrl.Production == 'Artifact'
-                @ request.body.mainIttf
-                @ request.body.wizziSchema
+                rest/not-empty${'('} body , mainIttf )
+                rest/not-empty${'('} body , wizziSchema )
+
+        _ update${'$'}{ctrl.Production}${'$'}{suffix}
+            @ id
+            @ owner
+            @ name
+            @ description
+            ${'$'}if ctrl.Production == 'Artifact'
+                @ mainIttf
+                @ wizziSchema
             @ JSON.stringify(packiFiles)
             ._ then
                 =>
@@ -24,7 +36,7 @@ $group
                         :any
                     ${'$'}$ loog 'put${'$'}{ctrl.Production}${'$'}{suffix}.update.result', result
                     _ invalidateCache
-                        @ request.params.id
+                        @ id
                     _ sendSuccess
                         @ response
                         @ result

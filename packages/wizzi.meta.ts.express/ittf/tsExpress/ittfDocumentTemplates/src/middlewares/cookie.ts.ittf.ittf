@@ -1,0 +1,24 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('cookie-parser', '^1.4.6');
+        setCtxDevDep ('@types/cookie-parser', '^1.4.7');
+
+    import 
+        @ Application
+        from 'express'
+    import 
+        @ MiddlewareType
+        from '#/src/features/app/types'
+    import cookieParser from 'cookie-parser'
+    export 
+        const CookieMiddleware
+            :ref MiddlewareType
+            =
+                => 
+                    param app
+                        :ref Application
+                    _ app.use
+                        _ cookieParser
+                    success 'CookieMiddleware installed'

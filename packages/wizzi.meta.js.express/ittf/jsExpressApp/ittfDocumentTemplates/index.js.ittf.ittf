@@ -32,10 +32,10 @@ $group
                 param done
                 try
                     _ console.log
-                        `lit 
+                        `tag 
                             + Index closing.
                     _ console.log
-                        `lit 
+                        `tag 
                             + app.instance.close:
                             @ app.instance.close
                     _ app.instance.close

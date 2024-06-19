@@ -1,0 +1,39 @@
+$group
+
+    $
+        var items = [
+            "package.json",
+            "tsconfig.json",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            {
+                ${'$'}include tsExpressAppLab/root/${item}
+
+    $
+        var items = [
+            "readme.md",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            md
+                ${'$'}include tsExpressAppLab/root/${item}
+
+    $
+        var items = [
+            "env.example.text",
+            "license.text"
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            text
+                ${'$'}include tsExpressAppLab/root/${item}
+
+    $if metaCtx.tsExpressAppLab.useTranspiler
+        $if metaCtx.tsExpressAppLab.transpiler.name == "esbuild"
+            $file __dot__wizzi/root/build.js.ittf.ittf
+                module
+                    ${'$'}include tsExpressAppLab/root/build.js

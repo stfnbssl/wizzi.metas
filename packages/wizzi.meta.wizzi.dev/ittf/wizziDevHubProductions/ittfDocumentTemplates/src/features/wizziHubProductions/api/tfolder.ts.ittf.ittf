@@ -1,8 +1,8 @@
 $group
     ${'$'}
         var md = {
-            Name: 'TFolder',
-            name: 'tFolder',
+            Name: 'TFolderProduction',
+            name: 'tFolderProduction',
             mongoName: 'tfolder',
             descr: 'A tFolder contains ITTF Fragments that Wizzi productions can mix/include.',
             prefix: 'tf',
@@ -27,4 +27,5 @@ $group
     v08/mongo/crud/create_api${'('} &md)
     v08/mongo/crud/update_api${'('} &md)
     v08/mongo/crud/delete_api${'('} &md)
+    merge_files_api${'('} &md)
     ${'$'}include tfolder/cached_get_save

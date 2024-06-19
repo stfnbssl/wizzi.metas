@@ -1,0 +1,5 @@
+$group
+
+    $$ TODO use setCtx for setting usePacki
+    $if metaCtx.useWizziDevHubProductions || metaCtx.useWizziDevHubDbCli
+        $include features_packi

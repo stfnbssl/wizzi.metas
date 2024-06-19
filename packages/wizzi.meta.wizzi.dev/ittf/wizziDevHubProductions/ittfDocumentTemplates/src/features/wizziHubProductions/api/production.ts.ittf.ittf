@@ -3,17 +3,20 @@ $group
         var moduleName = 'features.packiProductions.api.production';
     import
         @ packiTypes
-        from '../../packi'
+        from '#/src/features/packi'
+    import
+        @ config
+        from '#/src/features/config'
     import
         @ wizziProds
-        from '../../wizzi'
+        from '#/src/features/wizziProductions'
     import
         as productionTypes
         from '../types'
     import
         @ ValidateResult
         @ CRUDResult
-        from '../../types'
+        from '#/src/features/types'
     import
         as artifactApi
         from './artifact'
@@ -32,11 +35,14 @@ $group
     import
         @ getArtifactGeneration
         @ getArtifactTransformation
+        @ getDefaultContext_withCache
+        @ getArtifactContextItem
         from './artifact'
+    import
+        @ mergePackiFiles
+        from '../utils'
     +
     const myname = '${'$'}{moduleName}'
-    +
-    const packiConfigPath = '.packi/config.json.ittf'
     +
     function transformProductionObject
         param packiProduction
@@ -45,24 +51,10 @@ $group
             :any
         # TODO
         set productionObject.packiProduction = packiProduction
-        set productionObject.packiConfig = productionObject.packiFiles[packiConfigPath]
+        set productionObject.packiConfig = productionObject.packiFiles[config.packiConfigPath]
         if !productionObject.packiConfig
             # TODO set a default packiConfig based on packiProduction
         return productionObject
-    +
-    function mergePackiFiles
-        param a
-            :any
-        param b
-            :any
-        var ret
-            :any
-            {
-        for var k in a
-            set ret[k] = a[k]
-        for var k in b
-            set ret[k] = b[k]
-        return ret
     +
     export
         async-function getProductionById
@@ -132,7 +124,7 @@ $group
                                                 @ result
                                 v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionById.getPluginProductionById )
                         elif packiProduction == 'tfolder'
-                            _ tFolderApi.getTFolderById
+                            _ tFolderApi.getTFolderProductionById
                                 @ id
                                 ._ then
                                     =>
@@ -214,7 +206,7 @@ $group
                                                 @ productionObject
                                 v08/ts/catch_reject${'('} ${'$'}{moduleName}.getProductionObject.getPluginProductionObject )
                         elif packiProduction == 'tfolder'
-                            _ tFolderApi.getTFolderObject
+                            _ tFolderApi.getTFolderProductionObject
                                 @ owner
                                 @ name
                                 ._ then
@@ -293,7 +285,6 @@ $group
                         param reject
                         _ getDefaultContext_withCache
                             @ owner
-                            @ productionName
                             @ rootContext
                             ._ then
                                 =>
@@ -357,7 +348,9 @@ $group
                                                         v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProduction.getContextByQueryContext )
                                         v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProduction.getProductionObject )
                             v08/ts/catch_reject${'('} ${'$'}{moduleName}.prepareProduction.getDefaultContext_withCache )
+    $* 7/6/24 uses functions from artifact.ts
     ${'$'}include production/ctx_get
+    *$
     ${'$'}include production/ctx_from_production_object
     ${'$'}include production/ctx_from_query_string
     ${'$'}include production/metaCtx_from_packi_config

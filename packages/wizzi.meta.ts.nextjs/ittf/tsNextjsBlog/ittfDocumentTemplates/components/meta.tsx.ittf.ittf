@@ -48,7 +48,7 @@ $group
                     meta 
                         @ name "description"
                         @ content
-                            `lit 
+                            `tag 
                                 + A statically generated blog example using Next.js and&nbsp;
                                 @ CMS_NAME
                                 + .

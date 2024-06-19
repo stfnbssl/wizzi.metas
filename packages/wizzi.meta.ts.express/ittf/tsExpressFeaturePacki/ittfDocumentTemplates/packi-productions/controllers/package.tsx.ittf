@@ -16,7 +16,7 @@ $group
             import ReactDOMServer 
                 from 'react-dom/server'
             import PageFormDocument 
-                from '../../../pages/PageFormDocument' 
+                from '#/src/pages/PageFormDocument' 
             import
                 @ CRUDResult
                 from '../../types'

@@ -1,0 +1,65 @@
+$group
+    
+    ${'$'}include versions
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('@wizzi/factory', versions['@wizzi/factory']);
+        setCtxDep ('@wizzi/repo', versions['@wizzi/repo']);
+        setCtxDep ('@wizzi/utils', versions['@wizzi/utils']);
+        setCtxDep ('json-stringify-safe', '^5.0.1');
+        setCtxDep ('@types/json-stringify-safe', '^5.0.0');
+        setCtxEnvValues ('IS_WIZZI_DEV', 'isWizziDev', 'bool');
+
+    import 
+        as packiTypes
+        from './types'
+
+    import 
+        @ PackiBuilder
+        from './api/PackiBuilder'
+
+    import
+        @ clonePackiFiles
+        @ extractPackiFileContent
+        @ extractPackiFile
+        @ packiFilesToObject
+        from './api/utils'
+    
+    $if metaCtx.useTsExpress
+        ${'$'}if wzCtx.Build.useExpress
+            import 
+                @ ControllerType
+                from '#/src/features/app/types'
+            import 
+                @ PackiEditingController
+                from './controllers/packiEditing'
+            import 
+                @ PackiGeneratingController
+                from './controllers/packiGenerating'
+    
+    $if metaCtx.useTsExpress
+        ${'$'}if wzCtx.Build.useExpress
+            const packiControllers
+                :[ 
+                    :ref ControllerType
+                =
+                    [ 
+                        @ new PackiEditingController()
+                        @ new PackiGeneratingController()
+        
+    const packiApi
+        {
+            @ PackiBuilder
+            @ clonePackiFiles
+            @ extractPackiFileContent
+            @ extractPackiFile
+            @ packiFilesToObject
+
+    export 
+        @ packiTypes
+        @ PackiBuilder
+        @ packiApi
+        $if metaCtx.useTsExpress
+            ${'$'}if wzCtx.Build.useExpress
+                @ packiControllers

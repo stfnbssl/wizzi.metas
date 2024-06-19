@@ -1,0 +1,13 @@
+$group
+
+    $
+        var items = [
+            "PackiBuilder.ts",
+            "utils.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/packi/api/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDev/src/features/packi/api/${item}
+

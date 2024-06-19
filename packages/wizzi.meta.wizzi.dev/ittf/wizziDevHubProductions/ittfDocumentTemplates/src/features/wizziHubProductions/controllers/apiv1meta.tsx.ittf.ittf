@@ -16,7 +16,7 @@ $group
             import
                 @ artifactApi
                 @ productionApi
-                from '../../packiProductions'
+                from '#/src/features/wizziHubProductions'
             const myname = 'features/production/controllers/apiv1metaproduction'
         v08/ts/route${'('} get, /:owner, this.getMetaProductions)
         v08/ts/route${'('} get, /props/:id, this.getMetaProperties)
@@ -28,10 +28,12 @@ $group
         v08/ts/route${'('} post, '/generate/:owner/:name, this.generateMetaProductionByName)
         ${'$'}append handlers
             v08/ts/handler${'('} getMetaProductions )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
                 _ getMetaProductionList
                     {
                         { query
-                            @ owner request.params.owner
+                            @ owner owner
                     ._ then
                         =>
                             param result
@@ -43,9 +45,11 @@ $group
                             v08/ts/else_send_fail${'('} getMetaProductions, result)
                     v08/ts/catch_send_fail${'('} getMetaProductions )
             v08/ts/handler${'('} getMetaProperties )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , id )
                 _ productionApi.prepareProductionById
                     @ 'meta'
-                    @ request.params.id
+                    @ id
                     @ ''
                     {
                     ._ then
@@ -69,9 +73,12 @@ $group
             v08/ts/handler${'('} getCheckMetaName )
                 check_name${'('} meta )
             v08/ts/handler${'('} getMetaProduction )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} params , name )
                 _ getMetaProduction
-                    @ request.params.owner
-                    @ request.params.name
+                    @ owner
+                    @ name
                     ._ then
                         =>
                             param result
@@ -83,9 +90,12 @@ $group
             v08/ts/handler${'('} postMetaProduction )
                 ${'$'}$ loog 'postMetaProduction.request.params', request.params
                 ${'$'}$ loog 'postMetaProduction.request.body', request.body
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} params , name )
                 _ createMetaProduction
-                    @ request.params.owner
-                    @ request.params.name
+                    @ owner
+                    @ name
                     @ request.body.description
                     @ JSON.stringify(request.body.packiFiles)
                     ._ then
@@ -97,12 +107,18 @@ $group
                                 @ result
                     v08/ts/catch_send_fail${'('} postMetaProduction )
             v08/ts/handler${'('} putMetaProduction )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , id )
+                    rest/not-empty${'('} body , owner )
+                    rest/not-empty${'('} body , name )
+                    rest/not-empty${'('} body , description )
+                    rest/not-empty${'('} body , packiFiles )
                 _ updateMetaProduction
-                    @ request.params.id
-                    @ request.body.owner
-                    @ request.body.name
-                    @ request.body.description
-                    @ JSON.stringify(request.body.packiFiles)
+                    @ id
+                    @ owner
+                    @ name
+                    @ description
+                    @ JSON.stringify(packiFiles)
                     ._ then
                         =>
                             param result
@@ -113,10 +129,14 @@ $group
                     v08/ts/catch_send_fail${'('} putMetaProduction )
             apiv1_put${'('} &ctrl )
             v08/ts/handler${'('} generateMetaProductionByName )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , id )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} body , metaCtx )
                 _ generateMetaProduction
-                    @ request.params.owner
-                    @ request.params.name
-                    @ request.body.metaCtx
+                    @ owner
+                    @ name
+                    @ metaCtx
                     ._ then
                         =>
                             param result

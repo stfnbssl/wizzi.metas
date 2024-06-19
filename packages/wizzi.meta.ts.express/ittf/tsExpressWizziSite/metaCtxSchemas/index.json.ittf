@@ -6,5 +6,5 @@
         params/use( demoHome
         params/use( demoWizzi
         params/use( wizziDocs
-        params/use( packiProductions
+        params/use( wizziHubProductions
 

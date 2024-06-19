@@ -28,7 +28,7 @@ $group
         @ tFolderApi
         from '../index'
     import
-        @ ITFolderModel
+        @ ITFolderProductionModel
         from '../types'
     v08/mongo/crud/get_list_api${'('} &md)
     v08/mongo/crud/get_api${'('} &md)
@@ -36,6 +36,7 @@ $group
     v08/mongo/crud/create_api${'('} &md)
     v08/mongo/crud/update_api${'('} &md)
     v08/mongo/crud/delete_api${'('} &md)
+    merge_files_api${'('} &md)
     ${'$'}include artifact/cached_get_save
     ${'$'}include artifact/get_context
     ${'$'}include artifact/transformation
@@ -43,3 +44,6 @@ $group
     ${'$'}include artifact/mtree
     ${'$'}include artifact/mtreeBuildUpScript
     ${'$'}include artifact/prepare
+
+
+

@@ -188,7 +188,7 @@ $group
         express "^4.16.3"
         $if wzCtx.Build.useJwt
             express-jwt "^6.0.0"
-        $if wzCtx.Build.useSession
+        $if wzCtx.Build.express.useSession
             express-session "^1.17.1"
         $if wzCtx.Build.express.useExpressValidator
             express-validator "^6.15.0"

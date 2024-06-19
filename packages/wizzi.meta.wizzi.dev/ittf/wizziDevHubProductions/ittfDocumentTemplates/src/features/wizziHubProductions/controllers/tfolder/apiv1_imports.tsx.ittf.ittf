@@ -1,16 +1,18 @@
 $group
     ${'$'}params &ctrl
     ${'$'}
-        var suffix = ctrl.Production == 'TFolder' || ctrl.Production == 'Job' ? '' : 'Production';
+        $$ old var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
+        var suffix = 'Production';
+
     import
-        @ wizziTypes
+        @ wizziProductionsTypes
         @ wizziProds
         @ wizziFactory
-        from '../../wizzi'
+        from '#/src/features/wizziProductions'
     import
         @ packiTypes
         @ PackiBuilder
-        from '../../packi'
+        from '#/src/features/packi'
     import
         @ mergePackiFiles
         from '../utils'

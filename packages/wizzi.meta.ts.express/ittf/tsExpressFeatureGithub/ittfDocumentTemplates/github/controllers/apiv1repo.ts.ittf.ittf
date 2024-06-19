@@ -12,7 +12,7 @@ $group
         ${'$'}append imports
             import 
                 @ config
-                from '../../config'
+                from '#/src/features/config'
             import
                 @ getRepositories
                 @ getRepository

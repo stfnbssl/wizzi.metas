@@ -19,10 +19,12 @@ $group
         v08/ts/route${'('} post, /:owner/:name, this.postArtifactProduction)
         ${'$'}append handlers
             v08/ts/handler${'('} getArtifactProductions )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
                 _ getArtifactProductionList
                     {
                         { query
-                            @ owner request.params.owner
+                            @ owner owner
                     ._ then
                         =>
                             param result
@@ -34,9 +36,12 @@ $group
             v08/ts/handler${'('} getCheckArtifactName )
                 check_name${'('} artifact )
             v08/ts/handler${'('} getArtifactProduction )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} params , name )
                 _ getArtifactProduction
-                    @ request.params.owner
-                    @ request.params.name
+                    @ owner
+                    @ name
                     ._ then
                         =>
                             param result
@@ -46,21 +51,28 @@ $group
                                 @ result
                     v08/ts/catch_send_fail${'('} getArtifactProduction )
             v08/ts/handler${'('} postArtifactProduction )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} params , name )
+                    rest/not-empty${'('} body , description )
+                    rest/not-empty${'('} body , mainIttf )
+                    rest/not-empty${'('} body , wizziSchema )
+                    rest/not-undefined${'('} body , packiFiles )
                 _ createArtifactProduction
-                    @ request.params.owner
-                    @ request.params.name
-                    @ request.body.description
-                    @ request.body.mainIttf
-                    @ request.body.wizziSchema
-                    @ JSON.stringify(request.body.packiFiles)
+                    @ owner
+                    @ name
+                    @ description
+                    @ mainIttf
+                    @ wizziSchema
+                    @ JSON.stringify(packiFiles)
                     ._ then
                         =>
                             param result
                                 :any
                             ${'$'}$ loog 'postArtifactProduction.create.result', result
                             _ invalidateCache
-                                @ request.params.owner
-                                @ request.params.name
+                                @ owner
+                                @ name
                             _ sendSuccess
                                 @ response
                                 @ result
@@ -68,12 +80,13 @@ $group
             v08/ts/handler${'('} putArtifactProduction )
                 log 'putArtifactProduction.request.params', request.params
                 log 'putArtifactProduction.request.body', Object.keys(request.body)
-                if request.body.packiFiles
-                    log 'putArtifactProduction.request.body.packiFiles', Object.keys(request.body.packiFiles)
-                const options = request.body.options || {}
+                rest/check-params${'('} )
+                    rest/not-undefined${'('} body , packiFiles )
+                    rest/not-undefined${'('} body , options )
+                log 'putArtifactProduction.request.body.packiFiles', Object.keys(packiFiles)
                 if options.wizzify
                     _ wizziProds.wizzify
-                        @ request.body.packiFiles
+                        @ packiFiles
                         ._ then
                             =>
                                 param resultPackiFiles
@@ -86,8 +99,10 @@ $group
                                         @ resultPackiFiles
                         v08/ts/catch_send_fail${'('} putArtifactProduction.wizzify )
                 elif options.merge
+                    rest/check-params${'('} )
+                        rest/not-undefined${'('} params , id )
                     _ getArtifactProductionObjectById
-                        @ request.params.id
+                        @ id
                         ._ then
                             =>
                                 param prevArtifact
@@ -95,7 +110,7 @@ $group
                                 const resultPackiFiles
                                     _ mergePackiFiles
                                         @ prevArtifact.packiFiles
-                                        @ request.body.packiFiles
+                                        @ packiFiles
                                 log 'putArtifactProduction.merge.resultPackiFiles', Object.keys(resultPackiFiles)
                                 return
                                     _ exec_updateArtifactProduction
@@ -107,6 +122,6 @@ $group
                     _ exec_updateArtifactProduction
                         @ request
                         @ response
-                        @ request.body.packiFiles
+                        @ packiFiles
             apiv1_put${'('} &ctrl )
     apiv1_exec_update${'('} &ctrl )

@@ -11,6 +11,7 @@ $group
         var items = [
             "get_object_api.ts",
             "imports_and_validate_api.ts",
+            "merge_files_api.ts",
         ]
 
     $foreach item in items

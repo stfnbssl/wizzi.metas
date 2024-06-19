@@ -1,10 +1,17 @@
 $group
+   
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxEnvValues ('PACKI_CONFIG_PATH', 'packiConfigPath', 'str');
+        setCtxDep ('node-cache', '^5.1.2');
+
     import
         @ ModelBuilderType
-        @ ControllerType
-        from '../app/types'
+        $if metaCtx.useTsExpress
+            @ ControllerType
+        from '#/src/features/app/types'
     import
-        as packiProductionsTypes
+        as wizziHubProductionsTypes
         from './types'
     import
         @ ArtifactProductionModelBuilder
@@ -23,52 +30,53 @@ $group
         @ GetMetaProductionModel
         from './mongo/meta'
     import
-        @ TFolderModelBuilder
-        @ GetTFolderModel
+        @ TFolderProductionModelBuilder
+        @ GetTFolderProductionModel
         from './mongo/tfolder'
     import
-        @ JobModelBuilder
-        @ GetJobModel
+        @ JobProductionModelBuilder
+        @ GetJobProductionModel
         from './mongo/job'
-    import
-        @ ArtifactProductionController
-        from './controllers/artifact'
-    import
-        @ ApiV1ArtifactProductionController
-        from './controllers/apiv1artifact'
-    import
-        @ PackageProductionController
-        from './controllers/package'
-    import
-        @ ApiV1PackageProductionController
-        from './controllers/apiv1package'
-    import
-        @ PluginProductionController
-        from './controllers/plugin'
-    import
-        @ ApiV1PluginProductionController
-        from './controllers/apiv1plugin'
-    import
-        @ MetaProductionController
-        from './controllers/meta'
-    import
-        @ ApiV1MetaProductionController
-        from './controllers/apiv1meta'
-    import
-        @ TFolderController
-        from './controllers/tfolder'
-    import
-        @ ApiV1TFolderController
-        from './controllers/apiv1tfolder'
-    import
-        @ JobController
-        from './controllers/job'
-    import
-        @ ApiV1JobController
-        from './controllers/apiv1job'
-    import
-        @ ApiV1GenerationsController
-        from './controllers/apiv1generations'
+    $if metaCtx.useTsExpress
+        import
+            @ ArtifactProductionController
+            from './controllers/artifact'
+        import
+            @ ApiV1ArtifactProductionController
+            from './controllers/apiv1artifact'
+        import
+            @ PackageProductionController
+            from './controllers/package'
+        import
+            @ ApiV1PackageProductionController
+            from './controllers/apiv1package'
+        import
+            @ PluginProductionController
+            from './controllers/plugin'
+        import
+            @ ApiV1PluginProductionController
+            from './controllers/apiv1plugin'
+        import
+            @ MetaProductionController
+            from './controllers/meta'
+        import
+            @ ApiV1MetaProductionController
+            from './controllers/apiv1meta'
+        import
+            @ TFolderProductionController
+            from './controllers/tfolder'
+        import
+            @ ApiV1TFolderProductionController
+            from './controllers/apiv1tfolder'
+        import
+            @ JobProductionController
+            from './controllers/job'
+        import
+            @ ApiV1JobProductionController
+            from './controllers/apiv1job'
+        import
+            @ ApiV1GenerationsController
+            from './controllers/apiv1generations'
     import
         as artifactApi
         from './api/artifact'
@@ -91,16 +99,16 @@ $group
         as productionApi
         from './api/production'
     +
-    const packiProductionsModelGetters
+    const wizziHubProductionsModelGetters
         {
             @ GetArtifactProductionModel
             @ GetPackageProductionModel
             @ GetPluginProductionModel
             @ GetMetaProductionModel
-            @ GetTFolderModel
-            @ GetJobModel
+            @ GetTFolderProductionModel
+            @ GetJobProductionModel
     +
-    const packiProductionsModelBuilders
+    const wizziHubProductionsModelBuilders
         :[
             :ref ModelBuilderType
         =
@@ -109,32 +117,34 @@ $group
                 @ PackageProductionModelBuilder
                 @ PluginProductionModelBuilder
                 @ MetaProductionModelBuilder
-                @ TFolderModelBuilder
-                @ JobModelBuilder
+                @ TFolderProductionModelBuilder
+                @ JobProductionModelBuilder
     +
-    const packiProductionsControllers
-        :[
-            :ref ControllerType
-        =
-            [
-                @ new ArtifactProductionController()
-                @ new ApiV1ArtifactProductionController()
-                @ new PackageProductionController()
-                @ new ApiV1PackageProductionController()
-                @ new PluginProductionController()
-                @ new ApiV1PluginProductionController()
-                @ new MetaProductionController()
-                @ new ApiV1MetaProductionController()
-                @ new TFolderController()
-                @ new ApiV1TFolderController()
-                @ new JobController()
-                @ new ApiV1JobController()
-                @ new ApiV1GenerationsController()
+    $if metaCtx.useTsExpress
+        const wizziHubProductionsControllers
+            :[
+                :ref ControllerType
+            =
+                [
+                    @ new ArtifactProductionController()
+                    @ new ApiV1ArtifactProductionController()
+                    @ new PackageProductionController()
+                    @ new ApiV1PackageProductionController()
+                    @ new PluginProductionController()
+                    @ new ApiV1PluginProductionController()
+                    @ new MetaProductionController()
+                    @ new ApiV1MetaProductionController()
+                    @ new TFolderProductionController()
+                    @ new ApiV1TFolderProductionController()
+                    @ new JobProductionController()
+                    @ new ApiV1JobProductionController()
+                    @ new ApiV1GenerationsController()
     export
-        @ packiProductionsTypes
-        @ packiProductionsModelGetters
-        @ packiProductionsModelBuilders
-        @ packiProductionsControllers
+        @ wizziHubProductionsTypes
+        @ wizziHubProductionsModelGetters
+        @ wizziHubProductionsModelBuilders
+        $if metaCtx.useTsExpress
+            @ wizziHubProductionsControllers
         @ artifactApi
         @ packageApi
         @ pluginApi

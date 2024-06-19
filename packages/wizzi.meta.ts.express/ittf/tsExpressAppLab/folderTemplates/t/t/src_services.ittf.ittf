@@ -1,0 +1,12 @@
+$group
+
+    $if metaCtx.tsExpressAppLab.useMongoDb
+    
+        $
+            var items = [
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/src/services/${item}.ittf.ittf
+                module
+                    ${'$'}include tsExpressAppLab/src/services/${item}

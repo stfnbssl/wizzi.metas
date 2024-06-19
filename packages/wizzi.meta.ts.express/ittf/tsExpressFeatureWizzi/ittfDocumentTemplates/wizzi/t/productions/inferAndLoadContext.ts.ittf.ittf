@@ -29,7 +29,7 @@ $group
                                             @ files
                             const pf = wizziMaps.parseFilePath(filePath)
                             if pf.isIttfDocument && pf.schema !== 'json'
-                                var twinJsonBaseName = pf.seedname + '.json.ittf'
+                                var twinJsonBaseName = pf.seedName + '.json.ittf'
                                 $$ loog 'features.wizzi.productions.inferAndLoadContextJson.twinJsonBaseName', twinJsonBaseName
                                 const twinDocumentUri
                                     _ Object.keys(files).find
@@ -75,7 +75,7 @@ $group
                         param reject
                         const pf = wizziMaps.parseFilePath(filePath)
                         if pf.isIttfDocument && pf.schema !== 'json'
-                            var twinJsonPath = path.join(path.dirname(filePath), pf.seedname + '.json.ittf')
+                            var twinJsonPath = path.join(path.dirname(filePath), pf.seedName + '.json.ittf')
                             if fs.existsSync(twinJsonPath)
                                 _ loadModelFs
                                     @ twinJsonPath

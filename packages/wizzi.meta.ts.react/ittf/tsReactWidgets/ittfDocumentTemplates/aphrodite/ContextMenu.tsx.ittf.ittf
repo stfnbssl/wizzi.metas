@@ -166,7 +166,7 @@ $group
                     @ animationTimingfunction 'linear'
                     @ backgroundColor c('content')
                     @ border
-                        `lit 
+                        `tag 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 
@@ -187,7 +187,7 @@ $group
                     @ fontSize 16
                     @ color c('text')
                     @ borderBottom
-                        `lit 
+                        `tag 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 

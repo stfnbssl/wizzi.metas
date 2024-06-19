@@ -56,7 +56,7 @@ $group
             if !response.ok
                 throw 
                     new Error
-                        `lit 
+                        `tag 
                             + HTTP error! status:&nbsp;
                             @ response.status
                             + 

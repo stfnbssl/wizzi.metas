@@ -68,7 +68,7 @@ $group
                         _ this.emit("error", err)
                 if opt_debug
                     _ console.log
-                        `lit
+                        `tag
                             + <
                             @ EXE_NAME
                             + > Starting&nbsp;
@@ -96,7 +96,7 @@ $group
                         param code
                         if opt_debug
                             _ console.log
-                                `lit
+                                `tag
                                     + <
                                     @ EXE_NAME
                                     + > Process&nbsp;

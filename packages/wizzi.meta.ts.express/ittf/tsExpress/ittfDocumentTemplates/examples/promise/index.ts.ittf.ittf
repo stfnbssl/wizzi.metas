@@ -2,7 +2,7 @@ $group
     
     import
         @ ControllerType
-        from '../../features/app/types'
+        from '#/src/features/app/types'
     import
         @ UsersController
         from './routes/users'

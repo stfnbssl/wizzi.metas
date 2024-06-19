@@ -1,0 +1,13 @@
+$group
+
+    $
+        var items = [
+            "packiEditing.tsx",
+            "packiGenerating.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/packi/controllers/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDev/src/features/packi/controllers/${item}
+

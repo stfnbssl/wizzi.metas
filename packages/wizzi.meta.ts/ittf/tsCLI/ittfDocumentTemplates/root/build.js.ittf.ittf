@@ -1,0 +1,45 @@
+$group
+    kind es6
+    const 
+        { 
+            @ build
+        = require("esbuild")
+    const 
+        { 
+            @ dependencies
+            @ peerDependencies
+        = require('./package.json')
+    const 
+        { 
+            @ Generator
+        = require('npm-dts')
+    +
+    new Generator
+        {
+            @ entry 'src/index.ts'
+            @ output 'dist/index.d.ts'
+            @ logLevel "info" 
+        ._ generate
+    +
+    const sharedConfig
+        { 
+            [ entryPoints
+                @ "src/index.ts"
+            $if metaCtx.tsCLI.transpiler.bundle
+                @ bundle true
+            $if metaCtx.tsCLI.transpiler.minify
+                @ minify true
+            @ external Object.keys(dependencies) $$ .concat(Object.keys(peerDependencies))
+    _ build
+        { 
+            @ ...sharedConfig
+            @ platform 'node'
+            @ outfile "dist/index.js"
+                # for CJS
+    _ build
+        { 
+            @ ...sharedConfig
+            @ outfile "dist/index.esm.js"
+            @ platform 'node'
+            @ format "esm"
+                # for ESM

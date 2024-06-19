@@ -1,0 +1,127 @@
+$group
+    export
+        async-function loadModel
+            param filePath
+                :string
+            param files
+                :ref packiTypes.PackiFiles
+            param context
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref wizzi.WizziModel
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        if !verify.isObject(files)
+                            return
+                                _ reject
+                                    {
+                                        @ action 'wizzi.productions.loadModel'
+                                        @ message 'files parameter must be an object of type PackiFiles'
+                                        @ files
+                        let jsonwf
+                            :any
+                            =
+                                {
+                        const ittfDocumentUri
+                            _ ensurePackiFilePrefix(filePath)
+                                :as
+                                    :string
+                        # TODO catch error
+                        set jsonwf =
+                            await
+                                _ createJsonFsAndFactory(files)
+                        _ jsonwf.wf.loadModel
+                            @ ittfDocumentUri
+                            {
+                                @ mTreeBuildUpContext context
+                            =>
+                                param err
+                                    :any
+                                param result
+                                    :any
+                                if err
+                                    return reject(err)
+                                _ resolve(result)
+    +
+    export
+        async-function loadModelFs
+            param filePath
+                :string
+            param context
+                :any
+            param options
+                :ref LoadModelOptions
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref wizzi.WizziModel
+            const _options
+                :ref LoadModelOptions
+                = options || {}
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        const schemaName: string | null = null
+                        # TODO catch error
+                        const plugins
+                            iif _options.pluginsBaseFolder && _options.plugins
+                                then
+                                    {
+                                        @ pluginsBaseFolder _options.pluginsBaseFolder
+                                        @ items _options.plugins
+                                else null
+                        const wf
+                            await
+                                _ createFilesystemFactory
+                                    @ plugins
+                                    @ null
+                                    {
+                        _ wf.loadModel
+                            @ schemaName
+                            @ filePath
+                            {
+                                @ mTreeBuildUpContext context
+                            =>
+                                param err
+                                param result
+                                if err
+                                    return reject(err)
+                                _ resolve(result)
+    +
+    async-function loadModelInternal
+        param wf
+            :ref wizzi.WizziFactory
+        param filePath
+            :string
+        param context
+            :any
+        :return
+            :ref Promise
+                :param
+                    :ref wizzi.WizziModel
+        return
+            new Promise
+                async=>
+                    param resolve
+                    param reject
+                    const schemaName: string | null = null
+                    _ wf.loadModel
+                        @ schemaName
+                        @ filePath
+                        {
+                            @ mTreeBuildUpContext context
+                        =>
+                            param err
+                            param result
+                            if err
+                                return reject(err)
+                            _ resolve(result)

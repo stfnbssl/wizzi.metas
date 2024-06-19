@@ -1,0 +1,6 @@
+$group
+    $file __dot__wizzi/root/readme.md.ittf.ittf
+        md
+            ${'$'}include tsReactViteAppStarter/root/readme.md
+    $file __dot__wizzi/root/license.text.ittf.ittf
+        text

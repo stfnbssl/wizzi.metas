@@ -2,6 +2,7 @@ $group
     import
         @ packiTypes
         from '../packi'
+    
     export
         function createInitialPackiFiles
             param contexts
@@ -25,6 +26,7 @@ $group
                     @ type 'CODE'
                     @ contents createPackiConfigContents(contexts, tfolders)
             return packiFiles
+    
     export
         function createPackiConfigContents
             param contexts
@@ -45,17 +47,37 @@ $group
                 _ sb.push('\t\t\tpropertyName "' + ctx.propertyName + '"')
                 _ sb.push('\t\t\tartifactName "' + ctx.artifactName + '"')
             return sb.join('\n')
+    
     export
         function mergePackiFiles
-            param a
+            param current
+                :ref packiTypes.PackiFiles
+            param toadd
+                :ref packiTypes.PackiFiles
+            param options
                 :any
-            param b
-                :any
+                :optional
+            set options = options || {}
             var ret
-                :any
+                :ref packiTypes.PackiFiles
                 {
-            for var k in a
-                set ret[k] = a[k]
-            for var k in b
-                set ret[k] = b[k]
+            for var k in current
+                const c = current[k]
+                if c
+                    set ret[k] = c
+            for var k in toadd
+                const a = toadd[k]
+                if a
+                    const filePath = options.mergeToFolder ? stripStartSlash(stripEndSlash(options.mergeToFolder)) + '/' + stripStartSlash(k) : k
+                    set ret[filePath] = a
             return ret
+
+    function stripEndSlash
+        param path
+            :string
+        return path.endsWith('/') ? path.substring(0, path.length - 1) : path
+    
+    function stripStartSlash
+        param path
+            :string
+        return path.startsWith('/') ? path.substring(1) : path

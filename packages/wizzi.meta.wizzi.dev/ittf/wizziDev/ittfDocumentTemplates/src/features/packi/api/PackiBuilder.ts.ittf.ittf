@@ -1,0 +1,219 @@
+$group
+
+    import DiffMatchPatch from 'diff-match-patch'
+    import 
+        @ PackiFiles
+        from '../types'
+
+    export
+        class PackiBuilder
+            ctor
+                param packiFiles
+                    :ref PackiFiles
+                set this.packiFiles = packiFiles || {}
+                set this.dmp = new DiffMatchPatch()
+                log 'PackiBuilder.ctor.packiFiles', packiFiles
+            
+            p packiFiles
+                :ref PackiFiles
+                = {}
+            p dmp
+                :ref InstanceType<typeof DiffMatchPatch>
+            
+            m getFileContent
+                param filePath
+                    :string
+                const file = this.packiFiles[filePath] 
+                return file ? file.contents : null
+
+            m putFile
+                param filePath
+                    :string
+                param type
+                    :ref "CODE"
+                param contents
+                    :string
+                set this.packiFiles[filePath] 
+                    {
+                        @ type type
+                        @ contents contents
+
+            m putCodeFile
+                param filePath
+                    :string
+                param contents
+                    :string
+                _ this.putFile
+                    @ filePath
+                    @ 'CODE'
+                    @ contents
+            
+            m deleteFile
+                param filePath
+                    :string
+                delete this.packiFiles[filePath]
+
+            m getFileDiffs
+                param filePath
+                    :string
+                param newContent
+                    :string
+                const tpf = this.packiFiles[filePath]
+                if tpf
+                    return
+                        _ this._diffLineMode
+                            @ tpf.contents
+                            @ newContent
+                else
+                    throw new Error("Filepath not found " + filePath)
+            m applyFileDiffs
+                param filePath
+                    :string
+                param diffs
+                    :string
+                # loog 'applyFileDiffs.filePath', filePath
+                # loog 'applyFileDiffs.diffs', diffs
+                # loog 'applyFileDiffs.this.packiFiles[filePath]', this.packiFiles[filePath]
+                const tpf = this.packiFiles[filePath]
+                if tpf
+                    const textToPatch = tpf.contents
+                    const patches
+                        _ this.dmp.patch_make
+                            @ textToPatch
+                            @ diffs
+                    const [patchedText, results]
+                        _ this.dmp.patch_apply(patches, textToPatch)
+                    set tpf.contents = patchedText
+                else
+                    throw new Error("Filepath not found " + filePath)
+
+            m getPackiFilesDiffs
+                param packiFiles
+                    :ref PackiFiles
+                const matches
+                    :{
+                        :index
+                            :any
+                            param k
+                                :string
+                    =
+                        {
+                for var key in packiFiles
+                    const pf = packiFiles[key]
+                    const tpf = this.packiFiles[key]
+                    if pf
+                        if tpf
+                            set matches[key]
+                                {
+                                    @ d 0
+                                    @ diffs
+                                        _ this._diffLineMode
+                                            @ tpf.contents
+                                            @ pf.contents
+                        else
+                            set matches[key]
+                                {
+                                    @ d 1
+                                    @ type pf.type
+                                    @ contents pf.contents
+                for var key in this.packiFiles
+                    if !packiFiles[key]
+                        set matches[key]
+                            {
+                                @ d -1
+                return matches
+
+            m applyPatch
+                param packiDiffs
+                    :any
+                const patchedFiles
+                    :{
+                        :index
+                            :any
+                            param k
+                                :string
+                    =
+                        {
+                for var key in packiDiffs
+                    const pd = packiDiffs[key]
+                    if pd
+                        if pd.d == 1
+                            set patchedFiles[key]
+                                {
+                                    @ type pd.type
+                                    @ contents pd.contents
+                        elif pd.d == 0
+                            const tpf = this.packiFiles[key]
+                            if tpf
+                                const textToPatch = tpf.contents
+                                const patches 
+                                    _ this.dmp.patch_make
+                                        @ textToPatch
+                                        @ pd.diffs
+                                const [patchedText, results]
+                                    _ this.dmp.patch_apply(patches, textToPatch)
+                                set patchedFiles[key]
+                                    {
+                                        @ type tpf.type
+                                        @ contents patchedText
+                set this.packiFiles = patchedFiles
+
+            m applyPatch_ChangesOnly
+                param packiChanges
+                    :any
+                for var key in packiChanges
+                    const pc = packiChanges[key]
+                    const tpf = this.packiFiles[key]
+                    if pc
+                        if pc.d == 1
+                            _ this.putCodeFile
+                                @ key
+                                @ pc.contents
+                        elif pc.d == 0
+                            if tpf
+                                const textToPatch = tpf.contents
+                                const patches 
+                                    _ this.dmp.patch_make
+                                        @ textToPatch
+                                        @ pc.diffs
+                                const [patchedText, results]
+                                    _ this.dmp.patch_apply(patches, textToPatch)
+                                _ this.putCodeFile
+                                    @ key
+                                    @ patchedText
+                            else
+                                throw new Error("Filepath not found " + key)
+                        elif pc.d == -1
+                            _ this.deleteFile
+                                @ key
+
+            m equals
+                param packiFiles
+                    :ref PackiFiles
+                for var key in packiFiles
+                    const pf = packiFiles[key]
+                    const tpf = this.packiFiles[key]
+                    if pf && tpf 
+                        if tpf.type != pf.type
+                            return false
+                        if tpf.contents != pf.contents
+                            return false
+                    else
+                        return false
+                for var key in this.packiFiles
+                    if !packiFiles[key]
+                        return false
+                return true
+
+            m _diffLineMode
+                param text1
+                    :string
+                param text2
+                    :string
+                var a = this.dmp.diff_linesToChars_(text1, text2)
+                var lineText1 = a.chars1
+                var lineText2 = a.chars2
+                var lineArray = a.lineArray
+                var diffs = this.dmp.diff_main(lineText1, lineText2, false)
+                _ this.dmp.diff_charsToLines_(diffs, lineArray)
+                return diffs

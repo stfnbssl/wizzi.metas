@@ -1,0 +1,125 @@
+$group
+    $
+        var srcPath = 'src';
+        var otherPath = 'other';
+        var prismaPath = 'prisma';
+        var ittfPath = 'ittf';
+        var rootPath = '';
+        var testsPath = 'tests';
+
+    $file __dot__wizzi/generate.wfjob.ittf.ittf
+        wfjob ${'$'}{metaCtx.name}/job
+            ---
+        	${'$'}{'$'}
+                var jobCtx = {
+        		    ittf_models_folder: path.join(__dirname, 'models'),
+                    ittf_src_folder: path.join(__dirname, 'src'),
+                    ittf_other_folder: path.join(__dirname, 'other'),
+                    ittf_prisma_folder: path.join(__dirname, 'prisma'),
+        		    ittf_root_folder: path.join(__dirname, 'root'),
+                    ittf_tests_folder: path.join(__dirname, 'tests'),
+                    ittf_ittf_folder: path.join(__dirname, 'ittf'),
+        		    dest_folder: path.join(__dirname, '..'),
+                    job_model: 'wzCtx'
+                }
+            ---
+            model ${'$'}{'$'}{jobCtx.job_model}
+                schema json
+                src ${'$'}{'$'}{jobCtx.ittf_models_folder}/wzctx.json.ittf
+            ---
+            line ittf-models
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_models_folder}
+                wfjobs${'$'}{'('}any_json, &jobCtx)
+            ---
+        	line ittf-root
+        		cwd-folder ${'$'}{'$'}{jobCtx.ittf_root_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${rootPath}
+        
+        		wfjobs${'$'}{'('}any_js, &jobCtx)
+                wfjobs${'$'}{'('}any_mjs, &jobCtx)
+                wfjobs${'$'}{'('}any_cjs, &jobCtx)
+                wfjobs${'$'}{'('}any_ts, &jobCtx)
+                wfjobs${'$'}{'('}any_tsx, &jobCtx)
+                wfjobs${'$'}{'('}any_json, &jobCtx)
+                wfjobs${'$'}{'('}any_xml, &jobCtx)
+                wfjobs${'$'}{'('}any_md, &jobCtx)
+                wfjobs${'$'}{'('}any_text, &jobCtx)
+                $if metaCtx.tsExpressAppLab.useEnv
+                    wfjobs${'$'}{'('}.env.example, &jobCtx)
+                wfjobs${'$'}{'('}.gitignore, &jobCtx)
+                $if metaCtx.tsExpressAppLab.useEslint
+                    wfjobs${'$'}{'('}.eslintrc.cjs, &jobCtx)
+                    $if false
+                        wfjobs${'$'}{'('}.eslintignore, &jobCtx)
+                $if metaCtx.tsExpressAppLab.usePrettier
+                    wfjobs${'$'}{'('}.prettierrc.js, &jobCtx)
+                    $if false
+                        wfjobs${'$'}{'('}.prettierignore, &jobCtx)
+        	---
+            line ittf-src
+                cwd-folder ${'$'}{'$'}{jobCtx.ittf_src_folder}
+                dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${srcPath}
+
+                wfjobs${'$'}{'('}any_js, &jobCtx)
+                wfjobs${'$'}{'('}any_ts, &jobCtx)
+                wfjobs${'$'}{'('}any_tsx, &jobCtx)
+                wfjobs${'$'}{'('}any_css, &jobCtx)
+                wfjobs${'$'}{'('}any_json, &jobCtx)
+                wfjobs${'$'}{'('}any_md, &jobCtx)
+                $if metaCtx.tsExpressAppLab.usePrisma
+                    wfjobs${'$'}{'('}any_prisma, &jobCtx)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, js)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, ts)
+                wfjobs${'$'}{'('}any_plain, &jobCtx, d.ts)
+        	---
+            
+            $if TODO
+                line ittf-other
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_other_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${otherPath}
+                    wfjobs${'$'}{'('}any_js, &jobCtx)
+                    wfjobs${'$'}{'('}any_ts, &jobCtx)
+                ---
+            
+            $if TODO 
+                line ittf-prisma
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_prisma_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${prismaPath}
+                    wfjobs${'$'}{'('}any_js, &jobCtx)
+                    wfjobs${'$'}{'('}any_ts, &jobCtx)
+                    wfjobs${'$'}{'('}any_prisma, &jobCtx)
+                    wfjobs${'$'}{'('}any_toml, &jobCtx)
+                    wfjobs${'$'}{'('}any_yaml, &jobCtx)
+                ---
+
+            $if metaCtx.tsExpressAppLab.useTests
+                line ittf-tests
+                    cwd-folder ${'$'}{'$'}{jobCtx.ittf_tests_folder}
+                    dest-folder ${'$'}{'$'}{jobCtx.dest_folder}/${testsPath}
+            
+                    wfjobs${'$'}{'('}any_js, &jobCtx)
+                    wfjobs${'$'}{'('}any_ts, &jobCtx)
+                    wfjobs${'$'}{'('}any_tsx, &jobCtx)
+                    wfjobs${'$'}{'('}any_css, &jobCtx)
+                    wfjobs${'$'}{'('}any_json, &jobCtx)
+                    wfjobs${'$'}{'('}any_md, &jobCtx)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, js)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, d.ts)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, html)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, html.ittf)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, css)
+                    wfjobs${'$'}{'('}any_plain, &jobCtx, css.ittf)
+                    wfjobs${'$'}{'('}any_plain_image, &jobCtx)
+        	
+            ---
+            production
+        		dest-folder ${'$'}{'$'}{jobCtx.dest_folder}
+                line-ref ittf-models
+                line-ref ittf-root
+                line-ref ittf-src
+                $if TODO
+                    line-ref ittf-other
+                $if TODO 
+                    line-ref ittf-prisma
+                $if metaCtx.tsExpressAppLab.useTests
+                    line-ref ittf-tests

@@ -34,11 +34,13 @@ $group
                 foreach mp in metaContextDefs
                     if mp.ittfTParams
                         for var k in mp.ittfTParams
-                            var newk = 'metaCtxSchema/' + mp.productionName + '/t/params/' + k
-                            set result[newk] = mp.ittfTParams[k]
+                            if mp.ittfTParams[k]
+                                var newk = 'metaCtxSchema/' + mp.productionName + '/t/params/' + k
+                                set result[newk] = mp.ittfTParams[k]
                     if mp.metaCtxSchema
                         for var k in mp.metaCtxSchema
-                            var newk = 'metaCtxSchema/' + mp.productionName + '/' + k
-                            set result[newk] = mp.metaCtxSchema[k]
+                            if mp.metaCtxSchema[k]
+                                var newk = 'metaCtxSchema/' + mp.productionName + '/' + k
+                                set result[newk] = mp.metaCtxSchema[k]
                 r_cb( result )
 

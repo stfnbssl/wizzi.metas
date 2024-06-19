@@ -1,0 +1,25 @@
+$group
+
+    $
+        var items = [
+            "executeJob.ts",
+            "executeMetaProduction.ts",
+            "generateArtifact.ts",
+            "generateFolderArtifacts.ts",
+            "generateWizziModelTypes.ts",
+            "getCodeAST.ts",
+            "inferAndLoadContext.ts",
+            "loadModel.ts",
+            "loadSiteJsonModel.ts",
+            "metaGenerate.ts",
+            "mTree.ts",
+            "mTreeBuildUpScript.ts",
+            "scanIttfDocument.ts",
+            "transformModel.ts",
+            "wizzify.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziProductions/t/productions/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include wizziDevProductions/src/features/wizziProductions/tfolder/productions/${item}

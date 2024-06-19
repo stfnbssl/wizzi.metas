@@ -146,12 +146,12 @@ $group
                             then "has-multiple"
                             else ""
                 let searchHtml
-                    `lit 
+                    `tag 
                         + <div class="nice-select-search-box">&lf;
                         + <input type="text" class="nice-select-search" placeholder="Search..."/>&lf;
                         + </div>
                 var html
-                    `lit 
+                    `tag 
                         + <div class="
                         _ classes.join(" ")
                         + " tabindex="
@@ -186,7 +186,7 @@ $group
                             function 
                                 param item
                                 set selectedHtml +=
-                                    `lit 
+                                    `tag 
                                         + <span class="current">
                                         @ item.data.text
                                         + </span>

@@ -102,17 +102,17 @@ $group
                     @ fontSize '90%'
                     @ opacity 0.5
                     @ boxShadow
-                        `lit 
+                        `tag 
                             + none
                     @ display 'inline-block'
                     @ lineHeight 'initial'
                 { boxedShortcut
                     @ padding '0.2rem 0.4rem'
                     @ border
-                        `lit 
+                        `tag 
                             + 1px solid&nbsp;
                             _ c
-                                `lit 
+                                `tag 
                                     + border
                     @ borderBottomWidth 2
                     @ borderRadius 3

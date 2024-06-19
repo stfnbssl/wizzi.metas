@@ -30,7 +30,7 @@ $group
                         < Head 
                             < title 
                                 { 
-                                    `lit 
+                                    `tag 
                                         + Next.js Blog Example with&nbsp;
                                         @ CMS_NAME
                                         + 

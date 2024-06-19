@@ -9,4 +9,3 @@ $group
                     :any
             $hook
     catch_fail( ${message} )
-

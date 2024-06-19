@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            "react.svg",
+            "vite.svg",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/Assets/${item}.ittf.ittf
+            svg
+                ${'$'}include tsReactViteAppStarter/src/Assets/${item}

@@ -1,0 +1,153 @@
+$group
+    import path from 'path'
+    import 
+        @ fSystem
+        from '@wizzi/utils'
+    import 
+        @ packiTypes
+        from '#/src/features/packi'
+    import 
+        @ wizziProds
+        from '#/src/features/wizziProductions'
+    +
+    export 
+        function getFilteredPackiFiles
+            param options
+                :any 
+            :return
+                :ref Promise
+                    :param 
+                        :ref packiTypes.PackiFiles
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ fSystem.vfile().getFiles
+                            @expr options.sourceFolder
+                            { 
+                                @ deep true
+                                @ documentContent true
+                            => 
+                                param err
+                                    :any 
+                                param files
+                                    :any 
+                                if err
+                                    return reject(err)
+                                const result
+                                    :ref packiTypes.PackiFiles
+                                    =
+                                        { 
+                                foreach file in files
+                                    if !options.filter || options.filter(file.relPath, file.content)
+                                        set result[file.relPath] =
+                                            { 
+                                                @ type "CODE"
+                                                @ contents file.content
+                                _ resolve(result)
+    
+    export 
+        function getFileContents
+            param options
+                :any 
+            :return
+                :ref Promise
+                    :param string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        _ fSystem.vfile().read
+                            @expr options.sourceFile
+                            => 
+                                param err
+                                    :any 
+                                param contents
+                                    :any 
+                                if err
+                                    return reject(err)
+                                _ resolve(contents)
+    
+    export 
+        function writePackiToDest
+            param packiFiles
+                :ref packiTypes.PackiFiles
+            param destFolder
+                :string 
+            for var k in packiFiles
+                const pf = packiFiles[k]
+                if pf
+                    _ fSystem.vfile().write
+                        _ path.join
+                            @ destFolder
+                            @ k
+                        @ pf.contents
+    
+    export 
+        function getFileJSON
+            param options
+                :any 
+            :return
+                :ref Promise
+                    :param string
+            return 
+                new Promise
+                    => 
+                        param resolve
+                        param reject
+                        if options.sourceFile.endsWith(".ittf")
+                            _ wizziProds.generateArtifactFs(options.sourceFile).then
+                                => 
+                                    param contents
+                                        :any 
+                                    _ resolve(JSON.parse(contents.artifactContent))
+                                ._ catch
+                                    => 
+                                        param err
+                                            :any 
+                                        if typeof err === 'object' && err !== null
+                                        _ console.log("[31m%s[0m", 'fsrepo.getFileJSON.generateArtifactFs.error', err)
+                                        throw new Error(err)
+                        else
+                            _ fSystem.vfile().read
+                                @expr options.sourceFile
+                                => 
+                                    param err
+                                        :any 
+                                    param contents
+                                        :any 
+                                    if err
+                                        return reject(err)
+                                    _ resolve(JSON.parse(contents))
+    
+    export 
+        function createPackifilesFromFs
+            param folderPath
+                :string
+            param callback
+                :any
+            const fsFile = fSystem.vfile()
+            _ fsFile.getFiles
+                @ folderPath
+                { 
+                    @ deep true
+                    @ documentContent true
+                => 
+                    param err
+                        :any 
+                    param files
+                        :any 
+                    if err
+                        return callback(err)
+                    const packiFiles
+                        :ref packiTypes.PackiFiles
+                        { 
+                    foreach file in files
+                        set packiFiles[file.relPath] =
+                            { 
+                                @ type 'CODE'
+                                @ contents file.content
+                    return callback(null, packiFiles)
+            # 

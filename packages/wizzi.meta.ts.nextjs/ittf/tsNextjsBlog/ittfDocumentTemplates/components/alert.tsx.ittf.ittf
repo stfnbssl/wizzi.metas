@@ -43,7 +43,7 @@ $group
                                             + {' '}
                                             a 
                                                 @ href
-                                                    `lit 
+                                                    `tag 
                                                         + https://github.com/vercel/next.js/tree/canary/examples/
                                                         @ EXAMPLE_PATH
                                                         + 

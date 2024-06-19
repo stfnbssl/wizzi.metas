@@ -89,7 +89,7 @@ $group
                     => 
                         param resolve
                         param reject
-                        ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                        ${'$'}if wzCtx.Build.wizziHubProductions.useCachedProductions
                             let tfValue = tfolderProductionCache.get(cacheKey)
                             if tfValue
                                 return resolve(tfValue)
@@ -114,7 +114,7 @@ $group
                                     set tfValue
                                         { 
                                             @ packiFiles tf_packiFiles_object
-                                    ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                                    ${'$'}if wzCtx.Build.wizziHubProductions.useCachedProductions
                                         _ tfolderProductionCache.set(cacheKey, tfValue)
                                     return resolve(tfValue)
                             v08/ts/catch_reject${'('} getTFolder_withCache.getArtifactProduction )

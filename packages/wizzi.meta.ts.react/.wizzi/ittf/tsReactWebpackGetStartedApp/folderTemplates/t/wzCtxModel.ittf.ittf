@@ -3,4 +3,3 @@ $group
         ${'$'}{'$'}group
             useXxx true
             { xxx
-

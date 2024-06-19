@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "context.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziProductions/api/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDevProductions/src/features/wizziProductions/api/${item}

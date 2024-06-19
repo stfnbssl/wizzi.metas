@@ -11,7 +11,7 @@ $group
         from '../../packi'
     import
         @ packiConfigPath
-        from '../../config/env'
+        from '#/src/features/config/env'
     import
         @ wizziProds
         @ wizziMaps

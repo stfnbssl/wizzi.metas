@@ -63,7 +63,7 @@ $group
                         if retries > maxRetries
                             throw new Error('\n\nMongodb. \nCannot connect to \n"' + connectUrl + '". \n\n' + err.message + '\n\n')
                         _ log
-                            `lit 
+                            `tag 
                                 + MongoDB connection unsuccessful (will retry #
                                 @ retries
                                 + &nbsp;after&nbsp;

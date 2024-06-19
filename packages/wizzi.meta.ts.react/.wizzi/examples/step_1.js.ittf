@@ -28,4 +28,3 @@ module
                             @ null
                             @ 2
                     log 'result', dump
-

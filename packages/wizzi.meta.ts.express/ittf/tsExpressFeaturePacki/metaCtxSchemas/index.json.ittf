@@ -1,4 +1,4 @@
 {
     [ parameters
         params/use( studioFolderEdit
-        params/use( packiProductions
+        params/use( wizziHubProductions

@@ -1,0 +1,19 @@
+$group
+    
+    $include wizziProductions_api
+    $if metaCtx.useTsExpress
+        $include wizziProductions_controllers
+    $include wizziProductions_t_productions
+
+    $
+        var items = [
+            "factory.ts",
+            "index.ts",
+            "productions.ts",
+            "types.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziProductions/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDevProductions/src/features/wizziProductions/${item}

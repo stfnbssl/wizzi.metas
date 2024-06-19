@@ -1,0 +1,33 @@
+$group
+    $if metaCtx.useTsExpress
+        ${'$'}if wzCtx.Build.useExpress
+            import
+                @ ControllerType
+                from '#/src/features/app/types'
+    import
+        as wizziMetaTypes
+        from './types'
+    import
+        as wizziMetaApi
+        from './api/wizziMeta'
+    $if metaCtx.useTsExpress
+        ${'$'}if wzCtx.Build.useExpress
+            import
+                @ ApiV1WizziMetaController
+                from './controllers/apiv1wizzimeta'
+        +
+    $if metaCtx.useTsExpress
+        ${'$'}if wzCtx.Build.useExpress
+            const wizziMetaControllers
+                :[
+                    :ref ControllerType
+                =
+                    [
+                        @ new ApiV1WizziMetaController()
+            +
+    export
+        @ wizziMetaTypes
+        $if metaCtx.useTsExpress
+            ${'$'}if wzCtx.Build.useExpress
+                @ wizziMetaControllers
+        @ wizziMetaApi

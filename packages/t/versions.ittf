@@ -40,3 +40,5 @@ $group
         versions['@wizzi/meta.web@next'] = '0.0.2';
         versions['@wizzi/meta.wizzi'] = '0.0.1';
         versions['@wizzi/meta.wizzi@next'] = '0.0.2';
+        versions['@wizzi/meta.wizzi.dev'] = '0.0.1';
+        versions['@wizzi/meta.wizzi.dev@next'] = '0.0.2';        

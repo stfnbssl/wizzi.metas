@@ -1,14 +1,16 @@
 $group
     
-    $file __dot__wizzi/${pkgPath}src/features/types.ts.ittf.ittf
-        module
-            ${'$'}include tsExpress/features/types.ts
+    $if !!metaCtx.useTsExpressAppLab == false
     
-    $file __dot__wizzi/${pkgPath}src/features/app/index.ts.ittf.ittf
-        module
-            ${'$'}include tsExpress/features/app/index.ts
-    
-    $file __dot__wizzi/${pkgPath}src/features/app/types.ts.ittf.ittf
-        module
-            ${'$'}include tsExpress/features/app/types.ts
+        $file __dot__wizzi/${pkgPath}src/features/types.ts.ittf.ittf
+            module
+                ${'$'}include tsExpress/features/types.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/app/index.ts.ittf.ittf
+            module
+                ${'$'}include tsExpress/features/app/index.ts
+        
+        $file __dot__wizzi/${pkgPath}src/features/app/types.ts.ittf.ittf
+            module
+                ${'$'}include tsExpress/features/app/types.ts
 

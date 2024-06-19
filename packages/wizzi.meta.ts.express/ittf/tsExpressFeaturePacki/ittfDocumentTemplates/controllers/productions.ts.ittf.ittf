@@ -9,13 +9,13 @@ $group
     v08/ts/controller${'('} &ctrl )
         ${'$'}append imports
             import
-                @ wizziTypes
+                @ wizziProductionsTypes
                 @ wizziProds
                 @ WizziFactory
                 from '../../wizzi'
             import
                 @ artifactApi
-                from '../../packiProductions'
+                from '#/src/features/wizziHubProductions'
             import
                 @ PackiFiles
                 from '../types'

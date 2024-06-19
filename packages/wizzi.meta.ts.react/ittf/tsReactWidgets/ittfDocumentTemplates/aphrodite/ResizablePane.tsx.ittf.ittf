@@ -119,7 +119,7 @@ $group
                     if direction === 'horizontal'
                         const delta = e.pageX - initialPosition.pageX
                         set style =
-                            `lit 
+                            `tag 
                                 + width:&nbsp;
                                 op+ 
                                     + initialWidth
@@ -131,7 +131,7 @@ $group
                     else
                         const delta = initialPosition.pageY - e.pageY
                         set style =
-                            `lit 
+                            `tag 
                                 + height:&nbsp;
                                 op+ 
                                     + initialHeight
@@ -157,7 +157,7 @@ $group
                     div 
                         @ ref {this._pane}
                         @ className
-                            `lit 
+                            `tag 
                                 + 
                                 _ css(styles.container)
                                 + &nbsp;

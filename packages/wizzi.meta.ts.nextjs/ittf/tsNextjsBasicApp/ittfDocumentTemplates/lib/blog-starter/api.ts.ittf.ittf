@@ -20,7 +20,7 @@ $group
             const fullPath
                 _ join
                     @ postsDirectory
-                    `lit 
+                    `tag 
                         + 
                         @ realSlug
                         + .md

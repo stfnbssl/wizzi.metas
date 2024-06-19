@@ -7,6 +7,7 @@ Wizzi meta plugin for creating wizzi typescript react packages
 |Production|Descriptionn|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReact.wfproduction.ittf>tsReact</a>|tsReact wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactApp.wfproduction.ittf>tsReactApp</a>|tsReactApp wizzi meta production|
+|<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactViteAppStarter.wfproduction.ittf>tsReactViteAppStarter</a>|tsReactViteAppStarter wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactAssets.wfproduction.ittf>tsReactAssets</a>|tsReactAssets wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactBasicWebpack.wfproduction.ittf>tsReactBasicWebpack</a>|tsReactBasicWebpack wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.react/tree/master/.wizzi/ittf/lib/wizzi/productions/tsReactBasicVite.wfproduction.ittf>tsReactBasicVite</a>|tsReactBasicVite wizzi meta production|

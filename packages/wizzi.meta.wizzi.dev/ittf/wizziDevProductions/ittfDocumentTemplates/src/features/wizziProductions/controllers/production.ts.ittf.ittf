@@ -1,0 +1,384 @@
+$group
+    ${'$'}
+        var ctrl = {
+            name: 'Production',
+            path: '/api/v1/wizzi/production',
+            apiSecured: wzCtx.Build.useAuthentication && wzCtx.App.isLocal == false
+        }
+        var myname = 'features/wizzi/controller/productions';
+    v08/ts/controller${'('} &ctrl)
+        ${'$'}append imports
+            import fs
+                from 'fs'
+            import path
+                from 'path'
+            import
+                @ ArtifactRequest
+                @ MetaContext
+                from '../types'
+            import
+                as wizziFactory
+                from '../factory'
+            import
+                as wizziProds
+                from '../productions'
+            import
+                @ packiTypes
+                from '#/src/features/packi'
+            import
+                @ config
+                from '#/src/features/config'
+            import
+                @ resolveContexts
+                from '../api/context'
+            import
+                @ file
+                from '@wizzi/factory'
+            const myname = '${'$'}{myname}'
+        ${'$'}if wzCtx.Build.useAuthentication
+            v08/ts/route_api_secured${'('} post, /artifact, this.artifact)
+            v08/ts/route_api_secured${'('} post, /folder/artifacts, this.folderArtifacts)
+            v08/ts/route_api_secured${'('} post, /mtree, this.mTree)
+            v08/ts/route_api_secured${'('} post, /mtreescript, this.mTreeBuildUpScript)
+            v08/ts/route_api_secured${'('} post, /mtreescan, this.mTreeScan)
+            v08/ts/route_api_secured${'('} post, /meta/execute, this.metaExecute)
+        ${'$'}else
+            v08/ts/route${'('} post, /artifact, this.artifact)
+            v08/ts/route${'('} post, /folder/artifacts, this.folderArtifacts)
+            v08/ts/route${'('} post, /mtree, this.mTree)
+            v08/ts/route${'('} post, /mtreescript, this.mTreeBuildUpScript)
+            v08/ts/route${'('} post, /mtreescan, this.mTreeScan)
+            v08/ts/route${'('} post, /meta/execute, this.metaExecute)
+        ${'$'}if wzCtx.Build.useAuthentication
+            v08/ts/route_api_secured${'('} post, /wrapittf, this.wrapIttfText)
+        ${'$'}else
+            v08/ts/route${'('} post, /wrapittf, this.wrapIttfText)
+        ${'$'}append handlers
+            v08/ts/handler${'('} artifact )
+                const artifactRequest
+                    :ref ArtifactRequest
+                    = request.body
+                _ resolveContexts
+                    @ artifactRequest.contextItems
+                    ._ then
+                        =>
+                            param context
+                                :any
+                            if artifactRequest.ittfDocument
+                                if artifactRequest.ittfDocument.source == 'fs'
+                                    _ wizziProds.generateArtifactFs
+                                        _ path.join
+                                            @ config.ittfPath
+                                            @ artifactRequest.ittfDocument.path as string
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param generatedArtifact
+                                                _ sendSuccess
+                                                    @ response
+                                                    @ generatedArtifact
+                                        v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.artifact.wizziProds.generateArtifactFs )
+                                elif artifactRequest.ittfDocument.source == 'packi'
+                                    _ wizziProds.generateArtifact
+                                        @ artifactRequest.ittfDocument.mainIttf as string
+                                        @ artifactRequest.ittfDocument.packiFiles as packiTypes.PackiFiles
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param generatedArtifact
+                                                    :any
+                                                _ sendSuccess
+                                                    @ response
+                                                    @ generatedArtifact
+                                        v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.artifact.wizziProds.generateArtifact )
+                                elif artifactRequest.ittfDocument.source == 'db'
+                                    _ wizziProds.generateArtifactDb
+                                        @ artifactRequest.ittfDocument.mainIttf as string
+                                        @ artifactRequest.ittfDocument.path as string
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param generatedArtifact
+                                                    :any
+                                                _ sendSuccess
+                                                    @ response
+                                                    @ generatedArtifact
+                                        v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.artifact.wizziProds.generateArtifact )
+                                else
+                                    _ sendError
+                                        @ response
+                                        {
+                                            { err
+                                                @ message "Invalid artifactRequest.ittfDocument.source: " + artifactRequest.ittfDocument.source
+                            else
+                                _ sendError
+                                    @ response
+                                    {
+                                        { err
+                                            @ message "Invalid artifactRequest"
+                    v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.artifact.resolveContexts )
+            v08/ts/handler${'('} folderArtifacts )
+                const artifactRequest
+                    :ref ArtifactRequest
+                    = request.body
+                _ resolveContexts
+                    @ artifactRequest.contextItems
+                    ._ then
+                        =>
+                            param context
+                                :any
+                            if artifactRequest.ittfFolder
+                                ${'$'}$TODO if artifactRequest.ittfFolder.source == 'fs'
+                                const sourceError
+                                    {
+                                        { err
+                                            @ message "Invalid artifactRequest.ittfFolder.source: " + artifactRequest.ittfFolder.source
+                                if artifactRequest.ittfFolder.source == 'packi'
+                                    if artifactRequest.ittfFolder.sourceFolderUri 
+                                        \b && artifactRequest.ittfFolder.destFolderUri
+                                        \b && artifactRequest.ittfFolder.packiFiles
+                                        _ wizziProds.generateFolderArtifacts
+                                            @ artifactRequest.ittfFolder.sourceFolderUri
+                                            @ artifactRequest.ittfFolder.destFolderUri
+                                            @ artifactRequest.ittfFolder.packiFiles
+                                            @ context
+                                            {
+                                                @ generateFragments artifactRequest.ittfFolder.generateFragments
+                                            ._ then
+                                                =>
+                                                    param packiFiles
+                                                        :any
+                                                    log "${'$'}{myname}.handler.folderArtifacts.generateFolderArtifacts.result", Object.keys(packiFiles)
+                                                    _ sendSuccess
+                                                        @ response
+                                                        @ packiFiles
+                                            v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.folderArtifacts.generateFolderArtifacts )
+                                    else
+                                        _ sendError
+                                            @ response
+                                            {
+                                                { err
+                                                    @ message "Invalid artifactRequest.ittfFolder.sourceFolderUri: missing"
+                                else
+                                    _ sendError
+                                        @ response
+                                        {
+                                            { err
+                                                @ message "Invalid artifactRequest.ittfFolder.source: " + artifactRequest.ittfFolder.source
+                            else
+                                _ sendError
+                                    @ response
+                                    {
+                                        { err
+                                            @ message "Invalid artifactRequest"
+
+                    v08/ts/catch_send_error${'('} } ${'$'}{myname}.handler.folderArtifacts.resolveContexts )
+            v08/ts/handler${'('} mTree )
+                const artifactRequest
+                    :ref ArtifactRequest
+                    = request.body
+                _ resolveContexts
+                    @ artifactRequest.contextItems
+                    ._ then
+                        =>
+                            param context
+                                :any
+                            if artifactRequest.ittfDocument
+                                if artifactRequest.ittfDocument.source == 'fs'
+                                    _ wizziProds.mTreeFs
+                                        _ path.join
+                                            @ config.ittfPath
+                                            @ artifactRequest.ittfDocument.path as string
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param mTree
+                                                _ sendSuccess
+                                                    @ response
+                                                    {
+                                                        @ mTree mTree.mTreeIttf
+                                        v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTree.wizziProds.mTreeFs )
+                                elif artifactRequest.ittfDocument.source == 'packi'
+                                    _ wizziProds.mTree
+                                        @ artifactRequest.ittfDocument.mainIttf as string
+                                        @ artifactRequest.ittfDocument.packiFiles as packiTypes.PackiFiles
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param mTree
+                                                    :any
+                                                _ sendSuccess
+                                                    @ response
+                                                    {
+                                                        @ mTree mTree.mTreeIttf
+                                        v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTree.wizziProds.mTree )
+                                elif artifactRequest.ittfDocument.source == 'db'
+                                    _ wizziProds.mTreeDb
+                                        @ artifactRequest.ittfDocument.mainIttf as string
+                                        @ artifactRequest.ittfDocument.path as string
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param mTree
+                                                    :any
+                                                _ sendSuccess
+                                                    @ response
+                                                    {
+                                                        @ mTree mTree.mTreeIttf
+                                        v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTree.wizziProds.mTreeDb )
+                                else
+                                    _ sendError
+                                        @ response
+                                        {
+                                            { err
+                                                @ message "Invalid artifactRequest.ittfDocument.source: " + artifactRequest.ittfDocument.source
+                            else
+                                _ sendError
+                                    @ response
+                                    {
+                                        { err
+                                            @ message "Invalid artifactRequest"
+
+                    v08/ts/catch_send_error${'('} } ${'$'}{myname}.handler.mTree.resolveContexts )
+            v08/ts/handler${'('} mTreeBuildUpScript )
+                const artifactRequest
+                    :ref ArtifactRequest
+                    = request.body
+                _ resolveContexts
+                    @ artifactRequest.contextItems
+                    ._ then
+                        =>
+                            param context
+                                :any
+                            if artifactRequest.ittfDocument
+                                if artifactRequest.ittfDocument.source == 'fs'
+                                    _ wizziProds.mTreeBuildUpScriptFs
+                                        _ path.join
+                                            @ config.ittfPath
+                                            @ artifactRequest.ittfDocument.path as string
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param mTreeBuildUpScript
+                                                _ sendSuccess
+                                                    @ response
+                                                    @ mTreeBuildUpScript
+                                        v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTreeBuildUpScript.wizziProds.mTreeBuildUpScriptFs )
+                                elif artifactRequest.ittfDocument.source == 'packi'
+                                    _ wizziProds.mTreeBuildUpScript
+                                        @ artifactRequest.ittfDocument.mainIttf as string
+                                        @ artifactRequest.ittfDocument.packiFiles as packiTypes.PackiFiles
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param mTreeBuildUpScript
+                                                    :any
+                                                _ sendSuccess
+                                                    @ response
+                                                    @ mTreeBuildUpScript
+                                        v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTreeBuildUpScript.wizziProds.mTreeBuildUpScript )
+                                elif artifactRequest.ittfDocument.source == 'db'
+                                    _ wizziProds.mTreeBuildUpScriptDb
+                                        @ artifactRequest.ittfDocument.mainIttf as string
+                                        @ artifactRequest.ittfDocument.path as string
+                                        @ context
+                                        ._ then
+                                            =>
+                                                param mTreeBuildUpScript
+                                                    :any
+                                                _ sendSuccess
+                                                    @ response
+                                                    @ mTreeBuildUpScript
+                                        v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTreeBuildUpScript.wizziProds.mTreeBuildUpScriptDb )
+                                else
+                                    _ sendError
+                                        @ response
+                                        {
+                                            { err
+                                                @ message "Invalid artifactRequest.ittfDocument.source: " + artifactRequest.ittfDocument.source
+                            else
+                                _ sendError
+                                    @ response
+                                    {
+                                        { err
+                                            @ message "Invalid artifactRequest"
+                    v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTreeBuildUpScript.resolveContexts )
+            v08/ts/handler${'('} mTreeScan
+                const artifactRequest
+                    :ref ArtifactRequest
+                    = request.body
+                if artifactRequest.ittfDocument
+                    var rootFolder = artifactRequest.ittfDocument.rootFolder || ''
+                    if artifactRequest.ittfDocument.source == 'fs'
+                        _ wizziProds.scanIttfDocumentFs
+                            _ path.join
+                                @ config.ittfPath
+                                @ artifactRequest.ittfDocument.path as string
+                            @ rootFolder
+                            ._ then
+                                =>
+                                    param mTreeScan
+                                    _ sendSuccess
+                                        @ response
+                                        {
+                                            @ mTreeScan mTreeScan
+                            v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTreeScan.wizziProds.mTreeScanFs )
+                    elif artifactRequest.ittfDocument.source == 'packi'
+                        var rootFolder = artifactRequest.ittfDocument.rootFolder || ''
+                        _ wizziProds.scanIttfDocument
+                            @ artifactRequest.ittfDocument.mainIttf as string
+                            @ artifactRequest.ittfDocument.packiFiles as packiTypes.PackiFiles
+                            @ rootFolder
+                            ._ then
+                                =>
+                                    param mTreeScan
+                                        :any
+                                    _ sendSuccess
+                                        @ response
+                                        {
+                                            @ mTreeScan mTreeScan
+                            v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTreeScan.wizziProds.mTreeScan )
+                    elif artifactRequest.ittfDocument.source == 'db'
+                        var rootFolder = artifactRequest.ittfDocument.rootFolder || ''
+                        _ wizziProds.scanIttfDocumentDb
+                            @ artifactRequest.ittfDocument.mainIttf as string
+                            @ artifactRequest.ittfDocument.path as string
+                            @ rootFolder
+                            ._ then
+                                =>
+                                    param mTreeScan
+                                        :any
+                                    _ sendSuccess
+                                        @ response
+                                        {
+                                            @ mTreeScan mTreeScan
+                            v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTreeScan.wizziProds.mTreeScanDb )
+                    else
+                        _ sendFailure
+                            @ response
+                            {
+                                { err
+                                    @ message 'Invalid artifactRequest.ittfDocument.source ' + artifactRequest.ittfDocument.source
+                            @ 501
+                else
+                    _ sendError
+                        @ response
+                        {
+                            { err
+                                @ message "Invalid artifactRequest"
+
+            v08/ts/handler${'('} wrapIttfText )
+                _ wizziProds.wrapIttfText
+                    @ request.body.schema
+                    @ request.body.ittfText
+                    ._ then
+                        =>
+                            param wrappedIttfText
+                                :string
+                            _ sendSuccess
+                                @ response
+                                {
+                                    @ wrappedIttfText wrappedIttfText
+                    v08/ts/catch_send_error${'('} ${'$'}{myname}.handler.mTreeScan.wizziProds.wrapIttfText )
+            v08/ts/handler${'('} metaExecute )
+                throw new Error("${'$'}{myname}.handler.metaExecute not implemented")

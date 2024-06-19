@@ -32,7 +32,7 @@ $group
                                                     {
                                                         @ content result.mTreeBuildUpScript
                                                         @ contentLength result.mTreeBuildUpScript.length
-                                                        @ contentType wizziMaps.contentTypeFor('x.ittf.ittf')
+                                                        @ contentType 'text/plain'
                                                 return resolve(response)
                                         v08/ts/catch_reject${'('} getArtifactMTreeBuildUpScript.mTree )
                                             set err.parameter
@@ -83,7 +83,7 @@ $group
                                                     {
                                                         @ content result.mTreeBuildUpScript
                                                         @ contentLength result.mTreeBuildUpScript.length
-                                                        @ contentType wizziMaps.contentTypeFor('x.ittf.ittf')
+                                                        @ contentType 'text/plain'
                                                 return resolve(response)
                                         v08/ts/catch_reject${'('} getArtifactMTreeBuildUpScript.mTree )
                                             set err.parameter

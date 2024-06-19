@@ -17,14 +17,14 @@ $group
                             @ rateLimit true
                             @ jwksRequestsPerMinute 5
                             @ jwksUri
-                                `lit 
+                                `tag 
                                     + https://
                                     @ config.auth0Domain
                                     + /.well-known/jwks.json
                 # Validate the audience and the issuer.
                 @ audience config.auth0PackiApiId
                 @ issuer
-                    `lit 
+                    `tag 
                         + https://
                         @ config.auth0Domain
                         + /
@@ -65,7 +65,7 @@ $group
                                             @ message err_message
                             _ res.append
                                 @ 'WWW-Authenticate'
-                                `lit 
+                                `tag 
                                     + Bearer scope="
                                     _ expectedScopes.join(' ')
                                     + ", error="

@@ -65,7 +65,7 @@ $group
                             else
                                 iif typeof value === 'string'
                                     then
-                                        `lit 
+                                        `tag 
                                             + "
                                             @ value
                                             + "

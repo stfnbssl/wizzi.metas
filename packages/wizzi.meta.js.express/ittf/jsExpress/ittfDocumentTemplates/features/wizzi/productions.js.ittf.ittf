@@ -131,7 +131,7 @@ $group
                         param reject
                         const pf = parseFilePath(filePath)
                         if pf.isIttfDocument && pf.schema !== 'json'
-                            var twinJsonPath = path.join(path.dirname(filePath), pf.seedname + '.json.ittf')
+                            var twinJsonPath = path.join(path.dirname(filePath), pf.seedName + '.json.ittf')
                             if fs.existsSync(twinJsonPath)
                                 _ loadModelFs(twinJsonPath, {}).then
                                     => 
@@ -188,10 +188,10 @@ $group
                     { 
                         @ isIttfDocument true
                         @ schema nameParts[nameParts.length - 2]
-                        @ seedname nameParts.slice(0, -2).join('.')
+                        @ seedName nameParts.slice(0, -2).join('.')
             else
                 return 
                     { 
                         @ isIttfDocument false
                         @ schema nameParts[nameParts.length - 1]
-                        @ seedname nameParts.slice(0, -1).join('.')
+                        @ seedName nameParts.slice(0, -1).join('.')

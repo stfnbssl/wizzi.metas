@@ -7,7 +7,7 @@ $group
             return Number.parseInt(id, 10)
         throw 
             new TypeError
-                `lit 
+                `tag 
                     + Invalid ':id' param: "
                     @ id
                     + "

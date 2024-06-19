@@ -1,0 +1,271 @@
+$group
+    import path from 'path'
+    import
+        @ verify
+        @ fSystem
+        from '@wizzi/utils'
+    import
+        @ WizziMetaRequest
+        @ WizziInMemoryMetaRef
+        from '../types'
+    import
+        @ wizziProds
+        @ wizziFactory
+        from '#/src/features/wizziProductions'
+    import
+        @ metaApi
+        from '#/src/features/wizziHubProductions'
+    import
+        @ packiTypes
+        from '#/src/features/packi'
+    const file = fSystem.vfile()
+    +
+    export
+        async-function getMetaParameters
+            param options
+                :ref WizziMetaRequest
+            r_promise${'('} )
+                const inMemoryMetas: WizziInMemoryMetaRef[] = options.inMemoryMetas || []
+                _ metaApi.getInMemoryMetaPlugins
+                    @ inMemoryMetas
+                    a_then_async${'('} inMemoryItems )
+                        log 'wizziMeta.getMetaParameters.inMemoryItems', Object.keys(inMemoryItems)
+                        let jsonwf
+                            await
+                                _ wizziFactory.createJsonFsAndFactory
+                                    { $$ :ref packiTypes.PackiFiles
+                                    @ null   $$ factoryPlugins
+                                    {
+                                        @ inMemoryItems inMemoryItems
+                                    { $$ globalContext
+                        # log 'wizziMeta.getMetaParameters.options', options
+                        const mpOptions = {} as any;
+                        if options.metaProductions
+                            set mpOptions.metaCtx = {}
+                            foreach prod in options.metaProductions
+                                if prod && prod.name && prod.name[0]
+                                    const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1)
+                                    set mpOptions.metaCtx[useProductionVar] = true
+                        _ jsonwf.wf.getMetaParameters
+                            @ mpOptions
+                            async=>
+                                param err
+                                param metaParameters
+                                if err
+                                    r_reject${'('} err )
+                                ${'$'}*
+                                _ console.log
+                                    _ JSON.stringify
+                                        @ metaParameters
+                                        @ null
+                                        @ 4
+                                *${'$'}
+                                const metaParametersObj
+                                    :{ 
+                                        :index 
+                                            :any 
+                                            param key
+                                                :string 
+                                    =
+                                        { 
+                                for var k in metaParameters
+                                    const parts = k.split('/')
+                                    if parts.length == 3 && parts[2] == 'index.json.ittf'
+                                        const mpName = parts[1]
+                                        if mpName
+                                            let mpObj = metaParametersObj[mpName]
+                                            if !mpObj
+                                                set mpObj = metaParametersObj[mpName] = {}
+                                            set mpObj.index = k
+                                            set mpObj.metaProductionName = mpName
+                                    if parts.length == 3 && parts[2] == 'globals.json.ittf'
+                                        const mpName = parts[1]
+                                        if mpName
+                                            let mpObj = metaParametersObj[mpName]
+                                            if !mpObj
+                                                set mpObj = metaParametersObj[mpName] = {}
+                                            set mpObj.globals = k
+                                            set mpObj.metaProductionName = mpName
+                                const metaParametersObjArray = Object.values(metaParametersObj)
+                                const jsonwf2
+                                    await
+                                        _ wizziFactory.createJsonFsAndFactory
+                                            @ metaParameters $$ :ref packiTypes.PackiFiles
+                                            @ null   $$ factoryPlugins
+                                            @ null   $$ metaPlugins
+                                            { $$ globalContext
+                                function generateJson
+                                    param count
+                                        :number
+                                    const mpObj = metaParametersObjArray[count] as any
+                                    if !mpObj
+                                        const result
+                                            {
+                                                @ metaParametersObj metaParametersObj
+                                                @ packiFiles metaParameters
+                                        r_resolve${'('} result )
+                                    if mpObj.index
+                                        _ jsonwf2.wf.loadModelAndGenerateArtifact
+                                            _ wizziFactory.ensurePackiFilePrefix
+                                                @ mpObj.index
+                                            {
+                                                @ modelRequestContext {}
+                                                @ artifactRequestContext {}
+                                            @ 'json/document'
+                                            a_cb_promise${'('} result)
+                                                set mpObj.parametersIndexObj = JSON.parse(result)
+                                                if mpObj.globals
+                                                    _ jsonwf2.wf.loadModelAndGenerateArtifact
+                                                        _ wizziFactory.ensurePackiFilePrefix
+                                                            @ mpObj.globals
+                                                        {
+                                                            @ modelRequestContext {}
+                                                            @ artifactRequestContext {}
+                                                        @ 'json/document'
+                                                        a_cb_promise${'('} result)
+                                                            set mpObj.parametersGlobalsObj = JSON.parse(result)
+                                                            _ generateJson
+                                                                @ count + 1
+                                                else
+                                                    _ generateJson
+                                                        @ count + 1
+                                    else
+                                        if mpObj.globals
+                                            _ jsonwf2.wf.loadModelAndGenerateArtifact
+                                                _ wizziFactory.ensurePackiFilePrefix
+                                                    @ mpObj.globals
+                                                {
+                                                    @ modelRequestContext {}
+                                                    @ artifactRequestContext {}
+                                                @ 'json/document'
+                                                a_cb_promise${'('} result)
+                                                    set mpObj.parametersGlobalsObj = JSON.parse(result)
+                                                    _ generateJson
+                                                        @ count + 1
+                                        else
+                                            _ generateJson
+                                                @ count + 1
+                                _ generateJson
+                                    @ 0
+                    catch_reject${'('} wizziMeta.getMetaParameters )
+    +
+    export
+        async-function getProvidedMetas
+            param options
+                :ref WizziMetaRequest
+            const jsonwf
+                await
+                    _ wizziFactory.createJsonFsAndFactory
+                        { $$ :ref packiTypes.PackiFiles
+                        @ null   $$ factoryPlugins
+                        @ null   $$ metaPlugins
+                        { $$ globalContext
+            r_promise${'('} )
+                log 'wizziMeta.getMetaProvides.options', options
+                _ jsonwf.wf.getProvidedMetas
+                    =>
+                        param err
+                        param providedMetas
+                        if err
+                            r_reject${'('} err )
+                        r_resolve${'('} providedMetas )
+    +
+    export
+        async-function executeMetaProduction
+            param options
+                :ref WizziMetaRequest
+            r_promise${'('} )
+                # log 'wizziMeta.executeMetaProduction.options', options
+                _ createMetaCtx
+                    @ options
+                    a_then${'('} metaCtx )
+                        # log 'wizziMeta.createWizziPackage.metaCtx', metaCtx
+                        var pluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages'
+                        var metaPluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.metas/packages'
+                        var globalContext = {}
+                        _ wizziProds.executeMetaProduction
+                            @ metaCtx
+                            @ undefined $$ tempFolder
+                            @ undefined $$ wizziFolder
+                            { $$ globalContext
+                            a_then${'('} packiFiles )
+                                _ persistPackageFiles
+                                    @ packiFiles
+                                    @ options
+                                a_then${'('} packiFiles )
+                                    r_resolve${'('} )
+                                        @ packiFiles
+                                catch_reject${'('} wizziMeta.executeMetaProduction.persistPackageFiles )
+                            catch_reject${'('} wizziMeta.executeMetaProduction.executeMetaProduction )
+                    catch_reject${'('} wizziMeta.executeMetaProduction.createMetaCtx )
+    +
+    export
+        async-function executeMetaProductionWithInMemoryPlugins
+            param options
+                :ref WizziMetaRequest
+            r_promise${'('} )
+                const inMemoryMetas: WizziInMemoryMetaRef[] = options.inMemoryMetas || []
+                _ metaApi.getInMemoryMetaPlugins
+                    @ inMemoryMetas
+                    a_then${'('} inMemoryItems )
+                        log 'wizziMeta.executeMetaProductionWithInMemoryPlugins.inMemoryItems', Object.keys(inMemoryItems)
+                        _ createMetaCtx
+                            @ options
+                            a_then${'('} metaCtx )
+                                # log 'wizziMeta.createWizziPackage.metaCtx', metaCtx
+                                var pluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.plugins/packages'
+                                var metaPluginsBaseFolder = 'C:/My/wizzi/stfnbssl/wizzi.metas/packages'
+                                var globalContext = {}
+                                _ wizziProds.executeMetaProduction
+                                    @ metaCtx
+                                    @ undefined $$ tempFolder
+                                    @ undefined $$ wizziFolder
+                                    { $$ globalContext
+                                    {
+                                        @ inMemoryItems inMemoryItems
+                                    a_then${'('} packiFiles )
+                                        _ persistPackageFiles
+                                            @ packiFiles
+                                            @ options
+                                        a_then${'('} packiFiles )
+                                            r_resolve${'('} )
+                                                @ packiFiles
+                                        catch_reject${'('} wizziMeta.executeMetaProduction.persistPackageFiles )
+                                    catch_reject${'('} wizziMeta.executeMetaProduction.executeMetaProduction )
+                            catch_reject${'('} wizziMeta.executeMetaProduction.createMetaCtx )
+    async-function createMetaCtx
+        param options
+            :ref WizziMetaRequest
+        r_promise${'('} )
+            if options.metaCtx
+                r_resolve${'('} )
+                    @ options.metaCtx
+            if verify.isEmpty(options.metaCtxFilepath)
+                r_reject${'('} )
+                    @ 'wizziMeta.createMetaCtx. Missing both metaCtx and metaCtxFilepath: ' + options.metaCtxFilepath
+            # log 'createMetaCtx.options.metaCtxFilepath', options.metaCtxFilepath
+            _ wizziProds.loadModelFs
+                @ options.metaCtxFilepath as string
+                {
+                    { metaCtx
+                        @ pkgName options.outputPackageName
+                        @ description options.description || options.outputPackageName
+                a_then${'('} metaCtx )
+                    r_resolve${'('} )
+                        @ metaCtx
+                catch_reject${'('} wizziMeta.createMetaCtx )
+    async-function persistPackageFiles
+        param packiFiles
+            :ref packiTypes.PackiFiles
+        param options
+            :ref WizziMetaRequest
+        r_promise${'('} )
+            if options.persist
+                if options.persist.type == 'filesystem'
+                    # TODO
+                    r_resolve${'('} packiFiles )
+                else
+                    r_reject${'('} )
+                        @ 'wizziMeta.persistPackageFiles. Unknown persist type: ' + options.persist.type
+            else
+                r_resolve${'('} packiFiles )

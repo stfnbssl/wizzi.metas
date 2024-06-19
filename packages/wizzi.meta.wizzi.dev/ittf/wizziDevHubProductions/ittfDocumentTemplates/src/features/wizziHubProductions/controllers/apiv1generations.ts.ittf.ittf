@@ -8,22 +8,20 @@ $group
     v08/ts/controller${'('} &ctrl )
         ${'$'}append imports
             import
-                @ wizziTypes
+                @ wizziProductionsTypes
                 @ wizziProds
                 @ wizziFactory
-                from '../../wizzi'
+                from '#/src/features/wizziProductions'
             import
                 @ artifactApi
-                from '../../packiProductions'
+                @ productionApi
+                from '#/src/features/wizziHubProductions'
             import
                 @ PackiFiles
-                from '../../packi/types'
+                from '#/src/features/packi/types'
             import
                 @ PackiProduction
                 from '../types'
-            import
-                @ productionApi
-                from '../../packiProductions'
             const myname = 'features/production/controllers/apiv1generations'
         v08/ts/route${'('} post, /mtree/:id, this.mTree)
         v08/ts/route${'('} post, /mtreescript/:id, this.mTreeBuildUpScript)
@@ -35,7 +33,9 @@ $group
         ${'$'}append handlers
             v08/ts/handler${'('} mTree )
                 const owner = (request.session as any).user.username
-                const id = request.params.id
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , id )
+                $$ VIA const id = request.params.id
                 const req_files
                     :ref PackiFiles
                     = request.body.packiFiles
@@ -73,7 +73,9 @@ $group
                     v08/ts/catch_send_fail${'('} features.production.controllers.productions.mTree.prepareProduction )
             v08/ts/handler${'('} mTreeBuildUpScript )
                 const owner = (request.session as any).user.username
-                const id = request.params.id
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , id )
+                $$ VIA const id = request.params.id
                 const req_files
                     :ref PackiFiles
                     = request.body.packiFiles
@@ -109,7 +111,9 @@ $group
                     v08/ts/catch_send_fail${'('} features.production.controllers.productions.mTreeBuildUpScript.prepareProduction )
             v08/ts/handler${'('} generateArtifact )
                 const owner = (request.session as any).user.username
-                const id = request.params.id
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , id )
+                $$ VIA const id = request.params.id
                 const req_files
                     :ref PackiFiles
                     = request.body.packiFiles
@@ -146,8 +150,10 @@ $group
                     v08/ts/catch_send_fail${'('} features.production.controllers.production.generateArtifact.prepareProduction )
             v08/ts/handler${'('} transformModel )
                 const owner = (request.session as any).user.username
-                const id = request.params.id
-                const transformer = request.params.transformer
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , id )
+                    rest/not-empty${'('} params , transformer )
+                $$ VIA const id = request.params.id
                 const req_files
                     :ref PackiFiles
                     = request.body.packiFiles

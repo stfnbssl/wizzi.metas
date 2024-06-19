@@ -1,0 +1,11 @@
+$group
+
+        $
+            var items = [
+                "setup.ts",
+            ]
+
+        $foreach item in items
+            $file __dot__wizzi/tests/${item}.ittf.ittf
+                module
+                    ${'$'}include tsReactViteAppStarter/tests/${item}

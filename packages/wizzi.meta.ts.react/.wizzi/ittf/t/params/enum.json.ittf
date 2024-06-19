@@ -6,4 +6,3 @@
     $hook extend
     [ enumValues
         $hook
-

@@ -34,7 +34,7 @@ $group
                     _ artifactApi.getArtifactGeneration_withPrepare
                         @ owner
                         @ packiConfigObj.meta.metaCtx.artifact.name
-                        @ null
+                        @ ""
                         @ progressiveContext
                         @ ""
                         ._ then

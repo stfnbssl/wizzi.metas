@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "apiv1wizzimeta.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziMeta/controllers/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDevMeta/src/features/wizziMeta/controllers/${item}

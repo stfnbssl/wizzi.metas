@@ -103,9 +103,11 @@ $group
                     $file __dot__wizzi/ittf/${prod.name}/ittfDocumentTemplates/${checkFolder(f.name)}/fileN.${f.schema}.ittf.ittf.ittf
                         ${'$'}{'$'}group
             
+        $*
         $file __dot__wizzi/ittf/${prod.name}/wzCtxSchemas/index.json.ittf.ittf
             {
                 ${'$'}include wizziMeta/ittf/ittfDocumentTemplates/wzCtxSchemas/index.json
+        *$
 
         $file __dot__wizzi/ittf/${prod.name}/metaCtxSchemas/index.json.ittf.ittf
             {

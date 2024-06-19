@@ -16,7 +16,7 @@ $group
                 import axios from 'axios'
                 import
                     @ userApi
-                    from '../../features/account'
+                    from '#/src/features/account'
 
                 const myname = 'site.controllers.account'
         

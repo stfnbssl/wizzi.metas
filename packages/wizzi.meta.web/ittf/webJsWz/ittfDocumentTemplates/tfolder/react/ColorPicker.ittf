@@ -22,7 +22,7 @@ $group
             const bgc
                 iif (this.state.alpha == 1)
                     then
-                        `lit 
+                        `tag 
                             + rgb(
                             @ this.state.red
                             + ,&nbsp;
@@ -31,7 +31,7 @@ $group
                             @ this.state.blue
                             + )
                     else
-                        `lit 
+                        `tag 
                             + rgba(
                             @ this.state.red
                             + ,&nbsp;

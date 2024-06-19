@@ -4,7 +4,7 @@ $group
     import
         @ fSystem
         @ verify
-        from 'wizzi-utils'
+        from '@wizzi/utils'
     import * as cp from 'child_process'
     $$ var robocopy = require('robocopy')
     $$ var powershell = require('node-powershell')

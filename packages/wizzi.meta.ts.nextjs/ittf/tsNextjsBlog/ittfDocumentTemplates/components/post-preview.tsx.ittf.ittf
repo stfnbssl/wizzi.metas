@@ -40,7 +40,7 @@ $group
                         @ className "text-3xl mb-3 leading-snug"
                         < Link 
                             @ as
-                                `lit 
+                                `tag 
                                     + /posts/
                                     @ slug
                                     + 

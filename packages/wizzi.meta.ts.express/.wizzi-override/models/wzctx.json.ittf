@@ -76,6 +76,17 @@
                 {
                     name "webapp"
         {
+            name "tsExpressAppLab"
+            title "tsExpressAppLab wizzi meta production"
+            isPackageMain true
+            [ categories
+                {
+                    name "typescript"
+                {
+                    name "express"
+                {
+                    name "webapp"
+        {
             name "tsExpressData"
             title "tsExpressData wizzi meta production"
             [ categories
@@ -343,4 +354,3 @@
                     name "wizzi"
                 {
                     name "view-engine"
-

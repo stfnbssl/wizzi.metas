@@ -1,0 +1,16 @@
+$group
+
+    $
+        var items = [
+            "appImports.ts",
+            "getInitValues.ts",
+            "initializeApp.ts",
+            "startImports.ts",
+            "startServices.ts",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/t/app/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsExpressAppLab/src/tfolder/app/${item}
+

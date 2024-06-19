@@ -31,10 +31,11 @@ $group
                     param reject
                     +
                     if packiConfig
+                        # TODO config.packiConfigPath shoul become constants.packiConfigPath
                         _ wizziProds.generateArtifact
-                            @ packiConfigPath
+                            @ config.packiConfigPath
                             {
-                                { [packiConfigPath]
+                                { [config.packiConfigPath]
                                     @ type packiConfig.type
                                     @ contents packiConfig.contents
                             @ progressiveContext
@@ -116,7 +117,7 @@ $group
                                 return
                                     _ next
                             ${'$'}$ loog myname, 'getTFoldersPackiFilesFromProductionData', 'getting tFolder', tfolder.name
-                            _ tFolderApi.getTFolder
+                            _ tFolderApi.getTFolderProduction
                                 @ owner
                                 @ tfolder.name
                                 ._ then
@@ -124,7 +125,7 @@ $group
                                         param result
                                             :ref CRUDResult
                                         const tf
-                                            :ref productionTypes.ITFolderModel
+                                            :ref productionTypes.ITFolderProductionModel
                                             = result.item
                                         const tf_packiFiles_object
                                             :ref packiTypes.PackiFiles

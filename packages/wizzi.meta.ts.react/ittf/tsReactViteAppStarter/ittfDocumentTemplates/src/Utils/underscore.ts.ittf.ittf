@@ -1,0 +1,190 @@
+$group
+
+    
+    export 
+        function isString
+            param val
+                :any
+            :return
+                :boolean
+            return typeof val === "string"
+
+    export 
+        function isArray
+            param val
+                :any
+            :return
+                :boolean
+            return Array.isArray ? Array.isArray(val) : toString.call(val) === '[object Array]'
+    export 
+        function isObject
+            param val
+            param val
+                :any
+            :return
+                :boolean
+            return val != null && typeof val === 'object' && Array.isArray(val) === false
+    export 
+        function makeString
+            param object
+                :any
+            if object == null 
+                return ''
+            return '' + object;    
+        # https://github.com/esamattis/underscore.string/blob/master/helper/makeString.js
+            
+    export 
+        function capitalize
+            param str
+                :string
+            param lowercaseRest
+                :boolean
+                :optional
+            set str = makeString(str)
+            var remainingChars = !lowercaseRest ? str.slice(1) : str.slice(1).toLowerCase()
+            return str.charAt(0).toUpperCase() + remainingChars  
+        # https://github.com/esamattis/underscore.string/blob/master/helper/capitalize.js        
+    export 
+        function debounce
+            param func
+                :ref Function
+            param wait
+                :number
+            param immediate
+                :boolean
+                :optional
+            let timeout
+            let previous
+                :number
+            let args
+            let result
+            let context
+            var later
+                function 
+                    var passed = now() - previous
+                    if wait > passed
+                        set timeout = setTimeout(later, wait - passed)
+                    else
+                        set timeout = null
+                        if !immediate
+                            set result = func.apply(context, args)
+                        if !timeout
+                            set context = null
+            var debounced
+                _ restArguments
+                    function 
+                        param _args
+                        set context = this
+                        set args = _args
+                        set previous = now()
+                        if !timeout
+                            set timeout = setTimeout(later, wait)
+                            if immediate
+                                set result = func.apply(context, args)
+                        return result
+            set debounced.cancel =
+                function 
+                    _ clearTimeout(timeout)
+                    set context = null
+            return debounced
+        # https://underscorejs.org/docs/modules/debounce.html
+    export 
+        function now
+            :return
+                :number
+            return
+                || 
+                    + Date.now
+                    function 
+                        return new Date().getTime()
+    export 
+        function restArguments
+            param func
+                :ref Function
+            param startIndex
+                :number
+                :optional
+            set startIndex 
+                iif startIndex == null
+                    then func.length - 1
+                    else +startIndex
+            return 
+                function 
+                    let 
+                        decl length = Math.max(arguments.length - startIndex, 0)
+                        decl rest = Array(length)
+                        decl index = 0
+                    for ; index < length; index++
+                        set rest[index] = arguments[index + startIndex]
+                    switch startIndex
+                        case 0
+                            return func.call(this, rest)
+                        case 1
+                            return func.call(this, arguments[0], rest)
+                        case 2
+                            return func.call(this, arguments[0], arguments[1], rest)
+                    var args = Array(startIndex + 1)
+                    for ; index < startIndex; index++
+                        set args[index] = arguments[index]
+                    set args[startIndex] = rest
+                    return func.apply(this, args)
+    export 
+        function sortFilter
+            param items
+            param options
+                :{
+                    :p sort
+                        :{
+                            :p ascending
+                                :boolean
+                                :optional
+                            :p keyName
+                                :string
+                                :optional
+                    :p filter
+                        :{
+                            :p searchText
+                                :string
+                                :optional
+                            :p keyName
+                                :string
+                                :optional
+            let retval = items
+            if options.sort && options.sort.keyName && options.sort.keyName.length > 0
+                const
+                    {
+                        @ ascending
+                        @ keyName
+                    = options.sort
+                function getVal
+                    param item
+                    return keyName ? item[keyName] : item
+                set retval
+                    _ items.sort
+                        =>
+                            param a
+                            param b
+                            if getVal(a) > getVal(b)
+                                return ascending ? 1 : -1
+                            elif getVal(a) < getVal(b)
+                                return ascending ? -1 : 1
+                            else
+                                return 0
+            if options.filter
+                let
+                    {
+                        @ searchText
+                        @ keyName
+                    = options.filter
+                set searchText = searchText ? searchText.toLowerCase() : searchText
+                function getVal
+                    param item
+                    return keyName ? item[keyName] : item
+                set retval
+                    _ retval.filter
+                        =>
+                            param item
+                            if !searchText || searchText.length == 0
+                                return true
+                            return getVal(item) && getVal(item).toLowerCase().indexOf(searchText) > -1
+            return retval

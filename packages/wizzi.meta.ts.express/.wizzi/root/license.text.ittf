@@ -25,4 +25,3 @@ text
         THE SOFTWARE.
     $else
         $throw Property wzCtx.license.type = '${wzCtx.license.type}' not managed.
-

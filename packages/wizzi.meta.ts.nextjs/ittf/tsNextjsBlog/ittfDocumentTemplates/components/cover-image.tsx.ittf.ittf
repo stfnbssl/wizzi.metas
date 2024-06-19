@@ -22,7 +22,7 @@ $group
                 < Image 
                     @ src {src}
                     @ alt
-                        `lit 
+                        `tag 
                             + Cover Image for&nbsp;
                             @ title
                             + 
@@ -41,7 +41,7 @@ $group
                             then
                                 < Link 
                                     @ as
-                                        `lit 
+                                        `tag 
                                             + /posts/
                                             @ slug
                                             + 

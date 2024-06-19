@@ -120,7 +120,8 @@ $group
                     _ model
                         :param
                             :ref I${'$'}{md.Name}Model
-                        @ "${'$'}{md.Name}"
+                        @ "${'$'}{_.isNotEmpty(md.MongoName) ? md.MongoName : md.Name}"
+                        @ ${'$'}{md.Name}Schema
             return ${'$'}{md.name}Model
     +
     export 
@@ -137,7 +138,7 @@ $group
                                 _ model
                                     :param 
                                         :ref I${'$'}{md.Name}Model
-                                    @ '${'$'}{md.Name}'
+                                    @ "${'$'}{_.isNotEmpty(md.MongoName) ? md.MongoName : md.Name}"
                                     @ ${'$'}{md.Name}Schema
                     @ applyExtraSetup
                         =>

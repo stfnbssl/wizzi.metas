@@ -68,7 +68,7 @@ $group
                     then
                         { 
                             @ backgroundImage
-                                `lit
+                                `tag
                                     + url(
                                     @ icon
                                     + )

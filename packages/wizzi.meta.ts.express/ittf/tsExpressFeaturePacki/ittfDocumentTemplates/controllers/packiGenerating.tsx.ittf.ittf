@@ -16,7 +16,7 @@ $group
             import ReactDOMServer
                 from 'react-dom/server'
             import
-                @ wizziTypes
+                @ wizziProductionsTypes
                 @ wizziProds
                 @ WizziFactory
                 from '../../wizzi'
@@ -25,9 +25,9 @@ $group
                 @ metaApi
                 @ pluginApi
                 @ productionApi
-                from '../../packiProductions' 
+                from '#/src/features/wizziHubProductions' 
             import EditorDocument 
-                from '../../../pages/EditorDocument' 
+                from '#/src/pages/EditorDocument' 
             const myname = 'features/packi/controller/packiGenerating'
             +
             function renderPackiEditor

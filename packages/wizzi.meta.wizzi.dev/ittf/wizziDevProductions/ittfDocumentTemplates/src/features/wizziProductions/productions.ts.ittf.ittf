@@ -1,0 +1,90 @@
+$group
+    ${'$'}
+        var myname = 'features/wizzi/productions';
+    import path from 'path'
+    import fs from 'fs'
+    import stringify from 'json-stringify-safe'
+    import wizzi
+        @ constants
+        from '@wizzi/factory'
+    import
+        @ fSystem
+        @ ittfScanner
+        @ ittfGraph
+        @ verify
+        from '@wizzi/utils'
+    import
+        @ packiTypes
+        from '#/src/features/packi'
+    import
+        @ config
+        from '#/src/features/config'
+    $* 7/6/24
+    import
+        as wizziMaps
+        from './maps'
+    *$
+    import
+        @ createJsonFsAndFactory
+        @ ensurePackiFilePrefix
+        @ createFilesystemFactory
+        @ createFilesystemFactoryWithParameters
+        from './factory'
+    import
+        @ LoadModelOptions
+        @ GenerationOptions
+        @ GeneratedArtifact
+        @ WizziModelTypesRequest
+        @ WizziJobTypesRequest
+        @ TransformationOptions
+        @ TransformedModel
+        @ ExtraMetaProductionData
+        @ MetaExecuteRequest
+        from './types'
+    import
+        @ JsonFs
+        from '@wizzi/repo'
+    const myname = '${'$'}{myname}'
+    ${'$'}include productions/loadModel
+    ${'$'}include productions/mTreeBuildUpScript
+    ${'$'}include productions/mTree
+    ${'$'}include productions/generateArtifact
+    ${'$'}include productions/generateFolderArtifacts
+    ${'$'}include productions/generateWizziModelTypes
+    ${'$'}include productions/transformModel
+    ${'$'}include productions/executeMetaProduction
+    ${'$'}include productions/metaGenerate
+    ${'$'}include productions/executeJob
+    ${'$'}include productions/inferAndLoadContext
+    ${'$'}include productions/scanIttfDocument
+    ${'$'}include productions/wizzify
+    ${'$'}include productions/getCodeAST
+    ${'$'}include productions/loadSiteJsonModel
+    function jsonFsToPackiFiles
+        param jsonFs
+            :ref JsonFs
+        param folder
+            :string
+        :return
+            :ref Promise
+                :param
+                    :ref packiTypes.PackiFiles
+        r_promise${'('} )
+            const packiFiles
+                :ref packiTypes.PackiFiles
+                {
+            _ jsonFs.toFiles
+                {
+                    @ removeRoot constants.packiFilePrefixExtract
+                a_reject${'('} files, :ref, fSystem.FileDef[])
+                    _ files.forEach
+                        =>
+                            param file
+                            if file.relPath.startsWith(folder + '/')
+                                set packiFiles[file.relPath] =
+                                    {
+                                        @ type 'CODE'
+                                        @ contents file.content || ""
+                                        @ generated true
+                    _ resolve
+                        @ packiFiles

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: json:/___template/wizzi.config.lastsafe.js.ittf
-    utc time: Wed, 22 May 2024 18:09:37 GMT
+    utc time: Tue, 11 Jun 2024 16:15:00 GMT
 */
 'use strict';
 const path = require('path');
@@ -31,4 +31,3 @@ module.exports = {
         wzConfigIsDocumentation: true
      }
  };
-

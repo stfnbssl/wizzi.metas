@@ -1,0 +1,78 @@
+$group
+    import
+        @ packiTypes
+        from '#/src/features/packi'
+    import
+        @ wizziProductionsTypes
+        from '#/src/features/wizziProductions'
+    +
+    export
+        :type WizziProductionRef
+            :{
+                :p kind
+                    :string
+                :p name
+                    :string
+                :p apiURL
+                    :string
+    +
+    export    
+        :type WizziInMemoryMetaRef
+            :{
+                :p owner
+                    :string
+                :p name
+                    :string
+    export
+        :type WizziMetaPersistence
+            :{
+                :p type
+                    :string
+                    :optional
+                :p folderPath
+                    :string
+                    :optional
+                :p packageOwner
+                    :string
+                    :optional
+                :p packageName
+                    :string
+                    :optional
+    export
+        :type WizziMetaRequest
+            :{
+                :p description
+                    :string
+                    :optional
+                :p metaPlugins
+                    :[
+                        :string
+                    :optional
+                :p factoryPlugins
+                    :[
+                        :string
+                    :optional
+                ${'$'}$ TODO metaProductions VIA replaced by inMemoryMetas
+                :p metaProductions
+                    :[
+                        :ref wizziProductionsTypes.ExtraMetaProductionData
+                    :optional
+                :p inMemoryMetas
+                    :[
+                        :ref WizziInMemoryMetaRef
+                    :optional
+                :p metaCtx
+                    :any
+                    :optional
+                :p metaCtxFilepath
+                    :string
+                    :optional
+                :p metaCtxRef
+                    :ref WizziProductionRef
+                    :optional
+                :p outputPackageName
+                    :string
+                    :optional
+                :p persist
+                    :ref WizziMetaPersistence
+                    :optional

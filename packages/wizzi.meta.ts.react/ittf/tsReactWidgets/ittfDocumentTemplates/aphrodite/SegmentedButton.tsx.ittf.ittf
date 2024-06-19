@@ -88,7 +88,7 @@ $group
                     @ flexDirection 'row'
                     @ width '100%'
                     @ boxShadow
-                        `lit 
+                        `tag 
                             + inset 0 0 0 1px&nbsp;
                             _ c('border')
                             + 

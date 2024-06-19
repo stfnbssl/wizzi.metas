@@ -1,6 +1,7 @@
 $group
     $include wizziHubProductions_api
-    $include wizziHubProductions_controllers
+    $if metaCtx.useTsExpress
+        $include wizziHubProductions_controllers
     $include wizziHubProductions_mongo
 
     $

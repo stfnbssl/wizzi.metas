@@ -5,6 +5,7 @@ $group
     $
         var items = [
             "downloads.ts",
+            "fsrepo.ts",
             "uploads.ts",
         ]
 

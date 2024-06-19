@@ -1,7 +1,7 @@
 $group
     +
     export
-        async-function getJob_withCache
+        async-function getJobProduction_withCache
             param owner
                 :string
             param name
@@ -12,15 +12,15 @@ $group
                     =>
                         param resolve
                         param reject
-                        ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
-                            let tfValue = jobProductionCache.get(cacheKey)
-                            if tfValue
-                                return resolve(tfValue)
+                        ${'$'}if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                            let jpValue = jobProductionCache.get(cacheKey)
+                            if jpValue
+                                return resolve(jpValue)
                         ${'$'}else
-                            let tfValue
+                            let jpValue
                                 {
                                     { packiFiles
-                        _ getJob
+                        _ getJobProduction
                             @ owner
                             @ name
                             ._ then
@@ -28,19 +28,19 @@ $group
                                     param result
                                     if !result.ok
                                         return reject(result)
-                                    const tf
-                                        :ref IJobModel
+                                    const jp
+                                        :ref IJobProductionModel
                                         = result.item
-                                    const tf_packiFiles_object
+                                    const jp_packiFiles_object
                                         :ref packiTypes.PackiFiles
-                                        _ JSON.parse(tf.packiFiles)
-                                    set tfValue
+                                        _ JSON.parse(jp.packiFiles)
+                                    set jpValue
                                         {
-                                            @ packiFiles tf_packiFiles_object
-                                    ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
-                                        _ jobProductionCache.set(cacheKey, tfValue)
-                                    return resolve(tfValue)
-                            v08/ts/catch_reject${'('} getJob_withCache.getArtifactProduction )
+                                            @ packiFiles jp_packiFiles_object
+                                    ${'$'}if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                                        _ jobProductionCache.set(cacheKey, jpValue)
+                                    return resolve(jpValue)
+                            v08/ts/catch_reject${'('} getJobProduction_withCache.getJobProduction )
     +
     export
         function invalidateCache
@@ -50,4 +50,4 @@ $group
                 :string
                 :optional
             var cacheKey = owner + '|' + name
-            _ jobCache.del(cacheKey)
+            _ jobProductionCache.del(cacheKey)

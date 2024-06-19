@@ -67,7 +67,7 @@ $group
             v08/ts/handler${'('} create )
                 if request.body.id
                     _ response.status(400).send
-                        `lit 
+                        `tag 
                             + Bad request: ID should not be provided, since it is determined automatically by the database.
                 _ Get${'$'}{tb.Name}Model().create(request.body)
                     ._ then

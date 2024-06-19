@@ -8,7 +8,7 @@ $group
         from '@wizzi/factory'
     import 
         @ ConfigType
-        from '../../features/config'
+        from '#/src/features/config'
     ${'$'}if wzCtx.Build.useWizzi && wzCtx.Build.wizzi.useRunner
         import wizzifile from './wizzifile'
     export-default 

@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.react\.wizzi-override\root\index.js.ittf
-    utc time: Wed, 22 May 2024 18:10:59 GMT
+    utc time: Tue, 11 Jun 2024 20:01:08 GMT
 */
 'use strict';
 
@@ -28,6 +28,9 @@ var pluginCategories = [
              }, 
             {
                 name: "tsReactApp"
+             }, 
+            {
+                name: "tsReactViteAppStarter"
              }, 
             {
                 name: "tsReactAssets"
@@ -93,6 +96,9 @@ var pluginCategories = [
              }, 
             {
                 name: "tsReactApp"
+             }, 
+            {
+                name: "tsReactViteAppStarter"
              }, 
             {
                 name: "tsReactAssets"
@@ -174,6 +180,25 @@ var pluginMetaProductions = [
              }, 
             {
                 name: 'react'
+             }, 
+            {
+                name: 'app'
+             }
+        ]
+     }, 
+    {
+        name: 'tsReactViteAppStarter', 
+        title: 'tsReactViteAppStarter wizzi meta production', 
+        isPackageMain: true, 
+        categories: [
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'vite'
              }, 
             {
                 name: 'app'
@@ -513,7 +538,6 @@ class FactoryMeta {
         
         metaProduction = {};
         return this.getFolderTemplates(productionName, metaProduction, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -535,7 +559,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'folderTemplates');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -559,7 +582,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'ittfDocumentTemplates');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -583,7 +605,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'plainDocuments');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -607,7 +628,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'metaCtxSchema');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -630,7 +650,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'wzCtxSchema');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -657,7 +676,6 @@ class FactoryMeta {
     getMetaProductionStarter(options, callback) {
         
         async.map(pluginMetaProductions, (prod, callback) => {
-        
             const prodName = prod.name;
             if (options && options.metaCtx) {
                 const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1);
@@ -667,7 +685,6 @@ class FactoryMeta {
                 console.log("[32m%s[0m", 'using meta production', useProductionVar);
             }
             this.getMetaProduction(prodName, (err, metaProduction) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -676,7 +693,6 @@ class FactoryMeta {
             )
         }
         , (err, metaProductions) => {
-        
             const result = {};
             var i, i_items=metaProductions, i_len=metaProductions.length, mp;
             for (i=0; i<i_len; i++) {
@@ -722,7 +738,6 @@ class FactoryMeta {
         
         metaContextDefs = {};
         return this.getTParams(productionName, metaContextDefs, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -742,7 +757,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', 't', 'params');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -766,7 +780,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'metaCtxSchemas');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -793,7 +806,6 @@ class FactoryMeta {
     getMetaContextDefsStarter(options, callback) {
         
         async.map(pluginMetaProductions, (prod, callback) => {
-        
             if (options && options.metaCtx) {
                 const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1);
                 if (!options.metaCtx[useProductionVar]) {
@@ -802,7 +814,6 @@ class FactoryMeta {
                 console.log('getMetaContextDefsStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar], __filename);
             }
             this.getMetaContextDefs(prod.name, (err, metaContextDefs) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -811,7 +822,6 @@ class FactoryMeta {
             )
         }
         , (err, metaContextDefs) => {
-        
             const result = {};
             var i, i_items=metaContextDefs, i_len=metaContextDefs.length, mp;
             for (i=0; i<i_len; i++) {
@@ -845,7 +855,6 @@ function createPackifilesFromFs(folderPath, callback) {
         deep: true, 
         documentContent: true
      }, (err, files) => {
-    
         if (err) {
             return callback(err);
         }
@@ -881,7 +890,6 @@ module.exports = {
     createMetaPlugin: function(options, callback) {
         var meta = new FactoryMeta(this.provides);
         meta.initialize(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

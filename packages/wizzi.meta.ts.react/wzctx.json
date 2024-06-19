@@ -100,6 +100,25 @@
             ]
         },
         {
+            "name": "tsReactViteAppStarter",
+            "title": "tsReactViteAppStarter wizzi meta production",
+            "isPackageMain": true,
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "react"
+                },
+                {
+                    "name": "vite"
+                },
+                {
+                    "name": "app"
+                }
+            ]
+        },
+        {
             "name": "tsReactAssets",
             "title": "tsReactAssets wizzi meta production",
             "categories": [

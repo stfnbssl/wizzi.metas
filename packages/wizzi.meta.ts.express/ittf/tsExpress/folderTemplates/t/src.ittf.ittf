@@ -1,0 +1,5 @@
+$group
+
+    $include src_tfolder
+    $include src_pages
+    $include src_middlewares

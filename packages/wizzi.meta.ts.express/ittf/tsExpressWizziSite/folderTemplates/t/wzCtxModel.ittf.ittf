@@ -25,7 +25,7 @@ $group
                         { authentication
                     $if metaCtx.tsExpressWizziSite.usePackiProductions
                         usePackiProductions true
-                        { packiProductions
+                        { wizziHubProductions
                     $if metaCtx.tsExpressWizziSite.useWizziDocs
                         useWizziDocs true
                         { wizziDocs

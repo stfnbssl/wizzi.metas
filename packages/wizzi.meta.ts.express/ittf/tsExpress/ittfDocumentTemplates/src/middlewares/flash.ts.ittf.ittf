@@ -1,0 +1,29 @@
+$group
+    
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('express-flash', '^0.0.2');
+    
+    import 
+        @ Application
+        from 'express'
+    import 
+        as flash
+        from 'express-flash'
+    import 
+        @ MiddlewareType
+        from '#/src/features/app/types'
+    +
+    # Flash Messages for your Express Application. 
+    # Flash is an extension of connect-flash with the ability to define a flash message and render it without redirecting the request.
+    export 
+        const FlashMiddleware
+            :ref MiddlewareType
+            =
+                => 
+                    param app
+                        :ref Application
+                    _ app.use
+                        _ flash
+                            { 
+                    success 'FlashMiddleware installed'

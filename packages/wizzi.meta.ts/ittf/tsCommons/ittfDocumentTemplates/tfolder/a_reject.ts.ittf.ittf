@@ -10,7 +10,8 @@ $group
             ${'$'}else
                 :any
 		if err
-            return
+            ${'$'}hook onError
+			return
 				_ reject
 					@ err
 		${'$'}hook

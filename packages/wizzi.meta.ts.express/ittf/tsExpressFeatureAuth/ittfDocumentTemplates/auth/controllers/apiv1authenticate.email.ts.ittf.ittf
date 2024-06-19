@@ -14,7 +14,7 @@ $group
                 from 'express-validator'
             import
                 @ config
-                from '../../config'
+                from '#/src/features/config'
             import
                 @ commonMiddlewares
                 from '../../../common'
@@ -25,7 +25,7 @@ $group
             const myname = 'features.auth.controllers.apiv1authenticate.email'
 
         _ this.router.post
-            `lit 
+            `tag 
                 + /create-token
             [ 
                 @ body('email').isEmail()
@@ -34,7 +34,7 @@ $group
                 @ authMiddleware.verifyUserPassword
                 @ jwtApi.createJWT
         _ this.router.post
-            `lit 
+            `tag 
                 + /refresh-token
             [ 
                 @ jwtMiddleware.validJWTNeeded

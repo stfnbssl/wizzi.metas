@@ -35,19 +35,19 @@ $group
                 @ authorizationControllers
                 ${'$'}if wzCtx.Build.useMongoDb
                     @ authorizationModelBuilders
-                from './features/auth/index'
+                from '#/src/features/auth/index'
     
     ${'$'}if wzCtx.Build.useAccount
         import 
             @ accountControllers
             @ accountModelBuilders
-            from './features/account/index'
+            from '#/src/features/account/index'
     
     ${'$'}if wzCtx.Build.useBlog
         import 
             @ blogControllers
             @ blogModelBuilders
-            from './features/blog/index'
+            from '#/src/features/blog/index'
     
     ${'$'}if wzCtx.Build.useSite
         import 
@@ -58,12 +58,12 @@ $group
         ${'$'}if wzCtx.Build.wizzi.useControllers
             import 
                 @ wizziControllers
-                from './features/wizzi/index'
+                from '#/src/features/wizzi/index'
 
     ${'$'}if wzCtx.Build.useWizziIttf
         import 
             @ ittfApi
-            from './features/ittf/index'
+            from '#/src/features/ittf/index'
     
     ${'$'}if wzCtx.Build.features && wzCtx.Build.features.length > 0
         ${'$'}foreach feature in wzCtx.Build.features
@@ -73,7 +73,7 @@ $group
                         @ ${'$'}{feature.name}Controllers
                     ${'$'}if feature.useMongoDb
                         @ ${'$'}{feature.name}ModelBuilders
-                    from './features/${'$'}{feature.name}/index'
+                    from '#/src/featuresures/${'$'}{feature.name}/index'
     
     ${'$'}if wzCtx.Build.examples && wzCtx.Build.examples.length > 0
         ${'$'}foreach example in wzCtx.Build.examples

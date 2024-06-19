@@ -1,0 +1,24 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('helmet', '^7.1.0');
+
+    import 
+        @ Application
+        from 'express'
+    import helmet from 'helmet'
+    import 
+        @ MiddlewareType
+        from '#/src/features/app/types'
+    +
+    export 
+        const HelmetMiddleware
+            :ref MiddlewareType
+            =
+                => 
+                    param app
+                        :ref Application
+                    _ app.use
+                        _ helmet
+                    success 'HelmetMiddleware installed'

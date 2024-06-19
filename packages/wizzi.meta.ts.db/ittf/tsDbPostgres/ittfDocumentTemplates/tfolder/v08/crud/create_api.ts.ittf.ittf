@@ -53,7 +53,7 @@ $group
                     if error
                         throw error
                     _ response.status(201).send
-                        `lit 
+                        `tag 
                             + User added with ID:&nbsp;
                             @ results.rows[0].id
                             + 

@@ -1,0 +1,82 @@
+$group
+
+    import express from 'express'
+    
+    import 
+        @ ConfigType
+        from '#/src/features/config'
+    
+    $if metaCtx.tsExpressAppLab.useFilesystem
+        import 
+            @ fsTypes
+            from '#/src/features/filesystem'
+    
+    $if metaCtx.useTsDbMongoDb || metaCtx.useTsDbSequelize
+        :export-type ModelBuilderType
+            :{ 
+                :p buildModel
+                    :=> 
+                        :void 
+                        param options
+                            :any
+                            :optional
+                :p applyExtraSetup
+                    :=> 
+                        :void 
+                        param options
+                            :any
+                            :optional
+    
+    :export-type ApiType
+        :{ 
+            :p name
+                :string 
+            :p initialize
+                :=> 
+                    :void
+                    param app
+                        :ref express.Application
+                    param initValues
+                        :ref AppInitializerType
+
+    :export-type ControllerType
+        :{ 
+            :p path
+                :string 
+            :p router
+                :ref express.Router
+            :p initialize
+                :=> 
+                    :void 
+                    param app
+                        :ref express.Application
+                    param initValues
+                        :ref AppInitializerType
+
+    :export-type MiddlewareType
+        :=> 
+            :void 
+            param app
+                :ref express.Application
+    
+    :export-type AppInitializerType
+        :{ 
+            :p config
+                :ref ConfigType
+            :p globalApi
+                :any 
+            :p apis
+                :[ 
+                    :ref ApiType
+            :p controllers
+                :[ 
+                    :ref ControllerType
+            :p middlewaresPre
+                :[ 
+                    :ref MiddlewareType
+            :p middlewaresPost
+                :[ 
+                    :ref MiddlewareType
+            $if metaCtx.tsExpressAppLab.useFilesystem
+                :p fsDb
+                    :ref fsTypes.FsDb

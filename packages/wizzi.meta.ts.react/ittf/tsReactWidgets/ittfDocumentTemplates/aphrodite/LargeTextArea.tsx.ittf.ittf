@@ -60,7 +60,7 @@ $group
                     @ padding '12px 14px 12px 14px'
                     @ lineHeight '22px'
                     @ border
-                        `lit 
+                        `tag 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 

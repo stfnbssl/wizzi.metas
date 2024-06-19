@@ -30,6 +30,7 @@ $group
     v08/mongo/crud/create_api${'('} &md)
     v08/mongo/crud/update_api${'('} &md)
     v08/mongo/crud/delete_api${'('} &md)
+    merge_files_api${'('} &md)
     ${'$'}include package/cached_get_save
     ${'$'}include package/get_wizzi_meta_folder
     ${'$'}include package/artifact_generation

@@ -13,13 +13,13 @@ $group
     v08/ts/controller${'('} &ctrl )
         ${'$'}append imports
             import
-                @ wizziTypes
+                @ wizziProductionsTypes
                 @ wizziProds
                 @ WizziFactory
                 from '../../wizzi'
             import
                 @ artifactApi
-                from '../../packiProductions'
+                from '#/src/features/wizziHubProductions'
             import
                 @ PackiFiles
                 from '../../packi/types'
@@ -28,7 +28,7 @@ $group
                 from '../types'
             import
                 @ productionApi
-                from '../../packiProductions' 
+                from '#/src/features/wizziHubProductions' 
             const myname = 'features/production/controllers/apiv1generations'
         
         v08/ts/${routeApiFragment}${'('} post, /mtree/:id, this.mTree)

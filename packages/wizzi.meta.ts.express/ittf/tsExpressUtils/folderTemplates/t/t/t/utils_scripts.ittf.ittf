@@ -1,0 +1,25 @@
+$group
+
+   
+    $if metaCtx.tsExpressUtils.useScripts
+        $
+            var items = [
+                'scriptManager',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/utils/scripts/${item}.ts.ittf.ittf
+                module
+                    ${'$'}include tsExpressUtils/utils/scripts/${item}.ts
+
+        $
+            var items = [
+                'spawn',
+                'nodejs',
+                ];
+
+        $foreach item in items
+            $file __dot__wizzi/${pkgPath}src/utils/scripts/t/${item}.ts.ittf.ittf
+                ${'$'}{'$'}group
+                    ${'$'}include tsExpressUtils/utils/scripts/tfolder/${item}.ts
+

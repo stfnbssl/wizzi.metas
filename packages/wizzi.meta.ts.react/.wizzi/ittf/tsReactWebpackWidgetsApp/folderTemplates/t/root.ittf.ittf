@@ -4,4 +4,3 @@ $group
             ${'$'}include tsReactWebpackWidgetsApp/root/readme.md
     $file __dot__wizzi/root/license.text.ittf.ittf
         text
-

@@ -11,7 +11,7 @@ $group
         ${'$'}append imports
             import
                 @ config
-                from '../../config'
+                from '#/src/features/config'
             import axios from 'axios'
             const myname = 'features.auth.controllers.apiv1authenticate'
 

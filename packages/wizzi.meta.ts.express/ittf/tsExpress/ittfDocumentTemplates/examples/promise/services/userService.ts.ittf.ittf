@@ -28,7 +28,7 @@ $group
             param id
                 :string
             _ Promise.resolve
-                `lit 
+                `tag 
                     + /img/
                     @ id
                     + 

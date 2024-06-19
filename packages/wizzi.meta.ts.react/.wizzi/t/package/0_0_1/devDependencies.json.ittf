@@ -326,4 +326,3 @@ $group
     $if wzCtx.Build.useWebpack
         $if wzCtx.Build.webpack.useWorker
             worker-plugin "^5.0.0"
-

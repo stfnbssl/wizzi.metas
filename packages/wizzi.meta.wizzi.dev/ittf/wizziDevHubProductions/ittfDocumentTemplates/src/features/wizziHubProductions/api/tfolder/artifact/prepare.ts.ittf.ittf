@@ -89,7 +89,7 @@ $group
                             if !tfolder
                                 return resolve(retPackiFiles)
                             const parts = tfolder.path.split('/')
-                            _ tFolderApi.getTFolder
+                            _ tFolderApi.getTFolderProduction
                                 @ parts[0]
                                 @ parts.slice(1).join('/')
                                 ._ then
@@ -97,7 +97,7 @@ $group
                                         param result
                                             :ref CRUDResult
                                         const tf
-                                            :ref ITFolderModel
+                                            :ref ITFolderProductionModel
                                             = result.item
                                         const tf_packiFiles_object
                                             :ref packiTypes.PackiFiles
@@ -107,7 +107,7 @@ $group
                                                 @ retPackiFiles
                                                 @ tf_packiFiles_object
                                         _ next()
-                                v08/ts/catch_reject${'('} getFragmentsFromWizziJson.getTFolder )
+                                v08/ts/catch_reject${'('} getFragmentsFromWizziJson.getTFolderProduction )
     +
     export
         async-function getContextFromWizziJson

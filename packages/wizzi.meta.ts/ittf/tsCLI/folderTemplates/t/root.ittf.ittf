@@ -19,3 +19,9 @@ $group
         $file __dot__wizzi/root/${item}.ittf.ittf
             text
                 ${'$'}include tsCLI/root/${item}
+
+    $if metaCtx.tsCLI.useTranspiler
+        $if metaCtx.tsCLI.transpiler.name == "esbuild"
+            $file __dot__wizzi/root/build.js.ittf.ittf
+                module
+                    ${'$'}include tsCLI/root/build.js

@@ -2,7 +2,7 @@
     "name": "wizzi.meta.wizzi.dev",
     "npmName": "@wizzi/meta.wizzi.dev",
     "pluginBasename": "",
-    "version": "",
+    "version": "0.0.2",
     "description": "Wizzi meta plugin for creating wizzi wizzi development meta productions packages",
     "author": {
         "name": "Stefano Bassoli",
@@ -72,6 +72,15 @@
     ],
     "Productions": [
         {
+            "name": "wizziDev",
+            "title": "wizziDev wizzi meta production",
+            "categories": [
+                {
+                    "name": "wizzi"
+                }
+            ]
+        },
+        {
             "name": "wizziDevProductions",
             "title": "wizziDevProductions wizzi meta production",
             "categories": [
@@ -81,8 +90,8 @@
             ]
         },
         {
-            "name": "wizziDevPacki",
-            "title": "wizziDevPacki wizzi meta production",
+            "name": "wizziDevMeta",
+            "title": "wizziDevMeta wizzi meta production",
             "categories": [
                 {
                     "name": "wizzi"

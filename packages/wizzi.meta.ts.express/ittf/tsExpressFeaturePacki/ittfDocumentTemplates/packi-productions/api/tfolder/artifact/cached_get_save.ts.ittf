@@ -102,7 +102,7 @@ $group
                     => 
                         param resolve
                         param reject
-                        ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                        ${'$'}if wzCtx.Build.wizziHubProductions.useCachedProductions
                             let apValue = artifactProductionCache.get(cacheKey)
                             if apValue
                                 return resolve(apValue)
@@ -138,7 +138,7 @@ $group
                                                             { 
                                                                 @ mainIttf ap.mainIttf
                                                                 @ packiFiles ap_packiFiles_object
-                                                        ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                                                        ${'$'}if wzCtx.Build.wizziHubProductions.useCachedProductions
                                                             _ artifactProductionCache.set(cacheKey, apValue)
                                                         return resolve(apValue)
                                                     const tf
@@ -154,7 +154,7 @@ $group
                                                                 _ mergePackiFiles
                                                                     @ ap_packiFiles_object
                                                                     @ tf_packiFiles_object
-                                                    ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                                                    ${'$'}if wzCtx.Build.wizziHubProductions.useCachedProductions
                                                         _ artifactProductionCache.set(cacheKey, apValue)
                                                     return resolve(apValue)
                                             v08/ts/catch_reject${'('} getArtifactProduction_withCache.getTFolder )
@@ -163,7 +163,7 @@ $group
                                             { 
                                                 @ mainIttf ap.mainIttf
                                                 @ packiFiles ap_packiFiles_object
-                                        ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                                        ${'$'}if wzCtx.Build.wizziHubProductions.useCachedProductions
                                             _ artifactProductionCache.set(cacheKey, apValue)
                                         return resolve(apValue)
                             v08/ts/catch_reject${'('} getArtifactProduction_withCache.getArtifactProduction )

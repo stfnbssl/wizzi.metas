@@ -9,7 +9,7 @@ $group
                 { author
                     name "${metaCtx.author.name}"
                     email "${metaCtx.author.email}"
-            $if metaCtx.licence
+            $if metaCtx.license
                 { license
                     type "${metaCtx.license}"
                     url "${metaCtx.license_url}"            
@@ -28,6 +28,9 @@ $group
                 { mongoDb
                 useExpress false
                 { express
+                $if metaCtx.useWizziDev
+                    ${'$'}{'$'}include wizziDev.json
+                    ---
 
     $file __dot__wizzi/models/t/code.json.ittf.ittf
         ${'$'}{'$'}group

@@ -1,0 +1,9 @@
+$group
+    $if metaCtx.useTsReactViteAppStarter
+        $include wzCtxModel
+        $include generate
+        $include models
+        $include root
+        $include src
+        $include public
+        $include tests

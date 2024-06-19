@@ -68,7 +68,7 @@ $group
                     @ height 20
                     @ borderRadius 12
                     @ border
-                        `lit 
+                        `tag 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 

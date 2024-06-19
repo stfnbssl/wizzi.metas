@@ -89,7 +89,7 @@ $group
                     => 
                         param resolve
                         param reject
-                        ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                        ${'$'}if wzCtx.Build.wizziHubProductions.useCachedProductions
                             let ppValue = pluginProductionCache.get(cacheKey)
                             if ppValue
                                 return resolve(ppValue)
@@ -114,7 +114,7 @@ $group
                                     set ppValue
                                         { 
                                             @ packiFiles tf_packiFiles_object
-                                    ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
+                                    ${'$'}if wzCtx.Build.wizziHubProductions.useCachedProductions
                                         _ pluginProductionCache.set(cacheKey, ppValue)
                                     return resolve(ppValue)
                             v08/ts/catch_reject${'('} getPluginProduction_withCache.getArtifactProduction )

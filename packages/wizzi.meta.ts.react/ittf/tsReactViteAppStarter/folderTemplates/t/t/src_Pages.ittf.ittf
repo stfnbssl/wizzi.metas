@@ -1,0 +1,13 @@
+$group
+
+    $
+        var items = [
+            "Home.tsx",
+            "One.tsx",
+            "Two.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/Pages/${item}.ittf.ittf
+            module
+                ${'$'}include tsReactViteAppStarter/src/Pages/${item}

@@ -1,0 +1,83 @@
+$group
+    export
+        async-function executeMetaProduction
+            param metaCtx
+                :any
+            param tempFolder
+                :string
+                :optional
+            param wizziFolder
+                :string
+                :optional
+            param globalContext
+                :{
+                    :index
+                        :any
+                        param k
+                            :string
+                :optional
+            param metaPlugins
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref packiTypes.PackiFiles
+            set tempFolder = tempFolder || "___template"
+            set wizziFolder = wizziFolder || ".wizzi"
+            set globalContext = globalContext || {}
+            set metaPlugins = metaPlugins || {}
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        log myname, 'metaGenerate.metaCtx', Object.keys(metaCtx)
+                        let jsonwf
+                            :any
+                            =
+                                {
+                        try
+                            set jsonwf =
+                                await
+                                    _ createJsonFsAndFactory
+                                        { $$ :ref packiTypes.PackiFiles
+                                        @ null   $$ factoryPlugins
+                                        @ metaPlugins
+                                        { $$ globalContext
+                            set metaCtx.__wz_fsc = new wizzi.FactoryServiceContext()
+                            _ jsonwf.wf.executeMetaProduction
+                                {
+                                    @ metaCtx metaCtx
+                                    { paths
+                                        @ metaProductionTempFolder tempFolder
+                                        @ metaProductionWizziFolder wizziFolder
+                                    @ globalContext
+                                a_reject${'('} wizziPackiFiles, :ref, packiTypes.PackiFiles)
+                                    ${'$'}append onError
+                                        _ metaCtx.__wz_fsc.dumpDebugObjects
+                                            {
+                                                @ kind 'packi'
+                                                @ destFolder
+                                                    _ path.join
+                                                        @ __dirname
+                                                        @ '..'
+                                                        @ '..'
+                                                        @ '..'
+                                                        @ 'dumps'
+                                                        @ 'packi'
+                                    _ metaCtx.__wz_fsc.dumpDebugObjects
+                                        {
+                                            @ kind 'packi'
+                                            @ destFolder
+                                                _ path.join
+                                                    @ __dirname
+                                                    @ '..'
+                                                    @ '..'
+                                                    @ '..'
+                                                    @ 'dumps'
+                                                    @ 'packi'
+                                    _ resolve
+                                        @ wizziPackiFiles
+                        catch ex
+                            return reject(ex)

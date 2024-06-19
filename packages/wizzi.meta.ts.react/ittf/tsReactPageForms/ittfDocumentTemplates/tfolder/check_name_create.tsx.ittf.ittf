@@ -18,7 +18,7 @@ $group
             = this.props.data
         const ${'$'}{prefix}_checked = this.state.${'$'}{prefix}_name
         const endpoint
-            `lit
+            `tag
                 _ nullthrows(process.env.API_SERVER_URL)
                 + /production/artifact/checkname/
                 @ encodeURIComponent(owner)
@@ -31,7 +31,7 @@ $group
         if !response.ok
             throw 
                 new Error
-                    `lit 
+                    `tag 
                         + checkAvalible${'$'}{Prod}Name error
                         + &nbsp;-&nbsp;
                         @ response.status

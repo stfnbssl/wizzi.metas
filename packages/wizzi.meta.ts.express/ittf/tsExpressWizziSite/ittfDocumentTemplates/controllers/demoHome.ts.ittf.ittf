@@ -10,7 +10,7 @@ $group
     v08/ts/controller${'('} &ctrl )
         
         _ this.router.get
-            `lit 
+            `tag 
                 + /
             @ this.home
 

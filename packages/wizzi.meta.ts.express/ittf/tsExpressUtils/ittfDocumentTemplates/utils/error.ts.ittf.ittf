@@ -17,7 +17,14 @@ $group
     const SYSTEM_ERROR = 4002
     const SEND_EMAIL_ERROR = 4003
     let errorMap
-        { 
+        :{
+            :index
+                :any
+                param k
+                    :string
+        =
+            { 
+
     set errorMap[MISSING_REQUIRED_FIELDS] = "Missing required field(s)"
     set errorMap[MISSING_EMAIL] = "Missing email"
     set errorMap[MISSING_FULLNAME] = "Missing fullname"

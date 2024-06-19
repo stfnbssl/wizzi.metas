@@ -1,0 +1,97 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('diff-match-patch', '^1.0.5');
+        setCtxDevDep ('@types/diff-match-patch', '^1.0.36');
+    
+    import DiffMatchPatch from 'diff-match-patch'
+    import
+        @ PackiFiles
+        from '../types'
+
+    export
+        function clonePackiFiles
+            param packiFiles
+                :ref PackiFiles
+            param filters
+                :[ 
+                    :string
+            set filters = filters || []
+            +
+            function isOk
+                param filename
+                    :string
+                if filters.length == 0
+                    return true
+                foreach filter in filters
+                    if filter && filename.startsWith(filter)
+                        return true
+                return false
+            +
+            const retval: PackiFiles = {} 
+            for var k in packiFiles
+                const pf = packiFiles[k]
+                if pf && isOk(k)
+                    set retval[k] = pf
+            return retval
+
+    export
+        function extractPackiFileContent
+            param packiFiles
+                :ref PackiFiles
+            param filePath
+                :string 
+            param options
+                :any
+            # log "extractPackiFileContent.packiFiles 1", packiFiles
+            # log "extractPackiFile.filePath", filePath
+            const pf
+              _ extractPackiFile
+                @ packiFiles
+                @ filePath
+            # 'extractPackiFile.pf", pf
+            const retval
+                :{ 
+                    :index 
+                        :any 
+                        param key
+                            :string 
+                =
+                    {
+                        @ text (pf && pf.contents) || (options.json ? '{}' : '')
+                        @ json null
+            if options.json
+              try
+                set retval.json = pf && JSON.parse(pf.contents) || {}
+                # log "extractPackiFile.pf.contents json", retval.json
+              catch err
+                error "Error in extractPackiFileContent parsing packiFile contents", err
+                # TODO
+                set retval.json = {}
+            return retval
+
+    export
+        function extractPackiFile
+            param packiFiles
+                :ref PackiFiles
+            param filePath
+                :string
+            const pfs
+              _ packiFilesToObject
+                @ packiFiles
+            return pfs[filePath] 
+
+    export
+        function packiFilesToObject
+            param packiFiles
+                :any
+            if typeof packiFiles === "string"
+                try
+                    return JSON.parse(packiFiles)
+                catch err
+                    error "packiFilesToObject", err
+                    # TODO
+                    return {}
+            else
+                return packiFiles

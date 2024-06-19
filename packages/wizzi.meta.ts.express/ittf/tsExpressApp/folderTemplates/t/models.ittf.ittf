@@ -11,7 +11,7 @@ $group
                 { author
                     name "${metaCtx.author.name}"
                     email "${metaCtx.author.email}"
-            $if metaCtx.licence
+            $if metaCtx.license
                 { license
                     type "${metaCtx.license}"
                     url "${metaCtx.license_url}"            
@@ -72,12 +72,6 @@ $group
                                 name "packiStudioFolderEdit"
                                 hasControllers true
                                 useMongoDb false
-                        $if metaCtx.tsExpressFeaturePacki.usePackiProductions
-                            {
-                                name "packiProductions"
-                                fileName "packi-productions"
-                                hasControllers true
-                                useMongoDb true
                     $if metaCtx.useTsExpressFeatureProject
                         {
                             name "project"

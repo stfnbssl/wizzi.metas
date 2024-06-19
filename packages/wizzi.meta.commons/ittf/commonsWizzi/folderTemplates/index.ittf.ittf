@@ -6,4 +6,4 @@ $group
         $include __wizzi.config
         $include __wizzi.config.override
         $include __wizzi.config.lastsafe
-        $include tfolder/wfjobs
+        $include tfolder

@@ -46,7 +46,7 @@ $group
                                 :ref InjectedProps
                 p displayName
                     static
-                    `lit 
+                    `tag 
                         + withTheme(
                         @ Comp.displayName ?? Comp.name
                         + )

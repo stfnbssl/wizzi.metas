@@ -7,4 +7,3 @@ $group
             error 'err', err
             throw err
         $hook
-

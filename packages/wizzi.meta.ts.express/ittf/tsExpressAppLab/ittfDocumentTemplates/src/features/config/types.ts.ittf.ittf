@@ -1,0 +1,23 @@
+$group
+
+    export 
+        :type ConfigType
+            :{ 
+                ${'$'}if $.getCtx('env.values')
+                    ${'$'}foreach item in Object.values($.getCtx('env.values'))
+                        :p ${'$'}{item.property}
+                            ${'$'}if item.checker == 'str'
+                                :string
+                            ${'$'}elif item.checker == 'bool'
+                                :boolean
+                            ${'$'}elif item.checker == 'port'
+                                :number
+                            ${'$'}elif item.checker == 'number'
+                                :number
+                $if metaCtx.tsExpressAppLab.useMongoDb
+                    :p mongoConnectUrl
+                        :string
+                $if _.isArray(metaCtx.App.configValues)
+                    $foreach item in metaCtx.App.configValues
+                        :p ${item.name}
+                            :${item.type}

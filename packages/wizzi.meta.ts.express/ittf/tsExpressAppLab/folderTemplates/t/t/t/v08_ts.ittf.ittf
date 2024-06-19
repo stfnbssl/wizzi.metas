@@ -1,0 +1,33 @@
+$group
+
+    $
+        var items = [
+            'authHandler',
+            'catch_error_page',
+            'catch_fail_html',
+            'catch_fail',
+            'catch_reject',
+            'catch_send_fail',
+            'catch_send_error',
+            'else_send_fail',
+            'else_send_error',
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/t/v08/ts/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsExpressAppLab/tfolder/v08/ts/${item}.ts
+
+    $
+        var items = [
+            'controller',
+            'handler',
+            'route',
+            'route_api_secured',
+            'route_web_secured',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}/t/v08/ts/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsExpressAppLab/tfolder/v08/ts/${item}.ts

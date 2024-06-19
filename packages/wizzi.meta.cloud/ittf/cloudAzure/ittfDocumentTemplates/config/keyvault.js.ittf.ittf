@@ -17,7 +17,7 @@ $group
             const credential = new DefaultAzureCredential()
                 # Build the URL to reach your key vault
             const url
-                `lit 
+                `tag 
                     + https://
                     @ keyVaultName
                     + .vault.azure.net
@@ -30,7 +30,7 @@ $group
                         _ client.getSecret(secretName)
                     # Get secret Obj
                 _ console.log
-                    `lit 
+                    `tag 
                         + Secret (
                         @ secretName
                         + =

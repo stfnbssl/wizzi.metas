@@ -1,10 +1,20 @@
 $group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('connect-mongo', '^4.4.1');
+        setCtxDep ('mongoose', '^6.5.2');
+        setCtxEnvValues ('MONGO_HOST', 'mongoHost', 'str');
+        setCtxEnvValues ('MONGO_USER', 'mongoUser', 'str');
+        setCtxEnvValues ('MONGO_PASSWORD', 'mongoPassword', 'str');
+        setCtxEnvValues ('MONGO_PATH', 'mongoPath', 'str');
+
     import 
         @ ModelBuilderType
-        from '../features/app'
+        from '#/src/features/app'
     import 
         @ ConfigType
-        from '../features/config'
+        from '#/src/features/config'
     import mongoose from 'mongoose'
     +
     export

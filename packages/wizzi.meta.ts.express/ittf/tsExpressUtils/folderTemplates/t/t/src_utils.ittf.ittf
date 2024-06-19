@@ -1,0 +1,23 @@
+$group
+
+    $include utils_scripts
+
+    $
+        var items = [
+            'error',
+            'functionWrappers',
+            'index',
+            'sendResponse',
+            'rest',
+            ];
+
+    $foreach item in items
+        $file __dot__wizzi/${pkgPath}src/utils/${item}.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressUtils/utils/${item}.ts
+    
+
+    $if metaCtx.tsExpressUtils.useWizziFs
+        $file __dot__wizzi/${pkgPath}src/utils/wizziFs.ts.ittf.ittf
+            module
+                ${'$'}include tsExpressUtils/utils/wizziFs.ts

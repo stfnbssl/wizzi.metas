@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            "index.tsx",
+            "ReadTheDocs.test.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/Components/ReadTheDocs/${item}.ittf.ittf
+            module
+                ${'$'}include tsReactViteAppStarter/src/Components/ReadTheDocs/${item}

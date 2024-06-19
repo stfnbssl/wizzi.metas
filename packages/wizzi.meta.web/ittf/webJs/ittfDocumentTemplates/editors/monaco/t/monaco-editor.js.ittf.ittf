@@ -15,7 +15,7 @@ $group
                         param model
                         ===
                             + model.uri.path
-                            `lit
+                            `tag
                                 + /
                                 @ path
         
@@ -322,7 +322,7 @@ $group
                                     _ classnames
                                         _ css(styles.editor)
                                         @ 'packi-monaco-editor'
-                                        `lit
+                                        `tag
                                             + theme-
                                             @ this.props.theme
     const styles

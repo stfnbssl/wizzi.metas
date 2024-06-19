@@ -1,0 +1,12 @@
+$group
+    kind react
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDevDep ('@commitlint/cli', '^18.4.3');
+        setCtxDevDep ('@commitlint/config-conventional', '^18.4.3');
+
+    set module.exports =
+        {
+            [ extends
+                @ '@commitlint/config-conventional'

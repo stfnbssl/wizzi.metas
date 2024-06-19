@@ -2,11 +2,18 @@ $group
     ${'$'}params prod
     ${'$'}
         var Prod = _.capitalize(prod);
-        var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
+        $$ old var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
+        var suffix = 'Production';
+
     ${'$'}$ loog 'getCheck${'$'}{Prod}Name.request.params', request.params
+
+    rest/check-params${'('} )
+        rest/not-empty${'('} params , owner )
+        rest/not-empty${'('} params , name )
+
     _ validate${'$'}{Prod}${'$'}{suffix}
-        @ request.params.owner
-        @ request.params.name
+        @ owner
+        @ name
         ._ then
             =>
                 param result

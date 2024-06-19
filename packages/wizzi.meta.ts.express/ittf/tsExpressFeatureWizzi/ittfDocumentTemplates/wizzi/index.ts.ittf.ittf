@@ -5,7 +5,7 @@ $group
             @ ControllerType
             from '../app/types'
     import
-        as wizziTypes
+        as wizziProductionsTypes
         from './types'
     import
         as WizziFactory
@@ -29,7 +29,7 @@ $group
                 [
                     @ new ProductionController()
     export
-        @ wizziTypes
+        @ wizziProductionsTypes
         @ wizziProds
         @ WizziFactory
         @ wizziMaps

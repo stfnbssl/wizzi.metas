@@ -161,7 +161,7 @@ $group
                     @ padding '0 .75em'
                     @ borderRadius 3
                     @ border
-                        `lit 
+                        `tag 
                             + 1px solid&nbsp;
                             _ c('border')
                             + 

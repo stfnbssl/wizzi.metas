@@ -2,9 +2,9 @@ $group
     
     $if metaCtx.tsExpressWizziSite.usePackiProductions
         
-        $file __dot__wizzi/${pkgPath}src/site/controllers/packiProductions.ts.ittf.ittf
+        $file __dot__wizzi/${pkgPath}src/site/controllers/wizziHubProductions.ts.ittf.ittf
             module
-                ${'$'}include tsExpressWizziSite/controllers/packiProductions.ts
+                ${'$'}include tsExpressWizziSite/controllers/wizziHubProductions.ts
 
         $
             var items = [

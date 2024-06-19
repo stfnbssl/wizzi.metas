@@ -84,7 +84,7 @@ $group
                 param callback
 
                 _ wz.fetch.get
-                    `lit 
+                    `tag 
                         + 
                         @ wz.production.apiUrl
                         + /

@@ -7,6 +7,7 @@ Wizzi meta plugin for creating wizzi typescript express server packages
 |Production|Descriptionn|
 |<a href https://github.com//wizzi.meta.ts.express/tree/master/.wizzi/ittf/lib/wizzi/productions/tsExpress.wfproduction.ittf>tsExpress</a>|tsExpress wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.express/tree/master/.wizzi/ittf/lib/wizzi/productions/tsExpressApp.wfproduction.ittf>tsExpressApp</a>|tsExpressApp wizzi meta production|
+|<a href https://github.com//wizzi.meta.ts.express/tree/master/.wizzi/ittf/lib/wizzi/productions/tsExpressAppLab.wfproduction.ittf>tsExpressAppLab</a>|tsExpressAppLab wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.express/tree/master/.wizzi/ittf/lib/wizzi/productions/tsExpressData.wfproduction.ittf>tsExpressData</a>|tsExpressData wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.express/tree/master/.wizzi/ittf/lib/wizzi/productions/tsExpressFeatureAccount.wfproduction.ittf>tsExpressFeatureAccount</a>|tsExpressFeatureAccount wizzi meta production|
 |<a href https://github.com//wizzi.meta.ts.express/tree/master/.wizzi/ittf/lib/wizzi/productions/tsExpressFeatureAuth.wfproduction.ittf>tsExpressFeatureAuth</a>|tsExpressFeatureAuth wizzi meta production|

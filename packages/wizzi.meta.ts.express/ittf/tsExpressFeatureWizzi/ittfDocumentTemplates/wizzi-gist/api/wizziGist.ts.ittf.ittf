@@ -7,8 +7,8 @@ $group
         @ crypto
         from 'wizzi-utils'
     import * as gistFs from './gistFs'
-    import * as wizziFs from '../../../utils/wizziFs'
-    import * as scriptManager from '../../../utils/scripts/scriptManager'
+    import * as wizziFs from '#/src/utils/wizziFs'
+    import * as scriptManager from '#/src/utils/scripts/scriptManager'
     import 
         @ GistOptions 
         @ GistKind

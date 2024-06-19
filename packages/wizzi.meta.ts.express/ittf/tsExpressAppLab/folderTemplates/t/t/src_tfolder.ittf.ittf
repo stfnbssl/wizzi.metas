@@ -1,0 +1,14 @@
+$group
+
+    $include tfolder_index
+    $include tfolder_app
+
+    $
+        var items = [
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/t/${item}.ittf.ittf
+            module
+                ${'$'}include tsExpressAppLab/src/tfolder/${item}
+

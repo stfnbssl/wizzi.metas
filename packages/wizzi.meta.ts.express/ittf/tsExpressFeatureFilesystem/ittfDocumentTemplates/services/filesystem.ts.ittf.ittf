@@ -9,10 +9,10 @@ $group
     import wizzi from '@wizzi/factory'
     import 
         @ ConfigType
-        from '../features/config'
+        from '#/src/features/config'
     import 
         @ fsTypes
-        from '../features/filesystem'
+        from '#/src/features/filesystem'
     import 
         @ rejects
         from 'assert'
@@ -26,10 +26,10 @@ $group
     import 
         @ FsDb
         @ FsDbResult
-        from '../features/filesystem/types'
+        from '#/src/features/filesystem/types'
     import 
         @ packiTypes
-        from '../features/packi'
+        from '#/src/featuresres/packi'
     
     :type cb
         :< T
@@ -164,7 +164,7 @@ $group
                                     _ reloadTemplates
                                         => 
                                             _ vfile.getFiles
-                                                `lit 
+                                                `tag 
                                                     + 
                                                     @ packiTemplatesJsonUri
                                                     + /
@@ -194,7 +194,7 @@ $group
                                     _ reloadTemplates
                                         => 
                                             _ vfile.getFiles
-                                                `lit 
+                                                `tag 
                                                     + 
                                                     @ packiTemplatesJsonUri
                                                     + /__starter

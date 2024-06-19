@@ -7,13 +7,15 @@ $group
         }
     v08/ts/controller${'('} &ctrl )
         ${'$'}append imports
+            import React
+                from 'react'
             import ReactDOMServer
                 from 'react-dom/server'
             import PageFormDocument
-                from '../../../pages/PageFormDocument'
+                from '#/src/pages/PageFormDocument'
             import
                 @ CRUDResult
-                from '../../types'
+                from '#/src/features/types'
             import
                 @ getTemplatePackiFiles
                 from '../api/meta'
@@ -29,7 +31,7 @@ $group
                 from '../utils'
             import
                 @ packiTypes
-                from '../../packi'
+                from '#/src/features/packi'
             +
             const myname = 'features/production/controllers/artifact'
             +

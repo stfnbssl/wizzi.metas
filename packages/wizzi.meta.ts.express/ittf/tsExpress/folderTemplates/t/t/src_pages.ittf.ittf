@@ -1,0 +1,19 @@
+$group
+    
+    $if metaCtx.tsExpress.useReactPages
+        
+        $file __dot__wizzi/${pkgPath}src/pages/PageFormDocument.tsx.ittf.ittf
+            module
+                ${'$'}include tsExpress/src/pages/PageFormDocument.tsx
+        
+        $file __dot__wizzi/${pkgPath}src/pages/EditorDocument.tsx.ittf.ittf
+            module
+                ${'$'}include tsExpress/src/pages/EditorDocument.tsx
+        
+        $file __dot__wizzi/${pkgPath}src/pages/t/common.tsx.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsExpress/src/pages/tfolder/common.tsx
+
+        $file __dot__wizzi/${pkgPath}src/pages/t/html/a.tsx.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsExpress/src/pages/tfolder/html/a.tsx

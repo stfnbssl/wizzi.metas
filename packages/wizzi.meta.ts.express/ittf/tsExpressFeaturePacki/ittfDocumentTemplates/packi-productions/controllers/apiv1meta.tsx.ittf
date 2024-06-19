@@ -22,7 +22,7 @@ $group
             import
                 @ artifactApi
                 @ productionApi
-                from '../../packiProductions'
+                from '#/src/features/wizziHubProductions'
             const myname = 'features/production/controllers/apiv1metaproduction'
 
         v08/ts/${routeApiFragment}${'('} get, /:owner, this.getMetaProductions)

@@ -1,35 +1,37 @@
 $group
     ${'$'}
         var ctrl = {
-            name: 'Job',
+            name: 'JobProduction',
             path: '/job',
             webSecured: wzCtx.Build.useAuthentication,
         }
     v08/ts/controller${'('} &ctrl )
         ${'$'}append imports
+            import React
+                from 'react'
             import ReactDOMServer
                 from 'react-dom/server'
             import PageFormDocument
-                from '../../../pages/PageFormDocument'
+                from '#/src/pages/PageFormDocument'
             import
                 @ CRUDResult
-                from '../../types'
+                from '#/src/features/types'
             import
                 @ getTemplatePackiFiles
                 from '../api/meta'
             import
-                @ createJob
-                @ updateJob
-                @ deleteJob
-                @ getJobObject
-                @ getJobObjectById
+                @ createJobProduction
+                @ updateJobProduction
+                @ deleteJobProduction
+                @ getJobProductionObject
+                @ getJobProductionObjectById
                 from '../api/job'
             import
                 @ mergePackiFiles
                 from '../utils'
             import
                 @ packiTypes
-                from '../../packi'
+                from '#/src/features/packi'
             +
             const myname = 'features/production/controllers/job'
             +
@@ -83,7 +85,7 @@ $group
                         =>
                             param packiFiles
                                 :ref packiTypes.PackiFiles
-                            _ createJob
+                            _ createJobProduction
                                 @ (request.session as any).user.username
                                 @ request.body.job_name
                                 @ request.body.job_description

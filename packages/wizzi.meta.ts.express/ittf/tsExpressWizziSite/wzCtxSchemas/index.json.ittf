@@ -6,4 +6,4 @@
             params/use( account )
             params/use( authentication )
             params/use( wizziDocs )
-            params/use( packiProductions )
+            params/use( wizziHubProductions )

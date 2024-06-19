@@ -146,7 +146,7 @@ $group
                         @ borderLeft '6px solid transparent'
                         @ borderRight '6px solid transparent'
                         @ borderBottom
-                            `lit 
+                            `tag 
                                 + 6px solid&nbsp;
                                 _ c('error')
                                 + 

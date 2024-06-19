@@ -90,7 +90,7 @@ $group
                             @ hash
                             @ assets
                             @ assetsByChunkName
-                        `lit 
+                        `tag 
                             + &lf;
                             + &nbsp;       // This script is used in the service worker&lf;
                             + &nbsp;       self.__WEBPACK_BUILD_STATS__ =&nbsp;
@@ -102,7 +102,7 @@ $group
                                         _ assets.map
                                             => 
                                                 param a
-                                                `lit 
+                                                `tag 
                                                     + /dist/
                                                     @ a.name
                                                     + 

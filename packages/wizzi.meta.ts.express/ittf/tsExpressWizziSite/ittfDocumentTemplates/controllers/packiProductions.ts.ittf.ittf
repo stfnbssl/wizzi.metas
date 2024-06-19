@@ -18,7 +18,7 @@ $group
                 @ pluginApi
                 @ metaApi
                 @ tFolderApi
-                from '../../features/packiProductions'
+                from '#/src/features/wizziHubProductions'
         
         ${'$'}if wzCtx.Build.useAuthentication
             v08/ts/route_web_secured${'('} get, /artifacts, this.artifacts)
@@ -45,7 +45,7 @@ $group
                                     @ title 'Artifact productions · Wizzi'
                                     @ artifacts result.item
                                     @ __INITIAL_DATA__
-                                        `lit 
+                                        `tag 
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 { 
@@ -71,7 +71,7 @@ $group
                                     @ title 'Package productions · Wizzi'
                                     @ packages result.item
                                     @ __INITIAL_DATA__
-                                        `lit 
+                                        `tag 
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 { 
@@ -98,7 +98,7 @@ $group
                                     @ title 'Plugin productions · Wizzi'
                                     @ plugins result.item
                                     @ __INITIAL_DATA__
-                                        `lit 
+                                        `tag 
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 { 
@@ -125,7 +125,7 @@ $group
                                     @ title 'Meta productions · Wizzi'
                                     @ metas result.item
                                     @ __INITIAL_DATA__
-                                        `lit 
+                                        `tag 
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 { 
@@ -152,7 +152,7 @@ $group
                                     @ title 'tFolder · Wizzi'
                                     @ tfolders result.item
                                     @ __INITIAL_DATA__
-                                        `lit 
+                                        `tag 
                                             + &nbsp; window.__INITIAL_DATA__ =&nbsp;
                                             _ jsesc
                                                 { 

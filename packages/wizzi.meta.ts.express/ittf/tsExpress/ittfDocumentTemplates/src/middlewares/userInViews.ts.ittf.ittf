@@ -1,0 +1,51 @@
+$group
+
+    import 
+        @ Application
+        @ Request
+        @ Response
+        @ RequestHandler
+        from 'express'
+    import 
+        @ MiddlewareType
+        from '#/src/features/app/types'
+    ${'$'}if wzCtx.Build.useLocalUserFromConfig            
+        import 
+            @ config
+            from '#/src/features/config'
+    #
+        # 
+        # The purpose of this middleware is to have the `user`
+        # object available for all views.
+        # 
+    export 
+        const UserInViewMiddleware
+            :ref MiddlewareType
+            =
+                => 
+                    param app
+                        :ref Application
+                    _ app.use
+                        => 
+                            param request
+                                :ref Request
+                            param response
+                                :ref Response
+                            param next
+                                :ref Function
+                            ${'$'}if wzCtx.Build.useAuthentication
+                                ${'$'}if wzCtx.Build.useMongoDb
+                                    $$ loog 'UserInViewMiddleware.request.session.user', (request as any).session.user
+                                    set response.locals.user = (request as any).session.user
+                                ${'$'}else
+                                    $$ loog 'UserInViewMiddleware.request.user', (request as any).user
+                                    set response.locals.user = (request as any).user
+                            ${'$'}if wzCtx.Build.useLocalUserFromConfig
+                                set (request as any).session.user
+                                    {
+                                        @ id 'local_' + config.userUserName
+                                        @ username config.userUserName
+                                        @ displayName config.userDisplayName
+                                        @ picture config.userAvatarUrl
+                                set response.locals.user = (request as any).session.user
+                            _ next()

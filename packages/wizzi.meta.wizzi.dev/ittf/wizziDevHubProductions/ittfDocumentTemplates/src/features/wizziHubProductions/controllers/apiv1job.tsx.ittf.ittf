@@ -1,7 +1,7 @@
 $group
     ${'$'}
         var ctrl = {
-            name: 'ApiV1Job',
+            name: 'ApiV1JobProduction',
             path: '/api/v1/production/job',
             apiSecured: wzCtx.Build.useAuthentication,
             Production: 'Job',
@@ -20,10 +20,12 @@ $group
         v08/ts/route${'('} post, /:post, this.postJob)
         ${'$'}append handlers
             v08/ts/handler${'('} getJobs )
-                _ getJobList
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                _ getJobProductionList
                     {
                         { query
-                            @ owner request.params.owner
+                            @ owner owner
                     ._ then
                         =>
                             param result
@@ -34,10 +36,14 @@ $group
                     v08/ts/catch_send_fail${'('} getJobs )
             v08/ts/handler${'('} getCheckJobName )
                 check_name${'('} job )
+            
             v08/ts/handler${'('} getJob )
-                _ getJob
-                    @ request.params.owner
-                    @ request.params.name
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} params , name )
+                _ getJobProduction
+                    @ owner
+                    @ name
                     ._ then
                         =>
                             param result
@@ -46,12 +52,18 @@ $group
                                 @ response
                                 @ result
                     v08/ts/catch_send_fail${'('} getJob )
+            
             v08/ts/handler${'('} postJob )
-                _ createJob
-                    @ request.params.owner
-                    @ request.params.name
-                    @ request.body.description
-                    @ JSON.stringify(request.body.packiFiles)
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} params , name )
+                    rest/not-empty${'('} body , description )
+                    rest/not-empty${'('} body , packiFiles )
+                _ createJobProduction
+                    @ owner
+                    @ name
+                    @ description
+                    @ JSON.stringify(packiFiles)
                     ._ then
                         =>
                             param result
@@ -60,13 +72,20 @@ $group
                                 @ response
                                 @ result
                     v08/ts/catch_send_fail${'('} postJob )
+            
             v08/ts/handler${'('} putJob )
-                _ updateJob
-                    @ request.params.id
-                    @ request.body.owner
-                    @ request.body.name
-                    @ request.body.description
-                    @ JSON.stringify(request.body.packiFiles)
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , id )
+                    rest/not-empty${'('} body , owner )
+                    rest/not-empty${'('} body , name )
+                    rest/not-empty${'('} body , description )
+                    rest/not-empty${'('} body , packiFiles )
+                _ updateJobProduction
+                    @ id
+                    @ owner
+                    @ name
+                    @ description
+                    @ JSON.stringify(packiFiles)
                     ._ then
                         =>
                             param result

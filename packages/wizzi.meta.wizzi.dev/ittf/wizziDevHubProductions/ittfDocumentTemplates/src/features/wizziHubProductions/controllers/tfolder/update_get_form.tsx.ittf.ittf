@@ -2,8 +2,12 @@ $group
     ${'$'}params prod
     ${'$'}
         var Prod = _.capitalize(prod);
-        var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
-    const id = request.params.id
+        $$ old var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
+        var suffix = 'Production';
+
+    rest/check-params${'('} )
+        rest/not-empty${'('} params , id )
+    
     ${'$'}$ loog myname + '.getUpdate${'$'}{Prod}Form.id', id
     _ get${'$'}{Prod}${'$'}{suffix}ObjectById
         @ id

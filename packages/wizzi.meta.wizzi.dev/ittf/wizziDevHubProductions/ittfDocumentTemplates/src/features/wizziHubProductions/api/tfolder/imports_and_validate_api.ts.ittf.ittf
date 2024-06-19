@@ -4,26 +4,29 @@ $group
     import
         @ ValidateResult
         @ CRUDResult
-        from '../../types'
+        from '#/src/features/types'
     import
         @ packiTypes
-        from '../../packi'
+        from '#/src/features/packi'
     import
-        @ packiConfigPath
-        from '../../config/env'
+        @ config
+        from '#/src/features/config'
     import
         @ wizziProds
-        @ wizziMaps
-        from '../../wizzi'
+        from '#/src/features/wizziProductions'
     import
         @ Get${'$'}{md.Name}Model
         from '../mongo/${'$'}{md.mongoName}'
     import
         @ I${'$'}{md.Name}Model
+        @ PackiProductionObject        
         from '../types'
     import
         @ productionApi
         from '../index'
+    import
+        @ mergePackiFiles
+        from '../utils'
     +
     const myname = 'features.production.api.${'$'}{md.Name}'
     +
@@ -53,7 +56,10 @@ $group
                             @ query
                             =>
                                 param err
+                                    :any 
                                 param result
+                                    :[ 
+                                        :any                                 
                                 if err
                                     return reject(err)
                                 if result.length == 1

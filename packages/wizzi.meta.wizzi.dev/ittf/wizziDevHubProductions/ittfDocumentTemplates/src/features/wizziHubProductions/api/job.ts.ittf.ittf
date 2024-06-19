@@ -1,8 +1,8 @@
 $group
     ${'$'}
         var md = {
-            Name: 'Job',
-            name: 'job',
+            Name: 'JobProduction',
+            name: 'jobProduction',
             mongoName: 'job',
             descr: 'A Job defines a folder template for generating the tasks that execute a Wizzi production',
             prefix: 'job',
@@ -27,4 +27,5 @@ $group
     v08/mongo/crud/create_api${'('} &md)
     v08/mongo/crud/update_api${'('} &md)
     v08/mongo/crud/delete_api${'('} &md)
+    merge_files_api${'('} &md)
     ${'$'}include job/cached_get_save

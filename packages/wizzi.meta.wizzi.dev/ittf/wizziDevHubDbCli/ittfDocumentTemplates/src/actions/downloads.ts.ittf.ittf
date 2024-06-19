@@ -11,9 +11,59 @@ $group
     import 
         $foreach hp in hubProductions
             @ ${hp.name}Api
-        from '#/src/features/wizziProductions'
+        from '#/src/features/wizziHubProductions'
+    :import-type 
+        @ DownloadOptions
+        from './types'        
 
     $foreach hp in hubProductions
+        export 
+            function download${_.capitalize(hp.name)}List
+                param owner
+                    :string 
+                param options
+                    :ref DownloadOptions
+                :return
+                    :ref Promise
+                        :param any
+                return 
+                    new Promise
+                        => 
+                            param resolve
+                            param reject
+                            _ ${hp.name}Api.get${_.capitalize(hp.name)}ProductionList
+                                { 
+                                    @ owner
+                                ._ then
+                                    => 
+                                        param result
+                                            :any 
+                                        if options.destFolder
+                                            _ writeJSONToDest
+                                                _ path.join
+                                                    @ options.destFolder
+                                                    @ '..'
+                                                    @ '.packi'
+                                                    @ '${_.capitalize(hp.name)}List.json' 
+                                                @ result
+                                            foreach item in result.item
+                                                const packiFiles
+                                                    :ref PackiFiles
+                                                    = JSON.parse(item.packiFiles)
+                                                _ writePackiToDest
+                                                    @ packiFiles
+                                                    _ path.join
+                                                        @ options.destFolder
+                                                        _ verify.replaceAll(item.name, '/', '_')
+                                        return resolve(result.item)
+                                ._ catch
+                                    => 
+                                        param err
+                                            :any 
+                                        if typeof err === 'object' && err !== null
+                                        _ console.log("[31m%s[0m", 'download.download${_.capitalize(hp.name)}.get${_.capitalize(hp.name)}ProductionList.error', err)
+                                        return reject(err)
+
         export
             function download${_.capitalize(hp.name)}
                 param owner
@@ -21,7 +71,7 @@ $group
                 param name
                     :string
                 param options
-                    :any
+                    :ref DownloadOptions
                 :return
                     :ref Promise
                         :param any
@@ -33,54 +83,32 @@ $group
                             # info '${hp.name}Api.get${_.capitalize(hp.name)}ProductionObject.result', Object.keys(result)
                             if options.destFolder
                                 _ writePackiToDest
-                                    _ filterPackiFiles
-                                        @ result.packiFiles
-                                        @ options
+                                    @ result.packiFiles
                                     @ options.destFolder
                             return
                                 _ resolve
                                     @ result.item
         +
     
-    function filterPackiFiles
-        param packiFiles
-            :ref PackiFiles
-        param options
-            :any
-        # loog 'filterPackiFiles.filter', options
-        if !options || !options.filter
-            return packiFiles
-        else
-            const result
-                :ref PackiFiles
-                {
-            foreach k in Object.keys(packiFiles)
-                # loog 'filterPackiFiles', options.name + '/' + k , options.filter(k, packiFiles[k].type, packiFiles[k].contents)
-                if options.filter(options.name + '/' + k, packiFiles[k].type, packiFiles[k].contents)
-                    set result[k] = packiFiles[k]
-            return result
+    function writeJSONToDest
+        param destPath
+            :string 
+        param json
+            :any 
+        _ fSystem.vfile().write(destPath, JSON.stringify(json, null, 2))
     +
-
     function writePackiToDest
         param packiFiles
             :ref PackiFiles
         param destFolder
             :string
-        param destMetaFolder
-            :string
-            :optional
-        foreach k in Object.keys(packiFiles)
-            _ fSystem.vfile().write
-                _ path.join
-                    @ destFolder
-                    @ k
-                @ packiFiles[k].contents
-            if destMetaFolder
+        for var k in packiFiles
+            const pf = packiFiles[k]
+            if pf
                 _ fSystem.vfile().write
                     _ path.join
-                        @ destMetaFolder
-                        @ k + '.ittf'
-                    _ ittfToMeta
-                        @ packiFiles[k].contents
+                        @ destFolder
+                        @ k
+                    @ pf.contents
     +
 

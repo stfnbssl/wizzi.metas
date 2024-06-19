@@ -101,7 +101,7 @@ $group
                     return colors[color]
                 else
                     return
-                        `lit
+                        `tag
                             + var(--color-
                             @ color
                             + )
@@ -117,7 +117,7 @@ $group
                     return shadows[shadow]
                 else
                     return
-                        `lit
+                        `tag
                             + var(--shadow-
                             @ shadow
                             + )

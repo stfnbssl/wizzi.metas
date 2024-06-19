@@ -2,7 +2,7 @@ $group
 
     import 
         @ ControllerType
-        from '../features/app'
+        from '#/src/features/app'
 
     ${'$'}if wzCtx.Build.useSite
         import 
@@ -36,7 +36,7 @@ $group
         ${'$'}if wzCtx.Build.site.usePackiProductions
             import 
                 @ PackiProductionsController
-                from './controllers/packiProductions'
+                from './controllers/wizziHubProductions'
         ${'$'}hook imports
     
     const siteControllers

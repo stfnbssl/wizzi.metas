@@ -16,4 +16,3 @@ $group
                                     iif schema === 'ittf'
                                         then '.ittf'
                                         else '.' + schema + '.ittf'
-

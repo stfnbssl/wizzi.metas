@@ -1,0 +1,32 @@
+$group
+    $if metaCtx.useTsExpress
+        import
+            @ ControllerType
+            from '#/src/features/app/types'
+    import
+        as wizziProductionsTypes
+        from './types'
+    import
+        as wizziFactory
+        from './factory'
+    import
+        as wizziProds
+        from './productions'
+    $if metaCtx.useTsExpress
+        import
+            @ ProductionController
+            from './controllers/production'
+        +
+    $if metaCtx.useTsExpress
+        const wizziProductionsControllers
+            :[
+                :ref ControllerType
+            =
+                [
+                    @ new ProductionController()
+    export
+        @ wizziProductionsTypes
+        @ wizziProds
+        @ wizziFactory
+        $if metaCtx.useTsExpress
+            @ wizziProductionsControllers

@@ -4,10 +4,10 @@ $group
         async-function getDefaultContext_withCache
             param owner
                 :string
-            param sysContext
+            param progressiveContext
                 :any
                 :optional
-            set sysContext = sysContext || {}
+            set progressiveContext = progressiveContext || {}
             return
                 new Promise
                     =>
@@ -24,7 +24,7 @@ $group
                                     const defaultContext
                                         _ Object.assign
                                             {
-                                            @ sysContext
+                                            @ progressiveContext
                                             @ resultItemContext
                                     _ resolve(defaultContext)
                             v08/ts/catch_reject${'('} getDefaultContext_withCache.getArtifactContextItem )
@@ -35,14 +35,14 @@ $group
                 :string
             param queryContextString
                 :string
-            param sysContext
+            param progressiveContext
                 :any
                 :optional
             #
                 # sample queryContextString: "wzCtx;wzctx.json|db;item.db.json"
                 # context property 'wzCtx' from json document 'wzctx.json'
                 # context property 'db' from json document 'item.db.json'
-            set sysContext = sysContext || {}
+            set progressiveContext = progressiveContext || {}
             return
                 new Promise
                     =>
@@ -51,7 +51,7 @@ $group
                         if queryContextString && queryContextString.length > 0
                             const contextItems = queryContextString.split('|')
                             var j = 0
-                            let resultContext = sysContext
+                            let resultContext = progressiveContext
                             iife next
                                 var contextItem = contextItems[j++]
                                 if !contextItem
@@ -59,7 +59,7 @@ $group
                                 _ getArtifactContextItem
                                     @ owner
                                     @ contextItem
-                                    @ sysContext
+                                    @ progressiveContext
                                     ._ then
                                         =>
                                             param resultItemContext
@@ -72,7 +72,7 @@ $group
                                             _ next()
                                     v08/ts/catch_reject${'('} getArtifactContext.getArtifactContextItem )
                         else
-                            _ resolve(sysContext)
+                            _ resolve(progressiveContext)
     +
     export
         async-function getArtifactContextItem
@@ -80,10 +80,10 @@ $group
                 :string
             param queryContextString
                 :string
-            param sysContext
+            param progressiveContext
                 :any
                 :optional
-            set sysContext = sysContext || {}
+            set progressiveContext = progressiveContext || {}
             return
                 #
                     # sample queryContextString: "wzCtx;wzctx.json"
@@ -100,39 +100,42 @@ $group
                                 iif parts.length > 2
                                     then parts[2]
                                     else null
-                            if contextTransformation
-                                _ getArtifactTransformation
-                                    @ owner
-                                    @ contextArtifactName
-                                    @ sysContext
-                                    @ contextTransformation
-                                    ._ then
-                                        =>
-                                            param result
-                                                :any
-                                            _ resolve
-                                                _ Object.assign
-                                                    {
-                                                    @ sysContext
-                                                    {
-                                                        @ [contextName] result.transformResult
-                                    v08/ts/catch_reject${'('} getArtifactContextItem.getArtifactTransformation )
+                            if contextName && contextArtifactName
+                                if contextTransformation
+                                    _ getArtifactTransformation
+                                        @ owner
+                                        @ contextArtifactName
+                                        @ progressiveContext
+                                        @ contextTransformation
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                _ resolve
+                                                    _ Object.assign
+                                                        {
+                                                        @ progressiveContext
+                                                        {
+                                                            @ [contextName] result.transformResult
+                                        v08/ts/catch_reject${'('} getArtifactContextItem.getArtifactTransformation )
+                                else
+                                    _ getArtifactGeneration
+                                        @ owner
+                                        @ contextArtifactName
+                                        @ progressiveContext
+                                        ._ then
+                                            =>
+                                                param result
+                                                    :any
+                                                const contextObject = JSON.parse(result.content)
+                                                _ resolve
+                                                    _ Object.assign
+                                                        {
+                                                        @ progressiveContext
+                                                        {
+                                                            @ [contextName] contextObject
+                                        v08/ts/catch_reject${'('} getArtifactContextItem.getArtifactGeneration )
                             else
-                                _ getArtifactGeneration
-                                    @ owner
-                                    @ contextArtifactName
-                                    @ sysContext
-                                    ._ then
-                                        =>
-                                            param result
-                                                :any
-                                            const contextObject = JSON.parse(result.content)
-                                            _ resolve
-                                                _ Object.assign
-                                                    {
-                                                    @ sysContext
-                                                    {
-                                                        @ [contextName] contextObject
-                                    v08/ts/catch_reject${'('} getArtifactContextItem.getArtifactGeneration )
+                                _ resolve(progressiveContext)
                         else
-                            _ resolve(sysContext)
+                            _ resolve(progressiveContext)

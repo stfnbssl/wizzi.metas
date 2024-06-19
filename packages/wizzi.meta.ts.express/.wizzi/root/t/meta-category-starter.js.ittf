@@ -6,4 +6,3 @@ $group
         param callback
         +
         r_cb( pluginCategories )
-

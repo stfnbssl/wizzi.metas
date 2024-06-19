@@ -2,4 +2,3 @@ $group
     $file __dot__wizzi/generate.wfjob.ittf.ittf
         wfjob tsReactBasicWebpack/job
             TODO $include generate.wfjob
-

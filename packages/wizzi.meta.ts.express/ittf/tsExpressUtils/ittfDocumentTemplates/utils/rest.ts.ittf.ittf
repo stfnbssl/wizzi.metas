@@ -6,7 +6,7 @@ $group
         from 'express'
     import 
         @ verify
-        from 'wizzi-utils'
+        from '@wizzi/utils'
     import
         @ sendFailure
         from './sendResponse'

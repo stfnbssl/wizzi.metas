@@ -1,7 +1,8 @@
 $group
     ${'$'}
         var md = {
-            Name: 'PackageProduction'
+            Name: 'PackageProduction',
+            MongoName: 'PackageProduction'
         }
     v08/mongo/crud/model${'('} &md)
         ${'$'}append fields

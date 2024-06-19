@@ -7,6 +7,7 @@ text
     public/lib
     app/tests/coverage/
     .bower-*/
+    .env
     .idea/
     .bin/
     .obj/
@@ -14,4 +15,3 @@ text
     bin/
     Properties/
     private/
-

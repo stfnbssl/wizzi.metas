@@ -22,4 +22,3 @@ $group
                         @ artifactRequestContext {}
                     @ artifactName
                     @ callback
-

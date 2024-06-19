@@ -14,13 +14,13 @@ $group
                     {
                         @ isIttfDocument true
                         @ schema nameParts[nameParts.length - 2]
-                        @ seedname nameParts.slice(0, -2).join('.')
+                        @ seedName nameParts.slice(0, -2).join('.')
             else
                 return
                     {
                         @ isIttfDocument false
                         @ schema nameParts[nameParts.length - 1]
-                        @ seedname nameParts.slice(0, -1).join('.')
+                        @ seedName nameParts.slice(0, -1).join('.')
     +
     
     +

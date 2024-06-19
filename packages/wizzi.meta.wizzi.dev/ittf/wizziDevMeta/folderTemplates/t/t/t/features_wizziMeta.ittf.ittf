@@ -1,0 +1,17 @@
+$group
+    
+    $include wizziMeta_api
+    
+    $if metaCtx.useTsExpress
+        $include wizziMeta_controllers
+
+    $
+        var items = [
+            "index.ts",
+            "types.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziMeta/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDevMeta/src/features/wizziMeta/${item}

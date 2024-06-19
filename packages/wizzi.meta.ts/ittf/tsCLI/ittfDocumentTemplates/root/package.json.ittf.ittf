@@ -21,6 +21,9 @@ $group
                 ${'$'}{item.name} "${'$'}{item.version}"
     { engines
         node ">=20"
+
+    { imports
+        #/* "./*"
     
     $if metaCtx.tsCLI.usePrisma
       { prisma

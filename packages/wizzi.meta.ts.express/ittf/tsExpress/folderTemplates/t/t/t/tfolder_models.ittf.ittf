@@ -1,0 +1,15 @@
+$group
+
+    $if metaCtx.useTsExpressWizziSite
+        
+        $if metaCtx.tsExpressWizziSite.useWizziDocs
+            $file __dot__wizzi/${pkgPath}src/t/models/docs/wzctx.ittf.ittf
+                ${'$'}{'$'}group
+                    $include models/docs/wzctx
+
+    $if metaCtx.useTsExpressIttf
+        $if metaCtx.tsExpressIttf.useWizziDocs
+            $file __dot__wizzi/${pkgPath}ittf/t/models/docs/wzctx.ittf.ittf
+                ${'$'}{'$'}group
+                    $include models/docs/wzctx
+

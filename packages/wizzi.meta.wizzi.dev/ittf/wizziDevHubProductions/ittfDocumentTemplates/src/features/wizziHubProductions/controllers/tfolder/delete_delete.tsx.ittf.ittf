@@ -2,7 +2,8 @@ $group
     ${'$'}params prod
     ${'$'}
         var Prod = _.capitalize(prod);
-        var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
+        $$ old var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
+        var suffix = 'Production';
         var prefix =
             prod == 'tFolder' ? 'tf'
             : prod == 'meta' ? 'mp'

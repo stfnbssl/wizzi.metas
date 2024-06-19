@@ -11,4 +11,3 @@ $group
             _ sendHtml
                 @ response
                 @ content
-

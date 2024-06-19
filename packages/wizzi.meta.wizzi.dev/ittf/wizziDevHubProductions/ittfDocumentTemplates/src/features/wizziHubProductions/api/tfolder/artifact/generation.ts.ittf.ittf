@@ -17,9 +17,9 @@ $group
                         ${'$'}$ bax_mod_fix_meta
                         ${'$'}$
                         var artifactName = name
-                        var filePathTobeGenerated = null
+                        var filePathTobeGenerated: string
                         const ss = name.split('!')
-                        if ss.length == 2
+                        if ss.length == 2 && ss[0] && ss[1]
                             set artifactName = ss[0]
                             set filePathTobeGenerated = ss[1]
                         _ getArtifactProduction_withCache
@@ -41,7 +41,7 @@ $group
                                                     {
                                                         @ content result.artifactContent
                                                         @ contentLength result.artifactContent.length
-                                                        @ contentType wizziMaps.contentTypeFor(ap.mainIttf)
+                                                        @ contentType result.contentType
                                                 return resolve(response)
                                         v08/ts/catch_reject${'('} getArtifactGeneration.generateArtifact )
                                             set err.parameter
@@ -98,7 +98,7 @@ $group
                                                     {
                                                         @ content result.artifactContent
                                                         @ contentLength result.artifactContent.length
-                                                        @ contentType wizziMaps.contentTypeFor(filePath || productionObj.mainIttf)
+                                                        @ contentType result.contentType
                                                 return resolve(response)
                                         v08/ts/catch_reject${'('} getArtifactGeneration_withPrepare.generateArtifact )
                                             set err.parameter

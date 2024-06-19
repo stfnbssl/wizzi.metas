@@ -1,0 +1,124 @@
+$group
+    +
+    export
+        async-function generateFolderArtifacts
+            param sourceFolderUri
+                :string
+            param destFolderUri
+                :string
+            param files
+                :ref packiTypes.PackiFiles
+            param context
+                :any
+                :optional
+            param options
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref packiTypes.PackiFiles
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        if !verify.isObject(files)
+                            return
+                                _ reject
+                                    {
+                                        @ action 'wizzi.productions.generateFolderArtifacts'
+                                        @ message 'files parameter must be an object of type PackiFiles'
+                                        @ files
+                        let jsonwf
+                            :any
+                            =
+                                {
+                        try
+                            set jsonwf =
+                                await
+                                    _ createJsonFsAndFactory(files)
+                            _ jsonwf.wf.generateFolderArtifacts
+                                @ constants.packiFilePrefix + sourceFolderUri
+                                {
+                                    @ modelRequestContext context
+                                    @ artifactRequestContext context
+                                {
+                                    @ destFolder constants.packiFilePrefix + destFolderUri
+                                    @ deep true
+                                    @ generateFragments options && options.generateFragments
+                                    @ copyInclude options.copyInclude || ['*']
+                                    @ copyExclude options.copyExclude || []
+                                =>
+                                    param err
+                                        :any
+                                    param result
+                                        :string
+                                    if err
+                                        error myname, 'generateFolderArtifacts', 'error', err
+                                        return reject(err)
+                                    _ jsonwf.wf.fileService.getFiles
+                                        @ constants.packiFilePrefix + destFolderUri
+                                        {
+                                            @ deep true
+                                            @ documentContent true
+                                        =>
+                                            param err
+                                                :any
+                                            param files
+                                                :any
+                                            if err
+                                                return reject(err)
+                                            const packiFiles
+                                                :ref packiTypes.PackiFiles
+                                                = {}
+                                            foreach file in files
+                                                set packiFiles[file.relPath]
+                                                    {
+                                                        @ type 'CODE'
+                                                        @ contents file.content
+                                            _ resolve
+                                                @ packiFiles
+                        catch ex
+                            return reject(ex)
+    +
+    export
+        async-function generateFolderArtifactsFs
+            param sourceFolderUri
+                :string
+            param destFolderUri
+                :string
+            param context
+                :any
+                :optional
+            :return
+                :ref Promise
+                    :param
+                        :string
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        try
+                            const wf
+                                await
+                                    _ createFilesystemFactory()
+                            _ wf.generateFolderArtifacts
+                                @ sourceFolderUri
+                                {
+                                    @ modelRequestContext context
+                                    @ artifactRequestContext context
+                                {
+                                    @ destFolder destFolderUri
+                                =>
+                                    param err
+                                        :any
+                                    param result
+                                        :string
+                                    if err
+                                        return reject(err)
+                                    _ resolve
+                                        @ "Generated folder artifacts"
+                        catch ex
+                            return reject(ex)

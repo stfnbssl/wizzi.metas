@@ -1,13 +1,18 @@
 $group
 
+    import 
+        @ Request
+        from 'express'
+
     function getIdParam
         param req
+            :ref Request
         const id = req.params.id
-        if /^\d+$/.test(id)
+        if id && /^\d+$/.test(id)
             return Number.parseInt(id, 10)
         throw 
             new TypeError
-                `lit 
+                `tag 
                     + Invalid ':id' param: "
                     @ id
                     + "

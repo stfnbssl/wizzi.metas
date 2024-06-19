@@ -1,0 +1,54 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('react-router-dom', '^6.23.1');
+
+    import React from 'react'
+    import 
+        @ Route
+        @ createBrowserRouter
+        @ createRoutesFromElements
+        @ RouterProvider
+        from 'react-router-dom'
+    
+    import Home from '@/Pages/Home'
+    import PageOne from '@/Pages/One'
+    import PageTwo from '@/Pages/Two'
+    import PageThree from '@/Pages/Three'
+    import Header from '@/Components/nav/Header'
+    
+    const router
+        _ createBrowserRouter
+            _ createRoutesFromElements
+                < Route 
+                    @ path "/"
+                    @ element
+                        < Header 
+                    < Route 
+                        @ index
+                        @ element
+                            < Home 
+                    < Route 
+                        @ path "one/:id"
+                        @ element
+                            < PageOne
+                    < Route 
+                        @ path "two/:id"
+                        @ element
+                            < PageTwo
+                    < Route 
+                        @ path "three"
+                        @ element
+                            < PageThree
+    const App
+        :ref React.FC
+        =
+            =>
+                return 
+                    < 
+                        < RouterProvider 
+                            @ router {router}
+    
+    export-default App
+

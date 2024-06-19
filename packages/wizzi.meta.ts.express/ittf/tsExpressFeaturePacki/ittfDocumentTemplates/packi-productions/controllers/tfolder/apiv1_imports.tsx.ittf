@@ -2,7 +2,7 @@ $group
     ${'$'}params &ctrl
 
     import
-        @ wizziTypes
+        @ wizziProductionsTypes
         @ wizziProds
         @ WizziFactory
         from '../../wizzi'

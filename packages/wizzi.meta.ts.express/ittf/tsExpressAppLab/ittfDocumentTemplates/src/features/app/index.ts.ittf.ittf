@@ -1,0 +1,10 @@
+$group
+    
+    :export-type
+        @ ApiType
+        @ MiddlewareType
+        @ ControllerType
+        $if metaCtx.useTsDbMongoDb || metaCtx.useTsDbSequelize
+            @ ModelBuilderType
+        @ AppInitializerType
+        from './types'

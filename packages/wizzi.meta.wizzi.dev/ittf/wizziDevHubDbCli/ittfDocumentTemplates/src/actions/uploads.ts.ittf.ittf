@@ -7,10 +7,12 @@ $group
     import 
         $foreach hp in hubProductions
             @ ${hp.name}Api
-        from '#/src/features/wizziProductions'
+        from '#/src/features/wizziHubProductions'
+    $*
     import 
         @ resourceApi
         from '#/src/features/wizziCdn'
+    *$
     import
         @ getFileContents
         @ getFilteredPackiFiles
@@ -23,6 +25,13 @@ $group
                     :string
                 param name
                     :string
+                param description
+                    :string
+                $if hp.name == 'artifact'
+                    param mainIttf
+                        :string
+                    param wizziSchema
+                        :string
                 param options
                     :any
                 :return
@@ -47,8 +56,9 @@ $group
                                     @ owner
                                     @ name
                                     @ description
-                                    @ mainIttf
-                                    @ wizziSchema
+                                    $if hp.name == 'artifact'                                    
+                                        @ mainIttf
+                                        @ wizziSchema
                                     _ JSON.stringify(packiFiles)
                                     a_then_catch_reject${'('} result, :any, , upload.upload${_.capitalize(hp.name)}.${hp.name}Api.create${_.capitalize(hp.name)}Production )
                                         _ resolve
@@ -64,8 +74,9 @@ $group
                                             @ owner
                                             @ name
                                             @ description
-                                            @ mainIttf
-                                            @ wizziSchema
+                                            $if hp.name == 'artifact'
+                                                @ mainIttf
+                                                @ wizziSchema
                                             _ JSON.stringify(packiFiles)
                                             a_then_catch_reject${'('} result, :any, , upload.upload${_.capitalize(hp.name)}.${hp.name}Api.create${_.capitalize(hp.name)}Production )
                                                 _ resolve

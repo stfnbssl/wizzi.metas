@@ -4,4 +4,3 @@
     type "boolean"
     defaultValue "${defaultValue}"
     $hook
-

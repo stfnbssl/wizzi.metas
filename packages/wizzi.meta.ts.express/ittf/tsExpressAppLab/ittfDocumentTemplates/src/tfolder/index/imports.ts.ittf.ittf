@@ -1,0 +1,88 @@
+$group
+    ${'$'}params &md
+    
+    import 
+        @ ApiType
+        @ ControllerType
+        @ AppInitializerType
+        @ MiddlewareType
+        from '#/src/features/app/types'
+    
+    $if metaCtx.useTsDbMongoDb
+        import 
+            @ ModelBuilderType
+            from '#/src/features/app'
+
+    import 
+        @ config
+        from '#/src/features/config/index'
+
+    ${'$'}if wzCtx.Build.useFilesystem
+        import filesystemStart from '#/src/services/filesystem'
+    
+    $if metaCtx.useTsDbMongoDb
+        import { mongodbStart } from '#/src/services/mongodb'
+    
+    ${'$'}if wzCtx.Build.useAuthorization
+        $$ For now auth needs MongoDb
+        $if metaCtx.useTsDbMongoDb
+            import 
+                @ authorizationControllers
+                @ authorizationModelBuilders
+                from '#/src/features/auth/index'
+    
+    ${'$'}if wzCtx.Build.useAccount
+        import 
+            @ accountControllers
+            @ accountModelBuilders
+            from '#/src/features/account/index'
+    
+    ${'$'}if wzCtx.Build.useBlog
+        import 
+            @ blogControllers
+            @ blogModelBuilders
+            from '#/src/features/blog/index'
+    
+    ${'$'}if wzCtx.Build.useSite
+        import 
+            @ siteControllers
+            from './site/index'
+    
+    ${'$'}if wzCtx.Build.useWizzi
+        ${'$'}if wzCtx.Build.wizzi.useControllers
+            import 
+                @ wizziControllers
+                from '#/src/features/wizzi/index'
+
+    ${'$'}if wzCtx.Build.useWizziIttf
+        import 
+            @ ittfApi
+            from '#/src/features/ittf/index'
+    
+    ${'$'}if wzCtx.Build.features && wzCtx.Build.features.length > 0
+        ${'$'}foreach feature in wzCtx.Build.features
+            ${'$'}if feature.hasControllers || feature.useMongoDb
+                import 
+                    ${'$'}if feature.hasControllers
+                        @ ${'$'}{feature.name}Controllers
+                    ${'$'}if feature.useMongoDb
+                        @ ${'$'}{feature.name}ModelBuilders
+                    from '#/src/features/${'$'}{feature.name}/index'
+    
+    ${'$'}if wzCtx.Build.examples && wzCtx.Build.examples.length > 0
+        ${'$'}foreach example in wzCtx.Build.examples
+            ${'$'}if example.hasControllers || example.useMongoDb
+                import 
+                    ${'$'}if example.hasControllers
+                        @ example${'$'}{_.capitalize(example.name)}Controllers
+                    ${'$'}if example.useMongoDb
+                        @ example${'$'}{_.capitalize(example.name)}ModelBuilders
+                    from './examples/${'$'}{example.name}/index'
+
+    import 
+        @ appMiddlewaresPre
+        @ appMiddlewaresPost
+        from '#/src/middlewares/index'
+    
+    ${'$'}if !wzCtx.Build.useNetlify
+        import App from './App'

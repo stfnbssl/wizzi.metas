@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "production.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/wizziProductions/controllers/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDevProductions/src/features/wizziProductions/controllers/${item}

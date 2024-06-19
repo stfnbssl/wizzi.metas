@@ -17,16 +17,16 @@ $group
                 from 'react-dom/server'
             import
                 @ config
-                from '../../config'
+                from '#/src/features/config'
             import
                 @ artifactApi
                 @ packageApi
                 @ metaApi
                 @ pluginApi
                 @ tFolderApi
-                from '../../packiProductions' 
+                from '#/src/features/wizziHubProductions' 
             import EditorDocument 
-                from '../../../pages/EditorDocument' 
+                from '#/src/pages/EditorDocument' 
             import PackiItemList 
                 from '../components/PackiItemList' 
             const myname = 'features/packi/controller/packiEditing'

@@ -1,7 +1,7 @@
 $group
 
     ${'$'}
-        var moduleName = 'features.packiProductions.api.production';
+        var moduleName = 'features.wizziHubProductions.api.production';
 
     import
         @ packiTypes

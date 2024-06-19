@@ -24,7 +24,7 @@ $group
             ${'$'}foreach index in md.indexes
                 ${'$'}if index.fields.length > 1
                     _ this.router.get
-                        `lit 
+                        `tag 
                             ${'$'}foreach field in index.fields
                                 + /:${'$'}{field.name}
                         @ this.get${'$'}{md.Name}By_${'$'}{index.name}

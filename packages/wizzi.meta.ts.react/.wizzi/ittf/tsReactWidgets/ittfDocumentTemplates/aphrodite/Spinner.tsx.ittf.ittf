@@ -101,12 +101,12 @@ $group
                             { 
                                 @ opacity
                         @ transform
-                            `lit 
+                            `tag 
                                 + rotate(
                                 @ rotation
                                 + )
             const rgbaColor
-                `lit 
+                `tag 
                     + rgba(
                     @ red
                     + ,&nbsp;
@@ -127,7 +127,7 @@ $group
                         @ strokeWidth {segmentWidth}
                         @ strokeLinecap "round"
                         @ transform
-                            `lit 
+                            `tag 
                                 + translate(
                                 @ radius
                                 + ,&nbsp;

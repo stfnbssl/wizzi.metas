@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.wizzi.dev\.wizzi-override\root\index.js.ittf
-    utc time: Fri, 31 May 2024 19:48:04 GMT
+    utc time: Sat, 01 Jun 2024 04:30:55 GMT
 */
 'use strict';
 
@@ -17,17 +17,20 @@ const vfile = wizziUtils.fSystem.vfile;
 
 var md = module.exports = {};
 md.name = 'wizzi.meta.wizzi.dev.index';
-md.version = '';
+md.version = '0.0.2';
 
 var pluginCategories = [
     {
         name: 'wizzi', 
         productions: [
             {
+                name: "wizziDev"
+             }, 
+            {
                 name: "wizziDevProductions"
              }, 
             {
-                name: "wizziDevPacki"
+                name: "wizziDevMeta"
              }, 
             {
                 name: "wizziDevHubProductions"
@@ -57,6 +60,15 @@ var pluginCategories = [
 ];
 var pluginMetaProductions = [
     {
+        name: 'wizziDev', 
+        title: 'wizziDev wizzi meta production', 
+        categories: [
+            {
+                name: 'wizzi'
+             }
+        ]
+     }, 
+    {
         name: 'wizziDevProductions', 
         title: 'wizziDevProductions wizzi meta production', 
         categories: [
@@ -66,8 +78,8 @@ var pluginMetaProductions = [
         ]
      }, 
     {
-        name: 'wizziDevPacki', 
-        title: 'wizziDevPacki wizzi meta production', 
+        name: 'wizziDevMeta', 
+        title: 'wizziDevMeta wizzi meta production', 
         categories: [
             {
                 name: 'wizzi'
@@ -130,7 +142,7 @@ var pluginMetaProductions = [
 class FactoryMeta {
     constructor(provides) {
         this.name = "wizzi.meta.wizzi.dev";
-        this.version = "";
+        this.version = "0.0.2";
         this.provides = provides;
         this.metaCategories = {};
         this.metaProductions = {};
@@ -542,7 +554,7 @@ function error(errorName, method, message, innerError) {
 }
 
 module.exports = {
-    version: '', 
+    version: '0.0.2', 
     provides: {
         categories: pluginCategories, 
         metaProductions: pluginMetaProductions

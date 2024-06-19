@@ -1,0 +1,114 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('json-stringify-safe', '^5.0.1');
+        setCtxDep ('parseurl', '^1.3.3');
+    
+    import util from 'util'
+    import path from 'path'
+    import stringify from 'json-stringify-safe'
+    import parseUrl from 'parseurl'
+    import
+        @ Application
+        @ RequestHandler
+        @ Request
+        @ Response
+        from 'express'
+    import
+        @ resourceApi
+        from '#/src/features/cdn'
+    import
+        @ MiddlewareType
+        from '#/src/features/app/types'
+    import
+        @ config
+        from '#/src/features/config'
+    import
+        @ sendFailure
+        @ sendHtml
+        from '#/src/utils/sendResponse'
+    +
+    const myname = 'express.middleware.wizziCdn'
+    const cdnPath = '/cdn/v1'
+    +
+    export
+        const WizziCdnMiddleware
+            :ref MiddlewareType
+            =
+                =>
+                    param app
+                        :ref Application
+                    _ app.use(cdnPath, cdnMiddleware())
+
+    function cdnMiddleware
+        :return
+            :ref RequestHandler
+        return
+            async=>
+                param request
+                    :ref Request
+                param response
+                    :ref Response
+                param next
+                    :ref Function
+                if request.method !== 'GET' && request.method !== 'HEAD'
+                    return next()
+                const parsedUrl = parseUrl(request)
+                if !parsedUrl || !parsedUrl.pathname
+                    return next()
+                $$ loogmyname + '.parsedUrl', parsedUrl
+                const pathname = decodeURIComponent(parsedUrl.pathname)
+                const parts = pathname.split('/')
+                let owner, cdnName
+                set owner = parts[1] 
+                set cdnName = parts.slice(2).join('/')
+                $$ loogmyname + '.owner', owner, 'cdnName', cdnName
+                +
+                _ _renderCdn
+                    @ owner
+                    @ cdnName
+                    @ request
+                    @ response
+
+    function _renderCdn
+        param owner
+            :string
+        param cdnName
+            :string
+        param request
+            :ref Request
+        param response
+            :ref Response
+        +
+        _ resourceApi.getCdnResource
+            @ owner
+            @ cdnName
+            ._ then
+                => 
+                    param contents
+                        :string
+                    $$ loogmyname + 'getCdnResource.contents.length:', contents.length
+                    _ response.status(200)
+                    _ response.set('Content-Type', getContentType(cdnName))
+                    _ response.set('Content-Length', contents)
+                    $* NO, cdn must be cached
+                    _ response.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+                    _ response.set('Expires', '-1')
+                    _ response.set('Pragma', 'no-cache')
+                    *$
+                    _ response.send(contents)
+            v08/ts/catch_fail_html${'('}' + myname + '_renderCdn.resourceApi.getCdnResource )
+
+    function getContentType
+        param name
+        if name.endsWith('.js')
+            return 'application/x-javascript'
+        elif name.endsWith('.css')
+            return 'text/css'
+        elif name.endsWith('.svg')
+            return 'image/svg+xml'
+        elif name.endsWith('.json')
+            return 'application/json'
+        else
+            return 'text/plain'

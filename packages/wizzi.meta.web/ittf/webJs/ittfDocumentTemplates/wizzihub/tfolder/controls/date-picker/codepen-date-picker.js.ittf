@@ -45,7 +45,7 @@ $group
                 set this.monthContainer = document.createElement("div")
                 _ this.monthContainer.classList.add("month-and-year")
                 set this.monthContainer.innerHTML =
-                    `lit 
+                    `tag 
                         + <h4>
                         _ this.getMonth()
                         + &nbsp;
@@ -141,7 +141,7 @@ $group
                         then "0" + (this.selectedMonth + 1)
                         else this.selectedMonth + 1
                 set this.input.value =
-                    `lit 
+                    `tag 
                         + 
                         @ day
                         + .
@@ -162,7 +162,7 @@ $group
                         set this.selectedYear++
                         set this.selectedMonth = 0
                 set this.monthContainer.innerHTML =
-                    `lit 
+                    `tag 
                         + <h4>
                         @ this.months[this.selectedMonth]
                         + &nbsp;

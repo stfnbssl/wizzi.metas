@@ -4,4 +4,3 @@ $group
         async=>
             param ${result}
             $hook
-

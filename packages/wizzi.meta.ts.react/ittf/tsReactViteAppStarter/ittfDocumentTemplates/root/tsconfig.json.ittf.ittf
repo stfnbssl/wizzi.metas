@@ -1,0 +1,55 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxScript ('typecheck','tsc');
+        setCtxDevDep ('tsx', '^4.8.2');
+        setCtxDevDep ('typescript', '^5.1.6');
+
+    { compilerOptions
+        target "ES2020"
+        useDefineForClassFields true
+        [ lib
+            "ES2020"
+            "DOM"
+            "DOM.Iterable"
+        module "ESNext"
+        skipLibCheck true
+        moduleResolution "bundler"
+        allowImportingTsExtensions true
+        resolveJsonModule true
+        isolatedModules true
+        noEmit true
+        jsx "react-jsx"
+        strict true
+        noUnusedLocals true
+        noUnusedParameters true
+        noFallthroughCasesInSwitch true
+        [ types
+            "vitest/globals"
+            "@testing-library/jest-dom"
+        baseUrl "./"
+        { paths
+            [ @/Api/*
+                "*"
+                "src/Api/*"
+            [ @/Assets/*
+                "*"
+                "src/Assets/*"
+            [ @/Components/*
+                "*"
+                "src/Components/*"
+            [ @/Data/*
+                "*"
+                "src/Data/*"
+            [ @/Pages/*
+                "*"
+                "src/Pages/*"
+            [ @/Utils/*
+                "*"
+                "src/Utils/*"
+    [ include
+        "src"
+    [ references
+        {
+            path "./tsconfig.node.json"

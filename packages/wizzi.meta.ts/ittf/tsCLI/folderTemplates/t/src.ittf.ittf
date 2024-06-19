@@ -7,7 +7,7 @@ $group
     $
         var items = [
             "App.ts",
-            "index.ts"
+            "index_hint.ts"
         ];
 
     $foreach item in items

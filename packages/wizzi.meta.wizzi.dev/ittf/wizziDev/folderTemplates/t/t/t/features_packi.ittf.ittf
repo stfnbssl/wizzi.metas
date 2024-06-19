@@ -1,0 +1,17 @@
+$group
+
+    $include packi_api
+    $include packi_components
+    $include packi_controllers
+
+    $
+        var items = [
+            "index.ts",
+            "types.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/features/packi/${item}.ittf.ittf
+            module
+                ${'$'}include wizziDev/src/features/packi/${item}
+

@@ -10,6 +10,10 @@ $group
             param loadPackiConfig
                 :boolean
                 :optional
+            :return
+                :ref Promise
+                    :param
+                        :ref PackiProductionObject        
             return
                 new Promise
                     =>
@@ -67,30 +71,36 @@ $group
         param loadPackiConfig
             :boolean
             :optional
+        :return
+            :ref Promise
+                :param
+                    :ref PackiProductionObject        
         +
         r_promise${'('} )
             const ${'$'}{md.prefix}_packiFiles_object
                 :ref packiTypes.PackiFiles
                 _ JSON.parse(${'$'}{md.prefix}.packiFiles)
+            # TODO config.packiConfigPath shoul become constants.packiConfigPath
             const obj
                 {
                     @ ...${'$'}{md.prefix}._doc
                     @ packiFiles ${'$'}{md.prefix}_packiFiles_object
                     @ _id ${'$'}{md.prefix}._id.toString()
                     @ packiProduction "${'$'}{md.Name}"
-                    @ packiConfig ${'$'}{md.prefix}_packiFiles_object[packiConfigPath]
+                    @ packiConfig ${'$'}{md.prefix}_packiFiles_object[config.packiConfigPath]
                     @ packiConfigObj null
             +
             if loadPackiConfig
+                # TODO config.packiConfigPath shoul become constants.packiConfigPath
                 if !obj.packiConfig
                     return
                         _ reject
                             {
-                                @ message 'Missing file ' + packiConfigPath + ' in ${'$'}{md.Name}'
+                                @ message 'Missing file ' + config.packiConfigPath + ' in ${'$'}{md.Name}'
                 _ wizziProds.generateArtifact
-                    @ packiConfigPath
+                    @ config.packiConfigPath
                     {
-                        { [packiConfigPath]
+                        { [config.packiConfigPath]
                             @ type obj.packiConfig.type
                             @ contents obj.packiConfig.contents
                     {

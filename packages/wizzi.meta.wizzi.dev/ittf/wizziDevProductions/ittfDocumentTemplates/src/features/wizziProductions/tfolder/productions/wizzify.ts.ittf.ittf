@@ -1,0 +1,108 @@
+$group
+    export
+        async-function wizzifyFs
+            param filePath
+                :string
+            :return
+                :ref Promise
+                    :param
+                        :string
+            r_promise_async${'('} )
+                var extension
+                    _ path.extname
+                        @ filePath
+                const wf
+                    await
+                        _ createFilesystemFactory()
+                _ wf.getWizziIttf
+                    @ filePath
+                    @ extension
+                    =>
+                        param err
+                        param ittfDocument
+                        if err
+                            _ reject
+                                @ err
+                        return
+                            _ resolve
+                                @ ittfDocument
+    +
+    export
+        async-function wizzify
+            param files
+                :ref packiTypes.PackiFiles
+            :return
+                :ref Promise
+                    :param
+                        :ref packiTypes.PackiFiles
+            return
+                new Promise
+                    async=>
+                        param resolve
+                        param reject
+                        var result
+                            :ref packiTypes.PackiFiles
+                            =
+                                {
+                        const jsonwf
+                            :ref wizzi.JsonWizziFactoryAndJsonFs
+                            =
+                                await
+                                    _ createJsonFsAndFactory(files)
+                        for const k in files
+                            const file = files[k]
+                            if file
+                                var extension = path.extname(k)
+                                try
+                                    const ittfResult
+                                        await
+                                            _ handleWizzify
+                                                @ jsonwf.wf
+                                                @ extension
+                                                @ file.contents
+                                    set result[k + '.ittf']
+                                        {
+                                            @ type 'CODE'
+                                            @ contents ittfResult
+                                catch ex
+                                    set result[k + '.ittf']
+                                        {
+                                            @ type 'CODE'
+                                            @ contents
+                                                _ stringify
+                                                    @ ex
+                                                    @ null
+                                                    @ 2
+                        return
+                            _ resolve
+                                @ result
+    +
+    function handleWizzify
+        param wf
+            :ref wizzi.WizziFactory
+        param schemaOrExtension
+            :string
+        param codeSnippet
+            :string
+        :return
+            :ref Promise
+                :param
+                    :string
+        return
+            new Promise
+                async=>
+                    param resolve
+                    param reject
+                    _ wf.getWizziIttfFromText
+                        @ codeSnippet
+                        @ schemaOrExtension
+                        =>
+                            param err
+                            param ittfDocument
+                            if err
+                                _ reject
+                                    @ err
+                            return
+                                _ resolve
+                                    @ ittfDocument
+    +                                    

@@ -14,9 +14,9 @@ $group
             import ReactDOMServer from 'react-dom/server';                
             import 
                 @ config
-                from '../../config'
+                from '#/src/features/config'
             import 
-                @ wizziTypes
+                @ wizziProductionsTypes
                 @ wizziProds
                 @ WizziFactory
                 from '../../wizzi'
@@ -24,7 +24,7 @@ $group
                 @ packiTypes
                 from '../../packi'
             import EditorDocument 
-                from '../../../pages/EditorDocument'
+                from '#/src/pages/EditorDocument'
             import 
                 @ getPackiFromLocalFolder
                 from '../api/studioFolderEdit'

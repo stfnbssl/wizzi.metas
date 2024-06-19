@@ -6,7 +6,6 @@ $group
             { mongoDb
                 host "mongodb+srv"
                 user "yanez"
-                password "${'$'}{'$'}{stfnbssl_env.mongoDbPsw}"
                 dbPath "@cluster0.idlk7.mongodb.net"
                 dbName "wizzi"
                 { options

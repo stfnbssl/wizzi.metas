@@ -3,6 +3,9 @@ $group
     import
         @ Document
         from "mongoose"
+    import
+        @ packiTypes
+        from '#src/features/packi'
     +
     export
         :type PackiProduction
@@ -91,7 +94,7 @@ $group
                 :ref Date
     ${'$'}
         md = {
-            Name: 'TFolder'
+            Name: 'TFolderProduction'
         }
     v08/mongo/crud/modeltype${'('} &md)
         ${'$'}append fields
@@ -109,7 +112,7 @@ $group
                 :ref Date
     ${'$'}
         md = {
-            Name: 'Job'
+            Name: 'JobProduction'
         }
     v08/mongo/crud/modeltype${'('} &md)
         ${'$'}append fields
@@ -132,3 +135,36 @@ $group
                     :string
                 :p name
                     :string
+
+    +
+    export
+        :type PackiProductionObject
+            :{
+                :p _id
+                    :string
+                :p owner
+                    :string
+                :p name
+                    :string
+                :p description
+                    :string
+                :p mainIttf
+                    :string
+                    :optional
+                :p wizziSchema
+                    :string
+                    :optional
+                :p packiFiles
+                    :ref packiTypes.PackiFiles
+                :p created_at
+                    :ref Date
+                :p updated_at
+                    :ref Date
+                :p packiProduction
+                    :string
+                :p packiConfig
+                    :ref packiTypes.PackiFile
+                    :optional
+                :p packiConfigObj
+                    :any
+                    :optional

@@ -26,7 +26,7 @@ $group
                 param callback
                 # loog 'wz.docs.getCheatsheet', name
                 _ wz.fetch.get
-                    `lit 
+                    `tag 
                         + 
                         @ wz.docs.apiUrl
                         + /cheatsheet/

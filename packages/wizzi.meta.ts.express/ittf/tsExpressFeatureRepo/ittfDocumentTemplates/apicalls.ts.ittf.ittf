@@ -11,7 +11,7 @@ $group
                     :param any
             return 
                 _ fetch
-                    `lit 
+                    `tag 
                         + https://api.github.com/user/repos
                     _ getOptions(accessToken)
                     ._ then

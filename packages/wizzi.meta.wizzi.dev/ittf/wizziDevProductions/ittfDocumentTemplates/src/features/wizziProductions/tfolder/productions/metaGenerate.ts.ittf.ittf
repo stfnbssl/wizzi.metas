@@ -1,0 +1,53 @@
+$group
+    $if metaCtx.useWizziDevMeta
+        export
+            async-function metaGenerate
+                param metaCtx
+                    :any
+                param factoryPlugins
+                    :any
+                    :optional
+                param metaPlugins
+                    :any
+                    :optional
+                param globalContext
+                    :{
+                        :index
+                            :any
+                            param k
+                                :string
+                    :optional
+                :return
+                    :ref Promise
+                        :param
+                            :ref packiTypes.PackiFiles
+                return
+                    new Promise
+                        async=>
+                            param resolve
+                            param reject
+                            log myname, 'metaGenerate.metaCtx', Object.keys(metaCtx)
+                            let jsonwf
+                                :any
+                                =
+                                    {
+                            try
+                                set jsonwf =
+                                    await
+                                        _ createJsonFsAndFactory
+                                            {
+                                            @ factoryPlugins
+                                            @ metaPlugins
+                                _ jsonwf.wf.metaGenerate
+                                    {
+                                        @ metaCtx metaCtx
+                                        { paths
+                                            @ metaProductionTempFolder '___template'
+                                            @ metaProductionWizziFolder '.wizzi'
+                                        { globalContext
+                                    a_reject${'('} wizziPackiFiles, :ref, packiTypes.PackiFiles)
+                                        _ resolve
+                                            @ wizziPackiFiles
+                            catch ex
+                                return reject(ex)
+        +                                

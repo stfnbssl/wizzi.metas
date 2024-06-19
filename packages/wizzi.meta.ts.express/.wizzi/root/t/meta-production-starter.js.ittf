@@ -47,4 +47,3 @@ $group
                         var newk = 'plainDocuments/' + mp.productionName + '/' + k
                         set result[newk] = mp.plainDocuments[k]
                 r_cb( result )
-

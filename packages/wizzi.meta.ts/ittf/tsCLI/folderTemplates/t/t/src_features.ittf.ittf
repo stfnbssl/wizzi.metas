@@ -4,3 +4,12 @@ $group
         $include features.app
         $include features.config
     
+        $
+            var items = [
+                "types.ts",
+            ];
+
+        $foreach item in items
+            $file __dot__wizzi/src/features/${item}.ittf.ittf
+                module
+                    ${'$'}include tsCLI/src/features/${item}

@@ -1,5 +1,0 @@
-$group
-    $if metaCtx.useWizziDevPacki
-        $include wzCtxModel
-        $include src
-

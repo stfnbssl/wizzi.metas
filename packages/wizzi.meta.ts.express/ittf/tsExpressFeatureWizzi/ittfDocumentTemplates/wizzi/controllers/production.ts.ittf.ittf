@@ -30,7 +30,7 @@ $group
                     from '../../packi'
             import
                 @ config
-                from '../../config'
+                from '#/src/features/config'
             import
                 @ resolveContexts
                 from '../api/context'

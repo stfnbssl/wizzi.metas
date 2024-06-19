@@ -1,0 +1,109 @@
+$group
+
+    import
+        @ MiddlewareType
+        from '#/src/features/app'
+    ${'$'}if wzCtx.Build.express.useAuthorization
+        import { AuthorizationMiddleware } from './authorization'
+    ${'$'}if wzCtx.Build.express.useLogger
+        import { LoggerMiddleware } from './logger'
+    ${'$'}if wzCtx.Build.express.useCors
+        import { CorsMiddleware } from './cors'
+    ${'$'}if wzCtx.Build.express.useFlash
+        import { FlashMiddleware } from './flash'
+    ${'$'}if wzCtx.Build.express.useSession
+        import { SessionMiddleware } from './session'
+    ${'$'}if wzCtx.Build.express.useIttfStatic
+        import { IttfStaticMiddleware } from './ittfStatic'
+    ${'$'}if wzCtx.Build.express.usePackiStatic
+        import { PackiStaticMiddleware } from './packiStatic'
+    ${'$'}if wzCtx.Build.express.usePackiBrowse
+        import { PackiBrowseMiddleware } from './packiBrowse'
+    import { BodyParserMiddleware } from './bodyParser'
+    import { CacheControlMiddleware } from './cacheControl'
+    ${'$'}if wzCtx.Build.express.useCompression
+        import {CompressionMiddleware} from './compression'
+    ${'$'}if wzCtx.Build.express.useHelmet
+        import {HelmetMiddleware} from './helmet'
+    ${'$'}if wzCtx.Build.express.useNetlify
+        import { NetlifyServerMiddleware } from './netlifyServer'
+    ${'$'}if wzCtx.Build.express.useAuthentication || wzCtx.Build.express.useLocalUserFromConfig
+        import {UserInViewMiddleware} from './userInViews'
+    ${'$'}if wzCtx.Build.express.useStaticFiles
+        import { StaticFilesMiddleware } from './static'
+    ${'$'}if wzCtx.Build.express.useWizziViewEngine
+        import { WizziViewEngineMiddleware } from './wizziViewEngine'
+    ${'$'}if wzCtx.Build.express.useWizziCdn
+        import { WizziCdnMiddleware } from './wizziCdn'
+    ${'$'}if wzCtx.Build.express.useWebpackApp
+        import { WebpackAppMiddleware } from './webpackApp'
+    ${'$'}if wzCtx.Build.express.usePromiseMiddleware
+        import { PromiseMiddleware } from './promise'
+    ${'$'}if wzCtx.Build.express.useErrors
+        import { ErrorsMiddleware } from './errors'
+    const appMiddlewaresPre
+        :[
+            :ref MiddlewareType
+        =
+            [
+                ${'$'}if wzCtx.Build.express.useLogger
+                    @ LoggerMiddleware
+                ${'$'}if wzCtx.Build.express.useCors
+                    @ CorsMiddleware
+                ${'$'}if wzCtx.Build.express.useFlash
+                    @ FlashMiddleware
+                ${'$'}if wzCtx.Build.express.useSession
+                    @ SessionMiddleware
+                ${'$'}if wzCtx.Build.express.useIttfStatic
+                    @ IttfStaticMiddleware
+                ${'$'}if wzCtx.Build.express.usePackiBrowse
+                    @ PackiBrowseMiddleware
+                ${'$'}if wzCtx.Build.express.usePackiStatic
+                    @ PackiStaticMiddleware
+                ${'$'}if wzCtx.Build.express.useAuthorization
+                    @ AuthorizationMiddleware
+                @ BodyParserMiddleware
+                @ CacheControlMiddleware
+                ${'$'}if wzCtx.Build.express.useCompression
+                    @ CompressionMiddleware
+                ${'$'}if wzCtx.Build.express.useHelmet
+                    @ HelmetMiddleware
+                ${'$'}if wzCtx.Build.express.useNetlify
+                    @ NetlifyServerMiddleware
+                ${'$'}if wzCtx.Build.express.useAuthentication || wzCtx.Build.express.useLocalUserFromConfig
+                    @ UserInViewMiddleware
+                ${'$'}if wzCtx.Build.express.useStaticFiles
+                    @ StaticFilesMiddleware
+                ${'$'}if wzCtx.Build.express.useWizziViewEngine
+                    @ WizziViewEngineMiddleware
+                ${'$'}if wzCtx.Build.express.useWizziCdn
+                    @ WizziCdnMiddleware
+                ${'$'}if wzCtx.Build.express.useWebpackApp
+                    @ WebpackAppMiddleware
+                ${'$'}if wzCtx.Build.express.usePromiseMiddleware
+                    @ PromiseMiddleware
+
+    const appMiddlewaresPost
+        :[
+            :ref MiddlewareType
+        =
+            [
+                ${'$'}if wzCtx.Build.express.useErrors
+                    @ ErrorsMiddleware
+    ${'$'}if wzCtx.Build.express.useAuthorization
+        import
+            @ checkJwt
+            @ checkScopes
+            from './authorization'
+    ${'$'}if wzCtx.Build.express.useAuthentication
+        import webSecured from './webSecured'
+        import apiSecured from './apiSecured'
+    export
+        @ appMiddlewaresPre
+        @ appMiddlewaresPost
+        ${'$'}if wzCtx.Build.express.useAuthorization
+            @ checkJwt
+            @ checkScopes
+        ${'$'}if wzCtx.Build.express.useAuthentication
+            @ webSecured
+            @ apiSecured

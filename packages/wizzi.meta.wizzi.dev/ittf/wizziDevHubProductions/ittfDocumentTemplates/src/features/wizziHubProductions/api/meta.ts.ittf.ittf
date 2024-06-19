@@ -22,7 +22,7 @@ $group
         }
     import
         @ packiApi
-        from '../../packi'
+        from '#/src/features/packi'
     import
         @ WizziInMemoryMetaRef
         from '../types'
@@ -33,6 +33,7 @@ $group
     v08/mongo/crud/create_api${'('} &md)
     v08/mongo/crud/update_api${'('} &md)
     v08/mongo/crud/delete_api${'('} &md)
+    merge_files_api${'('} &md)
     ${'$'}include meta/cached_get_save
     ${'$'}include meta/get_templatePackiFiles
     ${'$'}include meta/get_metaGeneration.ts
@@ -44,9 +45,10 @@ $group
                     :ref WizziInMemoryMetaRef
             log 'getInMemoryMetaPlugins.inMemoryMetas', JSON.stringify(inMemoryMetas)
             r_promise${'('} )
-                const result = []
+                const result: any[] = []
                 function doBuildInMemoryPlugin
                     param ndx
+                        :number
                     const inMemoryRef = inMemoryMetas[ndx]
                     if !inMemoryRef
                         # loog 'getInMemoryMetaPlugins.result', JSON.stringify(result, null, 4)

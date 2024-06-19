@@ -7,10 +7,12 @@ $group
         }
     v08/ts/controller${'('} &ctrl )
         ${'$'}append imports
+            import React
+                from 'react'
             import ReactDOMServer
                 from 'react-dom/server'
             import PageFormDocument
-                from '../../../pages/PageFormDocument'
+                from '#/src/pages/PageFormDocument'
             import
                 @ CRUDResult
                 from '../../types'
@@ -30,7 +32,7 @@ $group
                 from '../utils'
             import
                 @ packiTypes
-                from '../../packi'
+                from '#/src/features/packi'
             +
             const myname = 'features/production/controllers/package'
             +
@@ -76,8 +78,12 @@ $group
             v08/ts/handler${'('} postPackage )
                 ${'$'}$ loog myname + '.postNewPackage.request.body', JSON.stringify(request.body, null, 2)
                 ${'$'}$ loog myname + '.postNewPackage.request.session.user', JSON.stringify((request.session as any).user, null, 2)
+
+                rest/check-params${'('} )
+                    rest/not-empty${'('} body , meta_id )
+
                 _ getTemplatePackiFiles
-                    @ request.body.meta_id
+                    @ meta_id
                     @ request.body.meta_propsValues ? JSON.parse(request.body.meta_propsValues) : {}
                     @ request.query.context as string
                     @ request.body.context ? JSON.parse(request.body.context) : {}
@@ -120,6 +126,9 @@ $group
             v08/ts/handler${'('} deletePackage )
                 delete_delete${'('} package )
             v08/ts/handler${'('} getPackageProperties )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} query , owner )
+                    rest/not-empty${'('} query , name )
                 _ renderPageForm
                     @ request
                     @ response
@@ -127,8 +136,8 @@ $group
                         @ type 'success'
                         @ formName 'PropertyEditor'
                         { formData
-                            @ owner request.query.owner
-                            @ name request.query.name
+                            @ owner owner
+                            @ name name
                             { schema
                                 [ properties
                                     {
@@ -163,9 +172,12 @@ $group
                                                 @ type 'boolean'
                     {
             v08/ts/handler${'('} getWizziMetaFolderByName  )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} params , name )
                 _ getWizziMetaFolder
-                    @ request.params.owner
-                    @ request.params.name
+                    @ owner
+                    @ name
                     {
                     ._ then
                         =>

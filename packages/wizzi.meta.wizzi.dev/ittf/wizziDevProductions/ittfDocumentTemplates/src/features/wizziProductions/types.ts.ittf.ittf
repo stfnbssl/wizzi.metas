@@ -1,0 +1,271 @@
+$group
+    import
+        as wizzi
+        from '@wizzi/factory'
+    import
+        @ JsonFs
+        from '@wizzi/repo'
+    import
+        @ packiTypes
+        from '#/src/features/packi'
+    +
+    export
+        :type FilesystemWizziFactory
+            :{
+                :p wf
+                    :ref wizzi.WizziFactory
+    export
+        :type JsonWizziFactory
+            :{
+                :p wf
+                    :ref wizzi.WizziFactory
+                :p jsonFs
+                    :ref JsonFs
+    export
+        :type LoadModelOptions
+            :{
+                :p pluginsBaseFolder
+                    :string
+                    :optional
+                :p plugins
+                    :[
+                        :string
+                    :optional
+    export
+        :type GenerationOptions
+            :{
+                :p generator
+                    :string
+                    :optional
+                :p artifactContext
+                    :any
+                    :optional
+                :p pluginsBaseFolder
+                    :string
+                    :optional
+                :p plugins
+                    :[
+                        :string
+                    :optional
+    export
+        :type GeneratedArtifact
+            :{
+                :p artifactContent
+                    :string
+                :p sourcePath
+                    :string
+                :p artifactGenerator
+                    :union
+                        :string
+                        :null
+
+    export
+        :type TransformationOptions
+            :{
+                :p transformer
+                    :string
+                    :optional
+                :p pluginsBaseFolder
+                    :string
+                    :optional
+                :p plugins
+                    :[
+                        :string
+                    :optional
+    export
+        :type TransformedModel
+            :{
+                :p transformResult
+                    :any
+                :p sourcePath
+                    :string
+                :p modelTransformer
+                    :union
+                        :string
+                        :null
+
+    +
+    export
+        :type IttfDocumentSource
+            :union
+                :literal 'fs'
+                :literal 'packi'
+                :literal 'db'
+                :literal 'text'
+    +
+    export
+        :type ContextSource
+            :union
+                :literal 'json-fsIttf'
+                :literal 'json-packiIttf'
+                :literal 'json-dbIttf'
+                :literal 'json-fsFile'
+                :literal 'json-value'
+                :literal 'model-fsIttf'
+                :literal 'model-packiIttf'
+                :literal 'model-dbIttf'
+    +
+    export
+        :type MetaIttfDocument
+            :{
+                :p source
+                    :ref IttfDocumentSource
+                :p path
+                    :string
+                    :optional
+                :p mainIttf
+                    :string
+                    :optional
+                :p rootFolder
+                    :string
+                    :optional
+                :p packiFiles
+                    :ref packiTypes.PackiFiles
+                    :optional
+                :p wizziSchema
+                    :string
+                    :optional
+                :p text
+                    :string
+                    :optional
+    +
+    export
+        :type MetaIttfFolder
+            :{
+                :p source
+                    :ref IttfDocumentSource
+                :p path
+                    :string
+                    :optional
+                :p sourceFolderUri
+                    :string
+                    :optional
+                :p destFolderUri
+                    :string
+                    :optional
+                :p generateFragments
+                    :boolean
+                    :optional
+                :p packiFiles
+                    :ref packiTypes.PackiFiles
+                    :optional
+    +
+    export
+        :type MetaContext
+            :{
+                :p name
+                    :string
+                    :optional
+                :p source
+                    :ref ContextSource
+                :p path
+                    :string
+                    :optional
+                :p mainIttf
+                    :string
+                    :optional
+                :p packiFiles
+                    :ref packiTypes.PackiFiles
+                    :optional
+                :p value
+                    :object
+                    :optional
+    +
+    export
+        :type ArtifactRequest
+            :{
+                :p ittfDocument
+                    :ref MetaIttfDocument
+                    :optional
+                :p ittfFolder
+                    :ref MetaIttfFolder
+                    :optional
+                :p contextItems
+                    :[
+                        :ref MetaContext
+    +
+    export
+        :type WizziModelTypesRequest
+            :{
+                :p storeKind
+                    :ref wizzi.StoreKind
+                    :optional
+                :p wfschemaName
+                    :string
+                :p wfschemaIttfDocumentUri
+                    :string
+                :p wfschemaOutputPackageFolder
+                    :string
+                :p mTreeBuildUpContext
+                    :any
+                    :optional
+                :p globalContext
+                    :any
+                    :optional
+                :p pluginsBaseFolder
+                    :string
+                :p plugins
+                    :[
+                        :string
+    +
+    export
+        :type WizziJobTypesRequest
+            :{
+                :p storeKind
+                    :ref wizzi.StoreKind
+                    :optional
+                :p wfjobName
+                    :string
+                    :optional
+                :p wfjobIttfDocumentUri
+                    :string
+                :p globalContext
+                    :any
+                    :optional
+                :p pluginsBaseFolder
+                    :string
+                :p plugins
+                    :[
+                        :string
+                :p productionOptions
+                    :ref wizzi.ProductionOptions
+                    :optional
+    +
+    export
+        :type ExtraMetaProductionData
+            :{
+                :p name
+                    :string
+                :p folderTemplates
+                    :ref packiTypes.PackiFiles
+                :p ittfDocumentTemplates
+                    :ref packiTypes.PackiFiles
+                    :optional
+                :p plainDocuments
+                    :ref packiTypes.PackiFiles
+                    :optional
+    +
+    export
+        :type MetaProductionPaths
+            :{
+                :p tempProductionFolder
+                    :string
+                :p wizziProductionFolder
+                    :string
+    +
+    export
+        :type MetaExecuteRequest
+            :{
+                :p metaCtx
+                    :any
+                    :optional
+                :p globalContext
+                    :any
+                    :optional
+                :p paths
+                    :ref MetaProductionPaths
+                    :optional
+                :p metaProductions
+                    :[
+                        :ref ExtraMetaProductionData
+                    :optional

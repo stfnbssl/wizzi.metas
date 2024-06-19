@@ -14,7 +14,7 @@ $group
                     from 'query-string'
                 import
                     @ config
-                    from '../../features/config'
+                    from '#/src/features/config'
                 const myname = 'site.controllers.auth'
         
         v08/ts/route${'('} get, /login, this.login)

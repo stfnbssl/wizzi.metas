@@ -1,0 +1,17 @@
+$group
+	${'$'}params result|notUsed, typen|@@null, typev|@@null, message|@@null
+
+    ._ then
+        =>
+            param ${'$'}{result}
+                ${'$'}if typen != null
+                    ${'$'}{typen} ${'$'}{typev!=null ? typev : ''}
+                ${'$'}else
+                    :any
+            if ${'$'}{result}.err || ${'$'}{result}.error
+                ${'$'}if message != null
+                    error "Error", "${'$'}{message}", ${'$'}{result}.err || ${'$'}{result}.error
+                return
+                    _ reject
+                        @ ${'$'}{result}.err || ${'$'}{result}.error
+            ${'$'}hook

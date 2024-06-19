@@ -26,6 +26,9 @@ $group
                 $if metaCtx.useTsReactApp
                     ${'$'}{'$'}include tsReactApp.json
                     
+                $if metaCtx.useTsReactViteAppStarter
+                    ${'$'}{'$'}include tsReactViteAppStarter.json
+                    
                 $if metaCtx.useTsReactAssets
                     ${'$'}{'$'}include tsReactAssets.json
                     
@@ -81,4 +84,3 @@ $group
                     ${'$'}{'$'}include tsReactWidgets.json
                     
                 { utils
-

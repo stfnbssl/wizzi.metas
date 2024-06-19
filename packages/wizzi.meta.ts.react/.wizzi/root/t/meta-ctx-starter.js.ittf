@@ -41,4 +41,3 @@ $group
                             var newk = 'metaCtxSchema/' + mp.productionName + '/' + k
                             set result[newk] = mp.metaCtxSchema[k]
                 r_cb( result )
-

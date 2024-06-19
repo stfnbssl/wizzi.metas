@@ -28,4 +28,3 @@
     $include package/0_0_1/browser
     $$ see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/
     $include package/0_0_1/resolutions
-

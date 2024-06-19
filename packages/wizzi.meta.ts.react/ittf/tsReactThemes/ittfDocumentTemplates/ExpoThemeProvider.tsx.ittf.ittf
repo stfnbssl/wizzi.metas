@@ -144,7 +144,7 @@ $group
                         return colors[color]
                     else
                         return 
-                            `lit 
+                            `tag 
                                 + var(--color-
                                 @ color
                                 + )
@@ -164,7 +164,7 @@ $group
                         return shadows[shadow]
                     else
                         return 
-                            `lit 
+                            `tag 
                                 + var(--shadow-
                                 @ shadow
                                 + )
@@ -179,7 +179,7 @@ $group
                     => 
                         param _
                         param key
-                        `lit 
+                        `tag 
                             + --color-
                             @ key
                             + 
@@ -188,7 +188,7 @@ $group
                     => 
                         param _
                         param key
-                        `lit 
+                        `tag 
                             + --shadow-
                             @ key
                             + 
@@ -198,7 +198,7 @@ $group
                     => 
                         param _
                         param key
-                        `lit 
+                        `tag 
                             + --color-
                             @ key
                             + 
@@ -207,7 +207,7 @@ $group
                     => 
                         param _
                         param key
-                        `lit 
+                        `tag 
                             + --shadow-
                             @ key
                             + 

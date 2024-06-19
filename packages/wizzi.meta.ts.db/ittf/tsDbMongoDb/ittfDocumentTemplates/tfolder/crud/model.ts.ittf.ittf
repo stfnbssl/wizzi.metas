@@ -45,7 +45,8 @@ $group
                     _ model
                         :param
                             :ref I${'$'}{md.Name}Model
-                        @ "${'$'}{md.Name}"
+                        @ "${'$'}{md.MongoName}"
+                        @ ${'$'}{md.Name}Schema
             return ${'$'}{md.Name}Model
     +
     export
@@ -62,7 +63,7 @@ $group
                                 _ model
                                     :param
                                         :ref I${'$'}{md.Name}Model
-                                    @ "${'$'}{md.Name}"
+                                    @ "${'$'}{md.MongoName}"
                                     @ ${'$'}{md.Name}Schema
                     @ applyExtraSetup
                         =>

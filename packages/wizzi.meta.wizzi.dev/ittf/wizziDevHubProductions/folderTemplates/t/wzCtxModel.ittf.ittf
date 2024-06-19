@@ -1,1 +1,11 @@
 $group
+
+    $file __dot__wizzi/models/t/wizziDevHubProductions.json.ittf.ittf
+        ${'$'}{'$'}group
+
+            { wizziDevHubProductions
+                $if metaCtx.wizziDevHubProductions.useCachedProductions
+                    useCachedProductions true
+                    { cachedProductions
+                $else
+                    useCachedProductions false

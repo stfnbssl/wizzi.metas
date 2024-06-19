@@ -1,0 +1,15 @@
+$group
+
+    $
+        var items = [
+            'check-params',
+            'not-empty',
+            'not-undefined',
+            'optional',
+            ];
+
+    $foreach item in items
+        $$ no extension works for *.ts and *.tsx
+        $file __dot__wizzi/${pkgPath}/src/t/rest/${item}.ittf.ittf
+            ${'$'}{'$'}group
+                ${'$'}include tsExpress/src/tfolder/rest/${item}.ts

@@ -1,0 +1,7 @@
+$group
+    $
+        var versions = {};
+        versions['@wizzi/factory'] = '0.8.37';
+        versions['@wizzi/mtree'] = '0.8.25';
+        versions['@wizzi/repo'] = '0.8.23';
+        versions['@wizzi/utils'] = '0.8.23';

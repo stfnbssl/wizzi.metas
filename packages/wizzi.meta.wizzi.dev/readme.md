@@ -5,8 +5,9 @@ Wizzi meta plugin for creating wizzi wizzi development meta productions packages
 ## Features
 ### Implemented Wizzi meta productions
 |Production|Descriptionn|
+|<a href https://github.com//wizzi.meta.wizzi.dev/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziDev.wfproduction.ittf>wizziDev</a>|wizziDev wizzi meta production|
 |<a href https://github.com//wizzi.meta.wizzi.dev/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziDevProductions.wfproduction.ittf>wizziDevProductions</a>|wizziDevProductions wizzi meta production|
-|<a href https://github.com//wizzi.meta.wizzi.dev/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziDevPacki.wfproduction.ittf>wizziDevPacki</a>|wizziDevPacki wizzi meta production|
+|<a href https://github.com//wizzi.meta.wizzi.dev/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziDevMeta.wfproduction.ittf>wizziDevMeta</a>|wizziDevMeta wizzi meta production|
 |<a href https://github.com//wizzi.meta.wizzi.dev/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziDevHubProductions.wfproduction.ittf>wizziDevHubProductions</a>|wizziDevHubProductions wizzi meta production|
 |<a href https://github.com//wizzi.meta.wizzi.dev/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziDevHubDbCli.wfproduction.ittf>wizziDevHubDbCli</a>|wizziDevHubDbCli wizzi meta production|
 |<a href https://github.com//wizzi.meta.wizzi.dev/tree/master/.wizzi/ittf/lib/wizzi/productions/wizziDevHubRestCli.wfproduction.ittf>wizziDevHubRestCli</a>|wizziDevHubRestCli wizzi meta production|

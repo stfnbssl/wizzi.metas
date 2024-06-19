@@ -1,7 +1,8 @@
 $group
     ${'$'}
         var md = {
-            Name: 'TFolder'
+            Name: 'TFolderProduction',
+            MongoName: 'TFolder'
         }
     v08/mongo/crud/model${'('} &md)
         ${'$'}append fields
@@ -11,7 +12,7 @@ $group
             @ packiFiles String
             @ created_at Date
             @ updated_at Date
-        _ TFolderSchema.index
+        _ TFolderProductionSchema.index
             {
                 @ owner 1
                 @ name 1

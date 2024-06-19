@@ -52,7 +52,7 @@ $group
                 return value
             throw 
                 new Error
-                    `lit 
+                    `tag 
                         + Environment variable&nbsp;
                         @ key
                         + &nbsp;isn't specified

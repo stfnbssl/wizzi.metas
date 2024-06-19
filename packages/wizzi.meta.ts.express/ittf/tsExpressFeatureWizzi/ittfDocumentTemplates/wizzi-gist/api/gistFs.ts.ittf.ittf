@@ -6,11 +6,11 @@ $group
         from 'wizzi-utils'
     import
         @ config
-        from '../../config'
+        from '#/src/features/config'
     import
         @ GistKind
         from '../types'
-    import * as wizziFs from '../../../utils/wizziFs'
+    import * as wizziFs from '#/src/utils/wizziFs'
     +
     var GIST_KINDS = ['gist', 'fragment', 'context']
     +

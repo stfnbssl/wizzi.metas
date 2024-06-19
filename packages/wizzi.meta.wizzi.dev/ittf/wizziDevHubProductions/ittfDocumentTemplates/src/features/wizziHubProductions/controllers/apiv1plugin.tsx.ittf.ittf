@@ -20,10 +20,12 @@ $group
         v08/ts/route${'('} post, /:post, this.postPluginProduction)
         ${'$'}append handlers
             v08/ts/handler${'('} getPluginProductions )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
                 _ getPluginProductionList
                     {
                         { query
-                            @ owner request.params.owner
+                            @ owner owner
                     ._ then
                         =>
                             param result
@@ -35,9 +37,12 @@ $group
             v08/ts/handler${'('} getCheckPluginName )
                 check_name${'('} plugin )
             v08/ts/handler${'('} getPluginProduction )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} params , name )
                 _ getPluginProduction
-                    @ request.params.owner
-                    @ request.params.name
+                    @ owner
+                    @ name
                     ._ then
                         =>
                             param result
@@ -47,11 +52,16 @@ $group
                                 @ result
                     v08/ts/catch_send_fail${'('} getPluginProduction )
             v08/ts/handler${'('} postPluginProduction )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , owner )
+                    rest/not-empty${'('} params , name )
+                    rest/not-empty${'('} body , description )
+                    rest/not-empty${'('} body , packiFiles )
                 _ createPluginProduction
-                    @ request.params.owner
-                    @ request.params.name
-                    @ request.body.description
-                    @ JSON.stringify(request.body.packiFiles)
+                    @ owner
+                    @ name
+                    @ description
+                    @ JSON.stringify(packiFiles)
                     ._ then
                         =>
                             param result
@@ -61,12 +71,18 @@ $group
                                 @ result
                     v08/ts/catch_send_fail${'('} postPluginProduction )
             v08/ts/handler${'('} putPluginProduction )
+                rest/check-params${'('} )
+                    rest/not-empty${'('} params , id )
+                    rest/not-empty${'('} body , owner )
+                    rest/not-empty${'('} body , name )
+                    rest/not-empty${'('} body , description )
+                    rest/not-empty${'('} body , packiFiles )
                 _ updatePluginProduction
-                    @ request.params.id
-                    @ request.body.owner
-                    @ request.body.name
-                    @ request.body.description
-                    @ JSON.stringify(request.body.packiFiles)
+                    @ id
+                    @ owner
+                    @ name
+                    @ description
+                    @ JSON.stringify(packiFiles)
                     ._ then
                         =>
                             param result

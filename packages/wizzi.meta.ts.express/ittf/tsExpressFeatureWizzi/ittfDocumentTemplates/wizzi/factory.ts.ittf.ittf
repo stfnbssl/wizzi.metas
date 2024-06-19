@@ -41,8 +41,8 @@ $group
                     @ pluginsBaseFolder '${'$'}{wzCtx.Build.wizzi.pluginsBaseFolder}'
 
     +
-    function getWzCtxMetaPlugins
-        $if metaCtx.tsExpressFeatureWizzi.useWizziMeta    
+    $if metaCtx.useWizziDevMeta
+        function getWzCtxMetaPlugins
             return
                 {
                     [ items
@@ -50,8 +50,6 @@ $group
                             @ '${'$'}{item}'
                     ${'$'}if wzCtx.Build.wizzi.metaPluginsBaseFolder
                         @ metaPluginsBaseFolder '${'$'}{wzCtx.Build.wizzi.metaPluginsBaseFolder}'
-        $else
-            return null
     +
     export
         async-function createFilesystemFactoryWithParameters

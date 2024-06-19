@@ -1,7 +1,7 @@
 $group
     +
     export
-        async-function getTFolder_withCache
+        async-function getTFolderProduction_withCache
             param owner
                 :string
             param name
@@ -12,15 +12,15 @@ $group
                     =>
                         param resolve
                         param reject
-                        ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
-                            let tfValue = tfolderProductionCache.get(cacheKey)
+                        ${'$'}if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                            let tfValue = tFolderProductionCache.get(cacheKey)
                             if tfValue
                                 return resolve(tfValue)
                         ${'$'}else
                             let tfValue
                                 {
                                     { packiFiles
-                        _ getTFolder
+                        _ getTFolderProduction
                             @ owner
                             @ name
                             ._ then
@@ -29,7 +29,7 @@ $group
                                     if !result.ok
                                         return reject(result)
                                     const tf
-                                        :ref ITFolderModel
+                                        :ref ITFolderProductionModel
                                         = result.item
                                     const tf_packiFiles_object
                                         :ref packiTypes.PackiFiles
@@ -37,10 +37,10 @@ $group
                                     set tfValue
                                         {
                                             @ packiFiles tf_packiFiles_object
-                                    ${'$'}if wzCtx.Build.packiProductions.useCachedProductions
-                                        _ tfolderProductionCache.set(cacheKey, tfValue)
+                                    ${'$'}if wzCtx.Build.wizziDevHubProductions.useCachedProductions
+                                        _ tFolderProductionCache.set(cacheKey, tfValue)
                                     return resolve(tfValue)
-                            v08/ts/catch_reject${'('} getTFolder_withCache.getArtifactProduction )
+                            v08/ts/catch_reject${'('} getTFolderProduction_withCache.getArtifactProduction )
     +
     export
         function invalidateCache
@@ -50,4 +50,4 @@ $group
                 :string
                 :optional
             var cacheKey = owner + '|' + name
-            _ tFolderCache.del(cacheKey)
+            _ tFolderProductionCache.del(cacheKey)

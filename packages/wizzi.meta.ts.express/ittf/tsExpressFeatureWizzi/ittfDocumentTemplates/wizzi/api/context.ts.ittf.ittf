@@ -11,7 +11,7 @@ $group
         from '@wizzi/factory'
     import
         @ config
-        from '../../config'
+        from '#/src/features/config'
     import
         as wizziProds
         from '../productions'

@@ -1,0 +1,41 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDep ('cors', '^2.8.5');
+        setCtxDevDep ('@types/cors', '^2.8.17');
+
+    import 
+        @ Application
+        from 'express'
+    import cors from 'cors'
+    import 
+        @ MiddlewareType
+        from '#/src/features/app/types'
+    export 
+        const CorsMiddleware
+            :ref MiddlewareType
+            =
+                => 
+                    param app
+                        :ref Application
+                    ${'$'}if wzCtx.Build.useCors && wzCtx.Build.cors.clientOrigins && wzCtx.Build.cors.clientOrigins.length > 0
+                        const options
+                            {
+                                @ origin
+                                    [
+                                        ${'$'}foreach item in wzCtx.Build.cors.clientOrigins
+                                            @ '${'$'}{item}'
+                                @ optionsSuccessStatus 200 
+                    _ app.options
+                        @ '*'
+                        _ cors
+                    _ app.use
+                        _ cors
+                            ${'$'}if wzCtx.Build.useCors && wzCtx.Build.cors.clientOrigins && wzCtx.Build.cors.clientOrigins.length > 0
+                                @ options
+                    ${'$'}if wzCtx.Build.useCors && wzCtx.Build.cors.clientOrigins && wzCtx.Build.cors.clientOrigins.length > 0
+                        success 'CorsMiddleware installed. Options: ', options
+                    ${'$'}else
+                        success 'CorsMiddleware installed.'
+
