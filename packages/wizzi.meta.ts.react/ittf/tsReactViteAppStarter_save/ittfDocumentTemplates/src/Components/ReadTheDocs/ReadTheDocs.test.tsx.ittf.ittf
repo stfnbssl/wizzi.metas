@@ -1,0 +1,18 @@
+$group
+    import
+        @ render
+        @ screen
+        from '@testing-library/react'
+    import ReadTheDocs from '.'
+    _ describe
+        @ 'Render the ReadTheDocs Component correctly'
+        =>
+            _ test
+                @ 'should render the `p` correctly'
+                async=>
+                    _ render
+                        < ReadTheDocs
+                    _ expect
+                        await
+                            _ screen.findByTestId('read-the-docs')
+                        ._ toBeInTheDocument

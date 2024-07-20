@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "Header.tsx",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/Components/nav/${item}.ittf.ittf
+            module
+                ${'$'}include tsReactViteAppStarter/src/Components/nav/${item}

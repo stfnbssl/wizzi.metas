@@ -1,0 +1,4 @@
+$group
+    $include Components_Header
+    $include Components_ReadTheDocs
+    $include Components_nav

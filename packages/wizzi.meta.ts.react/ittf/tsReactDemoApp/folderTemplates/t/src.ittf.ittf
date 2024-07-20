@@ -1,0 +1,37 @@
+$group
+    
+    $include src_Assets
+    $include src_Components
+    $if metaCtx.tsReactDemoApp.useRouter
+        $include src_Pages
+    $include src_Utils
+
+    $if !!metaCtx.useCommonsTailwind == false
+        $
+            var items = [
+                "App.css",
+                "index.css",
+            ]
+
+        $foreach item in items
+            $file __dot__wizzi/src/${item}.ittf.ittf
+                css
+                    ${'$'}include tsReactDemoApp/src/${item}
+    
+    $
+        var items = [
+            "main.tsx",
+        ]
+        if (metaCtx.tsReactDemoApp.useRouter) {
+            items.push("RouterApp.tsx");
+        } else {
+            items.push("App.tsx");
+            if (metaCtx.useCommonsVite && metaCtx.commonsVite.useVitest) {
+                items.push("App.test.tsx");
+            }
+        }
+
+    $foreach item in items
+        $file __dot__wizzi/src/${item}.ittf.ittf
+            module
+                ${'$'}include tsReactDemoApp/src/${item}

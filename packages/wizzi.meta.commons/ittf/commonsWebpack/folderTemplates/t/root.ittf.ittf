@@ -1,0 +1,36 @@
+$group
+
+    $include root_tfolder
+
+    $file __dot__wizzi/root/webpack.config.js.ittf.ittf
+        module
+            kind es6
+
+            ${'$'}{'$'}include webpack/imports
+
+            set module.exports
+                {
+                    @ mode
+                        iif process.env.NODE_ENV === 'production'
+                            then 'production'
+                            else 'development'
+                    @ devtool
+                        iif process.env.NODE_ENV === 'production'
+                            then 'source-map'
+                            $$ else 'eval-source-map'
+                            else 'cheap-module-source-map'
+                    { entry
+                        ${'$'}{'$'}include webpack/entry
+                    { module
+                        [ rules
+                            ${'$'}{'$'}include webpack/module.rules
+                    { resolve
+                        ${'$'}{'$'}include webpack/resolve
+                    { output
+                        ${'$'}{'$'}include webpack/output
+                    [ plugins
+                        ${'$'}{'$'}include webpack/plugins
+                    { devServer
+                        ${'$'}{'$'}include webpack/devServer
+                    { optimization
+                        ${'$'}{'$'}include webpack/optimization

@@ -6,6 +6,7 @@ node_modules/
 public/lib 
 app/tests/coverage/ 
 .bower-*/ 
+.env 
 .idea/ 
 .bin/ 
 .obj/ 

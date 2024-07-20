@@ -1,0 +1,17 @@
+$group
+    import React from "react"
+    import ReactDOM from "react-dom/client"
+    
+    $if metaCtx.tsReactDemoApp.useRouter
+        import App from "./RouterApp"
+    $else
+        import App from "./App"
+    $if !!metaCtx.useCommonsTailwind == false
+        import "./index.css"
+    +
+    _ ReactDOM.createRoot
+        :!
+            _ document.getElementById("root")
+        ._ render
+            < React.StrictMode
+                < App

@@ -1,0 +1,45 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDevDep ('tailwind-merge', '^2.3.0');
+        setCtxDevDep ('tailwindcss', '^3.4.3');
+        setCtxDevDep ('tailwindcss-animate', '^1.0.7');
+        setCtxDevDep ('tailwindcss-radix', '^3.0.3');
+    + /** @type {import('tailwindcss').Config} */
+    import
+        :type Config
+        from 'tailwindcss'
+    $if TODO
+        import animatePlugin from 'tailwindcss-animate'
+        import radixPlugin from 'tailwindcss-radix'
+        import
+            @ marketingPreset
+            from './src/routes/_marketing+/tailwind-preset'
+        import
+            @ extendedTheme
+            from './src/utils/extended-theme.ts'
+    +
+    export-default
+        satisfies
+            {
+                [ content
+                    @ "./index.html"
+                    @ './src/**/*.{ts,tsx,jsx,js}'
+                @ darkMode 'class'
+                { theme
+                    $if TODO
+                        { container
+                            @ center true
+                            @ padding '2rem'
+                            { screens
+                                @ '2xl' '1400px'
+                        @ extend extendedTheme
+                [ presets
+                    $if TODO
+                        @ marketingPreset
+                [ plugins
+                    $if TODO
+                        @ animatePlugin
+                        @ radixPlugin
+            :ref Config

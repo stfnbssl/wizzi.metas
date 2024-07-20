@@ -1,0 +1,6 @@
+$group
+    tailwind base
+    tailwind components
+    tailwind utilities
+    $if metaCtx.commonsTailwind.useExtensions
+        ${'$'}include ${metaCtx.commonsTailwind.extensions.includePath}

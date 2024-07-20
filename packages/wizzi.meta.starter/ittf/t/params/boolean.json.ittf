@@ -1,0 +1,6 @@
+{
+    $params name, defaultValue:boolean|false
+    name "${name}"
+    type "boolean"
+    defaultValue "${defaultValue}"
+    $hook

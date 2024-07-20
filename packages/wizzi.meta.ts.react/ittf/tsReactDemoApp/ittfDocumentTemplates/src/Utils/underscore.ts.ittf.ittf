@@ -1,0 +1,55 @@
+$group
+    
+    export
+        function isString
+            param val
+                :any
+            :return
+                :boolean
+            return typeof val === "string"
+
+    export
+        function isArray
+            param val
+                :any
+            :return
+                :boolean
+            return Array.isArray ? Array.isArray(val) : toString.call(val) === '[object Array]'
+
+    export
+        function isObject
+            param val
+                :any
+            :return
+                :boolean
+            return val != null && typeof val === 'object' && Array.isArray(val) === false
+
+    export
+        function makeString
+            param object
+                :any
+            if object == null
+                return ''
+            return '' + object;
+        # https://github.com/esamattis/underscore.string/blob/master/helper/makeString.js
+    
+    export
+        function capitalize
+            param str
+                :string
+            param lowercaseRest
+                :boolean
+                :optional
+            set str = makeString(str)
+            var remainingChars = !lowercaseRest ? str.slice(1) : str.slice(1).toLowerCase()
+            return str.charAt(0).toUpperCase() + remainingChars
+        # https://github.com/esamattis/underscore.string/blob/master/helper/capitalize.js
+    
+    export
+        function now
+            :return
+                :number
+            return
+                ||
+                    _ Date.now
+                    new Date().getTime()  

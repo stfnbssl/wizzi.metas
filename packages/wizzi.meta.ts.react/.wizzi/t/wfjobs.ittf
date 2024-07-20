@@ -11,6 +11,26 @@ $group
                     model-ref ${jobCtx.job_model}
                         export-name ${jobCtx.job_model}
                 $hook
+            artifact any_mjs
+                src ./**/*.mjs.ittf
+                schema js
+                generator js/module
+                extension mjs
+                ignore /**/bin/**/*.mjs
+                $if jobCtx.job_model
+                    model-ref ${jobCtx.job_model}
+                        export-name ${jobCtx.job_model}
+                $hook
+            artifact any_cjs
+                src ./**/*.cjs.ittf
+                schema js
+                generator js/module
+                extension cjs
+                ignore /**/bin/**/*.cjs
+                $if jobCtx.job_model
+                    model-ref ${jobCtx.job_model}
+                        export-name ${jobCtx.job_model}
+                $hook
         $if name == 'any_mjs'
             artifact any_mjs
                 src ./**/*.mjs.ittf

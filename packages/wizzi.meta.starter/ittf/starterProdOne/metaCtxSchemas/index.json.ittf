@@ -1,0 +1,5 @@
+{
+    [ parameters
+        params/string( strOne )
+        params/use( fOne )
+            params/string( strFOneOne )

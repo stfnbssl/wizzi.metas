@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            "vite",
+        ];
+
+    $foreach item in items
+
+        $file __dot__wizzi/public/${item}.svg.ittf.ittf
+            svg
+                ${'$'}include commonsVite/public/${item}.svg

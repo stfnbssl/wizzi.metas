@@ -1,0 +1,22 @@
+$group
+    $
+        function setCtxScript(name, value) {
+            $.setCtx ('package.scripts.' + name + '.name', name);
+            $.setCtx ('package.scripts.' + name + '.value', value);
+        }
+        function setCtxDep(name, version) {
+            $.setCtx ('package.dependencies.' + name + '.name', name);
+            $.setCtx ('package.dependencies.' + name + '.version', version);
+        }
+        function setCtxDevDep(name, version) {
+            $.setCtx ('package.devDependencies.' + name + '.name', name);
+            $.setCtx ('package.devDependencies.' + name + '.version', version);
+        }
+        function setCtxEnvValues(name, property, checker) {
+            $.setCtx ('env.values.' + name + '.name', name);
+            $.setCtx ('env.values.' + name + '.property', property);
+            $.setCtx ('env.values.' + name + '.checker', checker);
+        }
+        function setCtxRequire(name) {
+            $.setCtx ('require.' + name);
+        }

@@ -1,0 +1,9 @@
+{
+    $params name, defaultValue|@@null
+    name "${name}"
+    type "string"
+    $if defaultValue == null
+        defaultValue ""
+    $else
+        defaultValue "${defaultValue}"
+    $hook

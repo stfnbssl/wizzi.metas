@@ -1,0 +1,5 @@
+$group
+
+    $file __dot__wizzi/root/__dot__husky/init.json.ittf.ittf
+        {
+            ${'$'}include commonsHusky/.husky/init.json      

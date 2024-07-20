@@ -2,6 +2,10 @@ $group
     
     $if metaCtx.useCommonsEslint
 
+        $include root
+
+        $* __old
+        
         $file __dot__wizzi/${pkgPath}root/__dot__eslintignore.text.ittf.ittf
             text
                 ${'$'}{'$'}include eslint/${metaVer}/eslintignore.text
@@ -48,3 +52,4 @@ $group
             $file __dot__wizzi/t/eslint/${metaVer}/rc/${item}.js.ittf.ittf
                 ${'$'}{'$'}group
                     ${'$'}include commonsEslint/rc/${item}.js
+        *$                    

@@ -1,27 +1,35 @@
 $group
+
     $include src_Assets
     $include src_Components
-    $include src_Pages
+    $if metaCtx.tsReactViteAppStarter.useRouter
+        $include src_Pages
     $include src_Utils
 
-    $
-        var items = [
-            "App.css",
-            "index.css",
-        ]
+    $if !!metaCtx.useCommonsTailwind == false
+        $
+            var items = [
+                "App.css",
+                "index.css",
+            ]
 
-    $foreach item in items
-        $file __dot__wizzi/src/${item}.ittf.ittf
-            css
-                ${'$'}include tsReactViteAppStarter/src/${item}
+        $foreach item in items
+            $file __dot__wizzi/src/${item}.ittf.ittf
+                css
+                    ${'$'}include tsReactViteAppStarter/src/${item}
+    
     $
         var items = [
-            "App.test.tsx",
-            "App.tsx",
-            "RouterApp.tsx",
             "main.tsx",
-            "vite-env.d.ts",
         ]
+        if (metaCtx.tsReactViteAppStarter.useRouter) {
+            items.push("RouterApp.tsx");
+        } else {
+            items.push("App.tsx");
+            if (metaCtx.useCommonsVite && metaCtx.commonsVite.useVitest) {
+                items.push("App.test.tsx");
+            }
+        }
 
     $foreach item in items
         $file __dot__wizzi/src/${item}.ittf.ittf

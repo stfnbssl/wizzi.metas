@@ -1,0 +1,6 @@
+$group 
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDevDep ('husky', '^8.0.0');
+        setCtxScript ('prepare', 'husky install');

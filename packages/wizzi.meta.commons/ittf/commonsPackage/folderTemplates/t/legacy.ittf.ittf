@@ -1,0 +1,66 @@
+$group
+    
+    $if metaCtx.useCommonsPackage
+        
+        $file __dot__wizzi/${pkgPath}root/package.json.ittf.ittf
+        
+            {
+            
+                name "${'$'}{'$'}{wzCtx.npmName ? wzCtx.npmName : wzCtx.name}"
+                
+                version "${'$'}{'$'}{wzCtx.version}"
+                
+                ${'$'}{'$'}if wzCtx.author
+                    { author
+                        name "${'$'}{'$'}{wzCtx.author.name}"
+                        email "${'$'}{'$'}{wzCtx.author.email}"
+                
+                private false
+                
+                ${'$'}{'$'}if wzCtx.license
+                    [ licenses
+                        { 
+                            type "${'$'}{'$'}{wzCtx.license.type}"
+                            url "${'$'}{'$'}{wzCtx.license.url}"
+                            copy "${'$'}{'$'}{wzCtx.license.copy}"
+                main "${'$'}{'$'}{wzCtx.main}"
+                
+                ${'$'}{'$'}if wzCtx.Build.useVite || wzCtx.Build.useESM
+                    type "module"
+                ${'$'}{'$'}else
+                    ${'$'}{'$'}if wzCtx.type
+                        type "${'$'}{'$'}{wzCtx.type}"
+                
+                { scripts
+                    ${'$'}{'$'}include package/${metaVer}/scripts
+
+                { dependencies
+                    ${'$'}{'$'}include package/${metaVer}/dependencies
+
+                { devDependencies
+                    ${'$'}{'$'}include package/${metaVer}/devDependencies
+
+                ${'$'}{'$'}include package/${metaVer}/tools
+
+                ${'$'}{'$'}include package/${metaVer}/browser
+
+                ${'$'}{'$'}${'$'}{'$'} see https://classic.yarnpkg.com/en/docs/selective-version-resolutions/
+                ${'$'}{'$'}include package/${metaVer}/resolutions
+
+        $
+            var items = [
+                "browser",
+                "dependencies",
+                "devDependencies",
+                "resolutions",
+                "scripts",
+                "tools",
+            ];
+
+        $foreach item in items
+
+            $file __dot__wizzi/t/package/${metaVer}/${item}.json.ittf.ittf
+                ${'$'}{'$'}group
+                
+                    ${'$'}include commonsPackage/${item}.json
+        

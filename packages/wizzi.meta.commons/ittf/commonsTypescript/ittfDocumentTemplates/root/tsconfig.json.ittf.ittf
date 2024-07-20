@@ -1,0 +1,49 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxScript ('typecheck','tsc');
+        setCtxDevDep ('tsx', '^4.8.2');
+        setCtxDevDep ('typescript', '^5.1.6');
+
+    { compilerOptions
+        target "ES2020"
+        useDefineForClassFields true
+        [ lib
+            "ES2020"
+            "DOM"
+            "DOM.Iterable"
+        module "ESNext"
+        skipLibCheck true
+
+        $$ /* Bundler mode */
+        moduleResolution "bundler"
+        allowImportingTsExtensions true
+        resolveJsonModule true
+        isolatedModules true
+        noEmit true
+        jsx "react-jsx"
+
+        $$ /* Linting */
+        strict true
+        noUnusedLocals true
+        noUnusedParameters true
+        noFallthroughCasesInSwitch true
+        [ types
+            $if metaCtx.useCommonsVite && metaCtx.commonsVite.useVitest
+                "vitest/globals"
+                "@testing-library/jest-dom"
+        $$ /* Absolute Imports */
+        baseUrl "./"
+        { paths
+            $if metaCtx.commonsTypescript.useConfigPaths
+                $foreach item in metaCtx.commonsTypescript.configPaths.items
+                    [ ${item.name}/*
+                        "*"
+                        "${item.path}/*"
+    
+    [ include
+        "src"
+    [ references
+        {
+            path "./tsconfig.node.json"

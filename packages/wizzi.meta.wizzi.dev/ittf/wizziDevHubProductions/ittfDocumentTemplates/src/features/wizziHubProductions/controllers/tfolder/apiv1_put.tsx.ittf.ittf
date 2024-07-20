@@ -3,14 +3,16 @@ $group
     ${'$'}
         $$ old var suffix = prod == 'tFolder' || prod == 'job' ? '' : 'Production';
         var suffix = 'Production';
-    v08/ts/handler${'('} put${'$'}{ctrl.Production}${'$'}{suffix}PackiDiffs )
-        log 'put${'$'}{ctrl.Production}${'$'}{suffix}PackiDiffs.request.params', request.params
-        log 'put${'$'}{ctrl.Production}${'$'}{suffix}PackiDiffs.request.body.options', Object.keys(request.body.options)
-        log 'put${'$'}{ctrl.Production}${'$'}{suffix}PackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs)
+    v08/ts/handler${'('} put${'$'}{ctrl.Production}PackiDiffs )
+        log 'put${'$'}{ctrl.Production}PackiDiffs.request.params', request.params
+        $if TODO
+            log 'put${'$'}{ctrl.Production}PackiDiffs.request.body.options', Object.keys(request.body.options)
+        log 'put${'$'}{ctrl.Production}PackiDiffs.request.body.packiDiffs', Object.keys(request.body.packiDiffs)
         
         rest/check-params${'('} )
             rest/not-empty${'('} params , id )
-            rest/not-empty${'('} body , options )
+            $if TODO
+                rest/not-empty${'('} body , options )
 
         _ get${'$'}{ctrl.Production}${'$'}{suffix}ObjectById
             @ id
@@ -18,7 +20,7 @@ $group
                 =>
                     param prev${'$'}{ctrl.Production}
                         :any
-                    log 'put${'$'}{ctrl.Production}${'$'}{suffix}PackiDiffs.prevPackiFiles', Object.keys(prev${'$'}{ctrl.Production}.packiFiles)
+                    log 'put${'$'}{ctrl.Production}PackiDiffs.prevPackiFiles', Object.keys(prev${'$'}{ctrl.Production}.packiFiles)
                     const pm
                         new PackiBuilder
                             @ prev${'$'}{ctrl.Production}.packiFiles
@@ -29,4 +31,4 @@ $group
                             @ request
                             @ response
                             @ pm.packiFiles
-            v08/ts/catch_send_fail${'('} put${'$'}{ctrl.Production}${'$'}{suffix}PackiDiffs.get${'$'}{ctrl.Production}${'$'}{suffix}ObjectById )
+            v08/ts/catch_send_fail${'('} put${'$'}{ctrl.Production}PackiDiffs.get${'$'}{ctrl.Production}${'$'}{suffix}ObjectById )

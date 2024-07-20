@@ -2,18 +2,6 @@ $group
 
     $
         var items = [
-            ".eslintrc.cjs",
-            "commitlint.config.cjs",
-            "vite.config.ts",
-            "vitest.config.ts",
-        ]
-
-    $foreach item in items
-        $file __dot__wizzi/root/${item}.ittf.ittf
-            module
-                ${'$'}include tsReactViteAppStarter/root/${item}
-    $
-        var items = [
             "index.html",
         ]
 
@@ -22,17 +10,6 @@ $group
             html
                 ${'$'}include tsReactViteAppStarter/root/${item}
     
-    $
-        var items = [
-            "package.json",
-            "tsconfig.json",
-            "tsconfig.node.json",
-        ]
-
-    $foreach item in items
-        $file __dot__wizzi/root/${item}.ittf.ittf
-            {
-                ${'$'}include tsReactViteAppStarter/root/${item}
     $
         var items = [
             "README.md",

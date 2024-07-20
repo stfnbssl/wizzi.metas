@@ -1,0 +1,7 @@
+$group
+    $if metaCtx.useTsReactDemoApp
+        $include wzCtxModel
+        $include public
+        $include src
+        $include root
+        $include tests

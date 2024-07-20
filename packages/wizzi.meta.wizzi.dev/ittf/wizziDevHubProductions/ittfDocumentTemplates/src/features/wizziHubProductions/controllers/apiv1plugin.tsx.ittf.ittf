@@ -12,14 +12,14 @@ $group
             apiv1_imports${'('} &ctrl )
             +
             const myname = 'features/production/controllers/apiv1plugin'
-        v08/ts/route${'('} get, /:owner, this.getPluginProductions)
+        v08/ts/route${'('} get, /:owner, this.getPlugins)
         v08/ts/route${'('} get, /checkname/:owner/:name, this.getCheckPluginName)
-        v08/ts/route${'('} get, /:owner/:name, this.getPluginProduction)
-        v08/ts/route${'('} put, /:id, this.putPluginProduction)
-        v08/ts/route${'('} put, /packidiffs/:id, this.putPluginProductionPackiDiffs)
-        v08/ts/route${'('} post, /:post, this.postPluginProduction)
+        v08/ts/route${'('} get, /:owner/:name, this.getPlugin)
+        v08/ts/route${'('} put, /:id, this.putPlugin)
+        v08/ts/route${'('} put, /packidiffs/:id, this.putPluginPackiDiffs)
+        v08/ts/route${'('} post, /:post, this.postPlugin)
         ${'$'}append handlers
-            v08/ts/handler${'('} getPluginProductions )
+            v08/ts/handler${'('} getPlugins )
                 rest/check-params${'('} )
                     rest/not-empty${'('} params , owner )
                 _ getPluginProductionList
@@ -33,10 +33,10 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail${'('} getPluginProductions )
+                    v08/ts/catch_send_fail${'('} getPlugins )
             v08/ts/handler${'('} getCheckPluginName )
                 check_name${'('} plugin )
-            v08/ts/handler${'('} getPluginProduction )
+            v08/ts/handler${'('} getPlugin )
                 rest/check-params${'('} )
                     rest/not-empty${'('} params , owner )
                     rest/not-empty${'('} params , name )
@@ -50,8 +50,8 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail${'('} getPluginProduction )
-            v08/ts/handler${'('} postPluginProduction )
+                    v08/ts/catch_send_fail${'('} getPlugin )
+            v08/ts/handler${'('} postPlugin )
                 rest/check-params${'('} )
                     rest/not-empty${'('} params , owner )
                     rest/not-empty${'('} params , name )
@@ -69,8 +69,8 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail${'('} postPluginProduction )
-            v08/ts/handler${'('} putPluginProduction )
+                    v08/ts/catch_send_fail${'('} postPlugin )
+            v08/ts/handler${'('} putPlugin )
                 rest/check-params${'('} )
                     rest/not-empty${'('} params , id )
                     rest/not-empty${'('} body , owner )
@@ -90,6 +90,6 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail${'('} putPluginProduction )
+                    v08/ts/catch_send_fail${'('} putPlugin )
             apiv1_put${'('} &ctrl )
     apiv1_exec_update${'('} &ctrl )

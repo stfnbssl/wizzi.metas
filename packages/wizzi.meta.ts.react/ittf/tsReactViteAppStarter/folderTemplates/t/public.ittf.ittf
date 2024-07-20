@@ -1,11 +1,11 @@
 $group
 
-        $
-            var items = [
-                "vite.svg",
-            ]
+    $
+        var items = [
+            "vite.svg",
+        ]
 
-        $foreach item in items
-            $file __dot__wizzi/public/${item}.ittf.ittf
-                svg
-                    ${'$'}include tsReactViteAppStarter/public/${item}
+    $foreach item in items
+        $file __dot__wizzi/public/${item}.ittf.ittf
+            svg
+                ${'$'}include tsReactViteAppStarter/public/${item}

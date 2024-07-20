@@ -1,5 +1,6 @@
 $group
-
+    
+    $if metaCtx.useCommonsVite && metaCtx.commonsVite.useVitest
         $
             var items = [
                 "setup.ts",

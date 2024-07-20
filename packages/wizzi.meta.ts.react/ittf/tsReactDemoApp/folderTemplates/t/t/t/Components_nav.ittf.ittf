@@ -1,0 +1,13 @@
+$group
+
+    $if metaCtx.tsReactDemoApp.useRouter
+
+        $
+            var items = [
+                "Header.tsx",
+            ]
+
+        $foreach item in items
+            $file __dot__wizzi/src/Components/nav/${item}.ittf.ittf
+                module
+                    ${'$'}include tsReactDemoApp/src/Components/nav/${item}

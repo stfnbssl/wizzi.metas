@@ -1,0 +1,21 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxDevDep ('tailwind-merge', '^2.3.0');
+        setCtxDevDep ('tailwindcss', '^3.4.3');
+        setCtxDevDep ('tailwindcss-animate', '^1.0.7');
+        setCtxDevDep ('tailwindcss-radix', '^3.0.3');
+    + /** @type {import('tailwindcss').Config} */
+    +
+    set module.exports
+        {
+            [ content
+                @ "./index.html"
+                @ './src/**/*.{ts,tsx,jsx,js}'
+            $if TODO
+                @ darkMode 'class'
+            { theme
+            $if TODO
+                [ presets
+            [ plugins

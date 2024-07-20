@@ -1,0 +1,35 @@
+$group
+    name "${metaCtx.name}"
+    description "${metaCtx.description}"
+    $if metaCtx.author
+        { author
+            name "${metaCtx.author.name}"
+            email "${metaCtx.author.email}"
+    $if metaCtx.license
+        license "${metaCtx.license.type}"
+    $if metaCtx.github
+        { github
+            userid "${metaCtx.github.userid}"
+    private false
+    sideEffects false
+    $if TODO
+        type "module"
+    { imports
+        #* "./*"
+    { scripts
+        ${'$'}if $.getCtx('package.scripts')
+            ${'$'}foreach item in Object.values($.getCtx('package.scripts'))
+                ${'$'}{item.name} "${'$'}{item.value}"
+    { dependencies
+        ${'$'}if $.getCtx('package.dependencies')
+            ${'$'}foreach item in Object.values($.getCtx('package.dependencies'))
+                ${'$'}{item.name} "${'$'}{item.version}"
+    { devDependencies
+        ${'$'}if $.getCtx('package.devDependencies')
+            ${'$'}foreach item in Object.values($.getCtx('package.devDependencies'))
+                ${'$'}{item.name} "${'$'}{item.version}"
+    { engines
+        node ">=20"
+
+    { imports
+        #/* "./*"   

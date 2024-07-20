@@ -44,6 +44,9 @@ $group
                 $if metaCtx.useTsReactEditor
                     ${'$'}{'$'}include tsReactEditor.json
                     
+                $if metaCtx.useTsReactDemoApp
+                    ${'$'}{'$'}include tsReactDemoApp.json
+                    
                 $if metaCtx.useTsReactFeatures
                     ${'$'}{'$'}include tsReactFeatures.json
                     

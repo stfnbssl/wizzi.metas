@@ -1,0 +1,71 @@
+$group
+    kind es6
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        $if metaCtx.useCommonsTypescript
+            setCtxScript ('lint', 'eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0');
+        setCtxDevDep ('@typescript-eslint/eslint-plugin', '^6.0.0');
+        setCtxDevDep ('@typescript-eslint/parser', '^6.0.0');
+        setCtxDevDep ('eslint', '^8.54.0');
+        setCtxDevDep ('eslint-config-airbnb', '^19.0.4');
+        setCtxDevDep ('eslint-config-airbnb-typescript', '^17.1.0');
+        setCtxDevDep ('eslint-plugin-import', '^2.29.0');
+        setCtxDevDep ('eslint-plugin-jsx-a11y', '^6.8.0');
+        setCtxDevDep ('eslint-plugin-react', '^7.33.2');
+        setCtxDevDep ('eslint-plugin-react-hooks', '^4.6.0');
+        setCtxDevDep ('eslint-plugin-react-refresh', '^0.4.4');
+        $if metaCtx.useCommonsPrettier
+            setCtxDevDep ('eslint-config-prettier', '^9.0.0');
+            setCtxDevDep ('eslint-plugin-prettier', '^5.0.1');
+
+    set module.exports =
+        {
+            @ root true
+            { env
+                @ browser true
+                @ es2020 true
+            [ extends
+                @ 'eslint:recommended'
+                @ 'plugin:@typescript-eslint/recommended'
+                @ 'plugin:react-hooks/recommended'
+                @ 'airbnb'
+                @ 'airbnb-typescript'
+                @ 'eslint-config-prettier'
+            [ ignorePatterns
+                @ 'dist'
+                @ 'vite.config.ts'
+                @ 'vitest.config.ts'
+                @ 'tests'
+                @ '*.cjs'
+            @ parser '@typescript-eslint/parser'
+            { parserOptions
+                @ project './tsconfig.json'
+            [ plugins
+                @ 'react-refresh'
+                @ 'prettier'
+                @ '@typescript-eslint'
+            { rules
+                @ 'prettier/prettier' 'error'
+                [ 'react-refresh/only-export-components'
+                    @ 'warn'
+                    {
+                        @ allowConstantExport true
+                @ 'react/react-in-jsx-scope' 'off'
+                @ 'react/prop-types' 'off'
+                @ 'react/jsx-no-bind' 'off'
+                [ 'import/extensions'
+                    @ 'error'
+                    @ 'ignorePackages'
+                    {
+                        @ "" 'never'
+                        @ 'js' 'never'
+                        @ 'jsx' 'never'
+                        @ 'ts' 'never'
+                        @ 'tsx' 'never'
+                        @ 'mjs' 'never'
+                [ 'react/function-component-definition'
+                    @ 2
+                    {
+                        @ namedComponents 'arrow-function'
+                        @ unnamedComponents 'arrow-function'

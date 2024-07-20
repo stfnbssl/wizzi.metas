@@ -1,0 +1,84 @@
+$group
+    $if metaCtx.usePackageVersion
+        ${'$'}include versions
+    name "${metaCtx.name}"
+    npmName "${metaCtx.npmName}"
+    version "${metaCtx.version}"
+    description "${metaCtx.description}"
+    $if metaCtx.author
+        { author
+            name "${metaCtx.author.name}"
+            email "${metaCtx.author.email}"
+    $if metaCtx.license
+        { license
+            type "${metaCtx.license}"
+            url "${metaCtx.license_url}"            
+    $if metaCtx.github
+        { github
+            userid "${metaCtx.github.userid}"
+    
+    { Build
+        $if metaCtx.useTsReact
+            ${'$'}include tsReact.json
+            
+        $if metaCtx.useTsReactApp
+            ${'$'}include tsReactApp.json
+            
+        $if metaCtx.useTsReactViteAppStarter
+            ${'$'}include tsReactViteAppStarter.json
+            
+        $if metaCtx.useTsReactAssets
+            ${'$'}include tsReactAssets.json
+            
+        $if metaCtx.useTsReactBasicWebpack
+            ${'$'}include tsReactBasicWebpack.json
+            
+        $if metaCtx.useTsReactBasicVite
+            ${'$'}include tsReactBasicVite.json
+            
+        $if metaCtx.useTsReactComponents
+            ${'$'}include tsReactComponents.json
+            
+        $if metaCtx.useTsReactEditor
+            ${'$'}include tsReactEditor.json
+            
+        $if metaCtx.useTsReactFeatures
+            ${'$'}include tsReactFeatures.json
+            
+        $if metaCtx.useTsReactNextjsApp
+            ${'$'}include tsReactNextjsApp.json
+            
+        $if metaCtx.useTsReactPageForms
+            ${'$'}include tsReactPageForms.json
+            
+        $if metaCtx.useTsReactRadixUi
+            ${'$'}include tsReactRadixUi.json
+            
+        $if metaCtx.useTsReactRedux
+            ${'$'}include tsReactRedux.json
+            
+        $if metaCtx.useTsReactSiteWebpack
+            ${'$'}include tsReactSiteWebpack.json
+            
+        $if metaCtx.useTsReactStoryboard
+            ${'$'}include tsReactStoryboard.json
+            
+        $if metaCtx.useTsReactThemes
+            ${'$'}include tsReactThemes.json
+            
+        $if metaCtx.useTsReactTypings
+            ${'$'}include tsReactTypings.json
+            
+        $if metaCtx.useTsReactUtils
+            ${'$'}include tsReactUtils.json
+            
+        $if metaCtx.useTsReactWebpackGetStartedApp
+            ${'$'}include tsReactWebpackGetStartedApp.json
+            
+        $if metaCtx.useTsReactWebpackWidgetsApp
+            ${'$'}include tsReactWebpackWidgetsApp.json
+            
+        $if metaCtx.useTsReactWidgets
+            ${'$'}include tsReactWidgets.json
+            
+        { utils

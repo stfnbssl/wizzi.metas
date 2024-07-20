@@ -99,6 +99,18 @@
                 {
                     name "git"
         {
+            name "commonsHusky"
+            title "commonsHusky wizzi meta production"
+            [ categories
+                {
+                    name "husky"
+        {
+            name "commonsJavascript"
+            title "commonsJavascript wizzi meta production"
+            [ categories
+                {
+                    name "javascript"
+        {
             name "commonsPackage"
             title "commonsPackage wizzi meta production"
             [ categories
@@ -139,13 +151,27 @@
                 {
                     name "css"
         {
+            name "commonsTypescript"
+            title "commonsTypescript wizzi meta production"
+            [ categories
+                {
+                    name "typescript"
+        {
+            name "commonsVite"
+            title "commonsVite wizzi meta production"
+            [ categories
+                {
+                    name "packager"
+                {
+                    name "vite"
+        {
             name "commonsWebpack"
             title "commonsWebpack wizzi meta production"
             [ categories
                 {
-                    name "package"
+                    name "packager"
                 {
-                    name "jspackager"
+                    name "webpack"
         {
             name "commonsWizzi"
             title "commonsWizzi wizzi meta production"
@@ -154,4 +180,3 @@
                     name "package"
                 {
                     name "wizzi"
-

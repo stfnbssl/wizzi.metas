@@ -17,13 +17,13 @@ $group
             const myname = 'features/production/controllers/apiv1packageproduction'
         v08/ts/route${'('} get, /checkname/:owner/:name, this.getCheckPackageName)
         v08/ts/route${'('} get, /meta/:id, this.getWizziMetaFolder)
-        v08/ts/route${'('} get, /:owner, this.getPackageProductions)
-        v08/ts/route${'('} get, /:owner/:name, this.getPackageProduction)
-        v08/ts/route${'('} put, /:id, this.putPackageProduction)
-        v08/ts/route${'('} put, /packidiffs/:id, this.putPackageProductionPackiDiffs)
-        v08/ts/route${'('} post, /:owner/:name, this.postPackageProduction)
+        v08/ts/route${'('} get, /:owner, this.getPackages)
+        v08/ts/route${'('} get, /:owner/:name, this.getPackage)
+        v08/ts/route${'('} put, /:id, this.putPackage)
+        v08/ts/route${'('} put, /packidiffs/:id, this.putPackagePackiDiffs)
+        v08/ts/route${'('} post, /:owner/:name, this.postPackage)
         ${'$'}append handlers
-            v08/ts/handler${'('} getPackageProductions )
+            v08/ts/handler${'('} getPackages )
                 rest/check-params${'('} )
                     rest/not-empty${'('} params , owner )
                 _ getPackageProductionList
@@ -37,10 +37,10 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail${'('} getPackageProductions )
+                    v08/ts/catch_send_fail${'('} getPackages )
             v08/ts/handler${'('} getCheckPackageName )
                 check_name${'('} package )
-            v08/ts/handler${'('} getPackageProduction )
+            v08/ts/handler${'('} getPackage )
                 rest/check-params${'('} )
                     rest/not-empty${'('} params , owner )
                     rest/not-empty${'('} params , name )
@@ -54,8 +54,8 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail${'('} getPackageProduction )
-            v08/ts/handler${'('} postPackageProduction )
+                    v08/ts/catch_send_fail${'('} getPackage )
+            v08/ts/handler${'('} postPackage )
                 rest/check-params${'('} )
                     rest/not-empty${'('} params , owner )
                     rest/not-empty${'('} params , name )
@@ -73,8 +73,8 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail${'('} postPackageProduction )
-            v08/ts/handler${'('} putPackageProduction )
+                    v08/ts/catch_send_fail${'('} postPackage )
+            v08/ts/handler${'('} putPackage )
                 rest/check-params${'('} )
                     rest/not-empty${'('} params , id )
                     rest/not-empty${'('} body , owner )
@@ -94,7 +94,7 @@ $group
                             _ sendSuccess
                                 @ response
                                 @ result
-                    v08/ts/catch_send_fail${'('} putPackageProduction )
+                    v08/ts/catch_send_fail${'('} putPackage )
             apiv1_put${'('} &ctrl )
             v08/ts/handler${'('} getWizziMetaFolder  )
                 ${'$'}$ loog 'getWizziMetaFolder.request.params', request.params

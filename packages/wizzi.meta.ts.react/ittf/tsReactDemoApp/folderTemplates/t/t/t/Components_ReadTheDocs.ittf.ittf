@@ -1,0 +1,14 @@
+$group
+
+    $
+        var items = [
+            "index.tsx",
+        ]
+        if (metaCtx.useCommonsVite && metaCtx.commonsVite.useVitest) {
+            items.push("ReadTheDocs.test.tsx");
+        }
+
+    $foreach item in items
+        $file __dot__wizzi/src/Components/ReadTheDocs/${item}.ittf.ittf
+            module
+                ${'$'}include tsReactDemoApp/src/Components/ReadTheDocs/${item}

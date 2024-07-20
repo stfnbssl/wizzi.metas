@@ -20,6 +20,7 @@ $group
             'catch_fail',
             'r_promise',
             'r_promise_async',
+            'r_promise_resolve',
             'r_promise_try_catch',
             'r_resolve',
             'r_reject',

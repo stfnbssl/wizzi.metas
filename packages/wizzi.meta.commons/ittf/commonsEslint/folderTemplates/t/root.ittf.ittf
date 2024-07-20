@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            ".eslintrc.cjs",
+            "commitlint.config.cjs",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            module
+                ${'$'}include commonsEslint/root/${item}

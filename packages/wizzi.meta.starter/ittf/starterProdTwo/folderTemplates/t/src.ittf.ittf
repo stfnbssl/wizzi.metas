@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "index.js",
+        ];
+
+    $foreach item in items
+        $file __dot__wizzi/src/${item}.ittf.ittf
+            {
+                ${'$'}include starterProdTwo/src/${item}

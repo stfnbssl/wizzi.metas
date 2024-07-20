@@ -37,6 +37,8 @@ $group
                 :string
 			param name
                 :string
+			:return
+				:any
 			var value = this.optional(qb, name)
 			if verify.isUndefined(value)
 				_ this.error
@@ -48,6 +50,8 @@ $group
                 :string
 			param name
                 :string
+			:return
+				:any
 			var value = this.optional(qb, name)
 			if verify.isEmpty(value)
 				_ this.error
@@ -55,6 +59,8 @@ $group
 			return value
 
 		m notEmptyBody
+			:return
+				:any
 			var value = this.optionalBody()
 			if verify.isEmpty(value)
 				_ this.error
@@ -66,7 +72,11 @@ $group
                 :string
 			param name
                 :string
-			var value
+			:return
+				:any
+			let value
+				:any
+				= null
 			if qb === 'query'
 				set value = this.request.query[name]
 			elif qb === 'params'
@@ -76,19 +86,38 @@ $group
 			return value
 
 		m optionalBody
+			:return
+				:any
 			return this.request.body
 
+		m assert
+			param value
+				:boolean
+			param message
+                :string
+			:return
+				:void
+			if !value
+				_ this.error
+					@ message
+		
 		m error
 			param message
                 :string
+			:return
+				:void
 			_ this.errors.push(message)
 
         m hasErrors
+			:return
+				:boolean
             return this.errors.length > 0
         
         m sendErrors
             param response
                 :ref Response
+			:return
+				:void
             _ sendFailure
                 @ response
                 {

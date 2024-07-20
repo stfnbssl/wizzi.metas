@@ -1,0 +1,30 @@
+$group
+    import React from 'react'
+    import 
+        @ useParams
+        from 'react-router-dom'
+    
+    :type Params
+        :{
+            :p id
+                :string 
+    
+    const One
+        :ref React.FC
+        =
+            => 
+                const 
+                    { 
+                        @ id
+                    =
+                        _ useParams
+                            :param 
+                                :ref Params
+                return 
+                    div 
+                        h1 
+                            + Page One
+                        p 
+                            + ID: ${'\\b'}
+                            + {id}
+    export-default One

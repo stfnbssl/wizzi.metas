@@ -1,0 +1,21 @@
+$group
+
+    $
+        var items = [
+            "devServer",
+            "entry",
+            "externals",
+            "imports",
+            "module.rules",
+            "optimization",
+            "output",
+            "plugins",
+            "resolve",
+        ];
+
+    $foreach item in items
+
+        $file __dot__wizzi/root/t/webpack/${item}.js.ittf.ittf
+            ${'$'}{'$'}group
+            
+                ${'$'}include commonsWebpack/root/tfolder/${item}.js

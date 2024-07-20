@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.starter\.wizzi\root\errors.js.ittf
-    utc time: Wed, 10 Jan 2024 15:25:48 GMT
+    package: @wizzi/plugin.js@0.8.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.starter\.wizzi-override\root\errors.js.ittf
+    utc time: Wed, 03 Jul 2024 08:34:31 GMT
 */
 'use strict';
 

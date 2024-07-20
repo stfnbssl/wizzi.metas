@@ -1,0 +1,6 @@
+$group
+
+    $file __dot__wizzi/root/postcss.config.js.ittf.ittf
+        module
+            kind es6
+            ${'$'}include commonsPostcss/root/postcss.config.js

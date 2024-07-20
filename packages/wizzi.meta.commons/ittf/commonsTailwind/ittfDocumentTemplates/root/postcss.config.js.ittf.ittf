@@ -1,0 +1,21 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxScript ('build:css','postcss index.css -o dist/index.css');
+        setCtxDevDep ('postcss-cli', '^11.0.0');
+        setCtxDevDep ('postcss', '^8.4.39');
+        $if metaCtx.commonsTailwind.useImport
+            setCtxDevDep ('postcss-import', '^16.1.0');
+        $if metaCtx.commonsTailwind.useAutoprefixer
+            setCtxDevDep ('autoprefixer', '^10.4.19');
+
+    set module.exports
+        {
+            { plugins
+                $if metaCtx.commonsTailwind.useImport
+                    { 'postcss-import'
+                { 'tailwindcss/nesting'
+                { tailwindcss
+                $if metaCtx.commonsTailwind.useAutoprefixer
+                    { autoprefixer

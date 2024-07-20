@@ -1,8 +1,8 @@
 /*
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
-    package: wizzi-js@
-    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.starter\.wizzi\root\index.js.ittf
-    utc time: Wed, 10 Jan 2024 15:25:48 GMT
+    package: @wizzi/plugin.js@0.8.9
+    primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.starter\.wizzi-override\root\index.js.ittf
+    utc time: Wed, 03 Jul 2024 08:34:31 GMT
 */
 'use strict';
 
@@ -17,11 +17,51 @@ const vfile = wizziUtils.fSystem.vfile;
 
 var md = module.exports = {};
 md.name = 'wizzi.meta.starter.index';
+md.version = '';
+
+var pluginCategories = [
+    {
+        name: 'wizzi-lab', 
+        productions: [
+            {
+                name: "starterProdOne"
+             }, 
+            {
+                name: "starterProdTwo"
+             }
+        ]
+     }
+];
+var pluginMetaProductions = [
+    {
+        name: 'starterProdOne', 
+        title: 'starterProdOne wizzi meta production', 
+        isPackageMain: true, 
+        categories: [
+            {
+                name: 'wizzi-lab'
+             }
+        ]
+     }, 
+    {
+        name: 'starterProdTwo', 
+        title: 'starterProdTwo wizzi meta production', 
+        categories: [
+            {
+                name: 'wizzi-lab'
+             }
+        ]
+     }
+];
 
 class FactoryMeta {
     constructor(provides) {
+        this.name = "wizzi.meta.starter";
+        this.version = "";
         this.provides = provides;
+        this.metaCategories = {};
         this.metaProductions = {};
+        this.metaContextDefs = {};
     }
     
     initialize(options, callback) {
@@ -41,6 +81,13 @@ class FactoryMeta {
         return this.provides;
     }
     
+    /**
+         Returns the categories of all the productions of the plugin
+    */
+    getMetaCategoryStarter(options, callback) {
+        
+        return callback(null, pluginCategories);
+    }
     /**
          Build, if not existent, and retrieve a WizziMetaProduction by its production name.
             Returns
@@ -63,7 +110,6 @@ class FactoryMeta {
         
         metaProduction = {};
         return this.getFolderTemplates(productionName, metaProduction, (err, notUsed) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -85,7 +131,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'folderTemplates');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -109,7 +154,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'ittfDocumentTemplates');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -133,7 +177,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'plainDocuments');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -157,7 +200,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'metaCtxSchema');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -180,7 +222,6 @@ class FactoryMeta {
         var folderPath = path.resolve(__dirname, 'ittf', productionName, 'wzCtxSchema');
         if (fsFile.isDirectory(folderPath)) {
             createPackifilesFromFs(folderPath, (err, result) => {
-            
                 if (err) {
                     return callback(err);
                 }
@@ -206,20 +247,16 @@ class FactoryMeta {
     */
     getMetaProductionStarter(options, callback) {
         
-        var productions = [
-            "starterProduction1"
-        ];
-        async.map(productions, (prod, callback) => {
-        
+        async.map(pluginMetaProductions, (prod, callback) => {
+            const prodName = prod.name;
             if (options && options.metaCtx) {
-                const useProductionVar = 'use' + prod[0].toUpperCase() + prod.substring(1);
+                const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1);
                 if (!options.metaCtx[useProductionVar]) {
                     return callback(null, {});
                 }
-                console.log('getMetaProductionStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar], __filename);
+                console.log("[32m%s[0m", 'using meta production', useProductionVar);
             }
-            this.getMetaProduction(prod, (err, metaProduction) => {
-            
+            this.getMetaProduction(prodName, (err, metaProduction) => {
                 if (err) {
                     return callback(err);
                 }
@@ -228,19 +265,24 @@ class FactoryMeta {
             )
         }
         , (err, metaProductions) => {
-        
             const result = {};
             var i, i_items=metaProductions, i_len=metaProductions.length, mp;
             for (i=0; i<i_len; i++) {
                 mp = metaProductions[i];
-                for (var k in mp.folderTemplates) {
-                    var newk = 'folderTemplates/' + mp.productionName + '/' + k;
-                    result[newk] = mp.folderTemplates[k];
+                if (mp.folderTemplates) {
+                    for (var k in mp.folderTemplates) {
+                        var newk = 'folderTemplates/' + mp.productionName + '/' + k;
+                        result[newk] = mp.folderTemplates[k];
+                    }
                 }
-                for (var k in mp.ittfDocumentTemplates) {
-                    var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k;
-                    result[newk] = mp.ittfDocumentTemplates[k];
+                if (mp.ittfDocumentTemplates) {
+                    for (var k in mp.ittfDocumentTemplates) {
+                        var newk = 'ittfDocumentTemplates/' + mp.productionName + '/' + k;
+                        result[newk] = mp.ittfDocumentTemplates[k];
+                    }
                 }
+            }
+            if (mp.plainDocuments) {
                 for (var k in mp.plainDocuments) {
                     var newk = 'plainDocuments/' + mp.productionName + '/' + k;
                     result[newk] = mp.plainDocuments[k];
@@ -250,16 +292,140 @@ class FactoryMeta {
         }
         )
     }
+    /**
+         Build, if not existent, and retrieve the contexts of a WizziMetaProduction by its production name.
+            Returns
+                { metaContextDefs
+                 string productionName
+                 { metaCtxSchema
+                 { wzCtxSchema
+    */
+    getMetaContextDefs(productionName, callback) {
+        
+        var metaContextDefs = this.metaContextDefs[productionName] || null;
+        
+        if (metaContextDefs != null) {
+            return callback(null, metaContextDefs);
+        }
+        
+        metaContextDefs = {};
+        return this.getTParams(productionName, metaContextDefs, (err, notUsed) => {
+                if (err) {
+                    return callback(err);
+                }
+                metaContextDefs.productionName = productionName;
+                this.metaContextDefs[productionName] = metaContextDefs;
+                return callback(null, metaContextDefs);
+            }
+            );
+    }
+    /**
+         Enrich the metaContextDefs object with the ittf/t/params folder
+         that contains the templates for declaring context parameters of meta productions.
+         Returns a chained call to the getMetaCtxSchema method.
+    */
+    getTParams(productionName, metaContextDefs, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', 't', 'params');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+                if (err) {
+                    return callback(err);
+                }
+                metaContextDefs.ittfTParams = result;
+                return this.getMetaCtxSchema(productionName, metaContextDefs, callback);
+            }
+            )
+        }
+        else {
+            return this.getMetaCtxSchema(productionName, metaContextDefs, callback);
+        }
+    }
+    /**
+         If the ittf/<productionName>/metaCtxSchema folder exists
+         Enrich the metaContextDefs object with the metaCtxSchema property
+         that contains a packiFile object with the content of the ittf/<productionName>/metaCtxSchema folder.
+         Returns a chained call to the getWzCtxSchema method.
+    */
+    getMetaCtxSchema(productionName, metaContextDefs, callback) {
+        const fsFile = vfile();
+        var folderPath = path.resolve(__dirname, 'ittf', productionName, 'metaCtxSchemas');
+        if (fsFile.isDirectory(folderPath)) {
+            createPackifilesFromFs(folderPath, (err, result) => {
+                if (err) {
+                    return callback(err);
+                }
+                metaContextDefs.metaCtxSchema = result;
+                return callback(null);
+            }
+            )
+        }
+        else {
+            return callback(null);
+        }
+    }
+    /**
+         Build and returns a packiFiles object with all the metaCtxSchema documents
+         of the selected WizziMetaProductions
+         The packiFiles filepaths are built this way:
+         - metaCtxSchema/<ProductionName><metaFilePath>
+         For each metaProduction the returned packiFiles object must contain:
+         . a document with filePath 'metaCtxSchema/<ProductionName>/index.ittf.ittf'
+         and can optionally contain
+         . a document with filePath 'folderTemplates/<ProductionName>/globals.ittf.ittf'
+    */
+    getMetaContextDefsStarter(options, callback) {
+        
+        async.map(pluginMetaProductions, (prod, callback) => {
+            if (options && options.metaCtx) {
+                const useProductionVar = 'use' + prod.name[0].toUpperCase() + prod.name.substring(1);
+                if (!options.metaCtx[useProductionVar]) {
+                    return callback(null, {});
+                }
+                console.log('getMetaContextDefsStarter.useProduction', useProductionVar, options.metaCtx[useProductionVar], __filename);
+            }
+            this.getMetaContextDefs(prod.name, (err, metaContextDefs) => {
+                if (err) {
+                    return callback(err);
+                }
+                return callback(null, metaContextDefs);
+            }
+            )
+        }
+        , (err, metaContextDefs) => {
+            const result = {};
+            var i, i_items=metaContextDefs, i_len=metaContextDefs.length, mp;
+            for (i=0; i<i_len; i++) {
+                mp = metaContextDefs[i];
+                if (mp.ittfTParams) {
+                    for (var k in mp.ittfTParams) {
+                        var newk = 'metaCtxSchema/' + mp.productionName + '/t/params/' + k;
+                        result[newk] = mp.ittfTParams[k];
+                    }
+                }
+                if (mp.metaCtxSchema) {
+                    for (var k in mp.metaCtxSchema) {
+                        var newk = 'metaCtxSchema/' + mp.productionName + '/' + k;
+                        result[newk] = mp.metaCtxSchema[k];
+                    }
+                }
+            }
+            return callback(null, result);
+        }
+        )
+    }
     
 }
 
+/**
+     Scan a filesystem folder and returns the content in a packiFiles object.
+*/
 function createPackifilesFromFs(folderPath, callback) {
     const fsFile = vfile();
     fsFile.getFiles(folderPath, {
         deep: true, 
         documentContent: true
      }, (err, files) => {
-    
         if (err) {
             return callback(err);
         }
@@ -289,14 +455,12 @@ function error(errorName, method, message, innerError) {
 module.exports = {
     version: '', 
     provides: {
-        metaProductions: [
-            'starterProduction1'
-        ]
+        categories: pluginCategories, 
+        metaProductions: pluginMetaProductions
      }, 
     createMetaPlugin: function(options, callback) {
         var meta = new FactoryMeta(this.provides);
         meta.initialize(options, (err, notUsed) => {
-        
             if (err) {
                 return callback(err);
             }

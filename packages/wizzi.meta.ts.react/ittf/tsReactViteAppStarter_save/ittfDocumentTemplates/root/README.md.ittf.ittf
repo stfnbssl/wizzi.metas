@@ -1,0 +1,181 @@
+$group
+    h1 ViteRC ❤️‍🔥
+    br
+    p A modern minimal Vite 5 + React 18 + TypeScript template with pre-configured ESLint (with Airbnb JS/React rules), Prettier, Vitest and Git hooks with Husky out of the box 📦
+    br
+    p
+        img
+            src https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E
+            alt ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+        +
+        +
+        img
+            src https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+            alt ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+        +
+        +
+        img
+            src https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+            alt ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+        +
+        +
+        img
+            src https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white
+            alt ![ESLint](https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white)
+        +
+        +
+        img
+            src https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E
+            alt ![Prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
+        +
+        +
+        img
+            src https://img.shields.io/badge/vitest-C21325?style=for-the-badge&logo=vitest&logoColor=white
+            alt ![Vitest](https://img.shields.io/badge/vitest-C21325?style=for-the-badge&logo=vitest&logoColor=white)
+        +
+        +
+        img
+            src https://img.shields.io/badge/testing%20library-E33332?style=for-the-badge&logo=testing-library&logoColor=white
+            alt ![Testing Library](https://img.shields.io/badge/testing%20library-E33332?style=for-the-badge&logo=testing-library&logoColor=white)
+        +
+        +
+        img
+            src https://img.shields.io/badge/commitlint-000000?style=for-the-badge&logo=commitlint&logoColor=white
+            alt ![Commitlint](https://img.shields.io/badge/commitlint-000000?style=for-the-badge&logo=commitlint&logoColor=white)
+    br
+    h2 Features
+    br
+    ul
+        li
+            + ⚡️ \b
+            a Vite 5
+                href https://vitejs.dev/
+            + \b - Next Generation Frontend Tooling
+        li
+            + ⚛️ \b
+            a React 18
+                href https://reactjs.org/
+            + \b - A JavaScript library for building user interfaces
+        li
+            + 💎 \b
+            a TypeScript
+                href https://www.typescriptlang.org/
+            + \b - Why not?!
+        li
+            + 🔨 \b
+            a EsLint
+                href https://eslint.org/
+            + \b - Pluggable JavaScript linter
+        li
+            + 🌀 \b
+            a Prettier
+                href https://prettier.io
+            + \b - Opinionated Code Formatter
+        li
+            + 🐺 \b
+            a Husky
+                href https://github.com/typicode/husky
+            + \b - Native Git hooks
+        li
+            + ⚙️ \b
+            a Vitest
+                href https://vitest.dev/guide/
+            + \b - Testing library
+        li
+            + 📑 \b
+            a Commitlint
+                href https://commitlint.js.org/
+            + \b - Linting your commits based on commit convention
+        li ⌨️ Absolute Imports
+    br
+    h2 Why
+    br
+    p This template arose out of a need to unite all the above libraries, which were not found in the existing Vite templates. This template has an active contributors that will update everything on this template as needed
+    br
+    h2 Usage
+    br
+    p If you are using either Yarn or NPM run the command bellow
+    code
+        lang bash
+        + npx degit potreco/viterc my-app
+        +
+        + cd my-app
+        +
+        + # Required if you want a repository and work with Git hooks
+        + git init
+        +
+        + yarn install
+        +
+        + yarn dev
+    br
+    p If you are using Bun
+    code
+        lang bash
+        + bun create potreco/viterc/bun my-app
+        +
+        + cd my-app
+        +
+        + # Required if you want a repository and work with Git hooks
+        + git init
+        +
+        + bun install
+        +
+        + bun run dev
+    br
+    h2 Available commands
+    br
+    html
+        p In this project, you can run the following scripts:
+    br
+    table
+        thead
+            th Script
+            th Description
+        tbody
+            tr
+                td dev
+                td Runs the app in the development mode.
+            tr
+                td build
+                td
+                    + Builds the app for production to the \b
+                    codespan dist
+                    + \b folder.
+            tr
+                td lint
+                td Runs the Eslint and show code problems
+            tr
+                td format
+                td Runs the Prettier and fix code style
+            tr
+                td preview
+                td
+                    + Builds the app for production to the \b
+                    codespan dist
+                    + \b folder, and run locally server.
+            tr
+                td test
+                td Run the app tests.
+            tr
+                td test:watch
+                td Run the app tests in watch mode.
+    h2 About the absolute imports
+    br
+    p To correctly functioning (code and tests) of absolute imports, you should add some codes in some files, like:
+    br
+    ul
+        li vite.config.ts
+        li tsconfig.json
+    br
+    p
+        + We already writed some absolute imports on these files, so if you wanna more paths or edit some, feel free to do it.
+        + If your not safe about it or have some question, send us a thread on \b
+        a Github Discussions
+            href https://github.com/potreco/viterc/discussions/new?category=q-a
+        + \b asking for, we were happy to help
+    br
+    h2 License
+    br
+    p
+        a MIT
+            href https://choosealicense.com/licenses/mit/

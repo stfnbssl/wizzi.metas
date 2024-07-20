@@ -1,0 +1,36 @@
+$group
+    import
+        @ render
+        @ screen
+        from '@testing-library/react'
+    import Header from '.'
+    _ describe
+        @ 'Render the Header Component correctly'
+        =>
+            _ test
+                @ 'should render the Vite logo'
+                async=>
+                    _ render
+                        < Header
+                    const viteLogo
+                        await
+                            _ screen.findByTestId('vite-logo')
+                    _ expect(viteLogo).toBeInTheDocument()
+            _ test
+                @ 'should render the React logo'
+                async=>
+                    _ render
+                        < Header
+                    const reactLogo
+                        await
+                            _ screen.findByTestId('react-logo')
+                    _ expect(reactLogo).toBeInTheDocument()
+            _ test
+                @ 'should render the title'
+                async=>
+                    _ render
+                        < Header
+                    const header
+                        await
+                            _ screen.findByText(/ViteRC/)
+                    _ expect(header).toBeInTheDocument()

@@ -1,0 +1,13 @@
+$group
+
+    $
+        var items = [
+            "tsconfig",
+            "tsconfig.node",
+        ];
+
+    $foreach item in items
+
+        $file __dot__wizzi/root/${item}.json.ittf.ittf
+            {
+                ${'$'}include commonsTypescript/root/${item}.json

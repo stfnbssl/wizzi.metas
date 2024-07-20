@@ -1,0 +1,12 @@
+$group
+    import React from 'react'
+    
+    const Home
+        :ref React.FC
+        =
+            => 
+                return 
+                    div 
+                        h1 
+                            + Home
+    export-default Home

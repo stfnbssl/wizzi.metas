@@ -1,0 +1,5 @@
+$group
+
+    $file __dot__wizzi/models/wzctx.json.ittf.ittf
+        {
+            ${'$'}include commonsWizzi/models/wzctx.json

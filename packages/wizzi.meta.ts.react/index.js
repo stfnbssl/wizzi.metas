@@ -2,7 +2,7 @@
     artifact generator: C:\My\wizzi\stfnbssl\wizzi.plugins\packages\wizzi.plugin.js\lib\artifacts\js\module\gen\main.js
     package: @wizzi/plugin.js@0.8.9
     primary source IttfDocument: C:\My\wizzi\stfnbssl\wizzi.metas\packages\wizzi.meta.ts.react\.wizzi-override\root\index.js.ittf
-    utc time: Tue, 11 Jun 2024 20:01:08 GMT
+    utc time: Thu, 18 Jul 2024 13:27:04 GMT
 */
 'use strict';
 
@@ -46,6 +46,9 @@ var pluginCategories = [
              }, 
             {
                 name: "tsReactEditor"
+             }, 
+            {
+                name: "tsReactDemoApp"
              }, 
             {
                 name: "tsReactFeatures"
@@ -114,6 +117,9 @@ var pluginCategories = [
              }, 
             {
                 name: "tsReactEditor"
+             }, 
+            {
+                name: "tsReactDemoApp"
              }, 
             {
                 name: "tsReactFeatures"
@@ -282,6 +288,21 @@ var pluginMetaProductions = [
              }, 
             {
                 name: 'editor'
+             }
+        ]
+     }, 
+    {
+        name: 'tsReactDemoApp', 
+        title: 'tsReactDemoApp wizzi meta production', 
+        categories: [
+            {
+                name: 'typescript'
+             }, 
+            {
+                name: 'react'
+             }, 
+            {
+                name: 'demo'
              }
         ]
      }, 

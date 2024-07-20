@@ -199,6 +199,21 @@
             ]
         },
         {
+            "name": "tsReactDemoApp",
+            "title": "tsReactDemoApp wizzi meta production",
+            "categories": [
+                {
+                    "name": "typescript"
+                },
+                {
+                    "name": "react"
+                },
+                {
+                    "name": "demo"
+                }
+            ]
+        },
+        {
             "name": "tsReactFeatures",
             "title": "tsReactFeatures wizzi meta production",
             "categories": [

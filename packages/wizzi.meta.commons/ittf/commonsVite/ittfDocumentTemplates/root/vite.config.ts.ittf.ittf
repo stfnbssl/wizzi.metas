@@ -1,0 +1,45 @@
+$group
+
+    ${'$'}include set-ctx-functions
+    ${'$'}
+        setCtxScript ('dev', 'vite');
+        setCtxScript ('build', 'tsc && vite build');
+        setCtxScript ('preview', 'vite preview');
+        setCtxDevDep ('vite', '^5.0.0');
+        $if metaCtx.commonsVite.usePresetReact
+            setCtxDep ('react', '^18.2.0');
+            setCtxDep ('react-dom', '^18.2.0');
+            setCtxDevDep ('@types/react', '^18.2.37');
+            setCtxDevDep ('@types/react-dom', '^18.2.15');
+            setCtxDevDep ('@vitejs/plugin-react', '^4.2.0');
+        $if metaCtx.useCommonsEslint
+            setCtxDevDep ('vite-plugin-eslint', '^1.8.1');
+        $if metaCtx.commonsVite.useVitest
+            setCtxScript ('test', 'vitest run');
+            setCtxScript ('test:watch', 'vitest');
+
+    import
+        @ defineConfig
+        from 'vite'
+    $if metaCtx.commonsVite.usePresetReact
+        import react from '@vitejs/plugin-react'
+    $if TODO
+        $if metaCtx.useCommonsEslint
+            import eslint from 'vite-plugin-eslint'
+    export-default
+        _ defineConfig
+            {
+                [ plugins
+                    $if metaCtx.commonsVite.usePresetReact
+                        @ react()
+                    $if TODO
+                        $if metaCtx.useCommonsEslint
+                            @ eslint()
+                { resolve
+                    [ alias
+                        $if metaCtx.useCommonsTypescript && metaCtx.commonsTypescript.useConfigPaths
+                            $foreach item in metaCtx.commonsTypescript.configPaths.items
+                                {
+                                    @ find '${item.name}'
+                                    @ replacement '/${item.path}'
+        # https://vitejs.dev/config/

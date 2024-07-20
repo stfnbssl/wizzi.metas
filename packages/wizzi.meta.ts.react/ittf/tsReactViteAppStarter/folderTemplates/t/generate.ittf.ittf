@@ -1,4 +1,5 @@
 $group
+    
     $file __dot__wizzi/generate.wfjob.ittf.ittf
         wfjob ${'$'}{metaCtx.name}/job
             ---

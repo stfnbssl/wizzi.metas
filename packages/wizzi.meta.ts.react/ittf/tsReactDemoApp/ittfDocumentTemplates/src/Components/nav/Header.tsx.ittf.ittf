@@ -1,0 +1,49 @@
+$group
+    
+    import React from 'react'
+    import 
+        @ useState
+        from 'react'
+    import 
+        @ Outlet
+        @ Link
+        from 'react-router-dom'
+    
+    const Header
+        :ref React.FC
+        => 
+            const [current, setCurrent] = useState('h')
+            const onClick
+                => 
+                    param e
+                        :any
+                    _ console.log('click', e)
+                    _ setCurrent(e.key)
+            info current
+            return 
+                < 
+                    div
+                        $if metaCtx.useCommonsTailwind
+                            class flex gap-2
+                        div
+                            id h
+                            @ onClick {onClick}
+                            < Link 
+                                @ to "/"
+                                + Home
+                        div
+                            id o
+                            @ onClick {onClick}
+                            < Link 
+                                @ to "one/42"
+                                + One
+                        div 
+                            id t
+                            @ onClick {onClick}
+                            < Link 
+                                @ to "two/24"
+                                + Two
+                    < Outlet 
+    
+    export-default Header
+

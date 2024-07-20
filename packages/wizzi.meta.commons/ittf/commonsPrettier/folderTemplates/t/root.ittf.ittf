@@ -1,0 +1,9 @@
+$group
+
+        $file __dot__wizzi/root/__dot__prettierignore.text.ittf.ittf
+            text
+                ${'$'}include commonsPrettier/root/prettierignore.text
+        
+        $file __dot__wizzi/root/__dot__prettierrc.json.ittf.ittf
+            {
+                ${'$'}include commonsPrettier/root/prettierrc.json

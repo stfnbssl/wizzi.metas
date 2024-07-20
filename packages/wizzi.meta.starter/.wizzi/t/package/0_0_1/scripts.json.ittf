@@ -153,3 +153,6 @@ $group
     $if wzCtx.Build.useSequelize
         sequelize:migrate "npx sequelize-cli db:migrate"
         sequelize:migrate:reset "npx sequelize-cli db:migrate:undo:all && npm run migrate"
+    $if _.isArray(wzCtx.Build.scripts)
+        $foreach item in wzCtx.Build.scripts
+            ${item.name} "${item.action}"

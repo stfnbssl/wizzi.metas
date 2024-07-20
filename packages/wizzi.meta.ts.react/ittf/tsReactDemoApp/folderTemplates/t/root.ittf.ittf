@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "index.html",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            html
+                ${'$'}include tsReactDemoApp/root/${item}

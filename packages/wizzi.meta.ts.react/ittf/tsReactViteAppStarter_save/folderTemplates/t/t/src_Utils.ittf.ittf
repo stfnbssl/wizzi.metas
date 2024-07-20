@@ -1,0 +1,11 @@
+$group
+
+    $
+        var items = [
+            "underscore.ts",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/src/Utils/${item}.ittf.ittf
+            module
+                ${'$'}include tsReactViteAppStarter/src/Utils/${item}

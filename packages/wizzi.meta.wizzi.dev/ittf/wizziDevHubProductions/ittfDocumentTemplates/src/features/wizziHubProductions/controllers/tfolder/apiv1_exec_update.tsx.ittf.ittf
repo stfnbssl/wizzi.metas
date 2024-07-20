@@ -13,13 +13,13 @@ $group
             :any
 
         rest/check-params${'('} )
-            rest/not-empty${'('} params , id )
-            rest/not-empty${'('} body , owner )
-            rest/not-empty${'('} body , name )
-            rest/not-empty${'('} body , description )
+            rest/optional${'('} params , id )
+            rest/optional${'('} body , owner )
+            rest/optional${'('} body , name )
+            rest/optional${'('} body , description )
             ${'$'}if ctrl.Production == 'Artifact'
-                rest/not-empty${'('} body , mainIttf )
-                rest/not-empty${'('} body , wizziSchema )
+                rest/optional${'('} body , mainIttf )
+                rest/optional${'('} body , wizziSchema )
 
         _ update${'$'}{ctrl.Production}${'$'}{suffix}
             @ id

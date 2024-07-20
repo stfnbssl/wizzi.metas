@@ -1,0 +1,38 @@
+$group
+
+    $if TODO
+        $
+            var items = [
+                "tailwind.config.ts",
+            ];
+
+        $foreach item in items
+
+            $file __dot__wizzi/root/${item}.ittf.ittf
+                module
+                    ${'$'}include commonsTailwind/root/${item}
+
+    
+    $
+        var items = [
+            "postcss.config.js",
+            "tailwind.config.js",
+        ];
+
+    $foreach item in items
+
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            module
+                kind es6
+                ${'$'}include commonsTailwind/root/${item}
+
+    $
+        var items = [
+            "index.css",
+        ];
+
+    $foreach item in items
+
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            css
+                ${'$'}include commonsTailwind/root/${item}

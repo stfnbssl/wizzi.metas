@@ -1,0 +1,15 @@
+$group
+
+    $
+        var items = [
+            "vite.config",
+        ];
+        if (metaCtx.commonsVite.useVitest) {
+            items.push("vitest.config");
+        }
+
+    $foreach item in items
+
+        $file __dot__wizzi/root/${item}.ts.ittf.ittf
+            module
+                ${'$'}include commonsVite/root/${item}.ts

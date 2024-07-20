@@ -1,0 +1,64 @@
+$group
+
+    import React
+        @ useState
+        @ useEffect
+        from 'react'
+
+    import 
+        @ useParams
+        from 'react-router-dom'
+    
+    :type Params
+        :{    
+            :p id
+                :string 
+    
+    const Two
+        :ref React.FC
+        =
+            => 
+                const 
+                    { 
+                        @ id
+                    =
+                        _ useParams
+                            :param 
+                                :ref Params
+                const [posts, setPosts] = useState([])
+                _ useEffect
+                    => 
+                        var url = "https://jsonplaceholder.typicode.com/posts?_limit=10"
+                        $$ var url = "http://localhost:3003/api/v1/production/artifact/stfnbssl"
+                        _ fetch(url)
+                            ._ then
+                                => 
+                                    param response
+                                        :any
+                                    _ response.json()
+                            ._ then
+                                => 
+                                    param data
+                                        :any
+                                    success data.item[0]
+                                    _ setPosts(data.item)
+                            ._ catch
+                                => 
+                                    param err
+                                        :any
+                                    error err.message
+                                    error err
+                    [ 
+
+                return 
+                    div 
+                        h1 
+                            + Page Two
+                        p 
+                            + ID: ${'\\b'}
+                            + {id}
+                        p
+                            + {JSON.stringify(posts[0], null, 4)}
+    export-default Two
+
+

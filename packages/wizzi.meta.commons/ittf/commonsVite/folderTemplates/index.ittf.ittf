@@ -1,0 +1,8 @@
+$group
+    
+    $if metaCtx.useCommonsVite
+        $include root
+        $include public
+        $include src
+
+        

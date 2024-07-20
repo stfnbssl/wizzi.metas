@@ -1,0 +1,4 @@
+$group
+    $if metaCtx.useStarterProdOne
+        $include wzCtxModel
+        $include root

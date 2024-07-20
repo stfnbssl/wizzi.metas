@@ -1,0 +1,21 @@
+$group
+
+    $
+        var items = [
+            "package.json",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            {
+                ${'$'}include commonsPackage/root/${item}
+
+    $
+        var items = [
+            "license.text",
+        ]
+
+    $foreach item in items
+        $file __dot__wizzi/root/${item}.ittf.ittf
+            text
+                ${'$'}include commonsPackage/root/${item}

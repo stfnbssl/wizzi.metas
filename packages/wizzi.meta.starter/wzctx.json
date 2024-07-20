@@ -1,6 +1,6 @@
 {
     "name": "wizzi.meta.starter",
-    "npmName": "",
+    "npmName": "@wizzi/meta.starter",
     "pluginBasename": "",
     "version": "",
     "description": "Wizzi meta plugin for creating wizzi meta starter packages",
@@ -11,7 +11,11 @@
     "github": {
         "userid": "stfnbssl"
     },
-    "license": "MIT",
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/stfnbssl/wizzi.metas/tree/main/packages/wizzi.meta.starter/license.text",
+        "copy": "copy 2024"
+    },
     "metaNamespace": "starter",
     "Build": {
         "useConfig": true,
@@ -25,6 +29,7 @@
                 "./wizzi.plugin.js/index.js",
                 "./wizzi.plugin.json/index.js",
                 "./wizzi.plugin.md/index.js",
+                "./wizzi.plugin.svg/index.js",
                 "./wizzi.plugin.text/index.js",
                 "./wizzi.plugin.wzjob/index.js"
             ],
@@ -38,13 +43,50 @@
         "utils": {
             "useStringifySafe": true
         },
+        "scripts": [
+            {
+                "name": "x:1",
+                "action": "node examples/step_1"
+            },
+            {
+                "name": "x:2",
+                "action": "node examples/step_2"
+            },
+            {
+                "name": "x:3",
+                "action": "node examples/step_3"
+            },
+            {
+                "name": "x:4",
+                "action": "node examples/step_4"
+            }
+        ],
         "buildVar1": "valueOfBuildVar1"
     },
+    "Categories": [
+        {
+            "name": "wizzi-lab"
+        }
+    ],
     "Productions": [
         {
-            "name": "starterProduction1",
-            "title": "starterProduction1 wizzi meta production",
-            "isPackageMain": true
+            "name": "starterProdOne",
+            "title": "starterProdOne wizzi meta production",
+            "isPackageMain": true,
+            "categories": [
+                {
+                    "name": "wizzi-lab"
+                }
+            ]
+        },
+        {
+            "name": "starterProdTwo",
+            "title": "starterProdTwo wizzi meta production",
+            "categories": [
+                {
+                    "name": "wizzi-lab"
+                }
+            ]
         }
     ]
 }

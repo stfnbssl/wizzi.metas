@@ -2,8 +2,4 @@ $group
     
     $if metaCtx.useCommonsTailwind
 
-        $file __dot__wizzi/${pkgPath}root/tailwind.config.js.ittf.ittf
-            module
-                kind es6
-                ${'$'}include commonsPostcss/tailwind.config.js
-
+        $include root

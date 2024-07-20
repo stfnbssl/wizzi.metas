@@ -1,0 +1,4 @@
+$group
+
+    function Hello
+        log "Hello ${metaCtx.starterProdTwo.strTwo}"

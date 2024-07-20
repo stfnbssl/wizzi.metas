@@ -1,0 +1,12 @@
+$group
+
+    $
+        var items = [
+            "vite-env.d",
+        ];
+
+    $foreach item in items
+
+        $file __dot__wizzi/src/${item}.ts.ittf.ittf
+            module
+                ${'$'}include commonsVite/src/${item}.ts
